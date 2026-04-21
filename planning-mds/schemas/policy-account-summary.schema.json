@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy-account-summary.schema.json",
+  "title": "PolicyAccountSummary",
+  "description": "Account-scoped policy summary payload for Account 360 (F0018-S0011). Query-time composition; ABAC-scoped per-policy. MVP is USD-only; premiumCurrency=MIXED flags multi-currency holdings for future work.",
+  "type": "object",
+  "required": [
+    "accountId",
+    "activePolicyCount",
+    "expiredPolicyCount",
+    "cancelledPolicyCount",
+    "pendingPolicyCount",
+    "totalCurrentPremium",
+    "premiumCurrency",
+    "computedAt"
+  ],
+  "properties": {
+    "accountId": { "type": "string", "format": "uuid" },
+    "activePolicyCount": { "type": "integer", "minimum": 0 },
+    "expiredPolicyCount": { "type": "integer", "minimum": 0 },
+    "cancelledPolicyCount": { "type": "integer", "minimum": 0 },
+    "pendingPolicyCount": { "type": "integer", "minimum": 0 },
+    "nextExpiringDate": { "type": ["string", "null"], "format": "date" },
+    "nextExpiringPolicyId": { "type": ["string", "null"], "format": "uuid" },
+    "nextExpiringPolicyNumber": { "type": ["string", "null"] },
+    "totalCurrentPremium": { "type": "number", "minimum": 0 },
+    "premiumCurrency": {
+      "type": "string",
+      "enum": ["USD", "MIXED"]
+    },
+    "computedAt": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

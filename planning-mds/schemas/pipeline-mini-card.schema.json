@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/pipeline-mini-card.schema.json",
+  "title": "PipelineMiniCard",
+  "description": "Compact item card for pipeline popover.",
+  "type": "object",
+  "required": [
+    "entityId",
+    "entityName",
+    "daysInStatus"
+  ],
+  "properties": {
+    "entityId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "entityName": {
+      "type": "string"
+    },
+    "amount": {
+      "type": ["number", "null"]
+    },
+    "daysInStatus": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "assignedUserInitials": {
+      "type": "string",
+      "maxLength": 2
+    },
+    "assignedUserDisplayName": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

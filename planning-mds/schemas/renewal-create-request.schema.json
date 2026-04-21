@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/renewal-create-request.schema.json",
+  "title": "RenewalCreateRequest",
+  "description": "Validation rules for creating a renewal from an expiring policy (F0007-S0006). Only policyId is required — other fields are inherited from the policy or defaulted.",
+  "type": "object",
+  "required": ["policyId"],
+  "properties": {
+    "policyId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The expiring policy to create a renewal for. Must reference a valid, non-deleted policy with no active renewal."
+    },
+    "assignedToUserId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Override default self-assignment. Only DistributionManager and Admin may assign to a different user."
+    },
+    "lineOfBusiness": {
+      "anyOf": [
+        { "$ref": "https://nebula.local/schemas/line-of-business.schema.json" },
+        { "type": "null" }
+      ],
+      "description": "Override if policy LOB is null or needs correction."
+    }
+  },
+  "additionalProperties": false
+}

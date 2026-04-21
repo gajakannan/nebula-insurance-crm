@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/task.schema.json",
+  "title": "Task",
+  "description": "Task entity response schema. F0005-aligned: assignedToUserId is uuid. F0004: adds createdByUserId and display name fields.",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "status",
+    "priority",
+    "assignedToUserId",
+    "createdByUserId",
+    "createdAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": ["string", "null"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Open", "InProgress", "Done"]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["Low", "Normal", "High", "Urgent"]
+    },
+    "dueDate": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "assignedToUserId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "assignedToDisplayName": {
+      "type": "string",
+      "description": "Display name of assignee, resolved from UserProfile."
+    },
+    "createdByUserId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Internal UserId of task creator. Equals assignedToUserId for self-assigned tasks."
+    },
+    "createdByDisplayName": {
+      "type": "string",
+      "description": "Display name of creator, resolved from UserProfile."
+    },
+    "linkedEntityType": {
+      "type": ["string", "null"]
+    },
+    "linkedEntityId": {
+      "type": ["string", "null"],
+      "format": "uuid"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completedAt": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

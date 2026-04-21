@@ -1,0 +1,17 @@
+
+> nebula-crm@0.1.0 test:integration /tmp/experience
+> node ./scripts/run-vitest-by-pattern.mjs .integration.test.
+
+
+ RUN  v2.1.9 /tmp/experience
+
+ ✓ src/pages/tests/DashboardPage.integration.test.tsx (1 test) 937ms
+   ✓ DashboardPage integration > loads dashboard data through the shared frontend runtime harness 930ms
+ ✓ src/features/brokers/tests/BrokerListPage.integration.test.tsx (1 test) 1592ms
+   ✓ BrokerListPage integration > loads brokers from the shared MSW harness and filters them by search and status 1587ms
+
+ Test Files  2 passed (2)
+      Tests  2 passed (2)
+   Start at  17:05:24
+   Duration  6.06s (transform 1.25s, setup 2.20s, collect 2.94s, tests 2.53s, environment 2.04s, prepare 625ms)
+

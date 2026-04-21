@@ -1,0 +1,226 @@
+
+> nebula-crm@0.1.0 test:coverage /tmp/experience
+> vitest run --coverage
+
+
+ RUN  v2.1.9 /tmp/experience
+      Coverage enabled with v8
+
+ ✓ src/features/auth/tests/useCurrentUser.test.tsx (2 tests) 277ms
+ ✓ src/features/auth/tests/ProtectedRoute.test.tsx (4 tests) 539ms
+ ✓ src/features/auth/tests/useSessionTeardown.test.tsx (11 tests) 438ms
+ ✓ src/features/auth/tests/LoginPage.test.tsx (5 tests) 774ms
+   ✓ LoginPage > renders the Sign In button 470ms
+ ✓ src/features/auth/tests/authModeGuard.test.ts (8 tests) 50ms
+ ✓ src/pages/tests/DashboardPage.integration.test.tsx (1 test) 2392ms
+   ✓ DashboardPage integration > loads dashboard data through the shared frontend runtime harness 2377ms
+ ✓ src/features/auth/tests/LoginPage.a11y.test.tsx (1 test) 515ms
+   ✓ LoginPage accessibility > has no detectable accessibility violations in oidc mode 489ms
+ ✓ src/features/brokers/tests/BrokerListPage.integration.test.tsx (1 test) 3780ms
+   ✓ BrokerListPage integration > loads brokers from the shared MSW harness and filters them by search and status 3763ms
+ ✓ src/features/opportunities/tests/OpportunitiesSummary.test.tsx (11 tests) 5874ms
+   ✓ OpportunitiesSummary > renders chapter controls and connected flow canvas 1200ms
+   ✓ OpportunitiesSummary > passes periodDays to KPI hook 510ms
+   ✓ OpportunitiesSummary > passes the selected period to synchronized story hooks 530ms
+   ✓ OpportunitiesSummary > supports keyboard chapter navigation with arrow keys 959ms
+   ✓ OpportunitiesSummary > supports arrow-key navigation across stage nodes 473ms
+   ✓ OpportunitiesSummary > hides per-stage alternate toggles during chapter override and restores in flow 1034ms
+   ✓ OpportunitiesSummary > restores the previously selected flow mini-view after chapter overrides 688ms
+ ✓ src/features/brokers/tests/BrokerListPage.a11y.test.tsx (1 test) 1916ms
+   ✓ BrokerListPage accessibility > has no detectable accessibility violations for the broker directory route 1904ms
+
+ Test Files  10 passed (10)
+      Tests  45 passed (45)
+   Start at  17:05:38
+   Duration  15.56s (transform 4.89s, setup 24.72s, collect 12.79s, tests 16.55s, environment 19.04s, prepare 3.37s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   56.13 |    74.88 |    61.6 |   56.13 |                   
+ src               |       0 |        0 |       0 |       0 |                   
+  App.tsx          |       0 |        0 |       0 |       0 | 1-65              
+ ...ponents/layout |   78.26 |    47.36 |     100 |   78.26 |                   
+  ...ardLayout.tsx |   92.85 |    71.42 |     100 |   92.85 | 22-25,29          
+  ...ChatPanel.tsx |     100 |       20 |     100 |     100 | 11-18             
+  Sidebar.tsx      |   58.64 |    57.89 |     100 |   58.64 | 119-190           
+  TopBar.tsx       |     100 |    14.28 |     100 |     100 | 34-76             
+ src/components/ui |   31.27 |    56.66 |   55.55 |   31.27 |                   
+  Badge.tsx        |     100 |      100 |     100 |     100 |                   
+  Card.tsx         |     100 |      100 |     100 |     100 |                   
+  ...rFallback.tsx |     100 |      100 |     100 |     100 |                   
+  Modal.tsx        |    1.94 |      100 |       0 |    1.94 | 14-132            
+  Popover.tsx      |   41.25 |    47.82 |      50 |   41.25 | ...17-220,227-263 
+  Select.tsx       |    6.06 |      100 |       0 |    6.06 | 11-45             
+  Skeleton.tsx     |     100 |      100 |     100 |     100 |                   
+  Tabs.tsx         |       0 |        0 |       0 |       0 | 1-76              
+  TextInput.tsx    |    8.33 |      100 |       0 |    8.33 | 9-32              
+ src/contracts     |       0 |        0 |       0 |       0 |                   
+  timeline.ts      |       0 |        0 |       0 |       0 |                   
+ src/features/auth |   87.42 |    76.47 |   91.66 |   87.42 |                   
+  ...ctedRoute.tsx |   90.32 |    91.66 |     100 |   90.32 | 34-36             
+  authEvents.ts    |     100 |      100 |     100 |     100 |                   
+  index.ts         |       0 |        0 |       0 |       0 | 1                 
+  ...serManager.ts |   77.77 |        0 |     100 |   77.77 | 25-30             
+  ...entHandler.ts |   86.66 |       75 |     100 |   86.66 | 42-43             
+  ...urrentUser.ts |   79.59 |    72.22 |     100 |   79.59 | 32,54-62          
+  ...onTeardown.ts |     100 |      100 |     100 |     100 |                   
+ ...res/auth/tests |   99.54 |    98.18 |     100 |   99.54 |                   
+  ...a11y.test.tsx |     100 |      100 |     100 |     100 |                   
+  ...Page.test.tsx |     100 |      100 |     100 |     100 |                   
+  ...oute.test.tsx |     100 |      100 |     100 |     100 |                   
+  ...Guard.test.ts |    97.1 |    91.66 |     100 |    97.1 | 52,57             
+  ...User.test.tsx |     100 |      100 |     100 |     100 |                   
+  ...down.test.tsx |     100 |      100 |     100 |     100 |                   
+ ...atures/brokers |     100 |      100 |     100 |     100 |                   
+  index.ts         |     100 |      100 |     100 |     100 |                   
+  types.ts         |       0 |        0 |       0 |       0 |                   
+ ...ers/components |    5.11 |      100 |    7.14 |    5.11 |                   
+  ...ntactsTab.tsx |    2.02 |      100 |       0 |    2.02 | 15-134            
+  ...ileHeader.tsx |    3.22 |      100 |       0 |    3.22 | 13-81             
+  ...rofileTab.tsx |    5.26 |      100 |       0 |    5.26 | 8-51              
+  ...atusBadge.tsx |     100 |      100 |     100 |     100 |                   
+  ...melineTab.tsx |    3.38 |      100 |       0 |    3.38 | 12-80             
+  ...irmDialog.tsx |    5.55 |      100 |       0 |    5.55 | 16-52             
+  ...FormModal.tsx |     1.6 |      100 |       0 |     1.6 | 18-153            
+  ...ateAction.tsx |    4.44 |      100 |       0 |    4.44 | 14-61             
+  ...kerAction.tsx |    6.45 |      100 |       0 |    6.45 | 15-46             
+  ...actAction.tsx |    6.45 |      100 |       0 |    6.45 | 15-46             
+  ...okerModal.tsx |    5.26 |      100 |       0 |    5.26 | 24-161            
+  ...kerAction.tsx |    5.55 |      100 |       0 |    5.55 | 14-50             
+ .../brokers/hooks |   26.66 |      100 |   16.66 |   26.66 |                   
+  useBroker.ts     |      25 |      100 |       0 |      25 | 6-11              
+  ...erContacts.ts |      25 |      100 |       0 |      25 | 6-11              
+  ...erTimeline.ts |   18.18 |      100 |       0 |   18.18 | 7-15              
+  useBrokers.ts    |     100 |      100 |     100 |     100 |                   
+  ...eateBroker.ts |   18.18 |      100 |       0 |   18.18 | 6-15              
+  ...ateContact.ts |   18.18 |      100 |       0 |   18.18 | 6-15              
+  ...leteBroker.ts |      20 |      100 |       0 |      20 | 5-13              
+  ...eteContact.ts |      20 |      100 |       0 |      20 | 5-13              
+  ...vateBroker.ts |   16.66 |      100 |       0 |   16.66 | 6-16              
+  ...dateBroker.ts |   14.28 |      100 |       0 |   14.28 | 12-24             
+  ...ateContact.ts |   15.38 |      100 |       0 |   15.38 | 12-23             
+ ...es/brokers/lib |    8.57 |      100 |       0 |    8.57 |                   
+  validation.ts    |    8.57 |      100 |       0 |    8.57 | 15-44,47-74,77-98 
+ .../brokers/tests |     100 |      100 |     100 |     100 |                   
+  ...a11y.test.tsx |     100 |      100 |     100 |     100 |                   
+  ...tion.test.tsx |     100 |      100 |     100 |     100 |                   
+ src/features/kpis |     100 |      100 |     100 |     100 |                   
+  index.ts         |     100 |      100 |     100 |     100 |                   
+  types.ts         |       0 |        0 |       0 |       0 |                   
+ ...pis/components |   98.07 |    88.23 |     100 |   98.07 |                   
+  KpiCard.tsx      |     100 |       75 |     100 |     100 | 17                
+  KpiCardsRow.tsx  |    97.5 |     92.3 |     100 |    97.5 | 16                
+ ...res/kpis/hooks |     100 |      100 |     100 |     100 |                   
+  ...hboardKpis.ts |     100 |      100 |     100 |     100 |                   
+ ...eatures/neuron |     100 |      100 |     100 |     100 |                   
+  index.ts         |     100 |      100 |     100 |     100 |                   
+  types.ts         |       0 |        0 |       0 |       0 |                   
+ ...ron/components |    92.3 |       25 |   33.33 |    92.3 |                   
+  NeuronPanel.tsx  |    92.3 |       25 |   33.33 |    92.3 | 44,54,70-74       
+ ...s/neuron/hooks |   46.66 |      100 |      50 |   46.66 |                   
+  useNeuronChat.ts |   46.66 |      100 |      50 |   46.66 | 17-33             
+ .../notifications |     100 |      100 |     100 |     100 |                   
+  index.ts         |     100 |      100 |     100 |     100 |                   
+  types.ts         |       0 |        0 |       0 |       0 |                   
+ ...ons/components |   22.94 |       40 |      25 |   22.94 |                   
+  ...nDropdown.tsx |   22.94 |       40 |      25 |   22.94 | ...5,31-51,71-196 
+ ...ications/hooks |   90.21 |       75 |     100 |   90.21 |                   
+  ...ifications.ts |   90.21 |       75 |     100 |   90.21 | ...76-78,82,86-88 
+ ...eatures/nudges |     100 |      100 |     100 |     100 |                   
+  index.ts         |     100 |      100 |     100 |     100 |                   
+  types.ts         |       0 |        0 |       0 |       0 |                   
+ ...ges/components |   90.41 |       75 |      50 |   90.41 |                   
+  NudgeCard.tsx    |   97.72 |       70 |     100 |   97.72 | 44                
+  ...dsSection.tsx |   79.31 |    83.33 |   33.33 |   79.31 | 19-24             
+ ...s/nudges/hooks |     100 |      100 |     100 |     100 |                   
+  ...oardNudges.ts |     100 |      100 |     100 |     100 |                   
+ .../opportunities |     100 |      100 |     100 |     100 |                   
+  index.ts         |     100 |      100 |     100 |     100 |                   
+  types.ts         |       0 |        0 |       0 |       0 |                   
+ ...ies/components |   50.21 |    71.58 |   73.21 |   50.21 |                   
+  ...ayManager.tsx |    62.5 |    66.66 |     100 |    62.5 | 35-40,43-48,52-53 
+  ...alization.tsx |   68.92 |    74.28 |     100 |   68.92 | ...94-118,171-221 
+  ...veCallout.tsx |     100 |      100 |     100 |     100 |                   
+  ...esSummary.tsx |     100 |      100 |     100 |     100 |                   
+  ...nityChart.tsx |       0 |        0 |       0 |       0 | 1-383             
+  ...tyHeatmap.tsx |       0 |        0 |       0 |       0 | 1-139             
+  ...yMiniCard.tsx |    9.52 |      100 |       0 |    9.52 | 9-30              
+  ...mePopover.tsx |    6.66 |      100 |       0 |    6.66 | 11-44             
+  ...comesRail.tsx |       0 |        0 |       0 |       0 | 1-78              
+  ...unityPill.tsx |       0 |        0 |       0 |       0 | 1-41              
+  ...lineBoard.tsx |       0 |        0 |       0 |       0 | 1-173             
+  ...tyPopover.tsx |    8.33 |      100 |       0 |    8.33 | 12-39             
+  ...tunityRow.tsx |       0 |        0 |       0 |       0 | 1-31              
+  ...ySunburst.tsx |       0 |        0 |       0 |       0 | 1-241             
+  ...tyTreemap.tsx |       0 |        0 |       0 |       0 | 1-323             
+  ...wSwitcher.tsx |       0 |        0 |       0 |       0 | 1-46              
+  ...toryPanel.tsx |   86.31 |     73.5 |     100 |   86.31 | ...85-886,890,893 
+  StoryCanvas.tsx  |   95.55 |    85.71 |   66.66 |   95.55 | 55-57,60-62       
+  ...comesRail.tsx |   96.66 |       80 |     100 |   96.66 | 27-28             
+  ...StageNode.tsx |     100 |      100 |     100 |     100 |                   
+  ...lTimeline.tsx |   84.27 |    65.78 |     100 |   84.27 | ...53-358,369-374 
+  ...elineTypes.ts |       0 |        0 |       0 |       0 |                   
+  storyTypes.ts    |       0 |        0 |       0 |       0 |                   
+ ...nents/overlays |     100 |    71.42 |     100 |     100 |                   
+  ...onOverlay.tsx |     100 |       60 |     100 |     100 | 12,28             
+  ...esOverlay.tsx |     100 |      100 |     100 |     100 |                   
+ ...tunities/hooks |    63.3 |    76.92 |   76.92 |    63.3 |                   
+  ...ortunities.ts |     100 |      100 |     100 |     100 |                   
+  ...unityAging.ts |     100 |    66.66 |     100 |     100 | 16                
+  ...yBreakdown.ts |     100 |    66.66 |     100 |     100 | 22                
+  ...tunityFlow.ts |     100 |      100 |     100 |     100 |                   
+  ...yHierarchy.ts |       0 |        0 |       0 |       0 | 1-17              
+  ...unityItems.ts |   13.33 |      100 |       0 |   13.33 | 6-18              
+  ...tcomeItems.ts |   13.33 |      100 |       0 |   13.33 | 6-18              
+  ...tyOutcomes.ts |     100 |      100 |     100 |     100 |                   
+ ...ortunities/lib |   86.66 |      100 |      20 |   86.66 |                   
+  ...ity-colors.ts |   86.66 |      100 |      20 |   86.66 | ...63,66-67,70-71 
+ ...tunities/tests |     100 |      100 |     100 |     100 |                   
+  ...mary.test.tsx |     100 |      100 |     100 |     100 |                   
+ ...features/tasks |     100 |      100 |     100 |     100 |                   
+  index.ts         |     100 |      100 |     100 |     100 |                   
+  types.ts         |       0 |        0 |       0 |       0 |                   
+ ...sks/components |   89.53 |    43.75 |      75 |   89.53 |                   
+  ...sksWidget.tsx |   82.35 |    71.42 |      50 |   82.35 | 27-30,36-38       
+  TaskRow.tsx      |   94.23 |    22.22 |     100 |   94.23 | 22,29,49          
+ ...es/tasks/hooks |     100 |      100 |     100 |     100 |                   
+  useMyTasks.ts    |     100 |      100 |     100 |     100 |                   
+ ...tures/timeline |     100 |      100 |     100 |     100 |                   
+  index.ts         |     100 |      100 |     100 |     100 |                   
+ ...ine/components |   87.25 |       50 |      80 |   87.25 |                   
+  ActivityFeed.tsx |      80 |    71.42 |      50 |      80 | 28-33,39-41       
+  ...yFeedItem.tsx |   91.93 |    33.33 |     100 |   91.93 | 14,16,20,35,73    
+ ...timeline/hooks |     100 |      100 |     100 |     100 |                   
+  ...lineEvents.ts |     100 |      100 |     100 |     100 |                   
+ src/hooks         |      64 |      100 |      40 |      64 |                   
+  useDebounce.ts   |     100 |      100 |     100 |     100 |                   
+  useSidebar.ts    |   78.37 |      100 |   33.33 |   78.37 | 33-36,45-48       
+  useTheme.ts      |   34.48 |      100 |   33.33 |   34.48 | 22-43             
+ src/lib           |   95.95 |    91.66 |   85.71 |   95.95 |                   
+  format.ts        |    87.5 |    83.33 |   66.66 |    87.5 | 22-23,33-34       
+  navigation.ts    |     100 |      100 |     100 |     100 |                   
+  us-states.ts     |     100 |      100 |     100 |     100 |                   
+  utils.ts         |     100 |      100 |     100 |     100 |                   
+ src/mocks         |   89.94 |    78.12 |      75 |   89.94 |                   
+  data.ts          |   89.28 |    73.68 |   66.66 |   89.28 | ...29-332,347-368 
+  handlers.ts      |   93.33 |    84.61 |     100 |   93.33 | 52-53,66,70       
+  server.ts        |     100 |      100 |     100 |     100 |                   
+ src/pages         |   39.96 |       75 |   52.63 |   39.96 |                   
+  ...lbackPage.tsx |       0 |        0 |       0 |       0 | 1-96              
+  ...etailPage.tsx |       0 |        0 |       0 |       0 | 1-186             
+  ...rListPage.tsx |   86.51 |    86.95 |   63.63 |   86.51 | ...,90-93,133-151 
+  ...rokerPage.tsx |       0 |        0 |       0 |       0 | 1-141             
+  ...boardPage.tsx |     100 |      100 |     100 |     100 |                   
+  LoginPage.tsx    |   88.15 |       80 |     100 |   88.15 | 39-40,44-45,91-96 
+  NotFoundPage.tsx |       0 |        0 |       0 |       0 | 1-10              
+  ...rizedPage.tsx |       0 |        0 |       0 |       0 | 1-24              
+ src/pages/tests   |     100 |      100 |     100 |     100 |                   
+  ...tion.test.tsx |     100 |      100 |     100 |     100 |                   
+ src/services      |   37.71 |    44.44 |   28.57 |   37.71 |                   
+  api.ts           |   43.33 |    44.44 |   33.33 |   43.33 | ...30,135,137,139 
+  dev-auth.ts      |   16.66 |      100 |       0 |   16.66 | 14-19,24-37       
+ src/test-utils    |   86.36 |      100 |      75 |   86.36 |                   
+  render-app.tsx   |   86.36 |      100 |      75 |   86.36 | 45-54             
+-------------------|---------|----------|---------|---------|-------------------

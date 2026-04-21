@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/contact-create-request.schema.json",
+  "title": "ContactCreateRequest",
+  "description": "Validation rules for creating a contact.",
+  "type": "object",
+  "required": [
+    "brokerId",
+    "fullName",
+    "email",
+    "phone"
+  ],
+  "properties": {
+    "brokerId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "fullName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "phone": {
+      "type": "string",
+      "pattern": "^\\+?[1-9]\\d{7,14}$"
+    },
+    "role": {
+      "type": "string",
+      "maxLength": 100
+    }
+  },
+  "additionalProperties": false
+}

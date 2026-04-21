@@ -1,0 +1,171 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy.schema.json",
+  "title": "Policy",
+  "description": "Policy aggregate parent row (mutable state + denormalized account context + lifecycle stamps). Immutable term / coverage history lives in PolicyVersion and PolicyCoverageLine rows. See ADR-018 and F0018.",
+  "type": "object",
+  "required": [
+    "id",
+    "accountId",
+    "brokerOfRecordId",
+    "policyNumber",
+    "lineOfBusiness",
+    "carrierId",
+    "status",
+    "effectiveDate",
+    "expirationDate",
+    "totalPremium",
+    "premiumCurrency",
+    "currentVersionId",
+    "versionCount",
+    "rowVersion",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "accountId": { "type": "string", "format": "uuid" },
+    "brokerOfRecordId": { "type": "string", "format": "uuid" },
+    "policyNumber": {
+      "type": "string",
+      "maxLength": 40,
+      "description": "Human-readable policy identifier in the format NEB-{LOB-prefix}-{yyyy}-{6-digit-sequence}. Server-assigned at create; immutable."
+    },
+    "lineOfBusiness": { "$ref": "https://nebula.local/schemas/line-of-business.schema.json" },
+    "carrierId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to CarrierRef seed. Immutable post-issue."
+    },
+    "carrierName": {
+      "type": ["string", "null"],
+      "description": "Denormalized from CarrierRef for display."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Pending", "Issued", "Cancelled", "Expired"]
+    },
+    "effectiveDate": { "type": "string", "format": "date" },
+    "expirationDate": { "type": "string", "format": "date" },
+    "boundAt": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "When the policy transitioned from Pending to Issued."
+    },
+    "issuedAt": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Alias for boundAt; retained for downstream clarity."
+    },
+    "cancelledAt": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "cancellationEffectiveDate": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "cancellationReasonCode": {
+      "type": ["string", "null"],
+      "enum": [
+        "NonPayment",
+        "InsuredRequest",
+        "UnderwritingDecision",
+        "MaterialMisrepresentation",
+        "CoverageNoLongerNeeded",
+        "CarrierWithdrawal",
+        "Other",
+        null
+      ]
+    },
+    "cancellationReasonDetail": {
+      "type": ["string", "null"],
+      "maxLength": 500
+    },
+    "reinstatementDeadline": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Computed at cancellation time as CancellationEffectiveDate + LOB.reinstatementWindowDays. Null when not in Cancelled state or when reinstatement is no longer possible."
+    },
+    "expiredAt": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "predecessorPolicyId": {
+      "type": ["string", "null"],
+      "format": "uuid",
+      "description": "Set at create when this policy renews an Expired or Cancelled predecessor on the same account. Immutable post-create in MVP."
+    },
+    "successorPolicyId": {
+      "type": ["string", "null"],
+      "format": "uuid",
+      "description": "Computed at read time from F0007 Renewal.BoundPolicyId where Renewal.PolicyId = this.Id. Never persisted."
+    },
+    "currentVersionId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Points to the immutable PolicyVersion snapshot representing the current in-force terms."
+    },
+    "currentVersionNumber": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "versionCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonic count of PolicyVersion rows for this policy."
+    },
+    "totalPremium": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Sum of coverage-line premiums under the current version."
+    },
+    "premiumCurrency": {
+      "type": "string",
+      "enum": ["USD"],
+      "description": "MVP is USD-only. Multi-currency is a follow-up."
+    },
+    "producerUserId": {
+      "type": ["string", "null"],
+      "format": "uuid"
+    },
+    "producerDisplayName": {
+      "type": ["string", "null"]
+    },
+    "importSource": {
+      "type": ["string", "null"],
+      "enum": ["manual", "csv-import", "f0019-bind-hook", null],
+      "description": "How this policy entered Nebula. Set at create; immutable."
+    },
+    "externalPolicyReference": {
+      "type": ["string", "null"],
+      "maxLength": 100,
+      "description": "External carrier / source reference preserved for imports."
+    },
+    "accountDisplayNameAtLink": {
+      "type": ["string", "null"],
+      "description": "Denormalized account display name captured at policy create per ADR-017 fallback contract."
+    },
+    "accountStatusAtRead": {
+      "type": ["string", "null"],
+      "enum": ["Active", "Inactive", "Merged", "Deleted", null],
+      "description": "Current account status at read time per ADR-017 fallback contract."
+    },
+    "accountSurvivorId": {
+      "type": ["string", "null"],
+      "format": "uuid",
+      "description": "When the linked account is Merged, the survivor account id per ADR-017."
+    },
+    "availableTransitions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Lifecycle transitions available to the authenticated user given current state and role."
+    },
+    "rowVersion": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "createdByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "updatedByUserId": { "type": ["string", "null"], "format": "uuid" }
+  },
+  "additionalProperties": false
+}

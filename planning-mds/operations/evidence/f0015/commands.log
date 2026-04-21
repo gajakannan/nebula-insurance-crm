@@ -1,0 +1,11 @@
+$ env CI=true pnpm install --frozen-lockfile
+$ pnpm lint
+$ pnpm lint:css
+$ pnpm lint:theme
+$ pnpm lint:effects
+$ pnpm build
+$ pnpm test
+$ pnpm test:integration
+$ pnpm test:accessibility
+$ pnpm test:coverage
+$ env CI=true pnpm test:visual:theme

@@ -1,0 +1,47 @@
+Validating genericness of agents/
+------------------------------------------------------------
+[Terms]  9 blocked term(s): Broker, MGA, Underwriter, Underwriting, Premium, Claim, Insured, Submission, Renewal
+[Source] Term list from:    planning-mds/domain/glossary.md
+
+[PASS] agents/ directory is generic — no blocked terms found
+Validating API contract: planning-mds/api/nebula-api.yaml
+------------------------------------------------------------
+
+============================================================
+✅ API contract validation PASSED - No issues found!
+Validating Nebula API contract checks: planning-mds/api/nebula-api.yaml
+------------------------------------------------------------
+[PASS] Nebula API contract checks passed.
+⚠️  Missing infrastructure items:
+  - docker-compose.yml / compose.yml
+  - .env.example or .env.sample
+✅ Security artifacts present and non-empty.
+Running lifecycle gates for stage: planning
+------------------------------------------------------------
+[GATE] boundary_genericness
+  Prevent solution-specific leakage into generic framework agents.
+  command: python3 scripts/validate-genericness.py
+[PASS] boundary_genericness
+
+[GATE] api_contract
+  Validate OpenAPI structural and canonical error-contract rules.
+  command: python3 agents/architect/scripts/validate-api-contract.py planning-mds/api/nebula-api.yaml
+[PASS] api_contract
+
+[GATE] solution_contract
+  Validate solution-specific story/API contract alignment.
+  command: python3 planning-mds/testing/validate-nebula-api-contract.py planning-mds/api/nebula-api.yaml
+[PASS] solution_contract
+
+[GATE] infra_non_strict
+  Informational infrastructure baseline checks during bootstrap/planning.
+  command: python3 agents/devops/scripts/validate-infrastructure.py .
+[PASS] infra_non_strict
+
+[GATE] security_planning_light
+  Ensure required security planning artifacts exist.
+  command: python3 agents/security/scripts/security-audit.py planning-mds/security
+[PASS] security_planning_light
+
+============================================================
+[SUMMARY] PASSED (5 gate(s))

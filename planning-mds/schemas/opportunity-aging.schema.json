@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/opportunity-aging.schema.json",
+  "title": "OpportunityAging",
+  "description": "Aging matrix response with optional SLA context.",
+  "type": "object",
+  "required": [
+    "entityType",
+    "periodDays",
+    "statuses"
+  ],
+  "properties": {
+    "entityType": {
+      "type": "string",
+      "enum": [
+        "submission",
+        "renewal"
+      ]
+    },
+    "periodDays": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 730
+    },
+    "statuses": {
+      "type": "array",
+      "items": {
+        "$ref": "https://nebula.local/schemas/opportunity-aging-status.schema.json"
+      }
+    }
+  },
+  "additionalProperties": false
+}

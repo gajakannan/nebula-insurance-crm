@@ -1,0 +1,136 @@
+services:
+  db:
+    image: postgres:16
+    container_name: nebula-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nebula
+    ports:
+      - "5433:5432"
+    volumes:
+      - nebula-db-data:/var/lib/postgresql/data
+      - ./docker/postgres/init-databases.sh:/docker-entrypoint-initdb.d/init-databases.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # authentik — OIDC identity provider (see ADR-006, F0005).
+  # Redis removed in authentik 2025.10 — PostgreSQL handles caching, tasks, and WebSockets.
+  # Two containers required: server (UI + SSO) and worker (background tasks + blueprints).
+  # AUTHENTIK_SECRET_KEY must be set in .env (generate with: python3 -c "import secrets; print(secrets.token_urlsafe(50))")
+  authentik-server:
+    image: authentik/server:2026.2.0
+    container_name: nebula-authentik-server
+    command: server
+    restart: unless-stopped
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: db
+      AUTHENTIK_POSTGRESQL__USER: postgres
+      AUTHENTIK_POSTGRESQL__PASSWORD: postgres
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+      AUTHENTIK_ERROR_REPORTING__ENABLED: "false"
+      AUTHENTIK_BOOTSTRAP_PASSWORD: ${AUTHENTIK_BOOTSTRAP_PASSWORD}
+    volumes:
+      # Mount into /blueprints/custom — authentik scans /blueprints/** recursively by default,
+      # so built-in flows (default/, system/) are preserved alongside our custom blueprints.
+      - ./docker/authentik/blueprints:/blueprints/custom:ro
+    ports:
+      - "9000:9000"
+      - "9443:9443"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:9000/-/health/live/', timeout=2).read(); print('ok')\""
+      # Fresh-volume boot runs authentik migrations before gunicorn is ready.
+      # Without a grace period, Docker marks the container unhealthy and compose
+      # aborts dependents even though the server becomes healthy a bit later.
+      start_period: 5m
+      interval: 10s
+      timeout: 5s
+      retries: 18
+
+  authentik-worker:
+    image: authentik/server:2026.2.0
+    container_name: nebula-authentik-worker
+    command: worker
+    restart: unless-stopped
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: db
+      AUTHENTIK_POSTGRESQL__USER: postgres
+      AUTHENTIK_POSTGRESQL__PASSWORD: postgres
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+      AUTHENTIK_ERROR_REPORTING__ENABLED: "false"
+      AUTHENTIK_BOOTSTRAP_PASSWORD: "devpassword" # dev-only, never use in production.
+      AUTHENTIK_BOOTSTRAP_EMAIL: "admin@nebula.dev"
+    volumes:
+      - ./docker/authentik/blueprints:/blueprints/custom:ro
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Temporal — infrastructure-only for F0001/F0002.
+  # No application code depends on Temporal in this implementation pass.
+  # Provisioned now so F3/F4 workflow orchestration can adopt it without
+  # docker-compose changes later. See BLUEPRINT.md §5, Phase 0 DOD.
+  temporal:
+    image: temporalio/auto-setup:1.25
+    container_name: nebula-temporal
+    restart: unless-stopped
+    environment:
+      DB: postgres12_pgx
+      DB_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PWD: postgres
+      POSTGRES_SEEDS: db
+      SKIP_DYNAMIC_CONFIG_UPDATE: "true"
+    ports:
+      - "7233:7233"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  temporal-ui:
+    image: temporalio/ui:2.31.2
+    container_name: nebula-temporal-ui
+    restart: unless-stopped
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+      TEMPORAL_CORS_ORIGINS: http://localhost:3000
+    ports:
+      - "8082:8080"
+    depends_on:
+      - temporal
+
+  api:
+    build:
+      context: .
+      dockerfile: engine/Dockerfile
+    container_name: nebula-api
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Host=db;Port=5432;Database=nebula;Username=postgres;Password=postgres
+      Authentication__Authority: http://authentik-server:9000/application/o/nebula/
+      Authentication__Audience: nebula
+      Authentication__RolesClaim: nebula_roles
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+      # ✅ better than "service_started" if you add the healthcheck above
+      authentik-server:
+        condition: service_healthy
+
+volumes:
+  nebula-db-data:

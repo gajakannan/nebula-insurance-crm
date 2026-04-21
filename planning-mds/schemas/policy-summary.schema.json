@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy-summary.schema.json",
+  "title": "PolicySummary",
+  "description": "Policy 360 summary payload (F0018-S0004). Composes parent fields + current version numbers + rail preview counts. Rails are loaded via dedicated endpoints.",
+  "type": "object",
+  "required": [
+    "id",
+    "policyNumber",
+    "accountId",
+    "lineOfBusiness",
+    "status",
+    "effectiveDate",
+    "expirationDate",
+    "totalPremium",
+    "premiumCurrency",
+    "currentVersionId",
+    "currentVersionNumber",
+    "versionCount",
+    "endorsementCount",
+    "rowVersion"
+  ],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "policyNumber": { "type": "string", "maxLength": 40 },
+    "accountId": { "type": "string", "format": "uuid" },
+    "accountDisplayName": { "type": ["string", "null"] },
+    "accountStatus": {
+      "type": ["string", "null"],
+      "enum": ["Active", "Inactive", "Merged", "Deleted", null]
+    },
+    "accountSurvivorId": { "type": ["string", "null"], "format": "uuid" },
+    "brokerOfRecordId": { "type": "string", "format": "uuid" },
+    "brokerName": { "type": ["string", "null"] },
+    "carrierId": { "type": ["string", "null"], "format": "uuid" },
+    "carrierName": { "type": ["string", "null"] },
+    "lineOfBusiness": { "$ref": "https://nebula.local/schemas/line-of-business.schema.json" },
+    "status": {
+      "type": "string",
+      "enum": ["Pending", "Issued", "Cancelled", "Expired"]
+    },
+    "effectiveDate": { "type": "string", "format": "date" },
+    "expirationDate": { "type": "string", "format": "date" },
+    "boundAt": { "type": ["string", "null"], "format": "date-time" },
+    "cancelledAt": { "type": ["string", "null"], "format": "date-time" },
+    "cancellationEffectiveDate": { "type": ["string", "null"], "format": "date" },
+    "cancellationReasonCode": { "type": ["string", "null"] },
+    "reinstatementDeadline": { "type": ["string", "null"], "format": "date" },
+    "expiredAt": { "type": ["string", "null"], "format": "date-time" },
+    "predecessorPolicyId": { "type": ["string", "null"], "format": "uuid" },
+    "predecessorPolicyNumber": { "type": ["string", "null"] },
+    "successorPolicyId": { "type": ["string", "null"], "format": "uuid" },
+    "successorPolicyNumber": { "type": ["string", "null"] },
+    "totalPremium": { "type": "number", "minimum": 0 },
+    "premiumCurrency": { "type": "string", "enum": ["USD"] },
+    "currentVersionId": { "type": "string", "format": "uuid" },
+    "currentVersionNumber": { "type": "integer", "minimum": 1 },
+    "versionCount": { "type": "integer", "minimum": 1 },
+    "endorsementCount": { "type": "integer", "minimum": 0 },
+    "coverageLineCount": { "type": ["integer", "null"], "minimum": 0 },
+    "openRenewalCount": { "type": ["integer", "null"], "minimum": 0 },
+    "producerUserId": { "type": ["string", "null"], "format": "uuid" },
+    "producerDisplayName": { "type": ["string", "null"] },
+    "importSource": {
+      "type": ["string", "null"],
+      "enum": ["manual", "csv-import", "f0019-bind-hook", null]
+    },
+    "externalPolicyReference": { "type": ["string", "null"] },
+    "availableTransitions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "rowVersion": { "type": "string" },
+    "createdAt": { "type": ["string", "null"], "format": "date-time" },
+    "createdByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "updatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "updatedByUserId": { "type": ["string", "null"], "format": "uuid" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy-cancel-request.schema.json",
+  "title": "PolicyCancelRequest",
+  "description": "Cancel an Issued policy with reason and effective date. Computes ReinstatementDeadline from LOB-configured window. See F0018-S0007.",
+  "type": "object",
+  "required": ["cancellationReasonCode", "cancellationEffectiveDate"],
+  "properties": {
+    "cancellationReasonCode": {
+      "type": "string",
+      "enum": [
+        "NonPayment",
+        "InsuredRequest",
+        "UnderwritingDecision",
+        "MaterialMisrepresentation",
+        "CoverageNoLongerNeeded",
+        "CarrierWithdrawal",
+        "Other"
+      ]
+    },
+    "cancellationReasonDetail": {
+      "type": ["string", "null"],
+      "maxLength": 500,
+      "description": "Required when cancellationReasonCode='Other'."
+    },
+    "cancellationEffectiveDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Effective date of the cancellation. Must fall within [EffectiveDate, ExpirationDate]."
+    }
+  },
+  "additionalProperties": false
+}

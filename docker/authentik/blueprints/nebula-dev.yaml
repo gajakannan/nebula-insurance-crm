@@ -1,0 +1,221 @@
+# authentik Blueprint — Nebula CRM Dev Setup
+# Provisions: groups, scope mapping, OAuth2 provider, application, akadmin group membership
+
+version: 1
+metadata:
+  name: Nebula CRM Dev Blueprint
+  labels:
+    blueprints.goauthentik.io/description: "Nebula CRM development identity configuration"
+
+entries:
+  - model: authentik_core.group
+    identifiers:
+      name: DistributionUser
+    attrs:
+      name: DistributionUser
+
+  - model: authentik_core.group
+    identifiers:
+      name: DistributionManager
+    attrs:
+      name: DistributionManager
+
+  - model: authentik_core.group
+    identifiers:
+      name: Underwriter
+    attrs:
+      name: Underwriter
+
+  - model: authentik_core.group
+    identifiers:
+      name: RelationshipManager
+    attrs:
+      name: RelationshipManager
+
+  - model: authentik_core.group
+    identifiers:
+      name: ProgramManager
+    attrs:
+      name: ProgramManager
+
+  - model: authentik_core.group
+    identifiers:
+      name: Admin
+    attrs:
+      name: Admin
+
+  # F0009: BrokerUser role group for external broker portal access.
+  - model: authentik_core.group
+    identifiers:
+      name: BrokerUser
+    attrs:
+      name: BrokerUser
+
+  - model: authentik_providers_oauth2.scopemapping
+    id: nebula-roles-mapping
+    identifiers:
+      managed: nebula.dev/providers/oauth2/scope-nebula-roles
+    attrs:
+      name: "Nebula Roles"
+      managed: nebula.dev/providers/oauth2/scope-nebula-roles
+      scope_name: nebula_roles
+      description: "Maps user group memberships to nebula_roles JWT claim"
+      expression: |
+        return {"nebula_roles": list(request.user.ak_groups.values_list("name", flat=True))}
+
+  # F0009: broker_tenant_id claim — emits the user attribute value so the backend
+  # can resolve the BrokerUser's scope to exactly one active Broker row.
+  - model: authentik_providers_oauth2.scopemapping
+    id: nebula-broker-tenant-id-mapping
+    identifiers:
+      managed: nebula.dev/providers/oauth2/scope-broker-tenant-id
+    attrs:
+      name: "Nebula Broker Tenant ID"
+      managed: nebula.dev/providers/oauth2/scope-broker-tenant-id
+      scope_name: broker_tenant_id
+      description: "Emits broker_tenant_id attribute as a JWT claim (BrokerUser only)"
+      expression: |
+        broker_id = request.user.attributes.get("broker_tenant_id")
+        return {"broker_tenant_id": broker_id} if broker_id else {}
+
+  - model: authentik_providers_oauth2.oauth2provider
+    id: nebula-provider
+    identifiers:
+      client_id: nebula
+    attrs:
+      name: nebula
+      client_id: nebula
+      client_type: public
+      authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+      # F0014: authentication_flow is required for Resource Owner Password Credentials (ROPC)
+      # grant. Without it, POST /application/o/token/ with grant_type=password returns
+      # invalid_grant even when user credentials are valid.
+      authentication_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
+      invalidation_flow: !Find [authentik_flows.flow, [slug, default-provider-invalidation-flow]]
+      redirect_uris:
+        - url: "http://localhost:5173/auth/callback"
+          matching_mode: strict
+        - url: "http://localhost:5173/"
+          matching_mode: strict
+      signing_key: !Find
+        - authentik_crypto.certificatekeypair
+        - [name, authentik Self-signed Certificate]
+      property_mappings:
+        - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-openid]]
+        - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-email]]
+        - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-profile]]
+        - !KeyOf nebula-roles-mapping
+        - !KeyOf nebula-broker-tenant-id-mapping
+      sub_mode: user_username
+      access_token_validity: minutes=5
+      refresh_token_validity: days=30
+      include_claims_in_id_token: true
+
+  - model: authentik_core.application
+    id: nebula-app
+    identifiers:
+      slug: nebula
+    attrs:
+      name: Nebula CRM
+      slug: nebula
+      provider: !KeyOf nebula-provider
+
+  - model: authentik_core.user
+    identifiers:
+      username: akadmin
+    attrs:
+      groups:
+        - !Find [authentik_core.group, [name, Admin]]
+
+  # F0009 §9: DistributionUser dev seed identity.
+  - model: authentik_core.user
+    identifiers:
+      username: lisa.wong
+    attrs:
+      username: lisa.wong
+      name: Lisa Wong
+      email: lisa.wong@nebula.local
+      is_active: true
+      password: "devpassword"
+      groups:
+        - !Find [authentik_core.group, [name, DistributionUser]]
+
+  # F0009 §9: Underwriter dev seed identity.
+  - model: authentik_core.user
+    identifiers:
+      username: john.miller
+    attrs:
+      username: john.miller
+      name: John Miller
+      email: john.miller@nebula.local
+      is_active: true
+      password: "devpassword"
+      groups:
+        - !Find [authentik_core.group, [name, Underwriter]]
+
+  # F0009 §9: BrokerUser dev seed identity.
+  # broker_tenant_id must match DevSeedData.BrokerUserDevTenantId = "broker001-tenant-001".
+  - model: authentik_core.user
+    identifiers:
+      username: broker001
+    attrs:
+      username: broker001
+      name: Broker User 001
+      email: broker001@example.local
+      is_active: true
+      password: "devpassword"
+      attributes:
+        broker_tenant_id: "broker001-tenant-001"
+      groups:
+        - !Find [authentik_core.group, [name, BrokerUser]]
+
+  # ──────────────────────────────────────────────────────────────────────
+  # F0014: App password tokens for ROPC (Resource Owner Password Credentials).
+  # authentik 2026.2 requires intent=app_password tokens for password grant —
+  # the user's login password alone is NOT sufficient for POST /application/o/token/.
+  # Each token.key below is the value passed as the "password" form param.
+  # ──────────────────────────────────────────────────────────────────────
+
+  - model: authentik_core.token
+    identifiers:
+      identifier: lisa-wong-app-password
+    attrs:
+      identifier: lisa-wong-app-password
+      key: "nebula-dev-token"
+      user: !Find [authentik_core.user, [username, lisa.wong]]
+      intent: app_password
+      expiring: false
+      description: "Dev ROPC token for lisa.wong (DistributionUser)"
+
+  - model: authentik_core.token
+    identifiers:
+      identifier: john-miller-app-password
+    attrs:
+      identifier: john-miller-app-password
+      key: "nebula-dev-token"
+      user: !Find [authentik_core.user, [username, john.miller]]
+      intent: app_password
+      expiring: false
+      description: "Dev ROPC token for john.miller (Underwriter)"
+
+  - model: authentik_core.token
+    identifiers:
+      identifier: broker001-app-password
+    attrs:
+      identifier: broker001-app-password
+      key: "nebula-dev-token"
+      user: !Find [authentik_core.user, [username, broker001]]
+      intent: app_password
+      expiring: false
+      description: "Dev ROPC token for broker001 (BrokerUser)"
+
+  - model: authentik_core.token
+    identifiers:
+      identifier: akadmin-app-password
+    attrs:
+      identifier: akadmin-app-password
+      key: "nebula-dev-token"
+      user: !Find [authentik_core.user, [username, akadmin]]
+      intent: app_password
+      expiring: false
+      description: "Dev ROPC token for akadmin (Admin)"

@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/line-of-business.schema.json",
+  "title": "LineOfBusiness",
+  "description": "Canonical line-of-business classification code.",
+  "type": "string",
+  "enum": [
+    "Property",
+    "GeneralLiability",
+    "CommercialAuto",
+    "WorkersCompensation",
+    "ProfessionalLiability",
+    "Marine",
+    "Umbrella",
+    "Surety",
+    "Cyber",
+    "DirectorsOfficers"
+  ]
+}

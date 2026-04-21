@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/task-create-request.schema.json",
+  "title": "TaskCreateRequest",
+  "description": "Validation rules for creating a task. F0005-aligned: assignedToUserId is uuid. F0004: DistributionManager/Admin may set assignedToUserId to any active internal user.",
+  "type": "object",
+  "required": [
+    "title",
+    "assignedToUserId"
+  ],
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["Low", "Normal", "High", "Urgent"],
+      "default": "Normal"
+    },
+    "dueDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "assignedToUserId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Internal UserId (uuid) from UserProfile. Must match authenticated user's UserId for non-manager roles. DistributionManager and Admin may specify any active internal user's UserId (F0004)."
+    },
+    "linkedEntityType": {
+      "type": "string",
+      "enum": ["Broker", "Account", "Submission", "Renewal"]
+    },
+    "linkedEntityId": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "dependencies": {
+    "linkedEntityType": ["linkedEntityId"],
+    "linkedEntityId": ["linkedEntityType"]
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/paginated-broker-list.schema.json",
+  "title": "PaginatedBrokerList",
+  "description": "Paginated list of brokers.",
+  "type": "object",
+  "required": [
+    "data",
+    "page",
+    "pageSize",
+    "totalCount",
+    "totalPages"
+  ],
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": { "$ref": "https://nebula.local/schemas/broker.schema.json" }
+    },
+    "page": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "pageSize": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "totalCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "totalPages": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}

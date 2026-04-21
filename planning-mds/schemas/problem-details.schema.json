@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/problem-details.schema.json",
+  "title": "ProblemDetails",
+  "description": "RFC Problem Details payload with Nebula extension fields. Intended for application/problem+json responses. See planning-mds/architecture/error-codes.md for the authoritative code list.",
+  "type": "object",
+  "required": [
+    "type",
+    "title",
+    "status",
+    "code",
+    "traceId"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "format": "uri"
+    },
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "type": "integer",
+      "minimum": 400,
+      "maximum": 599
+    },
+    "detail": {
+      "type": "string"
+    },
+    "instance": {
+      "type": "string",
+      "format": "uri"
+    },
+    "code": {
+      "type": "string",
+      "description": "Stable machine-readable domain error code. See planning-mds/architecture/error-codes.md."
+    },
+    "traceId": {
+      "type": "string"
+    },
+    "errors": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

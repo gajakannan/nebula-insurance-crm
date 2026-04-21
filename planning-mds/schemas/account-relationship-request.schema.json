@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/account-relationship-request.schema.json",
+  "title": "AccountRelationshipRequest",
+  "description": "Change the broker-of-record, primary producer, or territory on an account. Appends AccountRelationshipHistory + ActivityTimelineEvent.",
+  "type": "object",
+  "required": ["relationshipType", "newValue"],
+  "properties": {
+    "relationshipType": { "type": "string", "enum": ["BrokerOfRecord", "PrimaryProducer", "Territory"] },
+    "newValue": { "type": "string", "description": "Broker id / user id / territory code depending on relationshipType." },
+    "notes": { "type": ["string", "null"], "maxLength": 500 }
+  },
+  "additionalProperties": false
+}

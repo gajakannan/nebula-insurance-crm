@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/renewal-transition-request.schema.json",
+  "title": "RenewalTransitionRequest",
+  "description": "Validation rules for transitioning a renewal through its workflow (F0007-S0003). Extends the base WorkflowTransitionRequest with renewal-specific conditional fields.",
+  "type": "object",
+  "required": ["toState"],
+  "properties": {
+    "toState": {
+      "type": "string",
+      "enum": ["Outreach", "InReview", "Quoted", "Completed", "Lost"],
+      "description": "Target workflow state."
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Optional transition comment."
+    },
+    "reasonCode": {
+      "type": "string",
+      "enum": ["NonRenewal", "CompetitiveLoss", "BusinessClosed", "CoverageNoLongerNeeded", "PricingDeclined", "Other"],
+      "description": "Required when toState=Lost."
+    },
+    "reasonDetail": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Required when reasonCode=Other."
+    },
+    "boundPolicyId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Required when toState=Completed (unless renewalSubmissionId provided)."
+    },
+    "renewalSubmissionId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Required when toState=Completed (unless boundPolicyId provided)."
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": { "toState": { "const": "Lost" } },
+        "required": ["toState"]
+      },
+      "then": {
+        "required": ["toState", "reasonCode"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "reasonCode": { "const": "Other" } },
+        "required": ["reasonCode"]
+      },
+      "then": {
+        "required": ["reasonCode", "reasonDetail"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "toState": { "const": "Completed" } },
+        "required": ["toState"]
+      },
+      "then": {
+        "anyOf": [
+          { "required": ["boundPolicyId"] },
+          { "required": ["renewalSubmissionId"] }
+        ]
+      }
+    }
+  ]
+}

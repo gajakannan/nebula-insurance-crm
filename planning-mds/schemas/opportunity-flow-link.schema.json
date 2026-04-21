@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/opportunity-flow-link.schema.json",
+  "title": "OpportunityFlowLink",
+  "description": "Flow link between workflow statuses with aggregated transition count. Count serves as ribbon thickness in the connected canvas.",
+  "type": "object",
+  "required": [
+    "sourceStatus",
+    "targetStatus",
+    "count"
+  ],
+  "properties": {
+    "sourceStatus": {
+      "type": "string",
+      "description": "Source workflow status code."
+    },
+    "targetStatus": {
+      "type": "string",
+      "description": "Target workflow status code."
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of transitions from source to target in the window. Used as ribbon thickness."
+    }
+  },
+  "additionalProperties": false
+}

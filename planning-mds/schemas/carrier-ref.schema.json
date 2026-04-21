@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/carrier-ref.schema.json",
+  "title": "CarrierRef",
+  "description": "Carrier reference-data seed used by the Policy aggregate. Admin-managed seed set in MVP; a full Carrier lifecycle (admin CRUD, ratings, licensing) is a follow-up feature. See ADR-018.",
+  "type": "object",
+  "required": ["id", "code", "name", "isActive", "createdAt"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "code": { "type": "string", "maxLength": 40 },
+    "name": { "type": "string", "maxLength": 200 },
+    "naicCode": { "type": ["string", "null"], "maxLength": 10 },
+    "amBestRating": { "type": ["string", "null"], "maxLength": 10 },
+    "isActive": { "type": "boolean" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": ["string", "null"], "format": "date-time" }
+  },
+  "additionalProperties": false
+}

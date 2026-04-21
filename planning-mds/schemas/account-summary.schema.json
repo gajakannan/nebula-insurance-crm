@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/account-summary.schema.json",
+  "title": "AccountSummary",
+  "description": "Account 360 overview payload (counts + last activity).",
+  "type": "object",
+  "required": ["id", "displayName", "status", "activePolicyCount", "openSubmissionCount", "renewalDueCount"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "displayName": { "type": "string" },
+    "status": { "type": "string", "enum": ["Active", "Inactive", "Merged", "Deleted"] },
+    "brokerOfRecordName": { "type": ["string", "null"] },
+    "primaryProducerDisplayName": { "type": ["string", "null"] },
+    "territoryCode": { "type": ["string", "null"] },
+    "region": { "type": ["string", "null"] },
+    "activePolicyCount": { "type": "integer" },
+    "openSubmissionCount": { "type": "integer" },
+    "renewalDueCount": { "type": "integer" },
+    "lastActivityAt": { "type": ["string", "null"], "format": "date-time" },
+    "rowVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

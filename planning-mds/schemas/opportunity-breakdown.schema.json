@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/opportunity-breakdown.schema.json",
+  "title": "OpportunityBreakdown",
+  "description": "Grouped stage breakdown for a workflow status.",
+  "type": "object",
+  "required": [
+    "entityType",
+    "status",
+    "groupBy",
+    "periodDays",
+    "groups",
+    "total"
+  ],
+  "properties": {
+    "entityType": {
+      "type": "string",
+      "enum": [
+        "submission",
+        "renewal"
+      ]
+    },
+    "status": {
+      "type": "string"
+    },
+    "groupBy": {
+      "type": "string",
+      "enum": [
+        "assignedUser",
+        "broker",
+        "program",
+        "lineOfBusiness",
+        "brokerState"
+      ]
+    },
+    "periodDays": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 730
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "$ref": "https://nebula.local/schemas/opportunity-breakdown-group.schema.json"
+      }
+    },
+    "total": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}

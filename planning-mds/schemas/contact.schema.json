@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/contact.schema.json",
+  "title": "Contact",
+  "description": "Contact record. If the parent broker is Inactive, email and phone are masked as null.",
+  "type": "object",
+  "required": [
+    "id",
+    "fullName",
+    "email",
+    "phone"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "brokerId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "accountId": {
+      "type": ["string", "null"],
+      "format": "uuid"
+    },
+    "fullName": {
+      "type": "string"
+    },
+    "email": {
+      "type": ["string", "null"],
+      "format": "email",
+      "description": "Masked when parent broker Status=Inactive."
+    },
+    "phone": {
+      "type": ["string", "null"],
+      "pattern": "^\\+?[1-9]\\d{7,14}$",
+      "description": "Masked when parent broker Status=Inactive."
+    },
+    "role": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

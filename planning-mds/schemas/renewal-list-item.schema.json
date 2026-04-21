@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/renewal-list-item.schema.json",
+  "title": "RenewalListItem",
+  "description": "Renewal list item with computed fields for pipeline display (F0007-S0001).",
+  "type": "object",
+  "required": [
+    "id",
+    "accountName",
+    "brokerName",
+    "currentStatus",
+    "policyExpirationDate",
+    "assignedToUserId"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "accountName": {
+      "type": "string",
+      "description": "Resolved from Account entity."
+    },
+    "brokerName": {
+      "type": "string",
+      "description": "Resolved from Broker entity."
+    },
+    "lineOfBusiness": {
+      "type": ["string", "null"],
+      "description": "LOB classification. Null displays as '—'."
+    },
+    "currentStatus": {
+      "type": "string",
+      "enum": ["Identified", "Outreach", "InReview", "Quoted", "Completed", "Lost"]
+    },
+    "policyExpirationDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "targetOutreachDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "assignedToUserId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "assignedUserDisplayName": {
+      "type": ["string", "null"],
+      "description": "Resolved from UserProfile."
+    },
+    "urgency": {
+      "type": ["string", "null"],
+      "enum": ["overdue", "approaching", null],
+      "description": "Computed from timing thresholds. Null if on track or past Identified."
+    }
+  },
+  "additionalProperties": false
+}

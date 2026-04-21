@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/task-summary.schema.json",
+  "title": "TaskSummary",
+  "description": "Compact task representation for dashboard widget.",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "status",
+    "dueDate"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Open", "InProgress"]
+    },
+    "dueDate": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "linkedEntityType": {
+      "type": ["string", "null"]
+    },
+    "linkedEntityId": {
+      "type": ["string", "null"],
+      "format": "uuid"
+    },
+    "linkedEntityName": {
+      "type": ["string", "null"]
+    },
+    "isOverdue": {
+      "type": "boolean"
+    },
+    "assignedToDisplayName": {
+      "type": ["string", "null"]
+    }
+  },
+  "additionalProperties": false
+}

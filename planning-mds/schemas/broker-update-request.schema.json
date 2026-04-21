@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/broker-update-request.schema.json",
+  "title": "BrokerUpdateRequest",
+  "description": "Validation rules for updating a broker. License number is immutable after creation.",
+  "type": "object",
+  "required": [
+    "legalName",
+    "state",
+    "status"
+  ],
+  "properties": {
+    "legalName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "state": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Active", "Inactive", "Pending"]
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "phone": {
+      "type": "string",
+      "pattern": "^\\+?[1-9]\\d{7,14}$"
+    }
+  },
+  "additionalProperties": false
+}

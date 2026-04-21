@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy-endorsement-request.schema.json",
+  "title": "PolicyEndorsementRequest",
+  "description": "Apply an endorsement to an Issued policy. Produces a new PolicyVersion + PolicyEndorsement row + re-materialized PolicyCoverageLine[] in a single transaction. See F0018-S0006.",
+  "type": "object",
+  "required": ["endorsementReasonCode", "effectiveDate", "coverages"],
+  "properties": {
+    "endorsementReasonCode": {
+      "type": "string",
+      "enum": [
+        "CoverageIncrease",
+        "CoverageDecrease",
+        "CoverageAdded",
+        "CoverageRemoved",
+        "PremiumAdjustment",
+        "NamedInsuredChange",
+        "AddressChange",
+        "DeductibleChange",
+        "OtherAdministrative"
+      ]
+    },
+    "endorsementReasonDetail": { "type": ["string", "null"], "maxLength": 1000 },
+    "effectiveDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Endorsement effective date. Must fall within the policy term; backdated endorsements are allowed for in-term corrections."
+    },
+    "premiumDelta": {
+      "type": ["number", "null"],
+      "description": "Signed change in total premium (can be negative). If omitted, server recomputes from coverage-line premiums."
+    },
+    "coverages": {
+      "type": "array",
+      "minItems": 1,
+      "description": "The full coverage set under the new version (replace-style). Endorsement re-materializes PolicyCoverageLine rows.",
+      "items": {
+        "type": "object",
+        "required": ["coverageCode", "limit", "premium"],
+        "properties": {
+          "coverageCode": { "type": "string", "maxLength": 40 },
+          "coverageName": { "type": ["string", "null"], "maxLength": 200 },
+          "limit": { "type": "number", "minimum": 0 },
+          "deductible": { "type": ["number", "null"], "minimum": 0 },
+          "premium": { "type": "number", "minimum": 0 },
+          "exposureBasis": { "type": ["string", "null"], "maxLength": 40 },
+          "exposureQuantity": { "type": ["number", "null"], "minimum": 0 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

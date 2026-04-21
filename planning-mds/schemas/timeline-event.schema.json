@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/timeline-event.schema.json",
+  "title": "TimelineEvent",
+  "description": "Activity timeline event for the activity feed.",
+  "type": "object",
+  "required": [
+    "id",
+    "entityType",
+    "entityId",
+    "eventType",
+    "occurredAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "entityType": {
+      "type": "string"
+    },
+    "entityId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "eventType": {
+      "type": "string"
+    },
+    "eventDescription": {
+      "type": "string"
+    },
+    "entityName": {
+      "type": "string"
+    },
+    "actorDisplayName": {
+      "type": "string"
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

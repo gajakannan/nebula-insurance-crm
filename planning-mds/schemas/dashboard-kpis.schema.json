@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/dashboard-kpis.schema.json",
+  "title": "DashboardKpis",
+  "description": "Aggregated KPI metrics for the dashboard.",
+  "type": "object",
+  "required": [
+    "activeBrokers",
+    "openSubmissions",
+    "renewalRate",
+    "avgTurnaroundDays"
+  ],
+  "properties": {
+    "activeBrokers": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "openSubmissions": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "renewalRate": {
+      "type": ["number", "null"]
+    },
+    "avgTurnaroundDays": {
+      "type": ["number", "null"]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,65 @@
+Validating genericness of agents/
+------------------------------------------------------------
+[Scope]  Scanning only:       agents/
+[Scope]  Not scanned:          planning-mds/ (solution-specific content is allowed)
+
+[Terms]  9 blocked term(s): Broker, MGA, Underwriter, Underwriting, Premium, Claim, Insured, Submission, Renewal
+[Source] Term list from:      planning-mds/domain/glossary.md
+[Note]   Source file is used only to derive denylist terms for agents/ validation.
+
+[PASS] agents/ directory is generic — no blocked terms found
+Validating API contract: planning-mds/api/nebula-api.yaml
+------------------------------------------------------------
+
+⚠️  WARNINGS (Should Fix):
+  1. Schema 'SubmissionUpdateRequest' has properties but no 'required' array
+  2. Schema 'RenewalUpdateRequest' has properties but no 'required' array
+
+============================================================
+⚠️  API contract validation PASSED with 2 warning(s)
+Validating Nebula API contract checks: planning-mds/api/nebula-api.yaml
+------------------------------------------------------------
+[PASS] Nebula API contract checks passed.
+[PASS] Frontend quality evidence manifest is complete
+  manifest: planning-mds/operations/evidence/frontend-quality/latest-run.json
+  - component: PASS (pnpm test)
+  - integration: PASS (pnpm test:integration)
+  - accessibility: PASS (pnpm test:accessibility)
+  - coverage: PASS (pnpm test:coverage)
+  - visual: PASS (env CI=true pnpm test:visual:theme)
+✅ Infrastructure artifacts look present.
+✅ Security artifacts present and non-empty.
+Running lifecycle gates for stage: implementation
+------------------------------------------------------------
+[GATE] boundary_genericness
+  Prevent solution-specific leakage into generic framework agents.
+  command: python3 agents/scripts/validate-genericness.py
+[PASS] boundary_genericness
+
+[GATE] api_contract
+  Validate OpenAPI structural and canonical error-contract rules.
+  command: python3 agents/architect/scripts/validate-api-contract.py planning-mds/api/nebula-api.yaml
+[PASS] api_contract
+
+[GATE] solution_contract
+  Validate solution-specific story/API contract alignment.
+  command: python3 planning-mds/testing/validate-nebula-api-contract.py planning-mds/api/nebula-api.yaml
+[PASS] solution_contract
+
+[GATE] frontend_quality
+  Enforce solution-owned frontend validation evidence and coverage artifacts.
+  command: python3 planning-mds/testing/validate-frontend-quality-gate.py planning-mds/operations/evidence/frontend-quality/latest-run.json
+[PASS] frontend_quality
+
+[GATE] infra_strict
+  Strict infrastructure gate for implementation/release stages.
+  command: python3 agents/devops/scripts/validate-infrastructure.py . --strict
+[PASS] infra_strict
+
+[GATE] security_planning_strict
+  Enforce non-draft security artifacts and dated review evidence.
+  command: python3 agents/security/scripts/security-audit.py planning-mds/security --strict
+[PASS] security_planning_strict
+
+============================================================
+[SUMMARY] PASSED (6 gate(s))

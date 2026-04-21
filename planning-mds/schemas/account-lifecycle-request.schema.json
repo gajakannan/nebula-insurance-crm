@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/account-lifecycle-request.schema.json",
+  "title": "AccountLifecycleRequest",
+  "description": "Deactivate / Reactivate / Delete transition request. Role: DistributionManager or Admin.",
+  "type": "object",
+  "required": ["toState"],
+  "properties": {
+    "toState": { "type": "string", "enum": ["Active", "Inactive", "Deleted"] },
+    "reasonCode": {
+      "type": ["string", "null"],
+      "enum": ["DuplicateOfAnother", "InvalidOrTestRecord", "ReplacedByExternalSystem", "RequestedByInsured", "Other", null],
+      "description": "Required when toState=Deleted."
+    },
+    "reasonDetail": {
+      "type": ["string", "null"],
+      "maxLength": 500,
+      "description": "Required when reasonCode=Other."
+    }
+  },
+  "additionalProperties": false
+}

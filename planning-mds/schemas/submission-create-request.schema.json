@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/submission-create-request.schema.json",
+  "title": "SubmissionCreateRequest",
+  "description": "Validation rules for creating a new business submission (F0006-S0002). Status defaults to Received; assignedToUserId defaults to the authenticated user.",
+  "type": "object",
+  "required": [
+    "accountId",
+    "brokerId",
+    "effectiveDate"
+  ],
+  "properties": {
+    "accountId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The insured account (required). Must reference a valid, non-deleted account."
+    },
+    "brokerId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The submitting broker (required). Must reference a valid, non-deleted, active broker. Account.Region must be in broker's BrokerRegion set."
+    },
+    "effectiveDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Requested coverage effective date (required). May be past or future."
+    },
+    "programId": {
+      "type": ["string", "null"],
+      "format": "uuid",
+      "description": "Associated program. Must reference a valid, non-deleted program when provided."
+    },
+    "lineOfBusiness": {
+      "anyOf": [
+        { "$ref": "https://nebula.local/schemas/line-of-business.schema.json" },
+        { "type": "null" }
+      ],
+      "description": "LOB classification. Validated against known LOB values when provided."
+    },
+    "premiumEstimate": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Estimated premium amount. Must be non-negative when provided."
+    },
+    "expirationDate": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Requested coverage expiration date. Defaults to effectiveDate + 12 months when not provided."
+    },
+    "description": {
+      "type": ["string", "null"],
+      "maxLength": 2000,
+      "description": "Free-text submission description/notes."
+    }
+  },
+  "additionalProperties": false
+}

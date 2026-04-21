@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/submission-transition-request.schema.json",
+  "title": "SubmissionTransitionRequest",
+  "description": "Validation rules for transitioning a submission through intake workflow states (F0006-S0004).",
+  "type": "object",
+  "required": [
+    "toState"
+  ],
+  "properties": {
+    "toState": {
+      "type": "string",
+      "description": "Target workflow state. Must be a valid next state from the current state.",
+      "enum": ["Received", "Triaging", "WaitingOnBroker", "ReadyForUWReview", "InReview", "Quoted", "BindRequested", "Bound", "Declined", "Withdrawn"]
+    },
+    "reason": {
+      "type": ["string", "null"],
+      "maxLength": 2000,
+      "description": "Transition reason/comment. Recommended for WaitingOnBroker transitions."
+    }
+  },
+  "additionalProperties": false
+}

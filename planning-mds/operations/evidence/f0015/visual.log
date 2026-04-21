@@ -1,0 +1,17 @@
+
+> nebula-crm@0.1.0 test:visual:theme /tmp/experience
+> playwright test tests/visual/theme-smoke.spec.ts
+
+
+Running 8 tests using 1 worker
+
+  ✓  1 tests/visual/theme-smoke.spec.ts:44:7 › dark theme › dashboard renders and captures screenshot (3.6s)
+  ✓  2 tests/visual/theme-smoke.spec.ts:44:7 › dark theme › brokers renders and captures screenshot (3.1s)
+  ✓  3 tests/visual/theme-smoke.spec.ts:44:7 › dark theme › brokers-new renders and captures screenshot (3.2s)
+  ✓  4 tests/visual/theme-smoke.spec.ts:51:5 › dark theme › dashboard KPI card text remains readable (2.1s)
+  ✓  5 tests/visual/theme-smoke.spec.ts:44:7 › light theme › dashboard renders and captures screenshot (2.0s)
+  ✓  6 tests/visual/theme-smoke.spec.ts:44:7 › light theme › brokers renders and captures screenshot (2.2s)
+  ✓  7 tests/visual/theme-smoke.spec.ts:44:7 › light theme › brokers-new renders and captures screenshot (2.4s)
+  ✓  8 tests/visual/theme-smoke.spec.ts:51:5 › light theme › dashboard KPI card text remains readable (1.8s)
+
+  8 passed (28.2s)

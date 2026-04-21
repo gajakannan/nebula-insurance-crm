@@ -1,0 +1,44 @@
+## QE overlay services — opt-in via: docker compose -f docker-compose.yml -f docker-compose.qe.yml up -d
+## These services support Pact Broker and SonarQube Community workflows.
+## They are NOT required for normal local app development.
+
+services:
+  pact-broker:
+    image: pactfoundation/pact-broker:latest
+    container_name: nebula-pact-broker
+    restart: unless-stopped
+    environment:
+      PACT_BROKER_DATABASE_HOST: db
+      PACT_BROKER_DATABASE_PORT: 5432
+      PACT_BROKER_DATABASE_NAME: pactbroker
+      PACT_BROKER_DATABASE_USERNAME: postgres
+      PACT_BROKER_DATABASE_PASSWORD: postgres
+      PACT_BROKER_LOG_LEVEL: INFO
+    ports:
+      - "9292:9292"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: nebula-sonarqube
+    restart: unless-stopped
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonarqube
+      SONAR_JDBC_USERNAME: postgres
+      SONAR_JDBC_PASSWORD: postgres
+    ports:
+      - "9002:9000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-extensions:/opt/sonarqube/extensions
+      - sonarqube-logs:/opt/sonarqube/logs
+
+volumes:
+  sonarqube-data:
+  sonarqube-extensions:
+  sonarqube-logs:

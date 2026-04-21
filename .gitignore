@@ -1,0 +1,91 @@
+# Environment
+# Blanket-ignore all .env* files repo-wide; committed defaults are un-ignored below.
+.env*
+# Root-level example template — always committed
+!.env.example
+# experience/ committed env defaults (staging + production are NOT secrets — they only set VITE_AUTH_MODE=oidc)
+!experience/.env.example
+!experience/.env.staging
+!experience/.env.production
+# Local-dev example file is committed so developers can copy it; the actual local file is ignored
+!experience/.env.development.local.example
+# Explicit patterns for files that must never be committed (belt-and-suspenders; already covered by .env* above)
+experience/.env.local
+experience/.env.development.local
+
+# .NET
+bin/
+obj/
+**/bin/**
+**/obj/**
+**/bin\\Debug/**
+**/bin\\Release/**
+**/bin*Debug/**
+**/bin*Release/**
+**/obj*Debug/**
+**/obj*Release/**
+*.user
+*.suo
+*.csproj.user
+engine/src/Nebula.Api/out.xml
+TestResults/
+engine/coverage/
+coverage-report/
+
+# Node / React
+node_modules/
+.pnpm-store/
+**/.pnpm-store/
+dist/
+.next/
+.vite/vitest/**
+build/
+experience/coverage/
+playwright-report/
+test-results/
+!planning-mds/operations/evidence/**/artifacts/playwright-report/
+!planning-mds/operations/evidence/**/artifacts/playwright-report/**
+!planning-mds/operations/evidence/**/artifacts/test-results/
+!planning-mds/operations/evidence/**/artifacts/test-results/**
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# KG workstate (scripts/kg/workstate.py session files)
+.kg-state/
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+# Evidence logs are audit artifacts — un-ignore them
+!planning-mds/operations/evidence/**/*.log
+
+# Docker
+docker-compose.override.yml
+
+# Security reports
+security-reports/
+
+# QE toolchain artifacts (F0033)
+.sonarqube/
+.lighthouseci/
+experience/.lighthouseci/
+experience/pacts/
+planning-mds/operations/evidence/f0033/artifacts/

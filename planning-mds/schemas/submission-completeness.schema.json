@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/submission-completeness.schema.json",
+  "title": "SubmissionCompleteness",
+  "description": "Completeness evaluation result for a submission (F0006-S0005). Read-side projection showing field-level and document-level pass/fail status.",
+  "type": "object",
+  "required": [
+    "isComplete",
+    "fieldChecks",
+    "documentChecks",
+    "missingItems"
+  ],
+  "properties": {
+    "isComplete": {
+      "type": "boolean",
+      "description": "Overall pass/fail. True only when all field and document requirements pass."
+    },
+    "fieldChecks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "required", "status"],
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Field name"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pass", "missing"]
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Per-field completeness checks"
+    },
+    "documentChecks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["category", "required", "status"],
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Document category name"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pass", "missing", "unavailable"],
+            "description": "unavailable when F0020 is not yet deployed"
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Per-document-category completeness checks. All items show 'unavailable' when F0020 is not deployed."
+    },
+    "missingItems": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Human-readable list of what is missing. Used in transition guard error messages."
+    }
+  },
+  "additionalProperties": false
+}

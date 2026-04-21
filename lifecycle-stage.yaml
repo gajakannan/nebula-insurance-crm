@@ -1,0 +1,82 @@
+version: 1
+release_posture:
+  mode: public-preview-human-orchestrated
+  summary: >
+    Public preview. Product split from gajakannan/nebula-crm at commit
+    d2fa37c4216147b7a0be399e4133dac59ef75d9f on 2026-04-20 (recorded in
+    .split-baseline). Current lifecycle stage is `implementation`. Phase A
+    product-local gates (knowledge_graph_sync, solution_contract,
+    frontend_quality) are enforced; Phase B rehomes api_contract, infra_strict,
+    and security_planning_strict as product-local validators before CI/branch
+    protection is restored. Feature-level truth lives in
+    planning-mds/features/REGISTRY.md and ROADMAP.md.
+current_stage: implementation
+implementation_scope:
+  active_feature:
+  active_stories: []
+  note: >
+    Post-split state. No active feature is nominated by the split itself; use
+    the registry/roadmap to select the next workstream via normal product
+    planning.
+stages:
+  framework-bootstrap:
+    description: Bootstrap stage prior to product-specific implementation.
+    required_gates: []
+  planning:
+    description: Planning artifacts are being authored; implementation may still be placeholder.
+    required_gates:
+      - knowledge_graph_sync
+      - solution_contract
+  implementation:
+    description: Application code/runtime is being built with product-local gates enforced.
+    required_gates:
+      - knowledge_graph_sync
+      - solution_contract
+      - frontend_quality
+  release-readiness:
+    description: Release hardening; Phase B adds rehomed api_contract, infra_strict, security_planning_strict before this stage is usable.
+    required_gates:
+      - knowledge_graph_sync
+      - solution_contract
+      - frontend_quality
+gates:
+  knowledge_graph_sync:
+    description: Validate knowledge-graph integrity (IDs, references, paths, feature coverage, code-index bindings, coverage-report freshness).
+    command:
+      - python3
+      - scripts/kg/validate.py
+  solution_contract:
+    description: Validate solution-specific story/API contract alignment against the product OpenAPI spec.
+    command:
+      - python3
+      - planning-mds/testing/validate-nebula-api-contract.py
+      - planning-mds/api/nebula-api.yaml
+  frontend_quality:
+    description: Enforce product-owned frontend validation evidence and coverage artifacts.
+    command:
+      - python3
+      - planning-mds/testing/validate-frontend-quality-gate.py
+      - planning-mds/operations/evidence/frontend-quality/latest-run.json
+# Phase B (post-split expansion) — rehome these as product-local validators
+# before restoring CI/branch protection. Definitions left commented out so
+# the file's Phase A gate set is unambiguous.
+#   api_contract:
+#     description: Structural OpenAPI + canonical error-contract checks.
+#     command:
+#       - python3
+#       - scripts/validate-api-contract.py
+#       - planning-mds/api/nebula-api.yaml
+#   infra_strict:
+#     description: Strict infrastructure gate for implementation/release stages.
+#     command:
+#       - python3
+#       - scripts/validate-infrastructure.py
+#       - .
+#       - --strict
+#   security_planning_strict:
+#     description: Enforce non-draft security artifacts and dated review evidence.
+#     command:
+#       - python3
+#       - scripts/security-audit.py
+#       - planning-mds/security
+#       - --strict

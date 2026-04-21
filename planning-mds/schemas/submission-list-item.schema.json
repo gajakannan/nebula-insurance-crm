@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/submission-list-item.schema.json",
+  "title": "SubmissionListItem",
+  "description": "Submission pipeline list item response contract (F0006-S0001). Includes denormalized display names and computed stale flag.",
+  "type": "object",
+  "required": [
+    "id",
+    "accountName",
+    "brokerName",
+    "currentStatus",
+    "effectiveDate",
+    "assignedToUserId",
+    "createdAt",
+    "isStale"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "accountName": {
+      "type": "string",
+      "description": "Display name of linked account"
+    },
+    "brokerName": {
+      "type": "string",
+      "description": "Display name of linked broker"
+    },
+    "lineOfBusiness": {
+      "type": ["string", "null"],
+      "description": "LOB classification"
+    },
+    "currentStatus": {
+      "type": "string",
+      "description": "Current workflow state"
+    },
+    "effectiveDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Requested coverage date"
+    },
+    "assignedToUserId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "assignedToDisplayName": {
+      "type": ["string", "null"],
+      "description": "Display name of assigned user"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Submission creation timestamp"
+    },
+    "isStale": {
+      "type": "boolean",
+      "description": "Whether submission exceeds stale threshold for its current state"
+    }
+  },
+  "additionalProperties": false
+}

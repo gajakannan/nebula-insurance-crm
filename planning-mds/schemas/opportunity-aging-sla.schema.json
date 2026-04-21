@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/opportunity-aging-sla.schema.json",
+  "title": "OpportunityAgingSla",
+  "description": "SLA thresholds and computed band counts for a workflow status.",
+  "type": "object",
+  "required": [
+    "warningDays",
+    "targetDays",
+    "onTimeCount",
+    "approachingCount",
+    "overdueCount"
+  ],
+  "properties": {
+    "warningDays": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "targetDays": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "onTimeCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "approachingCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "overdueCount": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}

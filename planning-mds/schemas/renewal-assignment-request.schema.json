@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/renewal-assignment-request.schema.json",
+  "title": "RenewalAssignmentRequest",
+  "description": "Validation rules for assigning or reassigning renewal ownership (F0007-S0004).",
+  "type": "object",
+  "required": ["assignedToUserId"],
+  "properties": {
+    "assignedToUserId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Target user for assignment. Must be active with a role compatible with the renewal's current stage."
+    }
+  },
+  "additionalProperties": false
+}

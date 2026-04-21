@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/dashboard-pipeline.schema.json",
+  "title": "DashboardPipeline",
+  "description": "Pipeline summary counts grouped by status.",
+  "type": "object",
+  "required": [
+    "submissions",
+    "renewals"
+  ],
+  "properties": {
+    "submissions": {
+      "type": "array",
+      "items": { "$ref": "https://nebula.local/schemas/pipeline-status-count.schema.json" }
+    },
+    "renewals": {
+      "type": "array",
+      "items": { "$ref": "https://nebula.local/schemas/pipeline-status-count.schema.json" }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy-list-item.schema.json",
+  "title": "PolicyListItem",
+  "description": "Compact policy row for list views (F0018-S0001). Fallback-aware account columns per ADR-017.",
+  "type": "object",
+  "required": [
+    "id",
+    "policyNumber",
+    "accountId",
+    "lineOfBusiness",
+    "status",
+    "effectiveDate",
+    "expirationDate",
+    "rowVersion"
+  ],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "policyNumber": { "type": "string", "maxLength": 40 },
+    "accountId": { "type": "string", "format": "uuid" },
+    "accountDisplayName": { "type": ["string", "null"] },
+    "accountStatus": {
+      "type": ["string", "null"],
+      "enum": ["Active", "Inactive", "Merged", "Deleted", null]
+    },
+    "accountSurvivorId": { "type": ["string", "null"], "format": "uuid" },
+    "brokerOfRecordId": { "type": "string", "format": "uuid" },
+    "brokerName": { "type": ["string", "null"] },
+    "carrierId": { "type": ["string", "null"], "format": "uuid" },
+    "carrierName": { "type": ["string", "null"] },
+    "lineOfBusiness": { "$ref": "https://nebula.local/schemas/line-of-business.schema.json" },
+    "status": {
+      "type": "string",
+      "enum": ["Pending", "Issued", "Cancelled", "Expired"]
+    },
+    "effectiveDate": { "type": "string", "format": "date" },
+    "expirationDate": { "type": "string", "format": "date" },
+    "totalPremium": { "type": ["number", "null"], "minimum": 0 },
+    "premiumCurrency": {
+      "type": ["string", "null"],
+      "enum": ["USD", null]
+    },
+    "producerUserId": { "type": ["string", "null"], "format": "uuid" },
+    "producerDisplayName": { "type": ["string", "null"] },
+    "versionCount": { "type": ["integer", "null"], "minimum": 1 },
+    "endorsementCount": { "type": ["integer", "null"], "minimum": 0 },
+    "hasOpenRenewal": { "type": ["boolean", "null"] },
+    "reinstatementDeadline": { "type": ["string", "null"], "format": "date" },
+    "rowVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

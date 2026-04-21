@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/opportunity-aging-status.schema.json",
+  "title": "OpportunityAgingStatus",
+  "description": "Aging and SLA details for a workflow status.",
+  "type": "object",
+  "required": [
+    "status",
+    "label",
+    "colorGroup",
+    "displayOrder",
+    "sla",
+    "buckets",
+    "total"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "colorGroup": {
+      "type": "string"
+    },
+    "displayOrder": {
+      "type": "integer"
+    },
+    "sla": {
+      "anyOf": [
+        { "$ref": "https://nebula.local/schemas/opportunity-aging-sla.schema.json" },
+        { "type": "null" }
+      ]
+    },
+    "buckets": {
+      "type": "array",
+      "items": {
+        "$ref": "https://nebula.local/schemas/opportunity-aging-bucket.schema.json"
+      }
+    },
+    "total": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy-coverage-line.schema.json",
+  "title": "PolicyCoverageLine",
+  "description": "Materialized coverage line attached to a specific PolicyVersion. Re-materialized on every endorsement / reinstatement. Current-version rows power Policy 360 Coverages rail queries; historical version rows are retained for audit. See ADR-018.",
+  "type": "object",
+  "required": [
+    "id",
+    "policyId",
+    "policyVersionId",
+    "coverageCode",
+    "limit",
+    "premium",
+    "isCurrent",
+    "createdAt"
+  ],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "policyId": { "type": "string", "format": "uuid" },
+    "policyVersionId": { "type": "string", "format": "uuid" },
+    "versionNumber": { "type": ["integer", "null"], "minimum": 1 },
+    "coverageCode": { "type": "string", "maxLength": 40 },
+    "coverageName": { "type": ["string", "null"], "maxLength": 200 },
+    "limit": { "type": "number", "minimum": 0 },
+    "deductible": { "type": ["number", "null"], "minimum": 0 },
+    "premium": { "type": "number", "minimum": 0 },
+    "premiumCurrency": { "type": ["string", "null"], "enum": ["USD", null] },
+    "exposureBasis": { "type": ["string", "null"], "maxLength": 40 },
+    "exposureQuantity": { "type": ["number", "null"], "minimum": 0 },
+    "isCurrent": {
+      "type": "boolean",
+      "description": "True when the owning PolicyVersion == Policy.CurrentVersionId."
+    },
+    "createdAt": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

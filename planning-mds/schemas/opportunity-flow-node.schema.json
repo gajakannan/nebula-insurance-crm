@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/opportunity-flow-node.schema.json",
+  "title": "OpportunityFlowNode",
+  "description": "Flow node representing a workflow status in the connected canvas. Includes optional friction chapter fields (avgDwellDays, emphasis).",
+  "type": "object",
+  "required": [
+    "status",
+    "label",
+    "isTerminal",
+    "displayOrder",
+    "colorGroup",
+    "currentCount",
+    "inflowCount",
+    "outflowCount"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Workflow status code."
+    },
+    "label": {
+      "type": "string",
+      "description": "Human-readable status label."
+    },
+    "isTerminal": {
+      "type": "boolean",
+      "description": "Whether this status is a terminal exit state."
+    },
+    "displayOrder": {
+      "type": "integer",
+      "description": "Deterministic sort order for left-to-right rendering."
+    },
+    "colorGroup": {
+      "type": "string",
+      "enum": ["intake", "triage", "waiting", "review", "decision"],
+      "description": "Visual grouping for warm-to-cool color progression."
+    },
+    "currentCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of entities currently in this status."
+    },
+    "inflowCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of transitions into this status in the window."
+    },
+    "outflowCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of transitions out of this status in the window."
+    },
+    "avgDwellDays": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Average calendar days items currently spend in this status. Null if no entities in status. Used by the Friction chapter overlay."
+    },
+    "emphasis": {
+      "type": ["string", "null"],
+      "enum": ["normal", "active", "blocked", "bottleneck", null],
+      "description": "Server-computed emphasis hint for the Friction chapter. bottleneck=highest count concentration, blocked=highest avgDwellDays, active=rightmost non-zero non-terminal, normal=default."
+    }
+  },
+  "additionalProperties": false
+}

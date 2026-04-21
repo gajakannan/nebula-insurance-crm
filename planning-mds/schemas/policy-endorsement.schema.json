@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy-endorsement.schema.json",
+  "title": "PolicyEndorsement",
+  "description": "Endorsement record on an Issued policy. EndorsementNumber is monotonic per PolicyId. Each endorsement ties 1:1 to the PolicyVersion it produced. See F0018-S0006 and ADR-018.",
+  "type": "object",
+  "required": [
+    "id",
+    "policyId",
+    "endorsementNumber",
+    "policyVersionId",
+    "endorsementReasonCode",
+    "effectiveDate",
+    "premiumDelta",
+    "createdAt"
+  ],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "policyId": { "type": "string", "format": "uuid" },
+    "endorsementNumber": { "type": "integer", "minimum": 1 },
+    "policyVersionId": { "type": "string", "format": "uuid" },
+    "versionNumber": { "type": ["integer", "null"], "minimum": 1 },
+    "endorsementReasonCode": {
+      "type": "string",
+      "enum": [
+        "CoverageIncrease",
+        "CoverageDecrease",
+        "CoverageAdded",
+        "CoverageRemoved",
+        "PremiumAdjustment",
+        "NamedInsuredChange",
+        "AddressChange",
+        "DeductibleChange",
+        "OtherAdministrative"
+      ]
+    },
+    "endorsementReasonDetail": { "type": ["string", "null"], "maxLength": 1000 },
+    "effectiveDate": { "type": "string", "format": "date" },
+    "premiumDelta": { "type": "number" },
+    "premiumCurrency": { "type": ["string", "null"], "enum": ["USD", null] },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "createdByUserId": { "type": ["string", "null"], "format": "uuid" }
+  },
+  "additionalProperties": false
+}

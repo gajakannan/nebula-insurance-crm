@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/submission-update-request.schema.json",
+  "title": "SubmissionUpdateRequest",
+  "description": "Validation rules for updating mutable submission fields (F0006-S0003). Status changes use /transitions endpoint; assignment changes use /assignment endpoint.",
+  "type": "object",
+  "properties": {
+    "programId": {
+      "type": ["string", "null"],
+      "format": "uuid",
+      "description": "Associated program. Must reference a valid, non-deleted program when provided."
+    },
+    "lineOfBusiness": {
+      "anyOf": [
+        { "$ref": "https://nebula.local/schemas/line-of-business.schema.json" },
+        { "type": "null" }
+      ],
+      "description": "LOB classification. Validated against known LOB values when provided."
+    },
+    "effectiveDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Requested coverage effective date."
+    },
+    "expirationDate": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Coverage expiration date."
+    },
+    "premiumEstimate": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Estimated premium amount. Must be non-negative when provided."
+    },
+    "description": {
+      "type": ["string", "null"],
+      "maxLength": 2000,
+      "description": "Free-text submission description/notes."
+    }
+  },
+  "additionalProperties": false
+}

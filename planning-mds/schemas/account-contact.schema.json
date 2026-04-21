@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/account-contact.schema.json",
+  "title": "AccountContact",
+  "description": "Account-scoped lightweight contact (F0016). A future cross-feature contact module may generalize.",
+  "type": "object",
+  "required": ["id", "accountId", "fullName", "isPrimary", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "accountId": { "type": "string", "format": "uuid" },
+    "fullName": { "type": "string", "maxLength": 200 },
+    "role": { "type": ["string", "null"], "maxLength": 100 },
+    "email": { "type": ["string", "null"], "format": "email", "maxLength": 200 },
+    "phone": { "type": ["string", "null"], "maxLength": 50 },
+    "isPrimary": { "type": "boolean" },
+    "rowVersion": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

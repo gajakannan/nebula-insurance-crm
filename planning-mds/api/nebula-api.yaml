@@ -1,0 +1,5601 @@
+openapi: 3.0.3
+info:
+  title: Nebula API
+  version: 0.5.0
+  description: |
+    Public baseline API contract for the Nebula insurance CRM reference implementation.
+    Version 0.5.0 adds F0007 Renewal Pipeline: renewal list with due-window filtering,
+    create from policy, detail with policy context, assignment/handoff, transition with
+    conditional fields (Lost reason, Completed policy link), and renewal timeline.
+    Renewal entity redesigned with 6-status lifecycle and computed urgency.
+servers:
+  - url: https://api.nebula.local
+security:
+  - bearerAuth: []
+tags:
+  - name: Brokers
+    description: Broker CRUD operations
+  - name: Contacts
+    description: Contact CRUD operations
+  - name: Accounts
+    description: Account operations
+  - name: MGAs
+    description: MGA operations
+  - name: Programs
+    description: Program operations
+  - name: Submissions
+    description: Submission workflow operations
+  - name: Renewals
+    description: Renewal workflow operations
+  - name: Policies
+    description: Policy lifecycle, versioning, endorsements, cancellation, reinstatement (F0018)
+  - name: Dashboard
+    description: Dashboard widget data endpoints (F0001)
+  - name: Tasks
+    description: Task CRUD for My Tasks widget and Task Center
+  - name: Users
+    description: User search for assignee picker (F0004)
+  - name: Timeline
+    description: Activity timeline event queries
+
+paths:
+  # ──────────────────────────────────────────────────────────────
+  # Broker endpoints (existing)
+  # ──────────────────────────────────────────────────────────────
+  /brokers:
+    get:
+      operationId: listBrokers
+      summary: List brokers
+      description: >
+        Returns a paginated list of brokers. For brokers with Status=Inactive,
+        email and phone fields are returned as null (masking sentinel).
+      tags: [Brokers]
+      parameters:
+        - $ref: "#/components/parameters/BrokerSearchQuery"
+        - $ref: "#/components/parameters/BrokerStatusFilter"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated broker list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedBrokerList"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+    post:
+      operationId: createBroker
+      summary: Create broker
+      description: >
+        Creates a new broker. Status is omitted from the request and defaults
+        to "Pending" server-side. Use PUT /brokers/{id} to change status.
+      tags: [Brokers]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BrokerCreateRequest"
+      responses:
+        "201":
+          description: Broker created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Broker"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          $ref: "#/components/responses/Conflict"
+
+  /brokers/{brokerId}:
+    parameters:
+      - $ref: "#/components/parameters/BrokerId"
+    get:
+      operationId: getBrokerById
+      summary: Get broker by id
+      tags: [Brokers]
+      responses:
+        "200":
+          description: Broker details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Broker"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      operationId: updateBroker
+      summary: Update broker
+      description: >
+        Updates a broker record. Requires the If-Match header containing the current
+        rowVersion. Returns 412 with code=precondition_failed if another user
+        modified the broker since the caller last read it.
+      tags: [Brokers]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BrokerUpdateRequest"
+      responses:
+        "200":
+          description: Broker updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Broker"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "409":
+          $ref: "#/components/responses/Conflict"
+    delete:
+      operationId: deleteBroker
+      summary: Deactivate broker
+      description: >
+        Soft-deactivates a broker (sets Status=Inactive, IsDeleted=true).
+        Returns 409 with code=active_dependencies_exist if active submissions or
+        renewals are linked to the broker. The record is retained for audit purposes;
+        use POST /brokers/{brokerId}/reactivate (F0002-S0008) to reverse.
+      tags: [Brokers]
+      responses:
+        "204":
+          description: Broker deleted
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+
+  # ──────────────────────────────────────────────────────────────
+  # Broker reactivate (F0002-S0008)
+  # ──────────────────────────────────────────────────────────────
+  /brokers/{brokerId}/reactivate:
+    post:
+      operationId: reactivateBroker
+      summary: Reactivate a deactivated broker
+      description: >
+        Reverses deactivation (F0002-S0005). Sets Status=Active and IsDeleted=false.
+        Requires broker:reactivate permission (DistributionManager or Admin).
+        Returns 409 with code=already_active if the broker is not currently deactivated.
+      tags: [Brokers]
+      parameters:
+        - name: brokerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "201":
+          description: Broker reactivated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrokerDto"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+
+  # ──────────────────────────────────────────────────────────────
+  # Contact endpoints (existing)
+  # ──────────────────────────────────────────────────────────────
+  /contacts:
+    get:
+      operationId: listContacts
+      summary: List contacts
+      description: >
+        Returns a paginated list of contacts, optionally filtered by brokerId.
+        This endpoint uses a query-parameter filter (not a sub-resource URL) because
+        contacts may belong to different brokers and a flat list with filters is
+        more flexible for cross-broker search in future phases.
+        For contacts whose parent broker has Status=Inactive, email and phone
+        fields are returned as null (masking sentinel).
+      tags: [Contacts]
+      parameters:
+        - name: brokerId
+          in: query
+          required: false
+          description: Filter contacts for a specific broker.
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated contact list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedContactList"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+    post:
+      operationId: createContact
+      summary: Create contact
+      tags: [Contacts]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactCreateRequest"
+      responses:
+        "201":
+          description: Contact created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /contacts/{contactId}:
+    parameters:
+      - $ref: "#/components/parameters/ContactId"
+    get:
+      operationId: getContactById
+      summary: Get contact by id
+      tags: [Contacts]
+      responses:
+        "200":
+          description: Contact details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      operationId: updateContact
+      summary: Update contact
+      tags: [Contacts]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactUpdateRequest"
+      responses:
+        "200":
+          description: Contact updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      operationId: deleteContact
+      summary: Delete contact
+      tags: [Contacts]
+      responses:
+        "204":
+          description: Contact deleted
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # ──────────────────────────────────────────────────────────────
+  # Account, MGA, Program endpoints (existing)
+  # ──────────────────────────────────────────────────────────────
+  # ──────────────────────────────────────────────────────────────
+  # Account endpoints (F0016 — Account 360 & Insured Management)
+  # ──────────────────────────────────────────────────────────────
+  /accounts:
+    get:
+      operationId: listAccounts
+      summary: List accounts with search and filtering
+      description: |
+        Returns a paginated, filterable list of accounts. Supports search by
+        displayName / legalName / taxId (prefix and contains), and filter by
+        status, territory, broker-of-record, region, and primary LOB.
+        ABAC-scoped to the authenticated user (region/territory/broker scope).
+        Deleted accounts are excluded by default; `includeRemoved=true` is
+        admin-only and returns Deleted accounts too. Merged accounts are
+        returned only when filtered explicitly.
+      tags: [Accounts]
+      parameters:
+        - name: q
+          in: query
+          required: false
+          description: Case-insensitive search across displayName / legalName / taxId.
+          schema: { type: string, minLength: 1, maxLength: 100 }
+        - name: status
+          in: query
+          required: false
+          description: Comma-separated status filter. Defaults to Active,Inactive.
+          schema: { type: string }
+        - name: territoryCode
+          in: query
+          required: false
+          schema: { type: string }
+        - name: region
+          in: query
+          required: false
+          schema: { type: string }
+        - name: brokerOfRecordId
+          in: query
+          required: false
+          schema: { type: string, format: uuid }
+        - name: primaryLineOfBusiness
+          in: query
+          required: false
+          schema: { type: string }
+        - name: include
+          in: query
+          required: false
+          description: Comma-separated include hints. `summary` adds per-row counts.
+          schema: { type: string }
+        - name: includeRemoved
+          in: query
+          required: false
+          description: Admin-only. Include Deleted accounts when true. Default false.
+          schema: { type: boolean, default: false }
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [displayName, lastActivityAt, status, territoryCode]
+            default: displayName
+        - name: sortDir
+          in: query
+          required: false
+          schema: { type: string, enum: [asc, desc], default: asc }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated account list
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/AccountListItem"
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+                  totalPages: { type: integer }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createAccount
+      summary: Create an account
+      description: |
+        Creates an insured account. Optionally links an originating submission
+        or policy for the from-submission / from-policy convenience flow.
+        Returns a duplicate-hint payload (200 advisory) but does not block on
+        name-match or tax-id-match unless `Idempotency-Key` repeats.
+      tags: [Accounts]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountCreateRequest"
+      responses:
+        "201":
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /accounts/{accountId}:
+    parameters:
+      - $ref: "#/components/parameters/AccountId"
+    get:
+      operationId: getAccountById
+      summary: Get account detail (tombstone-aware)
+      description: |
+        Returns full account detail. For Merged accounts returns `200` with
+        `status=Merged` and `survivorAccountId` populated (frontend navigates
+        to survivor). For Deleted accounts returns `410 Gone` with a
+        ProblemDetails body including `stableDisplayName`, `removedAt`,
+        `reasonCode`. See ADR-017.
+      tags: [Accounts]
+      responses:
+        "200":
+          description: Account detail (Active, Inactive, or Merged)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "410":
+          description: Account deleted (tombstone)
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+    put:
+      operationId: updateAccount
+      summary: Update account profile
+      description: |
+        Updates profile fields. Requires If-Match (RowVersion). Returns 412 on
+        stale token. Allowed only when status ∈ {Active, Inactive}.
+      tags: [Accounts]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountUpdateRequest"
+      responses:
+        "200":
+          description: Updated account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+
+  /accounts/{accountId}/lifecycle:
+    parameters:
+      - $ref: "#/components/parameters/AccountId"
+    post:
+      operationId: transitionAccountLifecycle
+      summary: Transition account lifecycle (deactivate / reactivate / delete)
+      description: |
+        Applies a lifecycle transition per the account state machine.
+        `toState=Inactive` deactivates an Active account; `toState=Active`
+        reactivates an Inactive account; `toState=Deleted` requires
+        `reasonCode` (and `reasonDetail` when reasonCode=Other).
+        Appends one WorkflowTransition and one ActivityTimelineEvent.
+        Role: DistributionManager or Admin.
+      tags: [Accounts]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountLifecycleRequest"
+      responses:
+        "200":
+          description: Transition applied; returns updated account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+
+  /accounts/{accountId}/merge:
+    parameters:
+      - $ref: "#/components/parameters/AccountId"
+    post:
+      operationId: mergeAccount
+      summary: Merge this account into a survivor
+      description: |
+        Merges this (source) account into `survivorAccountId`. Source must be
+        Active or Inactive; survivor must be Active; self-merge rejected.
+        Commit is synchronous. Source transitions to Merged; `MergedIntoAccountId`
+        set; RemovedAt stamped; StableDisplayName frozen. Appends a
+        WorkflowTransition and ActivityTimelineEvent on source AND one mirror
+        ActivityTimelineEvent on survivor. Retry-idempotent on same input.
+        See ADR-017. Role: DistributionManager or Admin.
+      tags: [Accounts]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountMergeRequest"
+      responses:
+        "200":
+          description: Merge applied; returns source account in Merged state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+
+  /accounts/{accountId}/summary:
+    parameters:
+      - $ref: "#/components/parameters/AccountId"
+    get:
+      operationId: getAccountSummary
+      summary: Account 360 overview payload (counts + last activity)
+      tags: [Accounts]
+      responses:
+        "200":
+          description: Summary payload
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountSummary"
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "410":
+          description: Account deleted (tombstone)
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+
+  /accounts/{accountId}/contacts:
+    parameters:
+      - $ref: "#/components/parameters/AccountId"
+    get:
+      operationId: listAccountContacts
+      summary: List contacts on an account
+      tags: [Accounts]
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated contact list
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/AccountContact"
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+                  totalPages: { type: integer }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: createAccountContact
+      summary: Create an account contact
+      tags: [Accounts]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountContactRequest"
+      responses:
+        "201":
+          description: Contact created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountContact"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /accounts/{accountId}/contacts/{contactId}:
+    parameters:
+      - $ref: "#/components/parameters/AccountId"
+      - $ref: "#/components/parameters/ContactId"
+    put:
+      operationId: updateAccountContact
+      summary: Update an account contact
+      tags: [Accounts]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountContactRequest"
+      responses:
+        "200":
+          description: Updated contact
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountContact"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+    delete:
+      operationId: deleteAccountContact
+      summary: Soft-delete an account contact
+      tags: [Accounts]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      responses:
+        "204":
+          description: Deleted
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+
+  /accounts/{accountId}/relationships:
+    parameters:
+      - $ref: "#/components/parameters/AccountId"
+    post:
+      operationId: changeAccountRelationship
+      summary: Change broker-of-record / primary-producer / territory
+      description: |
+        Applies a relationship change and appends one AccountRelationshipHistory
+        row plus one ActivityTimelineEvent on the account. Requires If-Match.
+      tags: [Accounts]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountRelationshipRequest"
+      responses:
+        "200":
+          description: Updated account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+
+  /accounts/{accountId}/submissions:
+    parameters:
+      - $ref: "#/components/parameters/AccountId"
+    get:
+      operationId: listAccountSubmissions
+      summary: Submissions rail for Account 360
+      tags: [Accounts]
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated submission list (ABAC-scoped)
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SubmissionListItem"
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+                  totalPages: { type: integer }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /accounts/{accountId}/renewals:
+    parameters:
+      - $ref: "#/components/parameters/AccountId"
+    get:
+      operationId: listAccountRenewals
+      summary: Renewals rail for Account 360
+      tags: [Accounts]
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated renewal list (ABAC-scoped)
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/RenewalListItem"
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+                  totalPages: { type: integer }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /accounts/{accountId}/policies:
+    parameters:
+      - $ref: "#/components/parameters/AccountId"
+    get:
+      operationId: listAccountPolicies
+      summary: Policies rail for Account 360 (F0018)
+      description: Paginated policy list scoped to an account; ABAC-scoped per policy. Mirrors the policy list endpoint filters.
+      tags: [Policies, Accounts]
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/PolicyStatusFilter"
+        - $ref: "#/components/parameters/PolicyLobFilter"
+      responses:
+        "200":
+          description: Paginated policy list (ABAC-scoped).
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PolicyListItem"
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+                  totalPages: { type: integer }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /accounts/{accountId}/policies/summary:
+    parameters:
+      - $ref: "#/components/parameters/AccountId"
+    get:
+      operationId: getAccountPolicySummary
+      summary: Account-scoped policy summary (counts + next-expiring + total premium)
+      description: F0018-S0011. Query-time composition; ABAC-scoped per policy.
+      tags: [Policies, Accounts]
+      responses:
+        "200":
+          description: Account policy summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PolicyAccountSummary"
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /accounts/{accountId}/timeline:
+    parameters:
+      - $ref: "#/components/parameters/AccountId"
+    get:
+      operationId: listAccountTimeline
+      summary: Activity timeline rail for an account
+      description: Append-only; paginated newest-first.
+      tags: [Accounts]
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated timeline events
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TimelineEvent"
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+                  totalPages: { type: integer }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /mgas:
+    get:
+      operationId: listMgas
+      summary: List MGAs
+      tags: [MGAs]
+      responses:
+        "200":
+          description: MGA list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MGA"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /programs:
+    get:
+      operationId: listPrograms
+      summary: List programs
+      tags: [Programs]
+      responses:
+        "200":
+          description: Program list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Program"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  # ──────────────────────────────────────────────────────────────
+  # Submission endpoints (redesigned — F0006)
+  # ──────────────────────────────────────────────────────────────
+  /submissions:
+    get:
+      operationId: listSubmissions
+      summary: List submissions with intake status filtering
+      description: |
+        Returns a paginated, filterable submission pipeline list. Supports status,
+        broker, account, LOB, assigned user, stale, and sort filters.
+        Each item includes computed isStale flag.
+        ABAC-scoped to the authenticated user's permissions.
+      tags: [Submissions]
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Comma-separated status filter. Defaults to non-terminal intake statuses.
+          schema:
+            type: string
+        - name: brokerId
+          in: query
+          required: false
+          description: Filter by broker.
+          schema:
+            type: string
+            format: uuid
+        - name: accountId
+          in: query
+          required: false
+          description: Filter by account.
+          schema:
+            type: string
+            format: uuid
+        - name: lineOfBusiness
+          in: query
+          required: false
+          description: Filter by LOB.
+          schema:
+            type: string
+        - name: assignedToUserId
+          in: query
+          required: false
+          description: Filter by assigned user.
+          schema:
+            type: string
+            format: uuid
+        - name: stale
+          in: query
+          required: false
+          description: Filter by stale flag. True returns only stale submissions.
+          schema:
+            type: boolean
+        - name: sort
+          in: query
+          required: false
+          description: Sort field.
+          schema:
+            type: string
+            enum: [createdAt, effectiveDate, accountName, currentStatus]
+            default: createdAt
+        - name: sortDir
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated submission list
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SubmissionListItem"
+                  page:
+                    type: integer
+                  pageSize:
+                    type: integer
+                  totalCount:
+                    type: integer
+                  totalPages:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+    post:
+      operationId: createSubmission
+      summary: Create submission for new business intake
+      description: |
+        Creates a new business submission in Received status. AssignedToUserId defaults
+        to the authenticated user. ExpirationDate defaults to effectiveDate + 12 months.
+        Region alignment enforced: Account.Region must be in broker's BrokerRegion set.
+        Atomically creates WorkflowTransition (null→Received) and ActivityTimelineEvent.
+      tags: [Submissions]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionCreateRequest"
+      responses:
+        "201":
+          description: Submission created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /submissions/{submissionId}:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    get:
+      operationId: getSubmissionById
+      summary: Get submission detail with intake context
+      description: |
+        Returns full submission details including denormalized account/broker/program
+        context, completeness evaluation, available transitions for the authenticated
+        user, and stale flag. ABAC-scoped.
+      tags: [Submissions]
+      responses:
+        "200":
+          description: Submission details with completeness and context
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      operationId: updateSubmission
+      summary: Update submission fields
+      description: |
+        Updates mutable submission fields (description, LOB, premium, expiration date,
+        program). Creates a SubmissionUpdated ActivityTimelineEvent. Requires
+        `If-Match` with the current `rowVersion`; stale versions return HTTP 412
+        with `code=precondition_failed`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionUpdateRequest"
+      responses:
+        "200":
+          description: Submission updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+
+  /submissions/{submissionId}/assignment:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    put:
+      operationId: assignSubmission
+      summary: Assign or reassign submission ownership
+      description: |
+        Assigns or reassigns submission ownership. When submission is in ReadyForUWReview,
+        target must have Underwriter role. No-op when assigning to the already-assigned user.
+        Creates SubmissionAssigned ActivityTimelineEvent. Requires `If-Match` with
+        the current `rowVersion`; stale versions return HTTP 412 with
+        `code=precondition_failed`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionAssignmentRequest"
+      responses:
+        "200":
+          description: Assignment updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+
+  /submissions/{submissionId}/timeline:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    get:
+      operationId: listSubmissionTimeline
+      summary: List submission activity timeline
+      description: |
+        Returns paginated ActivityTimelineEvents for the submission in reverse
+        chronological order. Inherits submission:read ABAC scope.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        "200":
+          description: Paginated timeline events
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TimelineEvent"
+                  page:
+                    type: integer
+                  pageSize:
+                    type: integer
+                  totalCount:
+                    type: integer
+                  totalPages:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # ──────────────────────────────────────────────────────────────
+  # Renewal endpoints (redesigned — F0007)
+  # ──────────────────────────────────────────────────────────────
+  /renewals:
+    get:
+      operationId: listRenewals
+      summary: List renewals with due-window filtering
+      description: |
+        Returns a paginated, filterable renewal pipeline list. Supports due-window
+        filters (90/60/45 days, overdue), status, owner, LOB, and sort options.
+        Each item includes computed urgency (overdue/approaching/null).
+        ABAC-scoped to the authenticated user's permissions.
+      tags: [Renewals]
+      parameters:
+        - name: dueWindow
+          in: query
+          required: false
+          description: Filter by due window (days until policy expiration).
+          schema:
+            type: string
+            enum: [all, 90, 60, 45, overdue]
+            default: all
+        - name: status
+          in: query
+          required: false
+          description: Comma-separated status filter. Defaults to non-terminal statuses.
+          schema:
+            type: string
+        - name: assignedToUserId
+          in: query
+          required: false
+          description: Filter by assigned user. Omit for "all" (managers), or set to own UserId for "my renewals".
+          schema:
+            type: string
+            format: uuid
+        - name: lineOfBusiness
+          in: query
+          required: false
+          description: Filter by LOB.
+          schema:
+            type: string
+        - name: accountId
+          in: query
+          required: false
+          description: Filter by account.
+          schema:
+            type: string
+            format: uuid
+        - name: brokerId
+          in: query
+          required: false
+          description: Filter by broker.
+          schema:
+            type: string
+            format: uuid
+        - name: includeTerminal
+          in: query
+          required: false
+          description: Include terminal states (Completed, Lost). Default false.
+          schema:
+            type: boolean
+            default: false
+        - name: sort
+          in: query
+          required: false
+          description: Sort field.
+          schema:
+            type: string
+            enum: [policyExpirationDate, accountName, currentStatus, assignedToUserId]
+            default: policyExpirationDate
+        - name: sortDir
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated renewal list
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/RenewalListItem"
+                  page:
+                    type: integer
+                  pageSize:
+                    type: integer
+                  totalCount:
+                    type: integer
+                  totalPages:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+    post:
+      operationId: createRenewal
+      summary: Create renewal from expiring policy
+      description: |
+        Creates a renewal linked to an expiring policy. Inherits accountId, brokerId,
+        LOB, and expiration date from the policy. Computes targetOutreachDate from
+        LOB-specific WorkflowSlaThreshold. Initial status is Identified.
+        One active (non-deleted, non-terminal) renewal per policy enforced.
+      tags: [Renewals]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RenewalCreateRequest"
+      responses:
+        "201":
+          description: Renewal created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Renewal"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          $ref: "#/components/responses/Conflict"
+
+  /renewals/{renewalId}:
+    parameters:
+      - $ref: "#/components/parameters/RenewalId"
+    get:
+      operationId: getRenewalById
+      summary: Get renewal detail with policy context
+      description: |
+        Returns full renewal detail including linked policy, account, and broker
+        context. Includes computed urgency (overdue/approaching/null) and available
+        transitions for the authenticated user's role.
+      tags: [Renewals]
+      responses:
+        "200":
+          description: Renewal details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Renewal"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /renewals/{renewalId}/assignment:
+    parameters:
+      - $ref: "#/components/parameters/RenewalId"
+    put:
+      operationId: assignRenewal
+      summary: Assign or reassign renewal ownership
+      description: |
+        Assigns or reassigns the renewal to a user. DistributionManager and Admin
+        can assign to any user in scope. DistributionUser can self-assign unassigned
+        renewals. Assignment to terminal-state renewals is rejected (409).
+        Creates an ActivityTimelineEvent recording the assignment change.
+      tags: [Renewals]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RenewalAssignmentRequest"
+      responses:
+        "200":
+          description: Renewal assignment updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Renewal"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+
+  /renewals/{renewalId}/timeline:
+    parameters:
+      - $ref: "#/components/parameters/RenewalId"
+    get:
+      operationId: listRenewalTimeline
+      summary: List renewal activity timeline
+      description: |
+        Returns paginated ActivityTimelineEvent records for a renewal, sorted
+        reverse chronologically (newest first). Includes transitions, assignments,
+        creation, and outreach events.
+      tags: [Renewals]
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - name: pageSize
+          in: query
+          required: false
+          description: Events per page. Default 20.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        "200":
+          description: Paginated timeline events
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TimelineEvent"
+                  page:
+                    type: integer
+                  pageSize:
+                    type: integer
+                  totalCount:
+                    type: integer
+                  totalPages:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # ──────────────────────────────────────────────────────────────
+  # Workflow transition endpoints (existing)
+  # ──────────────────────────────────────────────────────────────
+  /submissions/{submissionId}/transitions:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    get:
+      operationId: listSubmissionTransitions
+      summary: List submission transitions
+      tags: [Submissions]
+      responses:
+        "200":
+          description: Submission transition history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WorkflowTransitionRecord"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+    post:
+      operationId: transitionSubmission
+      summary: Transition submission workflow state
+      description: |
+        Transitions a submission workflow state. F0006 owns the intake transitions
+        through `ReadyForUWReview`; F0019 continues the downstream submission
+        lifecycle on the same resource. Requires `If-Match` with the current
+        `rowVersion`; stale versions return HTTP 412 with
+        `code=precondition_failed`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionTransitionRequest"
+      responses:
+        "201":
+          description: Transition recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkflowTransitionRecord"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+
+  /renewals/{renewalId}/transitions:
+    parameters:
+      - $ref: "#/components/parameters/RenewalId"
+    post:
+      operationId: transitionRenewal
+      summary: Transition renewal workflow state
+      tags: [Renewals]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkflowTransitionRequest"
+      responses:
+        "201":
+          description: Transition recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkflowTransitionRecord"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          $ref: "#/components/responses/Conflict"
+
+  # ──────────────────────────────────────────────────────────────
+  # Policy endpoints (F0018)
+  # ──────────────────────────────────────────────────────────────
+  /policies:
+    get:
+      operationId: listPolicies
+      summary: List policies with search and filtering
+      description: F0018-S0001. Paginated, ABAC-scoped. Fallback-aware account columns per ADR-017.
+      tags: [Policies]
+      parameters:
+        - $ref: "#/components/parameters/PolicySearchQuery"
+        - $ref: "#/components/parameters/PolicyStatusFilter"
+        - $ref: "#/components/parameters/PolicyLobFilter"
+        - $ref: "#/components/parameters/PolicyCarrierFilter"
+        - $ref: "#/components/parameters/PolicyBrokerFilter"
+        - $ref: "#/components/parameters/PolicyExpiringBeforeFilter"
+        - $ref: "#/components/parameters/PolicySortBy"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated policy list
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PolicyListItem"
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+                  totalPages: { type: integer }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createPolicy
+      summary: Create a policy in Pending state
+      description: F0018-S0002. Manual create returns Pending. Import-lite uses the dedicated `/policies/import` endpoint.
+      tags: [Policies]
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PolicyCreateRequest"
+      responses:
+        "201":
+          description: Policy created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Policy"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /policies/from-bind:
+    post:
+      operationId: createPolicyFromBind
+      summary: F0019 bind-hook — create a Pending policy from a bound submission/quote handoff
+      description: F0018-S0002. Contract specified in MVP; when implemented it creates a Pending policy and preserves explicit Pending → Issued issuance. Server may return 501 until F0019 is built.
+      tags: [Policies]
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PolicyFromBindRequest"
+      responses:
+        "201":
+          description: Policy created (Pending)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Policy"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "501":
+          description: Not implemented yet (F0019 not yet built). Contract is stable; clients may retry once F0019 ships.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+
+  /policies/import:
+    post:
+      operationId: importPolicies
+      summary: Import-lite CSV ingest for historical policies
+      description: F0018-S0002. Per-row validation; rows that fail return a detail block. All successes land in Issued.
+      tags: [Policies]
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PolicyImportRequest"
+      responses:
+        "200":
+          description: Import result
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [accepted, rejected]
+                properties:
+                  accepted:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Policy"
+                  rejected:
+                    type: array
+                    items:
+                      type: object
+                      required: [index, code, message]
+                      properties:
+                        index: { type: integer }
+                        code: { type: string }
+                        message: { type: string }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /policies/{policyId}:
+    parameters:
+      - $ref: "#/components/parameters/PolicyId"
+    get:
+      operationId: getPolicyById
+      summary: Get policy by id
+      tags: [Policies]
+      responses:
+        "200":
+          description: Policy detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Policy"
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      operationId: updatePolicy
+      summary: Update policy profile fields
+      description: F0018-S0003. Material-term edits on Issued/Cancelled/Expired policies return 409 code=must_use_endorse.
+      tags: [Policies]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PolicyUpdateRequest"
+      responses:
+        "200":
+          description: Updated policy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Policy"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+
+  /policies/{policyId}/summary:
+    parameters:
+      - $ref: "#/components/parameters/PolicyId"
+    get:
+      operationId: getPolicySummary
+      summary: Policy 360 summary (composed payload with rail preview counts)
+      description: F0018-S0004.
+      tags: [Policies]
+      responses:
+        "200":
+          description: Policy summary payload
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PolicySummary"
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /policies/{policyId}/issue:
+    parameters:
+      - $ref: "#/components/parameters/PolicyId"
+    post:
+      operationId: issuePolicy
+      summary: Transition a Pending policy to Issued
+      description: Captures the initial PolicyVersion snapshot (VersionReason=IssuedInitial). See ADR-018.
+      tags: [Policies]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PolicyIssueRequest"
+      responses:
+        "200":
+          description: Policy issued
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Policy"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+
+  /policies/{policyId}/endorse:
+    parameters:
+      - $ref: "#/components/parameters/PolicyId"
+    post:
+      operationId: endorsePolicy
+      summary: Apply an endorsement (F0018-S0006)
+      description: Produces a new PolicyVersion + PolicyEndorsement + re-materialized PolicyCoverageLine[] atomically.
+      tags: [Policies]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PolicyEndorsementRequest"
+      responses:
+        "201":
+          description: Endorsement applied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PolicyEndorsement"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+
+  /policies/{policyId}/cancel:
+    parameters:
+      - $ref: "#/components/parameters/PolicyId"
+    post:
+      operationId: cancelPolicy
+      summary: Cancel an Issued policy (F0018-S0007)
+      description: Computes ReinstatementDeadline from LOB-configured window.
+      tags: [Policies]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PolicyCancelRequest"
+      responses:
+        "200":
+          description: Policy cancelled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Policy"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+
+  /policies/{policyId}/reinstate:
+    parameters:
+      - $ref: "#/components/parameters/PolicyId"
+    post:
+      operationId: reinstatePolicy
+      summary: Reinstate a Cancelled policy within the LOB window (F0018-S0008)
+      description: Produces a new PolicyVersion (VersionReason=Reinstatement).
+      tags: [Policies]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PolicyReinstateRequest"
+      responses:
+        "200":
+          description: Policy reinstated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Policy"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409":
+          description: Invalid transition or reinstatement window expired
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+
+  /policies/{policyId}/versions:
+    parameters:
+      - $ref: "#/components/parameters/PolicyId"
+    get:
+      operationId: listPolicyVersions
+      summary: List PolicyVersion rows for a policy (F0018-S0005)
+      description: Descending by VersionNumber. Immutable snapshots.
+      tags: [Policies]
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated version list
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PolicyVersion"
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+                  totalPages: { type: integer }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /policies/{policyId}/versions/{versionId}:
+    parameters:
+      - $ref: "#/components/parameters/PolicyId"
+      - $ref: "#/components/parameters/PolicyVersionId"
+    get:
+      operationId: getPolicyVersionById
+      summary: Get a specific PolicyVersion snapshot
+      tags: [Policies]
+      responses:
+        "200":
+          description: Version detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PolicyVersion"
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /policies/{policyId}/endorsements:
+    parameters:
+      - $ref: "#/components/parameters/PolicyId"
+    get:
+      operationId: listPolicyEndorsements
+      summary: List endorsements on a policy (F0018-S0006)
+      tags: [Policies]
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated endorsement list
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PolicyEndorsement"
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+                  totalPages: { type: integer }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /policies/{policyId}/coverages:
+    parameters:
+      - $ref: "#/components/parameters/PolicyId"
+    get:
+      operationId: listPolicyCoverages
+      summary: Current-version coverage lines (F0018-S0004 Coverages rail)
+      description: Returns rows where IsCurrent=true. Historical coverage sets are accessible via the corresponding PolicyVersion.
+      tags: [Policies]
+      responses:
+        "200":
+          description: Coverage list for the current version
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PolicyCoverageLine"
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /policies/{policyId}/timeline:
+    parameters:
+      - $ref: "#/components/parameters/PolicyId"
+    get:
+      operationId: listPolicyTimeline
+      summary: Policy activity timeline (F0018-S0010)
+      description: Append-only; paginated newest-first.
+      tags: [Policies]
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated timeline events
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TimelineEvent"
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+                  totalPages: { type: integer }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  # ──────────────────────────────────────────────────────────────
+  # Dashboard endpoints (NEW — F0001)
+  # ──────────────────────────────────────────────────────────────
+  /dashboard/kpis:
+    get:
+      operationId: getDashboardKpis
+      summary: Get dashboard KPI metrics
+      description: |
+        Returns aggregated KPI metrics for the dashboard: active broker count,
+        open submission count, renewal rate, and average turnaround days.
+        Values are computed over the specified trailing time window and
+        ABAC-scoped to the authenticated user's permissions.
+      tags: [Dashboard]
+      parameters:
+        - name: periodDays
+          in: query
+          required: false
+          description: |
+            Trailing time window in days for rate and turnaround calculations
+            (capped server-side). Active broker count is always current.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 730
+            default: 90
+      responses:
+        "200":
+          description: KPI metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardKpis"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /dashboard/opportunities:
+    get:
+      operationId: getDashboardOpportunities
+      summary: Get opportunities summary counts
+      description: |
+        Returns submission and renewal opportunity-stage counts grouped by
+        non-terminal status. Used by the Opportunities summary widget.
+        Counts are scoped to the selected trailing window and remain ABAC-scoped.
+      tags: [Dashboard]
+      parameters:
+        - name: periodDays
+          in: query
+          required: false
+          description: Trailing time window in days (capped server-side).
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 730
+            default: 180
+      responses:
+        "200":
+          description: Opportunities summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardOpportunities"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /dashboard/opportunities/outcomes:
+    get:
+      operationId: getDashboardOpportunityOutcomes
+      summary: Get terminal outcomes summary
+      description: |
+        Returns terminal outcome counts, percentages, and average days-to-exit
+        for opportunities in the selected trailing window.
+      tags: [Dashboard]
+      parameters:
+        - name: periodDays
+          in: query
+          required: false
+          description: Trailing time window in days (capped server-side).
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 730
+            default: 180
+      responses:
+        "200":
+          description: Terminal outcomes summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpportunityOutcomes"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /dashboard/opportunities/outcomes/{outcomeKey}/items:
+    parameters:
+      - name: outcomeKey
+        in: path
+        required: true
+        description: Terminal outcome category key.
+        schema:
+          type: string
+          enum: [bound, no_quote, declined, expired, lost_competitor]
+    get:
+      operationId: getDashboardOpportunityOutcomeItems
+      summary: Get opportunity mini-cards for a terminal outcome
+      description: |
+        Returns up to 5 mini-card items for a specific terminal outcome in the
+        selected trailing window, sorted by days-to-exit descending.
+      tags: [Dashboard]
+      parameters:
+        - name: periodDays
+          in: query
+          required: false
+          description: Trailing time window in days (capped server-side).
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 730
+            default: 180
+      responses:
+        "200":
+          description: Terminal outcome mini-card items
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - items
+                  - totalCount
+                properties:
+                  items:
+                    type: array
+                    maxItems: 5
+                    items:
+                      $ref: "#/components/schemas/OpportunityMiniCard"
+                  totalCount:
+                    type: integer
+                    description: Total items in this outcome category.
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /dashboard/opportunities/flow:
+    get:
+      operationId: getDashboardOpportunityFlow
+      summary: Get opportunity transition flow (connected canvas data)
+      description: |
+        Returns node/link transition counts derived from WorkflowTransitions for
+        submissions or renewals over a trailing time window. Used by the
+        dashboard connected flow canvas to show stage progression, branching,
+        and terminal exits. Includes optional avgDwellDays and emphasis hints
+        for the Friction chapter overlay.
+      tags: [Dashboard]
+      parameters:
+        - name: entityType
+          in: query
+          required: true
+          description: Entity type to aggregate.
+          schema:
+            type: string
+            enum: [submission, renewal]
+        - name: periodDays
+          in: query
+          required: false
+          description: Trailing time window in days (capped server-side).
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 730
+            default: 180
+      responses:
+        "200":
+          description: Opportunity flow graph for Sankey visualization
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpportunityFlow"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /dashboard/opportunities/{entityType}/{status}/items:
+    parameters:
+      - name: entityType
+        in: path
+        required: true
+        description: Entity type for opportunity items.
+        schema:
+          type: string
+          enum: [submission, renewal]
+      - name: status
+        in: path
+        required: true
+        description: Workflow status to filter by.
+        schema:
+          type: string
+    get:
+      operationId: getDashboardOpportunityItems
+      summary: Get opportunity mini-cards for a status
+      description: |
+        Returns up to 5 mini-card items for a specific opportunity stage, sorted
+        by days-in-status descending (longest stuck first). Lazy-loaded by the
+        frontend on hover/click of an opportunity stage pill. ABAC-scoped.
+      tags: [Dashboard]
+      responses:
+        "200":
+          description: Opportunity mini-card items
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - items
+                  - totalCount
+                properties:
+                  items:
+                    type: array
+                    maxItems: 5
+                    items:
+                      $ref: "#/components/schemas/OpportunityMiniCard"
+                  totalCount:
+                    type: integer
+                    description: Total items in this status (for "View all N" link).
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /dashboard/opportunities/{entityType}/{status}/breakdown:
+    parameters:
+      - name: entityType
+        in: path
+        required: true
+        description: Entity type for the workflow stage.
+        schema:
+          type: string
+          enum: [submission, renewal]
+      - name: status
+        in: path
+        required: true
+        description: Workflow status to filter by.
+        schema:
+          type: string
+    get:
+      operationId: getDashboardOpportunityBreakdown
+      summary: Get grouped stage breakdown for a workflow status
+      description: |
+        Returns grouped counts for items currently in the specified workflow status.
+        Supports assigned user, broker, program, line of business, and broker state
+        dimensions. Results are ABAC-scoped and include an "Unknown" group for null values.
+      tags: [Dashboard]
+      parameters:
+        - name: groupBy
+          in: query
+          required: true
+          description: Grouping dimension.
+          schema:
+            type: string
+            enum: [assignedUser, broker, program, lineOfBusiness, brokerState]
+        - name: periodDays
+          in: query
+          required: false
+          description: Trailing creation window in days (capped server-side).
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 730
+            default: 180
+      responses:
+        "200":
+          description: Grouped stage breakdown
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpportunityBreakdown"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /dashboard/opportunities/aging:
+    get:
+      operationId: getDashboardOpportunityAging
+      summary: Get stage aging distribution with SLA bands
+      description: |
+        Returns per-status aging buckets and SLA context (warning/target thresholds with
+        on-time/approaching/overdue counts) for submissions or renewals.
+      tags: [Dashboard]
+      parameters:
+        - name: entityType
+          in: query
+          required: true
+          description: Entity type to aggregate.
+          schema:
+            type: string
+            enum: [submission, renewal]
+        - name: periodDays
+          in: query
+          required: false
+          description: Trailing time window in days (capped server-side).
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 730
+            default: 180
+      responses:
+        "200":
+          description: Opportunity aging matrix with SLA context
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpportunityAging"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /dashboard/opportunities/hierarchy:
+    get:
+      operationId: getDashboardOpportunityHierarchy
+      summary: Get opportunity hierarchy tree
+      description: |
+        Returns the entityType → colorGroup → status hierarchy tree used by composition
+        visualizations.
+      tags: [Dashboard]
+      parameters:
+        - name: periodDays
+          in: query
+          required: false
+          description: Trailing time window in days (capped server-side).
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 730
+            default: 180
+      responses:
+        "200":
+          description: Opportunity hierarchy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpportunityHierarchy"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /dashboard/nudges:
+    get:
+      operationId: getDashboardNudges
+      summary: Get nudge cards
+      description: |
+        Returns up to 3 prioritized nudge cards for the authenticated user.
+        Priority order: overdue tasks > stale submissions (>5 days in status) >
+        upcoming renewals (within 14 days). All results are ABAC-scoped and
+        filtered by task ownership.
+      tags: [Dashboard]
+      responses:
+        "200":
+          description: Nudge cards
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - nudges
+                properties:
+                  nudges:
+                    type: array
+                    maxItems: 3
+                    items:
+                      $ref: "#/components/schemas/NudgeCard"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  # ──────────────────────────────────────────────────────────────
+  # User endpoints (NEW — F0004)
+  # ──────────────────────────────────────────────────────────────
+  /users:
+    get:
+      operationId: searchUsers
+      summary: Search users for assignee picker
+      description: |
+        Searches UserProfile by DisplayName and Email (case-insensitive substring).
+        Returns only active users by default. All internal roles have access.
+        Does not expose IdpIssuer or IdpSubject.
+      tags: [Users]
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Search query (min 2 characters). Searches DisplayName and Email.
+          schema:
+            type: string
+            minLength: 2
+            maxLength: 100
+        - name: activeOnly
+          in: query
+          required: false
+          description: If true (default), only active users returned.
+          schema:
+            type: boolean
+            default: true
+        - name: limit
+          in: query
+          required: false
+          description: Max results (default 20, max 50).
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+      responses:
+        "200":
+          description: Matching users
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - users
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/UserSummary"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  # ──────────────────────────────────────────────────────────────
+  # Task endpoints (F0001 + F0003 + F0004)
+  # ──────────────────────────────────────────────────────────────
+  /tasks:
+    get:
+      operationId: listTasks
+      summary: Paginated task list with filters and views
+      description: |
+        Returns a paginated, filterable list of tasks. Supports two views:
+        - myWork (default): tasks assigned to the authenticated user
+        - assignedByMe: tasks created by the authenticated user and assigned to others
+          (requires DistributionManager or Admin role)
+      tags: [Tasks]
+      parameters:
+        - name: view
+          in: query
+          required: false
+          description: View mode. myWork (default) or assignedByMe (DistributionManager/Admin only).
+          schema:
+            type: string
+            enum: [myWork, assignedByMe]
+            default: myWork
+        - name: status
+          in: query
+          required: false
+          description: Comma-separated status filter.
+          schema:
+            type: string
+        - name: priority
+          in: query
+          required: false
+          description: Comma-separated priority filter.
+          schema:
+            type: string
+        - name: dueDateFrom
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: dueDateTo
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: overdue
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: assigneeId
+          in: query
+          required: false
+          description: Filter by assignee UserId (assignedByMe view only).
+          schema:
+            type: string
+            format: uuid
+        - name: linkedEntityType
+          in: query
+          required: false
+          description: Comma-separated linked entity type filter.
+          schema:
+            type: string
+        - name: createdById
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: sort
+          in: query
+          required: false
+          description: Sort field.
+          schema:
+            type: string
+            enum: [dueDate, priority, createdAt, status]
+            default: dueDate
+        - name: sortDir
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated task list
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TaskListItem"
+                  page:
+                    type: integer
+                  pageSize:
+                    type: integer
+                  totalCount:
+                    type: integer
+                  totalPages:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /my/tasks:
+    get:
+      operationId: getMyTasks
+      summary: Get tasks assigned to the authenticated user
+      description: |
+        Returns tasks assigned to the current user (matched by authenticated user's UserId),
+        filtered to Open and InProgress status, sorted by DueDate ascending
+        (soonest first, nulls last). Used by the My Tasks dashboard widget.
+      tags: [Tasks]
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of tasks to return.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+      responses:
+        "200":
+          description: User's tasks
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - tasks
+                  - totalCount
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TaskSummary"
+                  totalCount:
+                    type: integer
+                    description: Total open/in-progress tasks (for "View all" link).
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /tasks:
+    post:
+      operationId: createTask
+      summary: Create a task
+      description: |
+        Creates a task. All internal roles can create self-assigned tasks.
+        DistributionManager and Admin can assign tasks to any active internal user (F0004).
+        Non-manager roles must set assignedToUserId to their own UserId.
+      tags: [Tasks]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskCreateRequest"
+      responses:
+        "201":
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /tasks/{taskId}:
+    parameters:
+      - $ref: "#/components/parameters/TaskId"
+    get:
+      operationId: getTaskById
+      summary: Get task by id
+      tags: [Tasks]
+      responses:
+        "200":
+          description: Task details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      operationId: updateTask
+      summary: Update task
+      description: |
+        Updates a task. Assignee can edit all fields including status.
+        Creator (DistributionManager/Admin) can edit fields and reassign, but cannot
+        change status on tasks assigned to others (F0004).
+      tags: [Tasks]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskUpdateRequest"
+      responses:
+        "200":
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      operationId: deleteTask
+      summary: Soft delete task
+      description: |
+        Soft-deletes a task. Assignee can delete own tasks. Creator (DistributionManager/Admin)
+        can delete tasks they created (F0004).
+      tags: [Tasks]
+      responses:
+        "204":
+          description: Task deleted
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # ──────────────────────────────────────────────────────────────
+  # Timeline endpoints (NEW — dashboard activity feed)
+  # ──────────────────────────────────────────────────────────────
+  /timeline/events:
+    get:
+      operationId: listTimelineEvents
+      summary: List timeline events
+      description: |
+        Returns recent ActivityTimelineEvents filtered by entity type.
+        Used by the Broker Activity Feed dashboard widget and by entity 360 views.
+        All results are ABAC-scoped.
+      tags: [Timeline]
+      parameters:
+        - name: entityType
+          in: query
+          required: true
+          description: Filter events by entity type.
+          schema:
+            type: string
+            enum: [Broker, Account, Submission, Renewal, Task]
+        - name: entityId
+          in: query
+          required: false
+          description: Filter events for a specific entity.
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          required: false
+          description: Page number (1-based). Default 1.
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: pageSize
+          in: query
+          required: false
+          description: Events per page. Default 50, max 100.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+        - name: limit
+          in: query
+          required: false
+          description: "Deprecated: use page/pageSize. Retained for BrokerUser path compatibility."
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        "200":
+          description: Paginated timeline events
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TimelineEvent"
+                  page:
+                    type: integer
+                  pageSize:
+                    type: integer
+                  totalCount:
+                    type: integer
+                  totalPages:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    BrokerSearchQuery:
+      name: q
+      in: query
+      required: false
+      description: Case-insensitive broker name search. License number search is exact match only. Leading/trailing spaces are trimmed.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 100
+    BrokerStatusFilter:
+      name: status
+      in: query
+      required: false
+      description: Optional broker status filter.
+      schema:
+        type: string
+        enum:
+          - Active
+          - Inactive
+          - Pending
+    BrokerId:
+      name: brokerId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ContactId:
+      name: contactId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    SubmissionId:
+      name: submissionId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    RenewalId:
+      name: renewalId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    AccountId:
+      name: accountId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    TaskId:
+      name: taskId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    PolicyId:
+      name: policyId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    PolicyVersionId:
+      name: versionId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    PolicySearchQuery:
+      name: q
+      in: query
+      required: false
+      description: Case-insensitive search across policyNumber and account display name. Leading/trailing spaces trimmed.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 100
+    PolicyStatusFilter:
+      name: status
+      in: query
+      required: false
+      description: Optional policy status filter.
+      schema:
+        type: string
+        enum: [Pending, Issued, Cancelled, Expired]
+    PolicyLobFilter:
+      name: lineOfBusiness
+      in: query
+      required: false
+      description: Optional LOB filter.
+      schema:
+        type: string
+        enum:
+          - Property
+          - GeneralLiability
+          - CommercialAuto
+          - WorkersCompensation
+          - ProfessionalLiability
+          - Marine
+          - Umbrella
+          - Surety
+          - Cyber
+          - DirectorsOfficers
+    PolicyCarrierFilter:
+      name: carrierId
+      in: query
+      required: false
+      schema:
+        type: string
+        format: uuid
+    PolicyBrokerFilter:
+      name: brokerOfRecordId
+      in: query
+      required: false
+      schema:
+        type: string
+        format: uuid
+    PolicyExpiringBeforeFilter:
+      name: expiringBefore
+      in: query
+      required: false
+      description: Return policies with expirationDate on or before this date.
+      schema:
+        type: string
+        format: date
+    PolicySortBy:
+      name: sort
+      in: query
+      required: false
+      description: Sort order.
+      schema:
+        type: string
+        enum:
+          - expirationDate:asc
+          - expirationDate:desc
+          - effectiveDate:asc
+          - effectiveDate:desc
+          - policyNumber:asc
+          - policyNumber:desc
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: false
+      description: >
+        Client-supplied idempotency token. Retried writes with the same key return the prior response
+        (deduplicated by key + route + payload hash). See ADR-018.
+      schema:
+        type: string
+        maxLength: 64
+    IfMatch:
+      name: If-Match
+      in: header
+      required: true
+      description: >
+        Optimistic concurrency token. Must equal the `rowVersion` value returned
+        in the last GET response for this resource. If the resource has been
+        modified since then, the server returns HTTP 412 with code=precondition_failed.
+      schema:
+        type: string
+    Page:
+      name: page
+      in: query
+      required: false
+      description: Page number (1-based).
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    PageSize:
+      name: pageSize
+      in: query
+      required: false
+      description: Items per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+
+  responses:
+    BadRequest:
+      description: Invalid input
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/XRequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+    Unauthorized:
+      description: Authentication required or invalid token
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/XRequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+    Forbidden:
+      description: Authenticated but not allowed
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/XRequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+    NotFound:
+      description: Resource not found
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/XRequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+    Conflict:
+      description: Conflict with current state (for example invalid transition)
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/XRequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+    PreconditionFailed:
+      description: Precondition failed (for example stale If-Match value)
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/XRequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+    UnprocessableContent:
+      description: Request semantic validation failed
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/XRequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+    TooManyRequests:
+      description: Rate limit exceeded
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/XRequestId"
+        Retry-After:
+          description: Suggested delay before retrying the request.
+          schema:
+            type: string
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+    ServiceUnavailable:
+      description: Service or dependency unavailable
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/XRequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+
+  headers:
+    XRequestId:
+      description: Correlation identifier echoed for request tracing.
+      schema:
+        type: string
+
+  schemas:
+    # ── Error Contract ──────────────────────────────────────────
+    ProblemDetails:
+      type: object
+      description: RFC Problem Details payload with Nebula-specific extension fields. Used with application/problem+json. See `planning-mds/architecture/error-codes.md` for the authoritative code list.
+      required:
+        - type
+        - title
+        - status
+        - code
+        - traceId
+      properties:
+        type:
+          type: string
+          format: uri
+          description: URI reference that identifies the problem type.
+        title:
+          type: string
+          description: Short, human-readable summary of the problem.
+        status:
+          type: integer
+          minimum: 400
+          maximum: 599
+          description: HTTP status code generated for this problem instance.
+        detail:
+          type: string
+          description: Human-readable explanation specific to this occurrence.
+        instance:
+          type: string
+          format: uri
+          description: URI reference identifying this specific occurrence.
+        code:
+          type: string
+          description: "Stable machine-readable domain error code. See planning-mds/architecture/error-codes.md for the authoritative list."
+        traceId:
+          type: string
+          description: Correlation identifier for diagnostics and tracing.
+        errors:
+          type: object
+          description: Optional validation error map keyed by field.
+          additionalProperties:
+            type: array
+            items:
+              type: string
+
+    # ── Broker Schemas ──────────────────────────────────────────
+    Broker:
+      type: object
+      description: >
+        Broker profile. If Status=Inactive, email and phone fields are returned
+        as null (masking sentinel). The frontend should display these as "Masked"
+        or equivalent placeholder text rather than treating them as absent data.
+      required:
+        - id
+        - legalName
+        - licenseNumber
+        - state
+        - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        legalName:
+          type: string
+        licenseNumber:
+          type: string
+        state:
+          type: string
+        status:
+          type: string
+          enum:
+            - Active
+            - Inactive
+            - Pending
+        email:
+          type: string
+          format: email
+          nullable: true
+          description: >
+            Returned as null when Status=Inactive (masking sentinel).
+            Consumers must treat null on an inactive broker as "masked", not "missing".
+        phone:
+          type: string
+          pattern: "^\\+?[1-9]\\d{7,14}$"
+          nullable: true
+          description: >
+            Returned as null when Status=Inactive (masking sentinel).
+            Consumers must treat null on an inactive broker as "masked", not "missing".
+        rowVersion:
+          type: string
+          description: >
+            Optimistic concurrency token. Clients must echo this value in the
+            If-Match header on subsequent PUT requests. Value is opaque; do not
+            parse or compare numerically.
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    BrokerCreateRequest:
+      type: object
+      description: >
+        Payload to create a broker. Status is not included; the server
+        defaults new brokers to "Pending".
+      required:
+        - legalName
+        - licenseNumber
+        - state
+      properties:
+        legalName:
+          type: string
+          minLength: 1
+          maxLength: 255
+        licenseNumber:
+          type: string
+          minLength: 1
+          maxLength: 50
+        state:
+          type: string
+          pattern: "^[A-Z]{2}$"
+          description: Two-letter US state code (e.g. CA, NY).
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+          pattern: "^\\+?[1-9]\\d{7,14}$"
+
+    BrokerUpdateRequest:
+      type: object
+      description: Payload to update a broker. License number is immutable after creation.
+      required:
+        - legalName
+        - state
+        - status
+      properties:
+        legalName:
+          type: string
+          minLength: 1
+          maxLength: 255
+        state:
+          type: string
+          pattern: "^[A-Z]{2}$"
+          description: Two-letter US state code (e.g. CA, NY).
+        status:
+          type: string
+          enum:
+            - Active
+            - Inactive
+            - Pending
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+          pattern: "^\\+?[1-9]\\d{7,14}$"
+
+    PaginatedBrokerList:
+      type: object
+      description: Paginated list of brokers.
+      required:
+        - data
+        - page
+        - pageSize
+        - totalCount
+        - totalPages
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Broker"
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        totalCount:
+          type: integer
+        totalPages:
+          type: integer
+
+    # ── Contact Schemas ─────────────────────────────────────────
+    Contact:
+      type: object
+      description: Contact record. If parent broker Status=Inactive, email and phone are returned as null (masking sentinel).
+      required:
+        - id
+        - fullName
+        - email
+        - phone
+      properties:
+        id:
+          type: string
+          format: uuid
+        brokerId:
+          type: string
+          format: uuid
+        accountId:
+          type: string
+          format: uuid
+          nullable: true
+        fullName:
+          type: string
+        email:
+          type: string
+          format: email
+          nullable: true
+          description: >
+            Returned as null when parent broker Status=Inactive (masking sentinel).
+            Consumers must treat null on an inactive broker's contact as "masked", not "missing".
+        phone:
+          type: string
+          pattern: "^\\+?[1-9]\\d{7,14}$"
+          nullable: true
+          description: >
+            Returned as null when parent broker Status=Inactive (masking sentinel).
+            Consumers must treat null on an inactive broker's contact as "masked", not "missing".
+        role:
+          type: string
+
+    ContactCreateRequest:
+      type: object
+      description: Payload to create a contact.
+      required:
+        - brokerId
+        - fullName
+        - email
+        - phone
+      properties:
+        brokerId:
+          type: string
+          format: uuid
+        fullName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+          pattern: "^\\+?[1-9]\\d{7,14}$"
+        role:
+          type: string
+
+    ContactUpdateRequest:
+      type: object
+      description: Payload to update a contact.
+      required:
+        - fullName
+        - email
+        - phone
+      properties:
+        fullName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        role:
+          type: string
+
+    PaginatedContactList:
+      type: object
+      description: Paginated list of contacts.
+      required:
+        - data
+        - page
+        - pageSize
+        - totalCount
+        - totalPages
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Contact"
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        totalCount:
+          type: integer
+        totalPages:
+          type: integer
+
+    # ── Account / MGA / Program Schemas ─────────────────────────
+    # ── Account Schemas (F0016 — Account 360 & Insured Management) ──
+    Account:
+      type: object
+      description: |
+        Insured account. Tombstone-aware: Merged accounts include `survivorAccountId`;
+        Deleted accounts return 410 Gone from GET and are not represented by this
+        schema. See ADR-017.
+      required:
+        - id
+        - displayName
+        - stableDisplayName
+        - status
+        - rowVersion
+        - createdAt
+        - updatedAt
+      properties:
+        id: { type: string, format: uuid }
+        displayName: { type: string, maxLength: 200 }
+        stableDisplayName:
+          type: string
+          maxLength: 200
+          description: Snapshot used by the dependent-view fallback contract (ADR-017). Frozen when status ∈ {Merged, Deleted}.
+        legalName: { type: string, nullable: true, maxLength: 200 }
+        taxId: { type: string, nullable: true, maxLength: 50 }
+        industry: { type: string, nullable: true, maxLength: 100 }
+        primaryLineOfBusiness: { type: string, nullable: true, maxLength: 50 }
+        status:
+          type: string
+          enum: [Active, Inactive, Merged, Deleted]
+        brokerOfRecordId: { type: string, format: uuid, nullable: true }
+        brokerOfRecordName: { type: string, nullable: true }
+        primaryProducerUserId: { type: string, format: uuid, nullable: true }
+        primaryProducerDisplayName: { type: string, nullable: true }
+        territoryCode: { type: string, nullable: true, maxLength: 50 }
+        region: { type: string, nullable: true, maxLength: 50 }
+        address1: { type: string, nullable: true }
+        address2: { type: string, nullable: true }
+        city: { type: string, nullable: true }
+        state: { type: string, nullable: true }
+        postalCode: { type: string, nullable: true }
+        country: { type: string, nullable: true }
+        mergedIntoAccountId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Survivor account id when status=Merged.
+        survivorAccountId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Alias for mergedIntoAccountId on merged reads; present for client convenience.
+        deleteReasonCode: { type: string, nullable: true }
+        deleteReasonDetail: { type: string, nullable: true, maxLength: 500 }
+        removedAt: { type: string, format: date-time, nullable: true }
+        rowVersion: { type: string }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+        updatedAt: { type: string, format: date-time }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+
+    AccountListItem:
+      type: object
+      description: Row returned by GET /accounts.
+      required: [id, displayName, status, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        displayName: { type: string }
+        legalName: { type: string, nullable: true }
+        taxId: { type: string, nullable: true }
+        status:
+          type: string
+          enum: [Active, Inactive, Merged, Deleted]
+        brokerOfRecordId: { type: string, format: uuid, nullable: true }
+        brokerOfRecordName: { type: string, nullable: true }
+        territoryCode: { type: string, nullable: true }
+        region: { type: string, nullable: true }
+        primaryLineOfBusiness: { type: string, nullable: true }
+        lastActivityAt: { type: string, format: date-time, nullable: true }
+        activePolicyCount: { type: integer, nullable: true, description: "Present when include=summary" }
+        openSubmissionCount: { type: integer, nullable: true, description: "Present when include=summary" }
+        renewalDueCount: { type: integer, nullable: true, description: "Present when include=summary" }
+        rowVersion: { type: string }
+
+    AccountSummary:
+      type: object
+      description: Account 360 overview payload.
+      required: [id, displayName, status, activePolicyCount, openSubmissionCount, renewalDueCount]
+      properties:
+        id: { type: string, format: uuid }
+        displayName: { type: string }
+        status:
+          type: string
+          enum: [Active, Inactive, Merged, Deleted]
+        brokerOfRecordName: { type: string, nullable: true }
+        primaryProducerDisplayName: { type: string, nullable: true }
+        territoryCode: { type: string, nullable: true }
+        region: { type: string, nullable: true }
+        activePolicyCount: { type: integer }
+        openSubmissionCount: { type: integer }
+        renewalDueCount: { type: integer }
+        lastActivityAt: { type: string, format: date-time, nullable: true }
+        rowVersion: { type: string }
+
+    AccountCreateRequest:
+      type: object
+      description: Request body for POST /accounts.
+      required: [displayName]
+      properties:
+        displayName: { type: string, maxLength: 200 }
+        legalName: { type: string, nullable: true, maxLength: 200 }
+        taxId: { type: string, nullable: true, maxLength: 50 }
+        industry: { type: string, nullable: true, maxLength: 100 }
+        primaryLineOfBusiness: { type: string, nullable: true, maxLength: 50 }
+        brokerOfRecordId: { type: string, format: uuid, nullable: true }
+        primaryProducerUserId: { type: string, format: uuid, nullable: true }
+        territoryCode: { type: string, nullable: true, maxLength: 50 }
+        region: { type: string, nullable: true, maxLength: 50 }
+        address1: { type: string, nullable: true }
+        address2: { type: string, nullable: true }
+        city: { type: string, nullable: true }
+        state: { type: string, nullable: true }
+        postalCode: { type: string, nullable: true }
+        country: { type: string, nullable: true }
+        linkFromSubmissionId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Convenience link — attach this new account to an existing submission on commit.
+        linkFromPolicyId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Convenience link — attach this new account to an existing policy on commit.
+
+    AccountUpdateRequest:
+      type: object
+      description: Request body for PUT /accounts/{accountId}. Requires If-Match.
+      properties:
+        displayName: { type: string, maxLength: 200 }
+        legalName: { type: string, nullable: true, maxLength: 200 }
+        taxId: { type: string, nullable: true, maxLength: 50 }
+        industry: { type: string, nullable: true, maxLength: 100 }
+        primaryLineOfBusiness: { type: string, nullable: true, maxLength: 50 }
+        territoryCode: { type: string, nullable: true, maxLength: 50 }
+        region: { type: string, nullable: true, maxLength: 50 }
+        address1: { type: string, nullable: true }
+        address2: { type: string, nullable: true }
+        city: { type: string, nullable: true }
+        state: { type: string, nullable: true }
+        postalCode: { type: string, nullable: true }
+        country: { type: string, nullable: true }
+
+    AccountLifecycleRequest:
+      type: object
+      description: Body for POST /accounts/{accountId}/lifecycle (deactivate / reactivate / delete).
+      required: [toState]
+      properties:
+        toState:
+          type: string
+          enum: [Active, Inactive, Deleted]
+        reasonCode:
+          type: string
+          nullable: true
+          enum: [DuplicateOfAnother, InvalidOrTestRecord, ReplacedByExternalSystem, RequestedByInsured, Other, null]
+          description: Required when toState=Deleted.
+        reasonDetail:
+          type: string
+          nullable: true
+          maxLength: 500
+          description: Required when reasonCode=Other; optional otherwise.
+
+    AccountMergeRequest:
+      type: object
+      description: Body for POST /accounts/{accountId}/merge. Source is the {accountId}; survivor is in the body.
+      required: [survivorAccountId]
+      properties:
+        survivorAccountId:
+          type: string
+          format: uuid
+        notes:
+          type: string
+          nullable: true
+          maxLength: 500
+
+    AccountContact:
+      type: object
+      required: [id, accountId, fullName, isPrimary, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        accountId: { type: string, format: uuid }
+        fullName: { type: string, maxLength: 200 }
+        role: { type: string, nullable: true, maxLength: 100 }
+        email: { type: string, format: email, nullable: true, maxLength: 200 }
+        phone: { type: string, nullable: true, maxLength: 50 }
+        isPrimary: { type: boolean }
+        rowVersion: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    AccountContactRequest:
+      type: object
+      required: [fullName]
+      properties:
+        fullName: { type: string, maxLength: 200 }
+        role: { type: string, nullable: true, maxLength: 100 }
+        email: { type: string, format: email, nullable: true, maxLength: 200 }
+        phone: { type: string, nullable: true, maxLength: 50 }
+        isPrimary: { type: boolean, default: false }
+
+    AccountRelationshipRequest:
+      type: object
+      description: Body for POST /accounts/{accountId}/relationships — broker-of-record / producer / territory change.
+      required: [relationshipType, newValue]
+      properties:
+        relationshipType:
+          type: string
+          enum: [BrokerOfRecord, PrimaryProducer, Territory]
+        newValue:
+          type: string
+          description: Broker id (uuid) / user id (uuid) / territory code depending on relationshipType.
+        notes:
+          type: string
+          nullable: true
+          maxLength: 500
+
+    MGA:
+      type: object
+      description: MGA profile.
+      required:
+        - id
+        - name
+        - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        status:
+          type: string
+
+    Program:
+      type: object
+      description: Insurance program profile.
+      required:
+        - id
+        - name
+        - mgaId
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        mgaId:
+          type: string
+          format: uuid
+
+    # ── Submission Schemas (redesigned — F0006) ─────────────────
+    Submission:
+      type: object
+      description: |
+        Submission detail response (F0006). Includes denormalized linked entity
+        context, completeness evaluation, available transitions, stale flag,
+        and the current optimistic-concurrency token for follow-up mutations.
+      required:
+        - id
+        - accountId
+        - brokerId
+        - currentStatus
+        - effectiveDate
+        - assignedToUserId
+        - rowVersion
+        - createdAt
+        - createdByUserId
+        - updatedAt
+        - updatedByUserId
+        - completeness
+      properties:
+        id:
+          type: string
+          format: uuid
+        accountId:
+          type: string
+          format: uuid
+        brokerId:
+          type: string
+          format: uuid
+        programId:
+          type: string
+          format: uuid
+          nullable: true
+        lineOfBusiness:
+          type: string
+          maxLength: 50
+          nullable: true
+          enum:
+            - Property
+            - GeneralLiability
+            - CommercialAuto
+            - WorkersCompensation
+            - ProfessionalLiability
+            - Marine
+            - Umbrella
+            - Surety
+            - Cyber
+            - DirectorsOfficers
+        currentStatus:
+          type: string
+          enum:
+            - Received
+            - Triaging
+            - WaitingOnBroker
+            - ReadyForUWReview
+            - InReview
+            - Quoted
+            - BindRequested
+            - Bound
+            - Declined
+            - Withdrawn
+        effectiveDate:
+          type: string
+          format: date
+        expirationDate:
+          type: string
+          format: date
+          nullable: true
+          description: Defaults to effectiveDate + 12 months when not set.
+        premiumEstimate:
+          type: number
+          format: double
+          minimum: 0
+          nullable: true
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+        assignedToUserId:
+          type: string
+          format: uuid
+          description: Internal UserId (uuid) of assigned user per F0005.
+        accountName:
+          type: string
+          description: Denormalized from Account.
+        accountRegion:
+          type: string
+          nullable: true
+          description: Denormalized from Account.
+        accountIndustry:
+          type: string
+          nullable: true
+          description: Denormalized from Account.
+        brokerName:
+          type: string
+          description: Denormalized from Broker.
+        brokerLicenseNumber:
+          type: string
+          nullable: true
+          description: Denormalized from Broker.
+        programName:
+          type: string
+          nullable: true
+          description: Denormalized from Program.
+        assignedToDisplayName:
+          type: string
+          nullable: true
+          description: Denormalized from UserProfile.
+        isStale:
+          type: boolean
+          description: Whether submission exceeds stale threshold for its current state.
+        completeness:
+          $ref: "#/components/schemas/SubmissionCompleteness"
+        availableTransitions:
+          type: array
+          items:
+            type: string
+          description: Valid next states for the authenticated user.
+        rowVersion:
+          type: string
+          description: Opaque optimistic concurrency token. Echo this value in `If-Match` for update, assignment, and transition requests.
+        createdAt:
+          type: string
+          format: date-time
+        createdByUserId:
+          type: string
+          format: uuid
+          description: Internal UserId (uuid) of creator per F0005.
+        updatedAt:
+          type: string
+          format: date-time
+        updatedByUserId:
+          type: string
+          format: uuid
+          description: Internal UserId (uuid) of last updater per F0005.
+
+    SubmissionListItem:
+      type: object
+      description: Submission pipeline list item (F0006-S0001).
+      required:
+        - id
+        - accountName
+        - brokerName
+        - currentStatus
+        - effectiveDate
+        - assignedToUserId
+        - createdAt
+        - isStale
+      properties:
+        id:
+          type: string
+          format: uuid
+        accountName:
+          type: string
+        brokerName:
+          type: string
+        lineOfBusiness:
+          type: string
+          nullable: true
+        currentStatus:
+          type: string
+        effectiveDate:
+          type: string
+          format: date
+        assignedToUserId:
+          type: string
+          format: uuid
+        assignedToDisplayName:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        isStale:
+          type: boolean
+          description: Whether submission exceeds stale threshold.
+
+    SubmissionCompleteness:
+      type: object
+      description: Completeness evaluation result (F0006-S0005).
+      required:
+        - isComplete
+        - fieldChecks
+        - documentChecks
+        - missingItems
+      properties:
+        isComplete:
+          type: boolean
+          description: True only when all field and document requirements pass.
+        fieldChecks:
+          type: array
+          items:
+            type: object
+            required: [field, required, status]
+            properties:
+              field:
+                type: string
+              required:
+                type: boolean
+              status:
+                type: string
+                enum: [pass, missing]
+        documentChecks:
+          type: array
+          items:
+            type: object
+            required: [category, required, status]
+            properties:
+              category:
+                type: string
+              required:
+                type: boolean
+              status:
+                type: string
+                enum: [pass, missing, unavailable]
+        missingItems:
+          type: array
+          items:
+            type: string
+          description: Human-readable list of missing items.
+
+    SubmissionAssignmentRequest:
+      type: object
+      description: Assign or reassign submission ownership (F0006-S0006).
+      required:
+        - assignedToUserId
+      properties:
+        assignedToUserId:
+          type: string
+          format: uuid
+          description: Target user. When in ReadyForUWReview, must have Underwriter role.
+
+    SubmissionUpdateRequest:
+      type: object
+      description: Update mutable submission fields.
+      properties:
+        programId:
+          type: string
+          format: uuid
+          nullable: true
+        lineOfBusiness:
+          type: string
+          maxLength: 50
+          nullable: true
+          enum:
+            - Property
+            - GeneralLiability
+            - CommercialAuto
+            - WorkersCompensation
+            - ProfessionalLiability
+            - Marine
+            - Umbrella
+            - Surety
+            - Cyber
+            - DirectorsOfficers
+        effectiveDate:
+          type: string
+          format: date
+        expirationDate:
+          type: string
+          format: date
+          nullable: true
+        premiumEstimate:
+          type: number
+          format: double
+          minimum: 0
+          nullable: true
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+
+    SubmissionTransitionRequest:
+      type: object
+      description: |
+        Request to transition a submission workflow state. F0006 owns only intake
+        transitions; downstream states remain part of the shared submission status
+        vocabulary because F0019 continues using the same resource.
+      required:
+        - toState
+      properties:
+        toState:
+          type: string
+          description: Target submission workflow state.
+          enum:
+            - Received
+            - Triaging
+            - WaitingOnBroker
+            - ReadyForUWReview
+            - InReview
+            - Quoted
+            - BindRequested
+            - Bound
+            - Declined
+            - Withdrawn
+        reason:
+          type: string
+          nullable: true
+          maxLength: 2000
+          description: Optional transition comment. Recommended for `WaitingOnBroker` transitions.
+
+    # ── Submission / Renewal Schemas (continued) ─────────────────
+
+    Renewal:
+      type: object
+      description: |
+        Renewal workflow entity (redesigned for F0007). Linked to an expiring policy.
+        Includes computed urgency (overdue/approaching) and available transitions
+        for the authenticated user.
+      required:
+        - id
+        - accountId
+        - brokerId
+        - policyId
+        - currentStatus
+        - policyExpirationDate
+        - targetOutreachDate
+        - assignedToUserId
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        accountId:
+          type: string
+          format: uuid
+        brokerId:
+          type: string
+          format: uuid
+        policyId:
+          type: string
+          format: uuid
+          description: Expiring policy this renewal is linked to.
+        currentStatus:
+          type: string
+          enum:
+            - Identified
+            - Outreach
+            - InReview
+            - Quoted
+            - Completed
+            - Lost
+        lineOfBusiness:
+          type: string
+          maxLength: 50
+          nullable: true
+          enum:
+            - Property
+            - GeneralLiability
+            - CommercialAuto
+            - WorkersCompensation
+            - ProfessionalLiability
+            - Marine
+            - Umbrella
+            - Surety
+            - Cyber
+            - DirectorsOfficers
+        policyExpirationDate:
+          type: string
+          format: date
+          description: Expiration date of the linked policy.
+        targetOutreachDate:
+          type: string
+          format: date
+          description: Computed at creation from expiration date minus LOB outreach target days.
+        assignedToUserId:
+          type: string
+          format: uuid
+          description: Internal UserId (uuid) of current owner.
+        lostReasonCode:
+          type: string
+          nullable: true
+          description: Set when currentStatus=Lost.
+          enum:
+            - NonRenewal
+            - CompetitiveLoss
+            - BusinessClosed
+            - CoverageNoLongerNeeded
+            - PricingDeclined
+            - Other
+        lostReasonDetail:
+          type: string
+          nullable: true
+          maxLength: 500
+          description: Free-text detail when lostReasonCode=Other.
+        boundPolicyId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Linked bound/renewed policy when currentStatus=Completed.
+        renewalSubmissionId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Linked renewal submission when currentStatus=Completed.
+        urgency:
+          type: string
+          nullable: true
+          enum:
+            - overdue
+            - approaching
+          description: Computed server-side from timing thresholds. Null if on track or past Identified.
+        availableTransitions:
+          type: array
+          items:
+            type: string
+          description: Transitions available to the authenticated user based on current state and role.
+        assignedUserDisplayName:
+          type: string
+          nullable: true
+          description: Display name of the assigned user (resolved from UserProfile).
+        accountName:
+          type: string
+          nullable: true
+          description: Name of the linked account (resolved from Account).
+        brokerName:
+          type: string
+          nullable: true
+          description: Legal name of the linked broker (resolved from Broker).
+        rowVersion:
+          type: string
+          description: Optimistic concurrency token.
+        createdAt:
+          type: string
+          format: date-time
+        createdByUserId:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedByUserId:
+          type: string
+          format: uuid
+
+    RenewalListItem:
+      type: object
+      description: Renewal list item with computed fields for pipeline display.
+      required:
+        - id
+        - accountName
+        - brokerName
+        - currentStatus
+        - policyExpirationDate
+        - assignedToUserId
+      properties:
+        id:
+          type: string
+          format: uuid
+        accountName:
+          type: string
+        brokerName:
+          type: string
+        lineOfBusiness:
+          type: string
+          nullable: true
+        currentStatus:
+          type: string
+          enum: [Identified, Outreach, InReview, Quoted, Completed, Lost]
+        policyExpirationDate:
+          type: string
+          format: date
+        targetOutreachDate:
+          type: string
+          format: date
+        assignedToUserId:
+          type: string
+          format: uuid
+        assignedUserDisplayName:
+          type: string
+          nullable: true
+        urgency:
+          type: string
+          nullable: true
+          enum: [overdue, approaching]
+          description: Computed from timing thresholds. Null if on track or past Identified.
+
+    SubmissionCreateRequest:
+      type: object
+      description: |
+        Payload for new business submission creation (F0006-S0002).
+        Status defaults to Received. AssignedToUserId defaults to creator.
+        ExpirationDate defaults to effectiveDate + 12 months.
+      required:
+        - accountId
+        - brokerId
+        - effectiveDate
+      properties:
+        accountId:
+          type: string
+          format: uuid
+          description: Must reference a valid, non-deleted account.
+        brokerId:
+          type: string
+          format: uuid
+          description: Must reference a valid, non-deleted, active broker. Region alignment enforced.
+        effectiveDate:
+          type: string
+          format: date
+          description: Requested coverage effective date. May be past or future.
+        programId:
+          type: string
+          format: uuid
+          nullable: true
+        lineOfBusiness:
+          type: string
+          maxLength: 50
+          nullable: true
+          enum:
+            - Property
+            - GeneralLiability
+            - CommercialAuto
+            - WorkersCompensation
+            - ProfessionalLiability
+            - Marine
+            - Umbrella
+            - Surety
+            - Cyber
+            - DirectorsOfficers
+        premiumEstimate:
+          type: number
+          format: double
+          minimum: 0
+          nullable: true
+        expirationDate:
+          type: string
+          format: date
+          nullable: true
+          description: Defaults to effectiveDate + 12 months when not provided.
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+
+    # Note: SubmissionUpdateRequest is defined in the schemas section above (line ~2578).
+    # The old SubmissionUpdateRequest below is replaced by the F0006 version above.
+
+    RenewalCreateRequest:
+      type: object
+      description: |
+        Payload for creating a renewal from an expiring policy. Only policyId is
+        required — accountId, brokerId, LOB, and expiration date are inherited from
+        the policy. assignedToUserId defaults to the creating user if omitted.
+      required:
+        - policyId
+      properties:
+        policyId:
+          type: string
+          format: uuid
+          description: The expiring policy to create a renewal for.
+        assignedToUserId:
+          type: string
+          format: uuid
+          description: Override default self-assignment (DistributionManager/Admin only).
+        lineOfBusiness:
+          type: string
+          maxLength: 50
+          nullable: true
+          description: Override if policy LOB is null or needs correction.
+          enum:
+            - Property
+            - GeneralLiability
+            - CommercialAuto
+            - WorkersCompensation
+            - ProfessionalLiability
+            - Marine
+            - Umbrella
+            - Surety
+            - Cyber
+            - DirectorsOfficers
+
+    RenewalAssignmentRequest:
+      type: object
+      description: Payload for assigning or reassigning renewal ownership.
+      required:
+        - assignedToUserId
+      properties:
+        assignedToUserId:
+          type: string
+          format: uuid
+          description: Target user for assignment. Must be active with a compatible role.
+
+    # ── Workflow Schemas ────────────────────────────────────────
+    WorkflowTransitionRequest:
+      type: object
+      description: |
+        Request to transition workflow state. Additional fields are conditionally
+        required based on target state: Lost requires reasonCode; Completed requires
+        boundPolicyId or renewalSubmissionId. See F0007 README transition matrix.
+      required:
+        - toState
+      properties:
+        toState:
+          type: string
+          description: Target workflow state.
+        reason:
+          type: string
+          description: Optional transition comment/reason.
+        reasonCode:
+          type: string
+          description: Required when toState=Lost (renewal workflow). Validated against known set.
+          enum:
+            - NonRenewal
+            - CompetitiveLoss
+            - BusinessClosed
+            - CoverageNoLongerNeeded
+            - PricingDeclined
+            - Other
+        reasonDetail:
+          type: string
+          maxLength: 500
+          description: Required when reasonCode=Other. Free-text explanation.
+        boundPolicyId:
+          type: string
+          format: uuid
+          description: Required when toState=Completed (unless renewalSubmissionId provided). Links to the bound/renewed policy.
+        renewalSubmissionId:
+          type: string
+          format: uuid
+          description: Required when toState=Completed (unless boundPolicyId provided). Links to the renewal submission.
+
+    WorkflowTransitionRecord:
+      type: object
+      description: Immutable workflow transition record.
+      required:
+        - id
+        - workflowType
+        - entityId
+        - fromState
+        - toState
+        - occurredAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        workflowType:
+          type: string
+        entityId:
+          type: string
+          format: uuid
+        fromState:
+          type: string
+        toState:
+          type: string
+        reason:
+          type: string
+        occurredAt:
+          type: string
+          format: date-time
+
+    # ── Dashboard Schemas (NEW) ─────────────────────────────────
+    DashboardKpis:
+      type: object
+      description: Aggregated KPI metrics for the dashboard, computed over the requested trailing time window.
+      required:
+        - activeBrokers
+        - openSubmissions
+        - renewalRate
+        - avgTurnaroundDays
+      properties:
+        activeBrokers:
+          type: integer
+          description: Count of brokers with Status=Active, ABAC-scoped. Always current (not windowed).
+          example: 142
+        openSubmissions:
+          type: integer
+          description: Count of submissions in non-terminal status, ABAC-scoped. Always current (not windowed).
+          example: 38
+        renewalRate:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+          nullable: true
+          description: |
+            Percentage of renewals reaching Completed out of all renewals
+            that exited the opportunities funnel in the requested trailing window
+            (default 90 days). Null if no data.
+          example: 72.5
+        avgTurnaroundDays:
+          type: number
+          format: double
+          nullable: true
+          description: |
+            Mean calendar days from Submission.CreatedAt to first terminal
+            state transition in the requested trailing window (default 90 days).
+            Null if no data.
+          example: 4.2
+
+    DashboardOpportunities:
+      type: object
+      description: Opportunities summary counts grouped by status.
+      required:
+        - submissions
+        - renewals
+      properties:
+        submissions:
+          type: array
+          description: Submission opportunity-stage counts (non-terminal only).
+          items:
+            $ref: "#/components/schemas/OpportunityStatusCount"
+        renewals:
+          type: array
+          description: Renewal opportunity-stage counts (non-terminal only).
+          items:
+            $ref: "#/components/schemas/OpportunityStatusCount"
+
+    OpportunityOutcomes:
+      type: object
+      description: Terminal outcome summary for the selected trailing window.
+      required:
+        - periodDays
+        - totalExits
+        - outcomes
+      properties:
+        periodDays:
+          type: integer
+          minimum: 1
+          maximum: 730
+          example: 180
+        totalExits:
+          type: integer
+          minimum: 0
+          example: 48
+        outcomes:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpportunityOutcome"
+
+    OpportunityOutcome:
+      type: object
+      description: Aggregated terminal outcome row.
+      required:
+        - key
+        - label
+        - branchStyle
+        - count
+        - percentOfTotal
+      properties:
+        key:
+          type: string
+          enum: [bound, no_quote, declined, expired, lost_competitor]
+        label:
+          type: string
+          example: Declined
+        branchStyle:
+          type: string
+          enum: [solid, red_dashed, gray_dotted]
+        count:
+          type: integer
+          minimum: 0
+          example: 14
+        percentOfTotal:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+          example: 29.2
+        averageDaysToExit:
+          type: number
+          format: double
+          minimum: 0
+          nullable: true
+          example: 7.6
+
+    OpportunityStatusCount:
+      type: object
+      description: Count of entities in a specific workflow status.
+      required:
+        - status
+        - count
+        - colorGroup
+      properties:
+        status:
+          type: string
+          description: Workflow status label.
+          example: WaitingOnBroker
+        count:
+          type: integer
+          minimum: 0
+          example: 5
+        colorGroup:
+          type: string
+          description: UI color group for the opportunity stage pill.
+          enum: [intake, triage, waiting, review, decision]
+
+    OpportunityFlow:
+      type: object
+      description: Transition flow graph for an opportunity Sankey widget.
+      required:
+        - entityType
+        - periodDays
+        - windowStartUtc
+        - windowEndUtc
+        - nodes
+        - links
+      properties:
+        entityType:
+          type: string
+          enum: [submission, renewal]
+        periodDays:
+          type: integer
+          minimum: 1
+          maximum: 730
+          example: 180
+        windowStartUtc:
+          type: string
+          format: date-time
+        windowEndUtc:
+          type: string
+          format: date-time
+        nodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpportunityFlowNode"
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpportunityFlowLink"
+
+    OpportunityFlowNode:
+      type: object
+      description: |
+        Flow node representing a workflow status in the connected canvas.
+        Used for both the base flow visualization and the Friction chapter overlay.
+      required:
+        - status
+        - label
+        - isTerminal
+        - displayOrder
+        - colorGroup
+        - currentCount
+        - inflowCount
+        - outflowCount
+      properties:
+        status:
+          type: string
+          example: WaitingOnBroker
+        label:
+          type: string
+          example: Waiting on Broker
+        isTerminal:
+          type: boolean
+          example: false
+        displayOrder:
+          type: integer
+          description: Deterministic sort order for left-to-right rendering.
+          example: 5
+        colorGroup:
+          type: string
+          enum: [intake, triage, waiting, review, decision]
+          description: Visual grouping for warm-to-cool color progression across flow stages.
+        currentCount:
+          type: integer
+          minimum: 0
+          example: 17
+        inflowCount:
+          type: integer
+          minimum: 0
+          example: 25
+        outflowCount:
+          type: integer
+          minimum: 0
+          example: 23
+        avgDwellDays:
+          type: number
+          format: double
+          nullable: true
+          description: |
+            Average calendar days items currently spend in this status.
+            Computed from the most recent WorkflowTransition into this status
+            for each entity currently in this state. Null if no entities in status.
+            Used by the Friction chapter overlay to identify bottleneck stages.
+          example: 8.3
+        emphasis:
+          type: string
+          nullable: true
+          enum: [normal, active, blocked, bottleneck]
+          description: |
+            Server-computed emphasis hint for the Friction chapter overlay.
+            - bottleneck: highest currentCount concentration among non-terminal stages
+            - blocked: highest avgDwellDays among non-terminal stages
+            - active: rightmost non-zero non-terminal stage in display order
+            - normal: default (no special emphasis)
+            Null when emphasis is not computed (e.g., insufficient data).
+          example: bottleneck
+
+    OpportunityFlowLink:
+      type: object
+      description: Sankey link between workflow statuses with aggregated transition count.
+      required:
+        - sourceStatus
+        - targetStatus
+        - count
+      properties:
+        sourceStatus:
+          type: string
+          example: InReview
+        targetStatus:
+          type: string
+          example: Declined
+        count:
+          type: integer
+          minimum: 1
+          example: 12
+
+    OpportunityBreakdown:
+      type: object
+      description: Grouped stage breakdown for a specific workflow status.
+      required:
+        - entityType
+        - status
+        - groupBy
+        - periodDays
+        - groups
+        - total
+      properties:
+        entityType:
+          type: string
+          enum: [submission, renewal]
+        status:
+          type: string
+          example: Received
+        groupBy:
+          type: string
+          enum: [assignedUser, broker, program, lineOfBusiness, brokerState]
+        periodDays:
+          type: integer
+          minimum: 1
+          maximum: 730
+          example: 180
+        groups:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpportunityBreakdownGroup"
+        total:
+          type: integer
+          minimum: 0
+          example: 73
+
+    OpportunityBreakdownGroup:
+      type: object
+      description: Single grouped bucket for status breakdown.
+      required:
+        - label
+        - count
+      properties:
+        key:
+          type: string
+          nullable: true
+          example: Property
+        label:
+          type: string
+          example: Property
+        count:
+          type: integer
+          minimum: 0
+          example: 42
+
+    OpportunityAging:
+      type: object
+      description: Per-status aging matrix with optional SLA context.
+      required:
+        - entityType
+        - periodDays
+        - statuses
+      properties:
+        entityType:
+          type: string
+          enum: [submission, renewal]
+        periodDays:
+          type: integer
+          minimum: 1
+          maximum: 730
+          example: 180
+        statuses:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpportunityAgingStatus"
+
+    OpportunityAgingStatus:
+      type: object
+      description: Aging distribution and SLA information for a single workflow status.
+      required:
+        - status
+        - label
+        - colorGroup
+        - displayOrder
+        - sla
+        - buckets
+        - total
+      properties:
+        status:
+          type: string
+          example: Received
+        label:
+          type: string
+          example: Received
+        colorGroup:
+          type: string
+          example: intake
+        displayOrder:
+          type: integer
+          example: 1
+        sla:
+          allOf:
+            - $ref: "#/components/schemas/OpportunityAgingSla"
+          nullable: true
+        buckets:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpportunityAgingBucket"
+        total:
+          type: integer
+          minimum: 0
+          example: 19
+
+    OpportunityAgingSla:
+      type: object
+      description: SLA thresholds and computed dwell-band counts for the status.
+      required:
+        - warningDays
+        - targetDays
+        - onTimeCount
+        - approachingCount
+        - overdueCount
+      properties:
+        warningDays:
+          type: integer
+          minimum: 0
+          example: 1
+        targetDays:
+          type: integer
+          minimum: 1
+          example: 2
+        onTimeCount:
+          type: integer
+          minimum: 0
+          example: 15
+        approachingCount:
+          type: integer
+          minimum: 0
+          example: 3
+        overdueCount:
+          type: integer
+          minimum: 0
+          example: 1
+
+    OpportunityAgingBucket:
+      type: object
+      description: Aging day-range bucket count for a workflow status.
+      required:
+        - key
+        - label
+        - count
+      properties:
+        key:
+          type: string
+          example: 0-2
+        label:
+          type: string
+          example: 0–2 days
+        count:
+          type: integer
+          minimum: 0
+          example: 8
+
+    OpportunityHierarchy:
+      type: object
+      description: Hierarchical tree for opportunity composition views.
+      required:
+        - periodDays
+        - root
+      properties:
+        periodDays:
+          type: integer
+          minimum: 1
+          maximum: 730
+          example: 180
+        root:
+          $ref: "#/components/schemas/OpportunityHierarchyNode"
+
+    OpportunityHierarchyNode:
+      type: object
+      description: Tree node for hierarchy composition.
+      required:
+        - id
+        - label
+        - count
+      properties:
+        id:
+          type: string
+          example: submission:intake
+        label:
+          type: string
+          example: Intake
+        count:
+          type: integer
+          minimum: 0
+          example: 42
+        levelType:
+          type: string
+          nullable: true
+          enum: [entityType, colorGroup, status]
+        colorGroup:
+          type: string
+          nullable: true
+          enum: [intake, triage, waiting, review, decision, won, lost]
+        children:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/OpportunityHierarchyNode"
+
+    OpportunityMiniCard:
+      type: object
+      description: Compact item card for the opportunities popover.
+      required:
+        - entityId
+        - entityName
+        - daysInStatus
+      properties:
+        entityId:
+          type: string
+          format: uuid
+        entityName:
+          type: string
+          description: Account or Broker name.
+          example: Acme Corp
+        amount:
+          type: number
+          format: double
+          minimum: 0
+          nullable: true
+          description: Premium estimate (submissions) or null (renewals).
+          example: 45000
+        daysInStatus:
+          type: integer
+          minimum: 0
+          description: Calendar days since last transition to current status.
+          example: 12
+        assignedUserInitials:
+          type: string
+          maxLength: 2
+          description: Two-character initials of assigned user.
+          example: JM
+        assignedUserDisplayName:
+          type: string
+          description: Full display name (for tooltip).
+          example: John Miller
+
+    NudgeCard:
+      type: object
+      description: A prioritized action prompt for the dashboard.
+      required:
+        - nudgeType
+        - title
+        - description
+        - linkedEntityType
+        - linkedEntityId
+        - linkedEntityName
+        - urgencyValue
+        - ctaLabel
+      properties:
+        nudgeType:
+          type: string
+          enum: [OverdueTask, StaleSubmission, UpcomingRenewal]
+        title:
+          type: string
+          description: Nudge card title.
+          example: Follow up with Acme Insurance
+        description:
+          type: string
+          description: Urgency context.
+          example: 3 days overdue
+        linkedEntityType:
+          type: string
+          description: Type of linked entity for CTA navigation.
+          example: Broker
+        linkedEntityId:
+          type: string
+          format: uuid
+        linkedEntityName:
+          type: string
+          description: Display name for context.
+          example: Acme Insurance
+        urgencyValue:
+          type: integer
+          description: |
+            Days overdue (OverdueTask), days stuck (StaleSubmission),
+            or days until renewal (UpcomingRenewal).
+          example: 3
+        ctaLabel:
+          type: string
+          description: Call-to-action button label.
+          example: Review Now
+
+    # ── Task Schemas (NEW) ──────────────────────────────────────
+    Task:
+      type: object
+      description: Task entity.
+      required:
+        - id
+        - title
+        - status
+        - priority
+        - assignedToUserId
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [Open, InProgress, Done]
+        priority:
+          type: string
+          enum: [Low, Normal, High, Urgent]
+        dueDate:
+          type: string
+          format: date
+          nullable: true
+        assignedToUserId:
+          type: string
+          format: uuid
+          description: Internal UserId (uuid) of assigned user per F0005.
+        linkedEntityType:
+          type: string
+          nullable: true
+        linkedEntityId:
+          type: string
+          format: uuid
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    TaskSummary:
+      type: object
+      description: Compact task representation for dashboard widget.
+      required:
+        - id
+        - title
+        - status
+        - dueDate
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        status:
+          type: string
+          enum: [Open, InProgress]
+        dueDate:
+          type: string
+          format: date
+          nullable: true
+        linkedEntityType:
+          type: string
+          nullable: true
+        linkedEntityId:
+          type: string
+          format: uuid
+          nullable: true
+        linkedEntityName:
+          type: string
+          nullable: true
+          description: Resolved display name of linked entity.
+        isOverdue:
+          type: boolean
+          description: True if DueDate < today and status is not Done.
+
+    TaskListItem:
+      type: object
+      description: Task representation for the Task Center list view (F0004).
+      required:
+        - id
+        - title
+        - status
+        - priority
+        - assignedToUserId
+        - assignedToDisplayName
+        - createdByUserId
+        - createdByDisplayName
+        - isOverdue
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [Open, InProgress, Done]
+        priority:
+          type: string
+          enum: [Low, Normal, High, Urgent]
+        dueDate:
+          type: string
+          format: date
+          nullable: true
+        assignedToUserId:
+          type: string
+          format: uuid
+        assignedToDisplayName:
+          type: string
+          description: Display name of assignee.
+        createdByUserId:
+          type: string
+          format: uuid
+        createdByDisplayName:
+          type: string
+          description: Display name of creator.
+        linkedEntityType:
+          type: string
+          nullable: true
+        linkedEntityId:
+          type: string
+          format: uuid
+          nullable: true
+        linkedEntityName:
+          type: string
+          nullable: true
+          description: Resolved display name of linked entity. "[Deleted]" if soft-deleted.
+        isOverdue:
+          type: boolean
+          description: True if DueDate < today and status is not Done.
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    UserSummary:
+      type: object
+      description: User summary for assignee picker (F0004). Does not expose IdP details.
+      required:
+        - userId
+        - displayName
+        - email
+        - roles
+        - isActive
+      properties:
+        userId:
+          type: string
+          format: uuid
+        displayName:
+          type: string
+        email:
+          type: string
+          format: email
+        roles:
+          type: array
+          items:
+            type: string
+        isActive:
+          type: boolean
+
+    TaskCreateRequest:
+      type: object
+      description: Payload to create a task. DistributionManager/Admin can assign to any active user (F0004).
+      required:
+        - title
+        - assignedToUserId
+      properties:
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+          maxLength: 2000
+        priority:
+          type: string
+          enum: [Low, Normal, High, Urgent]
+          default: Normal
+        dueDate:
+          type: string
+          format: date
+        assignedToUserId:
+          type: string
+          format: uuid
+          description: UserId (uuid) of user to assign. Must match authenticated user for non-manager roles. DistributionManager/Admin can specify any active user (F0004).
+        linkedEntityType:
+          type: string
+        linkedEntityId:
+          type: string
+          format: uuid
+
+    TaskUpdateRequest:
+      type: object
+      description: Payload to update a task. Creator (DistributionManager/Admin) can change assignee. Only assignee can change status (F0004).
+      required: []
+      minProperties: 1
+      properties:
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+          maxLength: 2000
+        status:
+          type: string
+          enum: [Open, InProgress, Done]
+        priority:
+          type: string
+          enum: [Low, Normal, High, Urgent]
+        dueDate:
+          type: string
+          format: date
+          nullable: true
+        assignedToUserId:
+          type: string
+          format: uuid
+          description: If provided by assignee, must match own UserId. Creator (DistributionManager/Admin) can set to any active user for reassignment (F0004).
+
+    # ── Timeline Schemas (NEW) ──────────────────────────────────
+    TimelineEvent:
+      type: object
+      description: Activity timeline event for the activity feed.
+      required:
+        - id
+        - entityType
+        - entityId
+        - eventType
+        - occurredAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        entityType:
+          type: string
+          description: Type of entity this event relates to.
+          example: Broker
+        entityId:
+          type: string
+          format: uuid
+        eventType:
+          type: string
+          description: Machine-readable event type.
+          example: BrokerCreated
+        eventDescription:
+          type: string
+          description: Human-readable event summary.
+          example: New broker added by Sarah Chen
+        entityName:
+          type: string
+          description: Resolved name of the related entity.
+          example: Pacific Reinsurance
+        actorDisplayName:
+          type: string
+          description: Display name of the user who performed the action.
+          example: Sarah Chen
+        occurredAt:
+          type: string
+          format: date-time
+
+    # ── Policy Schemas (F0018) ──────────────────────────────────
+    Policy:
+      type: object
+      description: Policy aggregate parent row. Immutable term / coverage history lives in PolicyVersion + PolicyCoverageLine. See ADR-018.
+      required:
+        - id
+        - accountId
+        - brokerOfRecordId
+        - policyNumber
+        - lineOfBusiness
+        - carrierId
+        - status
+        - effectiveDate
+        - expirationDate
+        - totalPremium
+        - premiumCurrency
+        - currentVersionId
+        - versionCount
+        - rowVersion
+        - createdAt
+        - updatedAt
+      properties:
+        id: { type: string, format: uuid }
+        accountId: { type: string, format: uuid }
+        brokerOfRecordId: { type: string, format: uuid }
+        policyNumber:
+          type: string
+          maxLength: 40
+          description: NEB-{LOB-prefix}-{yyyy}-{6-digit-sequence}. Server-assigned at create; immutable.
+        lineOfBusiness:
+          type: string
+          enum: [Property, GeneralLiability, CommercialAuto, WorkersCompensation, ProfessionalLiability, Marine, Umbrella, Surety, Cyber, DirectorsOfficers]
+        carrierId: { type: string, format: uuid }
+        carrierName:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [Pending, Issued, Cancelled, Expired]
+        effectiveDate: { type: string, format: date }
+        expirationDate: { type: string, format: date }
+        boundAt: { type: string, format: date-time, nullable: true }
+        issuedAt: { type: string, format: date-time, nullable: true }
+        cancelledAt: { type: string, format: date-time, nullable: true }
+        cancellationEffectiveDate: { type: string, format: date, nullable: true }
+        cancellationReasonCode:
+          type: string
+          nullable: true
+          enum: [NonPayment, InsuredRequest, UnderwritingDecision, MaterialMisrepresentation, CoverageNoLongerNeeded, CarrierWithdrawal, Other]
+        cancellationReasonDetail:
+          type: string
+          nullable: true
+          maxLength: 500
+        reinstatementDeadline: { type: string, format: date, nullable: true }
+        expiredAt: { type: string, format: date-time, nullable: true }
+        predecessorPolicyId: { type: string, format: uuid, nullable: true }
+        successorPolicyId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Computed at read time from F0007 Renewal.BoundPolicyId. Never persisted.
+        currentVersionId: { type: string, format: uuid }
+        currentVersionNumber: { type: integer, minimum: 1 }
+        versionCount: { type: integer, minimum: 1 }
+        totalPremium: { type: number, minimum: 0 }
+        premiumCurrency:
+          type: string
+          enum: [USD]
+        producerUserId: { type: string, format: uuid, nullable: true }
+        producerDisplayName:
+          type: string
+          nullable: true
+        importSource:
+          type: string
+          nullable: true
+          enum: [manual, csv-import, f0019-bind-hook]
+        externalPolicyReference:
+          type: string
+          nullable: true
+          maxLength: 100
+        accountDisplayNameAtLink:
+          type: string
+          nullable: true
+          description: Denormalized per ADR-017 fallback contract.
+        accountStatusAtRead:
+          type: string
+          nullable: true
+          enum: [Active, Inactive, Merged, Deleted]
+        accountSurvivorId: { type: string, format: uuid, nullable: true }
+        availableTransitions:
+          type: array
+          items: { type: string }
+        rowVersion: { type: string }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+        updatedAt: { type: string, format: date-time }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+
+    PolicyListItem:
+      type: object
+      description: Compact policy row for list views. Fallback-aware account columns per ADR-017.
+      required: [id, policyNumber, accountId, lineOfBusiness, status, effectiveDate, expirationDate, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        policyNumber: { type: string, maxLength: 40 }
+        accountId: { type: string, format: uuid }
+        accountDisplayName: { type: string, nullable: true }
+        accountStatus:
+          type: string
+          nullable: true
+          enum: [Active, Inactive, Merged, Deleted]
+        accountSurvivorId: { type: string, format: uuid, nullable: true }
+        brokerOfRecordId: { type: string, format: uuid }
+        brokerName: { type: string, nullable: true }
+        carrierId: { type: string, format: uuid, nullable: true }
+        carrierName: { type: string, nullable: true }
+        lineOfBusiness:
+          type: string
+          enum: [Property, GeneralLiability, CommercialAuto, WorkersCompensation, ProfessionalLiability, Marine, Umbrella, Surety, Cyber, DirectorsOfficers]
+        status:
+          type: string
+          enum: [Pending, Issued, Cancelled, Expired]
+        effectiveDate: { type: string, format: date }
+        expirationDate: { type: string, format: date }
+        totalPremium: { type: number, nullable: true, minimum: 0 }
+        premiumCurrency:
+          type: string
+          nullable: true
+          enum: [USD]
+        producerUserId: { type: string, format: uuid, nullable: true }
+        producerDisplayName: { type: string, nullable: true }
+        versionCount: { type: integer, nullable: true, minimum: 1 }
+        endorsementCount: { type: integer, nullable: true, minimum: 0 }
+        hasOpenRenewal: { type: boolean, nullable: true }
+        reinstatementDeadline: { type: string, format: date, nullable: true }
+        rowVersion: { type: string }
+
+    PolicySummary:
+      type: object
+      description: Policy 360 summary payload with rail preview counts.
+      required:
+        - id
+        - policyNumber
+        - accountId
+        - lineOfBusiness
+        - status
+        - effectiveDate
+        - expirationDate
+        - totalPremium
+        - premiumCurrency
+        - currentVersionId
+        - currentVersionNumber
+        - versionCount
+        - endorsementCount
+        - rowVersion
+      properties:
+        id: { type: string, format: uuid }
+        policyNumber: { type: string, maxLength: 40 }
+        accountId: { type: string, format: uuid }
+        accountDisplayName: { type: string, nullable: true }
+        accountStatus:
+          type: string
+          nullable: true
+          enum: [Active, Inactive, Merged, Deleted]
+        accountSurvivorId: { type: string, format: uuid, nullable: true }
+        brokerOfRecordId: { type: string, format: uuid }
+        brokerName: { type: string, nullable: true }
+        carrierId: { type: string, format: uuid, nullable: true }
+        carrierName: { type: string, nullable: true }
+        lineOfBusiness:
+          type: string
+          enum: [Property, GeneralLiability, CommercialAuto, WorkersCompensation, ProfessionalLiability, Marine, Umbrella, Surety, Cyber, DirectorsOfficers]
+        status:
+          type: string
+          enum: [Pending, Issued, Cancelled, Expired]
+        effectiveDate: { type: string, format: date }
+        expirationDate: { type: string, format: date }
+        boundAt: { type: string, format: date-time, nullable: true }
+        cancelledAt: { type: string, format: date-time, nullable: true }
+        cancellationEffectiveDate: { type: string, format: date, nullable: true }
+        cancellationReasonCode: { type: string, nullable: true }
+        reinstatementDeadline: { type: string, format: date, nullable: true }
+        expiredAt: { type: string, format: date-time, nullable: true }
+        predecessorPolicyId: { type: string, format: uuid, nullable: true }
+        predecessorPolicyNumber: { type: string, nullable: true }
+        successorPolicyId: { type: string, format: uuid, nullable: true }
+        successorPolicyNumber: { type: string, nullable: true }
+        totalPremium: { type: number, minimum: 0 }
+        premiumCurrency:
+          type: string
+          enum: [USD]
+        currentVersionId: { type: string, format: uuid }
+        currentVersionNumber: { type: integer, minimum: 1 }
+        versionCount: { type: integer, minimum: 1 }
+        endorsementCount: { type: integer, minimum: 0 }
+        coverageLineCount: { type: integer, nullable: true, minimum: 0 }
+        openRenewalCount: { type: integer, nullable: true, minimum: 0 }
+        producerUserId: { type: string, format: uuid, nullable: true }
+        producerDisplayName: { type: string, nullable: true }
+        importSource:
+          type: string
+          nullable: true
+          enum: [manual, csv-import, f0019-bind-hook]
+        externalPolicyReference: { type: string, nullable: true }
+        availableTransitions:
+          type: array
+          items: { type: string }
+        rowVersion: { type: string }
+        createdAt: { type: string, format: date-time, nullable: true }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+
+    PolicyCoverageInput:
+      type: object
+      required: [coverageCode, limit, premium]
+      properties:
+        coverageCode: { type: string, maxLength: 40 }
+        coverageName: { type: string, nullable: true, maxLength: 200 }
+        limit: { type: number, minimum: 0 }
+        deductible: { type: number, nullable: true, minimum: 0 }
+        premium: { type: number, minimum: 0 }
+        exposureBasis: { type: string, nullable: true, maxLength: 40 }
+        exposureQuantity: { type: number, nullable: true, minimum: 0 }
+
+    PolicyCreateRequest:
+      type: object
+      required: [accountId, brokerOfRecordId, lineOfBusiness, carrierId, effectiveDate, expirationDate]
+      properties:
+        accountId: { type: string, format: uuid }
+        brokerOfRecordId: { type: string, format: uuid }
+        lineOfBusiness:
+          type: string
+          enum: [Property, GeneralLiability, CommercialAuto, WorkersCompensation, ProfessionalLiability, Marine, Umbrella, Surety, Cyber, DirectorsOfficers]
+        carrierId: { type: string, format: uuid }
+        effectiveDate: { type: string, format: date }
+        expirationDate: { type: string, format: date }
+        predecessorPolicyId: { type: string, format: uuid, nullable: true }
+        producerUserId: { type: string, format: uuid, nullable: true }
+        totalPremium: { type: number, nullable: true, minimum: 0 }
+        premiumCurrency:
+          type: string
+          nullable: true
+          enum: [USD]
+        importMode:
+          type: string
+          nullable: true
+          enum: [manual, csv-import]
+        externalPolicyReference: { type: string, nullable: true, maxLength: 100 }
+        coverages:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/PolicyCoverageInput"
+
+    PolicyUpdateRequest:
+      type: object
+      description: Material-term edits on Issued/Cancelled/Expired policies return 409 code=must_use_endorse.
+      minProperties: 1
+      properties:
+        producerUserId: { type: string, format: uuid, nullable: true }
+        brokerOfRecordId: { type: string, format: uuid, nullable: true }
+        carrierId: { type: string, format: uuid, nullable: true }
+        effectiveDate: { type: string, format: date, nullable: true }
+        expirationDate: { type: string, format: date, nullable: true }
+        totalPremium: { type: number, nullable: true, minimum: 0 }
+        externalPolicyReference: { type: string, nullable: true, maxLength: 100 }
+
+    PolicyIssueRequest:
+      type: object
+      properties:
+        issueNotes: { type: string, nullable: true, maxLength: 500 }
+
+    PolicyEndorsementRequest:
+      type: object
+      required: [endorsementReasonCode, effectiveDate, coverages]
+      properties:
+        endorsementReasonCode:
+          type: string
+          enum: [CoverageIncrease, CoverageDecrease, CoverageAdded, CoverageRemoved, PremiumAdjustment, NamedInsuredChange, AddressChange, DeductibleChange, OtherAdministrative]
+        endorsementReasonDetail: { type: string, nullable: true, maxLength: 1000 }
+        effectiveDate: { type: string, format: date }
+        premiumDelta: { type: number, nullable: true }
+        coverages:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/PolicyCoverageInput"
+
+    PolicyCancelRequest:
+      type: object
+      required: [cancellationReasonCode, cancellationEffectiveDate]
+      properties:
+        cancellationReasonCode:
+          type: string
+          enum: [NonPayment, InsuredRequest, UnderwritingDecision, MaterialMisrepresentation, CoverageNoLongerNeeded, CarrierWithdrawal, Other]
+        cancellationReasonDetail:
+          type: string
+          nullable: true
+          maxLength: 500
+          description: Required when cancellationReasonCode='Other'.
+        cancellationEffectiveDate: { type: string, format: date }
+
+    PolicyReinstateRequest:
+      type: object
+      required: [reinstatementReason]
+      properties:
+        reinstatementReason:
+          type: string
+          enum: [InsuredPaidOutstandingPremium, CancellationInError, AgreementReached, Other]
+        reinstatementDetail:
+          type: string
+          nullable: true
+          maxLength: 500
+
+    PolicyCoverageLine:
+      type: object
+      required: [id, policyId, policyVersionId, coverageCode, limit, premium, isCurrent, createdAt]
+      properties:
+        id: { type: string, format: uuid }
+        policyId: { type: string, format: uuid }
+        policyVersionId: { type: string, format: uuid }
+        versionNumber: { type: integer, nullable: true, minimum: 1 }
+        coverageCode: { type: string, maxLength: 40 }
+        coverageName: { type: string, nullable: true, maxLength: 200 }
+        limit: { type: number, minimum: 0 }
+        deductible: { type: number, nullable: true, minimum: 0 }
+        premium: { type: number, minimum: 0 }
+        premiumCurrency:
+          type: string
+          nullable: true
+          enum: [USD]
+        exposureBasis: { type: string, nullable: true, maxLength: 40 }
+        exposureQuantity: { type: number, nullable: true, minimum: 0 }
+        isCurrent: { type: boolean }
+        createdAt: { type: string, format: date-time }
+
+    PolicyVersion:
+      type: object
+      required: [id, policyId, versionNumber, versionReason, effectiveDate, expirationDate, totalPremium, premiumCurrency, createdAt]
+      properties:
+        id: { type: string, format: uuid }
+        policyId: { type: string, format: uuid }
+        versionNumber: { type: integer, minimum: 1 }
+        versionReason:
+          type: string
+          enum: [IssuedInitial, Endorsement, Reinstatement]
+        endorsementId: { type: string, format: uuid, nullable: true }
+        effectiveDate: { type: string, format: date }
+        expirationDate: { type: string, format: date }
+        totalPremium: { type: number, minimum: 0 }
+        premiumCurrency:
+          type: string
+          enum: [USD]
+        profileSnapshot:
+          type: object
+          additionalProperties: true
+        coverageSnapshot:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        premiumSnapshot:
+          type: object
+          additionalProperties: true
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+
+    PolicyEndorsement:
+      type: object
+      required: [id, policyId, endorsementNumber, policyVersionId, endorsementReasonCode, effectiveDate, premiumDelta, createdAt]
+      properties:
+        id: { type: string, format: uuid }
+        policyId: { type: string, format: uuid }
+        endorsementNumber: { type: integer, minimum: 1 }
+        policyVersionId: { type: string, format: uuid }
+        versionNumber: { type: integer, nullable: true, minimum: 1 }
+        endorsementReasonCode:
+          type: string
+          enum: [CoverageIncrease, CoverageDecrease, CoverageAdded, CoverageRemoved, PremiumAdjustment, NamedInsuredChange, AddressChange, DeductibleChange, OtherAdministrative]
+        endorsementReasonDetail: { type: string, nullable: true, maxLength: 1000 }
+        effectiveDate: { type: string, format: date }
+        premiumDelta: { type: number }
+        premiumCurrency:
+          type: string
+          nullable: true
+          enum: [USD]
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+
+    CarrierRef:
+      type: object
+      required: [id, code, name, isActive, createdAt]
+      properties:
+        id: { type: string, format: uuid }
+        code: { type: string, maxLength: 40 }
+        name: { type: string, maxLength: 200 }
+        naicCode: { type: string, nullable: true, maxLength: 10 }
+        amBestRating: { type: string, nullable: true, maxLength: 10 }
+        isActive: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time, nullable: true }
+
+    PolicyAccountSummary:
+      type: object
+      required:
+        - accountId
+        - activePolicyCount
+        - expiredPolicyCount
+        - cancelledPolicyCount
+        - pendingPolicyCount
+        - totalCurrentPremium
+        - premiumCurrency
+        - computedAt
+      properties:
+        accountId: { type: string, format: uuid }
+        activePolicyCount: { type: integer, minimum: 0 }
+        expiredPolicyCount: { type: integer, minimum: 0 }
+        cancelledPolicyCount: { type: integer, minimum: 0 }
+        pendingPolicyCount: { type: integer, minimum: 0 }
+        nextExpiringDate: { type: string, format: date, nullable: true }
+        nextExpiringPolicyId: { type: string, format: uuid, nullable: true }
+        nextExpiringPolicyNumber: { type: string, nullable: true }
+        totalCurrentPremium: { type: number, minimum: 0 }
+        premiumCurrency:
+          type: string
+          enum: [USD, MIXED]
+        computedAt: { type: string, format: date-time }
+
+    PolicyFromBindRequest:
+      type: object
+      required:
+        - submissionId
+        - quoteId
+        - accountId
+        - brokerOfRecordId
+        - lineOfBusiness
+        - carrierId
+        - effectiveDate
+        - expirationDate
+        - totalPremium
+        - premiumCurrency
+        - coverages
+      properties:
+        submissionId: { type: string, format: uuid }
+        quoteId: { type: string, format: uuid }
+        accountId: { type: string, format: uuid }
+        brokerOfRecordId: { type: string, format: uuid }
+        lineOfBusiness:
+          type: string
+          enum: [Property, GeneralLiability, CommercialAuto, WorkersCompensation, ProfessionalLiability, Marine, Umbrella, Surety, Cyber, DirectorsOfficers]
+        carrierId: { type: string, format: uuid }
+        effectiveDate: { type: string, format: date }
+        expirationDate: { type: string, format: date }
+        totalPremium: { type: number, minimum: 0 }
+        premiumCurrency:
+          type: string
+          enum: [USD]
+        producerUserId: { type: string, format: uuid, nullable: true }
+        predecessorPolicyId: { type: string, format: uuid, nullable: true }
+        externalPolicyReference: { type: string, nullable: true, maxLength: 100 }
+        coverages:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/PolicyCoverageInput"
+
+    PolicyImportRequest:
+      type: object
+      required: [rows]
+      properties:
+        importBatchReference: { type: string, nullable: true, maxLength: 100 }
+        rows:
+          type: array
+          minItems: 1
+          maxItems: 500
+          items:
+            $ref: "#/components/schemas/PolicyCreateRequest"

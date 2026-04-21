@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/opportunity-hierarchy-node.schema.json",
+  "title": "OpportunityHierarchyNode",
+  "description": "Hierarchy node for opportunity composition trees.",
+  "type": "object",
+  "required": [
+    "id",
+    "label",
+    "count"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "levelType": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "entityType",
+        "colorGroup",
+        "status",
+        null
+      ]
+    },
+    "colorGroup": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "intake",
+        "triage",
+        "waiting",
+        "review",
+        "decision",
+        "won",
+        "lost",
+        null
+      ]
+    },
+    "children": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "https://nebula.local/schemas/opportunity-hierarchy-node.schema.json"
+      }
+    }
+  },
+  "additionalProperties": false
+}

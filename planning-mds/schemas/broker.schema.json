@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/broker.schema.json",
+  "title": "Broker",
+  "description": "Broker profile response. If Status=Inactive, email/phone are masked.",
+  "type": "object",
+  "required": [
+    "id",
+    "legalName",
+    "licenseNumber",
+    "state",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "legalName": {
+      "type": "string"
+    },
+    "licenseNumber": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Active", "Inactive", "Pending"]
+    },
+    "email": {
+      "type": ["string", "null"],
+      "format": "email",
+      "description": "Masked when Status=Inactive."
+    },
+    "phone": {
+      "type": ["string", "null"],
+      "description": "Masked when Status=Inactive."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

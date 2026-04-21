@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/renewal.schema.json",
+  "title": "Renewal",
+  "description": "Renewal workflow entity response contract (redesigned for F0007).",
+  "type": "object",
+  "required": [
+    "id",
+    "accountId",
+    "brokerId",
+    "policyId",
+    "currentStatus",
+    "policyExpirationDate",
+    "targetOutreachDate",
+    "assignedToUserId",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "accountId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "brokerId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "policyId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Expiring policy this renewal is linked to."
+    },
+    "currentStatus": {
+      "type": "string",
+      "enum": ["Identified", "Outreach", "InReview", "Quoted", "Completed", "Lost"]
+    },
+    "lineOfBusiness": {
+      "anyOf": [
+        { "$ref": "https://nebula.local/schemas/line-of-business.schema.json" },
+        { "type": "null" }
+      ]
+    },
+    "policyExpirationDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "targetOutreachDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "assignedToUserId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "lostReasonCode": {
+      "type": ["string", "null"],
+      "enum": ["NonRenewal", "CompetitiveLoss", "BusinessClosed", "CoverageNoLongerNeeded", "PricingDeclined", "Other", null]
+    },
+    "lostReasonDetail": {
+      "type": ["string", "null"],
+      "maxLength": 500
+    },
+    "boundPolicyId": {
+      "type": ["string", "null"],
+      "format": "uuid"
+    },
+    "renewalSubmissionId": {
+      "type": ["string", "null"],
+      "format": "uuid"
+    },
+    "urgency": {
+      "type": ["string", "null"],
+      "enum": ["overdue", "approaching", null],
+      "description": "Computed server-side. Null if on track or past Identified."
+    },
+    "availableTransitions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Transitions available to the authenticated user."
+    },
+    "assignedUserDisplayName": {
+      "type": ["string", "null"]
+    },
+    "accountName": {
+      "type": ["string", "null"]
+    },
+    "brokerName": {
+      "type": ["string", "null"]
+    },
+    "rowVersion": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "createdByUserId": {
+      "type": ["string", "null"],
+      "format": "uuid"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedByUserId": {
+      "type": ["string", "null"],
+      "format": "uuid"
+    }
+  },
+  "additionalProperties": false
+}

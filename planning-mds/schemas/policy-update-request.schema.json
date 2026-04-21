@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy-update-request.schema.json",
+  "title": "PolicyUpdateRequest",
+  "description": "Profile edit on a policy. Material-term edits (effective/expiration, premium, coverages) are rejected on Issued/Cancelled/Expired policies with 409 code=must_use_endorse; use the endorsement path instead. See F0018-S0003.",
+  "type": "object",
+  "properties": {
+    "producerUserId": { "type": ["string", "null"], "format": "uuid" },
+    "brokerOfRecordId": { "type": ["string", "null"], "format": "uuid" },
+    "carrierId": {
+      "type": ["string", "null"],
+      "format": "uuid",
+      "description": "Mutable only when Status=Pending."
+    },
+    "effectiveDate": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Mutable only when Status=Pending."
+    },
+    "expirationDate": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Mutable only when Status=Pending."
+    },
+    "totalPremium": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Mutable only when Status=Pending."
+    },
+    "externalPolicyReference": { "type": ["string", "null"], "maxLength": 100 }
+  },
+  "additionalProperties": false
+}

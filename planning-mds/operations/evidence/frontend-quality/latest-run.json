@@ -1,0 +1,65 @@
+{
+  "feature": "F0015",
+  "recorded_on": "2026-03-21T17:10:55Z",
+  "runtime_path": "docker run --rm -v \"$PWD\":/workspace -w /tmp mcr.microsoft.com/playwright:v1.58.2-noble (copy experience to /tmp/experience, install with CI=true pnpm install --frozen-lockfile, run lint/build/test layers, copy coverage and visual artifacts back into workspace)",
+  "evidence_package": "planning-mds/operations/evidence/f0015",
+  "commands_log": "planning-mds/operations/evidence/f0015/commands.log",
+  "lifecycle_gates_log": "planning-mds/operations/evidence/f0015/lifecycle-gates.log",
+  "story_to_suite": "planning-mds/operations/evidence/f0015/story-to-suite.md",
+  "action_context": "planning-mds/operations/evidence/f0015/action-context.md",
+  "artifact_trace": "planning-mds/operations/evidence/f0015/artifact-trace.md",
+  "gate_decisions": "planning-mds/operations/evidence/f0015/gate-decisions.md",
+  "coverage_target": {
+    "threshold_pct": 80,
+    "met": true,
+    "actual": {
+      "lines": 91.27,
+      "statements": 91.27,
+      "functions": 85.79,
+      "branches": 81.52
+    }
+  },
+  "exceptions": [],
+  "layers": {
+    "component": {
+      "status": "PASS",
+      "command": "pnpm test",
+      "artifacts": [
+        "planning-mds/operations/evidence/f0015/component.log"
+      ]
+    },
+    "integration": {
+      "status": "PASS",
+      "command": "pnpm test:integration",
+      "artifacts": [
+        "planning-mds/operations/evidence/f0015/integration.log"
+      ]
+    },
+    "accessibility": {
+      "status": "PASS",
+      "command": "pnpm test:accessibility",
+      "artifacts": [
+        "planning-mds/operations/evidence/f0015/accessibility.log"
+      ]
+    },
+    "coverage": {
+      "status": "PASS",
+      "command": "pnpm test:coverage",
+      "artifacts": [
+        "planning-mds/operations/evidence/f0015/coverage.log",
+        "experience/coverage/lcov.info",
+        "experience/coverage/coverage-summary.json",
+        "experience/coverage/index.html"
+      ]
+    },
+    "visual": {
+      "status": "PASS",
+      "command": "env CI=true pnpm test:visual:theme",
+      "artifacts": [
+        "planning-mds/operations/evidence/f0015/visual.log",
+        "planning-mds/operations/evidence/f0015/artifacts/visual-test-results/.last-run.json",
+        "planning-mds/operations/evidence/f0015/artifacts/playwright-report/index.html"
+      ]
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/nudge-card.schema.json",
+  "title": "NudgeCard",
+  "description": "A prioritized action prompt for the dashboard.",
+  "type": "object",
+  "required": [
+    "nudgeType",
+    "title",
+    "description",
+    "linkedEntityType",
+    "linkedEntityId",
+    "linkedEntityName",
+    "urgencyValue",
+    "ctaLabel"
+  ],
+  "properties": {
+    "nudgeType": {
+      "type": "string",
+      "enum": ["OverdueTask", "StaleSubmission", "UpcomingRenewal"]
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "linkedEntityType": {
+      "type": "string"
+    },
+    "linkedEntityId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "linkedEntityName": {
+      "type": "string"
+    },
+    "urgencyValue": {
+      "type": "integer"
+    },
+    "ctaLabel": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

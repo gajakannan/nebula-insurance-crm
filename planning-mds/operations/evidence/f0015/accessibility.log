@@ -1,0 +1,17 @@
+
+> nebula-crm@0.1.0 test:accessibility /tmp/experience
+> node ./scripts/run-vitest-by-pattern.mjs .a11y.test.
+
+
+ RUN  v2.1.9 /tmp/experience
+
+ ✓ src/features/auth/tests/LoginPage.a11y.test.tsx (1 test) 346ms
+   ✓ LoginPage accessibility > has no detectable accessibility violations in oidc mode 340ms
+ ✓ src/features/brokers/tests/BrokerListPage.a11y.test.tsx (1 test) 969ms
+   ✓ BrokerListPage accessibility > has no detectable accessibility violations for the broker directory route 961ms
+
+ Test Files  2 passed (2)
+      Tests  2 passed (2)
+   Start at  17:05:32
+   Duration  5.02s (transform 848ms, setup 1.76s, collect 1.58s, tests 1.31s, environment 2.01s, prepare 408ms)
+

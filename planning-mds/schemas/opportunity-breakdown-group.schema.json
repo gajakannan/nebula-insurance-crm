@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/opportunity-breakdown-group.schema.json",
+  "title": "OpportunityBreakdownGroup",
+  "description": "Single grouped bucket in a stage breakdown response.",
+  "type": "object",
+  "required": [
+    "label",
+    "count"
+  ],
+  "properties": {
+    "key": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "label": {
+      "type": "string"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}

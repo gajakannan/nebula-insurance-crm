@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy-from-bind-request.schema.json",
+  "title": "PolicyFromBindRequest",
+  "description": "F0019 bind-hook contract. Creates a policy directly in Issued state from a bound submission/quote. Stored and specified in MVP; implementation may return 501 until F0019 is built. See F0018-S0002 and ADR-018.",
+  "type": "object",
+  "required": [
+    "submissionId",
+    "quoteId",
+    "accountId",
+    "brokerOfRecordId",
+    "lineOfBusiness",
+    "carrierId",
+    "effectiveDate",
+    "expirationDate",
+    "totalPremium",
+    "premiumCurrency",
+    "coverages"
+  ],
+  "properties": {
+    "submissionId": { "type": "string", "format": "uuid" },
+    "quoteId": { "type": "string", "format": "uuid" },
+    "accountId": { "type": "string", "format": "uuid" },
+    "brokerOfRecordId": { "type": "string", "format": "uuid" },
+    "lineOfBusiness": { "$ref": "https://nebula.local/schemas/line-of-business.schema.json" },
+    "carrierId": { "type": "string", "format": "uuid" },
+    "effectiveDate": { "type": "string", "format": "date" },
+    "expirationDate": { "type": "string", "format": "date" },
+    "totalPremium": { "type": "number", "minimum": 0 },
+    "premiumCurrency": { "type": "string", "enum": ["USD"] },
+    "producerUserId": { "type": ["string", "null"], "format": "uuid" },
+    "predecessorPolicyId": { "type": ["string", "null"], "format": "uuid" },
+    "externalPolicyReference": { "type": ["string", "null"], "maxLength": 100 },
+    "coverages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["coverageCode", "limit", "premium"],
+        "properties": {
+          "coverageCode": { "type": "string", "maxLength": 40 },
+          "coverageName": { "type": ["string", "null"], "maxLength": 200 },
+          "limit": { "type": "number", "minimum": 0 },
+          "deductible": { "type": ["number", "null"], "minimum": 0 },
+          "premium": { "type": "number", "minimum": 0 },
+          "exposureBasis": { "type": ["string", "null"], "maxLength": 40 },
+          "exposureQuantity": { "type": ["number", "null"], "minimum": 0 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

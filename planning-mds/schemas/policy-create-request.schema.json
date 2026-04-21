@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy-create-request.schema.json",
+  "title": "PolicyCreateRequest",
+  "description": "Create a Policy in Pending state (manual) or Issued state (import-lite). The F0019 bind-hook uses a separate request shape (PolicyFromBindRequest). See F0018-S0002.",
+  "type": "object",
+  "required": [
+    "accountId",
+    "brokerOfRecordId",
+    "lineOfBusiness",
+    "carrierId",
+    "effectiveDate",
+    "expirationDate"
+  ],
+  "properties": {
+    "accountId": { "type": "string", "format": "uuid" },
+    "brokerOfRecordId": { "type": "string", "format": "uuid" },
+    "lineOfBusiness": { "$ref": "https://nebula.local/schemas/line-of-business.schema.json" },
+    "carrierId": { "type": "string", "format": "uuid" },
+    "effectiveDate": { "type": "string", "format": "date" },
+    "expirationDate": { "type": "string", "format": "date" },
+    "predecessorPolicyId": {
+      "type": ["string", "null"],
+      "format": "uuid",
+      "description": "Optional. Must exist in state Expired or Cancelled and share AccountId with the new policy."
+    },
+    "producerUserId": { "type": ["string", "null"], "format": "uuid" },
+    "totalPremium": { "type": ["number", "null"], "minimum": 0 },
+    "premiumCurrency": {
+      "type": ["string", "null"],
+      "enum": ["USD", null]
+    },
+    "importMode": {
+      "type": ["string", "null"],
+      "enum": ["manual", "csv-import", null],
+      "description": "When set to 'csv-import', the policy is created directly in Issued state (import-lite). Default 'manual' creates Pending."
+    },
+    "externalPolicyReference": { "type": ["string", "null"], "maxLength": 100 },
+    "coverages": {
+      "type": ["array", "null"],
+      "description": "Initial coverage lines for Pending policies. For import-lite, coverages may be omitted or supplied.",
+      "items": {
+        "type": "object",
+        "required": ["coverageCode", "limit", "premium"],
+        "properties": {
+          "coverageCode": { "type": "string", "maxLength": 40 },
+          "coverageName": { "type": ["string", "null"], "maxLength": 200 },
+          "limit": { "type": "number", "minimum": 0 },
+          "deductible": { "type": ["number", "null"], "minimum": 0 },
+          "premium": { "type": "number", "minimum": 0 },
+          "exposureBasis": { "type": ["string", "null"], "maxLength": 40 },
+          "exposureQuantity": { "type": ["number", "null"], "minimum": 0 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

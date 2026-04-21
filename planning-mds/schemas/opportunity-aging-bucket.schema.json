@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/opportunity-aging-bucket.schema.json",
+  "title": "OpportunityAgingBucket",
+  "description": "Aging day-range bucket for a workflow status.",
+  "type": "object",
+  "required": [
+    "key",
+    "label",
+    "count"
+  ],
+  "properties": {
+    "key": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}

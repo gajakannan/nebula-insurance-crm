@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <EmbeddedResource Include="../../../planning-mds/security/policies/policy.csv"
+                      Link="Authorization/policy.csv" />
+    <EmbeddedResource Include="../../../planning-mds/security/policies/model.conf"
+                      Link="Authorization/model.conf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nebula.Application\Nebula.Application.csproj" />
+    <ProjectReference Include="..\Nebula.Domain\Nebula.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Casbin.NET" Version="2.19.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.5" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

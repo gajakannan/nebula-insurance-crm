@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy-issue-request.schema.json",
+  "title": "PolicyIssueRequest",
+  "description": "Transition a Pending policy to Issued. Captures the initial PolicyVersion snapshot (VersionReason=IssuedInitial). See F0018 PRD and ADR-018.",
+  "type": "object",
+  "properties": {
+    "issueNotes": { "type": ["string", "null"], "maxLength": 500 }
+  },
+  "additionalProperties": false
+}

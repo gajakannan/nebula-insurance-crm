@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/opportunity-flow.schema.json",
+  "title": "OpportunityFlow",
+  "description": "Transition flow graph for the dashboard connected canvas. Includes nodes (workflow statuses) and links (transitions between statuses).",
+  "type": "object",
+  "required": [
+    "entityType",
+    "periodDays",
+    "windowStartUtc",
+    "windowEndUtc",
+    "nodes",
+    "links"
+  ],
+  "properties": {
+    "entityType": {
+      "type": "string",
+      "enum": ["submission", "renewal"]
+    },
+    "periodDays": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 730
+    },
+    "windowStartUtc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "windowEndUtc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "nodes": {
+      "type": "array",
+      "items": { "$ref": "https://nebula.local/schemas/opportunity-flow-node.schema.json" }
+    },
+    "links": {
+      "type": "array",
+      "items": { "$ref": "https://nebula.local/schemas/opportunity-flow-link.schema.json" }
+    }
+  },
+  "additionalProperties": false
+}

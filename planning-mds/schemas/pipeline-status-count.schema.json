@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/pipeline-status-count.schema.json",
+  "title": "PipelineStatusCount",
+  "description": "Count of entities in a specific workflow status.",
+  "type": "object",
+  "required": [
+    "status",
+    "count",
+    "colorGroup"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "colorGroup": {
+      "type": "string",
+      "enum": ["intake", "triage", "waiting", "review", "decision"]
+    }
+  },
+  "additionalProperties": false
+}

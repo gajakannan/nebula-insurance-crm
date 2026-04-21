@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy-version.schema.json",
+  "title": "PolicyVersion",
+  "description": "Immutable snapshot of a policy's terms at the moment of issue, endorsement, or reinstatement. VersionNumber is monotonic per PolicyId. See ADR-018 and F0018-S0005.",
+  "type": "object",
+  "required": [
+    "id",
+    "policyId",
+    "versionNumber",
+    "versionReason",
+    "effectiveDate",
+    "expirationDate",
+    "totalPremium",
+    "premiumCurrency",
+    "createdAt"
+  ],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "policyId": { "type": "string", "format": "uuid" },
+    "versionNumber": { "type": "integer", "minimum": 1 },
+    "versionReason": {
+      "type": "string",
+      "enum": ["IssuedInitial", "Endorsement", "Reinstatement"]
+    },
+    "endorsementId": {
+      "type": ["string", "null"],
+      "format": "uuid",
+      "description": "Non-null when VersionReason=Endorsement; points at the owning PolicyEndorsement row."
+    },
+    "effectiveDate": { "type": "string", "format": "date" },
+    "expirationDate": { "type": "string", "format": "date" },
+    "totalPremium": { "type": "number", "minimum": 0 },
+    "premiumCurrency": { "type": "string", "enum": ["USD"] },
+    "profileSnapshot": {
+      "type": "object",
+      "description": "Frozen profile fields at the time this version was written (accountId, brokerOfRecordId, carrierId, producerUserId).",
+      "properties": {
+        "accountId": { "type": "string", "format": "uuid" },
+        "brokerOfRecordId": { "type": "string", "format": "uuid" },
+        "carrierId": { "type": "string", "format": "uuid" },
+        "producerUserId": { "type": ["string", "null"], "format": "uuid" }
+      },
+      "required": ["accountId", "brokerOfRecordId", "carrierId"],
+      "additionalProperties": true
+    },
+    "coverageSnapshot": {
+      "type": "array",
+      "description": "Full coverage set captured at the time this version was written.",
+      "items": {
+        "type": "object",
+        "required": ["coverageCode", "limit", "premium"],
+        "properties": {
+          "coverageCode": { "type": "string" },
+          "coverageName": { "type": ["string", "null"] },
+          "limit": { "type": "number", "minimum": 0 },
+          "deductible": { "type": ["number", "null"], "minimum": 0 },
+          "premium": { "type": "number", "minimum": 0 },
+          "exposureBasis": { "type": ["string", "null"] },
+          "exposureQuantity": { "type": ["number", "null"], "minimum": 0 }
+        },
+        "additionalProperties": true
+      }
+    },
+    "premiumSnapshot": {
+      "type": "object",
+      "description": "Premium breakdown at the time this version was written.",
+      "properties": {
+        "totalPremium": { "type": "number", "minimum": 0 },
+        "premiumCurrency": { "type": "string", "enum": ["USD"] },
+        "premiumDelta": { "type": ["number", "null"] }
+      },
+      "required": ["totalPremium", "premiumCurrency"],
+      "additionalProperties": true
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "createdByUserId": { "type": ["string", "null"], "format": "uuid" }
+  },
+  "additionalProperties": false
+}

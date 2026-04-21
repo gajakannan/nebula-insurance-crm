@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/broker-search-query.schema.json",
+  "title": "BrokerSearchQuery",
+  "description": "Validation rules for broker search query semantics. Broker name search is case-insensitive; license number search is exact match only.",
+  "type": "object",
+  "required": [
+    "q"
+  ],
+  "properties": {
+    "q": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^(?=.*\\S).+$",
+      "description": "Case-insensitive search query after trimming leading/trailing whitespace."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Active",
+        "Inactive"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

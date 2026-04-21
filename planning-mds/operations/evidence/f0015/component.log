@@ -1,0 +1,22 @@
+
+> nebula-crm@0.1.0 test /tmp/experience
+> vitest run --exclude src/**/*.integration.test.ts --exclude src/**/*.integration.test.tsx --exclude src/**/*.a11y.test.ts --exclude src/**/*.a11y.test.tsx
+
+
+ RUN  v2.1.9 /tmp/experience
+
+ ✓ src/features/auth/tests/authModeGuard.test.ts (8 tests) 29ms
+ ✓ src/features/auth/tests/useCurrentUser.test.tsx (2 tests) 199ms
+ ✓ src/features/auth/tests/ProtectedRoute.test.tsx (4 tests) 222ms
+ ✓ src/features/auth/tests/useSessionTeardown.test.tsx (11 tests) 263ms
+ ✓ src/features/auth/tests/LoginPage.test.tsx (5 tests) 662ms
+   ✓ LoginPage > renders the Sign In button 408ms
+ ✓ src/features/opportunities/tests/OpportunitiesSummary.test.tsx (11 tests) 1877ms
+   ✓ OpportunitiesSummary > renders chapter controls and connected flow canvas 454ms
+   ✓ OpportunitiesSummary > supports keyboard chapter navigation with arrow keys 366ms
+
+ Test Files  6 passed (6)
+      Tests  41 passed (41)
+   Start at  17:05:14
+   Duration  7.72s (transform 2.25s, setup 11.16s, collect 3.90s, tests 3.25s, environment 8.08s, prepare 1.65s)
+

@@ -1,0 +1,22 @@
+meta {
+  name: List Brokers
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/brokers?page=1&pageSize=10
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.page: isDefined
+  res.body.pageSize: isDefined
+  res.body.totalCount: isDefined
+}

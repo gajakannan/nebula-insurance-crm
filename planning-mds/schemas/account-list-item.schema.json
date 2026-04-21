@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/account-list-item.schema.json",
+  "title": "AccountListItem",
+  "type": "object",
+  "required": ["id", "displayName", "status", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "displayName": { "type": "string" },
+    "legalName": { "type": ["string", "null"] },
+    "taxId": { "type": ["string", "null"] },
+    "status": { "type": "string", "enum": ["Active", "Inactive", "Merged", "Deleted"] },
+    "brokerOfRecordId": { "type": ["string", "null"], "format": "uuid" },
+    "brokerOfRecordName": { "type": ["string", "null"] },
+    "territoryCode": { "type": ["string", "null"] },
+    "region": { "type": ["string", "null"] },
+    "primaryLineOfBusiness": { "type": ["string", "null"] },
+    "lastActivityAt": { "type": ["string", "null"], "format": "date-time" },
+    "activePolicyCount": { "type": ["integer", "null"] },
+    "openSubmissionCount": { "type": ["integer", "null"] },
+    "renewalDueCount": { "type": ["integer", "null"] },
+    "rowVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

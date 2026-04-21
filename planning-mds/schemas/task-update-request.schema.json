@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/task-update-request.schema.json",
+  "title": "TaskUpdateRequest",
+  "description": "Validation rules for updating a task. F0005-aligned: assignedToUserId is uuid. F0004: creator (DistributionManager/Admin) may change assignedToUserId to reassign. Only assignee may change status.",
+  "type": "object",
+  "minProperties": 1,
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Open", "InProgress", "Done"]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["Low", "Normal", "High", "Urgent"]
+    },
+    "dueDate": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "assignedToUserId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "If provided, must match authenticated user's UserId in MVP."
+    }
+  },
+  "additionalProperties": false
+}

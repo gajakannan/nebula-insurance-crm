@@ -1,0 +1,19 @@
+meta {
+  name: List My Tasks
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/my/tasks
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body: isDefined
+}
