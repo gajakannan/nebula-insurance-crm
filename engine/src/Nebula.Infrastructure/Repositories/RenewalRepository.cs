@@ -23,6 +23,7 @@ public class RenewalRepository(AppDbContext db) : IRenewalRepository
             .Include(r => r.Account)
             .Include(r => r.Broker)
             .Include(r => r.Policy)
+                .ThenInclude(policy => policy.Carrier)
             .Include(r => r.AssignedToUser)
             .FirstOrDefaultAsync(r => r.Id == id, ct);
 
@@ -59,6 +60,7 @@ public class RenewalRepository(AppDbContext db) : IRenewalRepository
             .Include(renewal => renewal.Account)
             .Include(renewal => renewal.Broker)
             .Include(renewal => renewal.Policy)
+                .ThenInclude(policy => policy.Carrier)
             .Include(renewal => renewal.AssignedToUser)
             .AsQueryable();
 

@@ -259,8 +259,8 @@ workflows:
   - id: workflow:policy
     label: Policy lifecycle
     source_docs:
-      - planning-mds/features/F0018-policy-lifecycle-and-policy-360/README.md
-      - planning-mds/features/F0018-policy-lifecycle-and-policy-360/PRD.md
+      - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/README.md
+      - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/PRD.md
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       - planning-mds/api/nebula-api.yaml
@@ -2037,7 +2037,7 @@ policy_rules:
     action: read
     source_docs:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
-      - planning-mds/features/F0018-policy-lifecycle-and-policy-360/PRD.md
+      - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/PRD.md
     allowed_roles:
       - role:distribution-user
       - role:distribution-manager
@@ -2055,7 +2055,7 @@ policy_rules:
     action: create
     source_docs:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
-      - planning-mds/features/F0018-policy-lifecycle-and-policy-360/F0018-S0002-create-policy.md
+      - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0002-create-policy.md
     allowed_roles:
       - role:distribution-user
       - role:distribution-manager
@@ -2072,7 +2072,7 @@ policy_rules:
     action: update
     source_docs:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
-      - planning-mds/features/F0018-policy-lifecycle-and-policy-360/F0018-S0003-policy-detail-and-profile-edit.md
+      - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0003-policy-detail-and-profile-edit.md
     allowed_roles:
       - role:distribution-user
       - role:distribution-manager
@@ -2103,7 +2103,7 @@ policy_rules:
     action: endorse
     source_docs:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
-      - planning-mds/features/F0018-policy-lifecycle-and-policy-360/F0018-S0006-policy-endorsements.md
+      - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0006-policy-endorsements.md
     allowed_roles:
       - role:underwriter
       - role:admin
@@ -2119,7 +2119,7 @@ policy_rules:
     action: cancel
     source_docs:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
-      - planning-mds/features/F0018-policy-lifecycle-and-policy-360/F0018-S0007-policy-cancellation.md
+      - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0007-policy-cancellation.md
     allowed_roles:
       - role:distribution-manager
       - role:underwriter
@@ -2134,7 +2134,7 @@ policy_rules:
     action: reinstate
     source_docs:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
-      - planning-mds/features/F0018-policy-lifecycle-and-policy-360/F0018-S0008-policy-reinstatement.md
+      - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0008-policy-reinstatement.md
     allowed_roles:
       - role:underwriter
       - role:admin
@@ -2150,7 +2150,7 @@ policy_rules:
     action: coverage:manage
     source_docs:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
-      - planning-mds/features/F0018-policy-lifecycle-and-policy-360/F0018-S0003-policy-detail-and-profile-edit.md
+      - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0003-policy-detail-and-profile-edit.md
     allowed_roles:
       - role:distribution-user
       - role:distribution-manager
@@ -2167,7 +2167,7 @@ policy_rules:
     action: import
     source_docs:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
-      - planning-mds/features/F0018-policy-lifecycle-and-policy-360/F0018-S0002-create-policy.md
+      - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0002-create-policy.md
     allowed_roles:
       - role:distribution-manager
       - role:admin

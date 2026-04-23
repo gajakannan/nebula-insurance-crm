@@ -153,12 +153,39 @@ export interface AccountContactRequestDto {
 export interface AccountPolicyListItemDto {
   id: string;
   policyNumber: string;
-  carrier: string | null;
-  lineOfBusiness: string | null;
+  accountId?: string;
+  accountDisplayName?: string | null;
+  accountStatus?: string | null;
+  accountSurvivorId?: string | null;
+  brokerOfRecordId?: string;
+  brokerName?: string | null;
+  carrierId?: string;
+  carrierName: string | null;
+  lineOfBusiness: string;
+  status: string;
   effectiveDate: string;
   expirationDate: string;
-  premium: number | null;
-  currentStatus: string;
+  totalPremium: number;
+  premiumCurrency: string;
+  versionCount?: number;
+  endorsementCount?: number;
+  hasOpenRenewal?: boolean;
+  reinstatementDeadline?: string | null;
+  rowVersion?: string;
+}
+
+export interface PolicyAccountSummaryDto {
+  accountId: string;
+  activePolicyCount: number;
+  expiredPolicyCount: number;
+  cancelledPolicyCount: number;
+  pendingPolicyCount: number;
+  nextExpiringDate: string | null;
+  nextExpiringPolicyId: string | null;
+  nextExpiringPolicyNumber: string | null;
+  totalCurrentPremium: number;
+  premiumCurrency: string;
+  computedAt: string;
 }
 
 export interface AccountListQuery {

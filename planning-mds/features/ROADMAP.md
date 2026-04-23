@@ -24,7 +24,6 @@ This document is the working prioritization view for feature sequencing.
 
 | Feature | Phase | Why Next |
 |---------|-------|----------|
-| [F0018 — Policy Lifecycle & Policy 360](./F0018-policy-lifecycle-and-policy-360/README.md) | CRM Release MVP | Introduces policy truth needed for account context, servicing, and renewal workflows. |
 | [F0019 — Submission Quoting, Proposal & Approval Workflow](./F0019-submission-quoting-proposal-and-approval/README.md) | CRM Release MVP | Completes intake-to-quote-to-bind operations; intake alone is insufficient for a commercial P&C CRM. |
 | [F0021 — Communication Hub & Activity Capture](./F0021-communication-hub-and-activity-capture/README.md) | CRM Release MVP | Creates the communication system of record for broker interactions, underwriting follow-up, and audit history. |
 | [F0022 — Work Queues, Assignment Rules & Coverage Management](./F0022-work-queues-assignment-rules-and-coverage-management/README.md) | CRM Release MVP | Adds operational routing, backup coverage, and workload balancing beyond personal task lists. |
@@ -57,6 +56,7 @@ This document is the working prioritization view for feature sequencing.
 
 | Feature | Phase | Completion State |
 |---------|-------|------------------|
+| [F0018 — Policy Lifecycle & Policy 360](./archive/F0018-policy-lifecycle-and-policy-360/README.md) | CRM Release MVP | Done and archived (2026-04-22) — 11 stories: list, create, profile edit, 360 composition, versions, endorsements, cancellation, reinstatement, renewal linkage, timeline, summary projection |
 | [F0016 — Account 360 & Insured Management](./archive/F0016-account-360-and-insured-management/README.md) | CRM Release MVP | Done and archived (2026-04-14) — 11 stories: list, create, profile edit, 360 workspace, contacts, relationships, lifecycle, merge, fallback contract, timeline, summary projection |
 | [F0007 — Renewal Pipeline](./archive/F0007-renewal-pipeline/README.md) | CRM Release MVP | Done and archived (2026-04-12) — 7 stories: pipeline list, detail view, transitions, assignment, overdue visibility, create from policy, timeline |
 | [F0006 — Submission Intake Workflow](./archive/F0006-submission-intake-workflow/README.md) | CRM Release MVP | Done and archived (2026-04-04) — 8 stories: pipeline list, create flow, detail workspace, intake transitions, completeness, assignment, timeline, stale visibility |

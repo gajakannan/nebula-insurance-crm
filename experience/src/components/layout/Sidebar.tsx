@@ -5,6 +5,7 @@ import {
   BriefcaseBusiness,
   RotateCwSquare,
   Building2,
+  ShieldCheck,
   Users,
   ClipboardList,
   PanelLeftClose,
@@ -19,6 +20,7 @@ const NAV_ITEMS = [
   { label: 'Accounts', href: '/accounts', icon: Building2 },
   { label: 'Submissions', href: '/submissions', icon: BriefcaseBusiness },
   { label: 'Renewals', href: '/renewals', icon: RotateCwSquare },
+  { label: 'Policies', href: '/policies', icon: ShieldCheck },
   { label: 'Brokers', href: '/brokers', icon: Users },
   { label: 'Tasks', href: '/tasks', icon: ClipboardList },
 ];

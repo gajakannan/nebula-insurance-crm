@@ -38,6 +38,7 @@ public static class AccountEndpoints
         group.MapGet("/{accountId:guid}/submissions", ListSubmissions);
         group.MapGet("/{accountId:guid}/renewals", ListRenewals);
         group.MapGet("/{accountId:guid}/policies", ListPolicies);
+        group.MapGet("/{accountId:guid}/policies/summary", GetPolicySummary);
         group.MapGet("/{accountId:guid}/timeline", ListTimeline);
 
         return group;
@@ -562,27 +563,54 @@ public static class AccountEndpoints
 
     private static async Task<IResult> ListPolicies(
         Guid accountId,
+        string? status,
+        string? lineOfBusiness,
         int? page,
         int? pageSize,
-        AccountService svc,
+        AccountService accountSvc,
+        PolicyService policySvc,
         ICurrentUserService user,
         IAuthorizationService authz,
         CancellationToken ct)
     {
-        if (!await HasAccessAsync(user, authz, "account", "read"))
+        if (!await HasAccessAsync(user, authz, "account", "read") || !await HasAccessAsync(user, authz, "policy", "read"))
             return ProblemDetailsHelper.PolicyDenied();
-        if (!await svc.ExistsAccessibleAsync(accountId, user, ct))
+        if (!await accountSvc.ExistsAccessibleAsync(accountId, user, ct))
             return ProblemDetailsHelper.NotFound("Account", accountId);
 
-        var result = await svc.ListPoliciesAsync(accountId, page ?? 1, pageSize ?? 25, user, ct);
-        return Results.Ok(new
-        {
-            data = result.Data,
-            page = result.Page,
-            pageSize = result.PageSize,
-            totalCount = result.TotalCount,
-            totalPages = result.TotalPages,
-        });
+        var result = await policySvc.ListAsync(new PolicyListQuery(
+            user.UserId,
+            user.Roles,
+            user.Regions,
+            null,
+            status,
+            lineOfBusiness,
+            null,
+            null,
+            accountId,
+            null,
+            "expirationDate",
+            "asc",
+            page ?? 1,
+            Math.Min(pageSize ?? 25, 100)), user, ct);
+        return Results.Ok(result);
+    }
+
+    private static async Task<IResult> GetPolicySummary(
+        Guid accountId,
+        AccountService accountSvc,
+        PolicyService policySvc,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        CancellationToken ct)
+    {
+        if (!await HasAccessAsync(user, authz, "account", "read") || !await HasAccessAsync(user, authz, "policy", "read"))
+            return ProblemDetailsHelper.PolicyDenied();
+        if (!await accountSvc.ExistsAccessibleAsync(accountId, user, ct))
+            return ProblemDetailsHelper.NotFound("Account", accountId);
+
+        var result = await policySvc.GetAccountSummaryAsync(accountId, user, ct);
+        return result is null ? ProblemDetailsHelper.NotFound("Account", accountId) : Results.Ok(result);
     }
 
     private static async Task<IResult> ListTimeline(

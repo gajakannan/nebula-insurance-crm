@@ -11,6 +11,7 @@ import type {
   AccountListQuery,
   AccountMergeRequestDto,
   AccountPolicyListItemDto,
+  PolicyAccountSummaryDto,
   AccountRelationshipRequestDto,
   AccountSummaryDto,
   AccountUpdateRequestDto,
@@ -183,6 +184,14 @@ export function useAccountPolicies(accountId: string, pageSize = 10) {
   });
 }
 
+export function useAccountPolicySummary(accountId: string, enabled = true) {
+  return useQuery({
+    queryKey: ['accounts', accountId, 'policies', 'summary'],
+    queryFn: () => api.get<PolicyAccountSummaryDto>(`/accounts/${accountId}/policies/summary`),
+    enabled: !!accountId && enabled,
+  });
+}
+
 export function useAccountTimeline(accountId: string, pageSize = 20) {
   return useInfiniteQuery({
     queryKey: ['accounts', accountId, 'timeline', pageSize],
@@ -225,5 +234,6 @@ function invalidateAccountQueries(queryClient: ReturnType<typeof useQueryClient>
   queryClient.invalidateQueries({ queryKey: ['accounts', 'summary', accountId] });
   queryClient.invalidateQueries({ queryKey: ['accounts', accountId, 'contacts'] });
   queryClient.invalidateQueries({ queryKey: ['accounts', accountId, 'policies'] });
+  queryClient.invalidateQueries({ queryKey: ['accounts', accountId, 'policies', 'summary'] });
   queryClient.invalidateQueries({ queryKey: ['accounts', accountId, 'timeline'] });
 }

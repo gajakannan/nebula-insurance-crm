@@ -551,18 +551,21 @@ public class AccountEndpointTests(CustomWebApplicationFactory factory)
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         var account = await db.Accounts.SingleAsync(entity => entity.Id == accountId);
         var now = DateTime.UtcNow;
+        var carrier = NewCarrierRef("Acme Carrier");
 
         var policy = new Policy
         {
             PolicyNumber = $"POL-{Guid.NewGuid():N}"[..16],
             AccountId = accountId,
             BrokerId = brokerId,
-            Carrier = "Acme Carrier",
+            CarrierId = carrier.Id,
+            Carrier = carrier,
             LineOfBusiness = lineOfBusiness,
             EffectiveDate = now.Date.AddDays(expirationDays - 365),
             ExpirationDate = now.Date.AddDays(expirationDays),
-            Premium = 125000m,
-            CurrentStatus = "Active",
+            TotalPremium = 125000m,
+            PremiumCurrency = "USD",
+            CurrentStatus = "Issued",
             AccountDisplayNameAtLink = account.StableDisplayName,
             AccountStatusAtRead = account.Status,
             AccountSurvivorId = account.MergedIntoAccountId,
@@ -576,6 +579,15 @@ public class AccountEndpointTests(CustomWebApplicationFactory factory)
         await db.SaveChangesAsync();
         return policy;
     }
+
+    private static CarrierRef NewCarrierRef(string name) => new()
+    {
+        Id = Guid.NewGuid(),
+        Name = $"{name} {Guid.NewGuid():N}",
+        IsActive = true,
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = DateTime.UtcNow,
+    };
 
     private async Task<Renewal> SeedRenewalAsync(
         Guid createdByUserId,

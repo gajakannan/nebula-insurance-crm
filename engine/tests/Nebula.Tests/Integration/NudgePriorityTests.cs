@@ -118,12 +118,14 @@ public class NudgePriorityTests(CustomWebApplicationFactory factory)
             PolicyNumber = $"NPT-POL-{Guid.NewGuid().ToString("N")[..8]}",
             AccountId = account.Id,
             BrokerId = broker.Id,
-            Carrier = "Test Carrier",
+            CarrierId = Guid.NewGuid(),
+            Carrier = NewCarrierRef("Test Carrier"),
             LineOfBusiness = "Property",
             EffectiveDate = now2.Date.AddYears(-1),
             ExpirationDate = now2.Date.AddDays(7),
-            Premium = 50_000m,
-            CurrentStatus = "Active",
+            TotalPremium = 50_000m,
+            PremiumCurrency = "USD",
+            CurrentStatus = "Issued",
             AccountDisplayNameAtLink = account.StableDisplayName,
             AccountStatusAtRead = account.Status,
             AccountSurvivorId = account.MergedIntoAccountId,
@@ -157,6 +159,15 @@ public class NudgePriorityTests(CustomWebApplicationFactory factory)
     }
 
     public Task DisposeAsync() => Task.CompletedTask;
+
+    private static CarrierRef NewCarrierRef(string name) => new()
+    {
+        Id = Guid.NewGuid(),
+        Name = $"{name} {Guid.NewGuid():N}",
+        IsActive = true,
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = DateTime.UtcNow,
+    };
 
     [Fact]
     public async Task GetNudges_ReturnsAllThreeTypes_InPriorityOrder()

@@ -6,7 +6,7 @@ Feature: F0018 — Policy Lifecycle & Policy 360
 
 - Assessment: PASS (Phase B design complete; ready for implementation)
 - Governing references:
-  - `planning-mds/features/F0018-policy-lifecycle-and-policy-360/PRD.md`
+  - `planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/PRD.md`
   - `planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md`
   - `planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md`
   - `planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md`

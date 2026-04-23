@@ -62,7 +62,7 @@ public class AccountRepository(AppDbContext db) : IAccountRepository
             .Where(policy =>
                 accountIds.Contains(policy.AccountId)
                 && !policy.IsDeleted
-                && policy.CurrentStatus == "Active")
+                && policy.CurrentStatus == "Issued")
             .GroupBy(policy => policy.AccountId)
             .Select(group => new { group.Key, Count = group.Count() })
             .ToDictionaryAsync(item => item.Key, item => item.Count, ct);
@@ -113,6 +113,7 @@ public class AccountRepository(AppDbContext db) : IAccountRepository
     {
         var query = db.Policies
             .AsNoTracking()
+            .Include(policy => policy.Carrier)
             .Where(policy => policy.AccountId == accountId);
 
         var totalCount = await query.CountAsync(ct);

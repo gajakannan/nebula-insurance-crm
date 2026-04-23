@@ -179,7 +179,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 
 **CRM Release MVP (Planned):**
 - [F0016: Account 360 & Insured Management](features/archive/F0016-account-360-and-insured-management/PRD.md) - Done (Archived 2026-04-14; 11 stories: list, create, profile edit, 360 composition, contacts, relationships, lifecycle, merge, deleted/merged fallback contract, timeline, summary projection)
-- [F0018: Policy Lifecycle & Policy 360](features/F0018-policy-lifecycle-and-policy-360/PRD.md) - In Refinement (11 stories: list, create, profile edit, 360 composition, versions, endorsements, cancellation, reinstatement, renewal linkage, timeline, summary projection)
+- [F0018: Policy Lifecycle & Policy 360](features/archive/F0018-policy-lifecycle-and-policy-360/PRD.md) - Done (Archived 2026-04-22; 11 stories: list, create, profile edit, 360 composition, versions, endorsements, cancellation, reinstatement, renewal linkage, timeline, summary projection)
 - F0019: Submission Quoting, Proposal & Approval Workflow - Planned
 - F0020: Document Management & ACORD Intake - Planned
 - F0021: Communication Hub & Activity Capture - Planned

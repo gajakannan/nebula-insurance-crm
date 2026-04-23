@@ -62,9 +62,47 @@ node_bindings:
           - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
           - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
 
-  # entity:policy will be added when F0007 build creates the Policy stub
-  # (see planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md, Step 1)
-  # or when F0018 lands the canonical Policy entity, whichever comes first.
+  - id: entity:policy
+    paths:
+      backend:
+        domain:
+          - engine/src/Nebula.Domain/Entities/Policy.cs
+          - engine/src/Nebula.Domain/Entities/CarrierRef.cs
+          - engine/src/Nebula.Domain/Entities/PolicyVersion.cs
+          - engine/src/Nebula.Domain/Entities/PolicyEndorsement.cs
+          - engine/src/Nebula.Domain/Entities/PolicyCoverageLine.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/PolicyDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
+          - engine/src/Nebula.Application/Services/PolicyService.cs
+          - engine/src/Nebula.Application/Validators/PolicyValidators.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
+          - engine/src/Nebula.Infrastructure/Services/PolicyExpirationHostedService.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/PolicyConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/CarrierRefConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/PolicyVersionConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/PolicyEndorsementConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/PolicyCoverageLineConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260422021000_F0018_PolicyLifecycleAggregate.cs
+        api:
+          - engine/src/Nebula.Api/Endpoints/PolicyEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Integration/NudgePriorityTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/policies/**
+        pages:
+          - experience/src/pages/PoliciesPage.tsx
+          - experience/src/pages/CreatePolicyPage.tsx
+          - experience/src/pages/PolicyImportPage.tsx
+          - experience/src/pages/PolicyDetailPage.tsx
+        mocks:
+          - experience/src/mocks/policies.ts
+          - experience/src/mocks/handlers.ts
 
   - id: entity:broker
     paths:

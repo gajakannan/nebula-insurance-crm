@@ -17,6 +17,7 @@ public static class DependencyInjection
         services.AddScoped<IAccountRelationshipHistoryRepository, AccountRelationshipHistoryRepository>();
         services.AddScoped<IContactRepository, ContactRepository>();
         services.AddScoped<ISubmissionRepository, SubmissionRepository>();
+        services.AddScoped<IPolicyRepository, PolicyRepository>();
         services.AddScoped<IRenewalRepository, RenewalRepository>();
         services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddScoped<IUserProfileRepository, UserProfileRepository>();
@@ -29,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<IIdempotencyStore, IdempotencyStore>();
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddSingleton<IAuthorizationService, CasbinAuthorizationService>();
+        services.AddHostedService<PolicyExpirationHostedService>();
         services.AddMemoryCache();
 
         return services;

@@ -528,18 +528,29 @@ public class WorkflowServiceTests
         PolicyNumber = $"POL-{Guid.NewGuid():N}"[..12],
         AccountId = account.Id,
         BrokerId = broker.Id,
-        Carrier = "Acme Carrier",
+        CarrierId = Guid.NewGuid(),
+        Carrier = NewCarrierRef("Acme Carrier"),
         LineOfBusiness = "Property",
         EffectiveDate = now.Date.AddMonths(-11),
         ExpirationDate = now.Date.AddDays(45),
-        Premium = 125000m,
-        CurrentStatus = "Active",
+        TotalPremium = 125000m,
+        PremiumCurrency = "USD",
+        CurrentStatus = "Issued",
         Account = account,
         Broker = broker,
         CreatedAt = now,
         CreatedByUserId = _user.UserId,
         UpdatedAt = now,
         UpdatedByUserId = _user.UserId,
+    };
+
+    private static CarrierRef NewCarrierRef(string name) => new()
+    {
+        Id = Guid.NewGuid(),
+        Name = $"{name} {Guid.NewGuid():N}",
+        IsActive = true,
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = DateTime.UtcNow,
     };
 
     private static UserProfile NewUserProfile(Guid id, string role) => new()

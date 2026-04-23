@@ -27,8 +27,23 @@ import {
   updateSubmission,
   assignSubmission,
   assignRenewal,
+  cancelPolicy,
+  createPolicy,
+  endorsePolicy,
+  getPolicy,
+  getPolicyAccountSummary,
+  getPolicySummary,
+  importPolicies,
+  issuePolicy,
   listSubmissions,
+  listAccountPolicies,
+  listPolicies,
+  listPolicyCoverages,
+  listPolicyEndorsements,
+  listPolicyTimeline,
+  listPolicyVersions,
   submissionFlowFixture,
+  reinstatePolicy,
   taskFixture,
   timelineFixture,
 } from './data'
@@ -120,6 +135,14 @@ export const handlers = [
 
   http.get(apiUrl('/accounts'), () => HttpResponse.json(accountReferenceFixture)),
 
+  http.get(apiUrl('/accounts/:accountId/policies/summary'), ({ params }) => {
+    return HttpResponse.json(getPolicyAccountSummary(String(params.accountId)))
+  }),
+
+  http.get(apiUrl('/accounts/:accountId/policies'), ({ params, request }) => {
+    return HttpResponse.json(listAccountPolicies(String(params.accountId), new URL(request.url).searchParams))
+  }),
+
   http.get(apiUrl('/programs'), () => HttpResponse.json(programReferenceFixture)),
 
   http.get(apiUrl('/users'), ({ request }) => {
@@ -141,6 +164,114 @@ export const handlers = [
   http.get(apiUrl('/submissions'), ({ request }) => {
     const url = new URL(request.url)
     return HttpResponse.json(listSubmissions(url.searchParams))
+  }),
+
+  http.get(apiUrl('/policies'), ({ request }) => {
+    return HttpResponse.json(listPolicies(new URL(request.url).searchParams))
+  }),
+
+  http.post(apiUrl('/policies'), async ({ request }) => {
+    return HttpResponse.json(createPolicy(await request.json() as never), { status: 201 })
+  }),
+
+  http.post(apiUrl('/policies/import'), async ({ request }) => {
+    return HttpResponse.json(importPolicies(await request.json() as never))
+  }),
+
+  http.get(apiUrl('/policies/:policyId/summary'), ({ params }) => {
+    const result = getPolicySummary(String(params.policyId))
+    if (!result) {
+      return HttpResponse.json({ title: 'Not found', status: 404, code: 'not_found' }, { status: 404 })
+    }
+
+    return HttpResponse.json(result)
+  }),
+
+  http.get(apiUrl('/policies/:policyId/versions'), ({ params }) => {
+    const result = listPolicyVersions(String(params.policyId))
+    if (!result) {
+      return HttpResponse.json({ title: 'Not found', status: 404, code: 'not_found' }, { status: 404 })
+    }
+
+    return HttpResponse.json(result)
+  }),
+
+  http.get(apiUrl('/policies/:policyId/endorsements'), ({ params }) => {
+    const result = listPolicyEndorsements(String(params.policyId))
+    if (!result) {
+      return HttpResponse.json({ title: 'Not found', status: 404, code: 'not_found' }, { status: 404 })
+    }
+
+    return HttpResponse.json(result)
+  }),
+
+  http.get(apiUrl('/policies/:policyId/coverages'), ({ params }) => {
+    const result = listPolicyCoverages(String(params.policyId))
+    if (!result) {
+      return HttpResponse.json({ title: 'Not found', status: 404, code: 'not_found' }, { status: 404 })
+    }
+
+    return HttpResponse.json(result)
+  }),
+
+  http.get(apiUrl('/policies/:policyId/timeline'), ({ params }) => {
+    const result = listPolicyTimeline(String(params.policyId))
+    if (!result) {
+      return HttpResponse.json({ title: 'Not found', status: 404, code: 'not_found' }, { status: 404 })
+    }
+
+    return HttpResponse.json(result)
+  }),
+
+  http.get(apiUrl('/policies/:policyId'), ({ params }) => {
+    const result = getPolicy(String(params.policyId))
+    if (!result) {
+      return HttpResponse.json({ title: 'Not found', status: 404, code: 'not_found' }, { status: 404 })
+    }
+
+    return HttpResponse.json(result)
+  }),
+
+  http.post(apiUrl('/policies/:policyId/issue'), ({ params, request }) => {
+    const result = issuePolicy(String(params.policyId), parseRowVersion(request.headers.get('if-match')))
+    return policyMutationResponse(result)
+  }),
+
+  http.post(apiUrl('/policies/:policyId/cancel'), async ({ params, request }) => {
+    const result = cancelPolicy(
+      String(params.policyId),
+      parseRowVersion(request.headers.get('if-match')),
+      await request.json() as never,
+    )
+    return policyMutationResponse(result)
+  }),
+
+  http.post(apiUrl('/policies/:policyId/reinstate'), async ({ params, request }) => {
+    const result = reinstatePolicy(
+      String(params.policyId),
+      parseRowVersion(request.headers.get('if-match')),
+      await request.json() as never,
+    )
+    return policyMutationResponse(result)
+  }),
+
+  http.post(apiUrl('/policies/:policyId/endorse'), async ({ params, request }) => {
+    const result = endorsePolicy(
+      String(params.policyId),
+      parseRowVersion(request.headers.get('if-match')),
+      await request.json() as never,
+    )
+
+    if (!result) {
+      return HttpResponse.json({ title: 'Not found', status: 404, code: 'not_found' }, { status: 404 })
+    }
+
+    if ('code' in result) {
+      const status = result.code === 'precondition_failed' ? 412 : 409
+      return HttpResponse.json({ title: 'Policy action failed', status, code: result.code }, { status })
+    }
+
+    return HttpResponse.json(result, { status: 201 })
   }),
 
   http.post(apiUrl('/submissions'), async ({ request }) => {
@@ -372,4 +503,17 @@ export const handlers = [
 
 function parseRowVersion(ifMatch: string | null) {
   return ifMatch?.replace(/"/g, '') ?? null
+}
+
+function policyMutationResponse<T extends object>(result: T | null | { code: string }) {
+  if (!result) {
+    return HttpResponse.json({ title: 'Not found', status: 404, code: 'not_found' }, { status: 404 })
+  }
+
+  if ('code' in result) {
+    const status = result.code === 'precondition_failed' ? 412 : 409
+    return HttpResponse.json({ title: 'Policy action failed', status, code: result.code }, { status })
+  }
+
+  return HttpResponse.json(result)
 }

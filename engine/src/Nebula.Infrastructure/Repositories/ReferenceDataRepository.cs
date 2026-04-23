@@ -54,6 +54,7 @@ public class ReferenceDataRepository(AppDbContext db, IMemoryCache cache) : IRef
         await db.Policies
             .Include(policy => policy.Account)
             .Include(policy => policy.Broker)
+            .Include(policy => policy.Carrier)
             .FirstOrDefaultAsync(policy => policy.Id == id, ct);
 
     public async Task<Nebula.Domain.Entities.Program?> GetProgramByIdAsync(Guid id, CancellationToken ct = default) =>

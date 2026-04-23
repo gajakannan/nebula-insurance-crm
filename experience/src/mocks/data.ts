@@ -11,6 +11,23 @@ export {
   listRenewals,
   transitionRenewal,
 } from './renewals'
+export {
+  cancelPolicy,
+  createPolicy,
+  endorsePolicy,
+  getPolicy,
+  getPolicyAccountSummary,
+  getPolicySummary,
+  importPolicies,
+  issuePolicy,
+  listAccountPolicies,
+  listPolicies,
+  listPolicyCoverages,
+  listPolicyEndorsements,
+  listPolicyTimeline,
+  listPolicyVersions,
+  reinstatePolicy,
+} from './policies'
 import type {
   DashboardOpportunitiesDto,
   OpportunityAgingDto,

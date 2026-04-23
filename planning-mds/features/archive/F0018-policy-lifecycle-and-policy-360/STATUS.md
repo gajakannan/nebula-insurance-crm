@@ -88,3 +88,52 @@
 | F0018-S0011 | Security Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
 | F0018-S0011 | DevOps | - | N/A | - | - | Populate after Phase B architect design lands. |
 | F0018-S0011 | Architect | - | N/A | - | - | Populate after Phase B architect design lands. |
+
+---
+
+## PM Closeout - 2026-04-22
+
+**Final Overall Status:** Done; archive transition approved.  
+**Implementation Run ID:** `5ab6f922-bf43-4702-9393-ea8a88c213b8`  
+**Primary Evidence:** `planning-mds/operations/evidence/f0018/g45-signoff-2026-04-22.md`
+
+### Final Story Status
+
+| Story | Final Status | Evidence |
+|-------|--------------|----------|
+| F0018-S0001 | Done | `planning-mds/operations/evidence/f0018/g45-signoff-2026-04-22.md` |
+| F0018-S0002 | Done | `planning-mds/operations/evidence/f0018/g45-signoff-2026-04-22.md` |
+| F0018-S0003 | Done | `planning-mds/operations/evidence/f0018/g45-signoff-2026-04-22.md` |
+| F0018-S0004 | Done | `planning-mds/operations/evidence/f0018/g45-signoff-2026-04-22.md` |
+| F0018-S0005 | Done | `planning-mds/operations/evidence/f0018/g45-signoff-2026-04-22.md` |
+| F0018-S0006 | Done | `planning-mds/operations/evidence/f0018/g45-signoff-2026-04-22.md` |
+| F0018-S0007 | Done | `planning-mds/operations/evidence/f0018/g45-signoff-2026-04-22.md` |
+| F0018-S0008 | Done | `planning-mds/operations/evidence/f0018/g45-signoff-2026-04-22.md` |
+| F0018-S0009 | Done | `planning-mds/operations/evidence/f0018/g45-signoff-2026-04-22.md` |
+| F0018-S0010 | Done | `planning-mds/operations/evidence/f0018/g45-signoff-2026-04-22.md` |
+| F0018-S0011 | Done | `planning-mds/operations/evidence/f0018/g45-signoff-2026-04-22.md` |
+
+### Signoff Provenance
+
+| Role | Verdict | Reviewer | Date | Evidence |
+|------|---------|----------|------|----------|
+| Architect | PASS | Codex feature runner | 2026-04-22 | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` |
+| DevOps | PASS | Codex feature runner | 2026-04-22 | `planning-mds/operations/evidence/f0018/runtime-preflight-2026-04-22.md` |
+| Quality Engineer | PASS | Codex feature runner | 2026-04-22 | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` |
+| Code Reviewer | PASS | Codex feature runner | 2026-04-22 | `planning-mds/operations/evidence/f0018/g3-code-review-2026-04-22.md` |
+| Security Reviewer | PASS | Codex feature runner | 2026-04-22 | `planning-mds/operations/evidence/f0018/g3-security-review-2026-04-22.md` |
+
+### Mitigation Notes
+
+- Repaired before signoff: `/policies/from-bind` no longer returns 501 and now accepts the OpenAPI contract request.
+- Repaired before signoff: policy create and lifecycle mutation paths now enforce scoped account/broker visibility before writes.
+- Repaired before signoff: dashboard renewal aging handles LOB-specific SLA threshold rows without duplicate-key failures.
+
+### Deferred Non-Blocking Follow-ups
+
+- Add policy-specific integration tests for `/policies/from-bind` and scoped write-denial paths.
+- Replace count-based policy-number allocation with a dedicated sequence-row implementation when concurrent policy creation is hardened.
+
+### Orphaned Story Review
+
+No orphaned stories. All F0018 stories are closed as Done with required role signoff evidence.

@@ -14,6 +14,10 @@ import CreateSubmissionPage from './pages/CreateSubmissionPage'
 import SubmissionDetailPage from './pages/SubmissionDetailPage'
 import RenewalsPage from './pages/RenewalsPage'
 import RenewalDetailPage from './pages/RenewalDetailPage'
+import PoliciesPage from './pages/PoliciesPage'
+import CreatePolicyPage from './pages/CreatePolicyPage'
+import PolicyImportPage from './pages/PolicyImportPage'
+import PolicyDetailPage from './pages/PolicyDetailPage'
 import TaskCenterPage from './pages/TaskCenterPage'
 import NotFoundPage from './pages/NotFoundPage'
 import { UnauthorizedPage } from './pages/UnauthorizedPage'
@@ -56,6 +60,10 @@ function AppInner() {
       <Route path="/submissions/:submissionId" element={<ProtectedRoute><SubmissionDetailPage /></ProtectedRoute>} />
       <Route path="/renewals" element={<ProtectedRoute><RenewalsPage /></ProtectedRoute>} />
       <Route path="/renewals/:renewalId" element={<ProtectedRoute><RenewalDetailPage /></ProtectedRoute>} />
+      <Route path="/policies" element={<ProtectedRoute><PoliciesPage /></ProtectedRoute>} />
+      <Route path="/policies/new" element={<ProtectedRoute><CreatePolicyPage /></ProtectedRoute>} />
+      <Route path="/policies/import" element={<ProtectedRoute><PolicyImportPage /></ProtectedRoute>} />
+      <Route path="/policies/:policyId" element={<ProtectedRoute><PolicyDetailPage /></ProtectedRoute>} />
       <Route path="/brokers" element={<ProtectedRoute><BrokerListPage /></ProtectedRoute>} />
       <Route path="/brokers/new" element={<ProtectedRoute><CreateBrokerPage /></ProtectedRoute>} />
       <Route path="/brokers/:brokerId" element={<ProtectedRoute><BrokerDetailPage /></ProtectedRoute>} />

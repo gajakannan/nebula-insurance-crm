@@ -22,6 +22,10 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<Contact> Contacts => Set<Contact>();
     public DbSet<Submission> Submissions => Set<Submission>();
     public DbSet<Policy> Policies => Set<Policy>();
+    public DbSet<CarrierRef> CarrierRefs => Set<CarrierRef>();
+    public DbSet<PolicyVersion> PolicyVersions => Set<PolicyVersion>();
+    public DbSet<PolicyEndorsement> PolicyEndorsements => Set<PolicyEndorsement>();
+    public DbSet<PolicyCoverageLine> PolicyCoverageLines => Set<PolicyCoverageLine>();
     public DbSet<Renewal> Renewals => Set<Renewal>();
     public DbSet<TaskItem> Tasks => Set<TaskItem>();
     public DbSet<UserProfile> UserProfiles => Set<UserProfile>();

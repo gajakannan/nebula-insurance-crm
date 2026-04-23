@@ -695,11 +695,11 @@ public class AccountService(
             policies.Data.Select(policy => new AccountPolicyListItemDto(
                 policy.Id,
                 policy.PolicyNumber,
-                policy.Carrier,
+                policy.Carrier?.Name,
                 policy.LineOfBusiness,
                 policy.EffectiveDate,
                 policy.ExpirationDate,
-                policy.Premium,
+                policy.TotalPremium,
                 policy.CurrentStatus)).ToList(),
             policies.Page,
             policies.PageSize,

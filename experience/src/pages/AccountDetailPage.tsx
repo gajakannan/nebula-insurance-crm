@@ -16,6 +16,7 @@ import {
   useAccountContacts,
   useAccountList,
   useAccountPolicies,
+  useAccountPolicySummary,
   useAccountSummary,
   useAccountTimeline,
   useChangeAccountRelationship,
@@ -32,6 +33,7 @@ import {
   type AccountUpdateRequestDto,
 } from '@/features/accounts';
 import { useBrokers } from '@/features/brokers';
+import { PolicyStatusBadge, formatPolicyCurrency } from '@/features/policies';
 import { RenewalStatusBadge, useRenewals } from '@/features/renewals';
 import { SubmissionStatusBadge, useSubmissions } from '@/features/submissions';
 import { AssigneePicker, type UserSummaryDto } from '@/features/tasks';
@@ -63,6 +65,7 @@ export default function AccountDetailPage() {
   const summaryQuery = useAccountSummary(accountId, !!accountQuery.data);
   const contactsQuery = useAccountContacts(accountId);
   const policiesQuery = useAccountPolicies(accountId, 5);
+  const policySummaryQuery = useAccountPolicySummary(accountId, !!accountQuery.data);
   const submissionsQuery = useSubmissions({ accountId, pageSize: 5, enabled: !!accountQuery.data });
   const renewalsQuery = useRenewals({ accountId, includeTerminal: true, pageSize: 5, enabled: !!accountQuery.data });
   const timelineQuery = useAccountTimeline(accountId);
@@ -507,7 +510,7 @@ export default function AccountDetailPage() {
             {activeTab === 'Overview' && (
               <div className="space-y-6">
                 <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                  <SummaryMetric label="Active Policies" value={String(summary?.activePolicyCount ?? 0)} />
+                  <SummaryMetric label="Active Policies" value={String(policySummaryQuery.data?.activePolicyCount ?? summary?.activePolicyCount ?? 0)} />
                   <SummaryMetric label="Open Submissions" value={String(summary?.openSubmissionCount ?? 0)} />
                   <SummaryMetric label="Renewals Due" value={String(summary?.renewalDueCount ?? 0)} />
                   <SummaryMetric label="Last Activity" value={summary?.lastActivityAt ? formatDate(summary.lastActivityAt) : 'No activity'} />
@@ -612,14 +615,31 @@ export default function AccountDetailPage() {
                   </RailCard>
 
                   <RailCard title="Policies">
+                    {policySummaryQuery.data && (
+                      <div className="grid grid-cols-2 gap-2">
+                        <SummaryChip label="Pending" value={policySummaryQuery.data.pendingPolicyCount} />
+                        <SummaryChip label="Expired" value={policySummaryQuery.data.expiredPolicyCount} />
+                        <SummaryChip label="Cancelled" value={policySummaryQuery.data.cancelledPolicyCount} />
+                        <SummaryChip
+                          label="Premium"
+                          value={formatPolicyCurrency(
+                            policySummaryQuery.data.totalCurrentPremium,
+                            policySummaryQuery.data.premiumCurrency,
+                          )}
+                        />
+                      </div>
+                    )}
                     {policiesQuery.data?.data.length ? (
                       policiesQuery.data.data.map((policy) => (
-                        <div key={policy.id} className="rounded-lg border border-surface-border px-3 py-2">
-                          <p className="text-sm font-medium text-text-primary">{policy.policyNumber}</p>
+                        <Link key={policy.id} to={`/policies/${policy.id}`} className="block rounded-lg border border-surface-border px-3 py-2 hover:bg-surface-card">
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="text-sm font-medium text-text-primary">{policy.policyNumber}</p>
+                            <PolicyStatusBadge status={policy.status} />
+                          </div>
                           <p className="mt-1 text-xs text-text-muted">
-                            {policy.carrier ?? 'Carrier unavailable'} • {formatDate(policy.expirationDate)}
+                            {policy.carrierName ?? 'Carrier unavailable'} • {formatDate(policy.expirationDate)}
                           </p>
-                        </div>
+                        </Link>
                       ))
                     ) : (
                       <EmptyRail message="No policies linked." />
@@ -919,6 +939,15 @@ function SummaryMetric({ label, value }: { label: string; value: string }) {
     <div className="rounded-xl border border-surface-border bg-surface-card/40 p-4">
       <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-text-muted">{label}</p>
       <p className="mt-2 text-xl font-semibold text-text-primary">{value}</p>
+    </div>
+  );
+}
+
+function SummaryChip({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div className="rounded-lg border border-surface-border bg-surface-card/40 px-3 py-2">
+      <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-text-muted">{label}</p>
+      <p className="mt-1 text-sm font-semibold text-text-primary">{value}</p>
     </div>
   );
 }

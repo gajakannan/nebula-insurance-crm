@@ -212,7 +212,7 @@ Rejected for MVP; named explicitly as a follow-up migration.
 
 ## Related Features
 
-- [F0018 Policy Lifecycle & Policy 360](../../features/F0018-policy-lifecycle-and-policy-360/PRD.md) — owner.
+- [F0018 Policy Lifecycle & Policy 360](../../features/archive/F0018-policy-lifecycle-and-policy-360/PRD.md) — owner.
 - F0016 Account 360 & Insured Management (archived) — account aggregate and fallback contract provider.
 - F0007 Renewal Pipeline (archived) — consumes `Policy.Id`; provides `BoundPolicyId` feeding computed `SuccessorPolicyId`.
 - F0019 Submission Quoting, Proposal & Approval Workflow (planned) — future bind-hook caller.

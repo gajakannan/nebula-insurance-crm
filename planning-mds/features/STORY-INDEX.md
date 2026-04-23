@@ -200,17 +200,17 @@ Auto-generated index of all user stories across feature folders.
 
 | Story ID | Title | Priority | Phase | Persona |
 |----------|-------|----------|-------|---------|
-| [F0018-S0001](./F0018-policy-lifecycle-and-policy-360/F0018-S0001-policy-list-with-search-and-filtering.md) | Policy list with search and filtering | Critical | CRM Release MVP | distribution user, distribution manager, underwriter, or relationship manager |
-| [F0018-S0002](./F0018-policy-lifecycle-and-policy-360/F0018-S0002-create-policy.md) | Create policy (manual, import-lite, and F0019 bind-hook contract) | Critical | CRM Release MVP | distribution user, distribution manager, underwriter, or admin |
-| [F0018-S0003](./F0018-policy-lifecycle-and-policy-360/F0018-S0003-policy-detail-and-profile-edit.md) | Policy detail page and profile edit with optimistic concurrency | Critical | CRM Release MVP | authorized user (underwriter, distribution user, distribution manager, admin) |
-| [F0018-S0004](./F0018-policy-lifecycle-and-policy-360/F0018-S0004-policy-360-composition.md) | Policy 360 composed workspace (versions, endorsements, coverages, renewals, documents, activity) | Critical | CRM Release MVP | underwriter, distribution user, distribution manager, or relationship manager |
-| [F0018-S0005](./F0018-policy-lifecycle-and-policy-360/F0018-S0005-policy-version-history.md) | Immutable policy version snapshots and version history | Critical | CRM Release MVP | underwriter or distribution manager |
-| [F0018-S0006](./F0018-policy-lifecycle-and-policy-360/F0018-S0006-policy-endorsements.md) | Policy endorsement events and material term changes | Critical | CRM Release MVP | underwriter or admin |
-| [F0018-S0007](./F0018-policy-lifecycle-and-policy-360/F0018-S0007-policy-cancellation.md) | Policy cancellation with required reason code and effective date | Critical | CRM Release MVP | underwriter, distribution manager, or admin |
-| [F0018-S0008](./F0018-policy-lifecycle-and-policy-360/F0018-S0008-policy-reinstatement.md) | Policy reinstatement within LOB-configurable window | Critical | CRM Release MVP | underwriter or admin |
-| [F0018-S0009](./F0018-policy-lifecycle-and-policy-360/F0018-S0009-policy-renewal-linkage.md) | Policy renewal linkage (predecessor / successor) and F0007 handoff | Critical | CRM Release MVP | underwriter, distribution user, or distribution manager |
-| [F0018-S0010](./F0018-policy-lifecycle-and-policy-360/F0018-S0010-policy-activity-timeline-and-audit.md) | Policy activity timeline and audit trail | Critical | CRM Release MVP | underwriter, distribution manager, relationship manager, program manager, or admin |
-| [F0018-S0011](./F0018-policy-lifecycle-and-policy-360/F0018-S0011-policy-summary-projection.md) | Policy summary projection for Account 360 and Policy List | Critical | CRM Release MVP | underwriter, distribution user, distribution manager, or relationship manager |
+| [F0018-S0001](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0001-policy-list-with-search-and-filtering.md) | Policy list with search and filtering | Critical | CRM Release MVP | distribution user, distribution manager, underwriter, or relationship manager |
+| [F0018-S0002](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0002-create-policy.md) | Create policy (manual, import-lite, and F0019 bind-hook contract) | Critical | CRM Release MVP | distribution user, distribution manager, underwriter, or admin |
+| [F0018-S0003](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0003-policy-detail-and-profile-edit.md) | Policy detail page and profile edit with optimistic concurrency | Critical | CRM Release MVP | authorized user (underwriter, distribution user, distribution manager, admin) |
+| [F0018-S0004](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0004-policy-360-composition.md) | Policy 360 composed workspace (versions, endorsements, coverages, renewals, documents, activity) | Critical | CRM Release MVP | underwriter, distribution user, distribution manager, or relationship manager |
+| [F0018-S0005](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0005-policy-version-history.md) | Immutable policy version snapshots and version history | Critical | CRM Release MVP | underwriter or distribution manager |
+| [F0018-S0006](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0006-policy-endorsements.md) | Policy endorsement events and material term changes | Critical | CRM Release MVP | underwriter or admin |
+| [F0018-S0007](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0007-policy-cancellation.md) | Policy cancellation with required reason code and effective date | Critical | CRM Release MVP | underwriter, distribution manager, or admin |
+| [F0018-S0008](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0008-policy-reinstatement.md) | Policy reinstatement within LOB-configurable window | Critical | CRM Release MVP | underwriter or admin |
+| [F0018-S0009](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0009-policy-renewal-linkage.md) | Policy renewal linkage (predecessor / successor) and F0007 handoff | Critical | CRM Release MVP | underwriter, distribution user, or distribution manager |
+| [F0018-S0010](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0010-policy-activity-timeline-and-audit.md) | Policy activity timeline and audit trail | Critical | CRM Release MVP | underwriter, distribution manager, relationship manager, program manager, or admin |
+| [F0018-S0011](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0011-policy-summary-projection.md) | Policy summary projection for Account 360 and Policy List | Critical | CRM Release MVP | underwriter, distribution user, distribution manager, or relationship manager |
 
 ---
 

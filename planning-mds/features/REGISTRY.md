@@ -11,7 +11,6 @@
 
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
-| F0018 | Policy Lifecycle & Policy 360 | In Refinement | CRM Release MVP | `F0018-policy-lifecycle-and-policy-360/` |
 
 ## Abandoned Features
 
@@ -45,6 +44,7 @@
 
 | Feature ID | Name | Archived Date | Folder |
 |------------|------|---------------|--------|
+| F0018 | Policy Lifecycle & Policy 360 | 2026-04-22 | `archive/F0018-policy-lifecycle-and-policy-360/` |
 | F0016 | Account 360 & Insured Management | 2026-04-14 | `archive/F0016-account-360-and-insured-management/` |
 | F0007 | Renewal Pipeline | 2026-04-12 | `archive/F0007-renewal-pipeline/` |
 | F0006 | Submission Intake Workflow | 2026-04-04 | `archive/F0006-submission-intake-workflow/` |

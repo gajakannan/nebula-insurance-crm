@@ -21,6 +21,7 @@ export default defineConfig(() => {
     '/accounts',
     '/mgas',
     '/programs',
+    '/policies',
     '/submissions',
     '/renewals',
     '/healthz',

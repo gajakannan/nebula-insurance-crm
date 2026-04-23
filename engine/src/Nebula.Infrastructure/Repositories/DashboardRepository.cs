@@ -1075,13 +1075,21 @@ public class DashboardRepository(AppDbContext db) : IDashboardRepository
             .Where(threshold => threshold.EntityType == normalizedEntityType)
             .Select(threshold => new WorkflowSlaThresholdEntry(
                 threshold.Status,
+                threshold.LineOfBusiness,
                 new WorkflowSlaThresholdDto(threshold.WarningDays, threshold.TargetDays)))
             .ToListAsync(ct);
 
-        var thresholds = thresholdRows.ToDictionary(
-            row => row.Status,
-            row => row.Threshold,
-            StringComparer.OrdinalIgnoreCase);
+        var thresholds = thresholdRows
+            .GroupBy(row => row.Status, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(
+                group => group.Key,
+                group => group
+                    .OrderBy(row => row.LineOfBusiness is null ? 0 : 1)
+                    .ThenBy(row => row.Threshold.TargetDays)
+                    .ThenBy(row => row.Threshold.WarningDays)
+                    .First()
+                    .Threshold,
+                StringComparer.OrdinalIgnoreCase);
 
         var agingStatuses = statuses.Select(s =>
         {
@@ -1308,7 +1316,7 @@ public class DashboardRepository(AppDbContext db) : IDashboardRepository
     private sealed record BreakdownAggregation(string? Key, int Count);
     private sealed record CurrentEntityState(Guid EntityId, string Status, DateTime CreatedAt);
     private sealed record CurrentStatusTransition(Guid EntityId, string ToState, DateTime OccurredAt);
-    private sealed record WorkflowSlaThresholdEntry(string Status, WorkflowSlaThresholdDto Threshold);
+    private sealed record WorkflowSlaThresholdEntry(string Status, string? LineOfBusiness, WorkflowSlaThresholdDto Threshold);
     private sealed record ExitTransition(Guid EntityId, string ExitStatus, DateTime ExitAtUtc);
     private sealed record OutcomeExitEntry(string OutcomeKey, int DaysToExit);
     private sealed record OutcomeDefinition(string Key, string Label, string BranchStyle);

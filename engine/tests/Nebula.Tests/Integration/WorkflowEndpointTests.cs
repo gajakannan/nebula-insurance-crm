@@ -253,7 +253,7 @@ public class WorkflowEndpointTests(CustomWebApplicationFactory factory)
         result.CurrentStatus.ShouldBe("Identified");
         result.AssignedToUserId.ShouldBe(currentUserId);
         result.PolicyNumber.ShouldBe(policy.PolicyNumber);
-        result.PolicyCarrier.ShouldBe(policy.Carrier);
+        result.PolicyCarrier.ShouldBe(policy.Carrier?.Name);
         result.AccountName.ShouldNotBeNullOrWhiteSpace();
         result.BrokerName.ShouldNotBeNullOrWhiteSpace();
     }
@@ -307,7 +307,7 @@ public class WorkflowEndpointTests(CustomWebApplicationFactory factory)
         result.ShouldNotBeNull();
         result!.Id.ShouldBe(renewal.Id);
         result.PolicyNumber.ShouldBe(policy.PolicyNumber);
-        result.PolicyCarrier.ShouldBe(policy.Carrier);
+        result.PolicyCarrier.ShouldBe(policy.Carrier?.Name);
         result.AccountIndustry.ShouldNotBeNullOrWhiteSpace();
         result.BrokerLicenseNumber.ShouldNotBeNullOrWhiteSpace();
         result.AvailableTransitions.ShouldContain("Outreach");
@@ -487,18 +487,21 @@ public class WorkflowEndpointTests(CustomWebApplicationFactory factory)
         var account = await db.Accounts.SingleAsync(entity => entity.Id == accountId);
         var broker = await db.Brokers.SingleAsync(entity => entity.Id == brokerId);
         var now = DateTime.UtcNow;
+        var carrier = NewCarrierRef("Acme Carrier");
 
         var policy = new Policy
         {
             PolicyNumber = $"POL-{Guid.NewGuid():N}"[..12],
             AccountId = accountId,
             BrokerId = brokerId,
-            Carrier = "Acme Carrier",
+            CarrierId = carrier.Id,
+            Carrier = carrier,
             LineOfBusiness = lineOfBusiness,
             EffectiveDate = now.Date.AddDays(expirationDays - 365),
             ExpirationDate = now.Date.AddDays(expirationDays),
-            Premium = 125000m,
-            CurrentStatus = "Active",
+            TotalPremium = 125000m,
+            PremiumCurrency = "USD",
+            CurrentStatus = "Issued",
             AccountDisplayNameAtLink = account.StableDisplayName,
             AccountStatusAtRead = account.Status,
             AccountSurvivorId = account.MergedIntoAccountId,
@@ -514,6 +517,15 @@ public class WorkflowEndpointTests(CustomWebApplicationFactory factory)
         await db.SaveChangesAsync();
         return policy;
     }
+
+    private static CarrierRef NewCarrierRef(string name) => new()
+    {
+        Id = Guid.NewGuid(),
+        Name = $"{name} {Guid.NewGuid():N}",
+        IsActive = true,
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = DateTime.UtcNow,
+    };
 
     private async Task<Renewal> SeedRenewalAsync(Guid assignedToUserId, string status, Policy policy)
     {

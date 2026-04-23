@@ -47,6 +47,7 @@ public static class DevSeedData
         // F0009: Idempotently ensure the dev broker tenant link exists even when data was
         // already seeded before F0009 migration added the BrokerTenantId column.
         await EnsureDevBrokerTenantIdAsync(db);
+        await EnsureCarrierRefsAsync(db);
 
         if (await db.Submissions.AnyAsync()) return; // app data already seeded
 
@@ -93,8 +94,11 @@ public static class DevSeedData
 
         db.BrokerRegions.AddRange(BuildBrokerRegions(brokers, rng));
         db.Contacts.AddRange(BuildContacts(brokers, now, rng, userIds));
-        var policies = BuildPolicies(PolicySeedCount, now, rng, userIds, accounts, brokers);
+        var carriers = await db.CarrierRefs.OrderBy(carrier => carrier.Name).ToListAsync();
+        var policies = BuildPolicies(PolicySeedCount, now, rng, userIds, accounts, brokers, carriers);
         db.Policies.AddRange(policies);
+        db.PolicyVersions.AddRange(BuildPolicyVersions(policies, now, userIds[0]));
+        db.PolicyCoverageLines.AddRange(BuildPolicyCoverageLines(policies, now, userIds[0]));
         await db.SaveChangesAsync();
 
         var submissions = new List<Submission>(SubmissionSeedCount);
@@ -427,7 +431,8 @@ public static class DevSeedData
         Random rng,
         Guid[] userIds,
         IReadOnlyList<Account> accounts,
-        IReadOnlyList<Broker> brokers)
+        IReadOnlyList<Broker> brokers,
+        IReadOnlyList<CarrierRef> carriers)
     {
         var policies = new List<Policy>(count);
         for (var i = 1; i <= count; i++)
@@ -435,21 +440,36 @@ public static class DevSeedData
             var createdBy = userIds[rng.Next(userIds.Length)];
             var account = accounts[rng.Next(accounts.Count)];
             var broker = brokers[rng.Next(brokers.Count)];
+            var carrier = carriers[rng.Next(carriers.Count)];
             var expirationDate = now.Date.AddDays(rng.Next(-45, 210));
             var effectiveDate = expirationDate.AddYears(-1);
-            var lineOfBusiness = rng.NextDouble() < 0.08 ? null : LineOfBusinessCodes[rng.Next(LineOfBusinessCodes.Length)];
+            var lineOfBusiness = LineOfBusinessCodes[rng.Next(LineOfBusinessCodes.Length)];
+            var status = expirationDate.Date < now.Date
+                ? "Expired"
+                : WeightedPick(rng, ("Issued", 85), ("Pending", 10), ("Cancelled", 5));
+            var versionId = Guid.NewGuid();
 
             policies.Add(new Policy
             {
-                PolicyNumber = $"POL-{i:D6}",
+                PolicyNumber = $"NEB-{lineOfBusiness[..Math.Min(4, lineOfBusiness.Length)].ToUpperInvariant()}-{effectiveDate.Year}-{i:D6}",
                 AccountId = account.Id,
                 BrokerId = broker.Id,
-                Carrier = Pick(rng, CarrierNames),
+                CarrierId = carrier.Id,
                 LineOfBusiness = lineOfBusiness,
                 EffectiveDate = effectiveDate,
                 ExpirationDate = expirationDate,
-                Premium = Math.Round((decimal)(rng.Next(12_000, 250_000) + rng.NextDouble()), 2),
-                CurrentStatus = WeightedPick(rng, ("Active", 80), ("Expiring", 15), ("Bound", 5)),
+                TotalPremium = Math.Round((decimal)(rng.Next(12_000, 250_000) + rng.NextDouble()), 2),
+                PremiumCurrency = "USD",
+                CurrentStatus = status,
+                CurrentVersionId = versionId,
+                IssuedAt = status is "Issued" or "Expired" ? effectiveDate.AddDays(rng.Next(0, 14)) : null,
+                BoundAt = status is "Issued" or "Expired" ? effectiveDate.AddDays(rng.Next(0, 14)) : null,
+                CancelledAt = status == "Cancelled" ? now.AddDays(-rng.Next(1, 30)) : null,
+                CancellationEffectiveDate = status == "Cancelled" ? now.Date.AddDays(-rng.Next(1, 15)) : null,
+                CancellationReasonCode = status == "Cancelled" ? "InsuredRequest" : null,
+                ReinstatementDeadline = status == "Cancelled" ? now.Date.AddDays(rng.Next(1, 30)) : null,
+                ExpiredAt = status == "Expired" ? expirationDate.Date.AddDays(1) : null,
+                ImportSource = "manual",
                 AccountDisplayNameAtLink = account.StableDisplayName,
                 AccountStatusAtRead = account.Status,
                 AccountSurvivorId = account.MergedIntoAccountId,
@@ -464,6 +484,54 @@ public static class DevSeedData
 
         return policies;
     }
+
+    private static List<PolicyVersion> BuildPolicyVersions(IReadOnlyList<Policy> policies, DateTime now, Guid userId) =>
+        policies.Select(policy => new PolicyVersion
+        {
+            Id = policy.CurrentVersionId!.Value,
+            PolicyId = policy.Id,
+            VersionNumber = 1,
+            VersionReason = "IssuedInitial",
+            EffectiveDate = policy.EffectiveDate,
+            ExpirationDate = policy.ExpirationDate,
+            TotalPremium = policy.TotalPremium,
+            PremiumCurrency = policy.PremiumCurrency,
+            ProfileSnapshotJson = System.Text.Json.JsonSerializer.Serialize(new
+            {
+                policy.AccountId,
+                brokerOfRecordId = policy.BrokerId,
+                policy.CarrierId,
+                policy.ProducerUserId,
+            }),
+            CoverageSnapshotJson = "[]",
+            PremiumSnapshotJson = System.Text.Json.JsonSerializer.Serialize(new
+            {
+                totalPremium = policy.TotalPremium,
+                premiumCurrency = policy.PremiumCurrency,
+            }),
+            CreatedAt = now,
+            UpdatedAt = now,
+            CreatedByUserId = userId,
+            UpdatedByUserId = userId,
+        }).ToList();
+
+    private static List<PolicyCoverageLine> BuildPolicyCoverageLines(IReadOnlyList<Policy> policies, DateTime now, Guid userId) =>
+        policies.Select(policy => new PolicyCoverageLine
+        {
+            PolicyId = policy.Id,
+            PolicyVersionId = policy.CurrentVersionId!.Value,
+            VersionNumber = 1,
+            CoverageCode = policy.LineOfBusiness,
+            CoverageName = policy.LineOfBusiness,
+            Limit = policy.TotalPremium * 10,
+            Premium = policy.TotalPremium,
+            PremiumCurrency = policy.PremiumCurrency,
+            IsCurrent = true,
+            CreatedAt = now,
+            UpdatedAt = now,
+            CreatedByUserId = userId,
+            UpdatedByUserId = userId,
+        }).ToList();
 
     private static void ApplySeededAccountLifecycleFixtures(
         IReadOnlyList<Account> accounts,
@@ -878,6 +946,31 @@ public static class DevSeedData
         if (broker is null) return;
 
         broker.BrokerTenantId = BrokerUserDevTenantId;
+        await db.SaveChangesAsync();
+    }
+
+    private static async Task EnsureCarrierRefsAsync(AppDbContext db)
+    {
+        var existing = await db.CarrierRefs
+            .Select(carrier => carrier.Name)
+            .ToListAsync();
+        var missing = CarrierNames
+            .Where(name => !existing.Contains(name, StringComparer.OrdinalIgnoreCase))
+            .Select(name => new CarrierRef
+            {
+                Name = name,
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                CreatedByUserId = Guid.Empty,
+                UpdatedByUserId = Guid.Empty,
+            })
+            .ToList();
+
+        if (missing.Count == 0)
+            return;
+
+        db.CarrierRefs.AddRange(missing);
         await db.SaveChangesAsync();
     }
 
