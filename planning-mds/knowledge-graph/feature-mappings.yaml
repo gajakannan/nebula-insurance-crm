@@ -666,6 +666,42 @@ features:
       - adr:016
     uses_api_contract:
       - api:nebula-rest
+  - id: feature:F0034
+    path: planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes
+    status: planned
+    affects:
+      - entity:submission
+      - entity:policy
+      - entity:policy-version
+      - entity:policy-endorsement
+      - entity:renewal
+      - workflow:submission
+      - workflow:policy
+      - workflow:renewal
+      - endpoint:submission-create
+      - endpoint:submission-detail
+      - endpoint:renewal-create
+      - endpoint:renewal-detail
+    governed_by:
+      - adr:001
+      - adr:018
+    uses_schema:
+      - schema:line-of-business
+      - schema:submission
+      - schema:submission-create-request
+      - schema:submission-update-request
+      - schema:renewal
+      - schema:renewal-create-request
+      - schema:renewal-update-request
+      - schema:policy
+      - schema:policy-create-request
+      - schema:policy-update-request
+      - schema:policy-endorsement-request
+      - schema:policy-version
+      - schema:policy-endorsement
+      - schema:problem-details
+    uses_api_contract:
+      - api:nebula-rest
 
 stories:
   - id: story:F0005-S0002

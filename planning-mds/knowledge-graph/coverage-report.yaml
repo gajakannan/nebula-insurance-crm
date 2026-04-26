@@ -1,7 +1,7 @@
 version: 0
 summary:
   canonical_nodes: 321
-  features_mapped: 22
+  features_mapped: 23
   stories_mapped: 90
   features_excluded: 11
   features_uncovered: 0
@@ -30,6 +30,7 @@ coverage:
   - feature:F0015
   - feature:F0033
   - feature:F0032
+  - feature:F0034
   excluded_features:
   - id: feature:F0008
     path: planning-mds/features/F0008-broker-insights
@@ -162,48 +163,48 @@ freshness:
       source_paths:
       - planning-mds/architecture/data-model.md
       source_count: 1
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 725969d6555f8a62
     entity:mga:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/domain/glossary.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 7ecd62fe4da16c7f
     entity:program:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/domain/glossary.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 7ecd62fe4da16c7f
     entity:broker:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/domain/glossary.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 7ecd62fe4da16c7f
     entity:broker-region:
       source_paths:
       - planning-mds/architecture/data-model.md
       source_count: 1
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 725969d6555f8a62
     entity:account:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/domain/glossary.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 7ecd62fe4da16c7f
     entity:contact:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/domain/glossary.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 7ecd62fe4da16c7f
     entity:document:
       source_paths:
@@ -217,7 +218,7 @@ freshness:
       - planning-mds/architecture/data-model.md
       - planning-mds/domain/glossary.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 7ecd62fe4da16c7f
     entity:policy:
       source_paths:
@@ -225,61 +226,61 @@ freshness:
       - planning-mds/domain/glossary.md
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: a3ee8bdc583c81c4
+      last_modified: '2026-04-25'
+      source_hash: 2994d1cec80b5224
     entity:policy-version:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 1d2faf148b5bbbbf
+      last_modified: '2026-04-25'
+      source_hash: 1091728fb10e1c38
     entity:policy-endorsement:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 1d2faf148b5bbbbf
+      last_modified: '2026-04-25'
+      source_hash: 1091728fb10e1c38
     entity:policy-coverage-line:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 1d2faf148b5bbbbf
+      last_modified: '2026-04-25'
+      source_hash: 1091728fb10e1c38
     entity:carrier-ref:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 1d2faf148b5bbbbf
+      last_modified: '2026-04-25'
+      source_hash: 1091728fb10e1c38
     entity:renewal:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/domain/glossary.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 7ecd62fe4da16c7f
     entity:task-item:
       source_paths:
       - planning-mds/architecture/data-model.md
       source_count: 1
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 725969d6555f8a62
     entity:activity-timeline-event:
       source_paths:
       - planning-mds/architecture/data-model.md
       source_count: 1
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 725969d6555f8a62
     entity:workflow-transition:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 7dd8ec204e85d616
     entity:workflow-sla-threshold:
       source_paths:
@@ -287,7 +288,7 @@ freshness:
       - planning-mds/architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md
       - planning-mds/architecture/decisions/ADR-014-workflow-sla-threshold-per-lob-extension.md
       source_count: 3
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 021f26947100126e
     glossary_term:quote:
       source_paths:
@@ -394,7 +395,7 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/api/nebula-api.yaml
       source_count: 4
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: f6141413b1f14c1a
     workflow:renewal:
       source_paths:
@@ -404,7 +405,7 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/api/nebula-api.yaml
       source_count: 5
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 1852f71d1bd48887
     workflow:account-lifecycle:
       source_paths:
@@ -424,8 +425,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       - planning-mds/api/nebula-api.yaml
       source_count: 5
-      last_modified: '2026-04-22'
-      source_hash: ce256be7b21e6bbc
+      last_modified: '2026-04-25'
+      source_hash: f1bacf626f9017f0
     capability:dashboard-home:
       source_paths:
       - planning-mds/features/archive/F0001-dashboard/README.md
@@ -541,7 +542,7 @@ freshness:
       - planning-mds/architecture/decisions/ADR-006-authentik-idp-migration.md
       - planning-mds/architecture/SOLUTION-PATTERNS.md
       source_count: 3
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: d42854eed57244e1
     capability:principal-key-normalization:
       source_paths:
@@ -549,7 +550,7 @@ freshness:
       - planning-mds/features/archive/F0005-idp-migration/STATUS.md
       - planning-mds/architecture/data-model.md
       source_count: 3
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: c455c2abfd7fc60a
     capability:oidc-login-and-session:
       source_paths:
@@ -999,28 +1000,28 @@ freshness:
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       - planning-mds/architecture/data-model.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 4964db3f2b87da62
     event:broker-updated:
       source_paths:
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       - planning-mds/architecture/data-model.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 4964db3f2b87da62
     event:contact-created:
       source_paths:
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       - planning-mds/architecture/data-model.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 4964db3f2b87da62
     event:submission-created:
       source_paths:
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       - planning-mds/architecture/data-model.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: ed249d650355a58c
     event:submission-transitioned:
       source_paths:
@@ -1034,14 +1035,14 @@ freshness:
       - planning-mds/features/archive/F0003-task-center/README.md
       - planning-mds/architecture/data-model.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: 32e1a555c82d402c
     event:task-updated:
       source_paths:
       - planning-mds/features/archive/F0004-task-center-ui-and-assignment/README.md
       - planning-mds/architecture/data-model.md
       source_count: 2
-      last_modified: '2026-04-20'
+      last_modified: '2026-04-24'
       source_hash: eb5398f99d60aad1
     event:renewal-transitioned:
       source_paths:
@@ -1486,63 +1487,63 @@ freshness:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/PRD.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 85b20e9ac5329f63
+      last_modified: '2026-04-25'
+      source_hash: c0f45706e05c8913
     policy_rule:policy-create:
       source_paths:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0002-create-policy.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 6bada894ac934cf3
+      last_modified: '2026-04-25'
+      source_hash: 311349f74e7b4d1d
     policy_rule:policy-update:
       source_paths:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0003-policy-detail-and-profile-edit.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 126b08aad8b5e714
+      last_modified: '2026-04-25'
+      source_hash: 63c77015c17a894e
     policy_rule:policy-issue:
       source_paths:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       source_count: 1
-      last_modified: '2026-04-20'
-      source_hash: 8518935a70b25484
+      last_modified: '2026-04-25'
+      source_hash: 26e86cee849a50c2
     policy_rule:policy-endorse:
       source_paths:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0006-policy-endorsements.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: bdb930637dac3ffd
+      last_modified: '2026-04-25'
+      source_hash: b8617b02b0d9f084
     policy_rule:policy-cancel:
       source_paths:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0007-policy-cancellation.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 5b6e1fcc220f5edd
+      last_modified: '2026-04-25'
+      source_hash: 2fb03affe6083a9a
     policy_rule:policy-reinstate:
       source_paths:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0008-policy-reinstatement.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: be82fddc74597117
+      last_modified: '2026-04-25'
+      source_hash: 864811fca7c3d482
     policy_rule:policy-coverage-manage:
       source_paths:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0003-policy-detail-and-profile-edit.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 126b08aad8b5e714
+      last_modified: '2026-04-25'
+      source_hash: 63c77015c17a894e
     policy_rule:policy-import:
       source_paths:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0002-create-policy.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 6bada894ac934cf3
+      last_modified: '2026-04-25'
+      source_hash: 311349f74e7b4d1d
     evidence:workflow-state-machine-tests:
       source_paths:
       - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
@@ -1685,8 +1686,8 @@ freshness:
       source_paths:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       source_count: 1
-      last_modified: '2026-04-20'
-      source_hash: 8518935a70b25484
+      last_modified: '2026-04-25'
+      source_hash: 26e86cee849a50c2
     adr:auth-token-storage:
       source_paths:
       - planning-mds/architecture/decisions/ADR-Auth-Token-Storage.md
@@ -2345,8 +2346,8 @@ freshness:
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/STATUS.md
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/feature-assembly-plan.md
       source_count: 17
-      last_modified: '2026-04-22'
-      source_hash: 13149e980b20fdbb
+      last_modified: '2026-04-23'
+      source_hash: 61e7671d5bd2bcf2
     feature:F0019:
       source_paths:
       - planning-mds/features/F0019-submission-quoting-proposal-and-approval/GETTING-STARTED.md
@@ -2466,6 +2467,11 @@ freshness:
       source_count: 4
       last_modified: '2026-04-20'
       source_hash: 3479ce911c9a4260
+    feature:F0034:
+      source_paths: []
+      source_count: 0
+      last_modified: null
+      source_hash: null
     story:F0005-S0002:
       source_paths:
       - planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md

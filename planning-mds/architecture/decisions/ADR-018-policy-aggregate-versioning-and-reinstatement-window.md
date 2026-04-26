@@ -1,6 +1,6 @@
 # ADR-018: Policy Aggregate, Version/Endorsement Semantics, and Reinstatement-Window Extension
 
-**Status:** Proposed
+**Status:** Accepted
 **Date:** 2026-04-18
 **Owners:** Architect
 **Related Features:** F0018 (owner), F0007 (archived consumer), F0016 (archived consumer), F0019 (future consumer), F0020 (future consumer), F0028 (future consumer)
@@ -27,11 +27,12 @@ Two additional constraints are load-bearing:
 
 Policy is modeled as a **parent row with append-only immutable `PolicyVersion` snapshots** and **materialized `PolicyCoverageLine` rows per version**. The parent row carries identity, lifecycle state, denormalized fallback fields, and a `CurrentVersionId` pointer.
 
-- **Parent row (`Policy`)** owns: identity, globally-unique `PolicyNumber`, `AccountId` + denormalized fallback (`AccountDisplayNameAtLink`, `AccountStatusAtRead`, `AccountSurvivorId`), `LineOfBusiness`, `Status`, `EffectiveDate`, `ExpirationDate`, `CancellationEffectiveDate` / `CancellationReasonCode` / `ReinstatementDeadline` (cancellation metadata; cleared on reinstate), `PredecessorPolicyId`, `CurrentVersionId`, `TotalPremium` (synced with current version snapshot), `RowVersion`, audit fields.
+- **Parent row (`Policy`)** owns: identity, globally-unique `PolicyNumber`, `AccountId` + denormalized fallback (`AccountDisplayNameAtLink`, `AccountStatusAtRead`, `AccountSurvivorId`), immutable `LineOfBusiness`, `Status`, `EffectiveDate`, `ExpirationDate`, `CancellationEffectiveDate` / `CancellationReasonCode` / `ReinstatementDeadline` (cancellation metadata; cleared on reinstate), `PredecessorPolicyId`, `CurrentVersionId`, `TotalPremium` (synced with current version snapshot), `RowVersion`, audit fields.
 - **Version row (`PolicyVersion`)** is append-only, monotonically numbered per policy, and carries `ProfileSnapshot` (jsonb), `CoverageSnapshot` (jsonb), `PremiumSnapshot`, `VersionReason ∈ {IssuedInitial, Endorsement, Reinstatement}`, optional `EndorsementId` back-reference.
 - **Endorsement row (`PolicyEndorsement`)** is append-only, monotonically numbered per policy, and references the `ResultingVersionId`.
 - **Coverage line rows (`PolicyCoverageLine`)** are materialized per version under `VersionId`. The current coverage set is always reachable via `Policy.CurrentVersionId → PolicyCoverageLine[VersionId=…]`. The jsonb `CoverageSnapshot` on the version is the replay-authoritative copy; the rows are a read-performance optimization.
 - **Carrier reference (`CarrierRef`)** is a lightweight lookup table seeded by F0018 and replaced in full by F0028. Policies may reference `CarrierRefId` (preferred) or fall back to free-text `CarrierName` (common for import-lite).
+- **Policy `LineOfBusiness` is immutable after create.** It is used by SLA thresholds, policy-version consistency, future dynamic LOB attribute registry pinning, and reporting filters. Pending-policy profile edits may update ordinary profile fields, but not `LineOfBusiness`; an LOB correction requires a new policy aggregate or a future explicit administrative correction workflow, not an in-place update.
 
 **Rationale:**
 - Pure mutable model loses audit replay — cannot answer "what was in force on date X?" for endorsement disputes.
@@ -92,7 +93,7 @@ New Casbin actions on resource `policy`:
 
 - `policy:read` — scoped by account ABAC (broker-of-record, territory, region, own book).
 - `policy:create` — Distribution User, Distribution Manager, Underwriter, Admin for manual / bind-hook paths that create `Pending` policies. Import-lite is separately gated by `policy:import`.
-- `policy:update` — Distribution User, Distribution Manager, Underwriter, Admin; state-aware. Pending allows profile edits, Issued restricts edits to non-material fields (notes only) for Underwriter/Admin, and Cancelled/Expired are read-only.
+- `policy:update` — Distribution User, Distribution Manager, Underwriter, Admin; state-aware. Pending allows profile edits except `LineOfBusiness`, Issued restricts edits to non-material fields (notes only) for Underwriter/Admin, and Cancelled/Expired are read-only.
 - `policy:issue` — Underwriter, Admin.
 - `policy:endorse` — Underwriter, Admin.
 - `policy:cancel` — Distribution Manager, Underwriter, Admin.
@@ -122,6 +123,7 @@ Scope predicates reuse existing region / broker / territory patterns from F0002 
 ### Negative
 
 - **Write amplification on endorsement.** Each endorsement writes ≥ 5 rows (endorsement, version, N coverage lines, transition, timeline) plus updates the parent. Acceptable in MVP; not a hotspot for typical volumes.
+- **LOB correction is explicit, not a profile edit.** Mistaken LOB assignment cannot be fixed by mutating the policy row. MVP uses new-policy creation/manual correction handling; a future administrative correction workflow must be designed as a separate audited operation.
 - **Migration complexity.** The F0018 migration introduces 5 new tables (`Policies`, `PolicyVersions`, `PolicyEndorsements`, `PolicyCoverageLines`, `CarrierRef`) plus seed data for `WorkflowSlaThreshold` category `PolicyReinstatementWindow` and `CarrierRef`. Back-fill is not required — this is a greenfield feature; the F0007-landed `PolicyId` stub will be honored via a light reconciliation at go-live (documented separately in the feature-assembly plan).
 - **Nightly expiration job is not durable.** Missed-run recovery relies on the next day's run to catch up (idempotent). Acceptable because expiration is a date-comparison, not a multi-step workflow.
 - **`WorkflowSlaThreshold` category overloading.** The category set grows from aging SLAs to include reinstatement windows. This is explicit and documented here; F0032 admin UI must surface categories clearly.
