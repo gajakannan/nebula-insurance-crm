@@ -15,6 +15,7 @@ Provide a structured integration layer for email, carrier exchange, document sto
 | [PRD.md](./PRD.md) | Product scope and business outcomes |
 | [STATUS.md](./STATUS.md) | Planning and implementation tracker |
 | [GETTING-STARTED.md](./GETTING-STARTED.md) | Setup and refinement notes |
+| [NOTES.md](./NOTES.md) | Deferred considerations to revisit when F0030 is scheduled |
 
 ## Stories
 

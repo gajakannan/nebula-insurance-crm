@@ -48,3 +48,4 @@ This ADR governs:
 - Reference this ADR from portal, communication, and integration-hub PRDs.
 - Define first-wave canonical contracts and replay controls.
 - Align secrets and connector-auth handling with security guidance.
+- When defining first-wave canonical contracts, evaluate Open Data Contract Standard (ODCS v3.x) for external import/export contracts. ODCS would govern dataset-shaped exchanges (imports, exports, batch feeds) — not OpenAPI/Pact, which remain authoritative for application APIs. See [F0030 NOTES.md](../../features/F0030-integration-hub-and-data-exchange/NOTES.md).
