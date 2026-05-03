@@ -1,6 +1,6 @@
 # F0030 — Notes & Deferred Considerations
 
-Captured for review when F0030 is scheduled. Not part of the active PRD or scope.
+Captured for review when F0030 is scheduled. The product-neutral contract-governed exchange pattern is now reflected in the active PRD; the specific ODCS adoption, tooling, and first contract files remain deferred decisions.
 
 ## Open Data Contract Standard (ODCS) for external data exchange
 
@@ -19,7 +19,7 @@ Canonical integration models + mapping layer  (this feature, F0030)
         |
         v
 Integration Hub
-  outbox, inbound staging, connector adapters, replay, monitoring
+  outbox, inbound landing zone, connector adapters, replay, monitoring
         |
         v
 ODCS YAML contracts
@@ -32,7 +32,7 @@ External systems
 
 ### What ODCS would govern
 
-- **F0031 imports:** broker, account, contact, policy, submission import files validated against ODCS contracts before promotion into staging.
+- **F0031 imports:** broker, account, contact, policy, submission import files landed as traceable exchange records and validated against versioned contracts before deduplication review or promotion.
 - **Outbound data products:** `policy-export-v1`, `broker-account-export-v1`, `activity-timeline-export-v1`, etc. — required identifiers, classifications, freshness, row-count expectations, ownership.
 - **Connector acceptance gates:** a connector declares which contract version it produces or consumes; exchanges validate against that contract before being marked successful.
 - **Knowledge-graph alignment:** add a `data_contract` node type alongside the existing `api_contract` so the solution ontology treats external contracts as first-class.
@@ -67,7 +67,7 @@ Wire a `data_contracts` validation gate alongside the existing `knowledge_graph_
 
 ### Decision status
 
-**Not decided.** This note exists so the option is not lost. Revisit when ADR-015 follow-up "Define first-wave canonical contracts and replay controls" is picked up.
+The general contract-governed landing-zone pattern is now part of the F0030 PRD. Specific ODCS adoption remains **not decided**. Revisit when ADR-015 follow-up "Define first-wave canonical contracts and replay controls" is picked up.
 
 ### References
 

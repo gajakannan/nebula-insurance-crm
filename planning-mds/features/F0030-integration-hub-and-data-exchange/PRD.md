@@ -35,6 +35,9 @@ applies_to: product-manager
 **In Scope:**
 - Integration contracts and connection boundaries
 - Inbound and outbound data exchange patterns
+- Contract-governed dataset exchange patterns for imports, exports, batch feeds, and snapshot extracts
+- Product-neutral inbound landing zone design for immutable receipt, validation, replay, and promotion
+- Contract metadata, validation status, idempotency, replay state, and source-to-target lineage for external exchanges
 - Integration monitoring and operational control points
 - Priority external systems for CRM workflows
 
@@ -42,12 +45,21 @@ applies_to: product-manager
 - Every integration at once
 - Unbounded custom integration framework
 - Replacement of external source systems
+- Medallion architecture or tier naming
+- Vendor-specific data-platform architecture
+- Replacing OpenAPI, Pact, Bruno, JSON Schema, application DTO validation, or internal domain models
+- Finalizing the event-contract standard for outbox events
 
 ## Success Criteria
 
 - Nebula has explicit, supportable integration boundaries.
 - High-value surrounding systems can connect with less manual effort.
 - Integration work is staged without destabilizing the core CRM.
+- Nebula has a product-neutral inbound landing zone pattern for external data exchange.
+- Dataset-shaped imports and exports can be associated with versioned contracts where appropriate.
+- Raw external records remain separate from operational CRM domain entities until mapped and promoted.
+- Promoted records preserve enough source-to-target lineage for support, reconciliation, and audit review.
+- F0031 can use a compatible receipt, validation, lineage, and promotion boundary for go-live migration without requiring the full F0030 platform to ship first.
 
 ## Risks & Assumptions
 
@@ -68,7 +80,40 @@ applies_to: product-manager
 - Introduce an integration hub layer with connector adapters, canonical contracts, operational monitoring, and transport-agnostic orchestration.
 - Add an outbox or equivalent reliable event-publication pattern so business events can be shared with external systems without coupling core transactions to connector availability.
 - Provide connector-specific adapters for high-value domains such as communications, documents, carriers, and finance while preserving a shared integration control plane.
+- Define a reusable contract-governed exchange pattern for dataset-shaped records, extracts, batch feeds, and snapshots.
+- Establish an inbound landing zone as the application-level receipt and audit boundary before records are mapped into canonical integration models or promoted into CRM entities.
 - Keep the architecture opinionated enough to avoid an unbounded custom integration platform in the first release.
+
+### Contract-Governed Data Exchange
+
+F0030 defines the reusable integration architecture for contract-governed data exchange. External systems publish dataset-shaped records, extracts, or domain change records that conform to versioned integration contracts. They do not send ODCS data or contract files as the business payload; they send normal business records governed by a contract that describes expected structure, semantics, ownership, validation expectations, lineage, and exchange rules.
+
+The integration hub receives those records through an inbound record envelope, lands the raw artifact or normalized payload view as an immutable, contract-stamped exchange record, associates it with a known contract version, and validates it before promotion. Valid records are mapped through canonical integration models and promoted into Nebula CRM domain entities.
+
+Conceptual flow:
+
+```text
+External System / Connector / Migration Feed
+        |
+        v
+Inbound Record Envelope
+        |
+        v
+Inbound Landing Zone
+        |
+        v
+Contract Association and Validation
+        |
+        v
+Canonical Integration Mapping
+        |
+        v
+Nebula CRM Domain Entities
+```
+
+The inbound landing zone is not the canonical CRM model. It is a controlled staging and audit boundary used for traceability, validation, replay, deduplication handoff, and operational recovery.
+
+F0031 - Data Import, Deduplication & Go-Live Migration should apply this pattern for controlled migration and import scenarios. F0030 defines the reusable integration architecture; F0031 applies a compatible subset to go-live data loading, deduplication review, and migration promotion.
 
 ### Data & Workflow Design
 
@@ -76,6 +121,11 @@ applies_to: product-manager
 - Store idempotency keys, correlation IDs, retry state, and dead-letter or failure outcomes so external exchange is observable and recoverable.
 - Separate business-source records from integration transport records to avoid polluting core aggregates with connector-specific fields.
 - Preserve provenance on inbound data so users can distinguish internally authored changes from externally synchronized updates.
+- Treat inbound exchange records as immutable, contract-stamped records before promotion into CRM entities.
+- Preserve source metadata, contract metadata, validation status, correlation IDs, idempotency keys, replay state, and source batch identifiers for every inbound exchange.
+- Keep raw source artifacts or payloads separate from operational CRM aggregates so external source state does not leak into the core domain model.
+- Support promotion from landing zone records into canonical integration models and then into CRM entities such as Account, Broker, Contact, Submission, Policy, Renewal, Activity, and Document.
+- Preserve source-to-target lineage so synchronized, imported, or promoted records can be traced back to source system, connector, batch, source record ID, contract ID, and contract version.
 
 ### API & Integration Design
 
@@ -83,6 +133,11 @@ applies_to: product-manager
 - Integrate through canonical contracts and mapping layers rather than letting each feature talk directly to external systems using bespoke payloads.
 - Support asynchronous delivery, retries, and operational replay where consistency does not need to be synchronous with the user transaction.
 - Keep first-wave connectors narrow and high value so the hub architecture stabilizes before broader ecosystem expansion.
+- For dataset-shaped exchange, evaluate ODCS v3.x as a candidate standard for imports, exports, batch feeds, and snapshot extracts.
+- ODCS governs dataset-shaped exchanges; it does not replace Nebula's REST API contracts, Pact checks, Bruno tests, JSON Schema validation, application DTO validation, or internal domain model.
+- Allow connectors to declare which contract ID and contract version they produce or consume.
+- Reject, quarantine, or mark failed any inbound exchange that cannot be associated with a known contract version, while retaining enough receipt information for audit and support review.
+- Evaluate AsyncAPI separately for event-style outbox payloads where ODCS is not the best fit.
 
 ### Security & Operational Considerations
 
@@ -90,6 +145,8 @@ applies_to: product-manager
 - Monitor delivery latency, retry counts, dead-letter volume, connector health, and replay actions as first-class operational signals.
 - Design connector executions and inbound processing to be idempotent because duplicates and retries are normal in external integrations.
 - Apply contract versioning discipline so feature teams can evolve internal models without breaking external consumers unexpectedly.
+- Ensure validation failures remain visible and traceable instead of silently disappearing or being promoted into operational CRM entities.
+- Preserve enough landed exchange data to validate, quarantine, replay, remap, and promote external records without requiring the source system to resend the original payload.
 
 ## Architecture Traceability
 
@@ -97,7 +154,7 @@ applies_to: product-manager
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
-| Introduces: Cross-Cutting Component | Integration hub, connector adapters, canonical contract layer, and replay controls | [ADR-015](../../architecture/decisions/ADR-015-integration-hub-canonical-contracts-and-outbox.md) (Proposed) |
+| Introduces: Cross-Cutting Component | Integration hub, connector adapters, canonical contract layer, inbound landing zone, and replay controls | [ADR-015](../../architecture/decisions/ADR-015-integration-hub-canonical-contracts-and-outbox.md) (Proposed) |
 | Introduces/Standardizes: Cross-Cutting Pattern | Outbox-driven delivery, idempotent connector processing, and canonical integration events | [ADR-015](../../architecture/decisions/ADR-015-integration-hub-canonical-contracts-and-outbox.md) (Proposed) |
 | Extends: Cross-Cutting Component | Connector settings are expected to be governed through published operational configuration | [ADR-016](../../architecture/decisions/ADR-016-published-operational-configuration-governance.md) (Proposed) |
 
