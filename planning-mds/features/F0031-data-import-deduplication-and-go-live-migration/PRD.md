@@ -67,6 +67,7 @@ applies_to: product-manager
 - Introduce an import pipeline with job orchestration, staging storage, validation services, duplicate-detection services, and merge-review workflows.
 - Add entity-specific import adapters for brokers, accounts, contacts, policies, submissions, and related master data instead of one monolithic parser.
 - Provide migration-readiness reporting that surfaces completion rates, error classes, unresolved duplicates, and cutover blockers.
+- Use an F0030-compatible exchange receipt pattern for landed migration records where practical, without requiring the full integration hub platform to ship before release-enablement imports.
 - Keep open-ended customer-specific ETL and live bi-directional sync out of the core product architecture.
 
 ### Data & Workflow Design
@@ -75,6 +76,7 @@ applies_to: product-manager
 - Preserve source-system identifiers and source lineage on imported records so future reconciliation and support analysis remain possible.
 - Use deterministic duplicate-detection rules with human review for ambiguous matches rather than silent auto-merge across sensitive CRM entities.
 - Keep staged data isolated from production truth until validation and approval thresholds are met.
+- Treat source migration records as landed, traceable exchange records before validation, deduplication review, and promotion into CRM domain entities.
 
 ### API & Integration Design
 
