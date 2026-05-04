@@ -1,5 +1,7 @@
 # Feature Roadmap (Now / Next / Later)
 
+**Last Reviewed:** 2026-05-04
+
 This document is the working prioritization view for feature sequencing.
 
 ## Purpose
@@ -20,11 +22,13 @@ This document is the working prioritization view for feature sequencing.
 |---------|-------|---------|
 | [F0020 — Document Management & ACORD Intake](./F0020-document-management-and-acord-intake/README.md) | CRM Release MVP | Removes document chasing and supports completeness checks for submissions and underwriting review. |
 
+**Implementation Readiness Note:** F0020 remains the next feature to refine and implement. The immediate next step is story breakdown / feature assembly planning, not coding directly from the draft PRD.
+
 ## Next
 
 | Feature | Phase | Why Next |
 |---------|-------|----------|
-| [F0019 — Submission Quoting, Proposal & Approval Workflow](./F0019-submission-quoting-proposal-and-approval/README.md) | CRM Release MVP | Completes intake-to-quote-to-bind operations; intake alone is insufficient for a commercial P&C CRM. |
+| [F0019 — Submission Quoting, Proposal & Approval Workflow](./F0019-submission-quoting-proposal-and-approval/README.md) | CRM Release MVP | Completes intake-to-quote-to-bind operations after F0020 provides the shared document architecture needed for proposal artifacts and document completeness. |
 | [F0021 — Communication Hub & Activity Capture](./F0021-communication-hub-and-activity-capture/README.md) | CRM Release MVP | Creates the communication system of record for broker interactions, underwriting follow-up, and audit history. |
 | [F0022 — Work Queues, Assignment Rules & Coverage Management](./F0022-work-queues-assignment-rules-and-coverage-management/README.md) | CRM Release MVP | Adds operational routing, backup coverage, and workload balancing beyond personal task lists. |
 | [F0023 — Global Search, Saved Views & Operational Reporting](./F0023-global-search-saved-views-and-operational-reporting/README.md) | CRM Release MVP | Provides cross-object findability, operational visibility, and daily management reporting required for adoption. |
@@ -41,8 +45,8 @@ This document is the working prioritization view for feature sequencing.
 | [F0026 — Billing, Invoicing & Reconciliation](./F0026-billing-invoicing-and-reconciliation/README.md) | Brokerage Platform Expansion | Pushes the product deeper into agency management and finance operations. |
 | [F0027 — COI, ACORD & Outbound Document Generation](./F0027-coi-acord-and-outbound-document-generation/README.md) | CRM Release MVP+ | Strong insurance-specific parity feature once policy and document foundations exist. |
 | [F0028 — Carrier & Market Relationship Management](./F0028-carrier-and-market-relationship-management/README.md) | CRM Release MVP+ | Supports appetite, appointments, market access, and carrier relationship strategy. |
-| [F0029 — External Broker Collaboration Portal](./F0029-external-broker-collaboration-portal/README.md) | Future Platform | External collaboration remains intentionally post-MVP until internal workflows are mature. |
-| [F0030 — Integration Hub & Data Exchange](./F0030-integration-hub-and-data-exchange/README.md) | Future Platform | Needed for scalable connectivity across email, carriers, accounting, and document systems. |
+| [F0029 — External Broker Collaboration Portal](./F0029-external-broker-collaboration-portal/README.md) | Brokerage Platform Expansion | External collaboration remains intentionally post-MVP until internal workflows are mature. |
+| [F0030 — Integration Hub & Data Exchange](./F0030-integration-hub-and-data-exchange/README.md) | Brokerage Platform Expansion | Needed for scalable connectivity across email, carriers, accounting, and document systems. |
 | [F0032 — Admin Configuration & Reference Data Console](./F0032-admin-configuration-and-reference-data-console/README.md) | Platform Operations | Needed once queues, templates, rules, and reference data become more configurable. |
 
 ## Abandoned
@@ -75,6 +79,7 @@ This document is the working prioritization view for feature sequencing.
 ## Notes
 
 - This roadmap is the authoritative Now/Next/Later view.
+- Reviewed 2026-05-04 against `REGISTRY.md`, current planned feature PRDs, archived feature dependencies, and code-level document-completeness placeholders. Sequencing remains unchanged: F0020 is still the next implementation target.
 - The proposed Commercial P&C CRM release MVP spans the `Now` and `Next` buckets together; `Later` captures MVP+ and platform-expansion scope.
 - `REGISTRY.md` remains the authoritative feature inventory and ID tracker.
 - `BLUEPRINT.md` remains the baseline product/architecture source of truth.
