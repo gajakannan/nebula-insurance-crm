@@ -339,6 +339,9 @@ ROLE_SLUG_TO_CSV = {
     "program-manager": "ProgramManager",
     "admin": "Admin",
     "broker-user": "BrokerUser",
+    "coordinator": "Coordinator",
+    "mga-user": "MgaUser",
+    "external-user": "ExternalUser",
 }
 
 

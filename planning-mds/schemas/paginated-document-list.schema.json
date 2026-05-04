@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/paginated-document-list.schema.json",
+  "title": "PaginatedDocumentList",
+  "description": "Paginated envelope returned from GET /documents.",
+  "type": "object",
+  "required": ["documents", "pagination"],
+  "additionalProperties": false,
+  "properties": {
+    "documents": {
+      "type": "array",
+      "items": { "$ref": "document-list-item.schema.json" }
+    },
+    "pagination": {
+      "type": "object",
+      "required": ["page", "pageSize", "total"],
+      "additionalProperties": false,
+      "properties": {
+        "page": { "type": "integer", "minimum": 1 },
+        "pageSize": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "total": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

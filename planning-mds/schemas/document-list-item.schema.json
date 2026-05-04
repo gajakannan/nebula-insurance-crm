@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/document-list-item.schema.json",
+  "title": "DocumentListItem",
+  "description": "Per-row payload returned from GET /documents.",
+  "type": "object",
+  "required": [
+    "documentId",
+    "logicalName",
+    "type",
+    "classification",
+    "latestVersion",
+    "status",
+    "latestUpload",
+    "parent"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "documentId": { "type": "string", "pattern": "^doc_[0-9A-HJKMNP-TV-Z]{26}$" },
+    "logicalName": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "type": { "type": "string" },
+    "classification": { "type": "string", "enum": ["public", "confidential", "restricted"] },
+    "latestVersion": { "type": "integer", "minimum": 1 },
+    "status": { "type": "string", "enum": ["quarantined", "available", "failed_promote"] },
+    "latestUpload": {
+      "type": "object",
+      "required": ["atUtc", "byUserId"],
+      "additionalProperties": false,
+      "properties": {
+        "atUtc": { "type": "string", "format": "date-time" },
+        "byUserId": { "type": "string", "format": "uuid" }
+      }
+    },
+    "parent": {
+      "type": "object",
+      "required": ["type", "id"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string", "enum": ["account", "submission", "policy", "renewal"] },
+        "id": { "type": "string", "format": "uuid" }
+      }
+    }
+  }
+}

@@ -459,3 +459,120 @@ p, BrokerUser, contact,           read,   true
 p, BrokerUser, dashboard_nudge,   read,   true
 p, BrokerUser, timeline_event,    read,   true
 p, BrokerUser, task,              read,   true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# §3 Documents (F0020 — ADR-012 + ADR-019)
+#
+# Effective decision is parent_abac AND classification_policy. Parent ABAC is
+# enforced here; the classification table lives in
+# <docroot>/configuration/casbin-document-roles.yaml and is loaded at runtime
+# (F0020-S0009). Both gates must allow.
+#
+# Resources and actions:
+#   document          read, create, replace, update_metadata, download
+#   document          create:restricted, declassify    (elevated; parent ABAC only — classification gate also applies)
+#   document_template read, create, replace, link
+#
+# Source: authorization-matrix.md §3 (Documents).
+# ─────────────────────────────────────────────────────────────────────────────
+
+# §3.1 Document operations (parent ABAC layer)
+p, Admin,                document, read,             true
+p, Admin,                document, create,           true
+p, Admin,                document, replace,          true
+p, Admin,                document, update_metadata,  true
+p, Admin,                document, download,         true
+p, Admin,                document, create:restricted,true
+p, Admin,                document, declassify,       true
+
+p, Underwriter,          document, read,             true
+p, Underwriter,          document, create,           true
+p, Underwriter,          document, replace,          true
+p, Underwriter,          document, update_metadata,  true
+p, Underwriter,          document, download,         true
+p, Underwriter,          document, create:restricted,true
+p, Underwriter,          document, declassify,       true
+
+p, DistributionUser,     document, read,             true
+p, DistributionUser,     document, create,           true
+p, DistributionUser,     document, replace,          true
+p, DistributionUser,     document, update_metadata,  true
+p, DistributionUser,     document, download,         true
+
+p, DistributionManager,  document, read,             true
+p, DistributionManager,  document, create,           true
+p, DistributionManager,  document, replace,          true
+p, DistributionManager,  document, update_metadata,  true
+p, DistributionManager,  document, download,         true
+
+p, RelationshipManager,  document, read,             true
+p, RelationshipManager,  document, create,           true
+p, RelationshipManager,  document, replace,          true
+p, RelationshipManager,  document, update_metadata,  true
+p, RelationshipManager,  document, download,         true
+
+p, ProgramManager,       document, read,             true
+p, ProgramManager,       document, create,           true
+p, ProgramManager,       document, replace,          true
+p, ProgramManager,       document, update_metadata,  true
+p, ProgramManager,       document, download,         true
+
+# Coordinator parallels DistributionUser scope on documents.
+p, Coordinator,          document, read,             true
+p, Coordinator,          document, create,           true
+p, Coordinator,          document, replace,          true
+p, Coordinator,          document, update_metadata,  true
+p, Coordinator,          document, download,         true
+
+# External roles (BrokerUser, MgaUser, ExternalUser): can upload + read on parents
+# they can already see; classification table further restricts to public docs.
+# No update_metadata or replace — they cannot mutate existing documents.
+p, BrokerUser,           document, read,             true
+p, BrokerUser,           document, create,           true
+p, BrokerUser,           document, download,         true
+
+p, MgaUser,              document, read,             true
+p, MgaUser,              document, create,           true
+p, MgaUser,              document, download,         true
+
+p, ExternalUser,         document, read,             true
+p, ExternalUser,         document, download,         true
+
+# §3.2 Document templates (parent ABAC layer)
+p, Admin,                document_template, read,    true
+p, Admin,                document_template, create,  true
+p, Admin,                document_template, replace, true
+p, Admin,                document_template, link,    true
+
+p, Underwriter,          document_template, read,    true
+p, Underwriter,          document_template, link,    true
+
+p, DistributionUser,     document_template, read,    true
+p, DistributionUser,     document_template, create,  true
+p, DistributionUser,     document_template, link,    true
+
+p, DistributionManager,  document_template, read,    true
+p, DistributionManager,  document_template, create,  true
+p, DistributionManager,  document_template, replace, true
+p, DistributionManager,  document_template, link,    true
+
+p, RelationshipManager,  document_template, read,    true
+p, RelationshipManager,  document_template, link,    true
+
+p, ProgramManager,       document_template, read,    true
+p, ProgramManager,       document_template, link,    true
+
+p, Coordinator,          document_template, read,    true
+p, Coordinator,          document_template, create,  true
+p, Coordinator,          document_template, link,    true
+
+p, BrokerUser,           document_template, read,    true
+p, BrokerUser,           document_template, create,  true
+p, BrokerUser,           document_template, link,    true
+
+p, MgaUser,              document_template, read,    true
+p, MgaUser,              document_template, create,  true
+p, MgaUser,              document_template, link,    true
+
+p, ExternalUser,         document_template, read,    true
+p, ExternalUser,         document_template, link,    true

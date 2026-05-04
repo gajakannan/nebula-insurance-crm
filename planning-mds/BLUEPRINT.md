@@ -345,8 +345,10 @@ This section defines the build-ready technical baseline for the reference implem
 - [ADR-002](architecture/decisions/ADR-002-dashboard-data-aggregation.md) — Dashboard Data Aggregation (per-widget endpoints)
 - [ADR-003](architecture/decisions/ADR-003-task-entity-nudge-engine.md) — Task Entity & Nudge Engine
 - [ADR-004](architecture/decisions/ADR-004-frontend-dashboard-widget-architecture.md) — Frontend Dashboard Widget Architecture
+- [ADR-012](architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) — Shared Document Storage and Metadata Architecture (F0020 — finalised 2026-05-04)
+- [ADR-019](architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md) — Mock-quarantine-then-promote ingest pipeline (F0020)
 
-**Data Model Supplement:** See `planning-mds/architecture/data-model.md` for Task entity, dashboard indexes, and query patterns.
+**Data Model Supplement:** See `planning-mds/architecture/data-model.md` for Task entity, dashboard indexes, and query patterns. F0020 documents are filesystem-first (no relational entity in MVP); see `planning-mds/features/F0020-document-management-and-acord-intake/README.md` for the on-disk layout and the `IDocumentRepository` boundary.
 
 ### 4.1 Service boundaries
 

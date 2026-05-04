@@ -1,0 +1,149 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/document-sidecar.schema.json",
+  "title": "DocumentSidecar",
+  "description": "Canonical sidecar JSON colocated with a document's binary versions. Single sidecar per logical document. ADR-012.",
+  "type": "object",
+  "required": [
+    "documentId",
+    "logicalName",
+    "parent",
+    "classification",
+    "type",
+    "versions",
+    "events"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "documentId": {
+      "type": "string",
+      "pattern": "^doc_[0-9A-HJKMNP-TV-Z]{26}$",
+      "description": "Stable ULID-prefixed document id."
+    },
+    "logicalName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^[A-Za-z0-9._-]+$",
+      "description": "Basename without version suffix or extension. ASCII safe; collisions disambiguated server-side."
+    },
+    "parent": {
+      "type": "object",
+      "required": ["type", "id"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string", "enum": ["account", "submission", "policy", "renewal"] },
+        "id": { "type": "string", "format": "uuid" }
+      }
+    },
+    "classification": {
+      "type": "string",
+      "enum": ["public", "confidential", "restricted"]
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Value must exist in <docroot>/configuration/taxonomy.yaml."
+    },
+    "tags": {
+      "type": "array",
+      "maxItems": 10,
+      "items": { "type": "string", "minLength": 1, "maxLength": 32, "pattern": "^[^,]+$" }
+    },
+    "uploaderId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Internal NebulaPrincipal.UserId of the original uploader."
+    },
+    "auditTimestamps": {
+      "type": "object",
+      "required": ["createdAtUtc", "updatedAtUtc"],
+      "additionalProperties": false,
+      "properties": {
+        "createdAtUtc": { "type": "string", "format": "date-time" },
+        "updatedAtUtc": { "type": "string", "format": "date-time" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": { "type": "string", "pattern": "^(upload|template:doc_[0-9A-HJKMNP-TV-Z]{26})$" },
+        "materializedAt": { "type": "string", "format": "date-time" },
+        "byUserId": { "type": "string", "format": "uuid" }
+      }
+    },
+    "versions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["n", "fileName", "sizeBytes", "sha256", "status", "uploadedAt", "uploadedByUserId"],
+        "additionalProperties": false,
+        "properties": {
+          "n": { "type": "integer", "minimum": 1 },
+          "fileName": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._-]+-v[1-9][0-9]*\\.(pdf|png|docx|xlsx|csv)$"
+          },
+          "sizeBytes": { "type": "integer", "minimum": 1, "maximum": 5242880 },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "status": { "type": "string", "enum": ["quarantined", "available", "failed_promote"] },
+          "uploadedAt": { "type": "string", "format": "date-time" },
+          "uploadedByUserId": { "type": "string", "format": "uuid" },
+          "supersedes": { "type": ["integer", "null"], "minimum": 1 }
+        }
+      }
+    },
+    "useCount": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Templates only. Increments on each materialise."
+    },
+    "lastUsedAt": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Templates only."
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "at", "byUserId"],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "uploaded",
+              "promoted",
+              "promote_failed",
+              "scan_infected",
+              "scan_inconclusive",
+              "downloaded",
+              "replaced",
+              "classified",
+              "metadata_edited",
+              "linked",
+              "materialised",
+              "swept"
+            ]
+          },
+          "at": { "type": "string", "format": "date-time" },
+          "byUserId": {
+            "type": "string",
+            "description": "Internal NebulaPrincipal.UserId, OR a system-principal token like 'system:quarantine-worker' or 'system:retention-sweeper'."
+          },
+          "version": { "type": ["integer", "null"], "minimum": 1 },
+          "fromVersion": { "type": ["integer", "null"], "minimum": 1 },
+          "toVersion": { "type": ["integer", "null"], "minimum": 1 },
+          "from": { "type": ["string", "null"] },
+          "to": { "type": ["string", "null"] },
+          "changes": { "type": ["object", "null"] },
+          "error": { "type": ["string", "null"] },
+          "reason": { "type": ["string", "null"] }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
