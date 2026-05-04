@@ -2,7 +2,7 @@
 
 Auto-generated index of all user stories across feature folders.
 
-**Total Stories:** 101
+**Total Stories:** 113
 
 ---
 
@@ -214,6 +214,25 @@ Auto-generated index of all user stories across feature folders.
 
 ---
 
+## F0020 — Document Management & ACORD Intake
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0020-S0001](./F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md) | Upload single document with metadata to a parent record | Critical | CRM Release MVP | distribution user, underwriter, coordinator, broker, or MGA contact |
+| [F0020-S0002](./F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md) | Bulk multi-file upload (drag and drop) to a parent record | Critical | CRM Release MVP | broker, MGA contact, distribution user, or coordinator |
+| [F0020-S0003](./F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md) | Quarantine and mock-scan workflow (60 s hold then promote) | Critical | CRM Release MVP | Nebula operator |
+| [F0020-S0004](./F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md) | List documents on a parent record with classification filtering | Critical | CRM Release MVP | distribution user, underwriter, coordinator, broker, or MGA contact |
+| [F0020-S0005](./F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md) | Document detail view with preview, version history, and provenance | Critical | CRM Release MVP | distribution user, underwriter, coordinator, broker, or MGA contact |
+| [F0020-S0006](./F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md) | Download a document for the current version and any prior version | Critical | CRM Release MVP | distribution user, underwriter, coordinator, broker, or MGA contact |
+| [F0020-S0007](./F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md) | Replace a document creating an immutable new version with supersedes lineage | Critical | CRM Release MVP | broker, MGA, distribution user, or coordinator |
+| [F0020-S0008](./F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md) | Update document metadata (classification, type, tags) without creating a new binary version | High | CRM Release MVP | distribution user, underwriter, or coordinator |
+| [F0020-S0009](./F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md) | Classification-based access control layered on parent ABAC | Critical | CRM Release MVP | Nebula security owner |
+| [F0020-S0010](./F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md) | Document completeness signal endpoint (read-only summary by category and classification) | High | CRM Release MVP | consumer feature (e.g., F0006 Submission Intake, F0018 Policy Lifecycle) |
+| [F0020-S0011](./F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md) | Retention policy YAML and scheduled cleanup (MVP cap = 10 days) | Critical | CRM Release MVP | Nebula operator |
+| [F0020-S0012](./F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md) | Document templates library (broker boilerplate templates with parent-record linking) | High | CRM Release MVP | broker, MGA, distribution user, or coordinator |
+
+---
+
 ## F0033 — Structured Logging and QE Toolchain Activation
 
 | Story ID | Title | Priority | Phase | Persona |
@@ -230,7 +249,7 @@ Auto-generated index of all user stories across feature folders.
 
 | Phase | Count |
 |-------|-------|
-| CRM Release MVP | 37 |
+| CRM Release MVP | 49 |
 | Future | 1 |
 | Infrastructure | 10 |
 | MVP | 37 |
@@ -244,8 +263,8 @@ Auto-generated index of all user stories across feature folders.
 
 | Priority | Count |
 |----------|-------|
-| Critical | 41 |
-| High | 45 |
+| Critical | 50 |
+| High | 48 |
 | Medium | 11 |
 
 ---

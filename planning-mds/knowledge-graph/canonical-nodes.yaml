@@ -135,6 +135,15 @@ entities:
       - adr: adr:014-workflow-sla
         section: "Decision"
         summary: "Extended with LOB dimension so SLA targets vary by line of business rather than being entity-wide defaults."
+  - id: entity:document-template
+    label: DocumentTemplate
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+    rationale:
+      - adr: adr:012
+        section: "Decision §10"
+        summary: "Templates are documents stored under <docroot>/templates/ with the same sidecar JSON shape; materialising a template into a parent record creates an independent document with provenance.source = template:{id}."
 
 workflows:
   - id: workflow:submission
@@ -287,6 +296,32 @@ workflows:
           - state:policy:issued
       - id: state:policy:expired
         label: Expired
+  - id: workflow:document-ingest
+    label: Document ingest pipeline (quarantine then promote)
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
+    notes: >
+      Every uploaded binary (single, bulk, replace, template materialise) is held in
+      <docroot>/quarantine/{upload-id} for a configurable hold (default 60 s; bounds 30-300 s)
+      before an idempotent worker promotes the binary atomically and flips the sidecar JSON status.
+      The MVP scanner is a timer (`MockTimerScanner`); real scanners satisfy the same `IQuarantineScanner`
+      interface.
+    rationale:
+      - adr: adr:019
+        section: "Decision"
+        summary: "Structural pipeline that lets the mock scanner be replaced with a real scanner via a single interface implementation, and exposes failure modes through sidecar JSON events[]."
+    states:
+      - id: state:document-ingest:quarantined
+        label: Quarantined
+        transitions_to:
+          - state:document-ingest:available
+          - state:document-ingest:failed-promote
+      - id: state:document-ingest:available
+        label: Available
+      - id: state:document-ingest:failed-promote
+        label: FailedPromote
 
 capabilities:
   - id: capability:dashboard-home
@@ -571,6 +606,43 @@ glossary_terms:
       - entity:document
       - entity:policy
       - state:submission:bound
+  - id: capability:document-management
+    label: Document Management
+    source_docs:
+      - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+  - id: capability:document-templates
+    label: Document Templates Library
+    source_docs:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+    related_nodes:
+      - entity:document-template
+      - entity:document
+  - id: capability:document-classification
+    label: Classification-based document access control
+    source_docs:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/security/authorization-matrix.md
+    related_nodes:
+      - entity:document
+      - entity:document-template
+  - id: capability:document-retention
+    label: Document retention policy and scheduled cleanup
+    source_docs:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+  - id: capability:document-completeness-signal
+    label: Document completeness signal (read-only summary)
+    source_docs:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+    related_nodes:
+      - entity:document
 
 endpoints:
   - id: endpoint:dashboard-kpis
@@ -1014,6 +1086,110 @@ endpoints:
       - entity:account
       - entity:activity-timeline-event
       - policy_rule:timeline-event-read
+  - id: endpoint:documents-list
+    label: GET /documents
+    method: GET
+    route: /documents
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
+    related_nodes:
+      - entity:document
+      - capability:document-management
+      - capability:document-classification
+  - id: endpoint:documents-upload
+    label: POST /documents
+    method: POST
+    route: /documents
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+      - capability:document-management
+  - id: endpoint:documents-detail
+    label: GET /documents/{documentId}
+    method: GET
+    route: /documents/{documentId}
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
+    related_nodes:
+      - entity:document
+      - capability:document-management
+  - id: endpoint:documents-replace
+    label: PUT /documents/{documentId}/replace
+    method: PUT
+    route: /documents/{documentId}/replace
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+  - id: endpoint:documents-metadata-update
+    label: PATCH /documents/{documentId}/metadata
+    method: PATCH
+    route: /documents/{documentId}/metadata
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
+    related_nodes:
+      - entity:document
+      - capability:document-classification
+  - id: endpoint:documents-download
+    label: GET /documents/{documentId}/versions/{versionRef}/binary
+    method: GET
+    route: /documents/{documentId}/versions/{versionRef}/binary
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
+    related_nodes:
+      - entity:document
+      - capability:document-classification
+  - id: endpoint:documents-completeness
+    label: GET /documents/completeness
+    method: GET
+    route: /documents/completeness
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+    related_nodes:
+      - entity:document
+      - capability:document-completeness-signal
+  - id: endpoint:document-templates-list
+    label: GET /document-templates
+    method: GET
+    route: /document-templates
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+    related_nodes:
+      - entity:document-template
+      - capability:document-templates
+  - id: endpoint:document-templates-upload
+    label: POST /document-templates
+    method: POST
+    route: /document-templates
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+    related_nodes:
+      - entity:document-template
+      - workflow:document-ingest
+  - id: endpoint:document-templates-link
+    label: POST /document-templates/{templateId}/link
+    method: POST
+    route: /document-templates/{templateId}/link
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+    related_nodes:
+      - entity:document
+      - entity:document-template
+      - capability:document-templates
 
 ui_routes:
   - id: ui_route:dashboard-home
@@ -1276,6 +1452,52 @@ config_keys:
       - adr: adr:016
         section: "Decision"
         summary: "Governed publish semantics with versioning and validation prevent ad hoc runtime configuration and ensure audit trails for rollback."
+  - id: config_key:document-taxonomy
+    label: Document Type Taxonomy
+    key: configuration/taxonomy.yaml
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+    related_nodes:
+      - entity:document
+      - capability:document-management
+    rationale:
+      - adr: adr:012
+        section: "Decision §6"
+        summary: "Document type taxonomy is canonical YAML inside the reserved configuration/ folder; code never embeds document type values."
+  - id: config_key:document-retention-policies
+    label: Document Retention Policies
+    key: configuration/document-retention-policies.yaml
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md
+      - planning-mds/schemas/document-retention-policy.schema.json
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+      - capability:document-retention
+      - schema:document-retention-policy
+    rationale:
+      - adr: adr:012
+        section: "Decision §7"
+        summary: "Per-type retention with hard 10-day MVP ceiling; sweeper reads YAML and removes documents past their per-type window. Loader rejects values above the ceiling so MVP cannot silently retain too long."
+      - adr: adr:019
+        section: "Decision §Configuration"
+        summary: "Quarantine knobs (holdSeconds, workerTickSeconds, maxRetries) colocated in the same retention YAML so all document repository configuration is in one file."
+  - id: config_key:document-classification-policy
+    label: Document Classification Policy (Casbin)
+    key: configuration/casbin-document-roles.yaml
+    source_docs:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/schemas/document-classification-policy.schema.json
+    related_nodes:
+      - entity:document
+      - capability:document-classification
+      - schema:document-classification-policy
+    rationale:
+      - adr: adr:012
+        section: "Decision §5"
+        summary: "Classification policy table is YAML, not code. Closed-by-default missing entries deny; loader rejects malformed files and keeps the prior policy in force."
 
 migrations:
   - id: migration:initial-create
@@ -1397,6 +1619,20 @@ roles:
     source_docs:
       - planning-mds/security/authorization-matrix.md
     notes: Default external deny role for MVP; no allow policy lines exist.
+  - id: role:coordinator
+    label: Coordinator
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
+    notes: Internal Broker Relationship Coordinator role; parallels DistributionUser scope on documents (F0020 introduced this role into the security matrix).
+  - id: role:mga-user
+    label: MgaUser
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
+    notes: External MGA contact role; same access shape as BrokerUser for documents (introduced in F0020 phase B).
 
 policy_rules:
   - id: policy_rule:broker-read
@@ -2175,6 +2411,213 @@ policy_rules:
       - entity:policy
       - capability:authorization-enforcement
     notes: Gates the import-lite CSV ingest path; DistributionManager and Admin only in MVP.
+  - id: policy_rule:document-read
+    label: document:read
+    resource: document
+    action: read
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+      - role:distribution-user
+      - role:distribution-manager
+      - role:relationship-manager
+      - role:program-manager
+      - role:coordinator
+      - role:broker-user
+      - role:mga-user
+      - role:external-user
+    related_nodes:
+      - entity:document
+      - capability:document-management
+      - capability:document-classification
+    notes: >
+      Parent ABAC layer. Effective decision is parent_abac AND classification_policy
+      (the latter loaded from configuration/casbin-document-roles.yaml at runtime).
+  - id: policy_rule:document-create
+    label: document:create
+    resource: document
+    action: create
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+      - role:distribution-user
+      - role:distribution-manager
+      - role:relationship-manager
+      - role:program-manager
+      - role:coordinator
+      - role:broker-user
+      - role:mga-user
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+      - capability:document-management
+  - id: policy_rule:document-replace
+    label: document:replace
+    resource: document
+    action: replace
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+      - role:distribution-user
+      - role:distribution-manager
+      - role:relationship-manager
+      - role:program-manager
+      - role:coordinator
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+      - capability:document-management
+  - id: policy_rule:document-update-metadata
+    label: document:update_metadata
+    resource: document
+    action: update_metadata
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+      - role:distribution-user
+      - role:distribution-manager
+      - role:relationship-manager
+      - role:program-manager
+      - role:coordinator
+    related_nodes:
+      - entity:document
+      - capability:document-classification
+  - id: policy_rule:document-download
+    label: document:download
+    resource: document
+    action: download
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+      - role:distribution-user
+      - role:distribution-manager
+      - role:relationship-manager
+      - role:program-manager
+      - role:coordinator
+      - role:broker-user
+      - role:mga-user
+      - role:external-user
+    related_nodes:
+      - entity:document
+      - capability:document-classification
+  - id: policy_rule:document-create-restricted
+    label: document:create:restricted
+    resource: document
+    action: create:restricted
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+    related_nodes:
+      - entity:document
+      - capability:document-classification
+    notes: Elevated permission required to create or replace a restricted-classification document. Underwriter and Admin only in MVP.
+  - id: policy_rule:document-declassify
+    label: document:declassify
+    resource: document
+    action: declassify
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+    related_nodes:
+      - entity:document
+      - capability:document-classification
+    notes: Required to drop classification down from restricted; Underwriter and Admin only in MVP.
+  - id: policy_rule:document-template-read
+    label: document_template:read
+    resource: document_template
+    action: read
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+      - role:distribution-user
+      - role:distribution-manager
+      - role:relationship-manager
+      - role:program-manager
+      - role:coordinator
+      - role:broker-user
+      - role:mga-user
+      - role:external-user
+    related_nodes:
+      - entity:document-template
+      - capability:document-templates
+  - id: policy_rule:document-template-create
+    label: document_template:create
+    resource: document_template
+    action: create
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:admin
+      - role:distribution-user
+      - role:distribution-manager
+      - role:coordinator
+      - role:broker-user
+      - role:mga-user
+    related_nodes:
+      - entity:document-template
+      - workflow:document-ingest
+      - capability:document-templates
+  - id: policy_rule:document-template-replace
+    label: document_template:replace
+    resource: document_template
+    action: replace
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    related_nodes:
+      - entity:document-template
+      - workflow:document-ingest
+      - capability:document-templates
+  - id: policy_rule:document-template-link
+    label: document_template:link
+    resource: document_template
+    action: link
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+      - role:distribution-user
+      - role:distribution-manager
+      - role:relationship-manager
+      - role:program-manager
+      - role:coordinator
+      - role:broker-user
+      - role:mga-user
+      - role:external-user
+    related_nodes:
+      - entity:document
+      - entity:document-template
+      - capability:document-templates
 
 evidence:
   - id: evidence:workflow-state-machine-tests
@@ -2278,6 +2721,9 @@ adrs:
   - id: adr:authentication-strategy
     label: Authentication Strategy
     path: planning-mds/architecture/decisions/ADR-Authentication-Strategy.md
+  - id: adr:019
+    label: Mock-quarantine-then-promote ingest pipeline
+    path: planning-mds/architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md
 
 api_contracts:
   - id: api:nebula-rest
@@ -2498,3 +2944,27 @@ schemas:
   - id: schema:policy-import-request
     path: planning-mds/schemas/policy-import-request.schema.json
     related_nodes: [entity:policy]
+  - id: schema:document-sidecar
+    path: planning-mds/schemas/document-sidecar.schema.json
+    related_nodes: [entity:document, entity:document-template, workflow:document-ingest]
+  - id: schema:document-list-item
+    path: planning-mds/schemas/document-list-item.schema.json
+    related_nodes: [entity:document]
+  - id: schema:paginated-document-list
+    path: planning-mds/schemas/paginated-document-list.schema.json
+    related_nodes: [entity:document]
+  - id: schema:document-detail
+    path: planning-mds/schemas/document-detail.schema.json
+    related_nodes: [entity:document]
+  - id: schema:document-completeness
+    path: planning-mds/schemas/document-completeness.schema.json
+    related_nodes: [entity:document, capability:document-completeness-signal]
+  - id: schema:document-retention-policy
+    path: planning-mds/schemas/document-retention-policy.schema.json
+    related_nodes: [entity:document, workflow:document-ingest, config_key:document-retention-policies]
+  - id: schema:document-classification-policy
+    path: planning-mds/schemas/document-classification-policy.schema.json
+    related_nodes: [entity:document, entity:document-template, capability:document-classification, config_key:document-classification-policy]
+  - id: schema:document-template
+    path: planning-mds/schemas/document-template.schema.json
+    related_nodes: [entity:document-template]

@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/document-template.schema.json",
+  "title": "DocumentTemplateListItem",
+  "description": "Per-row payload from GET /document-templates. Templates are stored as documents with type='template'; they live under <docroot>/templates/{templateId}/ and follow the same sidecar JSON shape.",
+  "type": "object",
+  "required": ["templateId", "logicalName", "type", "classification", "useCount"],
+  "additionalProperties": false,
+  "properties": {
+    "templateId": { "type": "string", "pattern": "^doc_[0-9A-HJKMNP-TV-Z]{26}$" },
+    "logicalName": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "type": { "type": "string", "const": "template" },
+    "classification": { "type": "string", "enum": ["public", "confidential", "restricted"] },
+    "tags": {
+      "type": "array",
+      "maxItems": 10,
+      "items": { "type": "string", "minLength": 1, "maxLength": 32, "pattern": "^[^,]+$" }
+    },
+    "useCount": { "type": "integer", "minimum": 0 },
+    "lastUsedAt": { "type": ["string", "null"], "format": "date-time" },
+    "uploadedAtUtc": { "type": "string", "format": "date-time" },
+    "uploadedByUserId": { "type": "string", "format": "uuid" }
+  }
+}

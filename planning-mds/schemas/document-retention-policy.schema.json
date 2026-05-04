@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/document-retention-policy.schema.json",
+  "title": "DocumentRetentionPolicy",
+  "description": "Schema for <docroot>/configuration/document-retention-policies.yaml. ADR-012 + ADR-019. MVP retention ceiling = 10 days; quarantine knobs colocated.",
+  "type": "object",
+  "required": ["version", "defaultRetentionDays", "perType"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "integer", "const": 1 },
+    "defaultRetentionDays": { "type": "integer", "minimum": 1, "maximum": 10 },
+    "perType": {
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 1, "maximum": 10 },
+      "description": "Map of canonical document type (from configuration/taxonomy.yaml) to retention days. Hard ceiling: 10."
+    },
+    "quarantine": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "holdSeconds": { "type": "integer", "minimum": 30, "maximum": 300, "default": 60 },
+        "workerTickSeconds": { "type": "integer", "minimum": 5, "maximum": 30, "default": 10 },
+        "maxRetries": { "type": "integer", "minimum": 1, "maximum": 10, "default": 5 }
+      }
+    },
+    "sweeper": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "intervalMinutes": { "type": "integer", "minimum": 5, "maximum": 1440, "default": 60 },
+        "dryRunDefault": { "type": "boolean", "default": false }
+      }
+    }
+  }
+}

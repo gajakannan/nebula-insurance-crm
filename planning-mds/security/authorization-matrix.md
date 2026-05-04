@@ -441,14 +441,79 @@ Resource: `account`. Actions: `read`, `create`, `update`, `deactivate`, `reactiv
 
 ## 3. InternalOnly Content Rule
 
-All resources in this matrix are classified **InternalOnly** for MVP. No data is accessible to ExternalUser under any circumstances. This rule applies universally to all resources above.
+All resources in this matrix are classified **InternalOnly** for MVP. No data is accessible to ExternalUser under any circumstances. This rule applies universally to all resources above (Brokers, Contacts, Submissions, Renewals, Tasks, Dashboard, Timeline, Policies, Accounts).
 
 Sources: BLUEPRINT §1.2 (external users are Future only), §3.1 non-goals ("No external broker/MGA self-service portal in MVP"), F0001-S0001 through F0001-S0005 Data Visibility sections, F0002-S0001 and F0002-S0002 Data Visibility sections.
 
 Phase 1 exception (F0009): BrokerUser access can be enabled only for the explicitly broker-visible resources and actions listed in §2.10.
 
+Phase 1 exception (F0020): Documents and document templates introduce a `public | confidential | restricted` classification model layered on parent ABAC. External roles (BrokerUser, MgaUser, ExternalUser) can only read/download `public` documents per the classification table; the parent-ABAC table in §4 is the necessary, not sufficient, condition.
+
 ---
 
-## 4. Open Questions
+## 4. Documents (F0020 — ADR-012 + ADR-019)
+
+The effective access decision for any document operation is:
+
+```
+allow ⇔ parent_abac(user, parent, op)  ∧  classification_policy(role, classification, op)
+```
+
+Parent ABAC lives in `planning-mds/security/policies/policy.csv` §3 (Documents, DocumentTemplates). The classification policy lives in `<docroot>/configuration/casbin-document-roles.yaml` (a runtime configuration file, not source-of-truth code) and is validated by `planning-mds/schemas/document-classification-policy.schema.json`. Both gates must allow.
+
+### 4.1 Document operations (parent ABAC)
+
+| Role | read | create | replace | update_metadata | download | create:restricted | declassify |
+|------|------|--------|---------|-----------------|----------|-------------------|------------|
+| Admin | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Underwriter | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| DistributionUser | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| DistributionManager | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| RelationshipManager | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| ProgramManager | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| Coordinator | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| BrokerUser | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
+| MgaUser | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
+| ExternalUser | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
+
+### 4.2 Document templates (parent ABAC)
+
+| Role | read | create | replace | link |
+|------|------|--------|---------|------|
+| Admin | ✅ | ✅ | ✅ | ✅ |
+| Underwriter | ✅ | ❌ | ❌ | ✅ |
+| DistributionUser | ✅ | ✅ | ❌ | ✅ |
+| DistributionManager | ✅ | ✅ | ✅ | ✅ |
+| RelationshipManager | ✅ | ❌ | ❌ | ✅ |
+| ProgramManager | ✅ | ❌ | ❌ | ✅ |
+| Coordinator | ✅ | ✅ | ❌ | ✅ |
+| BrokerUser | ✅ | ✅ | ❌ | ✅ |
+| MgaUser | ✅ | ✅ | ❌ | ✅ |
+| ExternalUser | ✅ | ❌ | ❌ | ✅ |
+
+### 4.3 Classification policy (default MVP table)
+
+The runtime YAML (`<docroot>/configuration/casbin-document-roles.yaml`) is closed-by-default. The MVP default table that ships in seed data:
+
+| Role | public | confidential | restricted |
+|------|--------|--------------|------------|
+| Admin | all ops | all ops | all ops |
+| Underwriter | all ops | all ops | read, download, create:restricted, declassify |
+| DistributionUser, DistributionManager, RelationshipManager, ProgramManager, Coordinator | all ops except restricted | all ops except restricted | deny |
+| BrokerUser, MgaUser | read, create, download | deny | deny |
+| ExternalUser | read, download | deny | deny |
+
+**Constraints applying to all ALLOW decisions on Document and DocumentTemplate:**
+
+- The classification policy YAML is the authoritative source for the classification half of the gate; the table above is the MVP default that ships in seed data, not hardcoded in code.
+- `restricted` creation requires both `document:create` and `document:create:restricted` — the latter is granted only to Admin and Underwriter in MVP.
+- Declassifying a `restricted` document requires `document:declassify`; downgrades from `confidential` → `public` require `document:update_metadata` and a passing classification check on the new tier.
+- Every document operation produces a sidecar JSON `events[]` row plus one `ActivityTimelineEvent` per SOLUTION-PATTERNS §2; failed authorisation never writes either.
+- File ingest enforces extension allowlist (`pdf, png, docx, xlsx, csv`), 5 MB per-file cap, and 25-file / 50 MB batch cap before any byte leaves the request handler. Violations return ProblemDetails with structured `code` (`unsupported_type`, `file_too_large`, `batch_too_large`, `empty_file`, `invalid_filename`).
+- Download responses are streamed (no full-buffer); resolution path is `documentId → sidecar JSON → version filename` with explicit confirmation that the resolved binary path lives inside the parent's directory before any read.
+
+---
+
+## 5. Open Questions
 
 None.

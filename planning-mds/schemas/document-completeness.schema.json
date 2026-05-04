@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/document-completeness.schema.json",
+  "title": "DocumentCompletenessSignal",
+  "description": "GET /documents/completeness response — a soft, read-only summary by category and classification. Consumers compose their own completeness logic over these counts.",
+  "type": "object",
+  "required": ["parent", "totals", "byType", "byClassification"],
+  "additionalProperties": false,
+  "properties": {
+    "parent": {
+      "type": "object",
+      "required": ["type", "id"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string", "enum": ["account", "submission", "policy", "renewal"] },
+        "id": { "type": "string", "format": "uuid" }
+      }
+    },
+    "totals": {
+      "type": "object",
+      "required": ["available", "quarantined", "failed_promote"],
+      "additionalProperties": false,
+      "properties": {
+        "available": { "type": "integer", "minimum": 0 },
+        "quarantined": { "type": "integer", "minimum": 0 },
+        "failed_promote": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "byType": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "count"],
+        "additionalProperties": false,
+        "properties": {
+          "type": { "type": "string" },
+          "count": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "byClassification": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["classification", "count"],
+        "additionalProperties": false,
+        "properties": {
+          "classification": { "type": "string", "enum": ["public", "confidential", "restricted"] },
+          "count": { "type": "integer", "minimum": 0 }
+        }
+      }
+    }
+  }
+}

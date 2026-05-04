@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/document-classification-policy.schema.json",
+  "title": "DocumentClassificationPolicy",
+  "description": "Schema for <docroot>/configuration/casbin-document-roles.yaml. F0020-S0009. The runtime classification gate is loaded from this file and ANDed with parent ABAC.",
+  "type": "object",
+  "required": ["version", "tiers", "roles", "ops", "policy"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "integer", "const": 1 },
+    "tiers": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["public", "confidential", "restricted"] },
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "admin",
+          "underwriter",
+          "distribution-user",
+          "distribution-manager",
+          "coordinator",
+          "relationship-manager",
+          "program-manager",
+          "broker-user",
+          "mga-user",
+          "external-user"
+        ]
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "ops": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["read", "create", "replace", "update_metadata", "download", "create:restricted", "declassify"]
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "policy": {
+      "type": "array",
+      "description": "Closed-by-default. Missing (role, tier, op) tuples deny.",
+      "items": {
+        "type": "object",
+        "required": ["role", "tier", "op", "verdict"],
+        "additionalProperties": false,
+        "properties": {
+          "role": { "type": "string" },
+          "tier": { "type": "string", "enum": ["public", "confidential", "restricted"] },
+          "op": { "type": "string" },
+          "verdict": { "type": "string", "enum": ["allow", "deny"] }
+        }
+      }
+    }
+  }
+}

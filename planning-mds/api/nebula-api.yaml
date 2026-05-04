@@ -37,6 +37,10 @@ tags:
     description: User search for assignee picker (F0004)
   - name: Timeline
     description: Activity timeline event queries
+  - name: Documents
+    description: Document storage, classification, versioning, and parent linkage (F0020). See ADR-012 + ADR-019.
+  - name: DocumentTemplates
+    description: Reusable document templates (F0020-S0012). Materialise into a parent record to start from a boilerplate.
 
 paths:
   # ──────────────────────────────────────────────────────────────
@@ -2808,6 +2812,387 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "403":
           $ref: "#/components/responses/Forbidden"
+
+  # ──────────────────────────────────────────────────────────────
+  # Document endpoints (F0020 — Documents + DocumentTemplates)
+  # ──────────────────────────────────────────────────────────────
+  /documents:
+    get:
+      operationId: listDocuments
+      summary: List documents for a parent record
+      description: >
+        Paginated list of documents linked to a parent record (account, submission, policy, renewal).
+        Classifications the caller cannot read are excluded regardless of the `classification` filter
+        (closed-by-default per ADR-012). Ordered by latestUpload desc.
+      tags: [Documents]
+      parameters:
+        - in: query
+          name: parent.type
+          required: true
+          schema: { type: string, enum: [account, submission, policy, renewal] }
+        - in: query
+          name: parent.id
+          required: true
+          schema: { type: string, format: uuid }
+        - in: query
+          name: classification
+          required: false
+          description: Comma-separated subset of public,confidential,restricted.
+          schema: { type: string }
+        - in: query
+          name: type
+          required: false
+          description: Comma-separated taxonomy types from configuration/taxonomy.yaml.
+          schema: { type: string }
+        - in: query
+          name: page
+          schema: { type: integer, minimum: 1, default: 1 }
+        - in: query
+          name: pageSize
+          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+      responses:
+        "200":
+          description: Paginated documents list.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaginatedDocumentList" }
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+    post:
+      operationId: uploadDocuments
+      summary: Upload one or more documents (single + bulk)
+      description: >
+        Multipart upload to a parent record. Each accepted file is written to quarantine and a sidecar
+        JSON is created. ADR-019 promote pipeline flips status to available after the configured hold.
+        Allowed types: pdf, png, docx, xlsx, csv. Max per file: 5 MB. Max files per request: 25.
+        Total request body cap: 50 MB.
+      tags: [Documents]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [parentType, parentId, files]
+              properties:
+                parentType: { type: string, enum: [account, submission, policy, renewal] }
+                parentId: { type: string, format: uuid }
+                defaultClassification: { type: string, enum: [public, confidential, restricted], default: public }
+                files:
+                  type: array
+                  minItems: 1
+                  maxItems: 25
+                  items:
+                    type: string
+                    format: binary
+                metadata:
+                  type: array
+                  description: Optional per-file overrides aligned by index with files[].
+                  items: { $ref: "#/components/schemas/DocumentUploadFileMetadata" }
+      responses:
+        "202":
+          description: All files accepted and quarantined.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DocumentUploadResponse" }
+        "207":
+          description: Partial accept — at least one file accepted and at least one rejected.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DocumentUploadResponse" }
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "413":
+          description: File or batch exceeds size cap.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ProblemDetails" }
+        "415":
+          description: Disallowed content type.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ProblemDetails" }
+
+  /documents/{documentId}:
+    get:
+      operationId: getDocumentDetail
+      summary: Get document detail (sidecar JSON + previewUrls)
+      tags: [Documents]
+      parameters:
+        - in: path
+          name: documentId
+          required: true
+          schema: { type: string, pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$" }
+      responses:
+        "200":
+          description: Document detail with sidecar JSON and previewUrls aligned to versions[].
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DocumentDetail" }
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /documents/{documentId}/replace:
+    put:
+      operationId: replaceDocument
+      summary: Replace a document with an immutable new version
+      description: >
+        Writes a new -v{N+1} binary colocated with prior versions. Quarantine pipeline applies.
+        Classification cannot change via replace (use PATCH /documents/{id}/metadata).
+      tags: [Documents]
+      parameters:
+        - in: path
+          name: documentId
+          required: true
+          schema: { type: string, pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$" }
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "202":
+          description: New version accepted and quarantined.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DocumentReplaceResponse" }
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          description: Latest version is not in available state and cannot be replaced yet.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ProblemDetails" }
+        "413":
+          description: File exceeds size cap.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ProblemDetails" }
+        "415":
+          description: Disallowed content type.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ProblemDetails" }
+
+  /documents/{documentId}/metadata:
+    patch:
+      operationId: updateDocumentMetadata
+      summary: Update document metadata (classification, type, tags) without creating a new version
+      tags: [Documents]
+      parameters:
+        - in: path
+          name: documentId
+          required: true
+          schema: { type: string, pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$" }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/DocumentMetadataUpdateRequest" }
+      responses:
+        "200":
+          description: Metadata updated; sidecar JSON `events[]` carries the audit row.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DocumentDetail" }
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /documents/{documentId}/versions/{versionRef}/binary:
+    get:
+      operationId: downloadDocumentVersion
+      summary: Download a document version (current or prior)
+      tags: [Documents]
+      parameters:
+        - in: path
+          name: documentId
+          required: true
+          schema: { type: string, pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$" }
+        - in: path
+          name: versionRef
+          required: true
+          description: "`latest` resolves to the latest available version; otherwise an integer matching versions[].n."
+          schema: { type: string, pattern: "^(latest|[1-9][0-9]*)$" }
+      responses:
+        "200":
+          description: Binary stream.
+          headers:
+            Content-Disposition:
+              schema: { type: string }
+              description: '`attachment; filename="{logicalName}-v{N}.{ext}"`'
+          content:
+            application/octet-stream:
+              schema: { type: string, format: binary }
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          description: Requested version is not in available state.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ProblemDetails" }
+
+  /documents/completeness:
+    get:
+      operationId: getDocumentCompleteness
+      summary: Soft completeness signal — counts by category and classification
+      description: >
+        Read-only summary other features consume. Counts are masked by the caller's classification
+        access; this endpoint never returns isComplete (consumers compose their own logic).
+      tags: [Documents]
+      parameters:
+        - in: query
+          name: parent.type
+          required: true
+          schema: { type: string, enum: [account, submission, policy, renewal] }
+        - in: query
+          name: parent.id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Completeness summary.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DocumentCompletenessSignal" }
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /document-templates:
+    get:
+      operationId: listDocumentTemplates
+      summary: List document templates
+      tags: [DocumentTemplates]
+      parameters:
+        - in: query
+          name: type
+          schema: { type: string }
+        - in: query
+          name: classification
+          schema: { type: string }
+        - in: query
+          name: page
+          schema: { type: integer, minimum: 1, default: 1 }
+        - in: query
+          name: pageSize
+          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+      responses:
+        "200":
+          description: Templates list.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaginatedDocumentTemplateList" }
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+    post:
+      operationId: uploadDocumentTemplate
+      summary: Upload a new document template
+      tags: [DocumentTemplates]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file: { type: string, format: binary }
+                classification: { type: string, enum: [public, confidential, restricted], default: public }
+                tags:
+                  type: array
+                  maxItems: 10
+                  items: { type: string, maxLength: 32 }
+      responses:
+        "202":
+          description: Template upload accepted and quarantined.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DocumentTemplate" }
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "413":
+          description: File exceeds size cap.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ProblemDetails" }
+        "415":
+          description: Disallowed content type.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ProblemDetails" }
+
+  /document-templates/{templateId}/link:
+    post:
+      operationId: linkDocumentTemplateToParent
+      summary: Materialise a template into a parent record
+      description: >
+        Copies the template binary into the parent's documents folder via the quarantine pipeline.
+        The new parent-side document carries `provenance.source = "template:{templateId}"`.
+      tags: [DocumentTemplates]
+      parameters:
+        - in: path
+          name: templateId
+          required: true
+          schema: { type: string, pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$" }
+        - in: query
+          name: parent.type
+          required: true
+          schema: { type: string, enum: [account, submission, policy, renewal] }
+        - in: query
+          name: parent.id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "202":
+          description: Template materialised into the parent record (still subject to quarantine).
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DocumentUploadAcceptedItem" }
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
 
 components:
   securitySchemes:
@@ -5599,3 +5984,316 @@ components:
           maxItems: 500
           items:
             $ref: "#/components/schemas/PolicyCreateRequest"
+
+    # ──────────────────────────────────────────────────────────────
+    # Document component schemas (F0020)
+    # Source-of-truth schemas live in planning-mds/schemas/document-*.json.
+    # The OpenAPI shapes below mirror those schemas using OpenAPI 3.0.3
+    # nullable syntax per SOLUTION-PATTERNS §3.
+    # ──────────────────────────────────────────────────────────────
+    DocumentParentRef:
+      type: object
+      required: [type, id]
+      properties:
+        type:
+          type: string
+          enum: [account, submission, policy, renewal]
+        id:
+          type: string
+          format: uuid
+
+    DocumentLatestUpload:
+      type: object
+      required: [atUtc, byUserId]
+      properties:
+        atUtc: { type: string, format: date-time }
+        byUserId: { type: string, format: uuid }
+
+    DocumentListItem:
+      type: object
+      required: [documentId, logicalName, type, classification, latestVersion, status, latestUpload, parent]
+      properties:
+        documentId:
+          type: string
+          pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+        logicalName: { type: string, minLength: 1, maxLength: 200 }
+        type: { type: string }
+        classification:
+          type: string
+          enum: [public, confidential, restricted]
+        latestVersion: { type: integer, minimum: 1 }
+        status:
+          type: string
+          enum: [quarantined, available, failed_promote]
+        latestUpload:
+          $ref: "#/components/schemas/DocumentLatestUpload"
+        parent:
+          $ref: "#/components/schemas/DocumentParentRef"
+
+    PaginatedDocumentList:
+      type: object
+      required: [documents, pagination]
+      properties:
+        documents:
+          type: array
+          items: { $ref: "#/components/schemas/DocumentListItem" }
+        pagination:
+          type: object
+          required: [page, pageSize, total]
+          properties:
+            page: { type: integer, minimum: 1 }
+            pageSize: { type: integer, minimum: 1, maximum: 100 }
+            total: { type: integer, minimum: 0 }
+
+    DocumentVersion:
+      type: object
+      required: [n, fileName, sizeBytes, sha256, status, uploadedAt, uploadedByUserId]
+      properties:
+        n: { type: integer, minimum: 1 }
+        fileName:
+          type: string
+          pattern: "^[A-Za-z0-9._-]+-v[1-9][0-9]*\\.(pdf|png|docx|xlsx|csv)$"
+        sizeBytes: { type: integer, minimum: 1, maximum: 5242880 }
+        sha256:
+          type: string
+          pattern: "^[0-9a-f]{64}$"
+        status:
+          type: string
+          enum: [quarantined, available, failed_promote]
+        uploadedAt: { type: string, format: date-time }
+        uploadedByUserId: { type: string, format: uuid }
+        supersedes: { type: integer, nullable: true, minimum: 1 }
+
+    DocumentEvent:
+      type: object
+      required: [kind, at, byUserId]
+      properties:
+        kind:
+          type: string
+          enum:
+            - uploaded
+            - promoted
+            - promote_failed
+            - scan_infected
+            - scan_inconclusive
+            - downloaded
+            - replaced
+            - classified
+            - metadata_edited
+            - linked
+            - materialised
+            - swept
+        at: { type: string, format: date-time }
+        byUserId:
+          type: string
+          description: Internal NebulaPrincipal.UserId or system principal token (e.g., system:quarantine-worker, system:retention-sweeper).
+        version: { type: integer, nullable: true, minimum: 1 }
+        fromVersion: { type: integer, nullable: true, minimum: 1 }
+        toVersion: { type: integer, nullable: true, minimum: 1 }
+        from: { type: string, nullable: true }
+        to: { type: string, nullable: true }
+        changes: { type: object, nullable: true, additionalProperties: true }
+        error: { type: string, nullable: true }
+        reason: { type: string, nullable: true }
+
+    DocumentSidecar:
+      type: object
+      required: [documentId, logicalName, parent, classification, type, versions, events]
+      properties:
+        documentId:
+          type: string
+          pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+        logicalName: { type: string, minLength: 1, maxLength: 200 }
+        parent:
+          $ref: "#/components/schemas/DocumentParentRef"
+        classification:
+          type: string
+          enum: [public, confidential, restricted]
+        type: { type: string }
+        tags:
+          type: array
+          maxItems: 10
+          items: { type: string, maxLength: 32 }
+        uploaderId: { type: string, format: uuid }
+        auditTimestamps:
+          type: object
+          required: [createdAtUtc, updatedAtUtc]
+          properties:
+            createdAtUtc: { type: string, format: date-time }
+            updatedAtUtc: { type: string, format: date-time }
+        provenance:
+          type: object
+          nullable: true
+          properties:
+            source: { type: string, pattern: "^(upload|template:doc_[0-9A-HJKMNP-TV-Z]{26})$" }
+            materializedAt: { type: string, format: date-time, nullable: true }
+            byUserId: { type: string, format: uuid, nullable: true }
+        versions:
+          type: array
+          minItems: 1
+          items: { $ref: "#/components/schemas/DocumentVersion" }
+        useCount: { type: integer, nullable: true, minimum: 0 }
+        lastUsedAt: { type: string, format: date-time, nullable: true }
+        events:
+          type: array
+          items: { $ref: "#/components/schemas/DocumentEvent" }
+
+    DocumentDetail:
+      type: object
+      required: [sidecar, previewUrls]
+      properties:
+        sidecar: { $ref: "#/components/schemas/DocumentSidecar" }
+        previewUrls:
+          type: array
+          description: Aligned by index with sidecar.versions[]; null where the version is non-renderable or non-available.
+          items: { type: string, format: uri, nullable: true }
+
+    DocumentUploadFileMetadata:
+      type: object
+      properties:
+        classification:
+          type: string
+          enum: [public, confidential, restricted]
+          nullable: true
+        type: { type: string, nullable: true }
+        tags:
+          type: array
+          maxItems: 10
+          items: { type: string, maxLength: 32 }
+          nullable: true
+
+    DocumentUploadAcceptedItem:
+      type: object
+      required: [documentId, logicalName, status]
+      properties:
+        documentId:
+          type: string
+          pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+        logicalName: { type: string }
+        status:
+          type: string
+          enum: [quarantined]
+
+    DocumentUploadRejectedItem:
+      type: object
+      required: [index, code]
+      properties:
+        index: { type: integer, minimum: 0 }
+        logicalName: { type: string, nullable: true }
+        code:
+          type: string
+          enum:
+            - unsupported_type
+            - file_too_large
+            - empty_file
+            - invalid_filename
+            - parent_access_denied
+            - classification_access_denied
+            - folder_entry_unsupported
+        detail: { type: string, nullable: true }
+
+    DocumentUploadResponse:
+      type: object
+      required: [documents]
+      properties:
+        documents:
+          type: array
+          items: { $ref: "#/components/schemas/DocumentUploadAcceptedItem" }
+        rejected:
+          type: array
+          items: { $ref: "#/components/schemas/DocumentUploadRejectedItem" }
+
+    DocumentReplaceResponse:
+      type: object
+      required: [documentId, version, status]
+      properties:
+        documentId:
+          type: string
+          pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+        version: { type: integer, minimum: 1 }
+        status:
+          type: string
+          enum: [quarantined]
+
+    DocumentMetadataUpdateRequest:
+      type: object
+      properties:
+        classification:
+          type: string
+          enum: [public, confidential, restricted]
+          nullable: true
+        type: { type: string, nullable: true }
+        tags:
+          type: array
+          maxItems: 10
+          items: { type: string, maxLength: 32 }
+          nullable: true
+
+    DocumentCompletenessSignal:
+      type: object
+      required: [parent, totals, byType, byClassification]
+      properties:
+        parent: { $ref: "#/components/schemas/DocumentParentRef" }
+        totals:
+          type: object
+          required: [available, quarantined, failed_promote]
+          properties:
+            available: { type: integer, minimum: 0 }
+            quarantined: { type: integer, minimum: 0 }
+            failed_promote: { type: integer, minimum: 0 }
+        byType:
+          type: array
+          items:
+            type: object
+            required: [type, count]
+            properties:
+              type: { type: string }
+              count: { type: integer, minimum: 0 }
+        byClassification:
+          type: array
+          items:
+            type: object
+            required: [classification, count]
+            properties:
+              classification:
+                type: string
+                enum: [public, confidential, restricted]
+              count: { type: integer, minimum: 0 }
+
+    DocumentTemplate:
+      type: object
+      required: [templateId, logicalName, type, classification, useCount]
+      properties:
+        templateId:
+          type: string
+          pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+        logicalName: { type: string, minLength: 1, maxLength: 200 }
+        type:
+          type: string
+          enum: [template]
+        classification:
+          type: string
+          enum: [public, confidential, restricted]
+        tags:
+          type: array
+          maxItems: 10
+          items: { type: string, maxLength: 32 }
+        useCount: { type: integer, minimum: 0 }
+        lastUsedAt: { type: string, format: date-time, nullable: true }
+        uploadedAtUtc: { type: string, format: date-time }
+        uploadedByUserId: { type: string, format: uuid }
+
+    PaginatedDocumentTemplateList:
+      type: object
+      required: [templates, pagination]
+      properties:
+        templates:
+          type: array
+          items: { $ref: "#/components/schemas/DocumentTemplate" }
+        pagination:
+          type: object
+          required: [page, pageSize, total]
+          properties:
+            page: { type: integer, minimum: 1 }
+            pageSize: { type: integer, minimum: 1, maximum: 100 }
+            total: { type: integer, minimum: 0 }

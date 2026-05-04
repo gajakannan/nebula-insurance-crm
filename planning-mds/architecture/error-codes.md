@@ -45,6 +45,21 @@
 | `invalid_program` | 400 | Referenced program does not exist or is soft-deleted. | F0006-S0002 |
 | `invalid_lob` | 400 | LineOfBusiness value is not in the known LOB set. | F0006-S0002 |
 | `invalid_assignee` | 400 | Target user does not exist, is inactive, or lacks the required role for the current submission state. | F0006-S0006 |
+| `unsupported_type` | 415 | Uploaded file extension or detected content-type is not in the document allowlist (`pdf, png, docx, xlsx, csv`). | F0020-S0001 |
+| `file_too_large` | 413 | Uploaded file exceeds the 5 MB per-file cap. | F0020-S0001 |
+| `batch_too_large` | 413 | Bulk upload exceeded the 25-file or 50 MB total cap. | F0020-S0002 |
+| `empty_file` | 400 | Uploaded binary is 0 bytes. | F0020-S0001 |
+| `invalid_filename` | 400 | Uploaded filename contains path separators or unsupported characters. | F0020-S0001 |
+| `parent_access_denied` | 403 | Caller lacks parent-record ABAC for the requested document operation. | F0020-S0001 |
+| `classification_access_denied` | 403 | Caller passed parent ABAC but is denied by the classification policy table. | F0020-S0009 |
+| `document_access_denied` | 403 | Combined parent+classification gate denied; emitted by detail and download paths. | F0020-S0005, F0020-S0006 |
+| `metadata_access_denied` | 403 | Caller lacks `document:update_metadata` for the requested edit. | F0020-S0008 |
+| `version_not_available` | 409 | Requested version is in `quarantined` or `failed_promote` state and cannot be downloaded or replaced. | F0020-S0006, F0020-S0007 |
+| `document_not_found` | 404 | Sidecar JSON missing or document id is unknown to the caller. | F0020-S0006 |
+| `promotion_internal_only` | 403 | A user request hit an internal worker-only path (only `system:quarantine-worker` may invoke promotion). | F0020-S0003 |
+| `folder_entry_unsupported` | 400 | Bulk upload received a nested folder entry; only top-level files are accepted. | F0020-S0002 |
+| `retention_policy_invalid` | 400 | Retention YAML failed validation (per-type or default exceeds the 10-day MVP cap, or unknown type). | F0020-S0011 |
+| `classification_policy_invalid` | 400 | Casbin-document-roles YAML failed schema validation (unknown role/tier/op or empty closure). | F0020-S0009 |
 
 ## Notes
 

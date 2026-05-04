@@ -1,8 +1,8 @@
 version: 0
 summary:
-  canonical_nodes: 321
+  canonical_nodes: 366
   features_mapped: 23
-  stories_mapped: 90
+  stories_mapped: 102
   features_excluded: 11
   features_uncovered: 0
   code_bindings: 128
@@ -157,6 +157,18 @@ coverage:
   - story:F0016-S0009
   - story:F0016-S0010
   - story:F0016-S0011
+  - story:F0020-S0001
+  - story:F0020-S0002
+  - story:F0020-S0003
+  - story:F0020-S0004
+  - story:F0020-S0005
+  - story:F0020-S0006
+  - story:F0020-S0007
+  - story:F0020-S0008
+  - story:F0020-S0009
+  - story:F0020-S0010
+  - story:F0020-S0011
+  - story:F0020-S0012
 freshness:
   canonical:
     entity:user-profile:
@@ -211,8 +223,8 @@ freshness:
       - planning-mds/domain/glossary.md
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 06dc8796804c6690
+      last_modified: '2026-05-04'
+      source_hash: c0b4db1dc2f5a4b7
     entity:submission:
       source_paths:
       - planning-mds/architecture/data-model.md
@@ -290,6 +302,13 @@ freshness:
       source_count: 3
       last_modified: '2026-04-24'
       source_hash: 021f26947100126e
+    entity:document-template:
+      source_paths:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 0e04e5b296574f68
     glossary_term:quote:
       source_paths:
       - planning-mds/domain/glossary.md
@@ -388,6 +407,39 @@ freshness:
       source_count: 1
       last_modified: '2026-04-20'
       source_hash: 71e7c3e508d2c192
+    capability:document-management:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 6ffca4b0bbe71e73
+    capability:document-templates:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 6acff60a974bf25c
+    capability:document-classification:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/security/authorization-matrix.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 0c5b8c0109b8ed96
+    capability:document-retention:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 8f4e724d3726e5f5
+    capability:document-completeness-signal:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 8fcdf11154d9a099
     workflow:submission:
       source_paths:
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
@@ -395,8 +447,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/api/nebula-api.yaml
       source_count: 4
-      last_modified: '2026-04-24'
-      source_hash: f6141413b1f14c1a
+      last_modified: '2026-05-04'
+      source_hash: 498f9182cdaface5
     workflow:renewal:
       source_paths:
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
@@ -405,8 +457,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/api/nebula-api.yaml
       source_count: 5
-      last_modified: '2026-04-24'
-      source_hash: 1852f71d1bd48887
+      last_modified: '2026-05-04'
+      source_hash: 17e865c095c4c8b5
     workflow:account-lifecycle:
       source_paths:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
@@ -415,8 +467,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
       - planning-mds/api/nebula-api.yaml
       source_count: 5
-      last_modified: '2026-04-20'
-      source_hash: 0c1373fc401b8cb7
+      last_modified: '2026-05-04'
+      source_hash: 0803ae5b0c56b6cf
     workflow:policy:
       source_paths:
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/README.md
@@ -425,8 +477,16 @@ freshness:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       - planning-mds/api/nebula-api.yaml
       source_count: 5
-      last_modified: '2026-04-25'
-      source_hash: f1bacf626f9017f0
+      last_modified: '2026-05-04'
+      source_hash: b398d7c3c110bbfe
+    workflow:document-ingest:
+      source_paths:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
+      source_count: 3
+      last_modified: '2026-05-04'
+      source_hash: 94f7e2236c68c6d9
     capability:dashboard-home:
       source_paths:
       - planning-mds/features/archive/F0001-dashboard/README.md
@@ -633,197 +693,197 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-002-dashboard-data-aggregation.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 2c12f92f50131b4b
+      last_modified: '2026-05-04'
+      source_hash: f65237afeba954ef
     endpoint:dashboard-opportunity-flow:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-002-dashboard-data-aggregation.md
       - planning-mds/architecture/decisions/ADR-004-frontend-dashboard-widget-architecture.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: f56a23e6aa3ecd08
+      last_modified: '2026-05-04'
+      source_hash: c16fee467abc41ce
     endpoint:dashboard-nudges:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-003-task-entity-nudge-engine.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 7b98e737aa8c02c0
+      last_modified: '2026-05-04'
+      source_hash: 68c5855ab3d613f9
     endpoint:broker-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: b8bbde7d7ec9fdc2
+      last_modified: '2026-05-04'
+      source_hash: 62e143d6b6748708
     endpoint:broker-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: b8bbde7d7ec9fdc2
+      last_modified: '2026-05-04'
+      source_hash: 62e143d6b6748708
     endpoint:broker-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: b8bbde7d7ec9fdc2
+      last_modified: '2026-05-04'
+      source_hash: 62e143d6b6748708
     endpoint:submission-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: f06b1ad8d5ebb5bb
+      last_modified: '2026-05-04'
+      source_hash: 1326f49219393b28
     endpoint:submission-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: f06b1ad8d5ebb5bb
+      last_modified: '2026-05-04'
+      source_hash: 1326f49219393b28
     endpoint:submission-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: f06b1ad8d5ebb5bb
+      last_modified: '2026-05-04'
+      source_hash: 1326f49219393b28
     endpoint:submission-transition:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: dbd6a220949e9304
+      last_modified: '2026-05-04'
+      source_hash: 97c1fbdcaf203d92
     endpoint:submission-assignment:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: f06b1ad8d5ebb5bb
+      last_modified: '2026-05-04'
+      source_hash: 1326f49219393b28
     endpoint:submission-timeline:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: f06b1ad8d5ebb5bb
+      last_modified: '2026-05-04'
+      source_hash: 1326f49219393b28
     endpoint:renewal-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: c38ad0bb5059287e
+      last_modified: '2026-05-04'
+      source_hash: b61e3d6f56c4d927
     endpoint:renewal-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: f448308b7e733561
+      last_modified: '2026-05-04'
+      source_hash: 06669011ab0d2c80
     endpoint:renewal-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: c38ad0bb5059287e
+      last_modified: '2026-05-04'
+      source_hash: b61e3d6f56c4d927
     endpoint:renewal-transition:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: cfe013813b5ad02d
+      last_modified: '2026-05-04'
+      source_hash: 3f0393d7ef7aff99
     endpoint:renewal-assignment:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: c38ad0bb5059287e
+      last_modified: '2026-05-04'
+      source_hash: b61e3d6f56c4d927
     endpoint:renewal-timeline:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: c38ad0bb5059287e
+      last_modified: '2026-05-04'
+      source_hash: b61e3d6f56c4d927
     endpoint:task-my-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0003-task-center/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 24fc631c08804194
+      last_modified: '2026-05-04'
+      source_hash: 8ff6dac044a3e952
     endpoint:task-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0004-task-center-ui-and-assignment/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 458b7414c204f04a
+      last_modified: '2026-05-04'
+      source_hash: b0a2478117989edb
     endpoint:task-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0004-task-center-ui-and-assignment/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 458b7414c204f04a
+      last_modified: '2026-05-04'
+      source_hash: b0a2478117989edb
     endpoint:task-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0003-task-center/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 24fc631c08804194
+      last_modified: '2026-05-04'
+      source_hash: 8ff6dac044a3e952
     endpoint:timeline-events:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/F0007-S0007-renewal-activity-timeline-and-audit-trail.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: e4b2f0336a68fa0e
+      last_modified: '2026-05-04'
+      source_hash: 844f64a44ddba6a3
     endpoint:account-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 0160ade969f7be03
+      last_modified: '2026-05-04'
+      source_hash: 59d6edff9fc527ce
     endpoint:account-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 0160ade969f7be03
+      last_modified: '2026-05-04'
+      source_hash: 59d6edff9fc527ce
     endpoint:account-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: db06a240bb6b5a2e
+      last_modified: '2026-05-04'
+      source_hash: 3e06cf3c711dff55
     endpoint:account-update:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 0160ade969f7be03
+      last_modified: '2026-05-04'
+      source_hash: 59d6edff9fc527ce
     endpoint:account-lifecycle:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -831,86 +891,157 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
       source_count: 4
-      last_modified: '2026-04-20'
-      source_hash: 0a2751ca1e012c49
+      last_modified: '2026-05-04'
+      source_hash: 79cdcf2973e6162c
     endpoint:account-merge:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/feature-assembly-plan.md
       - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: 7444821b4750a4bc
+      last_modified: '2026-05-04'
+      source_hash: 6172989f03537772
     endpoint:account-summary:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 0160ade969f7be03
+      last_modified: '2026-05-04'
+      source_hash: 59d6edff9fc527ce
     endpoint:account-contact-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 0160ade969f7be03
+      last_modified: '2026-05-04'
+      source_hash: 59d6edff9fc527ce
     endpoint:account-contact-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 0160ade969f7be03
+      last_modified: '2026-05-04'
+      source_hash: 59d6edff9fc527ce
     endpoint:account-contact-update:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 0160ade969f7be03
+      last_modified: '2026-05-04'
+      source_hash: 59d6edff9fc527ce
     endpoint:account-contact-delete:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 0160ade969f7be03
+      last_modified: '2026-05-04'
+      source_hash: 59d6edff9fc527ce
     endpoint:account-relationship-change:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 0160ade969f7be03
+      last_modified: '2026-05-04'
+      source_hash: 59d6edff9fc527ce
     endpoint:account-submissions:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 0160ade969f7be03
+      last_modified: '2026-05-04'
+      source_hash: 59d6edff9fc527ce
     endpoint:account-renewals:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 0160ade969f7be03
+      last_modified: '2026-05-04'
+      source_hash: 59d6edff9fc527ce
     endpoint:account-policies:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 0160ade969f7be03
+      last_modified: '2026-05-04'
+      source_hash: 59d6edff9fc527ce
     endpoint:account-timeline:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: 0160ade969f7be03
+      last_modified: '2026-05-04'
+      source_hash: 59d6edff9fc527ce
+    endpoint:documents-list:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 173abbc267586c44
+    endpoint:documents-upload:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
+      source_count: 3
+      last_modified: '2026-05-04'
+      source_hash: 839fde3207ec733a
+    endpoint:documents-detail:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: b6013daa724fb14a
+    endpoint:documents-replace:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: b0d40825e7abcccc
+    endpoint:documents-metadata-update:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 02af9c7eb1ec2e9f
+    endpoint:documents-download:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 3c318dbda61410d6
+    endpoint:documents-completeness:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 6746a954ecd25c07
+    endpoint:document-templates-list:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: f0f956a0cc7bb30d
+    endpoint:document-templates-upload:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: f0f956a0cc7bb30d
+    endpoint:document-templates-link:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: f0f956a0cc7bb30d
     ui_route:dashboard-home:
       source_paths:
       - experience/src/App.tsx
@@ -1099,6 +1230,28 @@ freshness:
       source_count: 1
       last_modified: '2026-04-20'
       source_hash: 82473df2cd5d3a36
+    config_key:document-taxonomy:
+      source_paths:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 3a84d4dc395e5982
+    config_key:document-retention-policies:
+      source_paths:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md
+      - planning-mds/schemas/document-retention-policy.schema.json
+      source_count: 3
+      last_modified: '2026-05-04'
+      source_hash: fc41d0144ed5aa50
+    config_key:document-classification-policy:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/schemas/document-classification-policy.schema.json
+      source_count: 3
+      last_modified: '2026-05-04'
+      source_hash: 456927fb4954976d
     migration:initial-create:
       source_paths:
       - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260223071234_InitialCreate.cs
@@ -1164,324 +1317,340 @@ freshness:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     role:distribution-manager:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     role:underwriter:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     role:relationship-manager:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     role:program-manager:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     role:admin:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     role:broker-user:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: c2471b38988ba2dc
+      last_modified: '2026-05-04'
+      source_hash: 6d0b40164a1ad3eb
     role:external-user:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       source_count: 1
-      last_modified: '2026-04-20'
-      source_hash: 1edba09b46f64ba8
+      last_modified: '2026-05-04'
+      source_hash: 3725a2d38a633673
+    role:coordinator:
+      source_paths:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
+      source_count: 3
+      last_modified: '2026-05-04'
+      source_hash: f28cab8feb2237d1
+    role:mga-user:
+      source_paths:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
+      source_count: 3
+      last_modified: '2026-05-04'
+      source_hash: f28cab8feb2237d1
     policy_rule:broker-read:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: c2471b38988ba2dc
+      last_modified: '2026-05-04'
+      source_hash: 6d0b40164a1ad3eb
     policy_rule:broker-search:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: c2471b38988ba2dc
+      last_modified: '2026-05-04'
+      source_hash: 6d0b40164a1ad3eb
     policy_rule:contact-read:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: c2471b38988ba2dc
+      last_modified: '2026-05-04'
+      source_hash: 6d0b40164a1ad3eb
     policy_rule:renewal-read:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:renewal-create:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:renewal-transition:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:renewal-assign:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:dashboard-nudge-read:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: c2471b38988ba2dc
+      last_modified: '2026-05-04'
+      source_hash: 6d0b40164a1ad3eb
     policy_rule:task-read:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: c2471b38988ba2dc
+      last_modified: '2026-05-04'
+      source_hash: 6d0b40164a1ad3eb
     policy_rule:task-create:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:task-update:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:task-delete:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:user-search:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:timeline-event-read:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: c2471b38988ba2dc
+      last_modified: '2026-05-04'
+      source_hash: 6d0b40164a1ad3eb
     policy_rule:account-read:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: ba15bf84eebb2a63
+      last_modified: '2026-05-04'
+      source_hash: c9aac66b75c5ae73
     policy_rule:account-create:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:account-update:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:account-deactivate:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:account-reactivate:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:account-delete:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:account-merge:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: 4677d7f8bf3458c6
+      last_modified: '2026-05-04'
+      source_hash: 826763dbe6f421b6
     policy_rule:account-contact-manage:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:account-relationship-change:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:contact-update:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:submission-read:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:submission-create:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:submission-update:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:submission-transition:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:submission-assign:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:dashboard-kpi-read:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:dashboard-pipeline-read:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:broker-create:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:broker-update:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:broker-delete:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:broker-reactivate:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:contact-create:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:contact-delete:
       source_paths:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-04-20'
-      source_hash: a4cbd7558a52ab61
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     policy_rule:policy-read:
       source_paths:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
@@ -1544,6 +1713,83 @@ freshness:
       source_count: 2
       last_modified: '2026-04-25'
       source_hash: 311349f74e7b4d1d
+    policy_rule:document-read:
+      source_paths:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
+    policy_rule:document-create:
+      source_paths:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
+    policy_rule:document-replace:
+      source_paths:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
+    policy_rule:document-update-metadata:
+      source_paths:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
+    policy_rule:document-download:
+      source_paths:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
+    policy_rule:document-create-restricted:
+      source_paths:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
+    policy_rule:document-declassify:
+      source_paths:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
+    policy_rule:document-template-read:
+      source_paths:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
+    policy_rule:document-template-create:
+      source_paths:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
+    policy_rule:document-template-replace:
+      source_paths:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
+    policy_rule:document-template-link:
+      source_paths:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      source_count: 2
+      last_modified: '2026-05-04'
+      source_hash: 7a1a71f1d7b6242c
     evidence:workflow-state-machine-tests:
       source_paths:
       - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
@@ -1644,8 +1890,8 @@ freshness:
       source_paths:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       source_count: 1
-      last_modified: '2026-04-20'
-      source_hash: ba46b326367582eb
+      last_modified: '2026-05-04'
+      source_hash: 3a84d4dc395e5982
     adr:013:
       source_paths:
       - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
@@ -1668,8 +1914,8 @@ freshness:
       source_paths:
       - planning-mds/architecture/decisions/ADR-015-integration-hub-canonical-contracts-and-outbox.md
       source_count: 1
-      last_modified: '2026-05-01'
-      source_hash: 4ec4ab772ea45926
+      last_modified: '2026-05-04'
+      source_hash: a52cf55ddd25bdd0
     adr:016:
       source_paths:
       - planning-mds/architecture/decisions/ADR-016-published-operational-configuration-governance.md
@@ -1700,6 +1946,12 @@ freshness:
       source_count: 1
       last_modified: '2026-04-20'
       source_hash: b147b75ef0aa867f
+    adr:019:
+      source_paths:
+      - planning-mds/architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 25d987d991346a31
     schema:problem-details:
       source_paths:
       - planning-mds/schemas/problem-details.schema.json
@@ -2126,12 +2378,60 @@ freshness:
       source_count: 1
       last_modified: '2026-04-20'
       source_hash: f9f0e25619f8dc4a
+    schema:document-sidecar:
+      source_paths:
+      - planning-mds/schemas/document-sidecar.schema.json
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: a5852b8ea3872a85
+    schema:document-list-item:
+      source_paths:
+      - planning-mds/schemas/document-list-item.schema.json
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 66a16e239f2d67ad
+    schema:paginated-document-list:
+      source_paths:
+      - planning-mds/schemas/paginated-document-list.schema.json
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 92ac5c04aa8885d9
+    schema:document-detail:
+      source_paths:
+      - planning-mds/schemas/document-detail.schema.json
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: ef287380750b2b0f
+    schema:document-completeness:
+      source_paths:
+      - planning-mds/schemas/document-completeness.schema.json
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: aafd4cf044d01464
+    schema:document-retention-policy:
+      source_paths:
+      - planning-mds/schemas/document-retention-policy.schema.json
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: d0a7ad98b0e0565d
+    schema:document-classification-policy:
+      source_paths:
+      - planning-mds/schemas/document-classification-policy.schema.json
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 83a68de6b6362091
+    schema:document-template:
+      source_paths:
+      - planning-mds/schemas/document-template.schema.json
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 5178b5fb50841532
     api:nebula-rest:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       source_count: 1
-      last_modified: '2026-04-20'
-      source_hash: 11f977e2a26a570f
+      last_modified: '2026-05-04'
+      source_hash: 76a64fe29a541619
   mappings:
     feature:F0001:
       source_paths:
@@ -2359,13 +2659,25 @@ freshness:
       source_hash: d953367acdf6e692
     feature:F0020:
       source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       - planning-mds/features/F0020-document-management-and-acord-intake/GETTING-STARTED.md
       - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
       - planning-mds/features/F0020-document-management-and-acord-intake/README.md
       - planning-mds/features/F0020-document-management-and-acord-intake/STATUS.md
-      source_count: 4
-      last_modified: '2026-04-20'
-      source_hash: a7626c4a67b64349
+      source_count: 16
+      last_modified: '2026-05-04'
+      source_hash: 6894abefa8c911aa
     feature:F0022:
       source_paths:
       - planning-mds/features/F0022-work-queues-assignment-rules-and-coverage-management/GETTING-STARTED.md
@@ -2383,8 +2695,8 @@ freshness:
       - planning-mds/features/F0030-integration-hub-and-data-exchange/README.md
       - planning-mds/features/F0030-integration-hub-and-data-exchange/STATUS.md
       source_count: 5
-      last_modified: '2026-05-01'
-      source_hash: 866d3e2a79de8f00
+      last_modified: '2026-05-04'
+      source_hash: 7bb8485a53d9e31f
     feature:F0012:
       source_paths:
       - planning-mds/features/archive/F0012-dashboard-storytelling-infographic-canvas/DEPLOYABILITY-CHECK.md
@@ -3013,6 +3325,78 @@ freshness:
       source_count: 1
       last_modified: '2026-04-20'
       source_hash: ce3401a0008ab779
+    story:F0020-S0001:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 1fd7c7c0e2384255
+    story:F0020-S0002:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 622bb99d59057712
+    story:F0020-S0003:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 659c9236930a1c10
+    story:F0020-S0004:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 41c273173305f9cc
+    story:F0020-S0005:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: eca18d86444006ee
+    story:F0020-S0006:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: c92c1f75e8d889ad
+    story:F0020-S0007:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 02e172b7fef273ff
+    story:F0020-S0008:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 4d230f6205a1650f
+    story:F0020-S0009:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: adfdc5225cef073c
+    story:F0020-S0010:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 8fcdf11154d9a099
+    story:F0020-S0011:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: e6ada7692efc619b
+    story:F0020-S0012:
+      source_paths:
+      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      source_count: 1
+      last_modified: '2026-05-04'
+      source_hash: 6acff60a974bf25c
   code_bindings:
     entity:submission:
       source_paths:
@@ -3360,8 +3744,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/DashboardReadAuthorizationTests.cs
       - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
       source_count: 9
-      last_modified: '2026-04-20'
-      source_hash: 0cbb081935e01eac
+      last_modified: '2026-05-04'
+      source_hash: ac877b91aa728f21
     capability:dashboard-home:
       source_paths:
       - engine/src/Nebula.Application/DTOs/DashboardKpisDto.cs
@@ -3534,8 +3918,8 @@ freshness:
       - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
       - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
       source_count: 9
-      last_modified: '2026-04-20'
-      source_hash: 6cb4313aa6fda6d8
+      last_modified: '2026-05-04'
+      source_hash: 7d59cd8ea3795d69
     role:distribution-manager:
       source_paths:
       - planning-mds/security/authorization-matrix.md
@@ -3548,8 +3932,8 @@ freshness:
       - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
       - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
       source_count: 9
-      last_modified: '2026-04-20'
-      source_hash: 6cb4313aa6fda6d8
+      last_modified: '2026-05-04'
+      source_hash: 7d59cd8ea3795d69
     role:underwriter:
       source_paths:
       - planning-mds/security/authorization-matrix.md
@@ -3562,8 +3946,8 @@ freshness:
       - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
       - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
       source_count: 9
-      last_modified: '2026-04-20'
-      source_hash: 6cb4313aa6fda6d8
+      last_modified: '2026-05-04'
+      source_hash: 7d59cd8ea3795d69
     role:relationship-manager:
       source_paths:
       - planning-mds/security/authorization-matrix.md
@@ -3576,8 +3960,8 @@ freshness:
       - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
       - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
       source_count: 9
-      last_modified: '2026-04-20'
-      source_hash: 6cb4313aa6fda6d8
+      last_modified: '2026-05-04'
+      source_hash: 7d59cd8ea3795d69
     role:program-manager:
       source_paths:
       - planning-mds/security/authorization-matrix.md
@@ -3590,8 +3974,8 @@ freshness:
       - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
       - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
       source_count: 9
-      last_modified: '2026-04-20'
-      source_hash: 6cb4313aa6fda6d8
+      last_modified: '2026-05-04'
+      source_hash: 7d59cd8ea3795d69
     role:admin:
       source_paths:
       - planning-mds/security/authorization-matrix.md
@@ -3604,8 +3988,8 @@ freshness:
       - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
       - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
       source_count: 9
-      last_modified: '2026-04-20'
-      source_hash: 6cb4313aa6fda6d8
+      last_modified: '2026-05-04'
+      source_hash: 7d59cd8ea3795d69
     role:broker-user:
       source_paths:
       - planning-mds/security/authorization-matrix.md
@@ -3622,8 +4006,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
       - engine/tests/Nebula.Tests/Unit/BrokerScopeResolverTests/BrokerScopeResolverTests.cs
       source_count: 13
-      last_modified: '2026-04-20'
-      source_hash: eababf56b494fe0d
+      last_modified: '2026-05-04'
+      source_hash: 5492d8b18e6fd381
     role:external-user:
       source_paths:
       - planning-mds/security/authorization-matrix.md
@@ -3632,8 +4016,8 @@ freshness:
       - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
       - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
       source_count: 5
-      last_modified: '2026-04-20'
-      source_hash: 94bbfd345f4fbd07
+      last_modified: '2026-05-04'
+      source_hash: 2815cdfc386bbc30
     policy_rule:broker-read:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3650,8 +4034,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/BrokerEndpointTests.cs
       - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
       source_count: 13
-      last_modified: '2026-04-20'
-      source_hash: 79a32569b84aaa64
+      last_modified: '2026-05-04'
+      source_hash: d05d6cebc3a214b1
     policy_rule:broker-search:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3667,8 +4051,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/BrokerAuthorizationTests.cs
       - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
       source_count: 12
-      last_modified: '2026-04-20'
-      source_hash: 439177959662c681
+      last_modified: '2026-05-04'
+      source_hash: ac770ce164a25255
     policy_rule:contact-read:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3685,8 +4069,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/BrokerAuthorizationTests.cs
       - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
       source_count: 13
-      last_modified: '2026-04-20'
-      source_hash: 0622af9ae0a7144a
+      last_modified: '2026-05-04'
+      source_hash: b58d1c98c0efae86
     policy_rule:renewal-read:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3702,8 +4086,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
       source_count: 12
-      last_modified: '2026-04-22'
-      source_hash: 8a4a02db9b79f470
+      last_modified: '2026-05-04'
+      source_hash: 3bfebff5df997c37
     policy_rule:renewal-create:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3720,8 +4104,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
       source_count: 13
-      last_modified: '2026-04-22'
-      source_hash: 1fb4d59e31a167f8
+      last_modified: '2026-05-04'
+      source_hash: 0ff5281755908107
     policy_rule:renewal-transition:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3738,8 +4122,8 @@ freshness:
       - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
       - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
       source_count: 13
-      last_modified: '2026-04-22'
-      source_hash: 6848c1ce301076d4
+      last_modified: '2026-05-04'
+      source_hash: 54636d7111f13f69
     policy_rule:renewal-assign:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3755,8 +4139,8 @@ freshness:
       - engine/src/Nebula.Api/Endpoints/UserEndpoints.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 12
-      last_modified: '2026-04-22'
-      source_hash: 0c14b07f72485559
+      last_modified: '2026-05-04'
+      source_hash: 5545cdef06f133a3
     policy_rule:dashboard-nudge-read:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3774,8 +4158,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/DashboardScopeFilteringTests.cs
       - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
       source_count: 14
-      last_modified: '2026-04-22'
-      source_hash: 02695340ef11874e
+      last_modified: '2026-05-04'
+      source_hash: d1a95761df0986ee
     policy_rule:task-read:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3792,8 +4176,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
       - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
       source_count: 13
-      last_modified: '2026-04-20'
-      source_hash: 86450b09bd44bffd
+      last_modified: '2026-05-04'
+      source_hash: 6fbd0fedaab13d3c
     policy_rule:task-create:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3808,8 +4192,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
       - engine/tests/Nebula.Tests/Unit/TaskServiceTests.cs
       source_count: 11
-      last_modified: '2026-04-20'
-      source_hash: 8550092f272b75d0
+      last_modified: '2026-05-04'
+      source_hash: d010bd0d55c0c961
     policy_rule:task-update:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3824,8 +4208,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
       - engine/tests/Nebula.Tests/Unit/TaskServiceTests.cs
       source_count: 11
-      last_modified: '2026-04-20'
-      source_hash: 619018a8a558c2e4
+      last_modified: '2026-05-04'
+      source_hash: 046c688173a28407
     policy_rule:task-delete:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3839,8 +4223,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
       - engine/tests/Nebula.Tests/Unit/TaskServiceTests.cs
       source_count: 10
-      last_modified: '2026-04-20'
-      source_hash: 5cae2df32828ffe6
+      last_modified: '2026-05-04'
+      source_hash: 44e47aca640749d1
     policy_rule:user-search:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3855,8 +4239,8 @@ freshness:
       - engine/src/Nebula.Api/Endpoints/UserEndpoints.cs
       - engine/src/Nebula.Infrastructure/Repositories/UserProfileRepository.cs
       source_count: 11
-      last_modified: '2026-04-20'
-      source_hash: abd35f8b6d658c5f
+      last_modified: '2026-05-04'
+      source_hash: 13e43d3753b4041e
     policy_rule:timeline-event-read:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -3873,8 +4257,8 @@ freshness:
       - engine/src/Nebula.Api/Endpoints/TimelineEndpoints.cs
       - engine/src/Nebula.Infrastructure/Repositories/TimelineRepository.cs
       source_count: 13
-      last_modified: '2026-04-20'
-      source_hash: c7ce3a8e4063c6a8
+      last_modified: '2026-05-04'
+      source_hash: 60b02683307c243a
     endpoint:dashboard-kpis:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/DashboardEndpoints.cs
@@ -4627,8 +5011,8 @@ freshness:
       - engine/src/Nebula.Infrastructure/Repositories/AccountRepository.cs
       - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
       source_count: 11
-      last_modified: '2026-04-22'
-      source_hash: 2ee37964c4b22839
+      last_modified: '2026-05-04'
+      source_hash: 35d4ed108de6031a
     policy_rule:account-create:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -4642,8 +5026,8 @@ freshness:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
       - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
       source_count: 10
-      last_modified: '2026-04-22'
-      source_hash: 9c64a2b36b229bc9
+      last_modified: '2026-05-04'
+      source_hash: 2eed596d332e47e1
     policy_rule:account-update:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -4657,8 +5041,8 @@ freshness:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
       - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
       source_count: 10
-      last_modified: '2026-04-22'
-      source_hash: 51c070b18f3d490f
+      last_modified: '2026-05-04'
+      source_hash: 95d53c8b07d32bc2
     policy_rule:account-deactivate:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -4673,8 +5057,8 @@ freshness:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
       - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
       source_count: 11
-      last_modified: '2026-04-22'
-      source_hash: 1768ab727f18e8f2
+      last_modified: '2026-05-04'
+      source_hash: bd77e2385e898f91
     policy_rule:account-reactivate:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -4689,8 +5073,8 @@ freshness:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
       - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
       source_count: 11
-      last_modified: '2026-04-22'
-      source_hash: 1768ab727f18e8f2
+      last_modified: '2026-05-04'
+      source_hash: bd77e2385e898f91
     policy_rule:account-delete:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -4705,8 +5089,8 @@ freshness:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
       - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
       source_count: 11
-      last_modified: '2026-04-22'
-      source_hash: 1768ab727f18e8f2
+      last_modified: '2026-05-04'
+      source_hash: bd77e2385e898f91
     policy_rule:account-merge:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -4720,8 +5104,8 @@ freshness:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
       - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
       source_count: 10
-      last_modified: '2026-04-22'
-      source_hash: 788d5a379ab55f51
+      last_modified: '2026-05-04'
+      source_hash: 5c235dc62969c26c
     policy_rule:account-contact-manage:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -4735,8 +5119,8 @@ freshness:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
       - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
       source_count: 10
-      last_modified: '2026-04-22'
-      source_hash: 143117290f3c7f57
+      last_modified: '2026-05-04'
+      source_hash: 0a64d2b0bef2b558
     policy_rule:account-relationship-change:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -4750,8 +5134,8 @@ freshness:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
       - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
       source_count: 10
-      last_modified: '2026-04-22'
-      source_hash: 341b59b01c703dcd
+      last_modified: '2026-05-04'
+      source_hash: b08aa83c9bc54a1e
     endpoint:account-list:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
