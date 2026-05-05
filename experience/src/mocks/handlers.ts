@@ -28,13 +28,19 @@ import {
   assignSubmission,
   assignRenewal,
   cancelPolicy,
+  documentCompleteness,
+  documentMetadataSchemas,
   createPolicy,
   endorsePolicy,
+  getDocument,
   getPolicy,
   getPolicyAccountSummary,
   getPolicySummary,
   importPolicies,
   issuePolicy,
+  linkDocumentTemplate,
+  listDocumentTemplates,
+  listDocuments,
   listSubmissions,
   listAccountPolicies,
   listPolicies,
@@ -42,10 +48,14 @@ import {
   listPolicyEndorsements,
   listPolicyTimeline,
   listPolicyVersions,
+  replaceDocument,
   submissionFlowFixture,
   reinstatePolicy,
   taskFixture,
   timelineFixture,
+  updateDocumentMetadata,
+  uploadDocumentTemplate,
+  uploadDocuments,
 } from './data'
 import './submissions'
 
@@ -117,6 +127,80 @@ export const handlers = [
   }),
 
   http.get(apiUrl('/my/tasks'), () => HttpResponse.json(taskFixture)),
+
+  http.get(apiUrl('/documents'), ({ request }) => {
+    return HttpResponse.json(listDocuments(new URL(request.url).searchParams))
+  }),
+
+  http.post(apiUrl('/documents'), async ({ request }) => {
+    return HttpResponse.json(await uploadDocuments(await request.formData()), { status: 202 })
+  }),
+
+  http.get(apiUrl('/documents/completeness'), ({ request }) => {
+    return HttpResponse.json(documentCompleteness(new URL(request.url).searchParams))
+  }),
+
+  http.get(apiUrl('/documents/metadata-schemas'), () => {
+    return HttpResponse.json(documentMetadataSchemas)
+  }),
+
+  http.get(apiUrl('/documents/:documentId'), ({ params }) => {
+    const result = getDocument(String(params.documentId))
+    if (!result) {
+      return HttpResponse.json({ title: 'Not found', status: 404, code: 'document_not_found' }, { status: 404 })
+    }
+
+    return HttpResponse.json(result)
+  }),
+
+  http.patch(apiUrl('/documents/:documentId/metadata'), async ({ params, request }) => {
+    const result = updateDocumentMetadata(String(params.documentId), await request.json() as never)
+    if (!result) {
+      return HttpResponse.json({ title: 'Not found', status: 404, code: 'document_not_found' }, { status: 404 })
+    }
+
+    return HttpResponse.json(result)
+  }),
+
+  http.put(apiUrl('/documents/:documentId/replace'), async ({ params, request }) => {
+    const form = await request.formData()
+    const file = form.get('file')
+    const result = replaceDocument(String(params.documentId), file instanceof File ? file : null)
+    if (!result) {
+      return HttpResponse.json({ title: 'Not found', status: 404, code: 'document_not_found' }, { status: 404 })
+    }
+
+    return HttpResponse.json(result, { status: 202 })
+  }),
+
+  http.get(apiUrl('/documents/:documentId/versions/:versionRef/binary'), () => {
+    return new HttpResponse(new Blob(['mock document binary'], { type: 'application/pdf' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/pdf' },
+    })
+  }),
+
+  http.get(apiUrl('/document-templates'), () => {
+    return HttpResponse.json(listDocumentTemplates())
+  }),
+
+  http.post(apiUrl('/document-templates'), async ({ request }) => {
+    const result = await uploadDocumentTemplate(await request.formData())
+    if (!result) {
+      return HttpResponse.json({ title: 'Invalid upload', status: 400, code: 'empty_file' }, { status: 400 })
+    }
+
+    return HttpResponse.json(result, { status: 202 })
+  }),
+
+  http.post(apiUrl('/document-templates/:templateId/link'), ({ params, request }) => {
+    const result = linkDocumentTemplate(String(params.templateId), new URL(request.url).searchParams)
+    if (!result) {
+      return HttpResponse.json({ title: 'Not found', status: 404, code: 'document_not_found' }, { status: 404 })
+    }
+
+    return HttpResponse.json(result, { status: 202 })
+  }),
 
   http.get(apiUrl('/timeline/events'), () => {
     return HttpResponse.json({

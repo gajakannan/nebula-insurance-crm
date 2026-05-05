@@ -26,7 +26,6 @@
 | F0008 | Broker Insights | Planned | MVP | `F0008-broker-insights/` |
 | F0017 | Broker/MGA Hierarchy, Producer Ownership & Territory Management | Planned | CRM Release MVP+ | `F0017-broker-mga-hierarchy-and-producer-ownership/` |
 | F0019 | Submission Quoting, Proposal & Approval Workflow | Planned | CRM Release MVP | `F0019-submission-quoting-proposal-and-approval/` |
-| F0020 | Document Management & ACORD Intake | Planned | CRM Release MVP | `F0020-document-management-and-acord-intake/` |
 | F0021 | Communication Hub & Activity Capture | Planned | CRM Release MVP | `F0021-communication-hub-and-activity-capture/` |
 | F0022 | Work Queues, Assignment Rules & Coverage Management | Planned | CRM Release MVP | `F0022-work-queues-assignment-rules-and-coverage-management/` |
 | F0023 | Global Search, Saved Views & Operational Reporting | Planned | CRM Release MVP | `F0023-global-search-saved-views-and-operational-reporting/` |
@@ -44,6 +43,7 @@
 
 | Feature ID | Name | Archived Date | Folder |
 |------------|------|---------------|--------|
+| F0020 | Document Management & ACORD Intake | 2026-05-05 | `archive/F0020-document-management-and-acord-intake/` |
 | F0018 | Policy Lifecycle & Policy 360 | 2026-04-22 | `archive/F0018-policy-lifecycle-and-policy-360/` |
 | F0016 | Account 360 & Insured Management | 2026-04-14 | `archive/F0016-account-360-and-insured-management/` |
 | F0007 | Renewal Pipeline | 2026-04-12 | `archive/F0007-renewal-pipeline/` |

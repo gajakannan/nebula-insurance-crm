@@ -2891,7 +2891,7 @@ paths:
                     format: binary
                 metadata:
                   type: array
-                  description: Optional per-file overrides aligned by index with files[].
+                  description: Optional per-file classification/type/tags and type-specific JSON metadata aligned by index with files[].
                   items: { $ref: "#/components/schemas/DocumentUploadFileMetadata" }
       responses:
         "202":
@@ -2999,7 +2999,7 @@ paths:
   /documents/{documentId}/metadata:
     patch:
       operationId: updateDocumentMetadata
-      summary: Update document metadata (classification, type, tags) without creating a new version
+      summary: Update document metadata without creating a new binary version
       tags: [Documents]
       parameters:
         - in: path
@@ -3025,6 +3025,26 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "404":
           $ref: "#/components/responses/NotFound"
+
+  /documents/metadata-schemas:
+    get:
+      operationId: listDocumentMetadataSchemas
+      summary: List active document metadata schemas
+      description: >
+        Returns the current active JSON Schema for each document type from
+        <docroot>/configuration/metadata-schemas/registry.yaml. Documents remain pinned to
+        the metadataSchema version stored in their sidecar JSON.
+      tags: [Documents]
+      responses:
+        "200":
+          description: Active document metadata schema registry.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DocumentMetadataSchemaRegistry" }
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
 
   /documents/{documentId}/versions/{versionRef}/binary:
     get:
@@ -6098,7 +6118,7 @@ components:
 
     DocumentSidecar:
       type: object
-      required: [documentId, logicalName, parent, classification, type, versions, events]
+      required: [documentId, logicalName, parent, classification, type, metadataSchema, metadata, versions, events]
       properties:
         documentId:
           type: string
@@ -6114,6 +6134,12 @@ components:
           type: array
           maxItems: 10
           items: { type: string, maxLength: 32 }
+        metadataSchema:
+          $ref: "#/components/schemas/DocumentMetadataSchemaRef"
+        metadata:
+          type: object
+          description: Type-specific JSON metadata validated against metadataSchema.
+          additionalProperties: true
         uploaderId: { type: string, format: uuid }
         auditTimestamps:
           type: object
@@ -6161,6 +6187,10 @@ components:
           maxItems: 10
           items: { type: string, maxLength: 32 }
           nullable: true
+        metadata:
+          type: object
+          nullable: true
+          additionalProperties: true
 
     DocumentUploadAcceptedItem:
       type: object
@@ -6228,6 +6258,43 @@ components:
           maxItems: 10
           items: { type: string, maxLength: 32 }
           nullable: true
+        metadata:
+          type: object
+          nullable: true
+          additionalProperties: true
+
+    DocumentMetadataSchemaRef:
+      type: object
+      required: [id, version, schemaHash]
+      properties:
+        id: { type: string }
+        version: { type: integer, minimum: 1 }
+        schemaHash:
+          type: string
+          pattern: "^sha256:[0-9a-f]{64}$"
+
+    DocumentMetadataSchema:
+      type: object
+      required: [id, version, status, schemaHash, schema]
+      properties:
+        id: { type: string }
+        version: { type: integer, minimum: 1 }
+        status: { type: string, enum: [active, deprecated] }
+        schemaHash:
+          type: string
+          pattern: "^sha256:[0-9a-f]{64}$"
+        schema:
+          type: object
+          description: JSON Schema document used by API validation and frontend metadata forms.
+          additionalProperties: true
+
+    DocumentMetadataSchemaRegistry:
+      type: object
+      required: [schemas]
+      properties:
+        schemas:
+          type: array
+          items: { $ref: "#/components/schemas/DocumentMetadataSchema" }
 
     DocumentCompletenessSignal:
       type: object

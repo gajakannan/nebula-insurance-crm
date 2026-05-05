@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/document-metadata/financials.v1.schema.json",
+  "title": "Financial Statement Metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "fiscalYear": { "type": "integer", "title": "Fiscal Year", "minimum": 1900 },
+    "statementPeriodEnd": { "type": "string", "title": "Statement Period End", "format": "date" },
+    "statementType": { "type": "string", "title": "Statement Type", "enum": ["audited", "reviewed", "compiled", "internal"] },
+    "revenue": { "type": "number", "title": "Revenue", "minimum": 0 },
+    "currency": { "type": "string", "title": "Currency", "enum": ["USD", "CAD"] }
+  }
+}

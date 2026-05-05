@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/document-metadata/template.v1.schema.json",
+  "title": "Template Metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "templateCategory": { "type": "string", "title": "Template Category", "enum": ["acord", "supplemental", "proposal", "notice"] },
+    "jurisdiction": { "type": "string", "title": "Jurisdiction", "maxLength": 40 }
+  }
+}

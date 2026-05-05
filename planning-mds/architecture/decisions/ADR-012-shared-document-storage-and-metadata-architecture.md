@@ -23,6 +23,9 @@ The Nebula document subsystem is a **single on-disk repository** with the follow
 <docroot>/
   configuration/
     taxonomy.yaml                          # canonical document type taxonomy
+    metadata-schemas/
+      registry.yaml                        # type -> versioned metadata schema registry
+      {type}.v{N}.schema.json              # JSON Schema for type-specific metadata
     document-retention-policies.yaml       # per-type retention (MVP cap: 10 days)
     casbin-document-roles.yaml             # classification-policy table
     retention-sweeps.jsonl                 # append-only sweep audit log
@@ -42,7 +45,25 @@ The Nebula document subsystem is a **single on-disk repository** with the follow
 
 ### 2. Sidecar JSON is the canonical metadata record
 
-There is exactly **one** sidecar JSON per logical document, regardless of how many versions exist. The JSON carries the version chain (`versions[]` with `supersedes`), classification, parent linkage, uploader identity, audit timestamps, append-only `events[]` log, and `provenance`. Schema: `planning-mds/schemas/document-sidecar.schema.json`.
+There is exactly **one** sidecar JSON per logical document, regardless of how many versions exist. The JSON carries the version chain (`versions[]` with `supersedes`), classification, parent linkage, uploader identity, audit timestamps, append-only `events[]` log, `provenance`, and type-specific JSON `metadata`. Schema: `planning-mds/schemas/document-sidecar.schema.json`.
+
+Sidecar `metadata` is validated against the pinned `metadataSchema` reference stored on the same sidecar:
+
+```json
+{
+  "metadataSchema": {
+    "id": "acord",
+    "version": 1,
+    "schemaHash": "sha256:..."
+  },
+  "metadata": {
+    "formNumber": "125",
+    "effectiveDate": "2026-05-01"
+  }
+}
+```
+
+The `metadataSchema.id` normally matches `type`; `metadataSchema.version` records the version that accepted the metadata at upload or explicit type-change time. Documents remain readable against the version recorded on the sidecar even after the current schema advances.
 
 ### 3. Versioning is colocated and immutable
 
@@ -60,10 +81,23 @@ Every operation is gated by **`parent_abac(user, parent, op) ∧ classification_
 
 The reserved `<docroot>/configuration/` folder is the source of truth for:
 - `taxonomy.yaml` — canonical document type list (e.g., `acord, loss-run, financials, supplemental, template`)
+- `metadata-schemas/registry.yaml` — active and deprecated metadata schema versions by document type
+- `metadata-schemas/{type}.v{N}.schema.json` — JSON Schema documents for type-specific metadata fields
 - `document-retention-policies.yaml` — per-type retention days (MVP hard ceiling: 10 days)
 - `casbin-document-roles.yaml` — classification policy table
 
 Code never embeds these values. Loaders validate against JSON Schema on read; bad files fail closed (prior policy stays in force).
+
+### 6.1. Type-specific metadata schema evolution
+
+Type-specific document metadata is JSON, not new relational columns. Schema evolution is intentionally lightweight:
+
+- `registry.yaml` maps each document type to `currentVersion` and a list of versioned schema files.
+- Upload uses the current active schema for the selected or detected `type`.
+- Metadata patch validates against the document's stored `metadataSchema` unless the patch explicitly changes `type`; a type change pins the current schema for the new type.
+- Breaking changes require a new schema version. Historical sidecars are not silently rewritten.
+- Deprecated schema versions remain loadable until no retained sidecars reference them.
+- The frontend may render forms from JSON Schema but must not expose raw JSON editing as the normal user workflow.
 
 ### 7. Retention is YAML-driven and capped at 10 days for MVP
 
@@ -93,7 +127,7 @@ The Templates Library (F0020-S0012) lives in `<docroot>/templates/` with the sam
 
 This ADR governs:
 
-- document metadata contracts and the canonical sidecar JSON shape
+- document metadata contracts, metadata schema evolution, and the canonical sidecar JSON shape
 - versioning and supersession behaviour
 - parent-entity linkage rules (parent-type ∈ `account, submission, policy, renewal` in MVP)
 - storage abstraction boundary and the `IDocumentRepository` contract
@@ -120,7 +154,7 @@ This ADR governs:
 
 ## Implementation Notes
 
-- Schemas land in `planning-mds/schemas/` (`document-sidecar.schema.json`, `document-list-item.schema.json`, `document-detail.schema.json`, `document-completeness.schema.json`, `document-retention-policy.schema.json`, `document-classification-policy.schema.json`, `document-template.schema.json`).
+- Schemas land in `planning-mds/schemas/` (`document-sidecar.schema.json`, `document-metadata-schema-registry.schema.json`, `document-list-item.schema.json`, `document-detail.schema.json`, `document-completeness.schema.json`, `document-retention-policy.schema.json`, `document-classification-policy.schema.json`, `document-template.schema.json`).
 - API endpoints land in `planning-mds/api/nebula-api.yaml` under tag `Documents` and `DocumentTemplates`.
 - Casbin rows for the new permissions (`document:create`, `document:read`, `document:replace`, `document:update_metadata`, `document:download`, `document:create:restricted`, `document:declassify`, `template:create`, `template:read`, `template:replace`, `template:link`) land in `planning-mds/security/policies/policy.csv` and `authorization-matrix.md`.
 - Knowledge graph: `entity:document` (existing) gains a richer rationale; new canonical nodes — `entity:document-template`, `workflow:document-ingest`, schemas, and policy rules — are added in `planning-mds/knowledge-graph/canonical-nodes.yaml`.

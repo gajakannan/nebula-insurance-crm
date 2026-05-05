@@ -139,7 +139,7 @@ entities:
     label: DocumentTemplate
     source_docs:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
     rationale:
       - adr: adr:012
         section: "Decision §10"
@@ -301,7 +301,7 @@ workflows:
     source_docs:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       - planning-mds/architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
     notes: >
       Every uploaded binary (single, bulk, replace, template materialise) is held in
       <docroot>/quarantine/{upload-id} for a configurable hold (default 60 s; bounds 30-300 s)
@@ -609,7 +609,7 @@ glossary_terms:
   - id: capability:document-management
     label: Document Management
     source_docs:
-      - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
     related_nodes:
       - entity:document
@@ -617,14 +617,14 @@ glossary_terms:
   - id: capability:document-templates
     label: Document Templates Library
     source_docs:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
     related_nodes:
       - entity:document-template
       - entity:document
   - id: capability:document-classification
     label: Classification-based document access control
     source_docs:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
       - planning-mds/security/authorization-matrix.md
     related_nodes:
       - entity:document
@@ -632,7 +632,7 @@ glossary_terms:
   - id: capability:document-retention
     label: Document retention policy and scheduled cleanup
     source_docs:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
     related_nodes:
       - entity:document
@@ -640,7 +640,7 @@ glossary_terms:
   - id: capability:document-completeness-signal
     label: Document completeness signal (read-only summary)
     source_docs:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
     related_nodes:
       - entity:document
 
@@ -1092,7 +1092,7 @@ endpoints:
     route: /documents
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
     related_nodes:
       - entity:document
       - capability:document-management
@@ -1103,8 +1103,8 @@ endpoints:
     route: /documents
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
     related_nodes:
       - entity:document
       - workflow:document-ingest
@@ -1115,7 +1115,7 @@ endpoints:
     route: /documents/{documentId}
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
     related_nodes:
       - entity:document
       - capability:document-management
@@ -1125,7 +1125,7 @@ endpoints:
     route: /documents/{documentId}/replace
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
     related_nodes:
       - entity:document
       - workflow:document-ingest
@@ -1135,17 +1135,30 @@ endpoints:
     route: /documents/{documentId}/metadata
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
     related_nodes:
       - entity:document
       - capability:document-classification
+      - config_key:document-metadata-schema-registry
+  - id: endpoint:documents-metadata-schemas
+    label: GET /documents/metadata-schemas
+    method: GET
+    route: /documents/metadata-schemas
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+    related_nodes:
+      - entity:document
+      - capability:document-management
+      - config_key:document-metadata-schema-registry
+      - schema:document-metadata-schema-registry
   - id: endpoint:documents-download
     label: GET /documents/{documentId}/versions/{versionRef}/binary
     method: GET
     route: /documents/{documentId}/versions/{versionRef}/binary
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
     related_nodes:
       - entity:document
       - capability:document-classification
@@ -1155,7 +1168,7 @@ endpoints:
     route: /documents/completeness
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
     related_nodes:
       - entity:document
       - capability:document-completeness-signal
@@ -1165,7 +1178,7 @@ endpoints:
     route: /document-templates
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
     related_nodes:
       - entity:document-template
       - capability:document-templates
@@ -1175,7 +1188,7 @@ endpoints:
     route: /document-templates
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
     related_nodes:
       - entity:document-template
       - workflow:document-ingest
@@ -1185,7 +1198,7 @@ endpoints:
     route: /document-templates/{templateId}/link
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
     related_nodes:
       - entity:document
       - entity:document-template
@@ -1464,6 +1477,22 @@ config_keys:
       - adr: adr:012
         section: "Decision §6"
         summary: "Document type taxonomy is canonical YAML inside the reserved configuration/ folder; code never embeds document type values."
+  - id: config_key:document-metadata-schema-registry
+    label: Document Metadata Schema Registry
+    key: configuration/metadata-schemas/registry.yaml
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/schemas/document-metadata-schema-registry.schema.json
+    related_nodes:
+      - entity:document
+      - entity:document-template
+      - capability:document-management
+      - schema:document-sidecar
+      - schema:document-metadata-schema-registry
+    rationale:
+      - adr: adr:012
+        section: "Decision §6.1"
+        summary: "Type-specific document metadata is validated by versioned JSON Schemas in document configuration; sidecars pin the schema version so historical metadata stays readable."
   - id: config_key:document-retention-policies
     label: Document Retention Policies
     key: configuration/document-retention-policies.yaml
@@ -1487,7 +1516,7 @@ config_keys:
     label: Document Classification Policy (Casbin)
     key: configuration/casbin-document-roles.yaml
     source_docs:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/schemas/document-classification-policy.schema.json
     related_nodes:
@@ -1624,14 +1653,14 @@ roles:
     source_docs:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
-      - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
     notes: Internal Broker Relationship Coordinator role; parallels DistributionUser scope on documents (F0020 introduced this role into the security matrix).
   - id: role:mga-user
     label: MgaUser
     source_docs:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
-      - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
     notes: External MGA contact role; same access shape as BrokerUser for documents (introduced in F0020 phase B).
 
 policy_rules:
@@ -2946,7 +2975,10 @@ schemas:
     related_nodes: [entity:policy]
   - id: schema:document-sidecar
     path: planning-mds/schemas/document-sidecar.schema.json
-    related_nodes: [entity:document, entity:document-template, workflow:document-ingest]
+    related_nodes: [entity:document, entity:document-template, workflow:document-ingest, config_key:document-metadata-schema-registry]
+  - id: schema:document-metadata-schema-registry
+    path: planning-mds/schemas/document-metadata-schema-registry.schema.json
+    related_nodes: [entity:document, entity:document-template, config_key:document-metadata-schema-registry]
   - id: schema:document-list-item
     path: planning-mds/schemas/document-list-item.schema.json
     related_nodes: [entity:document]

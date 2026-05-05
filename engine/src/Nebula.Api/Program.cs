@@ -18,6 +18,15 @@ using Nebula.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configuredDocumentRoot = builder.Configuration["Documents:RootPath"];
+if (!string.IsNullOrWhiteSpace(configuredDocumentRoot))
+{
+    var resolvedDocumentRoot = Path.IsPathRooted(configuredDocumentRoot)
+        ? configuredDocumentRoot
+        : Path.GetFullPath(Path.Combine(builder.Environment.ContentRootPath, configuredDocumentRoot));
+    Environment.SetEnvironmentVariable("NEBULA_DOCUMENT_ROOT", resolvedDocumentRoot);
+}
+
 // Serilog — structured logging baseline (F0033-S0001)
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
@@ -270,6 +279,7 @@ app.MapReferenceDataEndpoints();
 app.MapSubmissionEndpoints();
 app.MapPolicyEndpoints();
 app.MapRenewalEndpoints();
+app.MapDocumentEndpoints();
 app.MapDashboardEndpoints();
 app.MapTaskEndpoints();
 app.MapUserEndpoints();

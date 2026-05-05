@@ -20,6 +20,7 @@ import PolicyImportPage from './pages/PolicyImportPage'
 import PolicyDetailPage from './pages/PolicyDetailPage'
 import TaskCenterPage from './pages/TaskCenterPage'
 import NotFoundPage from './pages/NotFoundPage'
+import { DocumentDetailView, DocumentTemplatesLibrary } from './features/documents'
 import { UnauthorizedPage } from './pages/UnauthorizedPage'
 import { LoginPage } from './pages/LoginPage'
 import { AuthCallbackPage } from './pages/AuthCallbackPage'
@@ -64,6 +65,8 @@ function AppInner() {
       <Route path="/policies/new" element={<ProtectedRoute><CreatePolicyPage /></ProtectedRoute>} />
       <Route path="/policies/import" element={<ProtectedRoute><PolicyImportPage /></ProtectedRoute>} />
       <Route path="/policies/:policyId" element={<ProtectedRoute><PolicyDetailPage /></ProtectedRoute>} />
+      <Route path="/documents/:documentId" element={<ProtectedRoute><DocumentDetailView /></ProtectedRoute>} />
+      <Route path="/document-templates" element={<ProtectedRoute><DocumentTemplatesLibrary /></ProtectedRoute>} />
       <Route path="/brokers" element={<ProtectedRoute><BrokerListPage /></ProtectedRoute>} />
       <Route path="/brokers/new" element={<ProtectedRoute><CreateBrokerPage /></ProtectedRoute>} />
       <Route path="/brokers/:brokerId" element={<ProtectedRoute><BrokerDetailPage /></ProtectedRoute>} />

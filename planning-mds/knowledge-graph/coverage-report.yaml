@@ -1,11 +1,11 @@
 version: 0
 summary:
-  canonical_nodes: 366
+  canonical_nodes: 369
   features_mapped: 23
   stories_mapped: 102
   features_excluded: 11
   features_uncovered: 0
-  code_bindings: 128
+  code_bindings: 133
 coverage:
   mapped_feature_ids:
   - feature:F0001
@@ -223,8 +223,8 @@ freshness:
       - planning-mds/domain/glossary.md
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: c0b4db1dc2f5a4b7
+      last_modified: '2026-05-05'
+      source_hash: 269edf7e84d94999
     entity:submission:
       source_paths:
       - planning-mds/architecture/data-model.md
@@ -305,10 +305,10 @@ freshness:
     entity:document-template:
       source_paths:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 0e04e5b296574f68
+      last_modified: '2026-05-05'
+      source_hash: 0b240ddaa2c09f18
     glossary_term:quote:
       source_paths:
       - planning-mds/domain/glossary.md
@@ -409,37 +409,37 @@ freshness:
       source_hash: 71e7c3e508d2c192
     capability:document-management:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 6ffca4b0bbe71e73
+      last_modified: '2026-05-05'
+      source_hash: bee2743bb5ce8454
     capability:document-templates:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: 6acff60a974bf25c
+      source_hash: b667bac1f2cf3c63
     capability:document-classification:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
       - planning-mds/security/authorization-matrix.md
       source_count: 2
       last_modified: '2026-05-04'
-      source_hash: 0c5b8c0109b8ed96
+      source_hash: 4b4e43925e09c1f7
     capability:document-retention:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 8f4e724d3726e5f5
+      last_modified: '2026-05-05'
+      source_hash: 3707eaeb53c97556
     capability:document-completeness-signal:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: 8fcdf11154d9a099
+      source_hash: 02ce82b3c3086aea
     workflow:submission:
       source_paths:
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
@@ -447,8 +447,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/api/nebula-api.yaml
       source_count: 4
-      last_modified: '2026-05-04'
-      source_hash: 498f9182cdaface5
+      last_modified: '2026-05-05'
+      source_hash: b7bdcdd2437264ba
     workflow:renewal:
       source_paths:
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
@@ -457,8 +457,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/api/nebula-api.yaml
       source_count: 5
-      last_modified: '2026-05-04'
-      source_hash: 17e865c095c4c8b5
+      last_modified: '2026-05-05'
+      source_hash: 9e8c3de345aa49a4
     workflow:account-lifecycle:
       source_paths:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
@@ -467,8 +467,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
       - planning-mds/api/nebula-api.yaml
       source_count: 5
-      last_modified: '2026-05-04'
-      source_hash: 0803ae5b0c56b6cf
+      last_modified: '2026-05-05'
+      source_hash: 61ec2e9651197be3
     workflow:policy:
       source_paths:
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/README.md
@@ -477,16 +477,16 @@ freshness:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       - planning-mds/api/nebula-api.yaml
       source_count: 5
-      last_modified: '2026-05-04'
-      source_hash: b398d7c3c110bbfe
+      last_modified: '2026-05-05'
+      source_hash: 340e6c43ef3d8b34
     workflow:document-ingest:
       source_paths:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       - planning-mds/architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
       source_count: 3
-      last_modified: '2026-05-04'
-      source_hash: 94f7e2236c68c6d9
+      last_modified: '2026-05-05'
+      source_hash: 27257b51601ae5a0
     capability:dashboard-home:
       source_paths:
       - planning-mds/features/archive/F0001-dashboard/README.md
@@ -693,197 +693,197 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-002-dashboard-data-aggregation.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: f65237afeba954ef
+      last_modified: '2026-05-05'
+      source_hash: d9446a3e63831e49
     endpoint:dashboard-opportunity-flow:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-002-dashboard-data-aggregation.md
       - planning-mds/architecture/decisions/ADR-004-frontend-dashboard-widget-architecture.md
       source_count: 3
-      last_modified: '2026-05-04'
-      source_hash: c16fee467abc41ce
+      last_modified: '2026-05-05'
+      source_hash: 270cc27db620dfaf
     endpoint:dashboard-nudges:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-003-task-entity-nudge-engine.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 68c5855ab3d613f9
+      last_modified: '2026-05-05'
+      source_hash: 41a77cf1cd82fc11
     endpoint:broker-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 62e143d6b6748708
+      last_modified: '2026-05-05'
+      source_hash: 219d1cada4c5d997
     endpoint:broker-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 62e143d6b6748708
+      last_modified: '2026-05-05'
+      source_hash: 219d1cada4c5d997
     endpoint:broker-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 62e143d6b6748708
+      last_modified: '2026-05-05'
+      source_hash: 219d1cada4c5d997
     endpoint:submission-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 1326f49219393b28
+      last_modified: '2026-05-05'
+      source_hash: b5a803715ddb3965
     endpoint:submission-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 1326f49219393b28
+      last_modified: '2026-05-05'
+      source_hash: b5a803715ddb3965
     endpoint:submission-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 1326f49219393b28
+      last_modified: '2026-05-05'
+      source_hash: b5a803715ddb3965
     endpoint:submission-transition:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 97c1fbdcaf203d92
+      last_modified: '2026-05-05'
+      source_hash: 3cd4ebb424b8ffb1
     endpoint:submission-assignment:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 1326f49219393b28
+      last_modified: '2026-05-05'
+      source_hash: b5a803715ddb3965
     endpoint:submission-timeline:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 1326f49219393b28
+      last_modified: '2026-05-05'
+      source_hash: b5a803715ddb3965
     endpoint:renewal-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-05-04'
-      source_hash: b61e3d6f56c4d927
+      last_modified: '2026-05-05'
+      source_hash: 554733aff2d89627
     endpoint:renewal-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 06669011ab0d2c80
+      last_modified: '2026-05-05'
+      source_hash: bf6dc675535be229
     endpoint:renewal-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-05-04'
-      source_hash: b61e3d6f56c4d927
+      last_modified: '2026-05-05'
+      source_hash: 554733aff2d89627
     endpoint:renewal-transition:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-05-04'
-      source_hash: 3f0393d7ef7aff99
+      last_modified: '2026-05-05'
+      source_hash: c36f03f6d7c49f96
     endpoint:renewal-assignment:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-05-04'
-      source_hash: b61e3d6f56c4d927
+      last_modified: '2026-05-05'
+      source_hash: 554733aff2d89627
     endpoint:renewal-timeline:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-05-04'
-      source_hash: b61e3d6f56c4d927
+      last_modified: '2026-05-05'
+      source_hash: 554733aff2d89627
     endpoint:task-my-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0003-task-center/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 8ff6dac044a3e952
+      last_modified: '2026-05-05'
+      source_hash: b09116b56573fc57
     endpoint:task-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0004-task-center-ui-and-assignment/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: b0a2478117989edb
+      last_modified: '2026-05-05'
+      source_hash: c5a5414772d52ebd
     endpoint:task-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0004-task-center-ui-and-assignment/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: b0a2478117989edb
+      last_modified: '2026-05-05'
+      source_hash: c5a5414772d52ebd
     endpoint:task-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0003-task-center/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 8ff6dac044a3e952
+      last_modified: '2026-05-05'
+      source_hash: b09116b56573fc57
     endpoint:timeline-events:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/F0007-S0007-renewal-activity-timeline-and-audit-trail.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 844f64a44ddba6a3
+      last_modified: '2026-05-05'
+      source_hash: 959fb560b281429c
     endpoint:account-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 59d6edff9fc527ce
+      last_modified: '2026-05-05'
+      source_hash: 0b8a49fb31aa67e6
     endpoint:account-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 59d6edff9fc527ce
+      last_modified: '2026-05-05'
+      source_hash: 0b8a49fb31aa67e6
     endpoint:account-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
       source_count: 3
-      last_modified: '2026-05-04'
-      source_hash: 3e06cf3c711dff55
+      last_modified: '2026-05-05'
+      source_hash: 395ac159c25e0f03
     endpoint:account-update:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 59d6edff9fc527ce
+      last_modified: '2026-05-05'
+      source_hash: 0b8a49fb31aa67e6
     endpoint:account-lifecycle:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -891,241 +891,248 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
       source_count: 4
-      last_modified: '2026-05-04'
-      source_hash: 79cdcf2973e6162c
+      last_modified: '2026-05-05'
+      source_hash: 15ebb62e59f3480e
     endpoint:account-merge:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/feature-assembly-plan.md
       - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
       source_count: 3
-      last_modified: '2026-05-04'
-      source_hash: 6172989f03537772
+      last_modified: '2026-05-05'
+      source_hash: b3d053b2fc8fc5c3
     endpoint:account-summary:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 59d6edff9fc527ce
+      last_modified: '2026-05-05'
+      source_hash: 0b8a49fb31aa67e6
     endpoint:account-contact-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 59d6edff9fc527ce
+      last_modified: '2026-05-05'
+      source_hash: 0b8a49fb31aa67e6
     endpoint:account-contact-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 59d6edff9fc527ce
+      last_modified: '2026-05-05'
+      source_hash: 0b8a49fb31aa67e6
     endpoint:account-contact-update:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 59d6edff9fc527ce
+      last_modified: '2026-05-05'
+      source_hash: 0b8a49fb31aa67e6
     endpoint:account-contact-delete:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 59d6edff9fc527ce
+      last_modified: '2026-05-05'
+      source_hash: 0b8a49fb31aa67e6
     endpoint:account-relationship-change:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 59d6edff9fc527ce
+      last_modified: '2026-05-05'
+      source_hash: 0b8a49fb31aa67e6
     endpoint:account-submissions:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 59d6edff9fc527ce
+      last_modified: '2026-05-05'
+      source_hash: 0b8a49fb31aa67e6
     endpoint:account-renewals:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 59d6edff9fc527ce
+      last_modified: '2026-05-05'
+      source_hash: 0b8a49fb31aa67e6
     endpoint:account-policies:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 59d6edff9fc527ce
+      last_modified: '2026-05-05'
+      source_hash: 0b8a49fb31aa67e6
     endpoint:account-timeline:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 59d6edff9fc527ce
+      last_modified: '2026-05-05'
+      source_hash: 0b8a49fb31aa67e6
     endpoint:documents-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 173abbc267586c44
+      last_modified: '2026-05-05'
+      source_hash: 5c228f2c678ac39e
     endpoint:documents-upload:
       source_paths:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
       source_count: 3
-      last_modified: '2026-05-04'
-      source_hash: 839fde3207ec733a
+      last_modified: '2026-05-05'
+      source_hash: 52ba6742ecba5086
     endpoint:documents-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: b6013daa724fb14a
+      last_modified: '2026-05-05'
+      source_hash: b954693f3d605874
     endpoint:documents-replace:
       source_paths:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: b0d40825e7abcccc
+      last_modified: '2026-05-05'
+      source_hash: ac1d8347b6c31ba6
     endpoint:documents-metadata-update:
       source_paths:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 02af9c7eb1ec2e9f
+      last_modified: '2026-05-05'
+      source_hash: 1bfc7c0f1cd7e9f8
+    endpoint:documents-metadata-schemas:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      source_count: 2
+      last_modified: '2026-05-05'
+      source_hash: de4eef82263d8795
     endpoint:documents-download:
       source_paths:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 3c318dbda61410d6
+      last_modified: '2026-05-05'
+      source_hash: 287ea5b242248d26
     endpoint:documents-completeness:
       source_paths:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: 6746a954ecd25c07
+      last_modified: '2026-05-05'
+      source_hash: f53780d6682126dd
     endpoint:document-templates-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: f0f956a0cc7bb30d
+      last_modified: '2026-05-05'
+      source_hash: c97446edc6b3f620
     endpoint:document-templates-upload:
       source_paths:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: f0f956a0cc7bb30d
+      last_modified: '2026-05-05'
+      source_hash: c97446edc6b3f620
     endpoint:document-templates-link:
       source_paths:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       source_count: 2
-      last_modified: '2026-05-04'
-      source_hash: f0f956a0cc7bb30d
+      last_modified: '2026-05-05'
+      source_hash: c97446edc6b3f620
     ui_route:dashboard-home:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/DashboardPage.tsx
       source_count: 2
-      last_modified: '2026-04-22'
-      source_hash: d273bfd7b6fc3bc5
+      last_modified: '2026-05-04'
+      source_hash: bcd7cdb0f825efee
     ui_route:brokers-list:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/BrokerListPage.tsx
       source_count: 2
-      last_modified: '2026-04-22'
-      source_hash: edff70efee20c85e
+      last_modified: '2026-05-04'
+      source_hash: 6b9afe5fb0d21ef0
     ui_route:broker-create:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/CreateBrokerPage.tsx
       source_count: 2
-      last_modified: '2026-04-22'
-      source_hash: e0df0693ff312128
+      last_modified: '2026-05-04'
+      source_hash: 0df1268ab97d11a1
     ui_route:broker-detail:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/BrokerDetailPage.tsx
       source_count: 2
-      last_modified: '2026-04-22'
-      source_hash: 731670cc48202104
+      last_modified: '2026-05-04'
+      source_hash: 1cff9555994aad74
     ui_route:accounts-list:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/AccountsPage.tsx
       source_count: 2
-      last_modified: '2026-04-22'
-      source_hash: 64c3c12ad271f376
+      last_modified: '2026-05-04'
+      source_hash: 3c25611c3d1ec31c
     ui_route:account-create:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/CreateAccountPage.tsx
       source_count: 2
-      last_modified: '2026-04-22'
-      source_hash: ac3754e2b5e78f3d
+      last_modified: '2026-05-04'
+      source_hash: 4720732041844b13
     ui_route:account-detail:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/AccountDetailPage.tsx
       source_count: 2
-      last_modified: '2026-04-22'
-      source_hash: 0ae41b29706afb88
+      last_modified: '2026-05-04'
+      source_hash: 85f0177b9e4db1f0
     ui_route:submissions-list:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/SubmissionsPage.tsx
       source_count: 2
-      last_modified: '2026-04-22'
-      source_hash: fa31baf1f80e575a
+      last_modified: '2026-05-04'
+      source_hash: 837f9643416b3f8c
     ui_route:submission-create:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/CreateSubmissionPage.tsx
       source_count: 2
-      last_modified: '2026-04-22'
-      source_hash: a8ac13c44f8565b2
+      last_modified: '2026-05-04'
+      source_hash: b1f95d4273c7f4a1
     ui_route:submission-detail:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/SubmissionDetailPage.tsx
       source_count: 2
-      last_modified: '2026-04-22'
-      source_hash: 7796d5877de37542
+      last_modified: '2026-05-04'
+      source_hash: '5661426760491317'
     ui_route:task-center:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/TaskCenterPage.tsx
       source_count: 2
-      last_modified: '2026-04-22'
-      source_hash: bf60b88c120a11b6
+      last_modified: '2026-05-04'
+      source_hash: 8c068df9eecca56f
     ui_route:login:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/LoginPage.tsx
       source_count: 2
-      last_modified: '2026-04-22'
-      source_hash: 912d0c1fa7a1f539
+      last_modified: '2026-05-04'
+      source_hash: 5321141534197e8e
     event:broker-created:
       source_paths:
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
@@ -1234,24 +1241,31 @@ freshness:
       source_paths:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       source_count: 1
-      last_modified: '2026-05-04'
-      source_hash: 3a84d4dc395e5982
+      last_modified: '2026-05-05'
+      source_hash: c261a379afaac56c
+    config_key:document-metadata-schema-registry:
+      source_paths:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/schemas/document-metadata-schema-registry.schema.json
+      source_count: 2
+      last_modified: '2026-05-05'
+      source_hash: 5645afaa98376b62
     config_key:document-retention-policies:
       source_paths:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       - planning-mds/architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md
       - planning-mds/schemas/document-retention-policy.schema.json
       source_count: 3
-      last_modified: '2026-05-04'
-      source_hash: fc41d0144ed5aa50
+      last_modified: '2026-05-05'
+      source_hash: 04797bb573450ed9
     config_key:document-classification-policy:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/schemas/document-classification-policy.schema.json
       source_count: 3
       last_modified: '2026-05-04'
-      source_hash: 456927fb4954976d
+      source_hash: 4792b11f207f4fd2
     migration:initial-create:
       source_paths:
       - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260223071234_InitialCreate.cs
@@ -1372,18 +1386,18 @@ freshness:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
-      - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
       source_count: 3
       last_modified: '2026-05-04'
-      source_hash: f28cab8feb2237d1
+      source_hash: 444d066c16a1c20b
     role:mga-user:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
-      - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
       source_count: 3
       last_modified: '2026-05-04'
-      source_hash: f28cab8feb2237d1
+      source_hash: 444d066c16a1c20b
     policy_rule:broker-read:
       source_paths:
       - planning-mds/security/policies/policy.csv
@@ -1890,8 +1904,8 @@ freshness:
       source_paths:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       source_count: 1
-      last_modified: '2026-05-04'
-      source_hash: 3a84d4dc395e5982
+      last_modified: '2026-05-05'
+      source_hash: c261a379afaac56c
     adr:013:
       source_paths:
       - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
@@ -2382,8 +2396,14 @@ freshness:
       source_paths:
       - planning-mds/schemas/document-sidecar.schema.json
       source_count: 1
-      last_modified: '2026-05-04'
-      source_hash: a5852b8ea3872a85
+      last_modified: '2026-05-05'
+      source_hash: 3a603396f752efaf
+    schema:document-metadata-schema-registry:
+      source_paths:
+      - planning-mds/schemas/document-metadata-schema-registry.schema.json
+      source_count: 1
+      last_modified: '2026-05-05'
+      source_hash: 359ab1d0ef69c778
     schema:document-list-item:
       source_paths:
       - planning-mds/schemas/document-list-item.schema.json
@@ -2430,8 +2450,8 @@ freshness:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       source_count: 1
-      last_modified: '2026-05-04'
-      source_hash: 76a64fe29a541619
+      last_modified: '2026-05-05'
+      source_hash: e0b1e25cc9c874a5
   mappings:
     feature:F0001:
       source_paths:
@@ -2646,8 +2666,8 @@ freshness:
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/STATUS.md
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/feature-assembly-plan.md
       source_count: 17
-      last_modified: '2026-04-23'
-      source_hash: 61e7671d5bd2bcf2
+      last_modified: '2026-05-05'
+      source_hash: e213571219d9ec78
     feature:F0019:
       source_paths:
       - planning-mds/features/F0019-submission-quoting-proposal-and-approval/GETTING-STARTED.md
@@ -2659,25 +2679,26 @@ freshness:
       source_hash: d953367acdf6e692
     feature:F0020:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/GETTING-STARTED.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/PRD.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/README.md
-      - planning-mds/features/F0020-document-management-and-acord-intake/STATUS.md
-      source_count: 16
-      last_modified: '2026-05-04'
-      source_hash: 6894abefa8c911aa
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/GETTING-STARTED.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/README.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/STATUS.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/feature-assembly-plan.md
+      source_count: 17
+      last_modified: '2026-05-05'
+      source_hash: 196b87f40badebba
     feature:F0022:
       source_paths:
       - planning-mds/features/F0022-work-queues-assignment-rules-and-coverage-management/GETTING-STARTED.md
@@ -3327,76 +3348,76 @@ freshness:
       source_hash: ce3401a0008ab779
     story:F0020-S0001:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: 1fd7c7c0e2384255
+      source_hash: 5cbbc03abd2c9469
     story:F0020-S0002:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: 622bb99d59057712
+      source_hash: 255518e0571c9ed7
     story:F0020-S0003:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: 659c9236930a1c10
+      source_hash: e1a97238d1d6fb92
     story:F0020-S0004:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: 41c273173305f9cc
+      source_hash: 18bd21c4b369ca30
     story:F0020-S0005:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: eca18d86444006ee
+      source_hash: d7f16a51cd226844
     story:F0020-S0006:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: c92c1f75e8d889ad
+      source_hash: 924388c6a8ae9a99
     story:F0020-S0007:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: 02e172b7fef273ff
+      source_hash: 3a6df43b492d8680
     story:F0020-S0008:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: 4d230f6205a1650f
+      source_hash: 7f84afc7a49567ce
     story:F0020-S0009:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: adfdc5225cef073c
+      source_hash: dc40445a473e5325
     story:F0020-S0010:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: 8fcdf11154d9a099
+      source_hash: 02ce82b3c3086aea
     story:F0020-S0011:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: e6ada7692efc619b
+      source_hash: abd6be73549cd8e7
     story:F0020-S0012:
       source_paths:
-      - planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       source_count: 1
       last_modified: '2026-05-04'
-      source_hash: 6acff60a974bf25c
+      source_hash: b667bac1f2cf3c63
   code_bindings:
     entity:submission:
       source_paths:
@@ -3445,8 +3466,8 @@ freshness:
       - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
       - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
       source_count: 44
-      last_modified: '2026-04-22'
-      source_hash: a366c262b874ce8c
+      last_modified: '2026-05-04'
+      source_hash: 4ddc3f460727e9a1
     entity:renewal:
       source_paths:
       - engine/src/Nebula.Domain/Entities/Renewal.cs
@@ -3523,8 +3544,154 @@ freshness:
       - experience/src/mocks/policies.ts
       - experience/src/mocks/handlers.ts
       source_count: 37
-      last_modified: '2026-04-22'
-      source_hash: 14e7aea21a2de033
+      last_modified: '2026-05-05'
+      source_hash: 762599ec4751c21f
+    entity:document:
+      source_paths:
+      - engine/src/Nebula.Domain/Documents/DocumentConstants.cs
+      - engine/src/Nebula.Domain/Documents/DocumentIds.cs
+      - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
+      - engine/src/Nebula.Application/Interfaces/IDocumentClassificationGate.cs
+      - engine/src/Nebula.Application/Interfaces/IDocumentConfigurationProvider.cs
+      - engine/src/Nebula.Application/Interfaces/IDocumentParentAccessResolver.cs
+      - engine/src/Nebula.Application/Interfaces/IDocumentRepository.cs
+      - engine/src/Nebula.Application/Interfaces/IQuarantineScanner.cs
+      - engine/src/Nebula.Application/Services/DocumentService.cs
+      - engine/src/Nebula.Application/Services/DocumentRetentionService.cs
+      - engine/src/Nebula.Application/Services/DocumentTemplateService.cs
+      - engine/src/Nebula.Infrastructure/Documents/DocumentClassificationGate.cs
+      - engine/src/Nebula.Infrastructure/Documents/DocumentParentAccessResolver.cs
+      - engine/src/Nebula.Infrastructure/Documents/DocumentRetentionHostedService.cs
+      - engine/src/Nebula.Infrastructure/Documents/LocalFileSystemDocumentRepository.cs
+      - engine/src/Nebula.Infrastructure/Documents/MockTimerScanner.cs
+      - engine/src/Nebula.Infrastructure/Documents/QuarantinePromotionWorker.cs
+      - engine/src/Nebula.Infrastructure/Documents/YamlDocumentConfigurationProvider.cs
+      - engine/src/Nebula.Infrastructure/DependencyInjection.cs
+      - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+      - engine/src/Nebula.Api/Program.cs
+      - engine/src/Nebula.Api/data/documents/configuration/taxonomy.yaml
+      - engine/src/Nebula.Api/data/documents/configuration/casbin-document-roles.yaml
+      - engine/src/Nebula.Api/data/documents/configuration/document-retention-policies.yaml
+      - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/registry.yaml
+      - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/acord.v1.schema.json
+      - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/loss-run.v1.schema.json
+      - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/financials.v1.schema.json
+      - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/supplemental.v1.schema.json
+      - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/template.v1.schema.json
+      - engine/tests/Nebula.Tests/Unit/DocumentServiceTests.cs
+      - experience/src/features/documents/index.ts
+      - experience/src/features/documents/hooks.ts
+      - experience/src/features/documents/types.ts
+      - experience/src/features/documents/components/DocumentDetailView.tsx
+      - experience/src/features/documents/components/DocumentMetadataFields.tsx
+      - experience/src/features/documents/components/DocumentTemplatesLibrary.tsx
+      - experience/src/features/documents/components/DocumentUploadDialog.tsx
+      - experience/src/features/documents/components/ParentDocumentsPanel.tsx
+      - experience/src/pages/AccountDetailPage.tsx
+      - experience/src/pages/SubmissionDetailPage.tsx
+      - experience/src/pages/PolicyDetailPage.tsx
+      - experience/src/pages/RenewalDetailPage.tsx
+      - experience/src/services/api.ts
+      - experience/src/mocks/data.ts
+      - experience/src/mocks/documents.ts
+      - experience/src/mocks/handlers.ts
+      - experience/src/features/documents/tests/ParentDocumentsPanel.test.tsx
+      - experience/src/services/api.test.ts
+      source_count: 49
+      last_modified: '2026-05-05'
+      source_hash: bd70ece2cb9a3e76
+    entity:document-template:
+      source_paths:
+      - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
+      - engine/src/Nebula.Application/Services/DocumentTemplateService.cs
+      - engine/src/Nebula.Infrastructure/Documents/LocalFileSystemDocumentRepository.cs
+      - engine/src/Nebula.Infrastructure/Documents/YamlDocumentConfigurationProvider.cs
+      - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+      - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/template.v1.schema.json
+      - experience/src/features/documents/components/DocumentTemplatesLibrary.tsx
+      - experience/src/features/documents/components/ParentDocumentsPanel.tsx
+      - experience/src/services/api.ts
+      - experience/src/mocks/documents.ts
+      source_count: 10
+      last_modified: '2026-05-05'
+      source_hash: 840cdd66de3d860d
+    workflow:document-ingest:
+      source_paths:
+      - engine/src/Nebula.Application/Interfaces/IQuarantineScanner.cs
+      - engine/src/Nebula.Application/Services/DocumentService.cs
+      - engine/src/Nebula.Application/Services/DocumentTemplateService.cs
+      - engine/src/Nebula.Infrastructure/Documents/LocalFileSystemDocumentRepository.cs
+      - engine/src/Nebula.Infrastructure/Documents/MockTimerScanner.cs
+      - engine/src/Nebula.Infrastructure/Documents/QuarantinePromotionWorker.cs
+      - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+      - engine/tests/Nebula.Tests/Unit/DocumentServiceTests.cs
+      - experience/src/features/documents/components/DocumentUploadDialog.tsx
+      - experience/src/features/documents/components/ParentDocumentsPanel.tsx
+      source_count: 10
+      last_modified: '2026-05-05'
+      source_hash: 0740d67256c0ecfc
+    config_key:document-metadata-schema-registry:
+      source_paths:
+      - planning-mds/schemas/document-metadata-schema-registry.schema.json
+      - planning-mds/schemas/document-sidecar.schema.json
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
+      - engine/src/Nebula.Application/Interfaces/IDocumentConfigurationProvider.cs
+      - engine/src/Nebula.Application/Services/DocumentService.cs
+      - engine/src/Nebula.Infrastructure/Documents/YamlDocumentConfigurationProvider.cs
+      - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+      - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/registry.yaml
+      - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/acord.v1.schema.json
+      - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/loss-run.v1.schema.json
+      - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/financials.v1.schema.json
+      - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/supplemental.v1.schema.json
+      - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/template.v1.schema.json
+      - experience/src/features/documents/components/DocumentMetadataFields.tsx
+      - experience/src/features/documents/components/DocumentUploadDialog.tsx
+      - experience/src/features/documents/components/DocumentDetailView.tsx
+      - experience/src/features/documents/hooks.ts
+      - experience/src/features/documents/types.ts
+      - experience/src/services/api.ts
+      - experience/src/mocks/documents.ts
+      source_count: 21
+      last_modified: '2026-05-05'
+      source_hash: 944dd25372fc14f5
+    capability:document-management:
+      source_paths:
+      - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
+      - engine/src/Nebula.Application/Interfaces/IDocumentClassificationGate.cs
+      - engine/src/Nebula.Application/Interfaces/IDocumentConfigurationProvider.cs
+      - engine/src/Nebula.Application/Interfaces/IDocumentParentAccessResolver.cs
+      - engine/src/Nebula.Application/Interfaces/IDocumentRepository.cs
+      - engine/src/Nebula.Application/Services/DocumentRetentionService.cs
+      - engine/src/Nebula.Application/Services/DocumentService.cs
+      - engine/src/Nebula.Application/Services/DocumentTemplateService.cs
+      - engine/src/Nebula.Infrastructure/Documents/DocumentClassificationGate.cs
+      - engine/src/Nebula.Infrastructure/Documents/DocumentParentAccessResolver.cs
+      - engine/src/Nebula.Infrastructure/Documents/DocumentRetentionHostedService.cs
+      - engine/src/Nebula.Infrastructure/Documents/LocalFileSystemDocumentRepository.cs
+      - engine/src/Nebula.Infrastructure/Documents/MockTimerScanner.cs
+      - engine/src/Nebula.Infrastructure/Documents/QuarantinePromotionWorker.cs
+      - engine/src/Nebula.Infrastructure/Documents/YamlDocumentConfigurationProvider.cs
+      - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+      - engine/tests/Nebula.Tests/Unit/DocumentServiceTests.cs
+      - experience/src/features/documents/components/DocumentDetailView.tsx
+      - experience/src/features/documents/components/DocumentMetadataFields.tsx
+      - experience/src/features/documents/components/DocumentTemplatesLibrary.tsx
+      - experience/src/features/documents/components/DocumentUploadDialog.tsx
+      - experience/src/features/documents/components/ParentDocumentsPanel.tsx
+      - experience/src/features/documents/hooks.ts
+      - experience/src/features/documents/index.ts
+      - experience/src/features/documents/tests/ParentDocumentsPanel.test.tsx
+      - experience/src/features/documents/types.ts
+      - experience/src/pages/AccountDetailPage.tsx
+      - experience/src/pages/SubmissionDetailPage.tsx
+      - experience/src/pages/PolicyDetailPage.tsx
+      - experience/src/pages/RenewalDetailPage.tsx
+      - experience/src/services/api.ts
+      source_count: 31
+      last_modified: '2026-05-05'
+      source_hash: f2195a51cc5b668c
     entity:broker:
       source_paths:
       - engine/src/Nebula.Domain/Entities/Broker.cs
@@ -4414,8 +4581,8 @@ freshness:
       - experience/src/pages/SubmissionDetailPage.tsx
       - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
       source_count: 6
-      last_modified: '2026-04-22'
-      source_hash: 7aa7d0b38deb7321
+      last_modified: '2026-05-04'
+      source_hash: f40729b889feca48
     endpoint:submission-create:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
@@ -4460,8 +4627,8 @@ freshness:
       - experience/src/features/timeline/hooks/useTimelineEvents.ts
       - experience/src/features/timeline/index.ts
       source_count: 10
-      last_modified: '2026-04-22'
-      source_hash: 6ac9334aa22087dd
+      last_modified: '2026-05-04'
+      source_hash: 3624a17b7ef48859
     endpoint:renewal-list:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
@@ -4609,8 +4776,8 @@ freshness:
       - experience/src/pages/DashboardPage.tsx
       - experience/src/pages/tests/DashboardPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-04-22'
-      source_hash: 6568d09771e88e34
+      last_modified: '2026-05-04'
+      source_hash: 90f9e8fb5b2d3c88
     ui_route:brokers-list:
       source_paths:
       - experience/src/App.tsx
@@ -4618,55 +4785,55 @@ freshness:
       - experience/src/features/brokers/tests/BrokerListPage.a11y.test.tsx
       - experience/src/features/brokers/tests/BrokerListPage.integration.test.tsx
       source_count: 4
-      last_modified: '2026-04-22'
-      source_hash: eeeda9a091d6ea26
+      last_modified: '2026-05-04'
+      source_hash: bee67a3991bb47ac
     ui_route:broker-create:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/CreateBrokerPage.tsx
       - experience/src/pages/tests/CreateBrokerPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-04-22'
-      source_hash: bde159910f068767
+      last_modified: '2026-05-04'
+      source_hash: 6e444ddf5b9e41bc
     ui_route:broker-detail:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/BrokerDetailPage.tsx
       - experience/src/pages/tests/BrokerDetailPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-04-22'
-      source_hash: a18cbf98f07cccd9
+      last_modified: '2026-05-04'
+      source_hash: 3911e66b0f0cd8f2
     ui_route:submissions-list:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/SubmissionsPage.tsx
       - experience/src/pages/tests/SubmissionsPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-04-22'
-      source_hash: 1a463d98e574b432
+      last_modified: '2026-05-04'
+      source_hash: 5403ba4f34583135
     ui_route:submission-create:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/CreateSubmissionPage.tsx
       - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-04-22'
-      source_hash: e3bc5c8e154be991
+      last_modified: '2026-05-04'
+      source_hash: 656c2787818bf2b5
     ui_route:submission-detail:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/SubmissionDetailPage.tsx
       - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-04-22'
-      source_hash: 06aa295714d048c1
+      last_modified: '2026-05-04'
+      source_hash: 4e7b1cd7f8f4bcef
     ui_route:task-center:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/TaskCenterPage.tsx
       source_count: 2
-      last_modified: '2026-04-22'
-      source_hash: bf60b88c120a11b6
+      last_modified: '2026-05-04'
+      source_hash: 8c068df9eecca56f
     ui_route:login:
       source_paths:
       - experience/src/App.tsx
@@ -4685,8 +4852,8 @@ freshness:
       - experience/src/features/auth/useCurrentUser.ts
       - experience/src/features/auth/useSessionTeardown.ts
       source_count: 15
-      last_modified: '2026-04-22'
-      source_hash: b305eda257f46a83
+      last_modified: '2026-05-04'
+      source_hash: ac67ca308cdd5624
     event:broker-created:
       source_paths:
       - engine/src/Nebula.Application/Services/BrokerService.cs
@@ -4771,16 +4938,16 @@ freshness:
       - engine/src/Nebula.Api/Program.cs
       - engine/src/Nebula.Api/Endpoints/AuthEndpoints.cs
       source_count: 4
-      last_modified: '2026-04-22'
-      source_hash: 5b817689635db81c
+      last_modified: '2026-05-04'
+      source_hash: e51692e480b605bd
     config_key:authentication-audience:
       source_paths:
       - planning-mds/architecture/decisions/ADR-Authentication-Strategy.md
       - planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
       - engine/src/Nebula.Api/Program.cs
       source_count: 3
-      last_modified: '2026-04-22'
-      source_hash: 77fb149818668ed6
+      last_modified: '2026-05-04'
+      source_hash: f73b6094606205bb
     config_key:oidc-authority:
       source_paths:
       - planning-mds/features/archive/F0005-idp-migration/F0005-S0003-frontend-oidc-flow.md
@@ -4985,8 +5152,8 @@ freshness:
       - experience/src/pages/RenewalsPage.tsx
       - experience/src/pages/RenewalDetailPage.tsx
       source_count: 62
-      last_modified: '2026-04-22'
-      source_hash: 3ed95297b009b3ec
+      last_modified: '2026-05-04'
+      source_hash: e3c144be572ea208
     workflow:account-lifecycle:
       source_paths:
       - engine/src/Nebula.Domain/Workflow/AccountLifecycleStateMachine.cs
@@ -4995,8 +5162,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
       - experience/src/pages/AccountDetailPage.tsx
       source_count: 5
-      last_modified: '2026-04-22'
-      source_hash: 8ecbc6eb32084710
+      last_modified: '2026-05-04'
+      source_hash: 60292b7486671202
     policy_rule:account-read:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -5151,8 +5318,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 12
-      last_modified: '2026-04-22'
-      source_hash: 3b003a9de2eb5039
+      last_modified: '2026-05-04'
+      source_hash: ea2537115fcd27f9
     endpoint:account-create:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5166,8 +5333,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 10
-      last_modified: '2026-04-22'
-      source_hash: 1bf6bdc48199801e
+      last_modified: '2026-05-04'
+      source_hash: 54f42f94fe9df6f4
     endpoint:account-detail:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5181,8 +5348,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 10
-      last_modified: '2026-04-22'
-      source_hash: 8f84473e18419a67
+      last_modified: '2026-05-04'
+      source_hash: df5fa085fd4700ae
     endpoint:account-update:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5195,8 +5362,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-04-22'
-      source_hash: 272fd036a5447525
+      last_modified: '2026-05-04'
+      source_hash: c129504a3bb077c2
     endpoint:account-lifecycle:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5210,8 +5377,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 10
-      last_modified: '2026-04-22'
-      source_hash: b544344af69c0239
+      last_modified: '2026-05-04'
+      source_hash: 6253e3ac7d452181
     endpoint:account-merge:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5224,8 +5391,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-04-22'
-      source_hash: 275a83298b008ea1
+      last_modified: '2026-05-04'
+      source_hash: 56eecc7e776e31dd
     endpoint:account-summary:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5241,8 +5408,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 12
-      last_modified: '2026-04-22'
-      source_hash: 079a93d395397b6a
+      last_modified: '2026-05-04'
+      source_hash: a8266240317fdee3
     endpoint:account-contact-list:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5255,8 +5422,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-04-22'
-      source_hash: 0af13228610b9408
+      last_modified: '2026-05-04'
+      source_hash: b701555be793993f
     endpoint:account-contact-create:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5269,8 +5436,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-04-22'
-      source_hash: d2b3aefda87a72ab
+      last_modified: '2026-05-04'
+      source_hash: 9281b288e8b89558
     endpoint:account-contact-update:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5283,8 +5450,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-04-22'
-      source_hash: d2b3aefda87a72ab
+      last_modified: '2026-05-04'
+      source_hash: 9281b288e8b89558
     endpoint:account-contact-delete:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5296,8 +5463,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 8
-      last_modified: '2026-04-22'
-      source_hash: 2751e20788ae0c7b
+      last_modified: '2026-05-04'
+      source_hash: 3b081a972f66b718
     endpoint:account-relationship-change:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5310,8 +5477,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-04-22'
-      source_hash: 1074828292c31185
+      last_modified: '2026-05-04'
+      source_hash: 46b15e1dde6c9ffa
     endpoint:account-submissions:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5328,8 +5495,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 13
-      last_modified: '2026-04-22'
-      source_hash: 25f4a325cffa3dcd
+      last_modified: '2026-05-04'
+      source_hash: 4413bfbd19e87888
     endpoint:account-renewals:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5346,8 +5513,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 13
-      last_modified: '2026-04-22'
-      source_hash: d037d3039248ca2f
+      last_modified: '2026-05-04'
+      source_hash: 8504f27c8e969a95
     endpoint:account-policies:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5360,8 +5527,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-04-22'
-      source_hash: 2be982c85b5c83ce
+      last_modified: '2026-05-04'
+      source_hash: c7725ae76eb0782c
     endpoint:account-timeline:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5375,8 +5542,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 10
-      last_modified: '2026-04-22'
-      source_hash: 7b6c916a53ae7247
+      last_modified: '2026-05-04'
+      source_hash: f6e6d64803279890
     ui_route:accounts-list:
       source_paths:
       - experience/src/App.tsx
@@ -5386,8 +5553,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 6
-      last_modified: '2026-04-22'
-      source_hash: 9fe0326cdc575313
+      last_modified: '2026-05-04'
+      source_hash: 3f19896e2018d935
     ui_route:account-create:
       source_paths:
       - experience/src/App.tsx
@@ -5397,8 +5564,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 6
-      last_modified: '2026-04-22'
-      source_hash: 813e470a98292534
+      last_modified: '2026-05-04'
+      source_hash: baaefa55c939af12
     ui_route:account-detail:
       source_paths:
       - experience/src/App.tsx
@@ -5408,8 +5575,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 6
-      last_modified: '2026-04-22'
-      source_hash: 6852479db1606817
+      last_modified: '2026-05-04'
+      source_hash: 592a1826bfe27d93
     migration:f0016-account-lifecycle:
       source_paths:
       - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260414120000_F0016_AccountLifecycle.cs

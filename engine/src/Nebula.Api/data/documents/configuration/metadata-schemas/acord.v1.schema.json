@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/document-metadata/acord.v1.schema.json",
+  "title": "ACORD Metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "formNumber": { "type": "string", "title": "Form Number", "enum": ["25", "125", "126", "130", "140"] },
+    "namedInsured": { "type": "string", "title": "Named Insured", "maxLength": 200 },
+    "effectiveDate": { "type": "string", "title": "Effective Date", "format": "date" },
+    "expirationDate": { "type": "string", "title": "Expiration Date", "format": "date" },
+    "carrier": { "type": "string", "title": "Carrier", "maxLength": 120 }
+  }
+}

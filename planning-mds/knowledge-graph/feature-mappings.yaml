@@ -488,7 +488,7 @@ features:
       - feature:F0007
       - feature:F0002
       - feature:F0009
-      - {id: feature:F0020, provenance: inferred, confidence: 0.8, note: "Documents rail integrates with F0020 when live"}
+      - {id: feature:F0020, provenance: extracted, confidence: 1.0, note: "Implemented: Policy 360 documents rail fulfilled by F0020; PolicyDetailPage mounts ParentDocumentsPanel with parent.type=policy"}
       - {id: feature:F0019, provenance: inferred, confidence: 0.6, note: "F0019 future consumer of POST /api/policies/from-bind hook"}
       - {id: feature:F0028, provenance: inferred, confidence: 0.4, note: "Future replacement for lightweight CarrierRef seed"}
   - id: feature:F0019
@@ -516,8 +516,8 @@ features:
       - {id: feature:F0018, provenance: inferred, confidence: 0.8}
       - {id: feature:F0020, provenance: inferred, confidence: 0.8}
   - id: feature:F0020
-    path: planning-mds/features/F0020-document-management-and-acord-intake
-    status: planned
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake
+    status: archived-done
     affects:
       - entity:document
       - entity:document-template
@@ -535,6 +535,7 @@ features:
       - endpoint:documents-list
       - endpoint:documents-upload
       - endpoint:documents-detail
+      - endpoint:documents-metadata-schemas
       - endpoint:documents-replace
       - endpoint:documents-metadata-update
       - endpoint:documents-download
@@ -547,6 +548,7 @@ features:
       - adr:019
     uses_schema:
       - schema:document-sidecar
+      - schema:document-metadata-schema-registry
       - schema:document-list-item
       - schema:paginated-document-list
       - schema:document-detail
@@ -571,11 +573,12 @@ features:
       - policy_rule:document-template-link
     config_keys:
       - config_key:document-taxonomy
+      - config_key:document-metadata-schema-registry
       - config_key:document-retention-policies
       - config_key:document-classification-policy
     depends_on:
       - feature:F0006
-      - feature:F0018
+      - {id: feature:F0018, provenance: extracted, confidence: 1.0, note: "Implemented: Policy parent-record integration fulfilled through ParentDocumentsPanel on PolicyDetailPage"}
   - id: feature:F0022
     path: planning-mds/features/F0022-work-queues-assignment-rules-and-coverage-management
     status: planned
@@ -2309,7 +2312,7 @@ stories:
     enforced_by_policy:
       - policy_rule:account-read
   - id: story:F0020-S0001
-    path: planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
     feature: feature:F0020
     affects:
       - entity:document
@@ -2328,7 +2331,7 @@ stories:
       - policy_rule:document-create
       - policy_rule:document-create-restricted
   - id: story:F0020-S0002
-    path: planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
     feature: feature:F0020
     affects:
       - entity:document
@@ -2347,7 +2350,7 @@ stories:
       - policy_rule:document-create
       - policy_rule:document-create-restricted
   - id: story:F0020-S0003
-    path: planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
     feature: feature:F0020
     affects:
       - entity:document
@@ -2362,7 +2365,7 @@ stories:
     config_keys:
       - config_key:document-retention-policies
   - id: story:F0020-S0004
-    path: planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
     feature: feature:F0020
     affects:
       - entity:document
@@ -2380,7 +2383,7 @@ stories:
     enforced_by_policy:
       - policy_rule:document-read
   - id: story:F0020-S0005
-    path: planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
     feature: feature:F0020
     affects:
       - entity:document
@@ -2397,7 +2400,7 @@ stories:
     enforced_by_policy:
       - policy_rule:document-read
   - id: story:F0020-S0006
-    path: planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
     feature: feature:F0020
     affects:
       - entity:document
@@ -2412,7 +2415,7 @@ stories:
     enforced_by_policy:
       - policy_rule:document-download
   - id: story:F0020-S0007
-    path: planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
     feature: feature:F0020
     affects:
       - entity:document
@@ -2431,7 +2434,7 @@ stories:
       - policy_rule:document-replace
       - policy_rule:document-create-restricted
   - id: story:F0020-S0008
-    path: planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
     feature: feature:F0020
     affects:
       - entity:document
@@ -2450,7 +2453,7 @@ stories:
       - policy_rule:document-create-restricted
       - policy_rule:document-declassify
   - id: story:F0020-S0009
-    path: planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
     feature: feature:F0020
     affects:
       - entity:document
@@ -2475,7 +2478,7 @@ stories:
       - policy_rule:document-template-replace
       - policy_rule:document-template-link
   - id: story:F0020-S0010
-    path: planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
     feature: feature:F0020
     affects:
       - entity:document
@@ -2490,7 +2493,7 @@ stories:
     enforced_by_policy:
       - policy_rule:document-read
   - id: story:F0020-S0011
-    path: planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
     feature: feature:F0020
     affects:
       - entity:document
@@ -2505,7 +2508,7 @@ stories:
     config_keys:
       - config_key:document-retention-policies
   - id: story:F0020-S0012
-    path: planning-mds/features/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
     feature: feature:F0020
     affects:
       - entity:document

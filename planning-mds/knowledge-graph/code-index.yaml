@@ -104,6 +104,175 @@ node_bindings:
           - experience/src/mocks/policies.ts
           - experience/src/mocks/handlers.ts
 
+  - id: entity:document
+    paths:
+      backend:
+        domain:
+          - engine/src/Nebula.Domain/Documents/DocumentConstants.cs
+          - engine/src/Nebula.Domain/Documents/DocumentIds.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IDocumentClassificationGate.cs
+          - engine/src/Nebula.Application/Interfaces/IDocumentConfigurationProvider.cs
+          - engine/src/Nebula.Application/Interfaces/IDocumentParentAccessResolver.cs
+          - engine/src/Nebula.Application/Interfaces/IDocumentRepository.cs
+          - engine/src/Nebula.Application/Interfaces/IQuarantineScanner.cs
+          - engine/src/Nebula.Application/Services/DocumentService.cs
+          - engine/src/Nebula.Application/Services/DocumentRetentionService.cs
+          - engine/src/Nebula.Application/Services/DocumentTemplateService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Documents/DocumentClassificationGate.cs
+          - engine/src/Nebula.Infrastructure/Documents/DocumentParentAccessResolver.cs
+          - engine/src/Nebula.Infrastructure/Documents/DocumentRetentionHostedService.cs
+          - engine/src/Nebula.Infrastructure/Documents/LocalFileSystemDocumentRepository.cs
+          - engine/src/Nebula.Infrastructure/Documents/MockTimerScanner.cs
+          - engine/src/Nebula.Infrastructure/Documents/QuarantinePromotionWorker.cs
+          - engine/src/Nebula.Infrastructure/Documents/YamlDocumentConfigurationProvider.cs
+          - engine/src/Nebula.Infrastructure/DependencyInjection.cs
+        api:
+          - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+          - engine/src/Nebula.Api/Program.cs
+        config:
+          - engine/src/Nebula.Api/data/documents/configuration/taxonomy.yaml
+          - engine/src/Nebula.Api/data/documents/configuration/casbin-document-roles.yaml
+          - engine/src/Nebula.Api/data/documents/configuration/document-retention-policies.yaml
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/registry.yaml
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/acord.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/loss-run.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/financials.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/supplemental.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/template.v1.schema.json
+        tests:
+          - engine/tests/Nebula.Tests/Unit/DocumentServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/documents/index.ts
+          - experience/src/features/documents/hooks.ts
+          - experience/src/features/documents/types.ts
+          - experience/src/features/documents/components/DocumentDetailView.tsx
+          - experience/src/features/documents/components/DocumentMetadataFields.tsx
+          - experience/src/features/documents/components/DocumentTemplatesLibrary.tsx
+          - experience/src/features/documents/components/DocumentUploadDialog.tsx
+          - experience/src/features/documents/components/ParentDocumentsPanel.tsx
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+          - experience/src/pages/SubmissionDetailPage.tsx
+          - experience/src/pages/PolicyDetailPage.tsx
+          - experience/src/pages/RenewalDetailPage.tsx
+        api:
+          - experience/src/services/api.ts
+        mocks:
+          - experience/src/mocks/data.ts
+          - experience/src/mocks/documents.ts
+          - experience/src/mocks/handlers.ts
+        tests:
+          - experience/src/features/documents/tests/ParentDocumentsPanel.test.tsx
+          - experience/src/services/api.test.ts
+
+  - id: entity:document-template
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
+          - engine/src/Nebula.Application/Services/DocumentTemplateService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Documents/LocalFileSystemDocumentRepository.cs
+          - engine/src/Nebula.Infrastructure/Documents/YamlDocumentConfigurationProvider.cs
+        api:
+          - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+        config:
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/template.v1.schema.json
+      frontend:
+        feature:
+          - experience/src/features/documents/components/DocumentTemplatesLibrary.tsx
+          - experience/src/features/documents/components/ParentDocumentsPanel.tsx
+        api:
+          - experience/src/services/api.ts
+        mocks:
+          - experience/src/mocks/documents.ts
+
+  - id: workflow:document-ingest
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Interfaces/IQuarantineScanner.cs
+          - engine/src/Nebula.Application/Services/DocumentService.cs
+          - engine/src/Nebula.Application/Services/DocumentTemplateService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Documents/LocalFileSystemDocumentRepository.cs
+          - engine/src/Nebula.Infrastructure/Documents/MockTimerScanner.cs
+          - engine/src/Nebula.Infrastructure/Documents/QuarantinePromotionWorker.cs
+        api:
+          - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/DocumentServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/documents/components/DocumentUploadDialog.tsx
+          - experience/src/features/documents/components/ParentDocumentsPanel.tsx
+
+  - id: config_key:document-metadata-schema-registry
+    paths:
+      docs:
+        schemas:
+          - planning-mds/schemas/document-metadata-schema-registry.schema.json
+          - planning-mds/schemas/document-sidecar.schema.json
+        adr:
+          - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      backend:
+        application:
+          - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IDocumentConfigurationProvider.cs
+          - engine/src/Nebula.Application/Services/DocumentService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Documents/YamlDocumentConfigurationProvider.cs
+        api:
+          - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+        config:
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/registry.yaml
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/acord.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/loss-run.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/financials.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/supplemental.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/template.v1.schema.json
+      frontend:
+        feature:
+          - experience/src/features/documents/components/DocumentMetadataFields.tsx
+          - experience/src/features/documents/components/DocumentUploadDialog.tsx
+          - experience/src/features/documents/components/DocumentDetailView.tsx
+          - experience/src/features/documents/hooks.ts
+          - experience/src/features/documents/types.ts
+        api:
+          - experience/src/services/api.ts
+        mocks:
+          - experience/src/mocks/documents.ts
+
+  - id: capability:document-management
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IDocument*.cs
+          - engine/src/Nebula.Application/Services/Document*.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Documents/**
+        api:
+          - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/DocumentServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/documents/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+          - experience/src/pages/SubmissionDetailPage.tsx
+          - experience/src/pages/PolicyDetailPage.tsx
+          - experience/src/pages/RenewalDetailPage.tsx
+        api:
+          - experience/src/services/api.ts
+        tests:
+          - experience/src/features/documents/tests/ParentDocumentsPanel.test.tsx
+
   - id: entity:broker
     paths:
       backend:

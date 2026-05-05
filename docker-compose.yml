@@ -123,6 +123,9 @@ services:
       Authentication__Authority: http://authentik-server:9000/application/o/nebula/
       Authentication__Audience: nebula
       Authentication__RolesClaim: nebula_roles
+      Documents__RootPath: /app/data/documents
+    volumes:
+      - nebula-document-data:/app/data/documents
     ports:
       - "8080:8080"
     depends_on:
@@ -134,3 +137,4 @@ services:
 
 volumes:
   nebula-db-data:
+  nebula-document-data:

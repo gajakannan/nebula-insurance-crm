@@ -17,7 +17,7 @@
   - **Reinstatement window:** Per-LOB via `WorkflowSlaThreshold` (Property 30, GeneralLiability 30, WorkersCompensation 60, ProfessionalLiability 30, Cyber 15, Default 30); no admin backdoor after window lapses.
   - **F0019 bind-hook:** Contract specified (`POST /api/policies/from-bind`); implementation deferred until F0019 ships.
   - **Carrier handling:** Lightweight `CarrierRef` seed now; F0028 will replace with full carrier master.
-  - **Documents rail:** Empty-state placeholder until F0020 lands; full integration via F0020 when live.
+  - **Documents rail:** F0020 now fulfills this rail via `ParentDocumentsPanel` on `PolicyDetailPage.tsx`; the earlier F0018 empty-state placeholder applied only before F0020 closeout.
   - **Expiration job:** MVP nightly cron-style job at 00:15 UTC; Temporal durable workflow migration is a follow-up per ADR-010.
   - **Story slate:** 11 stories covering list, create, detail/edit, 360 composition, version history, endorsements, cancellation, reinstatement, renewal linkage, timeline, summary projection.
   - **Fallback contract:** Consumes F0016 tombstone-forward on account references; denormalizes `AccountDisplayNameAtLink` on policy rows.
@@ -25,7 +25,7 @@
 ## Dependencies
 
 - **Done / archived:** F0002, F0007, F0009, F0016 (all consumed)
-- **Planned in this release:** F0020 (Documents); F0018 integrates with empty-state fallback
+- **Done / archived:** F0020 (Documents); F0018 policy documents are delegated to F0020 using `parent.type = policy`
 - **Future consumers:** F0019 (Submission Quote/Bind), F0028 (Carrier Master), F0025 (Billing), F0027 (Document Templates)
 
 ## How to Verify

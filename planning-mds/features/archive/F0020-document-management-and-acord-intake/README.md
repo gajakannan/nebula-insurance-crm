@@ -1,12 +1,13 @@
 # F0020 — Document Management & ACORD Intake
 
-**Status:** Draft
+**Status:** Done
 **Priority:** Critical
 **Phase:** CRM Release MVP
+**Archived:** 2026-05-05
 
 ## Overview
 
-Provide the shared Nebula document subsystem: single + bulk upload, quarantine + mock-scan promote pipeline, immutable colocated versioning, sidecar JSON metadata, classification-based access control, soft completeness signal, retention policy YAML, and a templates library — covering ACORD forms, loss runs, financials, quotes, endorsements, policies, and broker boilerplates.
+Provide the shared Nebula document subsystem: single + bulk upload, quarantine + mock-scan promote pipeline, immutable colocated versioning, type-specific sidecar JSON metadata with a lightweight schema registry, classification-based access control, soft completeness signal, retention policy YAML, and a templates library — covering ACORD forms, loss runs, financials, quotes, endorsements, policies, and broker boilerplates.
 
 ## Documents
 
@@ -20,21 +21,21 @@ Provide the shared Nebula document subsystem: single + bulk upload, quarantine +
 
 | ID | Title | Status |
 |----|-------|--------|
-| [F0020-S0001](./F0020-S0001-upload-single-document-with-metadata.md) | Upload single document with metadata to a parent record | Not Started |
-| [F0020-S0002](./F0020-S0002-bulk-multi-file-upload.md) | Bulk multi-file upload to a parent record | Not Started |
-| [F0020-S0003](./F0020-S0003-quarantine-and-mock-scan-workflow.md) | Quarantine and mock-scan workflow | Not Started |
-| [F0020-S0004](./F0020-S0004-list-documents-with-classification-filtering.md) | List documents on a parent record with classification filtering | Not Started |
-| [F0020-S0005](./F0020-S0005-document-detail-with-preview-and-provenance.md) | Document detail view with preview and provenance | Not Started |
-| [F0020-S0006](./F0020-S0006-download-current-and-prior-versions.md) | Download a document for current and prior versions | Not Started |
-| [F0020-S0007](./F0020-S0007-replace-with-immutable-supersedes-lineage.md) | Replace a document with immutable supersedes lineage | Not Started |
-| [F0020-S0008](./F0020-S0008-update-metadata-without-new-version.md) | Update document metadata without creating a new binary version | Not Started |
-| [F0020-S0009](./F0020-S0009-classification-based-access-control.md) | Classification-based access control on document operations | Not Started |
-| [F0020-S0010](./F0020-S0010-document-completeness-signal-endpoint.md) | Document completeness signal endpoint | Not Started |
-| [F0020-S0011](./F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md) | Retention policy YAML and scheduled cleanup | Not Started |
-| [F0020-S0012](./F0020-S0012-document-templates-library.md) | Document templates library | Not Started |
+| [F0020-S0001](./F0020-S0001-upload-single-document-with-metadata.md) | Upload single document with metadata to a parent record | Done |
+| [F0020-S0002](./F0020-S0002-bulk-multi-file-upload.md) | Bulk multi-file upload to a parent record | Done |
+| [F0020-S0003](./F0020-S0003-quarantine-and-mock-scan-workflow.md) | Quarantine and mock-scan workflow | Done |
+| [F0020-S0004](./F0020-S0004-list-documents-with-classification-filtering.md) | List documents on a parent record with classification filtering | Done |
+| [F0020-S0005](./F0020-S0005-document-detail-with-preview-and-provenance.md) | Document detail view with preview and provenance | Done |
+| [F0020-S0006](./F0020-S0006-download-current-and-prior-versions.md) | Download a document for current and prior versions | Done |
+| [F0020-S0007](./F0020-S0007-replace-with-immutable-supersedes-lineage.md) | Replace a document with immutable supersedes lineage | Done |
+| [F0020-S0008](./F0020-S0008-update-metadata-without-new-version.md) | Update document metadata without creating a new binary version | Done |
+| [F0020-S0009](./F0020-S0009-classification-based-access-control.md) | Classification-based access control on document operations | Done |
+| [F0020-S0010](./F0020-S0010-document-completeness-signal-endpoint.md) | Document completeness signal endpoint | Done |
+| [F0020-S0011](./F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md) | Retention policy YAML and scheduled cleanup | Done |
+| [F0020-S0012](./F0020-S0012-document-templates-library.md) | Document templates library | Done |
 
 **Total Stories:** 12
-**Completed:** 0 / 12
+**Completed:** 12 / 12
 
 ## Architecture Review (Phase B — 2026-05-04)
 
@@ -58,7 +59,7 @@ Provide the shared Nebula document subsystem: single + bulk upload, quarantine +
 | API contract (OpenAPI) | Updated — `planning-mds/api/nebula-api.yaml` adds `Documents` and `DocumentTemplates` tags and 8 paths. |
 | Workflow state machine | Added — `workflow:document-ingest` with states `quarantined → available | failed_promote`. |
 | Casbin policy | Updated — `planning-mds/security/policies/policy.csv` §3 adds 70 document/template rows; `authorization-matrix.md` §4 adds the combined-gate matrix. |
-| JSON schemas | Added — `document-sidecar`, `document-list-item`, `paginated-document-list`, `document-detail`, `document-completeness`, `document-retention-policy`, `document-classification-policy`, `document-template` (8 files in `planning-mds/schemas/`). |
+| JSON schemas | Added — `document-sidecar`, `document-metadata-schema-registry`, `document-list-item`, `paginated-document-list`, `document-detail`, `document-completeness`, `document-retention-policy`, `document-classification-policy`, `document-template` (9 files in `planning-mds/schemas/`). |
 | C4 diagrams | See ASCII C4 component diagram below. |
 | ADRs | ADR-012 finalised (Accepted); ADR-019 created (Accepted). |
 | Assembly plan | Out of scope for `plan` action — produced by the next `feature` action's Step 0. |
@@ -74,6 +75,7 @@ The MVP shape is on-disk, not relational. The "ERD" below is the file-system lay
                 │     ├── taxonomy.yaml
                 │     ├── document-retention-policies.yaml
                 │     ├── casbin-document-roles.yaml
+                │     ├── metadata-schemas/registry.yaml    ◄ versioned type-specific JSON metadata schemas
                 │     └── retention-sweeps.jsonl          ◄ append-only sweep audit
                 │
                 ├── quarantine/                           ◄ holds binaries during the 60s scanner mock

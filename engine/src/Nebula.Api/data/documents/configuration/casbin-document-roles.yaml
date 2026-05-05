@@ -1,0 +1,962 @@
+version: 1
+policy:
+  - role: Admin
+    tier: public
+    op: read
+    verdict: allow
+  - role: Admin
+    tier: public
+    op: create
+    verdict: allow
+  - role: Admin
+    tier: public
+    op: replace
+    verdict: allow
+  - role: Admin
+    tier: public
+    op: update_metadata
+    verdict: allow
+  - role: Admin
+    tier: public
+    op: download
+    verdict: allow
+  - role: Admin
+    tier: public
+    op: create:restricted
+    verdict: allow
+  - role: Admin
+    tier: public
+    op: declassify
+    verdict: allow
+  - role: Admin
+    tier: public
+    op: link
+    verdict: allow
+  - role: Admin
+    tier: confidential
+    op: read
+    verdict: allow
+  - role: Admin
+    tier: confidential
+    op: create
+    verdict: allow
+  - role: Admin
+    tier: confidential
+    op: replace
+    verdict: allow
+  - role: Admin
+    tier: confidential
+    op: update_metadata
+    verdict: allow
+  - role: Admin
+    tier: confidential
+    op: download
+    verdict: allow
+  - role: Admin
+    tier: confidential
+    op: create:restricted
+    verdict: allow
+  - role: Admin
+    tier: confidential
+    op: declassify
+    verdict: allow
+  - role: Admin
+    tier: confidential
+    op: link
+    verdict: allow
+  - role: Admin
+    tier: restricted
+    op: read
+    verdict: allow
+  - role: Admin
+    tier: restricted
+    op: create
+    verdict: allow
+  - role: Admin
+    tier: restricted
+    op: replace
+    verdict: allow
+  - role: Admin
+    tier: restricted
+    op: update_metadata
+    verdict: allow
+  - role: Admin
+    tier: restricted
+    op: download
+    verdict: allow
+  - role: Admin
+    tier: restricted
+    op: create:restricted
+    verdict: allow
+  - role: Admin
+    tier: restricted
+    op: declassify
+    verdict: allow
+  - role: Admin
+    tier: restricted
+    op: link
+    verdict: allow
+  - role: Underwriter
+    tier: public
+    op: read
+    verdict: allow
+  - role: Underwriter
+    tier: public
+    op: create
+    verdict: allow
+  - role: Underwriter
+    tier: public
+    op: replace
+    verdict: allow
+  - role: Underwriter
+    tier: public
+    op: update_metadata
+    verdict: allow
+  - role: Underwriter
+    tier: public
+    op: download
+    verdict: allow
+  - role: Underwriter
+    tier: public
+    op: create:restricted
+    verdict: allow
+  - role: Underwriter
+    tier: public
+    op: declassify
+    verdict: allow
+  - role: Underwriter
+    tier: public
+    op: link
+    verdict: allow
+  - role: Underwriter
+    tier: confidential
+    op: read
+    verdict: allow
+  - role: Underwriter
+    tier: confidential
+    op: create
+    verdict: allow
+  - role: Underwriter
+    tier: confidential
+    op: replace
+    verdict: allow
+  - role: Underwriter
+    tier: confidential
+    op: update_metadata
+    verdict: allow
+  - role: Underwriter
+    tier: confidential
+    op: download
+    verdict: allow
+  - role: Underwriter
+    tier: confidential
+    op: create:restricted
+    verdict: allow
+  - role: Underwriter
+    tier: confidential
+    op: declassify
+    verdict: allow
+  - role: Underwriter
+    tier: confidential
+    op: link
+    verdict: allow
+  - role: Underwriter
+    tier: restricted
+    op: read
+    verdict: allow
+  - role: Underwriter
+    tier: restricted
+    op: create
+    verdict: allow
+  - role: Underwriter
+    tier: restricted
+    op: replace
+    verdict: allow
+  - role: Underwriter
+    tier: restricted
+    op: update_metadata
+    verdict: allow
+  - role: Underwriter
+    tier: restricted
+    op: download
+    verdict: allow
+  - role: Underwriter
+    tier: restricted
+    op: create:restricted
+    verdict: allow
+  - role: Underwriter
+    tier: restricted
+    op: declassify
+    verdict: allow
+  - role: Underwriter
+    tier: restricted
+    op: link
+    verdict: allow
+  - role: DistributionUser
+    tier: public
+    op: read
+    verdict: allow
+  - role: DistributionUser
+    tier: public
+    op: create
+    verdict: allow
+  - role: DistributionUser
+    tier: public
+    op: replace
+    verdict: allow
+  - role: DistributionUser
+    tier: public
+    op: update_metadata
+    verdict: allow
+  - role: DistributionUser
+    tier: public
+    op: download
+    verdict: allow
+  - role: DistributionUser
+    tier: public
+    op: create:restricted
+    verdict: allow
+  - role: DistributionUser
+    tier: public
+    op: declassify
+    verdict: allow
+  - role: DistributionUser
+    tier: public
+    op: link
+    verdict: allow
+  - role: DistributionUser
+    tier: confidential
+    op: read
+    verdict: allow
+  - role: DistributionUser
+    tier: confidential
+    op: create
+    verdict: allow
+  - role: DistributionUser
+    tier: confidential
+    op: replace
+    verdict: allow
+  - role: DistributionUser
+    tier: confidential
+    op: update_metadata
+    verdict: allow
+  - role: DistributionUser
+    tier: confidential
+    op: download
+    verdict: allow
+  - role: DistributionUser
+    tier: confidential
+    op: create:restricted
+    verdict: allow
+  - role: DistributionUser
+    tier: confidential
+    op: declassify
+    verdict: allow
+  - role: DistributionUser
+    tier: confidential
+    op: link
+    verdict: allow
+  - role: DistributionUser
+    tier: restricted
+    op: read
+    verdict: deny
+  - role: DistributionUser
+    tier: restricted
+    op: create
+    verdict: deny
+  - role: DistributionUser
+    tier: restricted
+    op: replace
+    verdict: deny
+  - role: DistributionUser
+    tier: restricted
+    op: update_metadata
+    verdict: deny
+  - role: DistributionUser
+    tier: restricted
+    op: download
+    verdict: deny
+  - role: DistributionUser
+    tier: restricted
+    op: create:restricted
+    verdict: deny
+  - role: DistributionUser
+    tier: restricted
+    op: declassify
+    verdict: deny
+  - role: DistributionUser
+    tier: restricted
+    op: link
+    verdict: deny
+  - role: DistributionManager
+    tier: public
+    op: read
+    verdict: allow
+  - role: DistributionManager
+    tier: public
+    op: create
+    verdict: allow
+  - role: DistributionManager
+    tier: public
+    op: replace
+    verdict: allow
+  - role: DistributionManager
+    tier: public
+    op: update_metadata
+    verdict: allow
+  - role: DistributionManager
+    tier: public
+    op: download
+    verdict: allow
+  - role: DistributionManager
+    tier: public
+    op: create:restricted
+    verdict: allow
+  - role: DistributionManager
+    tier: public
+    op: declassify
+    verdict: allow
+  - role: DistributionManager
+    tier: public
+    op: link
+    verdict: allow
+  - role: DistributionManager
+    tier: confidential
+    op: read
+    verdict: allow
+  - role: DistributionManager
+    tier: confidential
+    op: create
+    verdict: allow
+  - role: DistributionManager
+    tier: confidential
+    op: replace
+    verdict: allow
+  - role: DistributionManager
+    tier: confidential
+    op: update_metadata
+    verdict: allow
+  - role: DistributionManager
+    tier: confidential
+    op: download
+    verdict: allow
+  - role: DistributionManager
+    tier: confidential
+    op: create:restricted
+    verdict: allow
+  - role: DistributionManager
+    tier: confidential
+    op: declassify
+    verdict: allow
+  - role: DistributionManager
+    tier: confidential
+    op: link
+    verdict: allow
+  - role: DistributionManager
+    tier: restricted
+    op: read
+    verdict: deny
+  - role: DistributionManager
+    tier: restricted
+    op: create
+    verdict: deny
+  - role: DistributionManager
+    tier: restricted
+    op: replace
+    verdict: deny
+  - role: DistributionManager
+    tier: restricted
+    op: update_metadata
+    verdict: deny
+  - role: DistributionManager
+    tier: restricted
+    op: download
+    verdict: deny
+  - role: DistributionManager
+    tier: restricted
+    op: create:restricted
+    verdict: deny
+  - role: DistributionManager
+    tier: restricted
+    op: declassify
+    verdict: deny
+  - role: DistributionManager
+    tier: restricted
+    op: link
+    verdict: deny
+  - role: RelationshipManager
+    tier: public
+    op: read
+    verdict: allow
+  - role: RelationshipManager
+    tier: public
+    op: create
+    verdict: allow
+  - role: RelationshipManager
+    tier: public
+    op: replace
+    verdict: allow
+  - role: RelationshipManager
+    tier: public
+    op: update_metadata
+    verdict: allow
+  - role: RelationshipManager
+    tier: public
+    op: download
+    verdict: allow
+  - role: RelationshipManager
+    tier: public
+    op: create:restricted
+    verdict: allow
+  - role: RelationshipManager
+    tier: public
+    op: declassify
+    verdict: allow
+  - role: RelationshipManager
+    tier: public
+    op: link
+    verdict: allow
+  - role: RelationshipManager
+    tier: confidential
+    op: read
+    verdict: allow
+  - role: RelationshipManager
+    tier: confidential
+    op: create
+    verdict: allow
+  - role: RelationshipManager
+    tier: confidential
+    op: replace
+    verdict: allow
+  - role: RelationshipManager
+    tier: confidential
+    op: update_metadata
+    verdict: allow
+  - role: RelationshipManager
+    tier: confidential
+    op: download
+    verdict: allow
+  - role: RelationshipManager
+    tier: confidential
+    op: create:restricted
+    verdict: allow
+  - role: RelationshipManager
+    tier: confidential
+    op: declassify
+    verdict: allow
+  - role: RelationshipManager
+    tier: confidential
+    op: link
+    verdict: allow
+  - role: RelationshipManager
+    tier: restricted
+    op: read
+    verdict: deny
+  - role: RelationshipManager
+    tier: restricted
+    op: create
+    verdict: deny
+  - role: RelationshipManager
+    tier: restricted
+    op: replace
+    verdict: deny
+  - role: RelationshipManager
+    tier: restricted
+    op: update_metadata
+    verdict: deny
+  - role: RelationshipManager
+    tier: restricted
+    op: download
+    verdict: deny
+  - role: RelationshipManager
+    tier: restricted
+    op: create:restricted
+    verdict: deny
+  - role: RelationshipManager
+    tier: restricted
+    op: declassify
+    verdict: deny
+  - role: RelationshipManager
+    tier: restricted
+    op: link
+    verdict: deny
+  - role: ProgramManager
+    tier: public
+    op: read
+    verdict: allow
+  - role: ProgramManager
+    tier: public
+    op: create
+    verdict: allow
+  - role: ProgramManager
+    tier: public
+    op: replace
+    verdict: allow
+  - role: ProgramManager
+    tier: public
+    op: update_metadata
+    verdict: allow
+  - role: ProgramManager
+    tier: public
+    op: download
+    verdict: allow
+  - role: ProgramManager
+    tier: public
+    op: create:restricted
+    verdict: allow
+  - role: ProgramManager
+    tier: public
+    op: declassify
+    verdict: allow
+  - role: ProgramManager
+    tier: public
+    op: link
+    verdict: allow
+  - role: ProgramManager
+    tier: confidential
+    op: read
+    verdict: allow
+  - role: ProgramManager
+    tier: confidential
+    op: create
+    verdict: allow
+  - role: ProgramManager
+    tier: confidential
+    op: replace
+    verdict: allow
+  - role: ProgramManager
+    tier: confidential
+    op: update_metadata
+    verdict: allow
+  - role: ProgramManager
+    tier: confidential
+    op: download
+    verdict: allow
+  - role: ProgramManager
+    tier: confidential
+    op: create:restricted
+    verdict: allow
+  - role: ProgramManager
+    tier: confidential
+    op: declassify
+    verdict: allow
+  - role: ProgramManager
+    tier: confidential
+    op: link
+    verdict: allow
+  - role: ProgramManager
+    tier: restricted
+    op: read
+    verdict: deny
+  - role: ProgramManager
+    tier: restricted
+    op: create
+    verdict: deny
+  - role: ProgramManager
+    tier: restricted
+    op: replace
+    verdict: deny
+  - role: ProgramManager
+    tier: restricted
+    op: update_metadata
+    verdict: deny
+  - role: ProgramManager
+    tier: restricted
+    op: download
+    verdict: deny
+  - role: ProgramManager
+    tier: restricted
+    op: create:restricted
+    verdict: deny
+  - role: ProgramManager
+    tier: restricted
+    op: declassify
+    verdict: deny
+  - role: ProgramManager
+    tier: restricted
+    op: link
+    verdict: deny
+  - role: Coordinator
+    tier: public
+    op: read
+    verdict: allow
+  - role: Coordinator
+    tier: public
+    op: create
+    verdict: allow
+  - role: Coordinator
+    tier: public
+    op: replace
+    verdict: allow
+  - role: Coordinator
+    tier: public
+    op: update_metadata
+    verdict: allow
+  - role: Coordinator
+    tier: public
+    op: download
+    verdict: allow
+  - role: Coordinator
+    tier: public
+    op: create:restricted
+    verdict: allow
+  - role: Coordinator
+    tier: public
+    op: declassify
+    verdict: allow
+  - role: Coordinator
+    tier: public
+    op: link
+    verdict: allow
+  - role: Coordinator
+    tier: confidential
+    op: read
+    verdict: allow
+  - role: Coordinator
+    tier: confidential
+    op: create
+    verdict: allow
+  - role: Coordinator
+    tier: confidential
+    op: replace
+    verdict: allow
+  - role: Coordinator
+    tier: confidential
+    op: update_metadata
+    verdict: allow
+  - role: Coordinator
+    tier: confidential
+    op: download
+    verdict: allow
+  - role: Coordinator
+    tier: confidential
+    op: create:restricted
+    verdict: allow
+  - role: Coordinator
+    tier: confidential
+    op: declassify
+    verdict: allow
+  - role: Coordinator
+    tier: confidential
+    op: link
+    verdict: allow
+  - role: Coordinator
+    tier: restricted
+    op: read
+    verdict: deny
+  - role: Coordinator
+    tier: restricted
+    op: create
+    verdict: deny
+  - role: Coordinator
+    tier: restricted
+    op: replace
+    verdict: deny
+  - role: Coordinator
+    tier: restricted
+    op: update_metadata
+    verdict: deny
+  - role: Coordinator
+    tier: restricted
+    op: download
+    verdict: deny
+  - role: Coordinator
+    tier: restricted
+    op: create:restricted
+    verdict: deny
+  - role: Coordinator
+    tier: restricted
+    op: declassify
+    verdict: deny
+  - role: Coordinator
+    tier: restricted
+    op: link
+    verdict: deny
+  - role: BrokerUser
+    tier: public
+    op: read
+    verdict: allow
+  - role: BrokerUser
+    tier: public
+    op: create
+    verdict: allow
+  - role: BrokerUser
+    tier: public
+    op: replace
+    verdict: deny
+  - role: BrokerUser
+    tier: public
+    op: update_metadata
+    verdict: deny
+  - role: BrokerUser
+    tier: public
+    op: download
+    verdict: allow
+  - role: BrokerUser
+    tier: public
+    op: create:restricted
+    verdict: deny
+  - role: BrokerUser
+    tier: public
+    op: declassify
+    verdict: deny
+  - role: BrokerUser
+    tier: public
+    op: link
+    verdict: allow
+  - role: BrokerUser
+    tier: confidential
+    op: read
+    verdict: deny
+  - role: BrokerUser
+    tier: confidential
+    op: create
+    verdict: deny
+  - role: BrokerUser
+    tier: confidential
+    op: replace
+    verdict: deny
+  - role: BrokerUser
+    tier: confidential
+    op: update_metadata
+    verdict: deny
+  - role: BrokerUser
+    tier: confidential
+    op: download
+    verdict: deny
+  - role: BrokerUser
+    tier: confidential
+    op: create:restricted
+    verdict: deny
+  - role: BrokerUser
+    tier: confidential
+    op: declassify
+    verdict: deny
+  - role: BrokerUser
+    tier: confidential
+    op: link
+    verdict: deny
+  - role: BrokerUser
+    tier: restricted
+    op: read
+    verdict: deny
+  - role: BrokerUser
+    tier: restricted
+    op: create
+    verdict: deny
+  - role: BrokerUser
+    tier: restricted
+    op: replace
+    verdict: deny
+  - role: BrokerUser
+    tier: restricted
+    op: update_metadata
+    verdict: deny
+  - role: BrokerUser
+    tier: restricted
+    op: download
+    verdict: deny
+  - role: BrokerUser
+    tier: restricted
+    op: create:restricted
+    verdict: deny
+  - role: BrokerUser
+    tier: restricted
+    op: declassify
+    verdict: deny
+  - role: BrokerUser
+    tier: restricted
+    op: link
+    verdict: deny
+  - role: MgaUser
+    tier: public
+    op: read
+    verdict: allow
+  - role: MgaUser
+    tier: public
+    op: create
+    verdict: allow
+  - role: MgaUser
+    tier: public
+    op: replace
+    verdict: deny
+  - role: MgaUser
+    tier: public
+    op: update_metadata
+    verdict: deny
+  - role: MgaUser
+    tier: public
+    op: download
+    verdict: allow
+  - role: MgaUser
+    tier: public
+    op: create:restricted
+    verdict: deny
+  - role: MgaUser
+    tier: public
+    op: declassify
+    verdict: deny
+  - role: MgaUser
+    tier: public
+    op: link
+    verdict: allow
+  - role: MgaUser
+    tier: confidential
+    op: read
+    verdict: deny
+  - role: MgaUser
+    tier: confidential
+    op: create
+    verdict: deny
+  - role: MgaUser
+    tier: confidential
+    op: replace
+    verdict: deny
+  - role: MgaUser
+    tier: confidential
+    op: update_metadata
+    verdict: deny
+  - role: MgaUser
+    tier: confidential
+    op: download
+    verdict: deny
+  - role: MgaUser
+    tier: confidential
+    op: create:restricted
+    verdict: deny
+  - role: MgaUser
+    tier: confidential
+    op: declassify
+    verdict: deny
+  - role: MgaUser
+    tier: confidential
+    op: link
+    verdict: deny
+  - role: MgaUser
+    tier: restricted
+    op: read
+    verdict: deny
+  - role: MgaUser
+    tier: restricted
+    op: create
+    verdict: deny
+  - role: MgaUser
+    tier: restricted
+    op: replace
+    verdict: deny
+  - role: MgaUser
+    tier: restricted
+    op: update_metadata
+    verdict: deny
+  - role: MgaUser
+    tier: restricted
+    op: download
+    verdict: deny
+  - role: MgaUser
+    tier: restricted
+    op: create:restricted
+    verdict: deny
+  - role: MgaUser
+    tier: restricted
+    op: declassify
+    verdict: deny
+  - role: MgaUser
+    tier: restricted
+    op: link
+    verdict: deny
+  - role: ExternalUser
+    tier: public
+    op: read
+    verdict: allow
+  - role: ExternalUser
+    tier: public
+    op: create
+    verdict: allow
+  - role: ExternalUser
+    tier: public
+    op: replace
+    verdict: deny
+  - role: ExternalUser
+    tier: public
+    op: update_metadata
+    verdict: deny
+  - role: ExternalUser
+    tier: public
+    op: download
+    verdict: allow
+  - role: ExternalUser
+    tier: public
+    op: create:restricted
+    verdict: deny
+  - role: ExternalUser
+    tier: public
+    op: declassify
+    verdict: deny
+  - role: ExternalUser
+    tier: public
+    op: link
+    verdict: allow
+  - role: ExternalUser
+    tier: confidential
+    op: read
+    verdict: deny
+  - role: ExternalUser
+    tier: confidential
+    op: create
+    verdict: deny
+  - role: ExternalUser
+    tier: confidential
+    op: replace
+    verdict: deny
+  - role: ExternalUser
+    tier: confidential
+    op: update_metadata
+    verdict: deny
+  - role: ExternalUser
+    tier: confidential
+    op: download
+    verdict: deny
+  - role: ExternalUser
+    tier: confidential
+    op: create:restricted
+    verdict: deny
+  - role: ExternalUser
+    tier: confidential
+    op: declassify
+    verdict: deny
+  - role: ExternalUser
+    tier: confidential
+    op: link
+    verdict: deny
+  - role: ExternalUser
+    tier: restricted
+    op: read
+    verdict: deny
+  - role: ExternalUser
+    tier: restricted
+    op: create
+    verdict: deny
+  - role: ExternalUser
+    tier: restricted
+    op: replace
+    verdict: deny
+  - role: ExternalUser
+    tier: restricted
+    op: update_metadata
+    verdict: deny
+  - role: ExternalUser
+    tier: restricted
+    op: download
+    verdict: deny
+  - role: ExternalUser
+    tier: restricted
+    op: create:restricted
+    verdict: deny
+  - role: ExternalUser
+    tier: restricted
+    op: declassify
+    verdict: deny
+  - role: ExternalUser
+    tier: restricted
+    op: link
+    verdict: deny

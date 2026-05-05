@@ -6,6 +6,7 @@ import { ErrorFallback } from '@/components/ui/ErrorFallback';
 import { Modal } from '@/components/ui/Modal';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { TextInput } from '@/components/ui/TextInput';
+import { ParentDocumentsPanel } from '@/features/documents';
 import {
   CANCELLATION_REASON_OPTIONS,
   PolicyRails,
@@ -223,6 +224,8 @@ export default function PolicyDetailPage() {
           coverages={coveragesQuery.data}
           timeline={timelineQuery.data}
         />
+
+        <ParentDocumentsPanel parent={{ type: 'policy', id: policy.id }} />
 
         <ActionModal open={action === 'issue'} title="Issue policy" onClose={() => setAction(null)} onSave={runIssue} busy={issuePolicy.isPending} error={actionError}>
           <p className="text-sm text-text-secondary">

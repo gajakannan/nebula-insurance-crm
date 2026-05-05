@@ -9,6 +9,7 @@ import { afterAll, afterEach, beforeAll, expect } from 'vitest'
 import { server } from './mocks/server'
 import { resetRenewalMockState } from './mocks/renewals'
 import { resetSubmissionMockState } from './mocks/submissions'
+import { resetDocumentMockState } from './mocks/documents'
 
 expect.extend(matchers)
 expect.extend(toHaveNoViolations)
@@ -54,6 +55,7 @@ afterEach(() => {
   server.resetHandlers()
   resetRenewalMockState()
   resetSubmissionMockState()
+  resetDocumentMockState()
   if (typeof window !== 'undefined') {
     window.localStorage.clear()
     window.sessionStorage.clear()
