@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Nebula.Application.Interfaces;
 using Nebula.Infrastructure.Authorization;
+using Nebula.Infrastructure.Documents;
 using Nebula.Infrastructure.Persistence;
 using Nebula.Infrastructure.Repositories;
 using Nebula.Infrastructure.Services;
@@ -28,9 +29,19 @@ public static class DependencyInjection
         services.AddScoped<ISubmissionDocumentChecklistReader, UnavailableSubmissionDocumentChecklistReader>();
         services.AddScoped<IDashboardRepository, DashboardRepository>();
         services.AddScoped<IIdempotencyStore, IdempotencyStore>();
+        services.AddSingleton<IDocumentConfigurationProvider, YamlDocumentConfigurationProvider>();
+        services.AddScoped<IDocumentParentAccessResolver, DocumentParentAccessResolver>();
+        services.AddScoped<IDocumentClassificationGate, DocumentClassificationGate>();
+        services.AddScoped<IDocumentRepository, LocalFileSystemDocumentRepository>();
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddSingleton<IAuthorizationService, CasbinAuthorizationService>();
+        services.AddScoped<Nebula.Application.Services.DocumentService>();
+        services.AddScoped<Nebula.Application.Services.DocumentTemplateService>();
+        services.AddScoped<Nebula.Application.Services.DocumentRetentionService>();
+        services.AddSingleton<IQuarantineScanner, MockTimerScanner>();
         services.AddHostedService<PolicyExpirationHostedService>();
+        services.AddHostedService<QuarantinePromotionWorker>();
+        services.AddHostedService<DocumentRetentionHostedService>();
         services.AddMemoryCache();
 
         return services;

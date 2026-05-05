@@ -28,6 +28,19 @@ export {
   listPolicyVersions,
   reinstatePolicy,
 } from './policies'
+export {
+  documentCompleteness,
+  documentMetadataSchemas,
+  getDocument,
+  linkDocumentTemplate,
+  listDocumentTemplates,
+  listDocuments,
+  replaceDocument,
+  resetDocumentMockState,
+  updateDocumentMetadata,
+  uploadDocumentTemplate,
+  uploadDocuments,
+} from './documents'
 import type {
   DashboardOpportunitiesDto,
   OpportunityAgingDto,

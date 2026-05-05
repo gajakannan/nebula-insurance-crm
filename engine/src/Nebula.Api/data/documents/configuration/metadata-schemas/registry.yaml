@@ -1,0 +1,32 @@
+version: 1
+schemas:
+  - id: acord
+    currentVersion: 1
+    versions:
+      - version: 1
+        file: metadata-schemas/acord.v1.schema.json
+        status: active
+  - id: loss-run
+    currentVersion: 1
+    versions:
+      - version: 1
+        file: metadata-schemas/loss-run.v1.schema.json
+        status: active
+  - id: financials
+    currentVersion: 1
+    versions:
+      - version: 1
+        file: metadata-schemas/financials.v1.schema.json
+        status: active
+  - id: supplemental
+    currentVersion: 1
+    versions:
+      - version: 1
+        file: metadata-schemas/supplemental.v1.schema.json
+        status: active
+  - id: template
+    currentVersion: 1
+    versions:
+      - version: 1
+        file: metadata-schemas/template.v1.schema.json
+        status: active

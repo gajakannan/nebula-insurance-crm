@@ -87,14 +87,30 @@ function resolveApiUrl(path: string): string {
 }
 
 async function fetchApi<T>(path: string, options?: RequestInit): Promise<T> {
+  const response = await requestApi(path, options, true)
+  return response.json()
+}
+
+async function fetchApiNoBody(path: string, options?: RequestInit): Promise<void> {
+  await requestApi(path, options, true)
+}
+
+async function fetchBlob(path: string, options?: RequestInit): Promise<Blob> {
+  const response = await requestApi(path, options, false)
+  return response.blob()
+}
+
+async function requestApi(path: string, options?: RequestInit, jsonContent = true): Promise<Response> {
   const token = await resolveToken()
+  const headers = new Headers(options?.headers)
+  if (jsonContent && !headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/json')
+  }
+  headers.set('Authorization', `Bearer ${token}`)
+
   const response = await fetch(resolveApiUrl(path), {
     ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      ...options?.headers,
-    },
+    headers,
     credentials: 'include',
   })
 
@@ -105,31 +121,10 @@ async function fetchApi<T>(path: string, options?: RequestInit): Promise<T> {
     // broker_scope_unresolvable 403): navigation is in flight via the event
     // bus. Return a promise that never resolves so downstream TanStack Query
     // callers don't process a stale result while the app is redirecting away.
-    return new Promise<T>(() => {})
+    return new Promise<Response>(() => {})
   }
 
-  return response.json()
-}
-
-async function fetchApiNoBody(path: string, options?: RequestInit): Promise<void> {
-  const token = await resolveToken()
-  const response = await fetch(resolveApiUrl(path), {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      ...options?.headers,
-    },
-    credentials: 'include',
-  })
-
-  if (!response.ok) {
-    const problem = await response.json().catch(() => null)
-    handleErrorIntercept(response.status, problem)
-    // Mirror fetchApi<T>: when auth handling triggers navigation, keep the
-    // caller pending so mutation flows do not continue as if delete succeeded.
-    return new Promise<void>(() => {})
-  }
+  return response
 }
 
 export const api = {
@@ -138,6 +133,14 @@ export const api = {
     fetchApi<T>(path, { method: 'POST', body: JSON.stringify(body), headers }),
   put: <T>(path: string, body: unknown, headers?: Record<string, string>) =>
     fetchApi<T>(path, { method: 'PUT', body: JSON.stringify(body), headers }),
+  patch: <T>(path: string, body: unknown, headers?: Record<string, string>) =>
+    fetchApi<T>(path, { method: 'PATCH', body: JSON.stringify(body), headers }),
+  postMultipart: <T>(path: string, body: FormData, headers?: Record<string, string>) =>
+    requestApi(path, { method: 'POST', body, headers }, false).then((response) => response.json() as Promise<T>),
+  putMultipart: <T>(path: string, body: FormData, headers?: Record<string, string>) =>
+    requestApi(path, { method: 'PUT', body, headers }, false).then((response) => response.json() as Promise<T>),
+  downloadBlob: (path: string, headers?: Record<string, string>) =>
+    fetchBlob(path, { method: 'GET', headers }),
   delete: (path: string, headers?: Record<string, string>) =>
     fetchApiNoBody(path, { method: 'DELETE', headers }),
 }

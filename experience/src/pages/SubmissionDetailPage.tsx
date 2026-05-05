@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { Select } from '@/components/ui/Select';
 import { TextInput } from '@/components/ui/TextInput';
 import { AccountReference, AccountStatusBadge, useAccount } from '@/features/accounts';
+import { ParentDocumentsPanel } from '@/features/documents';
 import { usePrograms } from '@/features/submissions/hooks/useReferenceData';
 import { AssigneePicker, type UserSummaryDto } from '@/features/tasks';
 import {
@@ -372,6 +373,8 @@ export default function SubmissionDetailPage() {
           </CardHeader>
           <SubmissionCompletenessPanel completeness={submission.completeness} />
         </Card>
+
+        <ParentDocumentsPanel parent={{ type: 'submission', id: submission.id }} />
 
         <Card>
           <CardHeader>

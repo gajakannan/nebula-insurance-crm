@@ -1,0 +1,12 @@
+version: 1
+defaultRetentionDays: 10
+perType:
+  acord: 10
+  loss-run: 7
+  financials: 7
+  supplemental: 3
+  template: 10
+quarantine:
+  holdSeconds: 60
+  workerTickSeconds: 10
+  maxRetries: 5

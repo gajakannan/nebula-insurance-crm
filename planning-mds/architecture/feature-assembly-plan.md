@@ -1,14 +1,59 @@
-# Feature Assembly Plan (F0001 + F0002 + F0006 + F0007 + F0009 + F0010 + F0012 + F0013 + F0014 + F0015 + F0033)
+# Feature Assembly Plan (F0001 + F0002 + F0006 + F0007 + F0009 + F0010 + F0012 + F0013 + F0014 + F0015 + F0020 + F0033)
 
 **Owner:** Architect
 **Status:** Approved
-**Last Updated:** 2026-03-28
+**Last Updated:** 2026-05-04
 
 ## Goal
 
 Define the build order, role handoffs, and integration checkpoints for implemented and planned features.
 
 **Note:** F0010 frontend (Pipeline Board) and F0011 are abandoned — superseded by F0012, then F0013. F0012 is archived — superseded by F0013. Backend endpoints from F0010 and F0012 carry forward into F0013. See individual feature sections for details.
+
+---
+
+## F0020 - Document Management & ACORD Intake
+
+**Added:** 2026-05-04 - Feature action Step 0 created the feature-local implementation execution plan after Phase B architecture completed during planning.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0020-document-management-and-acord-intake/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and interface signatures, service flows, Casbin enforcement, timeline events, runtime configuration, and validation checkpoints for the document subsystem.
+
+### Dependencies
+
+| Dependency | Source | What F0020 Needs | Status |
+|------------|--------|------------------|--------|
+| Submission parent records | F0006 | Parent linkage and completeness signal consumer | Done or archived dependency |
+| Policy parent records | F0018 | Parent linkage for policy documents rail | Planned dependency, raw artifacts accepted |
+| Account parent records | F0016 | Parent linkage for account documents rail | Done or active dependency |
+| Shared timeline | SOLUTION-PATTERNS section 2 | ActivityTimelineEvent for mutations | Done |
+| Casbin ABAC | ADR-008 / policy.csv | Parent ABAC half of document gate | Done; F0020 rows exist in policy.csv |
+| Document storage ADRs | ADR-012, ADR-019 | Filesystem sidecar repository and quarantine pipeline | Accepted |
+
+### Architecture Notes
+
+- MVP is filesystem-first: no relational Document table and no EF migration for document metadata.
+- All document metadata lives in one sidecar JSON per logical document; version binaries are immutable and colocated with `-v{N}` suffixes.
+- Every upload, replacement, and template materialisation passes through quarantine and is promoted by the mock scanner worker.
+- Effective authorization is `parent_abac(user, parent, op) AND classification_policy(role, classification, op)`.
+- Retention is YAML-driven with a hard 10-day MVP ceiling.
+
+### Assembly Slice Order
+
+1. Backend Foundation: repository contract, DTOs, config loaders, parent access resolver, classification gate.
+2. Backend Ingest: upload, bulk upload, quarantine worker, mock scanner.
+3. Backend Operations: list, detail, download, replace, metadata, completeness, templates, retention.
+4. Frontend Documents Surface: contracts, hooks, upload dialog, parent document panels, detail, templates.
+5. Quality and Deployability Evidence: runtime config, integration/E2E tests, review evidence.
+
+### Signoff Role Matrix
+
+| Role | Required | Rationale |
+|------|----------|-----------|
+| Quality Engineer | Yes | Upload, quarantine, versioning, classification, retention, and parent linkage need end-to-end validation |
+| Code Reviewer | Yes | Storage boundary, sidecar JSON contracts, worker logic, and frontend integration need independent review |
+| Security Reviewer | Yes | Classification gate, file upload validation, streaming, and audit behavior are security-sensitive |
+| DevOps | Yes | Document repository volume, hosted workers, and configuration YAML affect runtime operations |
+| Architect | Yes | ADR-012/019 implementation, storage abstraction, and cross-feature completeness signal require architecture signoff |
 
 ---
 

@@ -63,6 +63,11 @@ Feature: F0018 — Policy Lifecycle & Policy 360
   - bind lifecycle remains F0019's responsibility (the bind-hook is a contract in MVP, not an implementation)
   - full Carrier lifecycle (admin CRUD, ratings, licensing) is deferred to F0028
 
+### Post-F0020 Integration Note
+
+- As of F0020 closeout on 2026-05-05, the Policy 360 documents rail is fulfilled by F0020. `experience/src/pages/PolicyDetailPage.tsx` mounts `ParentDocumentsPanel` with `parent={{ type: 'policy', id: policy.id }}`, delegating list, completeness, upload, detail, download, replace, metadata edit, and classification handling to the shared document subsystem.
+- The original placeholder statement remains historically accurate for the F0018 implementation date; the current runtime behavior is the F0020-backed policy document panel.
+
 ## Review Notes
 
 - ADR-018 is the sole new ADR introduced for this feature; it absorbs the reinstatement-window category rather than amending ADR-009 or ADR-014 in place, keeping the decision trail linear.

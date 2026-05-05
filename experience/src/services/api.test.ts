@@ -99,3 +99,42 @@ describe('api.delete', () => {
     await expect(api.delete('/tasks/task-123')).rejects.toBeInstanceOf(ApiError)
   })
 })
+
+describe('api multipart and binary helpers', () => {
+  beforeEach(() => {
+    authMocks.emitAuthEvent.mockReset()
+    authMocks.getUser.mockReset()
+    authMocks.getUser.mockResolvedValue({
+      access_token: 'test-token',
+      expired: false,
+    })
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it('does not force a JSON content type for multipart requests', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(jsonResponse({ ok: true }, 202))
+    vi.stubGlobal('fetch', fetchMock)
+
+    const body = new FormData()
+    body.set('parentType', 'submission')
+
+    await api.postMultipart('/documents', body)
+
+    const [, init] = fetchMock.mock.calls[0]
+    const headers = init.headers as Headers
+    expect(headers.get('Content-Type')).toBeNull()
+    expect(headers.get('Authorization')).toBe('Bearer test-token')
+  })
+
+  it('returns blobs for download helpers without parsing JSON', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(new Response(new Blob(['pdf']), { status: 200 })),
+    )
+
+    await expect(api.downloadBlob('/documents/doc_1/versions/latest/binary')).resolves.toBeInstanceOf(Blob)
+  })
+})

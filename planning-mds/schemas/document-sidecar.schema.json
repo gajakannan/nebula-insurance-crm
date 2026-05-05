@@ -10,6 +10,8 @@
     "parent",
     "classification",
     "type",
+    "metadataSchema",
+    "metadata",
     "versions",
     "events"
   ],
@@ -49,6 +51,31 @@
       "type": "array",
       "maxItems": 10,
       "items": { "type": "string", "minLength": 1, "maxLength": 32, "pattern": "^[^,]+$" }
+    },
+    "metadataSchema": {
+      "type": "object",
+      "required": ["id", "version", "schemaHash"],
+      "additionalProperties": false,
+      "description": "Pinned document metadata schema used to validate metadata for this document. id matches the document type at creation or explicit type-change time.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Document metadata schema id; normally the document type."
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "schemaHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Type-specific JSON metadata validated against metadataSchema. Historical documents stay pinned to their original schema version."
     },
     "uploaderId": {
       "type": "string",

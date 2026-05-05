@@ -1,6 +1,6 @@
 # Feature Roadmap (Now / Next / Later)
 
-**Last Reviewed:** 2026-05-04
+**Last Reviewed:** 2026-05-05
 
 This document is the working prioritization view for feature sequencing.
 
@@ -20,9 +20,8 @@ This document is the working prioritization view for feature sequencing.
 
 | Feature | Phase | Why Now |
 |---------|-------|---------|
-| [F0020 — Document Management & ACORD Intake](./F0020-document-management-and-acord-intake/README.md) | CRM Release MVP | Removes document chasing and supports completeness checks for submissions and underwriting review. |
 
-**Implementation Readiness Note:** F0020 remains the next feature to refine and implement. The immediate next step is story breakdown / feature assembly planning, not coding directly from the draft PRD.
+**Implementation Readiness Note:** F0020 completed and moved to Completed on 2026-05-05. The next implementation assignment should be promoted through the normal tracker update process.
 
 ## Next
 
@@ -60,6 +59,7 @@ This document is the working prioritization view for feature sequencing.
 
 | Feature | Phase | Completion State |
 |---------|-------|------------------|
+| [F0020 — Document Management & ACORD Intake](./archive/F0020-document-management-and-acord-intake/README.md) | CRM Release MVP | Done and archived (2026-05-05) — 12 stories: single upload, bulk upload, quarantine promote, classification-filtered list, detail/provenance, downloads, immutable replace, metadata update, classification ABAC, completeness signal, retention cleanup, templates library |
 | [F0018 — Policy Lifecycle & Policy 360](./archive/F0018-policy-lifecycle-and-policy-360/README.md) | CRM Release MVP | Done and archived (2026-04-22) — 11 stories: list, create, profile edit, 360 composition, versions, endorsements, cancellation, reinstatement, renewal linkage, timeline, summary projection |
 | [F0016 — Account 360 & Insured Management](./archive/F0016-account-360-and-insured-management/README.md) | CRM Release MVP | Done and archived (2026-04-14) — 11 stories: list, create, profile edit, 360 workspace, contacts, relationships, lifecycle, merge, fallback contract, timeline, summary projection |
 | [F0007 — Renewal Pipeline](./archive/F0007-renewal-pipeline/README.md) | CRM Release MVP | Done and archived (2026-04-12) — 7 stories: pipeline list, detail view, transitions, assignment, overdue visibility, create from policy, timeline |
@@ -79,7 +79,7 @@ This document is the working prioritization view for feature sequencing.
 ## Notes
 
 - This roadmap is the authoritative Now/Next/Later view.
-- Reviewed 2026-05-04 against `REGISTRY.md`, current planned feature PRDs, archived feature dependencies, and code-level document-completeness placeholders. Sequencing remains unchanged: F0020 is still the next implementation target.
+- Reviewed 2026-05-05 against `REGISTRY.md`, current planned feature PRDs, archived feature dependencies, and F0020 closeout evidence. F0020 is archived as Done; the next implementation assignment remains pending tracker promotion.
 - The proposed Commercial P&C CRM release MVP spans the `Now` and `Next` buckets together; `Later` captures MVP+ and platform-expansion scope.
 - `REGISTRY.md` remains the authoritative feature inventory and ID tracker.
 - `BLUEPRINT.md` remains the baseline product/architecture source of truth.

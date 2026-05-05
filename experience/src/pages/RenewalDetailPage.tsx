@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { TextInput } from '@/components/ui/TextInput';
 import { AccountReference, AccountStatusBadge, useAccount } from '@/features/accounts';
 import { useCurrentUser } from '@/features/auth';
+import { ParentDocumentsPanel } from '@/features/documents';
 import { getLineOfBusinessLabel } from '@/features/submissions';
 import {
   RENEWAL_LOST_REASON_OPTIONS,
@@ -410,6 +411,8 @@ export default function RenewalDetailPage() {
             )}
           </Card>
         </div>
+
+        <ParentDocumentsPanel parent={{ type: 'renewal', id: renewal.id }} />
 
         <Card>
           <CardHeader>

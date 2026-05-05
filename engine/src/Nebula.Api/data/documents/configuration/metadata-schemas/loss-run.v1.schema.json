@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/document-metadata/loss-run.v1.schema.json",
+  "title": "Loss Run Metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "valuationDate": { "type": "string", "title": "Valuation Date", "format": "date" },
+    "periodStart": { "type": "string", "title": "Period Start", "format": "date" },
+    "periodEnd": { "type": "string", "title": "Period End", "format": "date" },
+    "carrier": { "type": "string", "title": "Carrier", "maxLength": 120 },
+    "claimCount": { "type": "integer", "title": "Claim Count", "minimum": 0 }
+  }
+}

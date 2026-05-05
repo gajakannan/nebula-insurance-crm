@@ -24,6 +24,8 @@ export default defineConfig(() => {
     '/policies',
     '/submissions',
     '/renewals',
+    '/documents',
+    '/document-templates',
     '/healthz',
   ]
 
@@ -70,9 +72,13 @@ export default defineConfig(() => {
           "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
           "connect-src 'self' ws://localhost:5173 http://localhost:9000",
-          "img-src 'self' data:",
+          // blob: needed for in-browser document preview (image versions rendered
+          // from authenticated blob URLs created via URL.createObjectURL).
+          "img-src 'self' data: blob:",
           "font-src 'self' data: https://fonts.gstatic.com",
-          "frame-src 'none'",
+          // 'self' blob: allows the same-origin PDF iframe preview to render the
+          // blob URL we fetch through the auth-bearing api.downloadBlob path.
+          "frame-src 'self' blob:",
           "object-src 'none'",
           "base-uri 'self'",
           "form-action 'self'",

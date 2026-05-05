@@ -181,7 +181,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 - [F0016: Account 360 & Insured Management](features/archive/F0016-account-360-and-insured-management/PRD.md) - Done (Archived 2026-04-14; 11 stories: list, create, profile edit, 360 composition, contacts, relationships, lifecycle, merge, deleted/merged fallback contract, timeline, summary projection)
 - [F0018: Policy Lifecycle & Policy 360](features/archive/F0018-policy-lifecycle-and-policy-360/PRD.md) - Done (Archived 2026-04-22; 11 stories: list, create, profile edit, 360 composition, versions, endorsements, cancellation, reinstatement, renewal linkage, timeline, summary projection)
 - F0019: Submission Quoting, Proposal & Approval Workflow - Planned
-- F0020: Document Management & ACORD Intake - Planned
+- [F0020: Document Management & ACORD Intake](features/archive/F0020-document-management-and-acord-intake/PRD.md) - Done (Archived 2026-05-05; 12 stories: single upload, bulk upload, quarantine promote, classification-filtered list, detail/provenance, downloads, immutable replace, metadata update, classification ABAC, completeness signal, retention cleanup, templates library)
 - F0021: Communication Hub & Activity Capture - Planned
 - F0022: Work Queues, Assignment Rules & Coverage Management - Planned
 - F0023: Global Search, Saved Views & Operational Reporting - Planned
@@ -348,7 +348,7 @@ This section defines the build-ready technical baseline for the reference implem
 - [ADR-012](architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) — Shared Document Storage and Metadata Architecture (F0020 — finalised 2026-05-04)
 - [ADR-019](architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md) — Mock-quarantine-then-promote ingest pipeline (F0020)
 
-**Data Model Supplement:** See `planning-mds/architecture/data-model.md` for Task entity, dashboard indexes, and query patterns. F0020 documents are filesystem-first (no relational entity in MVP); see `planning-mds/features/F0020-document-management-and-acord-intake/README.md` for the on-disk layout and the `IDocumentRepository` boundary.
+**Data Model Supplement:** See `planning-mds/architecture/data-model.md` for Task entity, dashboard indexes, and query patterns. F0020 documents are filesystem-first (no relational entity in MVP); see `planning-mds/features/archive/F0020-document-management-and-acord-intake/README.md` for the on-disk layout and the `IDocumentRepository` boundary.
 
 ### 4.1 Service boundaries
 

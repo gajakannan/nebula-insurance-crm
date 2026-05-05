@@ -80,6 +80,17 @@ logs/
 # Docker
 docker-compose.override.yml
 
+# Local document store (LocalFileSystemDocumentRepository). Uploaded customer
+# binaries (account/, policy/, submission/, renewal/) and quarantine/ are
+# runtime state. configuration/ (taxonomy, retention, Casbin doc roles,
+# metadata schemas) and templates/ (shared blank ACORD/proposal/notice forms)
+# are baseline assets and ARE tracked.
+# Pattern note: ignore direct children only (/*) so git still walks into the
+# un-ignored subtrees below.
+engine/src/Nebula.Api/data/documents/*
+!engine/src/Nebula.Api/data/documents/configuration/
+!engine/src/Nebula.Api/data/documents/templates/
+
 # Security reports
 security-reports/
 
