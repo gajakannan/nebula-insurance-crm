@@ -1,6 +1,6 @@
 # Feature Roadmap (Now / Next / Later)
 
-**Last Reviewed:** 2026-05-05
+**Last Reviewed:** 2026-05-06
 
 This document is the working prioritization view for feature sequencing.
 
@@ -20,14 +20,15 @@ This document is the working prioritization view for feature sequencing.
 
 | Feature | Phase | Why Now |
 |---------|-------|---------|
+| [F0034 - Product Schema Registry and Dynamic LOB Attributes](./F0034-product-schema-registry-and-dynamic-lob-attributes/README.md) | Platform Foundation / CRM Release MVP Enabler | Establishes JSON Schema based product attributes and dynamic forms before F0019, F0022, and reporting work add product-specific fields that would otherwise become frontend, backend, and database debt. |
 
-**Implementation Readiness Note:** F0020 completed and moved to Completed on 2026-05-05. The next implementation assignment should be promoted through the normal tracker update process.
+**Implementation Readiness Note:** F0034 was promoted to Now on 2026-05-06 as the next planning/implementation foundation after F0020 completed. Product Manager planning should expand the minimal PRD before implementation starts.
 
 ## Next
 
 | Feature | Phase | Why Next |
 |---------|-------|----------|
-| [F0019 — Submission Quoting, Proposal & Approval Workflow](./F0019-submission-quoting-proposal-and-approval/README.md) | CRM Release MVP | Completes intake-to-quote-to-bind operations after F0020 provides the shared document architecture needed for proposal artifacts and document completeness. |
+| [F0019 — Submission Quoting, Proposal & Approval Workflow](./F0019-submission-quoting-proposal-and-approval/README.md) | CRM Release MVP | Completes intake-to-quote-to-bind operations after F0020 provides document foundations and F0034 provides the product-attribute foundation needed for quote/proposal data. |
 | [F0021 — Communication Hub & Activity Capture](./F0021-communication-hub-and-activity-capture/README.md) | CRM Release MVP | Creates the communication system of record for broker interactions, underwriting follow-up, and audit history. |
 | [F0022 — Work Queues, Assignment Rules & Coverage Management](./F0022-work-queues-assignment-rules-and-coverage-management/README.md) | CRM Release MVP | Adds operational routing, backup coverage, and workload balancing beyond personal task lists. |
 | [F0023 — Global Search, Saved Views & Operational Reporting](./F0023-global-search-saved-views-and-operational-reporting/README.md) | CRM Release MVP | Provides cross-object findability, operational visibility, and daily management reporting required for adoption. |
@@ -79,7 +80,7 @@ This document is the working prioritization view for feature sequencing.
 ## Notes
 
 - This roadmap is the authoritative Now/Next/Later view.
-- Reviewed 2026-05-05 against `REGISTRY.md`, current planned feature PRDs, archived feature dependencies, and F0020 closeout evidence. F0020 is archived as Done; the next implementation assignment remains pending tracker promotion.
+- Reviewed 2026-05-06 against `REGISTRY.md`, current planned feature PRDs, archived feature dependencies, F0020 closeout evidence, and product-attribute architecture risk. F0034 is promoted to Now for Product Manager planning and a foundation implementation slice.
 - The proposed Commercial P&C CRM release MVP spans the `Now` and `Next` buckets together; `Later` captures MVP+ and platform-expansion scope.
 - `REGISTRY.md` remains the authoritative feature inventory and ID tracker.
 - `BLUEPRINT.md` remains the baseline product/architecture source of truth.
