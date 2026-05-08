@@ -15,6 +15,9 @@ public class PolicyVersionConfiguration : IEntityTypeConfiguration<PolicyVersion
         builder.Property(e => e.VersionReason).IsRequired().HasMaxLength(40);
         builder.Property(e => e.EffectiveDate).IsRequired().HasColumnType("date");
         builder.Property(e => e.ExpirationDate).IsRequired().HasColumnType("date");
+        builder.Property(e => e.LineOfBusiness).IsRequired().HasMaxLength(50);
+        builder.Property(e => e.LobProductVersionId).IsRequired();
+        builder.Property(e => e.LobAttributesJson).IsRequired().HasColumnType("jsonb").HasDefaultValueSql("'{}'::jsonb");
         builder.Property(e => e.TotalPremium).HasColumnType("decimal(18,2)");
         builder.Property(e => e.PremiumCurrency).IsRequired().HasMaxLength(3).HasDefaultValue("USD");
         builder.Property(e => e.ProfileSnapshotJson).IsRequired().HasColumnType("jsonb");
@@ -30,6 +33,11 @@ public class PolicyVersionConfiguration : IEntityTypeConfiguration<PolicyVersion
             .HasForeignKey(e => e.PolicyId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasOne(e => e.LobProductVersion)
+            .WithMany()
+            .HasForeignKey(e => e.LobProductVersionId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.Property(e => e.RowVersion)
             .HasColumnName("xmin")
             .HasColumnType("xid")
@@ -39,6 +47,9 @@ public class PolicyVersionConfiguration : IEntityTypeConfiguration<PolicyVersion
         builder.HasIndex(e => new { e.PolicyId, e.VersionNumber })
             .IsUnique()
             .HasDatabaseName("UX_PolicyVersions_PolicyId_VersionNumber");
+
+        builder.HasIndex(e => e.LobProductVersionId)
+            .HasDatabaseName("IX_PolicyVersions_LobProductVersionId");
 
         builder.HasQueryFilter(e => !e.IsDeleted);
     }

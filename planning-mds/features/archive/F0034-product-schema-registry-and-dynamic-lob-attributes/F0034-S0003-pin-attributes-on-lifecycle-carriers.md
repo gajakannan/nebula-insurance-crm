@@ -31,6 +31,7 @@ Nebula must keep core workflow columns stable while allowing product-specific ri
 - Existing legacy-pinned record receives a core-only workflow update with unchanged attributes and product version -> write may proceed when workflow and ABAC rules allow it
 - Existing legacy-pinned record receives changed attributes -> write is rejected unless a governed migration path handles the version change
 - Submission or Renewal moves from null LOB to Cyber -> the same write sets LOB, changes from `_unspecified/0.0.0` to Cyber `1.0.0`, and supplies valid Cyber attributes
+- Existing `_legacy_cyber/0.0.0` record receives valid non-empty Cyber attributes through an approved policy or renewal lifecycle mutation -> the same write may move the carrier to active Cyber `1.0.0`
 - Policy line-of-business update is attempted after create -> write is rejected
 
 **Checklist:**
@@ -60,6 +61,7 @@ Nebula must keep core workflow columns stable while allowing product-specific ri
 - `lineOfBusiness` must match the product version LOB except the null-LOB `_unspecified/0.0.0` path
 - Same-version attribute edits re-run schema, rule, domain, and authorization checks
 - Product version switches require the null-LOB triage carve-out or a governed migration path
+- The governed migration path for first Cyber capture must be explicit in the DB consistency trigger and service tests; otherwise legacy Cyber rows can render but never save attributes
 
 ## Role-Based Visibility
 

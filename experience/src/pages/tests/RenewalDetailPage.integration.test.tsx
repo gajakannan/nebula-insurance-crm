@@ -61,6 +61,19 @@ describe('RenewalDetailPage integration', () => {
     expect(await screen.findByRole('heading', { name: 'Compass Markets Retail Group' })).toBeInTheDocument()
     expect(await screen.findByText('Renewal advanced to Quoted.')).toBeInTheDocument()
 
+    await user.click(screen.getByRole('button', { name: 'Edit' }))
+    await user.selectOptions(screen.getByLabelText(/Revenue band/), '10-50M')
+    await user.type(screen.getByLabelText(/Records held/), '150000')
+    await user.type(screen.getByLabelText(/Requested limit/), '1000000')
+    await user.type(screen.getByLabelText(/Requested retention/), '25000')
+    await user.selectOptions(screen.getByLabelText(/Training frequency/), 'Quarterly')
+    await user.click(screen.getByRole('button', { name: 'Save' }))
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'Edit' })).toBeInTheDocument()
+    })
+    expect(screen.getByLabelText(/Records held/)).toHaveValue(150000)
+
     await user.click(screen.getByRole('button', { name: 'Reassign' }))
     const assignDialog = await screen.findByRole('dialog', { name: 'Reassign renewal' })
     await user.click(within(assignDialog).getByRole('button', { name: 'Remove assignee Nadia Brooks' }))

@@ -87,7 +87,7 @@ public static class SubmissionEndpoints
                 validation.Errors.GroupBy(error => error.PropertyName)
                     .ToDictionary(group => group.Key, group => group.Select(error => error.ErrorMessage).ToArray()));
 
-        var (result, error) = await svc.CreateAsync(dto, user, ct);
+        var (result, error, lobErrors) = await svc.CreateAsync(dto, user, ct);
         return error switch
         {
             "invalid_account" => ProblemDetailsHelper.InvalidAccount(dto.AccountId),
@@ -95,6 +95,7 @@ public static class SubmissionEndpoints
             "region_mismatch" => ProblemDetailsHelper.RegionMismatch(),
             "invalid_program" => ProblemDetailsHelper.InvalidProgram(dto.ProgramId!.Value),
             "invalid_lob" => ProblemDetailsHelper.InvalidLob(dto.LineOfBusiness!),
+            "lob_validation_failed" => ProblemDetailsHelper.LobValidationFailed(lobErrors ?? []),
             _ => Results.Created($"/submissions/{result!.Id}", result),
         };
     }
@@ -155,12 +156,13 @@ public static class SubmissionEndpoints
                 validation.Errors.GroupBy(error => error.PropertyName)
                     .ToDictionary(group => group.Key, group => group.Select(error => error.ErrorMessage).ToArray()));
 
-        var (result, error) = await svc.UpdateAsync(submissionId, dto, presentFields, rowVersion, user, ct);
+        var (result, error, lobErrors) = await svc.UpdateAsync(submissionId, dto, presentFields, rowVersion, user, ct);
         return error switch
         {
             "not_found" => ProblemDetailsHelper.NotFound("Submission", submissionId),
             "invalid_program" => ProblemDetailsHelper.InvalidProgram(dto.ProgramId!.Value),
             "invalid_lob" => ProblemDetailsHelper.InvalidLob(dto.LineOfBusiness!),
+            "lob_validation_failed" => ProblemDetailsHelper.LobValidationFailed(lobErrors ?? []),
             "precondition_failed" => ProblemDetailsHelper.PreconditionFailed(),
             _ => Results.Ok(result),
         };

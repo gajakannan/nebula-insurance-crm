@@ -1,6 +1,6 @@
 # Feature Roadmap (Now / Next / Later)
 
-**Last Reviewed:** 2026-05-06
+**Last Reviewed:** 2026-05-07
 
 This document is the working prioritization view for feature sequencing.
 
@@ -20,9 +20,9 @@ This document is the working prioritization view for feature sequencing.
 
 | Feature | Phase | Why Now |
 |---------|-------|---------|
-| [F0034 - Product Schema Registry and Dynamic LOB Attributes](./F0034-product-schema-registry-and-dynamic-lob-attributes/README.md) | Platform Foundation / CRM Release MVP Enabler | Establishes JSON Schema based product attributes and dynamic forms before F0019, F0022, and reporting work add product-specific fields that would otherwise become frontend, backend, and database debt. |
+| _None currently sequenced_ | - | F0034 moved to Completed on 2026-05-07 after implementation closeout. |
 
-**Implementation Readiness Note:** F0034 was promoted to Now on 2026-05-06 as the next planning/implementation foundation after F0020 completed. Phase A is approved and Phase B now drafts ADR-020 through ADR-023, schema-bundle API contracts, static schema envelopes, authorization policy updates, and KG bindings; implementation waits for explicit Phase B approval.
+**Implementation Readiness Note:** F0034 completed on 2026-05-07 and now unblocks F0019/F0022 product-specific quote, coverage, and reporting work without adding fixed product fields.
 
 ## Next
 
@@ -60,6 +60,7 @@ This document is the working prioritization view for feature sequencing.
 
 | Feature | Phase | Completion State |
 |---------|-------|------------------|
+| [F0034 — Product Schema Registry and Dynamic LOB Attributes](./archive/F0034-product-schema-registry-and-dynamic-lob-attributes/README.md) | Platform Foundation / CRM Release MVP Enabler | Done and archived (2026-05-07) — 7 stories: decision lock, registry foundation, lifecycle carrier pinning, validator parity, dynamic panel, Cyber bundle, lifecycle/F0019 handoff |
 | [F0020 — Document Management & ACORD Intake](./archive/F0020-document-management-and-acord-intake/README.md) | CRM Release MVP | Done and archived (2026-05-05) — 12 stories: single upload, bulk upload, quarantine promote, classification-filtered list, detail/provenance, downloads, immutable replace, metadata update, classification ABAC, completeness signal, retention cleanup, templates library |
 | [F0018 — Policy Lifecycle & Policy 360](./archive/F0018-policy-lifecycle-and-policy-360/README.md) | CRM Release MVP | Done and archived (2026-04-22) — 11 stories: list, create, profile edit, 360 composition, versions, endorsements, cancellation, reinstatement, renewal linkage, timeline, summary projection |
 | [F0016 — Account 360 & Insured Management](./archive/F0016-account-360-and-insured-management/README.md) | CRM Release MVP | Done and archived (2026-04-14) — 11 stories: list, create, profile edit, 360 workspace, contacts, relationships, lifecycle, merge, fallback contract, timeline, summary projection |
@@ -80,7 +81,7 @@ This document is the working prioritization view for feature sequencing.
 ## Notes
 
 - This roadmap is the authoritative Now/Next/Later view.
-- Reviewed 2026-05-06 against `REGISTRY.md`, current planned feature PRDs, archived feature dependencies, F0020 closeout evidence, and product-attribute architecture risk. F0034 is promoted to Now for Product Manager planning and a foundation implementation slice.
+- Reviewed 2026-05-07 against `REGISTRY.md`, current planned feature PRDs, archived feature dependencies, and F0034 closeout evidence. F0034 is completed and F0019 remains the next CRM Release MVP feature.
 - The proposed Commercial P&C CRM release MVP spans the `Now` and `Next` buckets together; `Later` captures MVP+ and platform-expansion scope.
 - `REGISTRY.md` remains the authoritative feature inventory and ID tracker.
 - `BLUEPRINT.md` remains the baseline product/architecture source of truth.

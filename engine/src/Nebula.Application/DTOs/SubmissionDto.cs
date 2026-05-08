@@ -11,6 +11,7 @@ public record SubmissionDto(
     DateTime? ExpirationDate,
     decimal? PremiumEstimate,
     string? Description,
+    LobAttributeEnvelopeDto? LobAttributes,
     Guid AssignedToUserId,
     string AccountDisplayName,
     string AccountStatus,

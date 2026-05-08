@@ -18,6 +18,8 @@ public class SubmissionConfiguration : IEntityTypeConfiguration<Submission>
         builder.Property(e => e.ExpirationDate).HasColumnType("date");
         builder.Property(e => e.PremiumEstimate).HasPrecision(18, 2);
         builder.Property(e => e.Description).HasMaxLength(2000);
+        builder.Property(e => e.LobProductVersionId).IsRequired();
+        builder.Property(e => e.LobAttributesJson).IsRequired().HasColumnType("jsonb").HasDefaultValueSql("'{}'::jsonb");
         builder.Property(e => e.AccountDisplayNameAtLink).IsRequired().HasMaxLength(200);
         builder.Property(e => e.AccountStatusAtRead).IsRequired().HasMaxLength(20);
         builder.Property(e => e.AssignedToUserId).IsRequired();
@@ -39,6 +41,11 @@ public class SubmissionConfiguration : IEntityTypeConfiguration<Submission>
         builder.HasOne(e => e.Program)
             .WithMany()
             .HasForeignKey(e => e.ProgramId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(e => e.LobProductVersion)
+            .WithMany()
+            .HasForeignKey(e => e.LobProductVersionId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.AssignedToUser)
@@ -67,6 +74,9 @@ public class SubmissionConfiguration : IEntityTypeConfiguration<Submission>
 
         builder.HasIndex(e => e.AssignedToUserId)
             .HasDatabaseName("IX_Submissions_AssignedToUserId");
+
+        builder.HasIndex(e => e.LobProductVersionId)
+            .HasDatabaseName("IX_Submissions_LobProductVersionId");
 
         builder.HasIndex(e => new { e.AssignedToUserId, e.CurrentStatus })
             .HasDatabaseName("IX_Submissions_AssignedToUserId_CurrentStatus");

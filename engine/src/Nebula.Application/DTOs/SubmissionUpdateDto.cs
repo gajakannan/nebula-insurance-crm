@@ -6,4 +6,5 @@ public record SubmissionUpdateDto(
     DateTime? EffectiveDate,
     DateTime? ExpirationDate,
     decimal? PremiumEstimate,
-    string? Description);
+    string? Description,
+    LobAttributeEnvelopeDto? LobAttributes = null);

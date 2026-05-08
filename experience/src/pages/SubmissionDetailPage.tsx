@@ -10,6 +10,7 @@ import { Select } from '@/components/ui/Select';
 import { TextInput } from '@/components/ui/TextInput';
 import { AccountReference, AccountStatusBadge, useAccount } from '@/features/accounts';
 import { ParentDocumentsPanel } from '@/features/documents';
+import { DynamicAttributePanel, normalizeCyberEnvelope } from '@/features/lob-attributes';
 import { usePrograms } from '@/features/submissions/hooks/useReferenceData';
 import { AssigneePicker, type UserSummaryDto } from '@/features/tasks';
 import {
@@ -303,6 +304,14 @@ export default function SubmissionDetailPage() {
             <DetailStat label="Premium Estimate" value={submission.premiumEstimate != null ? formatCurrency(submission.premiumEstimate) : 'Not set'} />
             <DetailStat label="Created" value={formatDateTime(submission.createdAt)} />
             <DetailStat label="Updated" value={formatDateTime(submission.updatedAt)} />
+          </div>
+
+          <div className="mt-5">
+            <DynamicAttributePanel
+              lineOfBusiness={submission.lineOfBusiness}
+              value={normalizeCyberEnvelope(submission.lobAttributes)}
+              readOnly
+            />
           </div>
 
           <div className="mt-5 rounded-xl border border-surface-border bg-surface-card/50 p-4">

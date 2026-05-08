@@ -1,3 +1,5 @@
+import type { LobAttributeEnvelopeDto } from '@/features/lob-attributes'
+
 export type SubmissionStatus =
   | 'Received'
   | 'Triaging'
@@ -60,6 +62,7 @@ export interface SubmissionDto {
   expirationDate: string | null;
   premiumEstimate: number | null;
   description: string | null;
+  lobAttributes: LobAttributeEnvelopeDto | null;
   assignedToUserId: string;
   accountDisplayName: string;
   accountStatus: string;
@@ -100,6 +103,7 @@ export interface SubmissionCreateDto {
   premiumEstimate?: number | null;
   expirationDate?: string | null;
   description?: string | null;
+  lobAttributes?: LobAttributeEnvelopeDto | null;
 }
 
 export interface SubmissionUpdateDto {
@@ -109,6 +113,7 @@ export interface SubmissionUpdateDto {
   expirationDate?: string | null;
   premiumEstimate?: number | null;
   description?: string | null;
+  lobAttributes?: LobAttributeEnvelopeDto | null;
 }
 
 export interface SubmissionAssignmentRequestDto {

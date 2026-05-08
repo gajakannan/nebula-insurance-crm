@@ -88,8 +88,8 @@ public static class PolicyEndpoints
         if (!validation.IsValid)
             return ValidationProblem(validation);
 
-        var (result, error) = await svc.CreateAsync(dto with { ImportMode = "manual" }, user, ct);
-        return PolicyWriteResult(error, result, created: true);
+        var (result, error, lobErrors) = await svc.CreateAsync(dto with { ImportMode = "manual" }, user, ct);
+        return PolicyWriteResult(error, result, lobErrors, created: true);
     }
 
     private static async Task<IResult> CreatePolicyFromBind(
@@ -120,9 +120,10 @@ public static class PolicyEndpoints
             dto.PremiumCurrency,
             "manual",
             dto.ExternalPolicyReference,
-            dto.Coverages);
-        var (result, error) = await svc.CreateAsync(createRequest, user, ct);
-        return PolicyWriteResult(error, result, created: true);
+            dto.Coverages,
+            dto.LobAttributes);
+        var (result, error, lobErrors) = await svc.CreateAsync(createRequest, user, ct);
+        return PolicyWriteResult(error, result, lobErrors, created: true);
     }
 
     private static async Task<IResult> ImportPolicies(
@@ -171,8 +172,8 @@ public static class PolicyEndpoints
         if (!TryParseExpectedRowVersion(httpContext, out var rowVersion))
             return ProblemDetailsHelper.PreconditionFailed("policy");
 
-        var (result, error) = await svc.UpdateAsync(policyId, dto, rowVersion, user, ct);
-        return PolicyWriteResult(error, result);
+        var (result, error, lobErrors) = await svc.UpdateAsync(policyId, dto, rowVersion, user, ct);
+        return PolicyWriteResult(error, result, lobErrors);
     }
 
     private static async Task<IResult> GetPolicySummary(
@@ -226,13 +227,14 @@ public static class PolicyEndpoints
         if (!TryParseExpectedRowVersion(httpContext, out var rowVersion))
             return ProblemDetailsHelper.PreconditionFailed("policy");
 
-        var (result, error) = await svc.EndorseAsync(policyId, dto, rowVersion, user, ct);
+        var (result, error, lobErrors) = await svc.EndorseAsync(policyId, dto, rowVersion, user, ct);
         return error switch
         {
             "not_found" => ProblemDetailsHelper.NotFound("Policy", policyId),
             "precondition_failed" => ProblemDetailsHelper.PreconditionFailed("policy"),
             "invalid_transition" => ProblemDetailsHelper.InvalidTransition("current", "Endorse"),
             "invalid_effective_date" => Results.Problem(title: "Invalid effective date", detail: "Endorsement effectiveDate must be inside the policy term.", statusCode: 400),
+            "lob_validation_failed" => ProblemDetailsHelper.LobValidationFailed(lobErrors ?? []),
             _ => Results.Created($"/policies/{policyId}/endorsements/{result!.Id}", result),
         };
     }
@@ -357,7 +359,11 @@ public static class PolicyEndpoints
         return Results.Ok(await timelineSvc.ListEventsPagedAsync("Policy", policyId, page ?? 1, Math.Min(pageSize ?? 25, 100), user, ct));
     }
 
-    private static IResult PolicyWriteResult(string? error, PolicyDto? result, bool created = false) => error switch
+    private static IResult PolicyWriteResult(
+        string? error,
+        PolicyDto? result,
+        IReadOnlyList<LobValidationIssueDto>? lobErrors = null,
+        bool created = false) => error switch
     {
         "not_found" => ProblemDetailsHelper.NotFound("Policy", result?.Id ?? Guid.Empty),
         "invalid_account" => Results.Problem(title: "Invalid account", detail: "Account does not exist.", statusCode: 400),
@@ -367,6 +373,7 @@ public static class PolicyEndpoints
         "invalid_predecessor" => Results.Problem(title: "Invalid predecessor", detail: "Predecessor policy must be Expired or Cancelled and share the same account.", statusCode: 400),
         "out_of_scope" => ProblemDetailsHelper.PolicyDenied(),
         "precondition_failed" => ProblemDetailsHelper.PreconditionFailed("policy"),
+        "lob_validation_failed" => ProblemDetailsHelper.LobValidationFailed(lobErrors ?? []),
         "must_use_endorse" => Results.Problem(title: "Must use endorsement", detail: "Issued, cancelled, and expired policy terms must be changed via endorsement.", statusCode: 409, extensions: new Dictionary<string, object?> { ["code"] = "must_use_endorse" }),
         "invalid_transition" => ProblemDetailsHelper.InvalidTransition("current", "target"),
         "invalid_effective_date" => Results.Problem(title: "Invalid effective date", detail: "Effective date must be inside the policy term.", statusCode: 400),

@@ -15,6 +15,9 @@ public class PolicyEndorsementConfiguration : IEntityTypeConfiguration<PolicyEnd
         builder.Property(e => e.EndorsementReasonCode).IsRequired().HasMaxLength(80);
         builder.Property(e => e.EndorsementReasonDetail).HasMaxLength(1000);
         builder.Property(e => e.EffectiveDate).IsRequired().HasColumnType("date");
+        builder.Property(e => e.LineOfBusiness).IsRequired().HasMaxLength(50);
+        builder.Property(e => e.LobProductVersionId).IsRequired();
+        builder.Property(e => e.LobAttributesJson).IsRequired().HasColumnType("jsonb").HasDefaultValueSql("'{}'::jsonb");
         builder.Property(e => e.PremiumDelta).HasColumnType("decimal(18,2)");
         builder.Property(e => e.PremiumCurrency).IsRequired().HasMaxLength(3).HasDefaultValue("USD");
         builder.Property(e => e.CreatedByUserId).IsRequired();
@@ -32,6 +35,11 @@ public class PolicyEndorsementConfiguration : IEntityTypeConfiguration<PolicyEnd
             .HasForeignKey(e => e.PolicyVersionId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasOne(e => e.LobProductVersion)
+            .WithMany()
+            .HasForeignKey(e => e.LobProductVersionId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.Property(e => e.RowVersion)
             .HasColumnName("xmin")
             .HasColumnType("xid")
@@ -41,6 +49,9 @@ public class PolicyEndorsementConfiguration : IEntityTypeConfiguration<PolicyEnd
         builder.HasIndex(e => new { e.PolicyId, e.EndorsementNumber })
             .IsUnique()
             .HasDatabaseName("UX_PolicyEndorsements_PolicyId_EndorsementNumber");
+
+        builder.HasIndex(e => e.LobProductVersionId)
+            .HasDatabaseName("IX_PolicyEndorsements_LobProductVersionId");
 
         builder.HasQueryFilter(e => !e.IsDeleted);
     }

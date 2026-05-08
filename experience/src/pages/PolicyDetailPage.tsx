@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Save } from 'lucide-react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
@@ -8,10 +8,20 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { TextInput } from '@/components/ui/TextInput';
 import { ParentDocumentsPanel } from '@/features/documents';
 import {
+  DynamicAttributePanel,
+  buildCyberEnvelope,
+  emptyCyberLobAttributes,
+  isCyberLineOfBusiness,
+  normalizeCyberEnvelope,
+  validateCyberLobAttributes,
+  type CyberLobAttributeValues,
+} from '@/features/lob-attributes';
+import {
   CANCELLATION_REASON_OPTIONS,
   PolicyRails,
   PolicySummaryHeader,
   describePolicyApiError,
+  extractPolicyFieldErrors,
   normalizeOptionalText,
   useCancelPolicy,
   useEndorsePolicy,
@@ -21,6 +31,7 @@ import {
   usePolicyEndorsements,
   usePolicySummary,
   usePolicyTimeline,
+  useUpdatePolicy,
   usePolicyVersions,
   useReinstatePolicy,
   type PolicyCoverageInputDto,
@@ -35,6 +46,7 @@ export default function PolicyDetailPage() {
   const endorsementsQuery = usePolicyEndorsements(policyId);
   const coveragesQuery = usePolicyCoverages(policyId);
   const timelineQuery = usePolicyTimeline(policyId);
+  const updatePolicy = useUpdatePolicy(policyId);
   const issuePolicy = useIssuePolicy(policyId);
   const endorsePolicy = useEndorsePolicy(policyId);
   const cancelPolicy = useCancelPolicy(policyId);
@@ -45,14 +57,22 @@ export default function PolicyDetailPage() {
   const [cancelReasonCode, setCancelReasonCode] = useState(CANCELLATION_REASON_OPTIONS[0].value);
   const [cancelReasonDetail, setCancelReasonDetail] = useState('');
   const [cancelEffectiveDate, setCancelEffectiveDate] = useState(toDateInput(new Date()));
-  const [endorsementReason, setEndorsementReason] = useState('CoverageChange');
+  const [endorsementReason, setEndorsementReason] = useState('OtherAdministrative');
   const [endorsementDetail, setEndorsementDetail] = useState('');
   const [endorsementEffectiveDate, setEndorsementEffectiveDate] = useState(toDateInput(new Date()));
   const [endorsementPremium, setEndorsementPremium] = useState('');
   const [reinstateReason, setReinstateReason] = useState('CorrectedCancellation');
   const [reinstateDetail, setReinstateDetail] = useState('');
+  const [attributeDraft, setAttributeDraft] = useState<CyberLobAttributeValues>(() => emptyCyberLobAttributes());
+  const [attributeEditOpen, setAttributeEditOpen] = useState(false);
+  const [attributeErrors, setAttributeErrors] = useState<Record<string, string>>({});
+  const [attributeError, setAttributeError] = useState('');
 
   const policy = policyQuery.data;
+  const policyCyberAttributes = useMemo(
+    () => normalizeCyberEnvelope(policy?.lobAttributes),
+    [policy?.lobAttributes],
+  );
   const currentCoverages = coveragesQuery.data ?? [];
   const endorsementCoverages = useMemo<PolicyCoverageInputDto[]>(() => {
     if (currentCoverages.length === 0) {
@@ -74,6 +94,33 @@ export default function PolicyDetailPage() {
       exposureQuantity: coverage.exposureQuantity,
     }));
   }, [currentCoverages, endorsementPremium, policy?.lineOfBusiness, policy?.totalPremium]);
+  const attributeCoverages = useMemo<PolicyCoverageInputDto[]>(() => {
+    if (!policy) return [];
+    if (currentCoverages.length === 0) {
+      return [{
+        coverageCode: policy.lineOfBusiness,
+        coverageName: policy.lineOfBusiness,
+        limit: 0,
+        premium: policy.totalPremium,
+      }];
+    }
+
+    return currentCoverages.map((coverage) => ({
+      coverageCode: coverage.coverageCode,
+      coverageName: coverage.coverageName,
+      limit: coverage.limit,
+      deductible: coverage.deductible,
+      premium: coverage.premium,
+      exposureBasis: coverage.exposureBasis,
+      exposureQuantity: coverage.exposureQuantity,
+    }));
+  }, [currentCoverages, policy]);
+
+  useEffect(() => {
+    if (!attributeEditOpen) {
+      setAttributeDraft(policyCyberAttributes);
+    }
+  }, [attributeEditOpen, policyCyberAttributes]);
 
   async function refreshPolicy() {
     await Promise.all([
@@ -152,6 +199,60 @@ export default function PolicyDetailPage() {
     }
   }
 
+  function startAttributeEdit() {
+    setAttributeDraft(policyCyberAttributes);
+    setAttributeErrors({});
+    setAttributeError('');
+    setAttributeEditOpen(true);
+  }
+
+  function cancelAttributeEdit() {
+    setAttributeDraft(policyCyberAttributes);
+    setAttributeErrors({});
+    setAttributeError('');
+    setAttributeEditOpen(false);
+  }
+
+  async function saveAttributeEdit() {
+    if (!policy) return;
+
+    const nextErrors = validateCyberLobAttributes(attributeDraft);
+    if (Object.keys(nextErrors).length > 0) {
+      setAttributeErrors(nextErrors);
+      return;
+    }
+
+    try {
+      const lobAttributes = buildCyberEnvelope(attributeDraft);
+      if (policy.status === 'Pending') {
+        await updatePolicy.mutateAsync({
+          dto: { lobAttributes },
+          rowVersion: policy.rowVersion,
+        });
+      } else {
+        await endorsePolicy.mutateAsync({
+          rowVersion: policy.rowVersion,
+          dto: {
+            endorsementReasonCode: 'OtherAdministrative',
+            endorsementReasonDetail: 'Updated Cyber attributes.',
+            effectiveDate: endorsementEffectiveDateForPolicy(policy.effectiveDate, policy.expirationDate),
+            premiumDelta: 0,
+            coverages: attributeCoverages,
+            lobAttributes,
+          },
+        });
+      }
+
+      setAttributeEditOpen(false);
+      setAttributeErrors({});
+      setAttributeError('');
+      await refreshPolicy();
+    } catch (error) {
+      setAttributeErrors(extractPolicyFieldErrors(error));
+      setAttributeError(describePolicyApiError(error));
+    }
+  }
+
   if (policyQuery.isLoading) {
     return (
       <DashboardLayout title="Policy">
@@ -216,6 +317,25 @@ export default function PolicyDetailPage() {
             setAction('reinstate');
           }}
         />
+
+        <DynamicAttributePanel
+          lineOfBusiness={policy.lineOfBusiness}
+          value={attributeEditOpen ? attributeDraft : policyCyberAttributes}
+          onChange={attributeEditOpen ? setAttributeDraft : undefined}
+          errors={attributeErrors}
+          readOnly={!attributeEditOpen}
+          actions={isCyberLineOfBusiness(policy.lineOfBusiness) ? (
+            <AttributePanelActions
+              editing={attributeEditOpen}
+              canEdit={policy.status === 'Pending' || policy.status === 'Issued'}
+              busy={updatePolicy.isPending || endorsePolicy.isPending}
+              onEdit={startAttributeEdit}
+              onCancel={cancelAttributeEdit}
+              onSave={saveAttributeEdit}
+            />
+          ) : null}
+        />
+        {attributeError && <p className="-mt-3 text-sm text-status-error">{attributeError}</p>}
 
         <PolicyRails
           summary={summaryQuery.data}
@@ -338,6 +458,57 @@ function ActionModal({ open, title, onClose, onSave, busy, error, children }: Ac
   );
 }
 
+function AttributePanelActions({
+  editing,
+  canEdit,
+  busy,
+  onEdit,
+  onCancel,
+  onSave,
+}: {
+  editing: boolean;
+  canEdit: boolean;
+  busy: boolean;
+  onEdit: () => void;
+  onCancel: () => void;
+  onSave: () => void;
+}) {
+  if (!canEdit) return null;
+
+  if (!editing) {
+    return (
+      <button
+        type="button"
+        onClick={onEdit}
+        className="rounded-lg border border-surface-border bg-surface-card px-3 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary"
+      >
+        Edit
+      </button>
+    );
+  }
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={onCancel}
+        disabled={busy}
+        className="rounded-lg border border-surface-border bg-surface-card px-3 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary disabled:opacity-60"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        onClick={onSave}
+        disabled={busy}
+        className="rounded-lg bg-nebula-violet px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-nebula-violet/90 disabled:opacity-60"
+      >
+        {busy ? 'Saving...' : 'Save'}
+      </button>
+    </>
+  );
+}
+
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="space-y-1.5">
@@ -349,4 +520,11 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
 
 function toDateInput(date: Date): string {
   return date.toISOString().slice(0, 10);
+}
+
+function endorsementEffectiveDateForPolicy(effectiveDate: string, expirationDate: string): string {
+  const today = toDateInput(new Date());
+  const termStart = effectiveDate.slice(0, 10);
+  const termEnd = expirationDate.slice(0, 10);
+  return today >= termStart && today <= termEnd ? today : termStart;
 }

@@ -180,7 +180,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 **CRM Release MVP (Planned):**
 - [F0016: Account 360 & Insured Management](features/archive/F0016-account-360-and-insured-management/PRD.md) - Done (Archived 2026-04-14; 11 stories: list, create, profile edit, 360 composition, contacts, relationships, lifecycle, merge, deleted/merged fallback contract, timeline, summary projection)
 - [F0018: Policy Lifecycle & Policy 360](features/archive/F0018-policy-lifecycle-and-policy-360/PRD.md) - Done (Archived 2026-04-22; 11 stories: list, create, profile edit, 360 composition, versions, endorsements, cancellation, reinstatement, renewal linkage, timeline, summary projection)
-- [F0034: Product Schema Registry and Dynamic LOB Attributes](features/F0034-product-schema-registry-and-dynamic-lob-attributes/PRD.md) - Phase B Draft (Platform Foundation / CRM Release MVP Enabler; 7 draft stories: decision lock, registry foundation, lifecycle carrier pinning, validator parity, dynamic panel, Cyber bundle, lifecycle/F0019 handoff)
+- [F0034: Product Schema Registry and Dynamic LOB Attributes](features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/PRD.md) - Done (Archived 2026-05-07; Platform Foundation / CRM Release MVP Enabler; 7 stories: decision lock, registry foundation, lifecycle carrier pinning, validator parity, dynamic panel, Cyber bundle, lifecycle/F0019 handoff)
 - F0019: Submission Quoting, Proposal & Approval Workflow - Planned
 - [F0020: Document Management & ACORD Intake](features/archive/F0020-document-management-and-acord-intake/PRD.md) - Done (Archived 2026-05-05; 12 stories: single upload, bulk upload, quarantine promote, classification-filtered list, detail/provenance, downloads, immutable replace, metadata update, classification ABAC, completeness signal, retention cleanup, templates library)
 - F0021: Communication Hub & Activity Capture - Planned
@@ -257,13 +257,13 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 - [F0033-S0005: Activate SonarQube Community quality reporting](features/archive/F0033-structured-logging-and-qe-toolchain-activation/F0033-S0005-activate-sonarqube-community-quality-reporting.md) - Done (Archived)
 
 **Platform Foundation Stories (Feature F0034: Product Schema Registry and Dynamic LOB Attributes):**
-- [F0034-S0001: Lock product-attribute decision set](features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0001-lock-product-attribute-decision-set.md) - Not Started
-- [F0034-S0002: Establish product schema registry foundation](features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0002-establish-product-schema-registry-foundation.md) - Not Started
-- [F0034-S0003: Pin attributes on lifecycle carriers](features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0003-pin-attributes-on-lifecycle-carriers.md) - Not Started
-- [F0034-S0004: Prove frontend and backend validator equivalence](features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0004-prove-validator-equivalence.md) - Not Started
-- [F0034-S0005: Render dynamic attribute panel from schema metadata](features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md) - Not Started
-- [F0034-S0006: Activate Cyber product bundle](features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0006-activate-cyber-product-bundle.md) - Not Started
-- [F0034-S0007: Prove lifecycle integration and F0019 handoff](features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0007-prove-lifecycle-and-f0019-handoff.md) - Not Started
+- [F0034-S0001: Lock product-attribute decision set](features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0001-lock-product-attribute-decision-set.md) - Done (Archived)
+- [F0034-S0002: Establish product schema registry foundation](features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0002-establish-product-schema-registry-foundation.md) - Done (Archived)
+- [F0034-S0003: Pin attributes on lifecycle carriers](features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0003-pin-attributes-on-lifecycle-carriers.md) - Done (Archived)
+- [F0034-S0004: Prove frontend and backend validator equivalence](features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0004-prove-validator-equivalence.md) - Done (Archived)
+- [F0034-S0005: Render dynamic attribute panel from schema metadata](features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md) - Done (Archived)
+- [F0034-S0006: Activate Cyber product bundle](features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0006-activate-cyber-product-bundle.md) - Done (Archived)
+- [F0034-S0007: Prove lifecycle integration and F0019 handoff](features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0007-prove-lifecycle-and-f0019-handoff.md) - Done (Archived)
 
 **MVP Stories (Feature F0010: Dashboard Opportunities Refactor):**
 - [F0010-S0001: Replace Sankey default with Pipeline Board](features/archive/F0010-dashboard-opportunities-refactor/F0010-S0001-replace-sankey-with-pipeline-board-default.md) - Done (Historical; superseded by F0013)

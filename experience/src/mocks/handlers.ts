@@ -25,6 +25,7 @@ import {
   transitionSubmission,
   transitionRenewal,
   updateSubmission,
+  updateRenewalLobAttributes,
   assignSubmission,
   assignRenewal,
   cancelPolicy,
@@ -54,6 +55,7 @@ import {
   taskFixture,
   timelineFixture,
   updateDocumentMetadata,
+  updatePolicy,
   uploadDocumentTemplate,
   uploadDocuments,
 } from './data'
@@ -127,6 +129,41 @@ export const handlers = [
   }),
 
   http.get(apiUrl('/my/tasks'), () => HttpResponse.json(taskFixture)),
+
+  http.get(apiUrl('/lob-schemas/active/:productKey/:productVersion/:schemaVersion'), ({ params }) => {
+    if (
+      params.productKey !== 'cyber'
+      || params.productVersion !== '1.0.0'
+      || params.schemaVersion !== '1.0.0'
+    ) {
+      return HttpResponse.json({ detail: 'LOB schema bundle not found' }, { status: 404 })
+    }
+
+    return HttpResponse.json({
+      id: '34000000-0000-0000-0000-000000000201',
+      productKey: 'cyber',
+      productVersion: '1.0.0',
+      lineOfBusiness: 'Cyber',
+      schemaVersion: '1.0.0',
+      status: 'Active',
+      dataSchema: {
+        type: 'object',
+        required: ['revenueBand', 'recordsHeld', 'controls', 'requestedLimit', 'requestedRetention'],
+      },
+      uiSchema: {
+        sections: [
+          { id: 'exposure', title: 'Exposure', fields: ['revenueBand', 'recordsHeld'] },
+          { id: 'controls', title: 'Controls', fields: ['controls.mfaEnabled'] },
+        ],
+      },
+      rules: { rules: [] },
+      projectionMap: {},
+      contentHash: 'sha256:f0034-cyber-1-0-0-seed',
+      activatedAt: '2026-05-07T00:00:00Z',
+      activatedByUserId: null,
+      rowVersion: '1',
+    })
+  }),
 
   http.get(apiUrl('/documents'), ({ request }) => {
     return HttpResponse.json(listDocuments(new URL(request.url).searchParams))
@@ -314,6 +351,16 @@ export const handlers = [
     }
 
     return HttpResponse.json(result)
+  }),
+
+  http.put(apiUrl('/policies/:policyId'), async ({ params, request }) => {
+    const result = updatePolicy(
+      String(params.policyId),
+      parseRowVersion(request.headers.get('if-match')),
+      await request.json() as never,
+    )
+
+    return policyMutationResponse(result)
   }),
 
   http.post(apiUrl('/policies/:policyId/issue'), ({ params, request }) => {
@@ -504,6 +551,36 @@ export const handlers = [
     const result = getRenewal(String(params.renewalId))
     if (!result) {
       return HttpResponse.json({ title: 'Not found', status: 404, code: 'not_found' }, { status: 404 })
+    }
+
+    return HttpResponse.json(result)
+  }),
+
+  http.put(apiUrl('/renewals/:renewalId/lob-attributes'), async ({ params, request }) => {
+    const result = updateRenewalLobAttributes(
+      String(params.renewalId),
+      parseRowVersion(request.headers.get('if-match')),
+      await request.json() as never,
+    )
+
+    if (!result) {
+      return HttpResponse.json({ title: 'Not found', status: 404, code: 'not_found' }, { status: 404 })
+    }
+
+    if ('code' in result) {
+      const status = result.code === 'precondition_failed'
+        ? 412
+        : result.code === 'attributes_readonly'
+          ? 409
+          : 400
+
+      return HttpResponse.json({
+        title: 'Update failed',
+        status,
+        code: result.code,
+        detail: result.detail,
+        errors: result.errors,
+      }, { status })
     }
 
     return HttpResponse.json(result)

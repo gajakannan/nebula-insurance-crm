@@ -1,4 +1,5 @@
 import type { TimelineEventDto } from '@/contracts/timeline';
+import type { LobAttributeEnvelopeDto } from '@/features/lob-attributes';
 
 export type PolicyStatus = 'Pending' | 'Issued' | 'Cancelled' | 'Expired';
 
@@ -34,6 +35,7 @@ export interface PolicyCreateRequestDto {
   importMode?: string | null;
   externalPolicyReference?: string | null;
   coverages?: PolicyCoverageInputDto[] | null;
+  lobAttributes?: LobAttributeEnvelopeDto | null;
 }
 
 export interface PolicyUpdateRequestDto {
@@ -44,6 +46,7 @@ export interface PolicyUpdateRequestDto {
   producerUserId?: string | null;
   totalPremium?: number | null;
   externalPolicyReference?: string | null;
+  lobAttributes?: LobAttributeEnvelopeDto | null;
 }
 
 export interface PolicyIssueRequestDto {
@@ -56,6 +59,7 @@ export interface PolicyEndorsementRequestDto {
   effectiveDate: string;
   premiumDelta?: number | null;
   coverages: PolicyCoverageInputDto[];
+  lobAttributes?: LobAttributeEnvelopeDto | null;
 }
 
 export interface PolicyCancelRequestDto {
@@ -116,6 +120,7 @@ export interface PolicyDto {
   brokerOfRecordId: string;
   policyNumber: string;
   lineOfBusiness: string;
+  lobAttributes: LobAttributeEnvelopeDto | null;
   carrierId: string;
   carrierName: string | null;
   status: PolicyStatus;
@@ -204,6 +209,8 @@ export interface PolicyVersionDto {
   endorsementId: string | null;
   effectiveDate: string;
   expirationDate: string;
+  lineOfBusiness: string;
+  lobAttributes: LobAttributeEnvelopeDto | null;
   totalPremium: number;
   premiumCurrency: string;
   profileSnapshot: unknown;
@@ -222,6 +229,8 @@ export interface PolicyEndorsementDto {
   endorsementReasonCode: string;
   endorsementReasonDetail: string | null;
   effectiveDate: string;
+  lineOfBusiness: string;
+  lobAttributes: LobAttributeEnvelopeDto | null;
   premiumDelta: number;
   premiumCurrency: string;
   createdAt: string;

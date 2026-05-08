@@ -39,6 +39,9 @@ F0034 is valuable only if it changes how downstream features capture product-spe
 - [ ] Policy current-version view displays product attributes through PolicyVersion
 - [ ] Endorsement path can validate changed product attributes or reject legacy edits
 - [ ] Renewal detail can display or capture renewal-stage product attributes
+- [ ] Policy Detail entered from the policy list allows active Cyber attributes to be edited and saved through the policy update or endorsement path, depending on policy status
+- [ ] Renewal Detail entered from the renewal list allows active Cyber attributes to be edited and saved through the renewal LOB-attribute update path
+- [ ] Legacy Cyber rows have an explicit first-capture path to active Cyber `1.0.0`; they are not permanently read-only when a governed lifecycle write supplies valid Cyber attributes
 - [ ] F0019 handoff note links to F0034
 - [ ] E2E coverage includes legacy read, validation error, and pin-on-open behavior
 
@@ -62,6 +65,8 @@ F0034 is valuable only if it changes how downstream features capture product-spe
 - Cyber submission writes require valid Cyber attributes before moving from null LOB to Cyber
 - Product attribute writes must use the lifecycle carrier's approved mutation path
 - Policy reads product attributes from PolicyVersion
+- Renewal detail attribute writes require row-version concurrency and append timeline evidence
+- Issued policy attribute edits must use endorsement semantics; pending policy attribute edits may update the current PolicyVersion through the policy update path
 - F0019 product-specific quote/proposal attributes must route through F0034 product attributes
 
 ## Role-Based Visibility

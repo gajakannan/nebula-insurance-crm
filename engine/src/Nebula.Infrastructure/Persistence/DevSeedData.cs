@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Nebula.Application.Services;
 using Nebula.Domain.Entities;
 using Nebula.Domain.Workflow;
 
@@ -157,12 +158,13 @@ public static class DevSeedData
                 });
             }
 
+            var submissionLineOfBusiness = rng.NextDouble() < 0.1 ? null : LineOfBusinessCodes[rng.Next(LineOfBusinessCodes.Length)];
             var submission = new Submission
             {
                 AccountId = account.Id,
                 BrokerId = broker.Id,
                 ProgramId = rng.NextDouble() < 0.7 ? programs[rng.Next(programs.Length)].Id : null,
-                LineOfBusiness = rng.NextDouble() < 0.1 ? null : LineOfBusinessCodes[rng.Next(LineOfBusinessCodes.Length)],
+                LineOfBusiness = submissionLineOfBusiness,
                 CurrentStatus = path[^1],
                 EffectiveDate = now.AddDays(rng.Next(-30, 180)),
                 ExpirationDate = now.AddDays(rng.Next(180, 540)),
@@ -172,6 +174,8 @@ public static class DevSeedData
                 AccountDisplayNameAtLink = account.StableDisplayName,
                 AccountStatusAtRead = account.Status,
                 AccountSurvivorId = account.MergedIntoAccountId,
+                LobProductVersionId = LobSchemaDefaults.ResolveDefaultProductVersionId(submissionLineOfBusiness),
+                LobAttributesJson = LobSchemaDefaults.EmptyAttributesJson,
                 CreatedAt = createdAt,
                 UpdatedAt = updatedAt,
                 CreatedByUserId = assignedTo,
@@ -256,6 +260,8 @@ public static class DevSeedData
                 CurrentStatus = path[^1],
                 PolicyExpirationDate = policy.ExpirationDate,
                 AssignedToUserId = assignedTo,
+                LobProductVersionId = LobSchemaDefaults.ResolveDefaultProductVersionId(policy.LineOfBusiness),
+                LobAttributesJson = LobSchemaDefaults.EmptyAttributesJson,
                 AccountDisplayNameAtLink = account.StableDisplayName,
                 AccountStatusAtRead = account.Status,
                 AccountSurvivorId = account.MergedIntoAccountId,
@@ -496,6 +502,9 @@ public static class DevSeedData
             ExpirationDate = policy.ExpirationDate,
             TotalPremium = policy.TotalPremium,
             PremiumCurrency = policy.PremiumCurrency,
+            LineOfBusiness = policy.LineOfBusiness,
+            LobProductVersionId = LobSchemaDefaults.ResolveDefaultProductVersionId(policy.LineOfBusiness),
+            LobAttributesJson = LobSchemaDefaults.EmptyAttributesJson,
             ProfileSnapshotJson = System.Text.Json.JsonSerializer.Serialize(new
             {
                 policy.AccountId,

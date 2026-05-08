@@ -106,6 +106,22 @@ public class PolicyRepository(AppDbContext db) : IPolicyRepository
         return new PaginatedResult<PolicyVersion>(data, page, pageSize, totalCount);
     }
 
+    public async Task<PolicyVersion?> GetCurrentVersionAsync(Guid policyId, Guid? currentVersionId, CancellationToken ct = default)
+    {
+        var query = db.PolicyVersions.AsNoTracking().Where(version => version.PolicyId == policyId);
+        return currentVersionId.HasValue
+            ? await query.FirstOrDefaultAsync(version => version.Id == currentVersionId.Value, ct)
+            : await query.OrderByDescending(version => version.VersionNumber).FirstOrDefaultAsync(ct);
+    }
+
+    public async Task<PolicyVersion?> GetCurrentVersionForUpdateAsync(Guid policyId, Guid? currentVersionId, CancellationToken ct = default)
+    {
+        var query = db.PolicyVersions.Where(version => version.PolicyId == policyId);
+        return currentVersionId.HasValue
+            ? await query.FirstOrDefaultAsync(version => version.Id == currentVersionId.Value, ct)
+            : await query.OrderByDescending(version => version.VersionNumber).FirstOrDefaultAsync(ct);
+    }
+
     public async Task<PolicyVersion?> GetVersionAsync(Guid policyId, Guid versionId, CancellationToken ct = default) =>
         await db.PolicyVersions
             .AsNoTracking()

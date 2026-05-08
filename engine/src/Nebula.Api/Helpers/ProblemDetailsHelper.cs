@@ -105,6 +105,17 @@ public static class ProblemDetailsHelper
             ["traceId"] = Activity.Current?.Id,
         });
 
+    public static IResult LobValidationFailed(object errors) => Results.Problem(
+        title: "LOB attribute validation failed",
+        detail: "The submitted LOB attributes do not satisfy the active product schema bundle.",
+        statusCode: 422,
+        extensions: new Dictionary<string, object?>
+        {
+            ["code"] = "lob_validation_failed",
+            ["lobErrors"] = errors,
+            ["traceId"] = Activity.Current?.Id,
+        });
+
     public static IResult RegionMismatch() => Results.Problem(
         title: "Region mismatch",
         detail: "Account region is not in the broker's licensed region set.",

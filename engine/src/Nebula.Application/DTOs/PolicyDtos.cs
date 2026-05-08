@@ -38,7 +38,8 @@ public record PolicyCreateRequestDto(
     string? PremiumCurrency,
     string? ImportMode,
     string? ExternalPolicyReference,
-    IReadOnlyList<PolicyCoverageInputDto>? Coverages);
+    IReadOnlyList<PolicyCoverageInputDto>? Coverages,
+    LobAttributeEnvelopeDto? LobAttributes = null);
 
 public record PolicyFromBindRequestDto(
     Guid SubmissionId,
@@ -54,7 +55,8 @@ public record PolicyFromBindRequestDto(
     Guid? ProducerUserId,
     Guid? PredecessorPolicyId,
     string? ExternalPolicyReference,
-    IReadOnlyList<PolicyCoverageInputDto> Coverages);
+    IReadOnlyList<PolicyCoverageInputDto> Coverages,
+    LobAttributeEnvelopeDto? LobAttributes = null);
 
 public record PolicyUpdateRequestDto(
     string? LineOfBusiness,
@@ -63,7 +65,8 @@ public record PolicyUpdateRequestDto(
     DateTime? ExpirationDate,
     Guid? ProducerUserId,
     decimal? TotalPremium,
-    string? ExternalPolicyReference);
+    string? ExternalPolicyReference,
+    LobAttributeEnvelopeDto? LobAttributes = null);
 
 public record PolicyIssueRequestDto(
     DateTime? IssuedAt);
@@ -73,7 +76,8 @@ public record PolicyEndorsementRequestDto(
     string? EndorsementReasonDetail,
     DateTime EffectiveDate,
     decimal? PremiumDelta,
-    IReadOnlyList<PolicyCoverageInputDto> Coverages);
+    IReadOnlyList<PolicyCoverageInputDto> Coverages,
+    LobAttributeEnvelopeDto? LobAttributes = null);
 
 public record PolicyCancelRequestDto(
     string CancellationReasonCode,
@@ -127,6 +131,7 @@ public record PolicyDto(
     Guid BrokerOfRecordId,
     string PolicyNumber,
     string LineOfBusiness,
+    LobAttributeEnvelopeDto? LobAttributes,
     Guid CarrierId,
     string? CarrierName,
     string Status,
@@ -213,6 +218,8 @@ public record PolicyVersionDto(
     Guid? EndorsementId,
     DateTime EffectiveDate,
     DateTime ExpirationDate,
+    string LineOfBusiness,
+    LobAttributeEnvelopeDto? LobAttributes,
     decimal TotalPremium,
     string PremiumCurrency,
     object? ProfileSnapshot,
@@ -230,6 +237,8 @@ public record PolicyEndorsementDto(
     string EndorsementReasonCode,
     string? EndorsementReasonDetail,
     DateTime EffectiveDate,
+    string LineOfBusiness,
+    LobAttributeEnvelopeDto? LobAttributes,
     decimal PremiumDelta,
     string PremiumCurrency,
     DateTime CreatedAt,

@@ -11,7 +11,6 @@
 
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
-| F0034 | Product Schema Registry and Dynamic LOB Attributes | Phase B Draft | Platform Foundation / CRM Release MVP Enabler | `F0034-product-schema-registry-and-dynamic-lob-attributes/` |
 
 ## Abandoned Features
 
@@ -44,6 +43,7 @@
 
 | Feature ID | Name | Archived Date | Folder |
 |------------|------|---------------|--------|
+| F0034 | Product Schema Registry and Dynamic LOB Attributes | 2026-05-07 | `archive/F0034-product-schema-registry-and-dynamic-lob-attributes/` |
 | F0020 | Document Management & ACORD Intake | 2026-05-05 | `archive/F0020-document-management-and-acord-intake/` |
 | F0018 | Policy Lifecycle & Policy 360 | 2026-04-22 | `archive/F0018-policy-lifecycle-and-policy-360/` |
 | F0016 | Account 360 & Insured Management | 2026-04-14 | `archive/F0016-account-360-and-insured-management/` |

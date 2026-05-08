@@ -15,6 +15,7 @@ import type {
   PolicyReinstateRequestDto,
   PolicyStatus,
   PolicySummaryDto,
+  PolicyUpdateRequestDto,
   PolicyVersionDto,
 } from '@/features/policies';
 import { accountReferenceFixture } from './submissions';
@@ -109,6 +110,8 @@ const endorsementState = new Map<string, PolicyEndorsementDto[]>([
       endorsementReasonCode: 'CoverageChange',
       endorsementReasonDetail: 'Increased liability limit.',
       effectiveDate: '2026-03-01',
+      lineOfBusiness: 'GeneralLiability',
+      lobAttributes: null,
       premiumDelta: 3500,
       premiumCurrency: 'USD',
       createdAt: '2026-03-01T15:00:00Z',
@@ -219,6 +222,7 @@ export function createPolicy(dto: PolicyCreateRequestDto): PolicyDto {
     expirationDate: dto.expirationDate,
     totalPremium: dto.totalPremium ?? dto.coverages?.reduce((sum, coverage) => sum + coverage.premium, 0) ?? 0,
     externalPolicyReference: dto.externalPolicyReference ?? null,
+    lobAttributes: dto.lobAttributes ?? null,
   });
   policyState.unshift(policy);
   coverageState.set(policy.id, toCoverageLines(policy, dto.coverages));
@@ -235,6 +239,34 @@ export function importPolicies(dto: PolicyImportRequestDto): PolicyImportResultD
     return [];
   });
   return { accepted, rejected };
+}
+
+export function updatePolicy(policyId: string, rowVersion: string | null, dto: PolicyUpdateRequestDto): PolicyDto | null | { code: string } {
+  const policy = getPolicy(policyId);
+  if (!policy) return null;
+  if (policy.rowVersion !== rowVersion) return { code: 'precondition_failed' };
+
+  const materialChange = dto.lineOfBusiness != null
+    || dto.carrierId != null
+    || dto.effectiveDate != null
+    || dto.expirationDate != null
+    || dto.totalPremium != null
+    || dto.lobAttributes != null;
+  if (policy.status !== 'Pending' && materialChange) return { code: 'must_use_endorse' };
+
+  policy.lineOfBusiness = dto.lineOfBusiness ?? policy.lineOfBusiness;
+  policy.carrierId = dto.carrierId ?? policy.carrierId;
+  policy.effectiveDate = dto.effectiveDate ?? policy.effectiveDate;
+  policy.expirationDate = dto.expirationDate ?? policy.expirationDate;
+  policy.totalPremium = dto.totalPremium ?? policy.totalPremium;
+  policy.producerUserId = dto.producerUserId ?? policy.producerUserId;
+  policy.externalPolicyReference = dto.externalPolicyReference ?? policy.externalPolicyReference;
+  policy.lobAttributes = dto.lobAttributes ?? policy.lobAttributes;
+  policy.updatedAt = now;
+  policy.updatedByUserId = SYSTEM_USER_ID;
+  policy.rowVersion = String(++rowVersionSeed);
+
+  return policy;
 }
 
 export function issuePolicy(policyId: string, rowVersion: string | null): PolicyDto | null | { code: string } {
@@ -293,12 +325,15 @@ export function endorsePolicy(policyId: string, rowVersion: string | null, dto: 
     endorsementReasonCode: dto.endorsementReasonCode,
     endorsementReasonDetail: dto.endorsementReasonDetail ?? null,
     effectiveDate: dto.effectiveDate,
+    lineOfBusiness: policy.lineOfBusiness,
+    lobAttributes: dto.lobAttributes ?? policy.lobAttributes,
     premiumDelta: dto.premiumDelta ?? 0,
     premiumCurrency: policy.premiumCurrency,
     createdAt: now,
     createdByUserId: SYSTEM_USER_ID,
   };
   endorsementState.set(policyId, [endorsement, ...(endorsementState.get(policyId) ?? [])]);
+  policy.lobAttributes = dto.lobAttributes ?? policy.lobAttributes;
   policy.totalPremium = dto.coverages.reduce((sum, coverage) => sum + coverage.premium, 0);
   policy.versionCount = versionNumber;
   policy.currentVersionNumber = versionNumber;
@@ -321,6 +356,8 @@ export function listPolicyVersions(policyId: string): PaginatedResponse<PolicyVe
       endorsementId: versionNumber === 1 ? null : `${policyId}-endorsement-${versionNumber - 1}`,
       effectiveDate: policy.effectiveDate,
       expirationDate: policy.expirationDate,
+      lineOfBusiness: policy.lineOfBusiness,
+      lobAttributes: policy.lobAttributes,
       totalPremium: policy.totalPremium,
       premiumCurrency: policy.premiumCurrency,
       profileSnapshot: null,
@@ -396,6 +433,7 @@ function buildPolicy(input: {
   cancellationReasonCode?: string | null;
   reinstatementDeadline?: string | null;
   externalPolicyReference?: string | null;
+  lobAttributes?: PolicyDto['lobAttributes'];
 }): PolicyDto {
   const account = accountReferenceFixture.find((record) => record.id === input.accountId);
   return {
@@ -404,6 +442,7 @@ function buildPolicy(input: {
     brokerOfRecordId: input.brokerOfRecordId,
     policyNumber: input.policyNumber,
     lineOfBusiness: input.lineOfBusiness,
+    lobAttributes: input.lobAttributes ?? null,
     carrierId: input.carrierId,
     carrierName: carrierNames.get(input.carrierId) ?? 'Legacy Carrier',
     status: input.status,

@@ -18,6 +18,7 @@ public static class RenewalEndpoints
         group.MapGet("/", ListRenewals);
         group.MapPost("/", CreateRenewal);
         group.MapGet("/{renewalId:guid}", GetRenewal);
+        group.MapPut("/{renewalId:guid}/lob-attributes", PutLobAttributes);
         group.MapPut("/{renewalId:guid}/assignment", PutAssignment);
         group.MapGet("/{renewalId:guid}/timeline", GetTimeline);
         group.MapPost("/{renewalId:guid}/transitions", PostTransition);
@@ -89,7 +90,7 @@ public static class RenewalEndpoints
                     .ToDictionary(group => group.Key, group => group.Select(error => error.ErrorMessage).ToArray()));
         }
 
-        var (result, error, detail) = await svc.CreateAsync(dto, user, ct);
+        var (result, error, detail, lobErrors) = await svc.CreateAsync(dto, user, ct);
         return error switch
         {
             "not_found" => ProblemDetailsHelper.NotFound("Policy", dto.PolicyId),
@@ -97,6 +98,7 @@ public static class RenewalEndpoints
             "duplicate_renewal" => ProblemDetailsHelper.DuplicateRenewal(),
             "invalid_assignee" => ProblemDetailsHelper.InvalidAssignee(),
             "inactive_assignee" => ProblemDetailsHelper.InactiveAssignee(),
+            "lob_validation_failed" => ProblemDetailsHelper.LobValidationFailed(lobErrors ?? []),
             "invalid_assignee_role" => ProblemDetailsHelper.ValidationError(new Dictionary<string, string[]>
             {
                 ["assignedToUserId"] = [detail ?? "Target user does not have the required role for this renewal stage."],
@@ -117,6 +119,42 @@ public static class RenewalEndpoints
 
         var result = await svc.GetByIdAsync(renewalId, user, ct);
         return result is null ? ProblemDetailsHelper.NotFound("Renewal", renewalId) : Results.Ok(result);
+    }
+
+    private static async Task<IResult> PutLobAttributes(
+        Guid renewalId,
+        RenewalLobAttributesUpdateDto dto,
+        IValidator<RenewalLobAttributesUpdateDto> validator,
+        RenewalService svc,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        HttpContext httpContext,
+        CancellationToken ct)
+    {
+        if (!await HasAccessAsync(user, authz, "renewal", "update"))
+            return ProblemDetailsHelper.PolicyDenied();
+
+        var validation = await validator.ValidateAsync(dto, ct);
+        if (!validation.IsValid)
+        {
+            return ProblemDetailsHelper.ValidationError(
+                validation.Errors.GroupBy(error => error.PropertyName)
+                    .ToDictionary(group => group.Key, group => group.Select(error => error.ErrorMessage).ToArray()));
+        }
+
+        if (!TryParseExpectedRowVersion(httpContext, out var rowVersion))
+            return ProblemDetailsHelper.PreconditionFailed("renewal");
+
+        var (result, error, lobErrors) = await svc.UpdateLobAttributesAsync(renewalId, dto, rowVersion, user, ct);
+        return error switch
+        {
+            "not_found" => ProblemDetailsHelper.NotFound("Renewal", renewalId),
+            "policy_denied" => ProblemDetailsHelper.PolicyDenied(),
+            "precondition_failed" => ProblemDetailsHelper.PreconditionFailed("renewal"),
+            "attributes_readonly" => Results.Problem(title: "Renewal attributes are read-only", detail: "Completed and lost renewals cannot update product attributes.", statusCode: 409),
+            "lob_validation_failed" => ProblemDetailsHelper.LobValidationFailed(lobErrors ?? []),
+            _ => Results.Ok(result),
+        };
     }
 
     private static async Task<IResult> PutAssignment(

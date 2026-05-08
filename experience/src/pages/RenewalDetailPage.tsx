@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -10,6 +10,15 @@ import { TextInput } from '@/components/ui/TextInput';
 import { AccountReference, AccountStatusBadge, useAccount } from '@/features/accounts';
 import { useCurrentUser } from '@/features/auth';
 import { ParentDocumentsPanel } from '@/features/documents';
+import {
+  DynamicAttributePanel,
+  buildCyberEnvelope,
+  emptyCyberLobAttributes,
+  isCyberLineOfBusiness,
+  normalizeCyberEnvelope,
+  validateCyberLobAttributes,
+  type CyberLobAttributeValues,
+} from '@/features/lob-attributes';
 import { getLineOfBusinessLabel } from '@/features/submissions';
 import {
   RENEWAL_LOST_REASON_OPTIONS,
@@ -23,6 +32,7 @@ import {
   normalizeOptionalText,
   useAssignRenewal,
   useRenewal,
+  useUpdateRenewalLobAttributes,
   useTransitionRenewal,
   type RenewalLostReasonCode,
   type RenewalStatus,
@@ -52,6 +62,7 @@ export default function RenewalDetailPage() {
   const location = useLocation();
   const renewalQuery = useRenewal(renewalId);
   const assignRenewal = useAssignRenewal(renewalId);
+  const updateRenewalAttributes = useUpdateRenewalLobAttributes(renewalId);
   const transitionRenewal = useTransitionRenewal(renewalId);
   const survivorQuery = useAccount(
     renewalQuery.data?.accountStatus === 'Merged' && renewalQuery.data.accountSurvivorId
@@ -67,8 +78,22 @@ export default function RenewalDetailPage() {
   const [transitionForm, setTransitionForm] = useState<TransitionFormState>(EMPTY_TRANSITION_FORM);
   const [transitionErrors, setTransitionErrors] = useState<Record<string, string>>({});
   const [transitionError, setTransitionError] = useState('');
+  const [attributeDraft, setAttributeDraft] = useState<CyberLobAttributeValues>(() => emptyCyberLobAttributes());
+  const [attributeEditOpen, setAttributeEditOpen] = useState(false);
+  const [attributeErrors, setAttributeErrors] = useState<Record<string, string>>({});
+  const [attributeError, setAttributeError] = useState('');
 
   const returnTo = (location.state as { returnTo?: string } | null)?.returnTo ?? '/renewals';
+  const renewalCyberAttributes = useMemo(
+    () => normalizeCyberEnvelope(renewalQuery.data?.lobAttributes),
+    [renewalQuery.data?.lobAttributes],
+  );
+
+  useEffect(() => {
+    if (!attributeEditOpen) {
+      setAttributeDraft(renewalCyberAttributes);
+    }
+  }, [attributeEditOpen, renewalCyberAttributes]);
 
   if (renewalQuery.isLoading) {
     return (
@@ -230,6 +255,45 @@ export default function RenewalDetailPage() {
     }
   }
 
+  function startAttributeEdit() {
+    setAttributeDraft(renewalCyberAttributes);
+    setAttributeErrors({});
+    setAttributeError('');
+    setAttributeEditOpen(true);
+  }
+
+  function cancelAttributeEdit() {
+    setAttributeDraft(renewalCyberAttributes);
+    setAttributeErrors({});
+    setAttributeError('');
+    setAttributeEditOpen(false);
+  }
+
+  async function saveAttributeEdit() {
+    const currentRenewal = renewalQuery.data;
+    if (!currentRenewal) return;
+
+    const nextErrors = validateCyberLobAttributes(attributeDraft);
+    if (Object.keys(nextErrors).length > 0) {
+      setAttributeErrors(nextErrors);
+      return;
+    }
+
+    try {
+      await updateRenewalAttributes.mutateAsync({
+        dto: { lobAttributes: buildCyberEnvelope(attributeDraft) },
+        rowVersion: currentRenewal.rowVersion,
+      });
+      await renewalQuery.refetch();
+      setAttributeEditOpen(false);
+      setAttributeErrors({});
+      setAttributeError('');
+    } catch (error) {
+      setAttributeErrors(extractProblemFieldErrors(error));
+      setAttributeError(describeRenewalApiError(error));
+    }
+  }
+
   return (
     <DashboardLayout title="Renewal">
       <div className="space-y-6">
@@ -307,6 +371,27 @@ export default function RenewalDetailPage() {
             <DetailStat label="Policy Premium" value={formatCurrency(renewal.policyPremium)} />
             <DetailStat label="Account Industry" value={renewal.accountIndustry ?? 'Unavailable'} />
             <DetailStat label="Broker State" value={renewal.brokerState ?? 'Unavailable'} />
+          </div>
+
+          <div className="mt-5">
+            <DynamicAttributePanel
+              lineOfBusiness={renewal.lineOfBusiness}
+              value={attributeEditOpen ? attributeDraft : renewalCyberAttributes}
+              onChange={attributeEditOpen ? setAttributeDraft : undefined}
+              errors={attributeErrors}
+              readOnly={!attributeEditOpen}
+              actions={isCyberLineOfBusiness(renewal.lineOfBusiness) ? (
+                <AttributePanelActions
+                  editing={attributeEditOpen}
+                  canEdit={renewal.currentStatus !== 'Completed' && renewal.currentStatus !== 'Lost'}
+                  busy={updateRenewalAttributes.isPending}
+                  onEdit={startAttributeEdit}
+                  onCancel={cancelAttributeEdit}
+                  onSave={saveAttributeEdit}
+                />
+              ) : null}
+            />
+            {attributeError && <p className="mt-2 text-sm text-status-error">{attributeError}</p>}
           </div>
         </Card>
 
@@ -556,6 +641,57 @@ function DetailStat({ label, value }: { label: string; value: string }) {
       <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-text-muted">{label}</p>
       <p className="mt-1 text-sm text-text-primary">{value}</p>
     </div>
+  );
+}
+
+function AttributePanelActions({
+  editing,
+  canEdit,
+  busy,
+  onEdit,
+  onCancel,
+  onSave,
+}: {
+  editing: boolean;
+  canEdit: boolean;
+  busy: boolean;
+  onEdit: () => void;
+  onCancel: () => void;
+  onSave: () => void;
+}) {
+  if (!canEdit) return null;
+
+  if (!editing) {
+    return (
+      <button
+        type="button"
+        onClick={onEdit}
+        className="rounded-lg border border-surface-border bg-surface-card px-3 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary"
+      >
+        Edit
+      </button>
+    );
+  }
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={onCancel}
+        disabled={busy}
+        className="rounded-lg border border-surface-border bg-surface-card px-3 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary disabled:opacity-60"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        onClick={onSave}
+        disabled={busy}
+        className="rounded-lg bg-nebula-violet px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-nebula-violet/90 disabled:opacity-60"
+      >
+        {busy ? 'Saving...' : 'Save'}
+      </button>
+    </>
   );
 }
 

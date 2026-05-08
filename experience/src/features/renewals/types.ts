@@ -1,3 +1,5 @@
+import type { LobAttributeEnvelopeDto } from '@/features/lob-attributes';
+
 export type RenewalStatus =
   | 'Identified'
   | 'Outreach'
@@ -47,6 +49,7 @@ export interface RenewalDto {
   policyId: string;
   currentStatus: RenewalStatus;
   lineOfBusiness: string | null;
+  lobAttributes: LobAttributeEnvelopeDto | null;
   policyExpirationDate: string;
   targetOutreachDate: string;
   assignedToUserId: string;
@@ -81,6 +84,11 @@ export interface RenewalCreateDto {
   policyId: string;
   assignedToUserId?: string | null;
   lineOfBusiness?: string | null;
+  lobAttributes?: LobAttributeEnvelopeDto | null;
+}
+
+export interface RenewalLobAttributesUpdateDto {
+  lobAttributes: LobAttributeEnvelopeDto | null;
 }
 
 export interface RenewalAssignmentRequestDto {

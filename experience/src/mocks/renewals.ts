@@ -4,6 +4,7 @@ import type {
   RenewalAssignmentRequestDto,
   RenewalCreateDto,
   RenewalDto,
+  RenewalLobAttributesUpdateDto,
   RenewalListItemDto,
   RenewalLostReasonCode,
   RenewalStatus,
@@ -41,6 +42,7 @@ interface MockRenewalRecord {
   lostReasonDetail: string | null;
   boundPolicyId: string | null;
   renewalSubmissionId: string | null;
+  lobAttributes: RenewalDto['lobAttributes'];
   rowVersion: number;
   createdAt: string;
   createdByUserId: string;
@@ -248,6 +250,7 @@ export function createRenewal(
     lostReasonDetail: null,
     boundPolicyId: null,
     renewalSubmissionId: null,
+    lobAttributes: dto.lobAttributes ?? null,
     rowVersion: 1,
     createdAt,
     createdByUserId: assignee.userId,
@@ -302,6 +305,42 @@ export function assignRenewal(
       renewal.timeline.length + 1,
       'RenewalAssigned',
       `Renewal assigned to ${assignee.displayName}.`,
+      'Sarah Chen',
+      renewal.updatedAt,
+    ),
+  );
+
+  return toDetail(renewal);
+}
+
+export function updateRenewalLobAttributes(
+  renewalId: string,
+  rowVersion: string | null,
+  dto: RenewalLobAttributesUpdateDto,
+): RenewalDto | MockMutationError | null {
+  const renewal = renewalState.find((record) => record.id === renewalId);
+  if (!renewal) return null;
+
+  const rowVersionError = validateRowVersion(renewal, rowVersion);
+  if (rowVersionError) return rowVersionError;
+
+  if (terminalStatuses.has(renewal.currentStatus)) {
+    return {
+      code: 'attributes_readonly',
+      detail: 'Completed and lost renewals cannot update product attributes.',
+    };
+  }
+
+  renewal.lobAttributes = dto.lobAttributes;
+  renewal.rowVersion += 1;
+  renewal.updatedAt = nextTimestamp();
+  renewal.updatedByUserId = renewal.assignedToUserId;
+  renewal.timeline.unshift(
+    buildTimelineEvent(
+      renewal.id,
+      renewal.timeline.length + 1,
+      'RenewalLobAttributesUpdated',
+      'Renewal Cyber attributes updated.',
       'Sarah Chen',
       renewal.updatedAt,
     ),
@@ -548,6 +587,7 @@ function createRenewalRecord({
     lostReasonDetail: null,
     boundPolicyId: null,
     renewalSubmissionId: null,
+    lobAttributes: null,
     rowVersion,
     createdAt,
     createdByUserId,
@@ -601,6 +641,7 @@ function toDetail(renewal: MockRenewalRecord): RenewalDto {
     policyId: renewal.policyId,
     currentStatus: renewal.currentStatus,
     lineOfBusiness: renewal.lineOfBusiness,
+    lobAttributes: renewal.lobAttributes,
     policyExpirationDate: renewal.policyExpirationDate,
     targetOutreachDate: renewal.targetOutreachDate,
     assignedToUserId: renewal.assignedToUserId,

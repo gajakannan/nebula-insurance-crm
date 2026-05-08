@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nebula.local/lob-schemas/cyber/1.0.0/data-schema.json",
+  "title": "Cyber Liability Attributes",
+  "type": "object",
+  "required": [
+    "revenueBand",
+    "recordsHeld",
+    "controls",
+    "requestedLimit",
+    "requestedRetention"
+  ],
+  "properties": {
+    "revenueBand": {
+      "type": "string",
+      "enum": ["0-10M", "10-50M", "50-250M", "250M+"]
+    },
+    "recordsHeld": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "controls": {
+      "type": "object",
+      "required": ["mfaEnabled", "edrEnabled", "backupEnabled", "trainingFrequency"],
+      "properties": {
+        "mfaEnabled": { "type": "boolean" },
+        "mfaMaturity": { "type": ["string", "null"], "enum": ["Implemented", "Partial", "Planned", null] },
+        "edrEnabled": { "type": "boolean" },
+        "backupEnabled": { "type": "boolean" },
+        "trainingFrequency": { "type": "string", "enum": ["Annual", "SemiAnnual", "Quarterly"] }
+      },
+      "additionalProperties": false
+    },
+    "requestedLimit": {
+      "type": "object",
+      "required": ["amountMinor", "currency"],
+      "properties": {
+        "amountMinor": { "type": "integer", "minimum": 1 },
+        "currency": { "type": "string", "enum": ["USD"] }
+      },
+      "additionalProperties": false
+    },
+    "requestedRetention": {
+      "type": "object",
+      "required": ["amountMinor", "currency"],
+      "properties": {
+        "amountMinor": { "type": "integer", "minimum": 0 },
+        "currency": { "type": "string", "enum": ["USD"] }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

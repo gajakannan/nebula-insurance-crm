@@ -13,6 +13,7 @@ public class PolicyService(
     ITimelineRepository timelineRepo,
     IWorkflowSlaThresholdRepository workflowSlaThresholdRepo,
     BrokerScopeResolver scopeResolver,
+    LobAttributeService lobAttributeService,
     IUnitOfWork unitOfWork)
 {
     private const string Pending = "Pending";
@@ -59,36 +60,40 @@ public class PolicyService(
         return await policyRepo.GetAccessibleByIdAsync(id, user, brokerScopeId, ct) is not null;
     }
 
-    public async Task<(PolicyDto? Dto, string? ErrorCode)> CreateAsync(
+    public async Task<(PolicyDto? Dto, string? ErrorCode, IReadOnlyList<LobValidationIssueDto>? LobErrors)> CreateAsync(
         PolicyCreateRequestDto dto,
         ICurrentUserService user,
         CancellationToken ct = default)
     {
         var account = await policyRepo.GetAccountByIdAsync(dto.AccountId, ct);
         if (account is null)
-            return (null, "invalid_account");
+            return (null, "invalid_account", null);
 
         var broker = await policyRepo.GetBrokerByIdAsync(dto.BrokerOfRecordId, ct);
         if (broker is null)
-            return (null, "invalid_broker");
+            return (null, "invalid_broker", null);
 
         var brokerScopeId = await ResolveBrokerScopeAsync(user, ct);
         if (!CanCreateForScope(account, broker, user, brokerScopeId))
-            return (null, "out_of_scope");
+            return (null, "out_of_scope", null);
 
         var carrier = await policyRepo.GetCarrierByIdAsync(dto.CarrierId, ct);
         if (carrier is null)
-            return (null, "invalid_carrier");
+            return (null, "invalid_carrier", null);
 
         if (dto.ProducerUserId.HasValue && !await policyRepo.ProducerExistsAsync(dto.ProducerUserId.Value, ct))
-            return (null, "invalid_producer");
+            return (null, "invalid_producer", null);
 
         if (dto.PredecessorPolicyId.HasValue)
         {
             var predecessor = await policyRepo.GetByIdWithRelationsAsync(dto.PredecessorPolicyId.Value, ct);
             if (predecessor is null || predecessor.AccountId != dto.AccountId || predecessor.CurrentStatus is not (Expired or Cancelled))
-                return (null, "invalid_predecessor");
+                return (null, "invalid_predecessor", null);
         }
+
+        var lobAttributes = await lobAttributeService.ValidateAndSerializeAsync(dto.LobAttributes, dto.LineOfBusiness, ct);
+        if (!lobAttributes.IsValid)
+            return (null, "lob_validation_failed", lobAttributes.Errors);
 
         var now = DateTime.UtcNow;
         var coverages = NormalizeCoverages(dto.Coverages);
@@ -121,7 +126,16 @@ public class PolicyService(
             UpdatedByUserId = user.UserId,
         };
 
-        var version = BuildVersion(policy, "IssuedInitial", null, coverages, null, now, user.UserId);
+        var version = BuildVersion(
+            policy,
+            "IssuedInitial",
+            null,
+            coverages,
+            null,
+            now,
+            user.UserId,
+            lobAttributes.RequiredAttributesJson,
+            lobAttributes.RequiredLobProductVersionId);
         policy.CurrentVersionId = version.Id;
 
         await policyRepo.AddAsync(policy, ct);
@@ -132,7 +146,7 @@ public class PolicyService(
 
         var created = await policyRepo.GetByIdWithRelationsAsync(policy.Id, ct)
             ?? throw new InvalidOperationException("Created policy could not be reloaded.");
-        return (await MapDtoAsync(created, user, ct), null);
+        return (await MapDtoAsync(created, user, ct), null, null);
     }
 
     public async Task<PolicyImportResultDto> ImportAsync(
@@ -146,7 +160,7 @@ public class PolicyService(
         for (var i = 0; i < dto.Policies.Count; i++)
         {
             var request = dto.Policies[i] with { ImportMode = "csv-import" };
-            var (created, error) = await CreateAsync(request, user, ct);
+            var (created, error, _) = await CreateAsync(request, user, ct);
             if (error is null && created is not null)
                 accepted.Add(created);
             else
@@ -156,7 +170,7 @@ public class PolicyService(
         return new PolicyImportResultDto(accepted, rejected);
     }
 
-    public async Task<(PolicyDto? Dto, string? ErrorCode)> UpdateAsync(
+    public async Task<(PolicyDto? Dto, string? ErrorCode, IReadOnlyList<LobValidationIssueDto>? LobErrors)> UpdateAsync(
         Guid id,
         PolicyUpdateRequestDto dto,
         uint expectedRowVersion,
@@ -165,28 +179,43 @@ public class PolicyService(
     {
         var policy = await GetAccessibleByIdForUpdateAsync(id, user, ct);
         if (policy is null)
-            return (null, "not_found");
+            return (null, "not_found", null);
 
         if (policy.RowVersion != expectedRowVersion)
-            return (null, "precondition_failed");
+            return (null, "precondition_failed", null);
 
         var materialChange =
             (dto.LineOfBusiness is not null && dto.LineOfBusiness != policy.LineOfBusiness)
             || (dto.CarrierId.HasValue && dto.CarrierId.Value != policy.CarrierId)
             || (dto.EffectiveDate.HasValue && dto.EffectiveDate.Value.Date != policy.EffectiveDate.Date)
             || (dto.ExpirationDate.HasValue && dto.ExpirationDate.Value.Date != policy.ExpirationDate.Date)
-            || (dto.TotalPremium.HasValue && dto.TotalPremium.Value != policy.TotalPremium);
+            || (dto.TotalPremium.HasValue && dto.TotalPremium.Value != policy.TotalPremium)
+            || dto.LobAttributes is not null;
 
         if (policy.CurrentStatus != Pending && materialChange)
-            return (null, "must_use_endorse");
+            return (null, "must_use_endorse", null);
 
         if (dto.CarrierId.HasValue && await policyRepo.GetCarrierByIdAsync(dto.CarrierId.Value, ct) is null)
-            return (null, "invalid_carrier");
+            return (null, "invalid_carrier", null);
 
         if (dto.ProducerUserId.HasValue && !await policyRepo.ProducerExistsAsync(dto.ProducerUserId.Value, ct))
-            return (null, "invalid_producer");
+            return (null, "invalid_producer", null);
 
-        policy.LineOfBusiness = dto.LineOfBusiness ?? policy.LineOfBusiness;
+        var targetLineOfBusiness = dto.LineOfBusiness ?? policy.LineOfBusiness;
+        PolicyVersion? currentVersion = null;
+        LobAttributeStorageResult? lobAttributes = null;
+        if (dto.LobAttributes is not null)
+        {
+            lobAttributes = await lobAttributeService.ValidateAndSerializeAsync(dto.LobAttributes, targetLineOfBusiness, ct);
+            if (!lobAttributes.IsValid)
+                return (null, "lob_validation_failed", lobAttributes.Errors);
+
+            currentVersion = await policyRepo.GetCurrentVersionForUpdateAsync(policy.Id, policy.CurrentVersionId, ct);
+            if (currentVersion is null)
+                return (null, "not_found", null);
+        }
+
+        policy.LineOfBusiness = targetLineOfBusiness;
         policy.CarrierId = dto.CarrierId ?? policy.CarrierId;
         policy.EffectiveDate = dto.EffectiveDate?.Date ?? policy.EffectiveDate;
         policy.ExpirationDate = dto.ExpirationDate?.Date ?? policy.ExpirationDate;
@@ -196,18 +225,45 @@ public class PolicyService(
         policy.UpdatedAt = DateTime.UtcNow;
         policy.UpdatedByUserId = user.UserId;
 
+        if (lobAttributes is not null && currentVersion is not null)
+        {
+            currentVersion.LineOfBusiness = targetLineOfBusiness;
+            currentVersion.LobProductVersionId = lobAttributes.RequiredLobProductVersionId;
+            currentVersion.LobAttributesJson = lobAttributes.RequiredAttributesJson;
+            currentVersion.UpdatedAt = policy.UpdatedAt;
+            currentVersion.UpdatedByUserId = user.UserId;
+
+            await timelineRepo.AddEventAsync(new ActivityTimelineEvent
+            {
+                EntityType = EntityType,
+                EntityId = policy.Id,
+                EventType = "PolicyLobAttributesUpdated",
+                EventDescription = $"Policy {policy.PolicyNumber} Cyber attributes updated",
+                ActorUserId = user.UserId,
+                ActorDisplayName = user.DisplayName,
+                OccurredAt = policy.UpdatedAt,
+                EventPayloadJson = JsonSerializer.Serialize(new
+                {
+                    policy.Id,
+                    policy.PolicyNumber,
+                    policy.LineOfBusiness,
+                    lobProductVersionId = currentVersion.LobProductVersionId,
+                }),
+            }, ct);
+        }
+
         try
         {
             await unitOfWork.CommitAsync(ct);
         }
         catch (DbUpdateConcurrencyException)
         {
-            return (null, "precondition_failed");
+            return (null, "precondition_failed", null);
         }
 
         var updated = await policyRepo.GetByIdWithRelationsAsync(id, ct)
             ?? throw new InvalidOperationException("Updated policy could not be reloaded.");
-        return (await MapDtoAsync(updated, user, ct), null);
+        return (await MapDtoAsync(updated, user, ct), null, null);
     }
 
     public async Task<(PolicyDto? Dto, string? ErrorCode)> IssueAsync(
@@ -240,7 +296,7 @@ public class PolicyService(
         return (await MapDtoAsync(updated, user, ct), null);
     }
 
-    public async Task<(PolicyEndorsementDto? Dto, string? ErrorCode)> EndorseAsync(
+    public async Task<(PolicyEndorsementDto? Dto, string? ErrorCode, IReadOnlyList<LobValidationIssueDto>? LobErrors)> EndorseAsync(
         Guid id,
         PolicyEndorsementRequestDto dto,
         uint expectedRowVersion,
@@ -249,16 +305,26 @@ public class PolicyService(
     {
         var policy = await GetAccessibleByIdForUpdateAsync(id, user, ct);
         if (policy is null)
-            return (null, "not_found");
+            return (null, "not_found", null);
         if (policy.RowVersion != expectedRowVersion)
-            return (null, "precondition_failed");
+            return (null, "precondition_failed", null);
         if (policy.CurrentStatus != Issued)
-            return (null, "invalid_transition");
+            return (null, "invalid_transition", null);
         if (dto.EffectiveDate.Date < policy.EffectiveDate.Date || dto.EffectiveDate.Date > policy.ExpirationDate.Date)
-            return (null, "invalid_effective_date");
+            return (null, "invalid_effective_date", null);
 
         var now = DateTime.UtcNow;
         var coverages = NormalizeCoverages(dto.Coverages);
+        var currentVersion = await policyRepo.GetCurrentVersionAsync(policy.Id, policy.CurrentVersionId, ct);
+        var lobAttributes = dto.LobAttributes is not null
+            ? await lobAttributeService.ValidateAndSerializeAsync(dto.LobAttributes, policy.LineOfBusiness, ct)
+            : new LobAttributeStorageResult(
+                currentVersion?.LobAttributesJson ?? LobSchemaDefaults.EmptyAttributesJson,
+                currentVersion?.LobProductVersionId ?? LobSchemaDefaults.ResolveDefaultProductVersionId(policy.LineOfBusiness),
+                []);
+        if (!lobAttributes.IsValid)
+            return (null, "lob_validation_failed", lobAttributes.Errors);
+
         var previousPremium = policy.TotalPremium;
         var newPremium = coverages.Sum(coverage => coverage.Premium);
         var premiumDelta = dto.PremiumDelta ?? newPremium - previousPremium;
@@ -269,6 +335,9 @@ public class PolicyService(
             EndorsementReasonCode = dto.EndorsementReasonCode,
             EndorsementReasonDetail = dto.EndorsementReasonDetail,
             EffectiveDate = dto.EffectiveDate.Date,
+            LineOfBusiness = policy.LineOfBusiness,
+            LobProductVersionId = lobAttributes.RequiredLobProductVersionId,
+            LobAttributesJson = lobAttributes.RequiredAttributesJson,
             PremiumDelta = premiumDelta,
             PremiumCurrency = policy.PremiumCurrency,
             CreatedAt = now,
@@ -276,7 +345,17 @@ public class PolicyService(
             UpdatedAt = now,
             UpdatedByUserId = user.UserId,
         };
-        var version = await BuildNextVersionAsync(policy, "Endorsement", endorsement.Id, coverages, premiumDelta, now, user.UserId, ct);
+        var version = await BuildNextVersionAsync(
+            policy,
+            "Endorsement",
+            endorsement.Id,
+            coverages,
+            premiumDelta,
+            now,
+            user.UserId,
+            ct,
+            lobAttributes.RequiredAttributesJson,
+            lobAttributes.RequiredLobProductVersionId);
         endorsement.PolicyVersionId = version.Id;
         policy.CurrentVersionId = version.Id;
         policy.TotalPremium = newPremium;
@@ -308,7 +387,7 @@ public class PolicyService(
         }, ct);
         await CommitPolicyChangeAsync(ct);
 
-        return (MapEndorsement(endorsement, version.VersionNumber), null);
+        return (MapEndorsement(endorsement, version.VersionNumber), null, null);
     }
 
     public async Task<(PolicyDto? Dto, string? ErrorCode)> CancelAsync(
@@ -367,6 +446,7 @@ public class PolicyService(
 
         var now = DateTime.UtcNow;
         var currentCoverage = await policyRepo.ListCurrentCoverageLinesAsync(policy.Id, ct);
+        var currentVersion = await policyRepo.GetCurrentVersionAsync(policy.Id, policy.CurrentVersionId, ct);
         var coverages = currentCoverage.Select(line => new PolicyCoverageInputDto(
             line.CoverageCode,
             line.CoverageName,
@@ -375,7 +455,17 @@ public class PolicyService(
             line.Premium,
             line.ExposureBasis,
             line.ExposureQuantity)).ToList();
-        var version = await BuildNextVersionAsync(policy, "Reinstatement", null, coverages, null, now, user.UserId, ct);
+        var version = await BuildNextVersionAsync(
+            policy,
+            "Reinstatement",
+            null,
+            coverages,
+            null,
+            now,
+            user.UserId,
+            ct,
+            currentVersion?.LobAttributesJson,
+            currentVersion?.LobProductVersionId);
         policy.CurrentVersionId = version.Id;
         policy.CurrentStatus = Issued;
         policy.CancelledAt = null;
@@ -612,6 +702,7 @@ public class PolicyService(
     {
         var versionCount = await policyRepo.CountVersionsAsync(policy.Id, ct);
         var successor = await policyRepo.GetSuccessorPolicyAsync(policy.Id, ct);
+        var currentVersion = await policyRepo.GetCurrentVersionAsync(policy.Id, policy.CurrentVersionId, ct);
 
         return new PolicyDto(
             policy.Id,
@@ -619,6 +710,7 @@ public class PolicyService(
             policy.BrokerId,
             policy.PolicyNumber,
             policy.LineOfBusiness,
+            lobAttributeService.Deserialize(currentVersion?.LobAttributesJson),
             policy.CarrierId,
             policy.Carrier?.Name,
             policy.CurrentStatus,
@@ -714,7 +806,9 @@ public class PolicyService(
         IReadOnlyList<PolicyCoverageInputDto> coverages,
         decimal? premiumDelta,
         DateTime now,
-        Guid actorUserId)
+        Guid actorUserId,
+        string? lobAttributesJson = null,
+        Guid? lobProductVersionId = null)
     {
         var totalPremium = coverages.Count == 0 ? policy.TotalPremium : coverages.Sum(coverage => coverage.Premium);
         var versionNumber = policy.CurrentVersionId.HasValue ? 2 : 1;
@@ -726,6 +820,9 @@ public class PolicyService(
             EndorsementId = endorsementId,
             EffectiveDate = policy.EffectiveDate,
             ExpirationDate = policy.ExpirationDate,
+            LineOfBusiness = policy.LineOfBusiness,
+            LobProductVersionId = lobProductVersionId ?? LobSchemaDefaults.ResolveDefaultProductVersionId(policy.LineOfBusiness),
+            LobAttributesJson = lobAttributesJson ?? LobSchemaDefaults.EmptyAttributesJson,
             TotalPremium = totalPremium,
             PremiumCurrency = policy.PremiumCurrency,
             ProfileSnapshotJson = JsonSerializer.Serialize(new
@@ -757,9 +854,11 @@ public class PolicyService(
         decimal? premiumDelta,
         DateTime now,
         Guid actorUserId,
-        CancellationToken ct)
+        CancellationToken ct,
+        string? lobAttributesJson = null,
+        Guid? lobProductVersionId = null)
     {
-        var version = BuildVersion(policy, reason, endorsementId, coverages, premiumDelta, now, actorUserId);
+        var version = BuildVersion(policy, reason, endorsementId, coverages, premiumDelta, now, actorUserId, lobAttributesJson, lobProductVersionId);
         version.VersionNumber = await policyRepo.CountVersionsAsync(policy.Id, ct) + 1;
         return version;
     }
@@ -798,6 +897,8 @@ public class PolicyService(
         version.EndorsementId,
         version.EffectiveDate,
         version.ExpirationDate,
+        version.LineOfBusiness,
+        DeserializeLobAttributes(version.LobAttributesJson),
         version.TotalPremium,
         version.PremiumCurrency,
         DeserializeJson(version.ProfileSnapshotJson),
@@ -815,6 +916,8 @@ public class PolicyService(
         endorsement.EndorsementReasonCode,
         endorsement.EndorsementReasonDetail,
         endorsement.EffectiveDate,
+        endorsement.LineOfBusiness,
+        DeserializeLobAttributes(endorsement.LobAttributesJson),
         endorsement.PremiumDelta,
         endorsement.PremiumCurrency,
         endorsement.CreatedAt,
@@ -838,6 +941,11 @@ public class PolicyService(
 
     private static object? DeserializeJson(string json) =>
         JsonSerializer.Deserialize<JsonElement>(json);
+
+    private static LobAttributeEnvelopeDto? DeserializeLobAttributes(string? json)
+    {
+        return LobAttributeService.DeserializeEnvelope(json);
+    }
 
     private static IReadOnlyList<string> AvailableTransitions(Policy policy, ICurrentUserService user)
     {

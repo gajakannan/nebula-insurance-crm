@@ -1,0 +1,18 @@
+{
+  "$schema": "https://nebula.local/lob-schemas/rules.json",
+  "rules": [
+    {
+      "id": "mfa_required_for_high_record_count",
+      "severity": "error",
+      "when": "recordsHeld >= 1000000",
+      "path": "controls.mfaEnabled",
+      "message": "MFA is required when recordsHeld is at least 1,000,000."
+    },
+    {
+      "id": "minimum_retention_not_met",
+      "severity": "error",
+      "when": "requestedRetention.amountMinor < requestedLimit.amountMinor / 100",
+      "message": "requestedRetention must be at least 1% of requestedLimit."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://nebula.local/lob-schemas/ui-schema.json",
+  "sections": [
+    {
+      "id": "exposure",
+      "title": "Exposure",
+      "fields": ["revenueBand", "recordsHeld"]
+    },
+    {
+      "id": "controls",
+      "title": "Controls",
+      "fields": ["controls.mfaEnabled", "controls.mfaMaturity", "controls.edrEnabled", "controls.backupEnabled", "controls.trainingFrequency"]
+    },
+    {
+      "id": "terms",
+      "title": "Requested Terms",
+      "fields": ["requestedLimit", "requestedRetention"]
+    }
+  ],
+  "fieldLabels": {
+    "revenueBand": "Revenue band",
+    "recordsHeld": "Records held",
+    "controls": "Security controls",
+    "controls.mfaEnabled": "MFA enabled",
+    "controls.mfaMaturity": "MFA maturity",
+    "controls.edrEnabled": "EDR enabled",
+    "controls.backupEnabled": "Offline backups",
+    "controls.trainingFrequency": "Training frequency",
+    "requestedLimit": "Requested limit",
+    "requestedRetention": "Requested retention"
+  }
+}

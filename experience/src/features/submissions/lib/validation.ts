@@ -71,6 +71,9 @@ export function describeSubmissionApiError(error: unknown): string {
       return 'The selected program is invalid.';
     case 'invalid_lob':
       return 'The selected line of business is invalid.';
+    case 'lob_validation_failed':
+      return error.problem?.lobErrors?.[0]?.message
+        ?? 'LOB attributes do not satisfy the active product schema bundle.';
     case 'invalid_assignee':
       return error.problem?.detail ?? 'The selected assignee is invalid.';
     case 'missing_transition_prerequisite':

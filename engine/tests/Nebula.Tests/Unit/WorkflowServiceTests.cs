@@ -210,7 +210,7 @@ public class WorkflowServiceTests
         var service = CreateSubmissionService(repo, assignee);
         var seeded = repo.Single();
 
-        var (result, error) = await service.UpdateAsync(
+        var (result, error, _) = await service.UpdateAsync(
             seeded.Id,
             new SubmissionUpdateDto(null, null, null, null, null, null),
             Fields("programId", "lineOfBusiness", "expirationDate", "premiumEstimate", "description"),
@@ -268,7 +268,7 @@ public class WorkflowServiceTests
         var seeded = repo.Single();
         var updatedEffectiveDate = seeded.EffectiveDate.AddDays(10);
 
-        var (result, error) = await service.UpdateAsync(
+        var (result, error, _) = await service.UpdateAsync(
             seeded.Id,
             new SubmissionUpdateDto(null, null, updatedEffectiveDate, null, null, null),
             Fields("effectiveDate"),
@@ -480,6 +480,7 @@ public class WorkflowServiceTests
             new StubReferenceDataRepository(),
             userProfileRepo,
             new StubSubmissionDocumentChecklistReader(),
+            new LobAttributeService(new StubLobSchemaRepository()),
             _unitOfWork);
     }
 
@@ -490,11 +491,13 @@ public class WorkflowServiceTests
 
         return new RenewalService(
             repo,
+            new StubPolicyRepository(),
             _transitionRepo,
             _timelineRepo,
             new StubReferenceDataRepository(),
             userProfileRepo,
             new StubWorkflowSlaThresholdRepository(),
+            new LobAttributeService(new StubLobSchemaRepository()),
             _unitOfWork);
     }
 
@@ -686,6 +689,117 @@ internal sealed class StubReferenceDataRepository : IReferenceDataRepository
     public Task<Policy?> GetPolicyByIdAsync(Guid id, CancellationToken ct = default) => Task.FromResult(_policies.GetValueOrDefault(id));
     public Task<Nebula.Domain.Entities.Program?> GetProgramByIdAsync(Guid id, CancellationToken ct = default) =>
         Task.FromResult<Nebula.Domain.Entities.Program?>(null);
+}
+
+internal sealed class StubPolicyRepository : IPolicyRepository
+{
+    public Task<PaginatedResult<Policy>> ListAsync(PolicyListQuery query, Guid? brokerScopeId, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<Policy?> GetAccessibleByIdAsync(Guid id, ICurrentUserService user, Guid? brokerScopeId, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<Policy?> GetByIdForUpdateAsync(Guid id, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<Policy?> GetByIdWithRelationsAsync(Guid id, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<Account?> GetAccountByIdAsync(Guid id, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<Broker?> GetBrokerByIdAsync(Guid id, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<CarrierRef?> GetCarrierByIdAsync(Guid id, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<bool> AccountExistsAsync(Guid id, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<bool> BrokerExistsAsync(Guid id, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<bool> ProducerExistsAsync(Guid id, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task AddAsync(Policy policy, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task AddVersionAsync(PolicyVersion version, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task AddEndorsementAsync(PolicyEndorsement endorsement, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task AddCoverageLinesAsync(IEnumerable<PolicyCoverageLine> coverageLines, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task SetCoverageCurrentAsync(Guid policyId, Guid policyVersionId, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<PaginatedResult<PolicyVersion>> ListVersionsAsync(Guid policyId, int page, int pageSize, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<PolicyVersion?> GetCurrentVersionAsync(Guid policyId, Guid? currentVersionId, CancellationToken ct = default) =>
+        Task.FromResult<PolicyVersion?>(null);
+
+    public Task<PolicyVersion?> GetCurrentVersionForUpdateAsync(Guid policyId, Guid? currentVersionId, CancellationToken ct = default) =>
+        Task.FromResult<PolicyVersion?>(null);
+
+    public Task<PolicyVersion?> GetVersionAsync(Guid policyId, Guid versionId, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<PaginatedResult<PolicyEndorsement>> ListEndorsementsAsync(Guid policyId, int page, int pageSize, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<IReadOnlyList<PolicyCoverageLine>> ListCurrentCoverageLinesAsync(Guid policyId, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<PolicyAccountSummaryDto?> GetAccountSummaryAsync(Guid accountId, ICurrentUserService user, Guid? brokerScopeId, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<int> CountPoliciesForYearAsync(int year, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<int> CountVersionsAsync(Guid policyId, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<int> CountEndorsementsAsync(Guid policyId, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<int> CountCurrentCoverageLinesAsync(Guid policyId, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<int> CountOpenRenewalsAsync(Guid policyId, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<Policy?> GetSuccessorPolicyAsync(Guid policyId, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+
+    public Task<IReadOnlyList<Policy>> ListIssuedPoliciesExpiredBeforeAsync(DateTime today, int maxBatchSize, CancellationToken ct = default) =>
+        throw new NotSupportedException();
+}
+
+internal sealed class StubLobSchemaRepository : ILobSchemaRepository
+{
+    public Task<IReadOnlyList<LobSchemaBundle>> ListBundlesAsync(string? productKey, string? lineOfBusiness, bool activeOnly, CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<LobSchemaBundle>>([]);
+
+    public Task<LobSchemaBundle?> GetBundleByIdAsync(Guid bundleId, bool track, CancellationToken ct = default) =>
+        Task.FromResult<LobSchemaBundle?>(null);
+
+    public Task<LobSchemaBundle?> GetBundleByProductVersionIdAsync(Guid productVersionId, bool track, CancellationToken ct = default) =>
+        Task.FromResult<LobSchemaBundle?>(null);
+
+    public Task<LobSchemaBundle?> GetActiveBundleAsync(string productKey, string productVersion, string schemaVersion, string? lineOfBusiness, CancellationToken ct = default) =>
+        Task.FromResult<LobSchemaBundle?>(null);
+
+    public Task DeactivateActiveBundlesAsync(Guid productVersionId, Guid exceptBundleId, DateTime now, Guid actorUserId, CancellationToken ct = default) =>
+        Task.CompletedTask;
+
+    public Task AddActivationEventAsync(LobBundleActivationEvent activationEvent, CancellationToken ct = default) =>
+        Task.CompletedTask;
 }
 
 internal sealed class StubWorkflowSlaThresholdRepository : IWorkflowSlaThresholdRepository

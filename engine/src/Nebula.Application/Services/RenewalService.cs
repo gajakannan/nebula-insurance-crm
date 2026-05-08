@@ -10,11 +10,13 @@ namespace Nebula.Application.Services;
 
 public class RenewalService(
     IRenewalRepository renewalRepo,
+    IPolicyRepository policyRepo,
     IWorkflowTransitionRepository transitionRepo,
     ITimelineRepository timelineRepo,
     IReferenceDataRepository referenceDataRepo,
     IUserProfileRepository userProfileRepo,
     IWorkflowSlaThresholdRepository workflowSlaThresholdRepo,
+    LobAttributeService lobAttributeService,
     IUnitOfWork unitOfWork)
 {
     public async Task<PaginatedResult<RenewalListItemDto>> ListAsync(
@@ -55,37 +57,47 @@ public class RenewalService(
         return transitions.Select(MapTransition).ToList();
     }
 
-    public async Task<(RenewalDto? Dto, string? ErrorCode, string? ErrorDetail)> CreateAsync(
+    public async Task<(RenewalDto? Dto, string? ErrorCode, string? ErrorDetail, IReadOnlyList<LobValidationIssueDto>? LobErrors)> CreateAsync(
         RenewalCreateDto dto,
         ICurrentUserService user,
         CancellationToken ct = default)
     {
         var policy = await referenceDataRepo.GetPolicyByIdAsync(dto.PolicyId, ct);
         if (policy is null)
-            return (null, "not_found", null);
+            return (null, "not_found", null, null);
 
         if (!CanCreateRenewal(user, policy))
-            return (null, "policy_denied", null);
+            return (null, "policy_denied", null, null);
 
         if (await renewalRepo.HasActiveRenewalForPolicyAsync(dto.PolicyId, ct))
-            return (null, "duplicate_renewal", null);
+            return (null, "duplicate_renewal", null, null);
         if (IsTerminalAccountState(policy.Account.Status))
-            return (null, "policy_denied", "Renewals cannot be created from merged or deleted accounts.");
+            return (null, "policy_denied", "Renewals cannot be created from merged or deleted accounts.", null);
 
         var assigneeId = dto.AssignedToUserId ?? user.UserId;
         var assignee = await ResolveAssigneeAsync(assigneeId, user, ct);
         if (assignee.ErrorCode is not null)
-            return (null, assignee.ErrorCode, assignee.ErrorDetail);
+            return (null, assignee.ErrorCode, assignee.ErrorDetail, null);
 
         var assigneeProfile = assignee.Profile
             ?? throw new InvalidOperationException("Resolved assignee profile was unexpectedly null.");
 
         if (!CanOwnRenewalStage(assigneeProfile, "Identified"))
         {
-            return (null, "invalid_assignee_role", "Target user does not have the required role for this renewal stage.");
+            return (null, "invalid_assignee_role", "Target user does not have the required role for this renewal stage.", null);
         }
 
         var lineOfBusiness = dto.LineOfBusiness ?? policy.LineOfBusiness;
+        var currentVersion = await policyRepo.GetCurrentVersionAsync(policy.Id, policy.CurrentVersionId, ct);
+        var lobAttributes = dto.LobAttributes is not null
+            ? await lobAttributeService.ValidateAndSerializeAsync(dto.LobAttributes, lineOfBusiness, ct)
+            : new LobAttributeStorageResult(
+                currentVersion?.LobAttributesJson ?? LobSchemaDefaults.EmptyAttributesJson,
+                currentVersion?.LobProductVersionId ?? LobSchemaDefaults.ResolveDefaultProductVersionId(lineOfBusiness),
+                []);
+        if (!lobAttributes.IsValid)
+            return (null, "lob_validation_failed", null, lobAttributes.Errors);
+
         var identifiedThreshold = await workflowSlaThresholdRepo.GetThresholdAsync("renewal", "Identified", lineOfBusiness, ct);
         var targetDays = identifiedThreshold?.TargetDays ?? 90;
         var now = DateTime.UtcNow;
@@ -97,6 +109,8 @@ public class RenewalService(
             PolicyId = policy.Id,
             CurrentStatus = "Identified",
             LineOfBusiness = lineOfBusiness,
+            LobProductVersionId = lobAttributes.RequiredLobProductVersionId,
+            LobAttributesJson = lobAttributes.RequiredAttributesJson,
             PolicyExpirationDate = policy.ExpirationDate,
             TargetOutreachDate = policy.ExpirationDate.AddDays(-targetDays),
             AssignedToUserId = assigneeProfile.Id,
@@ -138,6 +152,7 @@ public class RenewalService(
                 brokerId = policy.BrokerId,
                 brokerName = policy.Broker.LegalName,
                 lineOfBusiness,
+                lobProductVersionId = renewal.LobProductVersionId,
                 assignedToUserId = assigneeProfile.Id,
                 assignedToDisplayName = assigneeProfile.DisplayName,
             }),
@@ -148,7 +163,7 @@ public class RenewalService(
         var created = await renewalRepo.GetByIdWithRelationsAsync(renewal.Id, ct)
             ?? throw new InvalidOperationException("Created renewal could not be reloaded.");
 
-        return (await MapDetailAsync(created, user, ct), null, null);
+        return (await MapDetailAsync(created, user, ct), null, null, null);
     }
 
     public async Task<(WorkflowTransitionRecordDto? Dto, string? ErrorCode, IReadOnlyList<string>? MissingItems)> TransitionAsync(
@@ -333,6 +348,71 @@ public class RenewalService(
         return (await MapDetailAsync(updated, user, ct), null, null);
     }
 
+    public async Task<(RenewalDto? Dto, string? ErrorCode, IReadOnlyList<LobValidationIssueDto>? LobErrors)> UpdateLobAttributesAsync(
+        Guid renewalId,
+        RenewalLobAttributesUpdateDto dto,
+        uint expectedRowVersion,
+        ICurrentUserService user,
+        CancellationToken ct = default)
+    {
+        var renewal = await renewalRepo.GetByIdWithRelationsAsync(renewalId, ct);
+        if (renewal is null || !CanReadRenewal(user, renewal))
+            return (null, "not_found", null);
+
+        if (renewal.RowVersion != expectedRowVersion)
+            return (null, "precondition_failed", null);
+
+        if (WorkflowStateMachine.IsTerminalState("Renewal", renewal.CurrentStatus))
+            return (null, "attributes_readonly", null);
+
+        if (!CanUpdateRenewalAttributes(user, renewal))
+            return (null, "policy_denied", null);
+
+        var lobAttributes = await lobAttributeService.ValidateAndSerializeAsync(dto.LobAttributes, renewal.LineOfBusiness, ct);
+        if (!lobAttributes.IsValid)
+            return (null, "lob_validation_failed", lobAttributes.Errors);
+
+        var now = DateTime.UtcNow;
+        renewal.LobProductVersionId = lobAttributes.RequiredLobProductVersionId;
+        renewal.LobAttributesJson = lobAttributes.RequiredAttributesJson;
+        renewal.UpdatedAt = now;
+        renewal.UpdatedByUserId = user.UserId;
+        renewal.RowVersion = expectedRowVersion;
+
+        await renewalRepo.UpdateAsync(renewal, ct);
+        await timelineRepo.AddEventAsync(new ActivityTimelineEvent
+        {
+            EntityType = "Renewal",
+            EntityId = renewal.Id,
+            EventType = "RenewalLobAttributesUpdated",
+            EventDescription = $"Renewal Cyber attributes updated for policy {renewal.Policy.PolicyNumber}",
+            ActorUserId = user.UserId,
+            ActorDisplayName = user.DisplayName,
+            OccurredAt = now,
+            EventPayloadJson = JsonSerializer.Serialize(new
+            {
+                renewal.Id,
+                renewal.PolicyId,
+                renewal.LineOfBusiness,
+                lobProductVersionId = renewal.LobProductVersionId,
+            }),
+        }, ct);
+
+        try
+        {
+            await unitOfWork.CommitAsync(ct);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return (null, "precondition_failed", null);
+        }
+
+        var updated = await renewalRepo.GetByIdWithRelationsAsync(renewal.Id, ct)
+            ?? throw new InvalidOperationException("Updated renewal could not be reloaded.");
+
+        return (await MapDetailAsync(updated, user, ct), null, null);
+    }
+
     private async Task<RenewalListItemDto> MapListItemAsync(Renewal renewal, CancellationToken ct)
     {
         var urgency = await ComputeUrgencyAsync(renewal.CurrentStatus, renewal.PolicyExpirationDate, renewal.LineOfBusiness, ct);
@@ -374,6 +454,7 @@ public class RenewalService(
             renewal.PolicyId,
             renewal.CurrentStatus,
             renewal.LineOfBusiness,
+            lobAttributeService.Deserialize(renewal.LobAttributesJson),
             renewal.PolicyExpirationDate,
             renewal.TargetOutreachDate,
             renewal.AssignedToUserId,
@@ -503,6 +584,22 @@ public class RenewalService(
             return true;
 
         return HasRole(user, "ProgramManager");
+    }
+
+    private static bool CanUpdateRenewalAttributes(ICurrentUserService user, Renewal renewal)
+    {
+        if (HasRole(user, "Admin"))
+            return true;
+
+        return renewal.CurrentStatus switch
+        {
+            "Identified" or "Outreach" =>
+                HasRole(user, "DistributionManager")
+                || (HasRole(user, "DistributionUser") && renewal.AssignedToUserId == user.UserId),
+            "InReview" or "Quoted" =>
+                HasRole(user, "Underwriter") && renewal.AssignedToUserId == user.UserId,
+            _ => false,
+        };
     }
 
     private static bool CanCreateRenewal(ICurrentUserService user, Policy policy)

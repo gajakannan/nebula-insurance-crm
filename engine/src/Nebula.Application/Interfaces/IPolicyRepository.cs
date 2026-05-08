@@ -22,6 +22,8 @@ public interface IPolicyRepository
     Task AddCoverageLinesAsync(IEnumerable<PolicyCoverageLine> coverageLines, CancellationToken ct = default);
     Task SetCoverageCurrentAsync(Guid policyId, Guid policyVersionId, CancellationToken ct = default);
     Task<PaginatedResult<PolicyVersion>> ListVersionsAsync(Guid policyId, int page, int pageSize, CancellationToken ct = default);
+    Task<PolicyVersion?> GetCurrentVersionAsync(Guid policyId, Guid? currentVersionId, CancellationToken ct = default);
+    Task<PolicyVersion?> GetCurrentVersionForUpdateAsync(Guid policyId, Guid? currentVersionId, CancellationToken ct = default);
     Task<PolicyVersion?> GetVersionAsync(Guid policyId, Guid versionId, CancellationToken ct = default);
     Task<PaginatedResult<PolicyEndorsement>> ListEndorsementsAsync(Guid policyId, int page, int pageSize, CancellationToken ct = default);
     Task<IReadOnlyList<PolicyCoverageLine>> ListCurrentCoverageLinesAsync(Guid policyId, CancellationToken ct = default);

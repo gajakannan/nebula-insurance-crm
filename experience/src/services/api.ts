@@ -12,6 +12,12 @@ interface ProblemDetails {
   code?: string
   traceId?: string
   errors?: Record<string, string[]>
+  lobErrors?: Array<{
+    code: string
+    path: string
+    message: string
+    severity: string
+  }>
 }
 
 export class ApiError extends Error {

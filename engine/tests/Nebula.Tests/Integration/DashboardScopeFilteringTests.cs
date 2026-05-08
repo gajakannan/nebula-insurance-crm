@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Nebula.Application.DTOs;
+using Nebula.Application.Services;
 using Nebula.Domain.Entities;
 using Nebula.Infrastructure.Persistence;
 using OpportunityProgram = Nebula.Domain.Entities.Program;
@@ -226,7 +227,7 @@ public class DashboardScopeFilteringTests : IClassFixture<CustomWebApplicationFa
         AddScopeSubmissionIfMissing(db, ScopeSubmissionDistributionManagerId, ScopeAccountWestId, ScopeBrokerWestId, ScopeOtherProgramId, OtherUserId, "CommercialAuto", now.AddDays(-4));
         AddScopeSubmissionIfMissing(db, ScopeSubmissionUnderwriterId, ScopeAccountEastId, ScopeBrokerEastId, ScopeOtherProgramId, UnderwriterId, "Cyber", now.AddDays(-3));
         AddScopeSubmissionIfMissing(db, ScopeSubmissionRelationshipManagerId, ScopeAccountWestId, ScopeBrokerWestId, ScopeOtherProgramId, OtherUserId, "GeneralLiability", now.AddDays(-2));
-        AddScopeSubmissionIfMissing(db, ScopeSubmissionProgramManagerId, ScopeAccountEastId, ScopeBrokerEastId, ScopeManagedProgramId, OtherUserId, "WorkersComp", now.AddDays(-1));
+        AddScopeSubmissionIfMissing(db, ScopeSubmissionProgramManagerId, ScopeAccountEastId, ScopeBrokerEastId, ScopeManagedProgramId, OtherUserId, "WorkersCompensation", now.AddDays(-1));
 
         await db.SaveChangesAsync();
     }
@@ -314,6 +315,8 @@ public class DashboardScopeFilteringTests : IClassFixture<CustomWebApplicationFa
             EffectiveDate = DateTime.UtcNow.Date,
             PremiumEstimate = 250000m,
             AssignedToUserId = assignedToUserId,
+            LobProductVersionId = LobSchemaDefaults.ResolveDefaultProductVersionId(lineOfBusiness),
+            LobAttributesJson = LobSchemaDefaults.EmptyAttributesJson,
             AccountDisplayNameAtLink = account.StableDisplayName,
             AccountStatusAtRead = account.Status,
             AccountSurvivorId = account.MergedIntoAccountId,

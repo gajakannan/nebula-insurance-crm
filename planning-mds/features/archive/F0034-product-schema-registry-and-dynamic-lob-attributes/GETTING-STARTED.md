@@ -3,7 +3,7 @@
 ## Planning Context
 
 - Product root: `/mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm`
-- Feature path: `planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/`
+- Feature path: `planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/`
 - Current mode: greenfield plan over an existing draft folder
 - Run id: `e726ab45-2563-442f-a360-c3173e66621b`
 
@@ -46,7 +46,7 @@
 Run these from `nebula-agents`:
 
 ```bash
-python3 agents/product-manager/scripts/validate-stories.py /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes
+python3 agents/product-manager/scripts/validate-stories.py /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes
 python3 agents/product-manager/scripts/generate-story-index.py /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/planning-mds/features/
 python3 agents/product-manager/scripts/validate-trackers.py
 python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py

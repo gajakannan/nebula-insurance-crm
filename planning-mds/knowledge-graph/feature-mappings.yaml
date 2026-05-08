@@ -719,8 +719,8 @@ features:
     uses_api_contract:
       - api:nebula-rest
   - id: feature:F0034
-    path: planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes
-    status: draft
+    path: planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes
+    status: archived-done
     affects:
       - capability:product-schema-registry
       - capability:dynamic-lob-attributes
@@ -2565,7 +2565,7 @@ stories:
       - policy_rule:document-template-link
       - policy_rule:document-create
   - id: story:F0034-S0001
-    path: planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0001-lock-product-attribute-decision-set.md
+    path: planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0001-lock-product-attribute-decision-set.md
     feature: feature:F0034
     affects:
       - capability:dynamic-lob-attributes
@@ -2582,7 +2582,7 @@ stories:
     uses_schema:
       - schema:lob-attribute-envelope
   - id: story:F0034-S0002
-    path: planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0002-establish-product-schema-registry-foundation.md
+    path: planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0002-establish-product-schema-registry-foundation.md
     feature: feature:F0034
     affects:
       - capability:product-schema-registry
@@ -2616,7 +2616,7 @@ stories:
       - policy_rule:lob-schema-resolve
       - policy_rule:lob-schema-activate
   - id: story:F0034-S0003
-    path: planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0003-pin-attributes-on-lifecycle-carriers.md
+    path: planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0003-pin-attributes-on-lifecycle-carriers.md
     feature: feature:F0034
     affects:
       - capability:dynamic-lob-attributes
@@ -2649,7 +2649,7 @@ stories:
     uses_api_contract:
       - api:nebula-rest
   - id: story:F0034-S0004
-    path: planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0004-prove-validator-equivalence.md
+    path: planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0004-prove-validator-equivalence.md
     feature: feature:F0034
     affects:
       - capability:validator-equivalence
@@ -2669,7 +2669,7 @@ stories:
     uses_api_contract:
       - api:nebula-rest
   - id: story:F0034-S0005
-    path: planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md
+    path: planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md
     feature: feature:F0034
     affects:
       - capability:dynamic-attribute-panel
@@ -2698,7 +2698,7 @@ stories:
     uses_api_contract:
       - api:nebula-rest
   - id: story:F0034-S0006
-    path: planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0006-activate-cyber-product-bundle.md
+    path: planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0006-activate-cyber-product-bundle.md
     feature: feature:F0034
     affects:
       - capability:product-schema-registry
@@ -2735,7 +2735,7 @@ stories:
       - policy_rule:lob-schema-resolve
       - policy_rule:lob-schema-activate
   - id: story:F0034-S0007
-    path: planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0007-prove-lifecycle-and-f0019-handoff.md
+    path: planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0007-prove-lifecycle-and-f0019-handoff.md
     feature: feature:F0034
     affects:
       - capability:dynamic-lob-attributes

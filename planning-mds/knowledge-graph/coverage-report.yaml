@@ -732,35 +732,35 @@ freshness:
       source_hash: 765b4d083aefe257
     capability:product-schema-registry:
       source_paths:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/README.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/README.md
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       - planning-mds/api/nebula-api.yaml
       source_count: 3
-      last_modified: '2026-05-06'
-      source_hash: 4f8de870fef8ce56
+      last_modified: '2026-05-08'
+      source_hash: f9c38f66c69b9a9d
     capability:dynamic-lob-attributes:
       source_paths:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/README.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/README.md
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       - planning-mds/schemas/lob-attribute-envelope.schema.json
       source_count: 3
-      last_modified: '2026-05-06'
-      source_hash: 44b13147d7ceadc0
+      last_modified: '2026-05-08'
+      source_hash: 03d10ba800481af1
     capability:dynamic-attribute-panel:
       source_paths:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md
       - planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md
       source_count: 2
       last_modified: '2026-05-06'
-      source_hash: 7bd17d7cf9d1ae06
+      source_hash: 1db766d318f40b42
     capability:validator-equivalence:
       source_paths:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0004-prove-validator-equivalence.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0004-prove-validator-equivalence.md
       - planning-mds/architecture/decisions/ADR-022-validator-equivalence-restricted-profile.md
       - planning-mds/architecture/validation-perf-baseline.md
       source_count: 3
       last_modified: '2026-05-06'
-      source_hash: 5fc595cebcf50b8e
+      source_hash: 152f7a7f92eab550
     capability:lob-rules-governance:
       source_paths:
       - planning-mds/architecture/decisions/ADR-023-rules-governance-jsonlogic.md
@@ -1211,15 +1211,15 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/CreateSubmissionPage.tsx
       source_count: 2
-      last_modified: '2026-05-06'
-      source_hash: b1f95d4273c7f4a1
+      last_modified: '2026-05-07'
+      source_hash: 685f71ec15a676e5
     ui_route:submission-detail:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/SubmissionDetailPage.tsx
       source_count: 2
-      last_modified: '2026-05-06'
-      source_hash: '5661426760491317'
+      last_modified: '2026-05-07'
+      source_hash: 658e0a8b6f4064c4
     ui_route:task-center:
       source_paths:
       - experience/src/App.tsx
@@ -2981,20 +2981,21 @@ freshness:
       source_hash: 3479ce911c9a4260
     feature:F0034:
       source_paths:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0001-lock-product-attribute-decision-set.md
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0002-establish-product-schema-registry-foundation.md
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0003-pin-attributes-on-lifecycle-carriers.md
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0004-prove-validator-equivalence.md
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0006-activate-cyber-product-bundle.md
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0007-prove-lifecycle-and-f0019-handoff.md
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/GETTING-STARTED.md
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/PRD.md
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/README.md
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/STATUS.md
-      source_count: 11
-      last_modified: '2026-05-06'
-      source_hash: fd67543975cfa22d
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0001-lock-product-attribute-decision-set.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0002-establish-product-schema-registry-foundation.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0003-pin-attributes-on-lifecycle-carriers.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0004-prove-validator-equivalence.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0006-activate-cyber-product-bundle.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0007-prove-lifecycle-and-f0019-handoff.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/GETTING-STARTED.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/PRD.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/README.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/STATUS.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/feature-assembly-plan.md
+      source_count: 12
+      last_modified: '2026-05-08'
+      source_hash: 2710f251ba57aa90
     story:F0005-S0002:
       source_paths:
       - planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
@@ -3609,46 +3610,46 @@ freshness:
       source_hash: b667bac1f2cf3c63
     story:F0034-S0001:
       source_paths:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0001-lock-product-attribute-decision-set.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0001-lock-product-attribute-decision-set.md
       source_count: 1
       last_modified: '2026-05-06'
-      source_hash: 2d4db353990a5a87
+      source_hash: 5fdcf34c03dd2be2
     story:F0034-S0002:
       source_paths:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0002-establish-product-schema-registry-foundation.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0002-establish-product-schema-registry-foundation.md
       source_count: 1
       last_modified: '2026-05-06'
-      source_hash: aca1145a71f4c841
+      source_hash: 8dc6d6114d5cacd7
     story:F0034-S0003:
       source_paths:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0003-pin-attributes-on-lifecycle-carriers.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0003-pin-attributes-on-lifecycle-carriers.md
       source_count: 1
       last_modified: '2026-05-06'
-      source_hash: 288d969ed8903de8
+      source_hash: e0707fe995ef32d9
     story:F0034-S0004:
       source_paths:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0004-prove-validator-equivalence.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0004-prove-validator-equivalence.md
       source_count: 1
       last_modified: '2026-05-06'
-      source_hash: b84b128d770ad4ad
+      source_hash: 212e8dd9837b59a9
     story:F0034-S0005:
       source_paths:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md
       source_count: 1
       last_modified: '2026-05-06'
-      source_hash: 9c9315a6e06abae0
+      source_hash: f1686d808482f481
     story:F0034-S0006:
       source_paths:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0006-activate-cyber-product-bundle.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0006-activate-cyber-product-bundle.md
       source_count: 1
       last_modified: '2026-05-06'
-      source_hash: df034617c4620945
+      source_hash: cb4d5991f72dad03
     story:F0034-S0007:
       source_paths:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0007-prove-lifecycle-and-f0019-handoff.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0007-prove-lifecycle-and-f0019-handoff.md
       source_count: 1
       last_modified: '2026-05-06'
-      source_hash: 6d02f67f04328f02
+      source_hash: ddfc47f57933e3e4
   code_bindings:
     entity:submission:
       source_paths:
@@ -3697,8 +3698,8 @@ freshness:
       - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
       - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
       source_count: 44
-      last_modified: '2026-05-06'
-      source_hash: 4ddc3f460727e9a1
+      last_modified: '2026-05-07'
+      source_hash: 60744ae074ab285a
     entity:renewal:
       source_paths:
       - engine/src/Nebula.Domain/Entities/Renewal.cs
@@ -3733,8 +3734,8 @@ freshness:
       - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 31
-      last_modified: '2026-04-22'
-      source_hash: 78859814c294f7b8
+      last_modified: '2026-05-08'
+      source_hash: fe3ec681c75aab9d
     entity:policy:
       source_paths:
       - engine/src/Nebula.Domain/Entities/Policy.cs
@@ -3775,8 +3776,8 @@ freshness:
       - experience/src/mocks/policies.ts
       - experience/src/mocks/handlers.ts
       source_count: 37
-      last_modified: '2026-05-06'
-      source_hash: 762599ec4751c21f
+      last_modified: '2026-05-08'
+      source_hash: 3d4765e951de9956
     entity:document:
       source_paths:
       - engine/src/Nebula.Domain/Documents/DocumentConstants.cs
@@ -3829,8 +3830,8 @@ freshness:
       - experience/src/features/documents/tests/ParentDocumentsPanel.test.tsx
       - experience/src/services/api.test.ts
       source_count: 49
-      last_modified: '2026-05-06'
-      source_hash: bd70ece2cb9a3e76
+      last_modified: '2026-05-07'
+      source_hash: 1e7627c02bbf1cd3
     entity:document-template:
       source_paths:
       - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
@@ -3844,8 +3845,8 @@ freshness:
       - experience/src/services/api.ts
       - experience/src/mocks/documents.ts
       source_count: 10
-      last_modified: '2026-05-06'
-      source_hash: 840cdd66de3d860d
+      last_modified: '2026-05-07'
+      source_hash: 4831fd526d769d98
     workflow:document-ingest:
       source_paths:
       - engine/src/Nebula.Application/Interfaces/IQuarantineScanner.cs
@@ -3885,8 +3886,8 @@ freshness:
       - experience/src/services/api.ts
       - experience/src/mocks/documents.ts
       source_count: 21
-      last_modified: '2026-05-06'
-      source_hash: 944dd25372fc14f5
+      last_modified: '2026-05-07'
+      source_hash: 20473003c24ffb1a
     capability:document-management:
       source_paths:
       - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
@@ -3921,8 +3922,8 @@ freshness:
       - experience/src/pages/RenewalDetailPage.tsx
       - experience/src/services/api.ts
       source_count: 31
-      last_modified: '2026-05-06'
-      source_hash: f2195a51cc5b668c
+      last_modified: '2026-05-07'
+      source_hash: 63ac9d91e4c71df5
     entity:broker:
       source_paths:
       - engine/src/Nebula.Domain/Entities/Broker.cs
@@ -4088,8 +4089,8 @@ freshness:
       - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 12
-      last_modified: '2026-04-22'
-      source_hash: cab2a5af494753bf
+      last_modified: '2026-05-08'
+      source_hash: 49733cfddfbce525
     workflow:submission:
       source_paths:
       - engine/src/Nebula.Application/Services/WorkflowStateMachine.cs
@@ -4116,8 +4117,8 @@ freshness:
       - experience/src/features/submissions/lib/validation.ts
       - experience/src/features/submissions/types.ts
       source_count: 23
-      last_modified: '2026-04-22'
-      source_hash: e7a86edfe3a174f8
+      last_modified: '2026-05-08'
+      source_hash: fd7438830425ba30
     workflow:renewal:
       source_paths:
       - engine/src/Nebula.Application/Services/WorkflowStateMachine.cs
@@ -4128,8 +4129,8 @@ freshness:
       - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 7
-      last_modified: '2026-04-22'
-      source_hash: 842e957d751323bf
+      last_modified: '2026-05-08'
+      source_hash: e1844b9233e8c020
     capability:authorization-enforcement:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -4146,6 +4147,22 @@ freshness:
       source_hash: fe496e1225291f3c
     capability:product-schema-registry:
       source_paths:
+      - engine/src/Nebula.Domain/Entities/LobProduct.cs
+      - engine/src/Nebula.Domain/Entities/LobProductVersion.cs
+      - engine/src/Nebula.Domain/Entities/LobSchemaBundle.cs
+      - engine/src/Nebula.Domain/Entities/LobBundleActivationEvent.cs
+      - engine/src/Nebula.Application/DTOs/LobAttributeDtos.cs
+      - engine/src/Nebula.Application/Interfaces/ILobSchemaRepository.cs
+      - engine/src/Nebula.Application/Services/LobSchemaService.cs
+      - engine/src/Nebula.Application/Services/LobSchemaDefaults.cs
+      - engine/src/Nebula.Infrastructure/Repositories/LobSchemaRepository.cs
+      - engine/src/Nebula.Infrastructure/Persistence/Configurations/LobProductConfiguration.cs
+      - engine/src/Nebula.Infrastructure/Persistence/Configurations/LobProductVersionConfiguration.cs
+      - engine/src/Nebula.Infrastructure/Persistence/Configurations/LobSchemaBundleConfiguration.cs
+      - engine/src/Nebula.Infrastructure/Persistence/Configurations/LobBundleActivationEventConfiguration.cs
+      - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260507030000_F0034_ProductSchemaRegistryAndLobAttributes.cs
+      - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
+      - engine/tests/Nebula.Tests/Unit/LobAttributes/LobAttributeServiceTests.cs
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       - planning-mds/architecture/openapi-30-projection-matrix.md
       - planning-mds/architecture/validation-perf-baseline.md
@@ -4154,11 +4171,21 @@ freshness:
       - planning-mds/schemas/lob-validation-problem-details.schema.json
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
-      source_count: 8
-      last_modified: '2026-05-06'
-      source_hash: 1c621bfbec45363f
+      source_count: 24
+      last_modified: '2026-05-07'
+      source_hash: aebf9858d6943815
     capability:dynamic-lob-attributes:
       source_paths:
+      - engine/src/Nebula.Application/DTOs/LobAttributeDtos.cs
+      - engine/src/Nebula.Application/Services/LobAttributeService.cs
+      - engine/src/Nebula.Application/Services/LobAttributeStorageResult.cs
+      - engine/src/Nebula.Application/Services/LobSchemaDefaults.cs
+      - engine/tests/Nebula.Tests/Unit/LobAttributes/LobAttributeServiceTests.cs
+      - experience/src/features/lob-attributes/components/DynamicAttributePanel.tsx
+      - experience/src/features/lob-attributes/hooks/useLobSchemaBundle.ts
+      - experience/src/features/lob-attributes/index.ts
+      - experience/src/features/lob-attributes/lib/cyber.ts
+      - experience/src/features/lob-attributes/types.ts
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       - planning-mds/schemas/lob-attribute-envelope.schema.json
       - planning-mds/schemas/submission.schema.json
@@ -4166,48 +4193,64 @@ freshness:
       - planning-mds/schemas/policy-version.schema.json
       - planning-mds/schemas/policy-endorsement.schema.json
       - planning-mds/schemas/policy.schema.json
-      source_count: 7
-      last_modified: '2026-05-06'
-      source_hash: 04889f252d91ffa7
+      source_count: 17
+      last_modified: '2026-05-07'
+      source_hash: b7a60be28f7c7e19
     capability:dynamic-attribute-panel:
       source_paths:
+      - experience/src/features/lob-attributes/components/DynamicAttributePanel.tsx
+      - experience/src/features/lob-attributes/hooks/useLobSchemaBundle.ts
+      - experience/src/features/lob-attributes/index.ts
+      - experience/src/features/lob-attributes/lib/cyber.ts
+      - experience/src/features/lob-attributes/types.ts
+      - experience/src/pages/CreateSubmissionPage.tsx
+      - experience/src/pages/SubmissionDetailPage.tsx
+      - experience/src/pages/CreatePolicyPage.tsx
+      - experience/src/pages/PolicyDetailPage.tsx
+      - experience/src/pages/RenewalDetailPage.tsx
       - planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md
       - planning-mds/api/nebula-api.yaml
-      source_count: 2
-      last_modified: '2026-05-06'
-      source_hash: f60523e05026387c
+      source_count: 12
+      last_modified: '2026-05-07'
+      source_hash: 570565644b35a39b
     capability:validator-equivalence:
       source_paths:
+      - engine/src/Nebula.Application/Services/LobAttributeService.cs
+      - engine/tests/Nebula.Tests/Unit/LobAttributes/LobAttributeServiceTests.cs
+      - experience/src/features/lob-attributes/lib/cyber.ts
       - planning-mds/architecture/decisions/ADR-022-validator-equivalence-restricted-profile.md
       - planning-mds/architecture/validation-perf-baseline.md
       - planning-mds/schemas/lob-validation-problem-details.schema.json
-      source_count: 3
-      last_modified: '2026-05-06'
-      source_hash: a61ae670d094cbdc
+      source_count: 6
+      last_modified: '2026-05-07'
+      source_hash: 56a6ec55120a861b
     endpoint:lob-schemas-active:
       source_paths:
+      - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
       - planning-mds/api/nebula-api.yaml
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
-      source_count: 3
-      last_modified: '2026-05-06'
-      source_hash: c5b9cde8c0ae58e9
+      source_count: 4
+      last_modified: '2026-05-07'
+      source_hash: fea3bf5f58e9efd0
     endpoint:lob-schema-bundle-detail:
       source_paths:
+      - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
       - planning-mds/api/nebula-api.yaml
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
-      source_count: 3
-      last_modified: '2026-05-06'
-      source_hash: c5b9cde8c0ae58e9
+      source_count: 4
+      last_modified: '2026-05-07'
+      source_hash: fea3bf5f58e9efd0
     endpoint:lob-schema-activate:
       source_paths:
+      - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
       - planning-mds/api/nebula-api.yaml
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
-      source_count: 3
-      last_modified: '2026-05-06'
-      source_hash: c5b9cde8c0ae58e9
+      source_count: 4
+      last_modified: '2026-05-07'
+      source_hash: fea3bf5f58e9efd0
     capability:dashboard-home:
       source_paths:
       - engine/src/Nebula.Application/DTOs/DashboardKpisDto.cs
@@ -4548,8 +4591,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
       source_count: 12
-      last_modified: '2026-05-06'
-      source_hash: ee4e54331c776263
+      last_modified: '2026-05-08'
+      source_hash: d83d2f079c08a168
     policy_rule:renewal-create:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -4566,8 +4609,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
       source_count: 13
-      last_modified: '2026-05-06'
-      source_hash: 656eb1c3c9ed7eb1
+      last_modified: '2026-05-08'
+      source_hash: a1eb5f63e98d843c
     policy_rule:renewal-transition:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -4584,8 +4627,8 @@ freshness:
       - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
       - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
       source_count: 13
-      last_modified: '2026-05-06'
-      source_hash: 96cfdbf134b83081
+      last_modified: '2026-05-08'
+      source_hash: f3c56b1af7ec87e9
     policy_rule:renewal-assign:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -4601,8 +4644,8 @@ freshness:
       - engine/src/Nebula.Api/Endpoints/UserEndpoints.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 12
-      last_modified: '2026-05-06'
-      source_hash: eac5341a133740bb
+      last_modified: '2026-05-07'
+      source_hash: 9a4507ead21733e7
     policy_rule:dashboard-nudge-read:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -4865,8 +4908,8 @@ freshness:
       - experience/src/pages/SubmissionsPage.tsx
       - experience/src/pages/tests/SubmissionsPage.integration.test.tsx
       source_count: 7
-      last_modified: '2026-04-22'
-      source_hash: 0579c5abad85f4c7
+      last_modified: '2026-05-07'
+      source_hash: '8596223198841493'
     endpoint:submission-detail:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
@@ -4876,8 +4919,8 @@ freshness:
       - experience/src/pages/SubmissionDetailPage.tsx
       - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
       source_count: 6
-      last_modified: '2026-05-06'
-      source_hash: f40729b889feca48
+      last_modified: '2026-05-07'
+      source_hash: a669b4af4c341321
     endpoint:submission-create:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
@@ -4887,8 +4930,8 @@ freshness:
       - experience/src/pages/CreateSubmissionPage.tsx
       - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
       source_count: 6
-      last_modified: '2026-04-22'
-      source_hash: 7fdcd96922691014
+      last_modified: '2026-05-07'
+      source_hash: 2edd3840d85fa8ba
     endpoint:submission-transition:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
@@ -4898,8 +4941,8 @@ freshness:
       - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 6
-      last_modified: '2026-04-22'
-      source_hash: 4de63b8c6a4cf481
+      last_modified: '2026-05-07'
+      source_hash: ccbfffa9f9e04c04
     endpoint:submission-assignment:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
@@ -4907,8 +4950,8 @@ freshness:
       - engine/src/Nebula.Application/Validators/SubmissionAssignmentValidator.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 4
-      last_modified: '2026-04-22'
-      source_hash: 7ac9fa1e954b5b6b
+      last_modified: '2026-05-07'
+      source_hash: c689f013983ed1d4
     endpoint:submission-timeline:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
@@ -4922,8 +4965,8 @@ freshness:
       - experience/src/features/timeline/hooks/useTimelineEvents.ts
       - experience/src/features/timeline/index.ts
       source_count: 10
-      last_modified: '2026-05-06'
-      source_hash: 3624a17b7ef48859
+      last_modified: '2026-05-07'
+      source_hash: f00cea5f8376551d
     endpoint:renewal-list:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
@@ -4939,8 +4982,8 @@ freshness:
       - engine/src/Nebula.Infrastructure/Repositories/RenewalRepository.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 12
-      last_modified: '2026-04-22'
-      source_hash: 8693ea67f28cdb9a
+      last_modified: '2026-05-07'
+      source_hash: 5fdd2a6ba13bab14
     endpoint:renewal-detail:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
@@ -4948,8 +4991,8 @@ freshness:
       - engine/src/Nebula.Application/DTOs/RenewalDto.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 4
-      last_modified: '2026-04-22'
-      source_hash: 01d11c0b7e531832
+      last_modified: '2026-05-07'
+      source_hash: cffff30ba317d4d4
     endpoint:renewal-create:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
@@ -4966,8 +5009,8 @@ freshness:
       - engine/src/Nebula.Infrastructure/Repositories/RenewalRepository.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 13
-      last_modified: '2026-04-22'
-      source_hash: 55ed5d770925ade4
+      last_modified: '2026-05-07'
+      source_hash: 4343621e947261c7
     endpoint:renewal-transition:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
@@ -4980,8 +5023,8 @@ freshness:
       - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 9
-      last_modified: '2026-04-22'
-      source_hash: 184afd89e9ddb8da
+      last_modified: '2026-05-07'
+      source_hash: a5ab95a7c5dde129
     endpoint:renewal-assignment:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
@@ -4999,16 +5042,16 @@ freshness:
       - engine/src/Nebula.Application/Validators/RenewalUpdateValidator.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 14
-      last_modified: '2026-04-22'
-      source_hash: ef1c4be064fdd951
+      last_modified: '2026-05-07'
+      source_hash: 3b091fe3c75b5d88
     endpoint:renewal-timeline:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
       - engine/src/Nebula.Application/Services/RenewalService.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 3
-      last_modified: '2026-04-22'
-      source_hash: 2328ec09219ced44
+      last_modified: '2026-05-07'
+      source_hash: ebde9a1b496c6332
     endpoint:task-my-list:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
@@ -5112,16 +5155,16 @@ freshness:
       - experience/src/pages/CreateSubmissionPage.tsx
       - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-05-06'
-      source_hash: 656c2787818bf2b5
+      last_modified: '2026-05-07'
+      source_hash: 9cfec9798517577d
     ui_route:submission-detail:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/SubmissionDetailPage.tsx
       - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-05-06'
-      source_hash: 4e7b1cd7f8f4bcef
+      last_modified: '2026-05-07'
+      source_hash: 6acf6946037aa983
     ui_route:task-center:
       source_paths:
       - experience/src/App.tsx
@@ -5186,8 +5229,8 @@ freshness:
       - engine/src/Nebula.Domain/Entities/WorkflowTransition.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 4
-      last_modified: '2026-04-22'
-      source_hash: a26577960a46edf0
+      last_modified: '2026-05-07'
+      source_hash: a876a2146dd616c7
     event:submission-transitioned:
       source_paths:
       - engine/src/Nebula.Application/Services/SubmissionService.cs
@@ -5197,8 +5240,8 @@ freshness:
       - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 6
-      last_modified: '2026-04-22'
-      source_hash: 6226111dfb96e681
+      last_modified: '2026-05-07'
+      source_hash: a163fd288de0635c
     event:task-created:
       source_paths:
       - engine/src/Nebula.Application/Services/TaskService.cs
@@ -5224,8 +5267,8 @@ freshness:
       - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
       - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       source_count: 6
-      last_modified: '2026-04-22'
-      source_hash: db713c4059fd721d
+      last_modified: '2026-05-07'
+      source_hash: 0caddca2138626ba
     config_key:authentication-authority:
       source_paths:
       - planning-mds/architecture/decisions/ADR-Authentication-Strategy.md
@@ -5233,16 +5276,16 @@ freshness:
       - engine/src/Nebula.Api/Program.cs
       - engine/src/Nebula.Api/Endpoints/AuthEndpoints.cs
       source_count: 4
-      last_modified: '2026-05-06'
-      source_hash: e51692e480b605bd
+      last_modified: '2026-05-07'
+      source_hash: 861d5137118f1332
     config_key:authentication-audience:
       source_paths:
       - planning-mds/architecture/decisions/ADR-Authentication-Strategy.md
       - planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
       - engine/src/Nebula.Api/Program.cs
       source_count: 3
-      last_modified: '2026-05-06'
-      source_hash: f73b6094606205bb
+      last_modified: '2026-05-07'
+      source_hash: 9d152f79ccb2a29f
     config_key:oidc-authority:
       source_paths:
       - planning-mds/features/archive/F0005-idp-migration/F0005-S0003-frontend-oidc-flow.md
@@ -5334,8 +5377,8 @@ freshness:
       - engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs
       - engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionConfiguration.cs
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: 22f1a01de007fc02
+      last_modified: '2026-05-07'
+      source_hash: 62f2bd6c7cab39fb
     migration:f0007-renewal-workflow-states-reconcile:
       source_paths:
       - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260407151358_F0007_ReconcileRenewalWorkflowStates.cs
@@ -5350,8 +5393,8 @@ freshness:
       - engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs
       - engine/src/Nebula.Infrastructure/Persistence/Configurations/RenewalConfiguration.cs
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: b05b2c1f31ca1831
+      last_modified: '2026-05-07'
+      source_hash: f061dfd37c60a223
     evidence:workflow-state-machine-tests:
       source_paths:
       - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
@@ -5447,8 +5490,8 @@ freshness:
       - experience/src/pages/RenewalsPage.tsx
       - experience/src/pages/RenewalDetailPage.tsx
       source_count: 62
-      last_modified: '2026-05-06'
-      source_hash: e3c144be572ea208
+      last_modified: '2026-05-07'
+      source_hash: 608d31e7bd5eae0f
     workflow:account-lifecycle:
       source_paths:
       - engine/src/Nebula.Domain/Workflow/AccountLifecycleStateMachine.cs
@@ -5790,8 +5833,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 13
-      last_modified: '2026-05-06'
-      source_hash: 4413bfbd19e87888
+      last_modified: '2026-05-07'
+      source_hash: bb3aecd7a2926e65
     endpoint:account-renewals:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5808,8 +5851,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 13
-      last_modified: '2026-05-06'
-      source_hash: 8504f27c8e969a95
+      last_modified: '2026-05-07'
+      source_hash: ea086c07529ec9bf
     endpoint:account-policies:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -5893,5 +5936,5 @@ freshness:
       - engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionConfiguration.cs
       - engine/src/Nebula.Infrastructure/Persistence/Configurations/RenewalConfiguration.cs
       source_count: 3
-      last_modified: '2026-04-20'
-      source_hash: f7913a9c096485d0
+      last_modified: '2026-05-07'
+      source_hash: 2cf4072bea595516

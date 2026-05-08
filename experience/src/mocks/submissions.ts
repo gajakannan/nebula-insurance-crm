@@ -637,6 +637,7 @@ function toDetail(record: MockSubmissionRecord): SubmissionDto {
     expirationDate: record.expirationDate,
     premiumEstimate: record.premiumEstimate,
     description: record.description,
+    lobAttributes: null,
     assignedToUserId: record.assignedToUserId,
     accountDisplayName: record.accountName,
     accountStatus: 'Active',

@@ -5,7 +5,16 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { TextInput } from '@/components/ui/TextInput';
 import { useBrokers } from '@/features/brokers';
+import {
+  DynamicAttributePanel,
+  buildCyberEnvelope,
+  emptyCyberLobAttributes,
+  isCyberLineOfBusiness,
+  validateCyberLobAttributes,
+  type CyberLobAttributeValues,
+} from '@/features/lob-attributes';
 import { LINE_OF_BUSINESS_OPTIONS, useAccounts } from '@/features/submissions';
+import { ApiError } from '@/services/api';
 import {
   describePolicyApiError,
   extractPolicyFieldErrors,
@@ -33,6 +42,7 @@ interface PolicyCreateForm {
   coverageCode: string;
   coverageLimit: string;
   externalPolicyReference: string;
+  cyberAttributes: CyberLobAttributeValues;
 }
 
 const today = new Date();
@@ -50,6 +60,7 @@ const DEFAULT_FORM: PolicyCreateForm = {
   coverageCode: 'GeneralLiability',
   coverageLimit: '1000000',
   externalPolicyReference: '',
+  cyberAttributes: emptyCyberLobAttributes(),
 };
 
 export default function CreatePolicyPage() {
@@ -72,6 +83,9 @@ export default function CreatePolicyPage() {
     if (!form.effectiveDate) nextErrors.effectiveDate = 'Effective date is required.';
     if (!form.expirationDate) nextErrors.expirationDate = 'Expiration date is required.';
     if (Number(form.totalPremium) < 0) nextErrors.totalPremium = 'Premium cannot be negative.';
+    if (isCyberLineOfBusiness(form.lineOfBusiness)) {
+      Object.assign(nextErrors, validateCyberLobAttributes(form.cyberAttributes));
+    }
 
     if (Object.keys(nextErrors).length > 0) {
       setErrors(nextErrors);
@@ -89,6 +103,9 @@ export default function CreatePolicyPage() {
       totalPremium: premium,
       premiumCurrency: 'USD',
       externalPolicyReference: normalizeOptionalText(form.externalPolicyReference),
+      lobAttributes: isCyberLineOfBusiness(form.lineOfBusiness)
+        ? buildCyberEnvelope(form.cyberAttributes)
+        : null,
       coverages: [
         {
           coverageCode: form.coverageCode || form.lineOfBusiness,
@@ -103,13 +120,20 @@ export default function CreatePolicyPage() {
       const policy = await createPolicy.mutateAsync(dto);
       navigate(`/policies/${policy.id}`);
     } catch (error) {
-      setErrors(extractPolicyFieldErrors(error));
+      setErrors({
+        ...extractPolicyFieldErrors(error),
+        ...extractLobFieldErrors(error instanceof ApiError ? error.problem?.lobErrors : undefined),
+      });
       setServerError(describePolicyApiError(error));
     }
   }
 
   function setField<K extends keyof PolicyCreateForm>(field: K, value: PolicyCreateForm[K]) {
     setForm((current) => ({ ...current, [field]: value }));
+  }
+
+  function setCyberAttributes(value: CyberLobAttributeValues) {
+    setForm((current) => ({ ...current, cyberAttributes: value }));
   }
 
   return (
@@ -193,6 +217,14 @@ export default function CreatePolicyPage() {
               <TextInput label="External reference" value={form.externalPolicyReference} onChange={(event) => setField('externalPolicyReference', event.target.value)} />
             </Field>
           </div>
+          <div className="mt-4">
+            <DynamicAttributePanel
+              lineOfBusiness={form.lineOfBusiness}
+              value={form.cyberAttributes}
+              onChange={setCyberAttributes}
+              errors={errors}
+            />
+          </div>
         </Card>
 
         <Card>
@@ -241,4 +273,17 @@ function Field({ label, error, children }: { label: string; error?: string; chil
 
 function toDateInput(date: Date): string {
   return date.toISOString().slice(0, 10);
+}
+
+function extractLobFieldErrors(
+  lobErrors: Array<{ path: string; message: string }> | undefined,
+): Record<string, string> {
+  if (!lobErrors) return {};
+
+  return lobErrors.reduce<Record<string, string>>((accumulator, issue) => {
+    const pathParts = issue.path.split('.');
+    const field = pathParts[pathParts.length - 1];
+    if (field) accumulator[field] = issue.message;
+    return accumulator;
+  }, {});
 }

@@ -10,6 +10,8 @@ public class Renewal : BaseEntity
     public DateTime PolicyExpirationDate { get; set; }
     public DateTime TargetOutreachDate { get; set; }
     public Guid AssignedToUserId { get; set; }
+    public Guid LobProductVersionId { get; set; }
+    public string LobAttributesJson { get; set; } = "{}";
     public string? LostReasonCode { get; set; }
     public string? LostReasonDetail { get; set; }
     public Guid? BoundPolicyId { get; set; }
@@ -22,6 +24,7 @@ public class Renewal : BaseEntity
     public Broker Broker { get; set; } = default!;
     public Policy Policy { get; set; } = default!;
     public Policy? BoundPolicy { get; set; }
+    public LobProductVersion LobProductVersion { get; set; } = default!;
     public UserProfile AssignedToUser { get; set; } = default!;
     public Submission? RenewalSubmission { get; set; }
 }

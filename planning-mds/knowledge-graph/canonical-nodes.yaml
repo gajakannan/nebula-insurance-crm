@@ -548,7 +548,7 @@ capabilities:
   - id: capability:product-schema-registry
     label: Product Schema Registry
     source_docs:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/README.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/README.md
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       - planning-mds/api/nebula-api.yaml
     related_nodes:
@@ -559,7 +559,7 @@ capabilities:
   - id: capability:dynamic-lob-attributes
     label: Dynamic LOB Attributes
     source_docs:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/README.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/README.md
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       - planning-mds/schemas/lob-attribute-envelope.schema.json
     related_nodes:
@@ -570,14 +570,14 @@ capabilities:
   - id: capability:dynamic-attribute-panel
     label: Dynamic Attribute Panel
     source_docs:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md
       - planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md
     related_nodes:
       - capability:dynamic-lob-attributes
   - id: capability:validator-equivalence
     label: Validator Equivalence
     source_docs:
-      - planning-mds/features/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0004-prove-validator-equivalence.md
+      - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0004-prove-validator-equivalence.md
       - planning-mds/architecture/decisions/ADR-022-validator-equivalence-restricted-profile.md
       - planning-mds/architecture/validation-perf-baseline.md
     related_nodes:

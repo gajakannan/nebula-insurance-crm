@@ -26,6 +26,7 @@ export default defineConfig(() => {
     '/renewals',
     '/documents',
     '/document-templates',
+    '/lob-schemas',
     '/healthz',
   ]
 

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Nebula.Application.Common;
 using Nebula.Application.DTOs;
+using Nebula.Application.Services;
 using Nebula.Domain.Entities;
 using Nebula.Infrastructure.Persistence;
 using Shouldly;
@@ -543,6 +544,8 @@ public class WorkflowEndpointTests(CustomWebApplicationFactory factory)
             PolicyExpirationDate = policy.ExpirationDate,
             TargetOutreachDate = policy.ExpirationDate.AddDays(-GetRenewalTargetDays(policy.LineOfBusiness)),
             AssignedToUserId = assignedToUserId,
+            LobProductVersionId = LobSchemaDefaults.ResolveDefaultProductVersionId(policy.LineOfBusiness),
+            LobAttributesJson = LobSchemaDefaults.EmptyAttributesJson,
             AccountDisplayNameAtLink = account.StableDisplayName,
             AccountStatusAtRead = account.Status,
             AccountSurvivorId = account.MergedIntoAccountId,
@@ -641,6 +644,8 @@ public class WorkflowEndpointTests(CustomWebApplicationFactory factory)
             PremiumEstimate = 25000m,
             Description = "Seeded submission",
             AssignedToUserId = assignedToUserId,
+            LobProductVersionId = LobSchemaDefaults.ResolveDefaultProductVersionId(lineOfBusiness),
+            LobAttributesJson = LobSchemaDefaults.EmptyAttributesJson,
             AccountDisplayNameAtLink = account.StableDisplayName,
             AccountStatusAtRead = account.Status,
             AccountSurvivorId = account.MergedIntoAccountId,

@@ -41,6 +41,9 @@ The Cyber pilot needs a dynamic attribute panel that consumes registry-served sc
 - [ ] Error mapping uses JSON pointer to target the field
 - [ ] Light and dark visual smoke coverage exists for the Cyber panel
 - [ ] Legacy state is read-only for product attributes
+- [ ] Policy Detail and Renewal Detail expose enabled edit/save/cancel controls for Cyber attributes when the current lifecycle state and caller role allow mutation
+- [ ] Policy Detail and Renewal Detail tests prove a user can edit at least one Cyber field, save it, and see the persisted value after reload/query invalidation
+- [ ] Read-only panel state is tested separately from editable state so a rendered panel cannot satisfy this story by display-only behavior
 
 ## Data Requirements
 
@@ -109,6 +112,7 @@ The Cyber pilot needs a dynamic attribute panel that consumes registry-served sc
 
 - Screens involved: Submission Create/Triage, Submission Detail, Policy 360, Endorsement Flow, Renewal Detail
 - Key interactions: bootstrap active bundles, render fields, validate, save, show field-level errors, show pinned-version and legacy states
+- Policy 360 and Renewal Detail are not display-only surfaces for active Cyber rows. The story is incomplete unless the page provides a clear edit affordance and submits through the approved lifecycle mutation path.
 
 ## Questions & Assumptions
 

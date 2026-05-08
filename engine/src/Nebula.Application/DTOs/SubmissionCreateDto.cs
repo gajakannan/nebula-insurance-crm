@@ -8,4 +8,5 @@ public record SubmissionCreateDto(
     string? LineOfBusiness = null,
     decimal? PremiumEstimate = null,
     DateTime? ExpirationDate = null,
-    string? Description = null);
+    string? Description = null,
+    LobAttributeEnvelopeDto? LobAttributes = null);

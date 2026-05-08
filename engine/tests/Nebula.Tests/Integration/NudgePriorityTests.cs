@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using Shouldly;
 using Microsoft.Extensions.DependencyInjection;
 using Nebula.Application.DTOs;
+using Nebula.Application.Services;
 using Nebula.Domain.Entities;
 using Nebula.Infrastructure.Persistence;
 
@@ -104,6 +105,8 @@ public class NudgePriorityTests(CustomWebApplicationFactory factory)
             EffectiveDate = now2.Date.AddMonths(3),
             PremiumEstimate = 50_000m,
             AssignedToUserId = testUserId,
+            LobProductVersionId = LobSchemaDefaults.UnspecifiedProductVersionId,
+            LobAttributesJson = LobSchemaDefaults.EmptyAttributesJson,
             AccountDisplayNameAtLink = account.StableDisplayName,
             AccountStatusAtRead = account.Status,
             AccountSurvivorId = account.MergedIntoAccountId,
@@ -143,9 +146,12 @@ public class NudgePriorityTests(CustomWebApplicationFactory factory)
             BrokerId = broker.Id,
             CurrentStatus = "Identified",
             PolicyId = policy.Id,
+            LineOfBusiness = policy.LineOfBusiness,
             PolicyExpirationDate = now2.Date.AddDays(7),
             TargetOutreachDate = now2.Date.AddDays(-83),
             AssignedToUserId = testUserId,
+            LobProductVersionId = LobSchemaDefaults.ResolveDefaultProductVersionId(policy.LineOfBusiness),
+            LobAttributesJson = LobSchemaDefaults.EmptyAttributesJson,
             AccountDisplayNameAtLink = account.StableDisplayName,
             AccountStatusAtRead = account.Status,
             AccountSurvivorId = account.MergedIntoAccountId,

@@ -318,22 +318,25 @@ F0004 extends the self-assigned-only task model with creator-based access for Di
 
 ---
 
-### 2.9 Renewal — Read / Create / Transition / Assign (F0007)
+### 2.9 Renewal — Read / Create / Update / Transition / Assign (F0007, F0034)
 
-Applies to the F0007 Renewal Pipeline endpoints: `GET /renewals`, `POST /renewals`, `GET /renewals/{renewalId}`, `POST /renewals/{renewalId}/transitions`, `PUT /renewals/{renewalId}/assignment`, `GET /renewals/{renewalId}/timeline`.
+Applies to the F0007 Renewal Pipeline endpoints: `GET /renewals`, `POST /renewals`, `GET /renewals/{renewalId}`, `PUT /renewals/{renewalId}/lob-attributes`, `POST /renewals/{renewalId}/transitions`, `PUT /renewals/{renewalId}/assignment`, `GET /renewals/{renewalId}/timeline`.
 
 | Role | Action | Decision | Business Scope / Constraints | Story / AC Reference |
 |------|--------|----------|------------------------------|----------------------|
 | DistributionUser | read | **ALLOW** | Renewals assigned to the user only. Applies to list, detail, and timeline endpoints. | F0001-S0002; F0007-S0001/S0002/S0007; user requirement |
 | DistributionUser | create | **ALLOW** | Distribution users may create a renewal from an expiring policy within their assigned scope. Applies to `POST /renewals`. | F0007-S0006 |
+| DistributionUser | update | **ALLOW** | Assigned non-terminal renewals in Distribution-owned states may update dynamic LOB attributes. Applies to `PUT /renewals/{renewalId}/lob-attributes`. | F0034-S0005/S0007 |
 | DistributionUser | transition | **ALLOW** | Only for assigned renewals and only for transitions in the Distribution-owned states (Identified ↔ Outreach ↔ InReview). | F0007-S0003; BLUEPRINT §4.3 |
 | DistributionUser | assign | **DENY** | Self-assignment only — no cross-user assignment. Use create-time `assignedToUserId`. | F0007-S0004 |
 | DistributionManager | read | **ALLOW** | All renewals within region. Applies to list, detail, and timeline endpoints. | F0001-S0002; F0007-S0001/S0002/S0007; user requirement |
 | DistributionManager | create | **ALLOW** | Region-scoped; may seed renewals on behalf of distribution users. | F0007-S0006 |
+| DistributionManager | update | **ALLOW** | Region-scoped non-terminal renewals in Distribution-owned states may update dynamic LOB attributes. | F0034-S0005/S0007 |
 | DistributionManager | transition | **ALLOW** | Renewals within region; valid transitions only in Distribution-owned states. | F0007-S0003; BLUEPRINT §4.3 |
 | DistributionManager | assign | **ALLOW** | Reassignment of renewal ownership within region. Applies to `PUT /renewals/{renewalId}/assignment`. Cannot assign terminal-state renewals. | F0007-S0004 |
 | Underwriter | read | **ALLOW** | Renewals assigned to or accessible by the user (post-handoff). | F0007-S0002/S0007; BLUEPRINT §4.4 |
 | Underwriter | create | **DENY** | Underwriters do not seed renewals; intake is distribution-owned. | F0007-S0006 |
+| Underwriter | update | **ALLOW** | Assigned non-terminal renewals in Underwriter-owned states may update dynamic LOB attributes. | F0034-S0005/S0007 |
 | Underwriter | transition | **ALLOW** | Underwriter-owned states (InReview → Quoted → Completed/Lost). Cannot perform Distribution-owned transitions. | F0007-S0003; BLUEPRINT §4.4, §4.3 |
 | Underwriter | assign | **DENY** | Underwriters do not reassign ownership in MVP. | F0007-S0004 |
 | RelationshipManager | read | **ALLOW** | Renewals linked to managed broker relationships. List, detail, and timeline. | F0001-S0002 Role Visibility; F0007-S0007 |
@@ -346,6 +349,7 @@ Applies to the F0007 Renewal Pipeline endpoints: `GET /renewals`, `POST /renewal
 | ProgramManager | assign | **DENY** | Read-only in MVP. | BLUEPRINT §4.4 |
 | Admin | read | **ALLOW** | Unscoped access to all renewal endpoints. | BLUEPRINT §4.4 |
 | Admin | create | **ALLOW** | Unscoped. | F0007-S0006 |
+| Admin | update | **ALLOW** | Unscoped non-terminal renewal dynamic LOB attribute updates. | F0034-S0005/S0007 |
 | Admin | transition | **ALLOW** | Unscoped; valid transitions only. | BLUEPRINT §4.4, §4.3 |
 | Admin | assign | **ALLOW** | Unscoped; cannot assign terminal-state renewals. | F0007-S0004 |
 | ExternalUser | all | **DENY** | No external portal in MVP. | BLUEPRINT §3.1 non-goals |
@@ -356,7 +360,7 @@ Applies to the F0007 Renewal Pipeline endpoints: `GET /renewals`, `POST /renewal
 - Lost transitions require `lostReasonCode`; Completed transitions require `boundPolicyId` (and may include `renewalSubmissionId`). Missing fields return HTTP 409 with code `missing_transition_prerequisite`. (BLUEPRINT §4.3)
 - Invalid transition pairs return HTTP 409 with code `invalid_transition`. (BLUEPRINT §4.3)
 - Assignment of a terminal-state renewal (`Completed`, `Lost`) returns HTTP 409 with code `assignment_not_allowed_in_terminal_state`.
-- State-changing mutations (`POST /renewals/{renewalId}/transitions`, `PUT /renewals/{renewalId}/assignment`) require `If-Match` and return HTTP 412 `precondition_failed` on stale rowVersion values. (API Guidelines + F0007 architecture)
+- State-changing mutations (`PUT /renewals/{renewalId}/lob-attributes`, `POST /renewals/{renewalId}/transitions`, `PUT /renewals/{renewalId}/assignment`) require `If-Match` and return HTTP 412 `precondition_failed` on stale rowVersion values. (API Guidelines + F0007 architecture)
 - Every successful transition appends a `WorkflowTransition` and `ActivityTimelineEvent` record. Assignment changes append an `ActivityTimelineEvent`. (BLUEPRINT §4.3)
 - Per-LOB timing windows (`WorkflowSlaThreshold` keyed on `LineOfBusiness`) drive overdue/approaching computation; defaults are used when no LOB-specific row exists. (ADR-009, ADR-014)
 

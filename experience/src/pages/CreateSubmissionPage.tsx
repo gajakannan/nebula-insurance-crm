@@ -8,6 +8,14 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { TextInput } from '@/components/ui/TextInput';
 import { useBrokers } from '@/features/brokers';
 import {
+  DynamicAttributePanel,
+  buildCyberEnvelope,
+  emptyCyberLobAttributes,
+  isCyberLineOfBusiness,
+  validateCyberLobAttributes,
+  type CyberLobAttributeValues,
+} from '@/features/lob-attributes';
+import {
   LINE_OF_BUSINESS_OPTIONS,
   describeSubmissionApiError,
   extractProblemFieldErrors,
@@ -19,6 +27,16 @@ import {
   validateSubmissionCreate,
 } from '@/features/submissions';
 import { ApiError } from '@/services/api';
+
+type SubmissionTextField =
+  | 'accountId'
+  | 'brokerId'
+  | 'effectiveDate'
+  | 'programId'
+  | 'lineOfBusiness'
+  | 'premiumEstimate'
+  | 'expirationDate'
+  | 'description';
 
 export default function CreateSubmissionPage() {
   const navigate = useNavigate();
@@ -36,6 +54,7 @@ export default function CreateSubmissionPage() {
     premiumEstimate: '',
     expirationDate: '',
     description: '',
+    cyberAttributes: emptyCyberLobAttributes(),
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState('');
@@ -43,7 +62,7 @@ export default function CreateSubmissionPage() {
   const isLoading = accountsQuery.isLoading || brokersQuery.isLoading || programsQuery.isLoading;
   const isError = accountsQuery.isError || brokersQuery.isError || programsQuery.isError;
 
-  function updateField(field: keyof typeof form, value: string) {
+  function updateField(field: SubmissionTextField, value: string) {
     setForm((current) => ({ ...current, [field]: value }));
     setErrors((current) => {
       const next = { ...current };
@@ -53,10 +72,26 @@ export default function CreateSubmissionPage() {
     setServerError('');
   }
 
+  function updateCyberAttributes(value: CyberLobAttributeValues) {
+    setForm((current) => ({ ...current, cyberAttributes: value }));
+    setErrors((current) => {
+      const next = { ...current };
+      for (const field of ['revenueBand', 'recordsHeld', 'mfaEnabled', 'mfaMaturity', 'trainingFrequency', 'requestedLimit', 'requestedRetention']) {
+        delete next[field];
+      }
+      return next;
+    });
+    setServerError('');
+  }
+
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
     const validationErrors = validateSubmissionCreate(form);
+    const lobErrors = isCyberLineOfBusiness(form.lineOfBusiness)
+      ? validateCyberLobAttributes(form.cyberAttributes)
+      : {};
+    Object.assign(validationErrors, lobErrors);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -72,6 +107,9 @@ export default function CreateSubmissionPage() {
         premiumEstimate: normalizeOptionalNumber(form.premiumEstimate),
         expirationDate: form.expirationDate || null,
         description: normalizeOptionalText(form.description),
+        lobAttributes: isCyberLineOfBusiness(form.lineOfBusiness)
+          ? buildCyberEnvelope(form.cyberAttributes)
+          : null,
       });
 
       navigate(`/submissions/${created.id}`);
@@ -82,6 +120,13 @@ export default function CreateSubmissionPage() {
       }
 
       setServerError(describeSubmissionApiError(error));
+
+      if (error instanceof ApiError && error.code === 'lob_validation_failed') {
+        setErrors((current) => ({
+          ...current,
+          ...extractLobFieldErrors(error.problem?.lobErrors),
+        }));
+      }
 
       if (error instanceof ApiError && error.code === 'region_mismatch') {
         setErrors((current) => ({
@@ -207,6 +252,13 @@ export default function CreateSubmissionPage() {
                 placeholder="250000"
               />
 
+              <DynamicAttributePanel
+                lineOfBusiness={form.lineOfBusiness}
+                value={form.cyberAttributes}
+                onChange={updateCyberAttributes}
+                errors={errors}
+              />
+
               <div className="space-y-1.5">
                 <label
                   htmlFor="submission-description"
@@ -252,4 +304,17 @@ export default function CreateSubmissionPage() {
       </div>
     </DashboardLayout>
   );
+}
+
+function extractLobFieldErrors(
+  lobErrors: Array<{ path: string; message: string }> | undefined,
+): Record<string, string> {
+  if (!lobErrors) return {};
+
+  return lobErrors.reduce<Record<string, string>>((accumulator, issue) => {
+    const pathParts = issue.path.split('.');
+    const field = pathParts[pathParts.length - 1];
+    if (field) accumulator[field] = issue.message;
+    return accumulator;
+  }, {});
 }

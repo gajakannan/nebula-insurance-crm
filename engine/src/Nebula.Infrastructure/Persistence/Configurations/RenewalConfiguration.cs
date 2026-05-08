@@ -17,6 +17,8 @@ public class RenewalConfiguration : IEntityTypeConfiguration<Renewal>
         builder.Property(e => e.PolicyExpirationDate).IsRequired().HasColumnType("date");
         builder.Property(e => e.TargetOutreachDate).IsRequired().HasColumnType("date");
         builder.Property(e => e.AssignedToUserId).IsRequired();
+        builder.Property(e => e.LobProductVersionId).IsRequired();
+        builder.Property(e => e.LobAttributesJson).IsRequired().HasColumnType("jsonb").HasDefaultValueSql("'{}'::jsonb");
         builder.Property(e => e.LostReasonCode).HasMaxLength(50);
         builder.Property(e => e.LostReasonDetail).HasMaxLength(500);
         builder.Property(e => e.AccountDisplayNameAtLink).IsRequired().HasMaxLength(200);
@@ -44,6 +46,11 @@ public class RenewalConfiguration : IEntityTypeConfiguration<Renewal>
         builder.HasOne(e => e.BoundPolicy)
             .WithMany()
             .HasForeignKey(e => e.BoundPolicyId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(e => e.LobProductVersion)
+            .WithMany()
+            .HasForeignKey(e => e.LobProductVersionId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(e => e.AssignedToUser)
@@ -77,6 +84,9 @@ public class RenewalConfiguration : IEntityTypeConfiguration<Renewal>
 
         builder.HasIndex(e => e.BrokerId)
             .HasDatabaseName("IX_Renewals_BrokerId");
+
+        builder.HasIndex(e => e.LobProductVersionId)
+            .HasDatabaseName("IX_Renewals_LobProductVersionId");
 
         builder.HasIndex(e => e.PolicyId)
             .HasDatabaseName("IX_Renewals_PolicyId_Active")

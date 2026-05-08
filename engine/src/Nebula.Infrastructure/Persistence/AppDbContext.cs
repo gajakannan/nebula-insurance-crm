@@ -23,6 +23,10 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<Submission> Submissions => Set<Submission>();
     public DbSet<Policy> Policies => Set<Policy>();
     public DbSet<CarrierRef> CarrierRefs => Set<CarrierRef>();
+    public DbSet<LobProduct> LobProducts => Set<LobProduct>();
+    public DbSet<LobProductVersion> LobProductVersions => Set<LobProductVersion>();
+    public DbSet<LobSchemaBundle> LobSchemaBundles => Set<LobSchemaBundle>();
+    public DbSet<LobBundleActivationEvent> LobBundleActivationEvents => Set<LobBundleActivationEvent>();
     public DbSet<PolicyVersion> PolicyVersions => Set<PolicyVersion>();
     public DbSet<PolicyEndorsement> PolicyEndorsements => Set<PolicyEndorsement>();
     public DbSet<PolicyCoverageLine> PolicyCoverageLines => Set<PolicyCoverageLine>();

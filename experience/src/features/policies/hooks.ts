@@ -180,6 +180,11 @@ export function useEndorsePolicy(policyId: string) {
 
 export function describePolicyApiError(error: unknown): string {
   if (error instanceof ApiError) {
+    if (error.code === 'lob_validation_failed') {
+      return error.problem?.lobErrors?.[0]?.message
+        ?? 'LOB attributes do not satisfy the active product schema bundle.';
+    }
+
     if (error.problem?.errors) {
       const firstMessage = Object.values(error.problem.errors)[0]?.[0];
       if (firstMessage) return firstMessage;

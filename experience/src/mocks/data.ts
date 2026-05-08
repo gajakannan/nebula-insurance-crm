@@ -10,6 +10,7 @@ export {
   getRenewalTimeline,
   listRenewals,
   transitionRenewal,
+  updateRenewalLobAttributes,
 } from './renewals'
 export {
   cancelPolicy,
@@ -27,6 +28,7 @@ export {
   listPolicyTimeline,
   listPolicyVersions,
   reinstatePolicy,
+  updatePolicy,
 } from './policies'
 export {
   documentCompleteness,

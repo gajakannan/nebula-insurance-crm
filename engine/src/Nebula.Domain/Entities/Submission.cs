@@ -11,6 +11,8 @@ public class Submission : BaseEntity
     public DateTime? ExpirationDate { get; set; }
     public decimal? PremiumEstimate { get; set; }
     public string? Description { get; set; }
+    public Guid LobProductVersionId { get; set; }
+    public string LobAttributesJson { get; set; } = "{}";
     public Guid AssignedToUserId { get; set; }
     public string AccountDisplayNameAtLink { get; set; } = default!;
     public string AccountStatusAtRead { get; set; } = default!;
@@ -19,5 +21,6 @@ public class Submission : BaseEntity
     public Account Account { get; set; } = default!;
     public Broker Broker { get; set; } = default!;
     public Program? Program { get; set; }
+    public LobProductVersion LobProductVersion { get; set; } = default!;
     public UserProfile AssignedToUser { get; set; } = default!;
 }

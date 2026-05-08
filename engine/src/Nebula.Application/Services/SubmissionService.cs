@@ -16,6 +16,7 @@ public class SubmissionService(
     IReferenceDataRepository referenceDataRepo,
     IUserProfileRepository userProfileRepo,
     ISubmissionDocumentChecklistReader submissionDocumentChecklistReader,
+    LobAttributeService lobAttributeService,
     IUnitOfWork unitOfWork)
 {
     public async Task<PaginatedResult<SubmissionListItemDto>> ListAsync(
@@ -77,33 +78,37 @@ public class SubmissionService(
         return transitions.Select(MapTransition).ToList();
     }
 
-    public async Task<(SubmissionDto? Dto, string? ErrorCode)> CreateAsync(
+    public async Task<(SubmissionDto? Dto, string? ErrorCode, IReadOnlyList<LobValidationIssueDto>? LobErrors)> CreateAsync(
         SubmissionCreateDto dto,
         ICurrentUserService user,
         CancellationToken ct = default)
     {
         var account = await referenceDataRepo.GetAccountByIdAsync(dto.AccountId, ct);
         if (account is null)
-            return (null, "invalid_account");
+            return (null, "invalid_account", null);
         if (IsTerminalAccountState(account.Status))
-            return (null, "invalid_account");
+            return (null, "invalid_account", null);
 
         var broker = await brokerRepo.GetByIdAsync(dto.BrokerId, ct);
         if (broker is null || !string.Equals(broker.Status, "Active", StringComparison.Ordinal))
-            return (null, "invalid_broker");
+            return (null, "invalid_broker", null);
 
         if (!IsBrokerRegionAligned(account.Region, broker.BrokerRegions))
-            return (null, "region_mismatch");
+            return (null, "region_mismatch", null);
 
         if (dto.ProgramId.HasValue)
         {
             var program = await referenceDataRepo.GetProgramByIdAsync(dto.ProgramId.Value, ct);
             if (program is null)
-                return (null, "invalid_program");
+                return (null, "invalid_program", null);
         }
 
         if (!LineOfBusinessCatalog.IsValid(dto.LineOfBusiness))
-            return (null, "invalid_lob");
+            return (null, "invalid_lob", null);
+
+        var lobAttributes = await lobAttributeService.ValidateAndSerializeAsync(dto.LobAttributes, dto.LineOfBusiness, ct);
+        if (!lobAttributes.IsValid)
+            return (null, "lob_validation_failed", lobAttributes.Errors);
 
         var now = DateTime.UtcNow;
         var submission = new Submission
@@ -117,6 +122,8 @@ public class SubmissionService(
             ExpirationDate = dto.ExpirationDate ?? dto.EffectiveDate.AddMonths(12),
             PremiumEstimate = dto.PremiumEstimate,
             Description = dto.Description,
+            LobProductVersionId = lobAttributes.RequiredLobProductVersionId,
+            LobAttributesJson = lobAttributes.RequiredAttributesJson,
             AssignedToUserId = user.UserId,
             AccountDisplayNameAtLink = account.StableDisplayName,
             AccountStatusAtRead = account.Status,
@@ -154,6 +161,7 @@ public class SubmissionService(
                 brokerId = broker.Id,
                 brokerName = broker.LegalName,
                 currentStatus = submission.CurrentStatus,
+                lobProductVersionId = submission.LobProductVersionId,
             }),
         }, ct);
 
@@ -162,10 +170,10 @@ public class SubmissionService(
         var created = await submissionRepo.GetByIdWithIncludesAsync(submission.Id, ct)
             ?? throw new InvalidOperationException("Created submission could not be reloaded.");
 
-        return (await MapToDtoAsync(created, user, ct), null);
+        return (await MapToDtoAsync(created, user, ct), null, null);
     }
 
-    public async Task<(SubmissionDto? Dto, string? ErrorCode)> UpdateAsync(
+    public async Task<(SubmissionDto? Dto, string? ErrorCode, IReadOnlyList<LobValidationIssueDto>? LobErrors)> UpdateAsync(
         Guid id,
         SubmissionUpdateDto dto,
         IReadOnlySet<string> presentFields,
@@ -175,22 +183,33 @@ public class SubmissionService(
     {
         var submission = await submissionRepo.GetByIdWithIncludesAsync(id, ct);
         if (submission is null || !CanUpdateSubmission(user, submission))
-            return (null, "not_found");
+            return (null, "not_found", null);
 
         if (submission.RowVersion != expectedRowVersion)
-            return (null, "precondition_failed");
+            return (null, "precondition_failed", null);
 
         if (presentFields.Contains("programId") && dto.ProgramId.HasValue)
         {
             var program = await referenceDataRepo.GetProgramByIdAsync(dto.ProgramId.Value, ct);
             if (program is null)
-                return (null, "invalid_program");
+                return (null, "invalid_program", null);
         }
 
         if (presentFields.Contains("lineOfBusiness")
             && dto.LineOfBusiness is not null
             && !LineOfBusinessCatalog.IsValid(dto.LineOfBusiness))
-            return (null, "invalid_lob");
+            return (null, "invalid_lob", null);
+
+        var targetLineOfBusiness = presentFields.Contains("lineOfBusiness")
+            ? dto.LineOfBusiness
+            : submission.LineOfBusiness;
+        LobAttributeStorageResult? lobAttributes = null;
+        if (presentFields.Contains("lobAttributes"))
+        {
+            lobAttributes = await lobAttributeService.ValidateAndSerializeAsync(dto.LobAttributes, targetLineOfBusiness, ct);
+            if (!lobAttributes.IsValid)
+                return (null, "lob_validation_failed", lobAttributes.Errors);
+        }
 
         var changedFields = new Dictionary<string, object?>(StringComparer.Ordinal);
 
@@ -205,6 +224,17 @@ public class SubmissionService(
         {
             TrackChange(changedFields, "lineOfBusiness", submission.LineOfBusiness, dto.LineOfBusiness);
             submission.LineOfBusiness = dto.LineOfBusiness;
+            if (lobAttributes is null)
+            {
+                var defaultProductVersionId = LobSchemaDefaults.ResolveDefaultProductVersionId(dto.LineOfBusiness);
+                if (submission.LobProductVersionId != defaultProductVersionId
+                    || !string.Equals(submission.LobAttributesJson, LobSchemaDefaults.EmptyAttributesJson, StringComparison.Ordinal))
+                {
+                    TrackChange(changedFields, "lobAttributes", submission.LobAttributesJson, LobSchemaDefaults.EmptyAttributesJson);
+                    submission.LobProductVersionId = defaultProductVersionId;
+                    submission.LobAttributesJson = LobSchemaDefaults.EmptyAttributesJson;
+                }
+            }
         }
 
         if (presentFields.Contains("effectiveDate")
@@ -234,8 +264,17 @@ public class SubmissionService(
             submission.Description = dto.Description;
         }
 
+        if (lobAttributes is not null
+            && (!string.Equals(lobAttributes.RequiredAttributesJson, submission.LobAttributesJson, StringComparison.Ordinal)
+                || lobAttributes.RequiredLobProductVersionId != submission.LobProductVersionId))
+        {
+            TrackChange(changedFields, "lobAttributes", submission.LobAttributesJson, lobAttributes.RequiredAttributesJson);
+            submission.LobAttributesJson = lobAttributes.RequiredAttributesJson;
+            submission.LobProductVersionId = lobAttributes.RequiredLobProductVersionId;
+        }
+
         if (changedFields.Count == 0)
-            return (await MapToDtoAsync(submission, user, ct), null);
+            return (await MapToDtoAsync(submission, user, ct), null, null);
 
         var now = DateTime.UtcNow;
         submission.UpdatedAt = now;
@@ -264,13 +303,13 @@ public class SubmissionService(
         }
         catch (DbUpdateConcurrencyException)
         {
-            return (null, "precondition_failed");
+            return (null, "precondition_failed", null);
         }
 
         var updated = await submissionRepo.GetByIdWithIncludesAsync(submission.Id, ct)
             ?? throw new InvalidOperationException("Updated submission could not be reloaded.");
 
-        return (await MapToDtoAsync(updated, user, ct), null);
+        return (await MapToDtoAsync(updated, user, ct), null, null);
     }
 
     public async Task<(WorkflowTransitionRecordDto? Dto, string? ErrorCode, IReadOnlyList<string>? MissingItems)> TransitionAsync(
@@ -485,6 +524,7 @@ public class SubmissionService(
             submission.ExpirationDate,
             submission.PremiumEstimate,
             submission.Description,
+            lobAttributeService.Deserialize(submission.LobAttributesJson),
             submission.AssignedToUserId,
             fallback.DisplayName,
             fallback.Status,

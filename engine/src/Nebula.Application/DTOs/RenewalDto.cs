@@ -7,6 +7,7 @@ public record RenewalDto(
     Guid PolicyId,
     string CurrentStatus,
     string? LineOfBusiness,
+    LobAttributeEnvelopeDto? LobAttributes,
     DateTime PolicyExpirationDate,
     DateTime TargetOutreachDate,
     Guid AssignedToUserId,

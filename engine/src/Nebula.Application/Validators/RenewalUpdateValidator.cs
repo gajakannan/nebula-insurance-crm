@@ -9,3 +9,13 @@ public class RenewalUpdateValidator : AbstractValidator<RenewalUpdateDto>
     {
     }
 }
+
+public class RenewalLobAttributesUpdateValidator : AbstractValidator<RenewalLobAttributesUpdateDto>
+{
+    public RenewalLobAttributesUpdateValidator()
+    {
+        RuleFor(x => x.LobAttributes)
+            .NotNull()
+            .WithMessage("lobAttributes is required.");
+    }
+}
