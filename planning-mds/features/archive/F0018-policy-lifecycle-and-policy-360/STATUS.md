@@ -1,23 +1,23 @@
 # F0018 — Policy Lifecycle & Policy 360 — Status
 
-**Overall Status:** Done (Archived)
-**Last Updated:** 2026-04-22
+**Overall Status:** In Refinement
+**Last Updated:** 2026-04-18
 
 ## Story Checklist
 
 | Story | Title | Status |
 |-------|-------|--------|
-| F0018-S0001 | Policy list with search and filtering | Done |
-| F0018-S0002 | Create policy (manual, import-lite, F0019 bind-hook contract) | Done |
-| F0018-S0003 | Policy detail and profile edit | Done |
-| F0018-S0004 | Policy 360 composed workspace | Done |
-| F0018-S0005 | Immutable policy version snapshots and version history | Done |
-| F0018-S0006 | Policy endorsement events and term changes | Done |
-| F0018-S0007 | Policy cancellation (mid-term and flat) | Done |
-| F0018-S0008 | Policy reinstatement within LOB-configurable window | Done |
-| F0018-S0009 | Policy renewal linkage (predecessor / successor) | Done |
-| F0018-S0010 | Policy activity timeline and audit trail | Done |
-| F0018-S0011 | Policy summary projection for Account 360 | Done |
+| F0018-S0001 | Policy list with search and filtering | In Refinement |
+| F0018-S0002 | Create policy (manual, import-lite, F0019 bind-hook contract) | In Refinement |
+| F0018-S0003 | Policy detail and profile edit | In Refinement |
+| F0018-S0004 | Policy 360 composed workspace | In Refinement |
+| F0018-S0005 | Immutable policy version snapshots and version history | In Refinement |
+| F0018-S0006 | Policy endorsement events and term changes | In Refinement |
+| F0018-S0007 | Policy cancellation (mid-term and flat) | In Refinement |
+| F0018-S0008 | Policy reinstatement within LOB-configurable window | In Refinement |
+| F0018-S0009 | Policy renewal linkage (predecessor / successor) | In Refinement |
+| F0018-S0010 | Policy activity timeline and audit trail | In Refinement |
+| F0018-S0011 | Policy summary projection for Account 360 | In Refinement |
 
 ## Required Signoff Roles (Set in Planning)
 
@@ -33,61 +33,61 @@
 
 | Story | Role | Reviewer | Verdict | Evidence | Date | Notes |
 |-------|------|----------|---------|----------|------|-------|
-| F0018-S0001 | Quality Engineer | Codex feature runner / Quality Engineer | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0001 | Code Reviewer | Codex feature runner / Code Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-code-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0001 | Security Reviewer | Codex feature runner / Security Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-security-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0001 | DevOps | Codex feature runner / DevOps | PASS | `planning-mds/operations/evidence/f0018/runtime-preflight-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0001 | Architect | Codex feature runner / Architect | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0002 | Quality Engineer | Codex feature runner / Quality Engineer | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0002 | Code Reviewer | Codex feature runner / Code Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-code-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0002 | Security Reviewer | Codex feature runner / Security Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-security-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0002 | DevOps | Codex feature runner / DevOps | PASS | `planning-mds/operations/evidence/f0018/runtime-preflight-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0002 | Architect | Codex feature runner / Architect | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0003 | Quality Engineer | Codex feature runner / Quality Engineer | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0003 | Code Reviewer | Codex feature runner / Code Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-code-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0003 | Security Reviewer | Codex feature runner / Security Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-security-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0003 | DevOps | Codex feature runner / DevOps | PASS | `planning-mds/operations/evidence/f0018/runtime-preflight-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0003 | Architect | Codex feature runner / Architect | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0004 | Quality Engineer | Codex feature runner / Quality Engineer | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0004 | Code Reviewer | Codex feature runner / Code Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-code-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0004 | Security Reviewer | Codex feature runner / Security Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-security-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0004 | DevOps | Codex feature runner / DevOps | PASS | `planning-mds/operations/evidence/f0018/runtime-preflight-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0004 | Architect | Codex feature runner / Architect | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0005 | Quality Engineer | Codex feature runner / Quality Engineer | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0005 | Code Reviewer | Codex feature runner / Code Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-code-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0005 | Security Reviewer | Codex feature runner / Security Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-security-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0005 | DevOps | Codex feature runner / DevOps | PASS | `planning-mds/operations/evidence/f0018/runtime-preflight-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0005 | Architect | Codex feature runner / Architect | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0006 | Quality Engineer | Codex feature runner / Quality Engineer | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0006 | Code Reviewer | Codex feature runner / Code Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-code-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0006 | Security Reviewer | Codex feature runner / Security Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-security-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0006 | DevOps | Codex feature runner / DevOps | PASS | `planning-mds/operations/evidence/f0018/runtime-preflight-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0006 | Architect | Codex feature runner / Architect | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0007 | Quality Engineer | Codex feature runner / Quality Engineer | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0007 | Code Reviewer | Codex feature runner / Code Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-code-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0007 | Security Reviewer | Codex feature runner / Security Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-security-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0007 | DevOps | Codex feature runner / DevOps | PASS | `planning-mds/operations/evidence/f0018/runtime-preflight-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0007 | Architect | Codex feature runner / Architect | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0008 | Quality Engineer | Codex feature runner / Quality Engineer | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0008 | Code Reviewer | Codex feature runner / Code Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-code-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0008 | Security Reviewer | Codex feature runner / Security Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-security-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0008 | DevOps | Codex feature runner / DevOps | PASS | `planning-mds/operations/evidence/f0018/runtime-preflight-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0008 | Architect | Codex feature runner / Architect | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0009 | Quality Engineer | Codex feature runner / Quality Engineer | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0009 | Code Reviewer | Codex feature runner / Code Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-code-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0009 | Security Reviewer | Codex feature runner / Security Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-security-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0009 | DevOps | Codex feature runner / DevOps | PASS | `planning-mds/operations/evidence/f0018/runtime-preflight-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0009 | Architect | Codex feature runner / Architect | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0010 | Quality Engineer | Codex feature runner / Quality Engineer | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0010 | Code Reviewer | Codex feature runner / Code Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-code-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0010 | Security Reviewer | Codex feature runner / Security Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-security-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0010 | DevOps | Codex feature runner / DevOps | PASS | `planning-mds/operations/evidence/f0018/runtime-preflight-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0010 | Architect | Codex feature runner / Architect | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0011 | Quality Engineer | Codex feature runner / Quality Engineer | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0011 | Code Reviewer | Codex feature runner / Code Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-code-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0011 | Security Reviewer | Codex feature runner / Security Reviewer | PASS | `planning-mds/operations/evidence/f0018/g3-security-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0011 | DevOps | Codex feature runner / DevOps | PASS | `planning-mds/operations/evidence/f0018/runtime-preflight-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
-| F0018-S0011 | Architect | Codex feature runner / Architect | PASS | `planning-mds/operations/evidence/f0018/g2-self-review-2026-04-22.md` | 2026-04-22 | PM closeout confirms story closed as Done. |
+| F0018-S0001 | Quality Engineer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0001 | Code Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0001 | Security Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0001 | DevOps | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0001 | Architect | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0002 | Quality Engineer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0002 | Code Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0002 | Security Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0002 | DevOps | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0002 | Architect | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0003 | Quality Engineer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0003 | Code Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0003 | Security Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0003 | DevOps | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0003 | Architect | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0004 | Quality Engineer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0004 | Code Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0004 | Security Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0004 | DevOps | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0004 | Architect | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0005 | Quality Engineer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0005 | Code Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0005 | Security Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0005 | DevOps | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0005 | Architect | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0006 | Quality Engineer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0006 | Code Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0006 | Security Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0006 | DevOps | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0006 | Architect | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0007 | Quality Engineer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0007 | Code Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0007 | Security Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0007 | DevOps | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0007 | Architect | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0008 | Quality Engineer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0008 | Code Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0008 | Security Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0008 | DevOps | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0008 | Architect | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0009 | Quality Engineer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0009 | Code Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0009 | Security Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0009 | DevOps | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0009 | Architect | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0010 | Quality Engineer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0010 | Code Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0010 | Security Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0010 | DevOps | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0010 | Architect | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0011 | Quality Engineer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0011 | Code Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0011 | Security Reviewer | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0011 | DevOps | - | N/A | - | - | Populate after Phase B architect design lands. |
+| F0018-S0011 | Architect | - | N/A | - | - | Populate after Phase B architect design lands. |
 
 ---
 

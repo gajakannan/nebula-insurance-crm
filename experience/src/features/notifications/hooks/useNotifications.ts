@@ -1,98 +1,118 @@
 import { useCallback, useMemo, useState } from 'react';
-import type { NotificationItem, NotificationTab } from '../types';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { api } from '@/services/api';
+import type { NotificationItem, NotificationListResponseDto, NotificationTab } from '../types';
 
-const INITIAL_NOTIFICATIONS: NotificationItem[] = [
-  {
-    id: 'n-1',
-    title: 'Broker created',
-    message: 'Harbor Agency 012 was added by Priya Patel.',
-    timeLabel: '2m ago',
-    actionLabel: 'Open broker',
-    read: false,
-    assigned: true,
-  },
-  {
-    id: 'n-2',
-    title: 'Opportunity moved stage',
-    message: 'Compass Markets 138 moved to Quoted.',
-    timeLabel: '8m ago',
-    actionLabel: 'Open opportunity',
-    read: false,
-    assigned: false,
-  },
-  {
-    id: 'n-3',
-    title: 'Task overdue',
-    message: 'Follow up with Blue Horizon Risk Partners is overdue.',
-    timeLabel: '1h ago',
-    actionLabel: 'Open task',
-    read: false,
-    assigned: true,
-  },
-  {
-    id: 'n-4',
-    title: 'Data sync warning',
-    message: 'CRM import completed with 3 warnings.',
-    timeLabel: '2h ago',
-    actionLabel: 'View details',
-    read: true,
-    assigned: false,
-  },
-  {
-    id: 'n-5',
-    title: 'Neuron analysis ready',
-    message: 'Renewal risk summary completed for this account.',
-    timeLabel: '3h ago',
-    actionLabel: 'Open Neuron',
-    read: true,
-    assigned: false,
-  },
-];
+function formatTimeLabel(createdAt: string): string {
+  const now = Date.now();
+  const created = new Date(createdAt).getTime();
+  const diffMs = now - created;
+  const diffMin = Math.floor(diffMs / 60_000);
+
+  if (diffMin < 1) return 'Just now';
+  if (diffMin < 60) return `${diffMin}m ago`;
+
+  const diffHours = Math.floor(diffMin / 60);
+  if (diffHours < 24) return `${diffHours}h ago`;
+
+  const diffDays = Math.floor(diffHours / 24);
+  return `${diffDays}d ago`;
+}
+
+function mapActionLabel(linkedEntityType: string | null): string | undefined {
+  if (!linkedEntityType) return undefined;
+  return `Open ${linkedEntityType.toLowerCase()}`;
+}
 
 export function useNotifications() {
-  const [items, setItems] = useState<NotificationItem[]>(INITIAL_NOTIFICATIONS);
+  const queryClient = useQueryClient();
   const [tab, setTab] = useState<NotificationTab>('all');
 
-  const unreadCount = useMemo(
-    () => items.reduce((count, item) => count + (item.read ? 0 : 1), 0),
-    [items],
-  );
+  const { data, isLoading } = useQuery({
+    queryKey: ['my', 'notifications', tab],
+    queryFn: () =>
+      api.get<NotificationListResponseDto>(
+        `/my/notifications?limit=20${tab === 'unread' ? '&tab=unread' : ''}`,
+      ),
+    refetchInterval: 30_000,
+  });
 
-  const visibleItems = useMemo(() => {
-    if (tab === 'unread') return items.filter((item) => !item.read);
-    if (tab === 'assigned') return items.filter((item) => item.assigned);
-    return items;
-  }, [items, tab]);
+  const items: NotificationItem[] = useMemo(() => {
+    if (!data?.notifications) return [];
+    return data.notifications.map((n) => ({
+      id: n.id,
+      title: n.title,
+      message: n.message,
+      timeLabel: formatTimeLabel(n.createdAt),
+      actionLabel: mapActionLabel(n.linkedEntityType),
+      read: n.isRead,
+      linkedEntityType: n.linkedEntityType ?? undefined,
+      linkedEntityId: n.linkedEntityId ?? undefined,
+    }));
+  }, [data]);
+
+  const unreadCount = data?.unreadCount ?? 0;
+
+  const visibleItems = items;
+
+  const markReadMutation = useMutation({
+    mutationFn: (id: string) =>
+      api.patch<void>(`/my/notifications/${id}/read`, {}),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['my', 'notifications'] });
+    },
+  });
+
+  const markAllReadMutation = useMutation({
+    mutationFn: () => api.post<void>('/my/notifications/mark-all-read', {}),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['my', 'notifications'] });
+    },
+  });
+
+  const dismissMutation = useMutation({
+    mutationFn: (id: string) => api.delete(`/my/notifications/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['my', 'notifications'] });
+    },
+  });
 
   const markAllRead = useCallback(() => {
-    setItems((prev) => prev.map((item) => ({ ...item, read: true })));
-  }, []);
+    markAllReadMutation.mutate();
+  }, [markAllReadMutation]);
 
   const clearAll = useCallback(() => {
-    setItems([]);
-  }, []);
+    // Dismiss all visible notifications one by one
+    items.forEach((item) => dismissMutation.mutate(item.id));
+  }, [items, dismissMutation]);
 
-  const toggleRead = useCallback((id: string) => {
-    setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, read: !item.read } : item)),
-    );
-  }, []);
+  const toggleRead = useCallback(
+    (id: string) => {
+      markReadMutation.mutate(id);
+    },
+    [markReadMutation],
+  );
 
-  const dismiss = useCallback((id: string) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
-  }, []);
+  const dismiss = useCallback(
+    (id: string) => {
+      dismissMutation.mutate(id);
+    },
+    [dismissMutation],
+  );
 
-  const openNotification = useCallback((id: string) => {
-    setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, read: true } : item)),
-    );
-  }, []);
+  const openNotification = useCallback(
+    (id: string) => {
+      markReadMutation.mutate(id);
+    },
+    [markReadMutation],
+  );
 
   return {
     items,
     tab,
     unreadCount,
     visibleItems,
+    isLoading,
     setTab,
     markAllRead,
     clearAll,
@@ -101,4 +121,3 @@ export function useNotifications() {
     openNotification,
   };
 }
-

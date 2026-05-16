@@ -140,6 +140,7 @@ builder.Services.AddScoped<LobSchemaService>();
 builder.Services.AddScoped<LobAttributeService>();
 builder.Services.AddScoped<DashboardService>();
 builder.Services.AddScoped<TaskService>();
+builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TimelineService>();
 builder.Services.AddScoped<ReferenceDataService>();
@@ -285,6 +286,7 @@ app.MapLobSchemaEndpoints();
 app.MapDocumentEndpoints();
 app.MapDashboardEndpoints();
 app.MapTaskEndpoints();
+app.MapNotificationEndpoints();
 app.MapUserEndpoints();
 app.MapTimelineEndpoints();
 

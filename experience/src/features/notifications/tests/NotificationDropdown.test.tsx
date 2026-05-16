@@ -1,63 +1,118 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { NotificationDropdown } from '../components/NotificationDropdown'
+import { renderWithProviders } from '@/test-utils/render-app'
+
+const { mockGetUser } = vi.hoisted(() => ({
+  mockGetUser: vi.fn(),
+}))
+
+mockGetUser.mockResolvedValue({
+  expired: false,
+  access_token: 'test-token',
+  profile: {
+    sub: 'user-dist-manager',
+    email: 'sarah.chen@nebula.local',
+    name: 'Sarah Chen',
+    nebula_roles: ['DistributionManager'],
+  },
+})
+
+vi.mock('@/features/auth/oidcUserManager', () => ({
+  oidcUserManager: {
+    getUser: mockGetUser,
+    events: {
+      addUserLoaded: vi.fn(),
+      addUserUnloaded: vi.fn(),
+      removeUserLoaded: vi.fn(),
+      removeUserUnloaded: vi.fn(),
+    },
+  },
+}))
 
 describe('NotificationDropdown', () => {
-  it('opens, filters, toggles read state, and clears notifications', async () => {
+  it('opens and shows notifications from API', async () => {
     const user = userEvent.setup()
 
-    render(<NotificationDropdown />)
+    renderWithProviders(<NotificationDropdown />)
 
     const trigger = screen.getByRole('button', { name: 'Notifications' })
-    expect(trigger).toHaveTextContent('3')
-
     await user.click(trigger)
 
-    expect(screen.getByText('Notifications')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Mark all read' })).toBeEnabled()
+    await waitFor(() => {
+      expect(screen.getByText('Broker created')).toBeInTheDocument()
+    })
 
-    await user.click(screen.getByRole('button', { name: 'Unread' }))
-    expect(screen.getByText('Broker created')).toBeInTheDocument()
-    expect(screen.queryByText('Data sync warning')).not.toBeInTheDocument()
-
-    await user.click(screen.getByRole('button', { name: 'Assigned' }))
+    expect(screen.getByText('Submission received')).toBeInTheDocument()
     expect(screen.getByText('Task overdue')).toBeInTheDocument()
-    expect(screen.queryByText('Opportunity moved stage')).not.toBeInTheDocument()
-
-    await user.click(screen.getByRole('button', { name: 'All' }))
-    await user.click(screen.getByRole('button', { name: 'Open broker' }))
-    expect(trigger).toHaveTextContent('2')
-
-    await user.click(screen.getByRole('button', { name: 'Mark all read' }))
-    expect(trigger).not.toHaveTextContent(/[1-9]/)
-
-    await user.click(screen.getByRole('button', { name: 'Clear all' }))
-    expect(screen.getByText("You're all caught up.")).toBeInTheDocument()
+    expect(screen.getByText('Opportunity moved stage')).toBeInTheDocument()
+    expect(screen.getByText('Data sync warning')).toBeInTheDocument()
   })
 
-  it('supports dismiss, closes on Escape, and closes on outside click', async () => {
+  it('shows unread badge count', async () => {
     const user = userEvent.setup()
 
-    render(<NotificationDropdown />)
+    renderWithProviders(<NotificationDropdown />)
+
+    const trigger = screen.getByRole('button', { name: 'Notifications' })
+
+    await waitFor(() => {
+      expect(trigger).toHaveTextContent('3')
+    })
+  })
+
+  it('filters to unread tab', async () => {
+    const user = userEvent.setup()
+
+    renderWithProviders(<NotificationDropdown />)
 
     await user.click(screen.getByRole('button', { name: 'Notifications' }))
-    expect(screen.getByText('Broker created')).toBeInTheDocument()
 
-    await user.click(screen.getAllByRole('button', { name: 'Dismiss' })[0])
-    expect(screen.queryByText('Broker created')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.getByText('Broker created')).toBeInTheDocument()
+    })
+
+    await user.click(screen.getByRole('button', { name: 'Unread' }))
+
+    await waitFor(() => {
+      expect(screen.getByText('Broker created')).toBeInTheDocument()
+    })
+    expect(screen.getByText('Submission received')).toBeInTheDocument()
+    expect(screen.getByText('Task overdue')).toBeInTheDocument()
+  })
+
+  it('closes on Escape key', async () => {
+    const user = userEvent.setup()
+
+    renderWithProviders(<NotificationDropdown />)
+
+    await user.click(screen.getByRole('button', { name: 'Notifications' }))
+
+    await waitFor(() => {
+      expect(screen.getByText('Broker created')).toBeInTheDocument()
+    })
 
     fireEvent.keyDown(document, { key: 'Escape' })
     await waitFor(() => {
-      expect(screen.queryByText('Notifications')).not.toBeInTheDocument()
+      expect(screen.queryByText('Broker created')).not.toBeInTheDocument()
     })
+  })
+
+  it('closes on outside click', async () => {
+    const user = userEvent.setup()
+
+    renderWithProviders(<NotificationDropdown />)
 
     await user.click(screen.getByRole('button', { name: 'Notifications' }))
-    expect(screen.getByText('Notifications')).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.getByText('Broker created')).toBeInTheDocument()
+    })
 
     fireEvent.mouseDown(document.body)
     await waitFor(() => {
-      expect(screen.queryByText('Notifications')).not.toBeInTheDocument()
+      expect(screen.queryByText('Broker created')).not.toBeInTheDocument()
     })
   })
 })

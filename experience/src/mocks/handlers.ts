@@ -52,6 +52,7 @@ import {
   replaceDocument,
   submissionFlowFixture,
   reinstatePolicy,
+  notificationFixture,
   taskFixture,
   timelineFixture,
   updateDocumentMetadata,
@@ -129,6 +130,26 @@ export const handlers = [
   }),
 
   http.get(apiUrl('/my/tasks'), () => HttpResponse.json(taskFixture)),
+
+  http.get(apiUrl('/my/notifications'), ({ request }) => {
+    const url = new URL(request.url)
+    const tab = url.searchParams.get('tab')
+    if (tab === 'unread') {
+      const unread = notificationFixture.notifications.filter((n) => !n.isRead)
+      return HttpResponse.json({
+        notifications: unread,
+        totalCount: unread.length,
+        unreadCount: unread.length,
+      })
+    }
+    return HttpResponse.json(notificationFixture)
+  }),
+
+  http.patch(apiUrl('/my/notifications/:id/read'), () => new HttpResponse(null, { status: 204 })),
+
+  http.post(apiUrl('/my/notifications/mark-all-read'), () => new HttpResponse(null, { status: 204 })),
+
+  http.delete(apiUrl('/my/notifications/:id'), () => new HttpResponse(null, { status: 204 })),
 
   http.get(apiUrl('/lob-schemas/active/:productKey/:productVersion/:schemaVersion'), ({ params }) => {
     if (

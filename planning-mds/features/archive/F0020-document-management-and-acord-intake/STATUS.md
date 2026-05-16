@@ -1,24 +1,24 @@
 # F0020 — Document Management & ACORD Intake — Status
 
-**Overall Status:** Done (Archived)
-**Last Updated:** 2026-05-05
+**Overall Status:** Draft
+**Last Updated:** 2026-05-04
 
 ## Story Checklist
 
 | Story | Title | Status |
 |-------|-------|--------|
-| F0020-S0001 | Upload single document with metadata to a parent record | Done |
-| F0020-S0002 | Bulk multi-file upload to a parent record | Done |
-| F0020-S0003 | Quarantine and mock-scan workflow | Done |
-| F0020-S0004 | List documents on a parent record with classification filtering | Done |
-| F0020-S0005 | Document detail view with preview and provenance | Done |
-| F0020-S0006 | Download a document for current and prior versions | Done |
-| F0020-S0007 | Replace a document with immutable supersedes lineage | Done |
-| F0020-S0008 | Update document metadata without creating a new binary version | Done |
-| F0020-S0009 | Classification-based access control on document operations | Done |
-| F0020-S0010 | Document completeness signal endpoint | Done |
-| F0020-S0011 | Retention policy YAML and scheduled cleanup | Done |
-| F0020-S0012 | Document templates library | Done |
+| F0020-S0001 | Upload single document with metadata to a parent record | [ ] Not Started |
+| F0020-S0002 | Bulk multi-file upload to a parent record | [ ] Not Started |
+| F0020-S0003 | Quarantine and mock-scan workflow | [ ] Not Started |
+| F0020-S0004 | List documents on a parent record with classification filtering | [ ] Not Started |
+| F0020-S0005 | Document detail view with preview and provenance | [ ] Not Started |
+| F0020-S0006 | Download a document for current and prior versions | [ ] Not Started |
+| F0020-S0007 | Replace a document with immutable supersedes lineage | [ ] Not Started |
+| F0020-S0008 | Update document metadata without creating a new binary version | [ ] Not Started |
+| F0020-S0009 | Classification-based access control on document operations | [ ] Not Started |
+| F0020-S0010 | Document completeness signal endpoint | [ ] Not Started |
+| F0020-S0011 | Retention policy YAML and scheduled cleanup | [ ] Not Started |
+| F0020-S0012 | Document templates library | [ ] Not Started |
 
 ## Backend Progress
 

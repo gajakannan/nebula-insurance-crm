@@ -105,7 +105,7 @@ export function NotificationDropdown() {
             </div>
 
             <div className="mt-3 inline-flex items-center gap-1 rounded-lg border border-border-muted bg-surface-panel p-1">
-              {(['all', 'unread', 'assigned'] as const).map((key) => {
+              {(['all', 'unread'] as const).map((key) => {
                 const active = tab === key;
                 return (
                   <button
@@ -118,7 +118,7 @@ export function NotificationDropdown() {
                         : 'rounded-md px-2 py-1 text-xs text-text-muted hover:text-text-secondary'
                     }
                   >
-                    {key === 'all' ? 'All' : key === 'unread' ? 'Unread' : 'Assigned'}
+                    {key === 'all' ? 'All' : 'Unread'}
                   </button>
                 );
               })}
@@ -129,9 +129,7 @@ export function NotificationDropdown() {
                 <p className="rounded-lg border border-surface-border bg-surface-card/70 px-3 py-3 text-xs text-text-muted">
                   {items.length === 0
                     ? "You're all caught up."
-                    : tab === 'unread'
-                      ? 'No unread notifications.'
-                      : 'No assigned notifications.'}
+                    : 'No unread notifications.'}
                 </p>
               ) : (
                 visibleItems.map((item) => (
