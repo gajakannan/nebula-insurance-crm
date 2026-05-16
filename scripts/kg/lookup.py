@@ -18,6 +18,8 @@ from kg_common import (
     feature_or_story_by_id,
     get_symbol_by_id,
     load_bundle,
+    match_decisions_for_path,
+    match_decisions_for_symbol,
     match_bindings_for_path,
     match_symbol_by_name,
     match_symbols_for_node,
@@ -388,6 +390,7 @@ def lookup_by_symbol(
                 "symbol": symbol,
                 "callers": callers,
                 "callees": callees,
+                "decisions": match_decisions_for_symbol(symbol["id"], bundle),
                 "siblings_in_file": siblings[:25],
                 "siblings_truncated": max(0, len(siblings) - 25),
             }
@@ -416,6 +419,7 @@ def lookup_by_file(path: str, bundle: dict[str, Any]) -> dict[str, Any]:
             }
             for match in binding_matches
         ],
+        "decisions": match_decisions_for_path(path, bundle),
         "source_precedence": bundle["ontology"]["authority"]["precedence"],
     }
 

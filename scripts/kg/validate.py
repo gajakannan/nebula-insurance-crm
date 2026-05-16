@@ -44,6 +44,12 @@ class ValidationReport:
 
 COVERAGE_REPORT_PATH = KG_DIR / "coverage-report.yaml"
 SYMBOL_INDEX_PATH = KG_DIR / "symbol-index.yaml"
+DECISIONS_INDEX_PATH = KG_DIR / "decisions-index.yaml"
+DECISION_KINDS = {"WHY", "DECISION", "TRADEOFF", "SUPERSEDES"}
+ADR_REF_RE = re.compile(
+    r"\b(?:ADR[-\s:]?|adr:)([A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)\b",
+    re.IGNORECASE,
+)
 
 
 def validate_id(report: ValidationReport, node_id: str, node_type: str, patterns: dict[str, Any]) -> None:
@@ -193,6 +199,7 @@ def build_coverage_report(
     excluded_paths: set[str],
     uncovered: list[str],
     symbol_summary: dict[str, Any] | None = None,
+    decisions_summary: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     canonical = bundle["canonical"]
     mappings = bundle["mappings"]
@@ -230,6 +237,9 @@ def build_coverage_report(
     if symbol_summary and symbol_summary.get("exists"):
         summary["symbol_count"] = symbol_summary.get("symbol_count", 0)
         summary["bound_symbol_count"] = symbol_summary.get("bound_symbol_count", 0)
+    if decisions_summary and decisions_summary.get("exists"):
+        summary["decision_count"] = decisions_summary.get("decision_count", 0)
+        summary["why_count"] = decisions_summary.get("why_count", 0)
 
     report_payload: dict[str, Any] = {
         "version": 0,
@@ -251,6 +261,12 @@ def build_coverage_report(
             "symbol_count": symbol_summary.get("symbol_count", 0),
             "bound_symbol_count": symbol_summary.get("bound_symbol_count", 0),
             "by_language": symbol_summary.get("by_language", {}),
+        }
+    if decisions_summary and decisions_summary.get("exists"):
+        report_payload["decisions"] = {
+            "decision_count": decisions_summary.get("decision_count", 0),
+            "why_count": decisions_summary.get("why_count", 0),
+            "by_kind": decisions_summary.get("by_kind", {}),
         }
     return report_payload
 
@@ -506,6 +522,152 @@ def validate_symbol_index(
     return summary
 
 
+def normalize_adr_ref(value: str) -> str | None:
+    match = ADR_REF_RE.search(value)
+    if not match:
+        return None
+    return f"adr:{match.group(1).lower()}"
+
+
+def why_polarity_key(text: str) -> tuple[str, str, int] | None:
+    """Return a conservative contradiction key for WHY text."""
+    normalized = re.sub(r"[^a-z0-9\s-]", " ", text.lower())
+    normalized = re.sub(r"\s+", " ", normalized).strip()
+    patterns = (
+        (r"\bmust not\s+(.+)", "must", -1),
+        (r"\bmust\s+(.+)", "must", 1),
+        (r"\bshould not\s+(.+)", "should", -1),
+        (r"\bshould\s+(.+)", "should", 1),
+        (r"\bnever\s+(.+)", "always", -1),
+        (r"\balways\s+(.+)", "always", 1),
+    )
+    for pattern, modal, polarity in patterns:
+        match = re.search(pattern, normalized)
+        if not match:
+            continue
+        remainder = " ".join(match.group(1).split()[:10])
+        if remainder:
+            return modal, remainder, polarity
+    return None
+
+
+def validate_why_contradictions(
+    report: ValidationReport, why_entries: list[dict[str, Any]]
+) -> None:
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for entry in why_entries:
+        group_key = entry.get("resolved_symbol") or f"file:{entry.get('file')}"
+        grouped.setdefault(group_key, []).append(entry)
+
+    for group_key, entries in grouped.items():
+        seen: dict[tuple[str, str], tuple[int, dict[str, Any]]] = {}
+        for entry in entries:
+            key = why_polarity_key(entry.get("text", ""))
+            if key is None:
+                continue
+            modal, subject, polarity = key
+            prior = seen.get((modal, subject))
+            if prior is not None and prior[0] != polarity:
+                report.warn(
+                    "Potential contradictory WHY markers on "
+                    f"{group_key}: {prior[1].get('id')} and {entry.get('id')}"
+                )
+            else:
+                seen[(modal, subject)] = (polarity, entry)
+
+
+def validate_decision_index(
+    report: ValidationReport, bundle: dict[str, Any], *, required: bool = False
+) -> dict[str, Any]:
+    """Validate decisions-index.yaml and return summary for coverage."""
+    summary: dict[str, Any] = {
+        "exists": False,
+        "decision_count": 0,
+        "why_count": 0,
+        "by_kind": {},
+    }
+    if not DECISIONS_INDEX_PATH.exists():
+        if required:
+            report.error(
+                "decisions-index.yaml not found "
+                "(run python3 scripts/kg/decisions.py to generate)"
+            )
+        return summary
+
+    decisions_doc = yaml.safe_load(DECISIONS_INDEX_PATH.read_text(encoding="utf-8")) or {}
+    decisions = decisions_doc.get("decisions", []) or []
+    summary["exists"] = True
+    summary["decision_count"] = len(decisions)
+
+    all_nodes = bundle["all_nodes"]
+    symbols_by_id = bundle.get("symbols_by_id", {})
+    seen_ids: set[str] = set()
+    by_kind: dict[str, int] = {}
+    why_entries: list[dict[str, Any]] = []
+
+    for entry in decisions:
+        decision_id = entry.get("id")
+        if not decision_id or not isinstance(decision_id, str):
+            report.error(f"decisions-index entry missing id: {entry!r}")
+            continue
+        if decision_id in seen_ids:
+            report.error(f"duplicate decision id in decisions-index.yaml: {decision_id}")
+            continue
+        seen_ids.add(decision_id)
+
+        kind = entry.get("kind")
+        if kind not in DECISION_KINDS:
+            report.error(f"decision {decision_id} has invalid kind: {kind!r}")
+        else:
+            by_kind[kind] = by_kind.get(kind, 0) + 1
+            if kind == "WHY":
+                why_entries.append(entry)
+
+        if not entry.get("text"):
+            report.error(f"decision {decision_id} is missing text")
+
+        file_rel = entry.get("file")
+        line = entry.get("line")
+        if not file_rel:
+            report.error(f"decision {decision_id} missing file")
+        else:
+            abs_path = REPO_ROOT / normalize_repo_path(file_rel)
+            if not abs_path.is_file():
+                report.error(f"decision {decision_id} file does not exist: {file_rel}")
+            elif not isinstance(line, int) or line < 1:
+                report.error(f"decision {decision_id} has invalid line: {line!r}")
+            else:
+                line_count = len(abs_path.read_text(encoding="utf-8").splitlines())
+                if line > line_count:
+                    report.error(
+                        f"decision {decision_id} line {line} exceeds file length {line_count}"
+                    )
+
+        node_id = entry.get("resolved_node")
+        if not node_id or node_id not in all_nodes:
+            report.error(
+                f"decision {decision_id} references unknown canonical node: {node_id}"
+            )
+
+        symbol_id = entry.get("resolved_symbol")
+        if symbol_id and symbol_id not in symbols_by_id:
+            report.warn(
+                f"decision {decision_id} references unknown symbol: {symbol_id}"
+            )
+
+        if kind == "SUPERSEDES":
+            adr_ref = entry.get("supersedes_adr") or normalize_adr_ref(entry.get("text", ""))
+            if not adr_ref:
+                report.error(f"SUPERSEDES marker {decision_id} is missing an ADR reference")
+            elif adr_ref not in all_nodes:
+                report.error(f"SUPERSEDES marker {decision_id} references unknown ADR: {adr_ref}")
+
+    validate_why_contradictions(report, why_entries)
+    summary["why_count"] = by_kind.get("WHY", 0)
+    summary["by_kind"] = by_kind
+    return summary
+
+
 def regenerate_symbols() -> int:
     """Delegate to scripts/kg/symbols.py to regenerate symbol-index.yaml."""
     symbols_script = Path(__file__).resolve().parent / "symbols.py"
@@ -515,6 +677,20 @@ def regenerate_symbols() -> int:
     print(f"[validate] regenerating symbol-index via {symbols_script}")
     result = subprocess.run(
         [sys.executable, str(symbols_script)],
+        cwd=str(REPO_ROOT),
+    )
+    return result.returncode
+
+
+def regenerate_decisions() -> int:
+    """Delegate to scripts/kg/decisions.py to regenerate decisions-index.yaml."""
+    decisions_script = Path(__file__).resolve().parent / "decisions.py"
+    if not decisions_script.exists():
+        print(f"decisions.py not found at {decisions_script}", file=sys.stderr)
+        return 1
+    print(f"[validate] regenerating decisions-index via {decisions_script}")
+    result = subprocess.run(
+        [sys.executable, str(decisions_script)],
         cwd=str(REPO_ROOT),
     )
     return result.returncode
@@ -548,10 +724,24 @@ def main() -> int:
         action="store_true",
         help="Regenerate symbol-index.yaml by running scripts/kg/symbols.py before validating.",
     )
+    parser.add_argument(
+        "--check-decisions",
+        action="store_true",
+        help="Validate decisions-index.yaml: inline markers must resolve to real files, nodes, symbols, and ADRs.",
+    )
+    parser.add_argument(
+        "--regenerate-decisions",
+        action="store_true",
+        help="Regenerate decisions-index.yaml by running scripts/kg/decisions.py before validating.",
+    )
     args = parser.parse_args()
 
     if args.regenerate_symbols:
         rc = regenerate_symbols()
+        if rc != 0:
+            return rc
+    if args.regenerate_decisions:
+        rc = regenerate_decisions()
         if rc != 0:
             return rc
 
@@ -687,9 +877,17 @@ def main() -> int:
             validate_external_memory_drift(report, args.memory_dir)
 
     symbol_summary = validate_symbol_index(report, bundle, required=args.check_symbols)
+    decisions_summary = validate_decision_index(
+        report, bundle, required=args.check_decisions
+    )
 
     coverage_report = build_coverage_report(
-        bundle, mapped_feature_paths, excluded_paths, uncovered, symbol_summary
+        bundle,
+        mapped_feature_paths,
+        excluded_paths,
+        uncovered,
+        symbol_summary,
+        decisions_summary,
     )
     if args.write_coverage_report:
         write_coverage_report(coverage_report)
@@ -736,6 +934,14 @@ def main() -> int:
             f"Symbol index:      {symbol_summary['symbol_count']} symbols, "
             f"{symbol_summary['bound_symbol_count']} on bound nodes "
             f"({lang_summary})"
+        )
+    if decisions_summary["exists"]:
+        by_kind = decisions_summary["by_kind"]
+        kind_summary = ", ".join(f"{kind}: {n}" for kind, n in sorted(by_kind.items()))
+        print(
+            f"Decision markers: {decisions_summary['decision_count']} markers, "
+            f"{decisions_summary['why_count']} WHY"
+            + (f" ({kind_summary})" if kind_summary else "")
         )
 
     if report.warnings:

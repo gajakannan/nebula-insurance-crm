@@ -162,12 +162,14 @@ def build_bundle(
     mappings: Mapping[str, Any],
     code_index: Mapping[str, Any],
     symbols: Mapping[str, Any] | None = None,
+    decisions: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     canonical_nodes = flatten_canonical_nodes(canonical)
     mapping_nodes = flatten_mapping_nodes(mappings)
     all_nodes = {**canonical_nodes, **mapping_nodes}
     bindings = build_binding_index(code_index)
     symbol_indexes = build_symbol_indexes(symbols or {})
+    decision_indexes = build_decision_indexes(decisions or {})
 
     return {
         "ontology": dict(ontology),
@@ -183,6 +185,10 @@ def build_bundle(
         "symbols_by_node": symbol_indexes["by_node"],
         "symbols_by_name": symbol_indexes["by_name"],
         "symbols_by_file": symbol_indexes["by_file"],
+        "decisions": dict(decisions or {}),
+        "decisions_by_file": decision_indexes["by_file"],
+        "decisions_by_symbol": decision_indexes["by_symbol"],
+        "decisions_by_node": decision_indexes["by_node"],
     }
 
 
@@ -193,7 +199,9 @@ def load_bundle() -> dict[str, Any]:
     code_index = load_yaml(KG_DIR / "code-index.yaml")
     symbols_path = KG_DIR / "symbol-index.yaml"
     symbols = load_yaml(symbols_path) if symbols_path.exists() else {}
-    return build_bundle(ontology, canonical, mappings, code_index, symbols)
+    decisions_path = KG_DIR / "decisions-index.yaml"
+    decisions = load_yaml(decisions_path) if decisions_path.exists() else {}
+    return build_bundle(ontology, canonical, mappings, code_index, symbols, decisions)
 
 
 def build_symbol_indexes(symbols: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
@@ -233,6 +241,34 @@ def build_symbol_indexes(symbols: Mapping[str, Any]) -> dict[str, dict[str, Any]
     }
 
 
+def build_decision_indexes(decisions: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    """Build lookup indexes over inline decision markers."""
+    by_file: dict[str, list[dict[str, Any]]] = {}
+    by_symbol: dict[str, list[dict[str, Any]]] = {}
+    by_node: dict[str, list[dict[str, Any]]] = {}
+
+    for entry in decisions.get("decisions", []) or []:
+        file_rel = entry.get("file")
+        if file_rel:
+            by_file.setdefault(file_rel, []).append(entry)
+        symbol_id = entry.get("resolved_symbol")
+        if symbol_id:
+            by_symbol.setdefault(symbol_id, []).append(entry)
+        node_id = entry.get("resolved_node")
+        if node_id:
+            by_node.setdefault(node_id, []).append(entry)
+
+    for index in (by_file, by_symbol, by_node):
+        for values in index.values():
+            values.sort(key=lambda item: (item.get("file", ""), item.get("line", 0)))
+
+    return {
+        "by_file": by_file,
+        "by_symbol": by_symbol,
+        "by_node": by_node,
+    }
+
+
 def match_symbols_for_node(
     node_id: str, bundle: Mapping[str, Any]
 ) -> list[dict[str, Any]]:
@@ -259,6 +295,25 @@ def get_symbol_by_id(
     symbol_id: str, bundle: Mapping[str, Any]
 ) -> dict[str, Any] | None:
     return bundle.get("symbols_by_id", {}).get(symbol_id)
+
+
+def match_decisions_for_path(
+    path: str, bundle: Mapping[str, Any]
+) -> list[dict[str, Any]]:
+    normalized = normalize_repo_path(path)
+    return list(bundle.get("decisions_by_file", {}).get(normalized, []))
+
+
+def match_decisions_for_symbol(
+    symbol_id: str, bundle: Mapping[str, Any]
+) -> list[dict[str, Any]]:
+    return list(bundle.get("decisions_by_symbol", {}).get(symbol_id, []))
+
+
+def match_decisions_for_node(
+    node_id: str, bundle: Mapping[str, Any]
+) -> list[dict[str, Any]]:
+    return list(bundle.get("decisions_by_node", {}).get(node_id, []))
 
 
 def flatten_canonical_nodes(canonical: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
