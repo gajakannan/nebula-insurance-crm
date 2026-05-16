@@ -457,6 +457,42 @@ def match_bindings_for_path(path: str, bundle: Mapping[str, Any]) -> list[dict[s
     return sorted(matches, key=lambda item: item["id"])
 
 
+def collect_referenced_node_ids(bundle: Mapping[str, Any]) -> set[str]:
+    """Set of canonical node ids that any other artifact references.
+
+    Counts every outgoing reference channel: feature/story REF_FIELDS edges,
+    `feature` parent on stories, canonical `related_nodes`/`allowed_roles`,
+    `rationale.adr` entries, and workflow-state `transitions_to`. Excluded
+    coverage entries are not crawled — an excluded feature should not pin
+    canonical nodes to "referenced" status.
+    """
+    canonical = bundle["canonical"]
+    mappings = bundle["mappings"]
+
+    referenced: set[str] = set()
+
+    for section_name in ("features", "stories"):
+        for item in mappings.get(section_name, []):
+            for field in REF_FIELDS:
+                referenced.update(edge_ref_ids(item.get(field, [])))
+            feature_ref = item.get("feature")
+            if feature_ref:
+                referenced.add(feature_ref)
+
+    for section in SECTION_TYPES:
+        for item in canonical.get(section, []):
+            referenced.update(item.get("related_nodes", []))
+            referenced.update(item.get("allowed_roles", []))
+            for rationale in item.get("rationale", []):
+                if isinstance(rationale, dict) and rationale.get("adr"):
+                    referenced.add(rationale["adr"])
+            if section == "workflows":
+                for state in item.get("states", []):
+                    referenced.update(state.get("transitions_to", []))
+
+    return referenced
+
+
 def related_mapping_entries(
     node_ids: Iterable[str],
     mappings: Mapping[str, Any],

@@ -31,6 +31,7 @@ from kg_common import (
     load_bundle,
     match_bindings_for_path,
     match_symbol_by_name,
+    match_symbols_for_node,
     normalize_target_id,
     related_mapping_entries,
     repo_relative,
@@ -105,6 +106,39 @@ def one_hop_neighbors(node_id: str, bundle: dict[str, Any]) -> set[str]:
     return neighbors
 
 
+def symbol_call_neighbors(node_id: str, bundle: dict[str, Any]) -> set[str]:
+    """Canonical nodes reached via symbol-level call edges from this node.
+
+    Aggregates ``callers`` and ``callees`` for every symbol bound to
+    ``node_id`` and resolves each edge back to its canonical node(s) by
+    rebinding the callee's declared file path against ``code-index.yaml``.
+
+    The symbol id prefix is not authoritative — files often bind to several
+    canonical nodes via overlapping globs, and the prefix the extractor
+    chose is only one of them. Walking the file through ``match_bindings_
+    for_path`` recovers the full neighbor set so canonical entities surface
+    a real structural reach when their ontology ``REF_FIELDS`` are sparse.
+    """
+    neighbors: set[str] = set()
+    file_to_node_ids_cache: dict[str, set[str]] = {}
+    for sym in match_symbols_for_node(node_id, bundle):
+        for edge_id in sym.get("callers", []) + sym.get("callees", []):
+            target = get_symbol_by_id(edge_id, bundle)
+            if target is None:
+                continue
+            tgt_file = target.get("file")
+            if not tgt_file:
+                continue
+            bound = file_to_node_ids_cache.get(tgt_file)
+            if bound is None:
+                bound = {
+                    b["id"] for b in match_bindings_for_path(tgt_file, bundle)
+                }
+                file_to_node_ids_cache[tgt_file] = bound
+            neighbors |= bound - {node_id}
+    return neighbors
+
+
 def find_related_policy_rules(
     node_ids: set[str], bundle: dict[str, Any]
 ) -> list[str]:
@@ -149,10 +183,13 @@ def build_blast_report(
 ) -> dict[str, Any]:
     """Build the full blast radius report."""
 
-    # One-hop expansion from starting nodes
+    # One-hop expansion from starting nodes — combines ontology refs with
+    # symbol-level call edges so canonical entities (whose outbound REF_FIELDS
+    # are typically empty) still surface a real neighbor count.
     neighbor_ids: set[str] = set()
     for node_id in starting_ids:
         neighbor_ids |= one_hop_neighbors(node_id, bundle)
+        neighbor_ids |= symbol_call_neighbors(node_id, bundle)
     neighbor_ids -= starting_ids
 
     all_impacted = starting_ids | neighbor_ids

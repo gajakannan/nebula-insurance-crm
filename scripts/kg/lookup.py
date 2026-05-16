@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from kg_common import (
+    KG_DIR,
     REF_FIELDS,
     edge_ref_id,
     edge_ref_ids,
@@ -18,6 +19,7 @@ from kg_common import (
     feature_or_story_by_id,
     get_symbol_by_id,
     load_bundle,
+    load_yaml,
     match_decisions_for_path,
     match_decisions_for_symbol,
     match_bindings_for_path,
@@ -30,6 +32,55 @@ from kg_common import (
     resolve_node,
     resolve_refs,
 )
+
+
+HOTSPOT_FIELDS = (
+    "hotspot_rank",
+    "hotspot_score",
+    "primary_owner",
+    "primary_owner_pct",
+    "bus_factor_flag",
+)
+
+_HOTSPOT_CACHE: dict[str, dict[str, Any]] | None = None
+
+
+def _hotspots_by_node() -> dict[str, dict[str, Any]]:
+    """Lazy-load Phase 3 freshness fields from coverage-report.yaml.
+
+    Returns a dict {node_id: {hotspot_rank, hotspot_score, primary_owner,
+    primary_owner_pct, bus_factor_flag}} for nodes that carry the fields.
+    Missing report or missing fields → empty dict (Phase 3 is additive).
+    """
+    global _HOTSPOT_CACHE
+    if _HOTSPOT_CACHE is not None:
+        return _HOTSPOT_CACHE
+    report_path = KG_DIR / "coverage-report.yaml"
+    if not report_path.exists():
+        _HOTSPOT_CACHE = {}
+        return _HOTSPOT_CACHE
+    report = load_yaml(report_path) or {}
+    canonical = report.get("freshness", {}).get("canonical", {}) or {}
+    out: dict[str, dict[str, Any]] = {}
+    for node_id, entry in canonical.items():
+        slice_ = {k: entry[k] for k in HOTSPOT_FIELDS if k in entry}
+        if slice_:
+            out[node_id] = slice_
+    _HOTSPOT_CACHE = out
+    return out
+
+
+def _attach_hotspots(node: dict[str, Any]) -> dict[str, Any]:
+    """Annotate a resolved node payload with Phase 3 fields when available."""
+    node_id = node.get("id") if isinstance(node, dict) else None
+    if not node_id:
+        return node
+    fields = _hotspots_by_node().get(node_id)
+    if not fields:
+        return node
+    annotated = dict(node)
+    annotated["hotspots"] = fields
+    return annotated
 
 FEATURE_OR_STORY_ID_RE = re.compile(r"^(?:feature:)?F\d{4}$|^(?:story:)?F\d{4}-S\d{4}$")
 LOW_CONFIDENCE_THRESHOLD = 0.5
@@ -83,6 +134,13 @@ def summarize_node(
             summary["linked_schema_ids"] = linked_schema_ids
         if linked_policy_rule_ids:
             summary["linked_policy_rule_ids"] = linked_policy_rule_ids
+
+    # Phase 3 freshness fields are routing-aid metadata. Gate them the same
+    # way rationale/source_docs are gated so tier 1 / fields=ids stay minimal.
+    if tier >= 2 and fields in {"summaries", "full"}:
+        hotspots = _hotspots_by_node().get(node["id"])
+        if hotspots:
+            summary["hotspots"] = hotspots
 
     return summary
 
@@ -321,8 +379,11 @@ def lookup_by_target(
     related_features, related_stories = related_mapping_entries(
         [normalized], bundle["mappings"]
     )
+    target_payload = (
+        summarize_node(node, min(tier, 3), fields) if fields != "full" else node
+    )
     payload = {
-        "target": summarize_node(node, min(tier, 3), fields) if fields != "full" else node,
+        "target": _attach_hotspots(target_payload),
         "related_features": related_features,
         "related_stories": related_stories,
         "source_precedence": bundle["ontology"]["authority"]["precedence"],
@@ -404,10 +465,15 @@ def lookup_by_file(path: str, bundle: dict[str, Any]) -> dict[str, Any]:
     planning_scope = planning_scope_for_path(path, bundle["mappings"])
     related_features, related_stories = related_mapping_entries(node_ids, bundle["mappings"])
 
+    matched_nodes = [
+        _attach_hotspots(resolve_node(node_id, bundle))
+        for node_id in node_ids
+    ]
+
     return {
         "query": {"file": repo_relative(path)},
         "matched_node_ids": node_ids,
-        "matched_nodes": [resolve_node(node_id, bundle) for node_id in node_ids],
+        "matched_nodes": matched_nodes,
         "planning_scope": planning_scope,
         "related_features": related_features,
         "related_stories": related_stories,

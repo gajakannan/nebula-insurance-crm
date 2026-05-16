@@ -33,6 +33,7 @@ import yaml
 from kg_common import (
     KG_DIR,
     REPO_ROOT,
+    collect_referenced_node_ids,
     emit_telemetry,
     estimate_tokens,
     expand_declared_pattern,
@@ -522,6 +523,301 @@ def resolve_call_edges(records: list[SymbolRecord]) -> None:
     for rec in records:
         rec.callers.sort()
         rec.callees.sort()
+
+
+# ---------------------------------------------------------------------------
+# Reachability and dead-code detection
+# ---------------------------------------------------------------------------
+#
+# Reachability is BFS from declared entry points walking the `callees` graph.
+# An entry point is any symbol the runtime/framework invokes from outside the
+# symbol index — HTTP endpoint handlers, UI route components, hosted services,
+# infrastructure callbacks (event handlers, middleware, filters, …).
+#
+# Reachability is a routing aid for dead-code review, not authority. Raw source
+# remains authoritative per `solution-ontology.yaml.authority.precedence`.
+# Call-edge resolution is name-matched within the same canonical node
+# (`resolve_call_edges`), so cross-node reach is invisible to this layer.
+# Confidence weighting compensates by *lowering* confidence when a node has
+# feature-mapping refs that could carry an untracked cross-node flow.
+
+DEFAULT_ENTRY_NODE_KINDS: frozenset[str] = frozenset({"endpoint", "ui_route"})
+
+# Framework-pattern name suffixes that mark a symbol as an infrastructure
+# entry point. These are invoked by DI containers / message buses / pipeline
+# stages — no caller appears in the symbol index because the call site is
+# outside the indexed code.
+FRAMEWORK_ENTRY_NAME_SUFFIXES: tuple[str, ...] = (
+    "Handler",
+    "Listener",
+    "Subscriber",
+    "Consumer",
+    "Plugin",
+    "Adapter",
+    "Middleware",
+    "Filter",
+    "Interceptor",
+)
+
+# File patterns whose symbols are entry points the symbol index cannot see —
+# either the runtime invokes them (hosted services, app bootstrappers) or a
+# test runner does (xUnit, vitest, pytest, …). Cross-language: .cs, .ts/tsx,
+# and .py covered.
+FRAMEWORK_ENTRY_FILE_PATTERNS: tuple[re.Pattern[str], ...] = (
+    re.compile(r"(^|/)[^/]*HostedService\.[^/]+$"),
+    re.compile(r"(^|/)[^/]*BackgroundService\.[^/]+$"),
+    re.compile(r"(^|/)[^/]*Worker\.[^/]+$"),
+    re.compile(r"(^|/)[^/]*Endpoints?\.cs$"),
+    re.compile(r"(^|/)[^/]*Controller\.cs$"),
+    re.compile(r"(^|/)Program\.cs$"),
+    re.compile(r"(^|/)Startup\.cs$"),
+    # EF Core IEntityTypeConfiguration<T>.Configure is invoked via
+    # ApplyConfigurationsFromAssembly — reflection again.
+    re.compile(r"(^|/)Configurations/"),
+    re.compile(r"(^|/)[^/]*Configuration\.cs$"),
+    # Seed data and DI registration helpers are invoked from bootstrappers
+    # whose call edges are erased by same-node call resolution.
+    re.compile(r"(^|/)[^/]*SeedData\.cs$"),
+    re.compile(r"(^|/)[^/]*Seeder\.cs$"),
+    re.compile(r"(^|/)[^/]*Extensions\.cs$"),
+    re.compile(r"(^|/)[^/]*Module\.cs$"),
+    re.compile(r"(^|/)[^/]*Registration\.cs$"),
+    re.compile(r"(^|/)DependencyInjection\.cs$"),
+    re.compile(r"(^|/)Migrations/"),
+    # Test files across stacks — test runners invoke methods via reflection,
+    # so callers never appear in the symbol index.
+    re.compile(r"(^|/)[^/]*Tests?\.cs$"),
+    re.compile(r"(^|/)[^/]*\.test\.[tj]sx?$"),
+    re.compile(r"(^|/)[^/]*\.spec\.[tj]sx?$"),
+    re.compile(r"(^|/)test_[^/]+\.py$"),
+    re.compile(r"(^|/)[^/]+_test\.py$"),
+    re.compile(r"(^|/)tests?/"),
+)
+
+# Symbol kinds that are declarations rather than callable bodies. Reporting
+# them as "dead" would double-count — the body symbols on the same type carry
+# the real signal. Classes/records/structs/enums/delegates/interfaces/types
+# never have call edges in this graph.
+DEAD_CODE_SKIP_KINDS: frozenset[str] = frozenset(
+    {
+        "constructor",
+        "class",
+        "record",
+        "struct",
+        "interface",
+        "type",
+        "enum",
+        "delegate",
+        "property",
+    }
+)
+
+
+@dataclass
+class ReachabilityRecord:
+    symbol_id: str
+    reachable: bool
+    entry_point: bool
+    entry_reason: str | None  # e.g. "node-kind:endpoint", "name-suffix:Handler"
+    distance: int | None  # 0 for entry points; None for unreached
+
+
+@dataclass
+class DeadCodeCandidate:
+    symbol_id: str
+    node: str
+    file: str
+    line: int
+    kind: str
+    name: str
+    visibility: str
+    language: str
+    confidence: float
+    reasons: list[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+def _is_framework_entry_name(name: str) -> bool:
+    return any(name.endswith(suffix) for suffix in FRAMEWORK_ENTRY_NAME_SUFFIXES)
+
+
+def _is_framework_entry_file(file_rel: str) -> bool:
+    return any(p.search(file_rel) for p in FRAMEWORK_ENTRY_FILE_PATTERNS)
+
+
+def identify_entry_points(
+    records: list[SymbolRecord],
+    bundle: dict[str, Any],
+    *,
+    entry_node_kinds: frozenset[str] = DEFAULT_ENTRY_NODE_KINDS,
+) -> dict[str, str]:
+    """Return {symbol_id: entry_reason} for every entry-point symbol."""
+    canonical_nodes = bundle.get("canonical_nodes", {})
+    entries: dict[str, str] = {}
+    for rec in records:
+        node = canonical_nodes.get(rec.node)
+        if node and node.get("_kind") in entry_node_kinds:
+            entries[rec.id] = f"node-kind:{node['_kind']}"
+            continue
+        if _is_framework_entry_name(rec.name):
+            entries[rec.id] = f"name-suffix:{rec.name}"
+            continue
+        if _is_framework_entry_file(rec.file):
+            entries[rec.id] = "file-pattern:hosted-service"
+            continue
+    return entries
+
+
+def compute_reachability(
+    records: list[SymbolRecord],
+    bundle: dict[str, Any],
+    *,
+    entry_node_kinds: frozenset[str] = DEFAULT_ENTRY_NODE_KINDS,
+) -> dict[str, ReachabilityRecord]:
+    """BFS reachability over the `callees` graph from declared entry points."""
+    by_id = {rec.id: rec for rec in records}
+    entries = identify_entry_points(records, bundle, entry_node_kinds=entry_node_kinds)
+    distance: dict[str, int] = {sid: 0 for sid in entries}
+
+    frontier = list(entries.keys())
+    while frontier:
+        next_frontier: list[str] = []
+        for sid in frontier:
+            rec = by_id.get(sid)
+            if not rec:
+                continue
+            d = distance[sid]
+            for callee in rec.callees:
+                if callee in distance:
+                    continue
+                distance[callee] = d + 1
+                next_frontier.append(callee)
+        frontier = next_frontier
+
+    return {
+        rec.id: ReachabilityRecord(
+            symbol_id=rec.id,
+            reachable=rec.id in distance,
+            entry_point=rec.id in entries,
+            entry_reason=entries.get(rec.id),
+            distance=distance.get(rec.id),
+        )
+        for rec in records
+    }
+
+
+def _score_dead_code(
+    rec: SymbolRecord,
+    bundle: dict[str, Any],
+    referenced_nodes: set[str],
+) -> tuple[float, list[str]]:
+    """Confidence that an unreached symbol is genuinely dead.
+
+    Baseline 0.6 for "unreached from any entry point". Bumps:
+    - +0.2 if the symbol has zero callers anywhere in the index
+    - +0.1 if the symbol is publicly visible (any consumer outside its assembly
+           should be reachable; broad surface area amplifies the signal)
+    Dampers:
+    - −0.2 if the symbol's node is not referenced by feature mappings
+           (likely already covered by the ontology orphan check; avoid double
+           reporting)
+    - −0.2 if visibility is private/internal/protected — likely an intentional
+           internal helper that the same-node call resolver missed
+    """
+    score = 0.6
+    reasons: list[str] = ["unreached from any entry point"]
+
+    if not rec.callers:
+        score += 0.2
+        reasons.append("no callers in symbol-index")
+
+    if rec.visibility == "public":
+        score += 0.1
+        reasons.append("publicly visible (no consumer in indexed code)")
+    elif rec.visibility in {"private", "internal", "protected"}:
+        score -= 0.2
+        reasons.append(
+            f"visibility={rec.visibility} (intentional internal scope possible)"
+        )
+
+    if rec.node not in referenced_nodes:
+        score -= 0.2
+        reasons.append(
+            "node has no feature-mapping refs (ontology orphan — covered separately)"
+        )
+
+    return max(0.0, min(1.0, round(score, 2))), reasons
+
+
+def find_dead_code_candidates(
+    records: list[SymbolRecord],
+    bundle: dict[str, Any],
+    *,
+    min_confidence: float = 0.7,
+    entry_node_kinds: frozenset[str] = DEFAULT_ENTRY_NODE_KINDS,
+    skip_kinds: frozenset[str] = DEAD_CODE_SKIP_KINDS,
+) -> tuple[dict[str, ReachabilityRecord], list[DeadCodeCandidate]]:
+    """Return (reachability, candidates with confidence ≥ min_confidence)."""
+    reachability = compute_reachability(records, bundle, entry_node_kinds=entry_node_kinds)
+    referenced_nodes = collect_referenced_node_ids(bundle)
+
+    candidates: list[DeadCodeCandidate] = []
+    for rec in records:
+        if rec.kind in skip_kinds:
+            continue
+        reach = reachability[rec.id]
+        if reach.reachable:
+            continue
+        confidence, reasons = _score_dead_code(rec, bundle, referenced_nodes)
+        if confidence < min_confidence:
+            continue
+        candidates.append(
+            DeadCodeCandidate(
+                symbol_id=rec.id,
+                node=rec.node,
+                file=rec.file,
+                line=rec.line,
+                kind=rec.kind,
+                name=rec.name,
+                visibility=rec.visibility,
+                language=rec.language,
+                confidence=confidence,
+                reasons=reasons,
+            )
+        )
+
+    candidates.sort(key=lambda c: (-c.confidence, c.node, c.file, c.line))
+    return reachability, candidates
+
+
+def load_symbol_records() -> list[SymbolRecord]:
+    """Re-hydrate SymbolRecord instances from symbol-index.yaml on disk.
+
+    Used by dead-code.py and other downstream tools that should not re-extract
+    symbols from source on every invocation.
+    """
+    if not SYMBOL_INDEX_PATH.exists():
+        return []
+    doc = yaml.safe_load(SYMBOL_INDEX_PATH.read_text(encoding="utf-8")) or {}
+    records: list[SymbolRecord] = []
+    for entry in doc.get("symbols", []) or []:
+        records.append(SymbolRecord(
+            id=entry["id"],
+            node=entry["node"],
+            kind=entry.get("kind", ""),
+            name=entry.get("name", ""),
+            file=entry.get("file", ""),
+            line=int(entry.get("line", 0) or 0),
+            signature=entry.get("signature", ""),
+            visibility=entry.get("visibility", "public"),
+            language=entry.get("language", "unknown"),
+            container=entry.get("container"),
+            callers=list(entry.get("callers", []) or []),
+            callees=list(entry.get("callees", []) or []),
+        ))
+    return records
 
 
 def disambiguate_ids(records: list[SymbolRecord]) -> int:

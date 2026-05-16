@@ -18,6 +18,7 @@ from kg_common import (
     REPO_ROOT,
     SECTION_TYPES,
     VALID_PROVENANCE,
+    collect_referenced_node_ids,
     edge_ref_id,
     edge_ref_ids,
     edge_ref_provenance,
@@ -28,6 +29,7 @@ from kg_common import (
     normalize_repo_path,
     type_regex_map,
 )
+from hotspots import compute_hotspots
 
 
 class ValidationReport:
@@ -46,6 +48,11 @@ COVERAGE_REPORT_PATH = KG_DIR / "coverage-report.yaml"
 SYMBOL_INDEX_PATH = KG_DIR / "symbol-index.yaml"
 DECISIONS_INDEX_PATH = KG_DIR / "decisions-index.yaml"
 DECISION_KINDS = {"WHY", "DECISION", "TRADEOFF", "SUPERSEDES"}
+
+# Default orphan-check exemptions. Workflow states roll up to their workflow
+# and are validated transitively. Glossary terms are vocabulary anchors that
+# need no outbound binding — their value is being referenced from prose.
+DEFAULT_ORPHAN_EXEMPT_KINDS: frozenset[str] = frozenset({"workflow_state", "glossary_term"})
 ADR_REF_RE = re.compile(
     r"\b(?:ADR[-\s:]?|adr:)([A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)\b",
     re.IGNORECASE,
@@ -200,6 +207,7 @@ def build_coverage_report(
     uncovered: list[str],
     symbol_summary: dict[str, Any] | None = None,
     decisions_summary: dict[str, Any] | None = None,
+    hotspot_signals: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     canonical = bundle["canonical"]
     mappings = bundle["mappings"]
@@ -211,7 +219,27 @@ def build_coverage_report(
             source_paths = list(item.get("source_docs", []))
             if item.get("path"):
                 source_paths.append(item["path"])
-            canonical_freshness[item["id"]] = build_freshness_entry(source_paths)
+            entry = build_freshness_entry(source_paths)
+            if hotspot_signals and item["id"] in hotspot_signals:
+                # Phase 3 fields are additive: merge over the existing
+                # source-doc last_modified with the git-derived value when
+                # available, so the field reflects the freshest signal.
+                signals = hotspot_signals[item["id"]]
+                git_last_modified = signals.get("last_modified")
+                if git_last_modified:
+                    existing = entry.get("last_modified")
+                    if not existing or git_last_modified > existing:
+                        entry["last_modified"] = git_last_modified
+                entry.update(
+                    {
+                        "hotspot_rank": signals["hotspot_rank"],
+                        "hotspot_score": signals["hotspot_score"],
+                        "primary_owner": signals["primary_owner"],
+                        "primary_owner_pct": signals["primary_owner_pct"],
+                        "bus_factor_flag": signals["bus_factor_flag"],
+                    }
+                )
+            canonical_freshness[item["id"]] = entry
 
     mapping_freshness: dict[str, Any] = {}
     for section_name in ("features", "stories"):
@@ -668,6 +696,58 @@ def validate_decision_index(
     return summary
 
 
+def validate_orphans(
+    report: ValidationReport,
+    bundle: dict[str, Any],
+    *,
+    exempt_kinds: frozenset[str],
+    as_errors: bool,
+) -> dict[str, Any]:
+    """Flag canonical nodes that are not referenced anywhere and have no code-index binding.
+
+    These are ontology orphans — either premature additions that should be
+    removed, or genuine concepts that are missing their feature mapping or
+    code binding. Either way, a human resolves them at release readiness.
+
+    Default severity is `warn`. Lifecycle gates that want a hard fail set
+    `as_errors=True` (CLI flag `--orphans-as-errors`).
+    """
+    canonical_nodes = bundle["canonical_nodes"]
+    bindings = bundle["bindings"]
+    referenced = collect_referenced_node_ids(bundle)
+
+    orphans: list[dict[str, Any]] = []
+    for node_id, node in canonical_nodes.items():
+        kind = node.get("_kind")
+        if kind in exempt_kinds:
+            continue
+        if node_id in referenced:
+            continue
+        if node_id in bindings:
+            continue
+        orphans.append({"id": node_id, "kind": kind, "label": node.get("label") or node_id})
+
+    orphans.sort(key=lambda item: (item["kind"] or "", item["id"]))
+    emit = report.error if as_errors else report.warn
+    for orphan in orphans:
+        emit(
+            f"Ontology orphan: {orphan['id']} ({orphan['kind']}) has no incoming refs "
+            f"and no code-index binding — remove if premature, or add a feature mapping / code binding."
+        )
+
+    by_kind: dict[str, int] = {}
+    for orphan in orphans:
+        kind = orphan["kind"] or "unknown"
+        by_kind[kind] = by_kind.get(kind, 0) + 1
+
+    return {
+        "orphan_count": len(orphans),
+        "by_kind": by_kind,
+        "orphans": orphans,
+        "exempt_kinds": sorted(exempt_kinds),
+    }
+
+
 def regenerate_symbols() -> int:
     """Delegate to scripts/kg/symbols.py to regenerate symbol-index.yaml."""
     symbols_script = Path(__file__).resolve().parent / "symbols.py"
@@ -733,6 +813,28 @@ def main() -> int:
         "--regenerate-decisions",
         action="store_true",
         help="Regenerate decisions-index.yaml by running scripts/kg/decisions.py before validating.",
+    )
+    parser.add_argument(
+        "--check-orphans",
+        action="store_true",
+        help="Warn on canonical nodes with no incoming refs and no code-index binding.",
+    )
+    parser.add_argument(
+        "--orphans-as-errors",
+        action="store_true",
+        help="Promote orphan findings to errors (fails the run). Implies --check-orphans.",
+    )
+    parser.add_argument(
+        "--orphan-exempt-kind",
+        action="append",
+        default=[],
+        metavar="KIND",
+        help=(
+            "Additional canonical node kind to exempt from the orphan check "
+            "(repeatable). Defaults: "
+            + ", ".join(sorted(DEFAULT_ORPHAN_EXEMPT_KINDS))
+            + "."
+        ),
     )
     args = parser.parse_args()
 
@@ -881,6 +983,26 @@ def main() -> int:
         report, bundle, required=args.check_decisions
     )
 
+    orphan_summary: dict[str, Any] | None = None
+    if args.check_orphans or args.orphans_as_errors:
+        exempt_kinds = DEFAULT_ORPHAN_EXEMPT_KINDS | frozenset(args.orphan_exempt_kind)
+        orphan_summary = validate_orphans(
+            report,
+            bundle,
+            exempt_kinds=exempt_kinds,
+            as_errors=args.orphans_as_errors,
+        )
+
+    hotspot_signals: dict[str, dict[str, Any]] | None = None
+    if args.write_coverage_report:
+        try:
+            hotspot_signals = compute_hotspots(bundle)
+        except SystemExit as exc:
+            # Git unavailable, shallow clone, or empty history. Fall through
+            # without Phase 3 fields rather than blocking coverage-report write.
+            print(f"[validate] hotspots skipped: {exc}", file=sys.stderr)
+            hotspot_signals = None
+
     coverage_report = build_coverage_report(
         bundle,
         mapped_feature_paths,
@@ -888,6 +1010,7 @@ def main() -> int:
         uncovered,
         symbol_summary,
         decisions_summary,
+        hotspot_signals,
     )
     if args.write_coverage_report:
         write_coverage_report(coverage_report)
@@ -941,6 +1064,13 @@ def main() -> int:
         print(
             f"Decision markers: {decisions_summary['decision_count']} markers, "
             f"{decisions_summary['why_count']} WHY"
+            + (f" ({kind_summary})" if kind_summary else "")
+        )
+    if orphan_summary is not None:
+        by_kind = orphan_summary["by_kind"]
+        kind_summary = ", ".join(f"{kind}: {n}" for kind, n in sorted(by_kind.items()))
+        print(
+            f"Orphan nodes:      {orphan_summary['orphan_count']}"
             + (f" ({kind_summary})" if kind_summary else "")
         )
 

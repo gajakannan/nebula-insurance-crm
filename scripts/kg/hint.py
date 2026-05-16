@@ -22,9 +22,11 @@ from pathlib import Path
 from typing import Any
 
 from kg_common import (
+    KG_DIR,
     emit_telemetry,
     estimate_tokens,
     load_bundle,
+    load_yaml,
     match_bindings_for_path,
     match_symbol_by_name,
     match_symbols_for_path,
@@ -34,6 +36,65 @@ from kg_common import (
 
 
 SYMBOL_PREVIEW_LIMIT = 10
+HOTSPOT_RANK_THRESHOLD = 5
+
+_HOTSPOT_CACHE: dict[str, dict[str, Any]] | None = None
+
+
+def _hotspots_by_node() -> dict[str, dict[str, Any]]:
+    """Lazy-load Phase 3 hotspot fields from coverage-report.yaml.
+
+    Missing report or missing fields → empty dict (Phase 3 is additive).
+    """
+    global _HOTSPOT_CACHE
+    if _HOTSPOT_CACHE is not None:
+        return _HOTSPOT_CACHE
+    report_path = KG_DIR / "coverage-report.yaml"
+    if not report_path.exists():
+        _HOTSPOT_CACHE = {}
+        return _HOTSPOT_CACHE
+    report = load_yaml(report_path) or {}
+    canonical = report.get("freshness", {}).get("canonical", {}) or {}
+    out: dict[str, dict[str, Any]] = {}
+    for node_id, entry in canonical.items():
+        rank = entry.get("hotspot_rank")
+        if rank is None:
+            continue
+        out[node_id] = {
+            "hotspot_rank": rank,
+            "primary_owner": entry.get("primary_owner"),
+            "bus_factor_flag": bool(entry.get("bus_factor_flag")),
+        }
+    _HOTSPOT_CACHE = out
+    return out
+
+
+def _hotspot_label(node_ids: list[str]) -> str | None:
+    """Compact one-line hotspot annotation for hint output.
+
+    Returns None when no node hits the threshold or carries a bus-factor flag.
+    """
+    by_node = _hotspots_by_node()
+    flagged: list[tuple[str, dict[str, Any]]] = []
+    for nid in node_ids:
+        info = by_node.get(nid)
+        if not info:
+            continue
+        if info["hotspot_rank"] <= HOTSPOT_RANK_THRESHOLD or info["bus_factor_flag"]:
+            flagged.append((nid, info))
+    if not flagged:
+        return None
+    parts: list[str] = []
+    for nid, info in flagged:
+        rank = info["hotspot_rank"]
+        markers: list[str] = []
+        if rank <= HOTSPOT_RANK_THRESHOLD:
+            markers.append(f"hotspot ▲ rank {rank}")
+        if info["bus_factor_flag"]:
+            owner = info.get("primary_owner") or "unknown"
+            markers.append(f"bus-factor ⚠ {owner}")
+        parts.append(f"{nid}: {', '.join(markers)}")
+    return "  Risk: " + "; ".join(parts)
 
 
 def find_policy_rules_for_nodes(
@@ -101,6 +162,10 @@ def format_text(
         labels = [_format_symbol_label(s) for s in preview]
         suffix = f" (+{more} more)" if more > 0 else ""
         lines.append(f"  Symbols: {', '.join(labels)}{suffix}")
+
+    hotspot_line = _hotspot_label(node_ids)
+    if hotspot_line:
+        lines.append(hotspot_line)
 
     lines.append(
         "  Tip: `python3 scripts/kg/blast.py --file <path>` for full blast radius"
@@ -248,6 +313,14 @@ def main() -> int:
     policy_rules = find_policy_rules_for_nodes(node_ids, bundle)
     symbols = match_symbols_for_path(normalized, bundle)
 
+    hotspot_annotations = {
+        nid: info
+        for nid, info in (
+            (nid, _hotspots_by_node().get(nid)) for nid in node_ids
+        )
+        if info
+    }
+
     if args.as_json:
         payload = {
             "path": normalized,
@@ -266,6 +339,8 @@ def main() -> int:
                 for s in symbols
             ],
         }
+        if hotspot_annotations:
+            payload["hotspots"] = hotspot_annotations
         json.dump(payload, sys.stdout, indent=2)
         sys.stdout.write("\n")
     else:
