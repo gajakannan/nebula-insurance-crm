@@ -511,6 +511,63 @@ def lookup_defines(
     }
 
 
+def _scan_implements(target_id: str, bundle: dict[str, Any]) -> list[dict[str, Any]]:
+    """Reverse-scan: every symbol whose `implements` array contains target_id.
+
+    Single pass over bundle["symbols_by_id"]. Empty when nothing satisfies
+    the interface or no override has been emitted yet — both legitimate.
+    """
+    results: list[dict[str, Any]] = []
+    for sym in bundle["symbols_by_id"].values():
+        if target_id in (sym.get("implements") or []):
+            results.append(sym)
+    results.sort(key=lambda s: s["id"])
+    return results
+
+
+def lookup_implementers(
+    symbol_id: str, bundle: dict[str, Any]
+) -> dict[str, Any] | None:
+    """Find every symbol satisfying the interface member `symbol_id`.
+
+    Reverses the `implements:` array persisted on symbol-index.yaml. Returns
+    None when symbol_id is unresolvable; empty `implementers` is valid
+    (interfaces can legitimately have no implementations yet).
+    """
+    target = get_symbol_by_id(symbol_id, bundle)
+    if target is None:
+        return None
+    matches = _scan_implements(symbol_id, bundle)
+    return {
+        "query": {"kind": "implementers", "symbol_id": symbol_id},
+        "target": _summarize_symbol_brief(target),
+        "implementers": [_summarize_symbol_brief(s) for s in matches],
+        "source_precedence": bundle["ontology"]["authority"]["precedence"],
+    }
+
+
+def lookup_overrides(
+    symbol_id: str, bundle: dict[str, Any]
+) -> dict[str, Any] | None:
+    """Find every symbol overriding the base-class method `symbol_id`.
+
+    Mechanically identical to lookup_implementers — both reverse-scan the
+    `implements:` array. Distinction is intent: --overrides queries a
+    base-class method; --implementers queries an interface member. Returns
+    None when symbol_id is unresolvable.
+    """
+    target = get_symbol_by_id(symbol_id, bundle)
+    if target is None:
+        return None
+    matches = _scan_implements(symbol_id, bundle)
+    return {
+        "query": {"kind": "overrides", "symbol_id": symbol_id},
+        "target": _summarize_symbol_brief(target),
+        "overrides": [_summarize_symbol_brief(s) for s in matches],
+        "source_precedence": bundle["ontology"]["authority"]["precedence"],
+    }
+
+
 def emit_narrow_lookup_telemetry(
     telemetry_file: Path | None,
     run_id: str | None,
@@ -547,6 +604,10 @@ def emit_narrow_lookup_telemetry(
 
     if query_kind == "defines":
         matches = payload.get("matches", []) or []
+        symbol_ids = [m.get("id") for m in matches if m.get("id")]
+        nodes_returned = sorted({m.get("node") for m in matches if m.get("node")})
+    elif query_kind in ("implementers", "overrides"):
+        matches = payload.get(query_kind, []) or []
         symbol_ids = [m.get("id") for m in matches if m.get("id")]
         nodes_returned = sorted({m.get("node") for m in matches if m.get("node")})
     else:
@@ -642,6 +703,22 @@ def main() -> int:
         ),
     )
     parser.add_argument(
+        "--implementers",
+        dest="implementers_id",
+        help=(
+            "Return every symbol satisfying an interface member. Reverses "
+            "the symbol-index implements: array."
+        ),
+    )
+    parser.add_argument(
+        "--overrides",
+        dest="overrides_id",
+        help=(
+            "Return every override of a base-class method. Same scan as "
+            "--implementers; queries a base-class method id."
+        ),
+    )
+    parser.add_argument(
         "--node",
         dest="symbol_node",
         help=(
@@ -683,17 +760,19 @@ def main() -> int:
         args.callers_only_id,
         args.callees_only_id,
         args.defines_name,
+        args.implementers_id,
+        args.overrides_id,
     )
     modes = sum(bool(x) for x in mode_values)
     if modes == 0:
         parser.error(
             "Provide a target ID, --file, --symbol, --callers-only, "
-            "--callees-only, or --defines."
+            "--callees-only, --defines, --implementers, or --overrides."
         )
     if modes > 1:
         parser.error(
             "Use only one of: target ID, --file, --symbol, --callers-only, "
-            "--callees-only, --defines."
+            "--callees-only, --defines, --implementers, --overrides."
         )
 
     bundle = load_bundle()
@@ -739,6 +818,42 @@ def main() -> int:
         emit_narrow_lookup_telemetry(
             args.telemetry_file, args.run_id, payload,
             query_kind="defines", query_value=args.defines_name,
+        )
+        json.dump(payload, sys.stdout, indent=2)
+        sys.stdout.write("\n")
+        return 0
+
+    if args.implementers_id:
+        payload = lookup_implementers(args.implementers_id, bundle)
+        if payload is None:
+            sys.stderr.write(f"Symbol not found: {args.implementers_id}\n")
+            emit_narrow_lookup_telemetry(
+                args.telemetry_file, args.run_id, None,
+                query_kind="implementers", query_value=args.implementers_id,
+                unresolved=True,
+            )
+            return 2
+        emit_narrow_lookup_telemetry(
+            args.telemetry_file, args.run_id, payload,
+            query_kind="implementers", query_value=args.implementers_id,
+        )
+        json.dump(payload, sys.stdout, indent=2)
+        sys.stdout.write("\n")
+        return 0
+
+    if args.overrides_id:
+        payload = lookup_overrides(args.overrides_id, bundle)
+        if payload is None:
+            sys.stderr.write(f"Symbol not found: {args.overrides_id}\n")
+            emit_narrow_lookup_telemetry(
+                args.telemetry_file, args.run_id, None,
+                query_kind="overrides", query_value=args.overrides_id,
+                unresolved=True,
+            )
+            return 2
+        emit_narrow_lookup_telemetry(
+            args.telemetry_file, args.run_id, payload,
+            query_kind="overrides", query_value=args.overrides_id,
         )
         json.dump(payload, sys.stdout, indent=2)
         sys.stdout.write("\n")
