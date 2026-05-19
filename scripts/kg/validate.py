@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import hashlib
 import re
 import subprocess
@@ -47,12 +48,39 @@ class ValidationReport:
 COVERAGE_REPORT_PATH = KG_DIR / "coverage-report.yaml"
 SYMBOL_INDEX_PATH = KG_DIR / "symbol-index.yaml"
 DECISIONS_INDEX_PATH = KG_DIR / "decisions-index.yaml"
+UNBOUND_REFERENCED_PATH = KG_DIR / "unbound-but-referenced.yaml"
 DECISION_KINDS = {"WHY", "DECISION", "TRADEOFF", "SUPERSEDES"}
 
 # Default orphan-check exemptions. Workflow states roll up to their workflow
 # and are validated transitively. Glossary terms are vocabulary anchors that
 # need no outbound binding — their value is being referenced from prose.
 DEFAULT_ORPHAN_EXEMPT_KINDS: frozenset[str] = frozenset({"workflow_state", "glossary_term"})
+
+# Default coverage-gap exclusions. Mirrors scripts/kg/coverage-gaps.py defaults;
+# duplicated rather than imported because the gate and the ad-hoc CLI may
+# legitimately need to drift independently per product.
+DEFAULT_COVERAGE_GAP_EXCLUDES: tuple[str, ...] = (
+    "**/tests/**",
+    "**/test/**",
+    "**/*Tests.cs",
+    "**/*Test.cs",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.test.js",
+    "**/*.test.jsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/*.spec.js",
+    "**/*.spec.jsx",
+    "**/migrations/**",
+    "scripts/**",
+    "tools/**",
+)
+
+# --check-untested considers only callable bound surfaces. Other kinds
+# (interfaces, properties, constructors, enums, types) aren't meaningfully
+# "tested" the same way a method or function is.
+UNTESTED_TARGET_KINDS: frozenset[str] = frozenset({"method", "function"})
 ADR_REF_RE = re.compile(
     r"\b(?:ADR[-\s:]?|adr:)([A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)\b",
     re.IGNORECASE,
@@ -748,6 +776,128 @@ def validate_orphans(
     }
 
 
+def _matches_any_glob(path: str, patterns: Iterable[str]) -> bool:
+    return any(fnmatch.fnmatch(path, pat) for pat in patterns)
+
+
+def validate_coverage_gaps(
+    report: ValidationReport,
+    *,
+    excludes: tuple[str, ...],
+    as_errors: bool,
+) -> dict[str, Any]:
+    """Report invocations whose source file is outside code-index.yaml
+    bindings but targets a bound symbol — read from unbound-but-referenced.yaml.
+
+    Degrades gracefully when the sidecar is absent (warn once, return empty
+    summary). Severity defaults to `warn`; `as_errors=True` (CLI flag
+    `--coverage-gaps-as-errors`) promotes findings to errors.
+    """
+    if not UNBOUND_REFERENCED_PATH.exists():
+        report.warn(
+            f"{UNBOUND_REFERENCED_PATH.relative_to(REPO_ROOT)} not found — "
+            "run scripts/kg/symbols.py to regenerate before relying on this gate."
+        )
+        return {
+            "kept": 0,
+            "excluded": 0,
+            "missing_sidecar": True,
+            "exclusions": list(excludes),
+        }
+
+    data = yaml.safe_load(UNBOUND_REFERENCED_PATH.read_text(encoding="utf-8")) or {}
+    invocations: list[dict[str, Any]] = data.get("invocations") or []
+
+    kept: list[dict[str, Any]] = []
+    excluded_count = 0
+    for inv in invocations:
+        src = inv.get("source_file") or ""
+        if _matches_any_glob(src, excludes):
+            excluded_count += 1
+            continue
+        kept.append(inv)
+
+    emit = report.error if as_errors else report.warn
+    for inv in kept:
+        target = inv.get("target_symbol") or (
+            f"{inv.get('target_container') or '?'}.{inv.get('target_name') or '?'} (unresolved)"
+        )
+        emit(
+            f"Coverage gap: {inv.get('source_file')}:{inv.get('source_line')} "
+            f"-> {target} [{inv.get('target_node')}] — source file is not bound "
+            "in code-index.yaml. Add a binding, or list the path in the product "
+            "coverage-gap exemption."
+        )
+
+    return {
+        "kept": len(kept),
+        "excluded": excluded_count,
+        "missing_sidecar": False,
+        "exclusions": list(excludes),
+    }
+
+
+def validate_untested(
+    report: ValidationReport,
+    bundle: dict[str, Any],
+    *,
+    exempt_node_ids: frozenset[str],
+    as_errors: bool,
+) -> dict[str, Any]:
+    """Report bound methods/functions with no caller in a classified-as-tests file.
+
+    A symbol is "tested" when at least one entry in its `callers` array points
+    at another symbol with `is_test: true`. Test classification is propagated
+    from code-index.yaml buckets ending in `.tests` (see symbols.py). Returns
+    a summary dict; severity defaults to `warn`.
+    """
+    symbols_by_id = bundle["symbols_by_id"]
+    untested: list[dict[str, Any]] = []
+
+    for sym in symbols_by_id.values():
+        if sym.get("is_test"):
+            continue
+        if sym.get("kind") not in UNTESTED_TARGET_KINDS:
+            continue
+        if sym.get("visibility") not in (None, "public", "internal", "export"):
+            # private/protected: tested transitively through public surface.
+            continue
+        node_id = sym.get("node")
+        if node_id in exempt_node_ids:
+            continue
+        has_test_caller = False
+        for caller_id in sym.get("callers") or []:
+            caller = symbols_by_id.get(caller_id)
+            if caller and caller.get("is_test"):
+                has_test_caller = True
+                break
+        if not has_test_caller:
+            untested.append(
+                {
+                    "id": sym["id"],
+                    "node": node_id,
+                    "name": sym.get("name"),
+                    "file": sym.get("file"),
+                    "line": sym.get("line"),
+                }
+            )
+
+    untested.sort(key=lambda s: (s["node"] or "", s["id"]))
+    emit = report.error if as_errors else report.warn
+    for u in untested:
+        emit(
+            f"Untested surface: {u['id']} at {u['file']}:{u['line']} "
+            f"[{u['node']}] has no caller in a *.tests bucket. Add a test, "
+            "or list the canonical node in the product untested exemption."
+        )
+
+    return {
+        "untested_count": len(untested),
+        "untested": untested,
+        "exempt_nodes": sorted(exempt_node_ids),
+    }
+
+
 def regenerate_symbols() -> int:
     """Delegate to scripts/kg/symbols.py to regenerate symbol-index.yaml."""
     symbols_script = Path(__file__).resolve().parent / "symbols.py"
@@ -834,6 +984,60 @@ def main() -> int:
             "(repeatable). Defaults: "
             + ", ".join(sorted(DEFAULT_ORPHAN_EXEMPT_KINDS))
             + "."
+        ),
+    )
+    parser.add_argument(
+        "--check-coverage-gaps",
+        action="store_true",
+        help=(
+            "Warn on invocations from files outside code-index.yaml bindings "
+            "that target bound symbols (reads unbound-but-referenced.yaml)."
+        ),
+    )
+    parser.add_argument(
+        "--coverage-gaps-as-errors",
+        action="store_true",
+        help=(
+            "Promote coverage-gap findings to errors (fails the run). "
+            "Implies --check-coverage-gaps."
+        ),
+    )
+    parser.add_argument(
+        "--coverage-gap-exclude",
+        action="append",
+        default=[],
+        metavar="GLOB",
+        help=(
+            "Additional source-file glob to exempt from --check-coverage-gaps "
+            "(repeatable). Baked-in defaults already exclude test files, "
+            "migrations, scripts/, and tools/."
+        ),
+    )
+    parser.add_argument(
+        "--check-untested",
+        action="store_true",
+        help=(
+            "Warn on public methods/functions with no caller in a "
+            "classified-as-tests file (requires is_test propagation)."
+        ),
+    )
+    parser.add_argument(
+        "--untested-as-errors",
+        action="store_true",
+        help=(
+            "Promote untested-surface findings to errors. "
+            "Implies --check-untested."
+        ),
+    )
+    parser.add_argument(
+        "--untested-exempt-node",
+        action="append",
+        default=[],
+        metavar="NODE_ID",
+        help=(
+            "Canonical node id to exempt from --check-untested (repeatable). "
+            "Use for nodes whose code is intentionally untested (e.g. typed "
+            "DTO containers, generated code)."
         ),
     )
     args = parser.parse_args()
@@ -991,6 +1195,24 @@ def main() -> int:
             bundle,
             exempt_kinds=exempt_kinds,
             as_errors=args.orphans_as_errors,
+        )
+
+    coverage_gap_summary: dict[str, Any] | None = None
+    if args.check_coverage_gaps or args.coverage_gaps_as_errors:
+        excludes = DEFAULT_COVERAGE_GAP_EXCLUDES + tuple(args.coverage_gap_exclude)
+        coverage_gap_summary = validate_coverage_gaps(
+            report,
+            excludes=excludes,
+            as_errors=args.coverage_gaps_as_errors,
+        )
+
+    untested_summary: dict[str, Any] | None = None
+    if args.check_untested or args.untested_as_errors:
+        untested_summary = validate_untested(
+            report,
+            bundle,
+            exempt_node_ids=frozenset(args.untested_exempt_node),
+            as_errors=args.untested_as_errors,
         )
 
     hotspot_signals: dict[str, dict[str, Any]] | None = None
