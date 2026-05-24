@@ -2,7 +2,7 @@
 
 Auto-generated index of all user stories across feature folders.
 
-**Total Stories:** 120
+**Total Stories:** 125
 
 ---
 
@@ -259,6 +259,18 @@ Auto-generated index of all user stories across feature folders.
 
 ---
 
+## F0035 — Session Continuity & Token Refresh
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0035-S0001](./F0035-session-continuity-and-token-refresh/F0035-S0001-silent-token-renewal.md) | Silent Token Renewal with Concurrent Request Coalescing | Critical | MVP | Distribution User, Underwriter, or Broker Relationship Manager actively using Nebula |
+| [F0035-S0002](./F0035-session-continuity-and-token-refresh/F0035-S0002-idle-warning-modal.md) | Idle Warning Modal with Grace Period | High | MVP | Distribution User or Underwriter who steps away from my desk |
+| [F0035-S0003](./F0035-session-continuity-and-token-refresh/F0035-S0003-forced-reauth-context-restore.md) | Forced Re-Auth with Route and Form State Preservation | High | MVP | Broker Relationship Manager drafting outreach notes or a Underwriter mid-edit on a policy form |
+| [F0035-S0004](./F0035-session-continuity-and-token-refresh/F0035-S0004-auth-error-semantics.md) | Auth Error Semantic Distinction (401-token-expired / 401-auth-failed / 403-authorization-denied) | High | MVP | Nebula user |
+| [F0035-S0005](./F0035-session-continuity-and-token-refresh/F0035-S0005-session-telemetry-events.md) | Session Continuity Telemetry Events (MVP) | Medium | MVP | Nebula administrator (or operations staff member) |
+
+---
+
 ## Summary by Phase
 
 | Phase | Count |
@@ -266,7 +278,7 @@ Auto-generated index of all user stories across feature folders.
 | CRM Release MVP | 49 |
 | Future | 1 |
 | Infrastructure | 10 |
-| MVP | 37 |
+| MVP | 42 |
 | MVP Hardening | 1 |
 | Phase 1 | 11 |
 | Platform Foundation | 7 |
@@ -278,9 +290,9 @@ Auto-generated index of all user stories across feature folders.
 
 | Priority | Count |
 |----------|-------|
-| Critical | 57 |
-| High | 48 |
-| Medium | 11 |
+| Critical | 58 |
+| High | 51 |
+| Medium | 12 |
 
 ---
 

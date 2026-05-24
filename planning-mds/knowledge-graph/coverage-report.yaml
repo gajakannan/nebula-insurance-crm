@@ -1,7 +1,7 @@
 version: 0
 summary:
-  canonical_nodes: 393
-  features_mapped: 23
+  canonical_nodes: 411
+  features_mapped: 24
   stories_mapped: 109
   features_excluded: 11
   features_uncovered: 0
@@ -35,6 +35,7 @@ coverage:
   - feature:F0033
   - feature:F0032
   - feature:F0034
+  - feature:F0035
   excluded_features:
   - id: feature:F0008
     path: planning-mds/features/F0008-broker-insights
@@ -200,7 +201,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-09'
       source_hash: 6731bbb1b473cdd3
-      hotspot_rank: 115
+      hotspot_rank: 117
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -365,10 +366,10 @@ freshness:
       source_paths:
       - planning-mds/architecture/data-model.md
       source_count: 1
-      last_modified: '2026-05-09'
+      last_modified: '2026-05-17'
       source_hash: 5b9acd0c2f152271
-      hotspot_rank: 11
-      hotspot_score: 0.22
+      hotspot_rank: 10
+      hotspot_score: 0.23
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -410,7 +411,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-08'
       source_hash: 0b240ddaa2c09f18
-      hotspot_rank: 75
+      hotspot_rank: 76
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -520,7 +521,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-08'
       source_hash: bee2743bb5ce8454
-      hotspot_rank: 10
+      hotspot_rank: 11
       hotspot_score: 0.23
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -558,9 +559,9 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/api/nebula-api.yaml
       source_count: 4
-      last_modified: '2026-05-16'
-      source_hash: 2d0a229f0452021a
-      hotspot_rank: 13
+      last_modified: '2026-05-24'
+      source_hash: 4ca33d0b7ff158a6
+      hotspot_rank: 14
       hotspot_score: 0.13
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -573,8 +574,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/api/nebula-api.yaml
       source_count: 5
-      last_modified: '2026-05-16'
-      source_hash: bd9ad7adcc5caa6d
+      last_modified: '2026-05-24'
+      source_hash: d1438a79a1323d3a
       hotspot_rank: 79
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
@@ -588,8 +589,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
       - planning-mds/api/nebula-api.yaml
       source_count: 5
-      last_modified: '2026-05-16'
-      source_hash: 852f43f9e8b9f24b
+      last_modified: '2026-05-24'
+      source_hash: bafa9c407c85fff0
       hotspot_rank: 87
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
@@ -603,8 +604,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       - planning-mds/api/nebula-api.yaml
       source_count: 5
-      last_modified: '2026-05-09'
-      source_hash: 46b86b2c20fd4e24
+      last_modified: '2026-05-24'
+      source_hash: 85ea446b5ba60fab
     workflow:document-ingest:
       source_paths:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
@@ -714,9 +715,9 @@ freshness:
       - planning-mds/features/archive/F0003-task-center/README.md
       - planning-mds/features/archive/F0004-task-center-ui-and-assignment/README.md
       source_count: 2
-      last_modified: '2026-04-21'
+      last_modified: '2026-05-17'
       source_hash: fd8bdfc6907edcb0
-      hotspot_rank: 14
+      hotspot_rank: 13
       hotspot_score: 0.13
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -845,10 +846,10 @@ freshness:
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       - planning-mds/api/nebula-api.yaml
       source_count: 3
-      last_modified: '2026-05-09'
-      source_hash: f9c38f66c69b9a9d
+      last_modified: '2026-05-24'
+      source_hash: c8487e5548d9fb7f
       hotspot_rank: 12
-      hotspot_score: 0.14
+      hotspot_score: 0.15
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -896,13 +897,55 @@ freshness:
       source_count: 1
       last_modified: '2026-05-09'
       source_hash: 2fcb082e69573990
+    capability:session-continuity:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/PRD.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: 212553d1f0ed104d
+    capability:silent-token-renewal:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0001-silent-token-renewal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: 73d30a52f082a412
+    capability:idle-warning:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0002-idle-warning-modal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: 33277db54cb75eae
+    capability:session-context-restore:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0003-forced-reauth-context-restore.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: 56a13b27e78605e4
+    capability:auth-error-classification:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0004-auth-error-semantics.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: de1cf6bed9c2799d
+    capability:session-telemetry:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0005-session-telemetry-events.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: fc4a673f56dc1d07
     endpoint:dashboard-kpis:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-002-dashboard-data-aggregation.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 63d38d30ffb2c1bc
+      last_modified: '2026-05-24'
+      source_hash: ecc678b08f04a189
       hotspot_rank: 48
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
@@ -914,8 +957,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-002-dashboard-data-aggregation.md
       - planning-mds/architecture/decisions/ADR-004-frontend-dashboard-widget-architecture.md
       source_count: 3
-      last_modified: '2026-05-09'
-      source_hash: e20d9a975f45859f
+      last_modified: '2026-05-24'
+      source_hash: 23b6c88ef23ff81e
       hotspot_rank: 5
       hotspot_score: 0.51
       primary_owner: gajapathi.kannan@live.com
@@ -926,8 +969,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-003-task-entity-nudge-engine.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 1239a800ff9cc226
+      last_modified: '2026-05-24'
+      source_hash: 9508cb80be65ddb7
       hotspot_rank: 62
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
@@ -938,8 +981,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 24105539f9253f0c
+      last_modified: '2026-05-24'
+      source_hash: 7ea95e8a0f9d976e
       hotspot_rank: 81
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
@@ -950,9 +993,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 24105539f9253f0c
-      hotspot_rank: 96
+      last_modified: '2026-05-24'
+      source_hash: 7ea95e8a0f9d976e
+      hotspot_rank: 97
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -962,8 +1005,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 24105539f9253f0c
+      last_modified: '2026-05-24'
+      source_hash: 7ea95e8a0f9d976e
       hotspot_rank: 86
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
@@ -974,8 +1017,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 2af5b888e72d8eaa
+      last_modified: '2026-05-24'
+      source_hash: 6cfed3e7d8173009
       hotspot_rank: 83
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
@@ -986,8 +1029,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 2af5b888e72d8eaa
+      last_modified: '2026-05-24'
+      source_hash: 6cfed3e7d8173009
       hotspot_rank: 82
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
@@ -998,8 +1041,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 2af5b888e72d8eaa
+      last_modified: '2026-05-24'
+      source_hash: 6cfed3e7d8173009
       hotspot_rank: 85
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
@@ -1010,8 +1053,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: fb892a0953201483
+      last_modified: '2026-05-24'
+      source_hash: de1450eede3a4647
       hotspot_rank: 88
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
@@ -1022,9 +1065,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 2af5b888e72d8eaa
-      hotspot_rank: 103
+      last_modified: '2026-05-24'
+      source_hash: 6cfed3e7d8173009
+      hotspot_rank: 104
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1034,9 +1077,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 2af5b888e72d8eaa
-      hotspot_rank: 61
+      last_modified: '2026-05-24'
+      source_hash: 6cfed3e7d8173009
+      hotspot_rank: 57
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1047,9 +1090,9 @@ freshness:
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-05-09'
-      source_hash: d8ee51ba606f6006
-      hotspot_rank: 31
+      last_modified: '2026-05-24'
+      source_hash: b89ff17711a79972
+      hotspot_rank: 33
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1059,8 +1102,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 62698702a9365b25
+      last_modified: '2026-05-24'
+      source_hash: 18ac934c9e1d738a
       hotspot_rank: 98
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
@@ -1072,8 +1115,8 @@ freshness:
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-05-09'
-      source_hash: d8ee51ba606f6006
+      last_modified: '2026-05-24'
+      source_hash: b89ff17711a79972
       hotspot_rank: 25
       hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
@@ -1085,8 +1128,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-05-09'
-      source_hash: bb1a523912d2253f
+      last_modified: '2026-05-24'
+      source_hash: 21d3d7ec3d66eb0a
       hotspot_rank: 73
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
@@ -1098,8 +1141,8 @@ freshness:
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-05-09'
-      source_hash: d8ee51ba606f6006
+      last_modified: '2026-05-24'
+      source_hash: b89ff17711a79972
       hotspot_rank: 23
       hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
@@ -1111,8 +1154,8 @@ freshness:
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
-      last_modified: '2026-05-09'
-      source_hash: d8ee51ba606f6006
+      last_modified: '2026-05-24'
+      source_hash: b89ff17711a79972
       hotspot_rank: 112
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
@@ -1123,9 +1166,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 443842f95259f726
-      hotspot_rank: 95
+      last_modified: '2026-05-24'
+      source_hash: 60ac0d52062239b8
+      hotspot_rank: 96
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1135,9 +1178,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 443842f95259f726
-      hotspot_rank: 94
+      last_modified: '2026-05-24'
+      source_hash: 60ac0d52062239b8
+      hotspot_rank: 95
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1148,9 +1191,9 @@ freshness:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       source_count: 3
-      last_modified: '2026-05-09'
-      source_hash: 36c3eb7e92a65372
-      hotspot_rank: 93
+      last_modified: '2026-05-24'
+      source_hash: cb5746ea05126b97
+      hotspot_rank: 94
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1160,9 +1203,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0003-task-center/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 7eb8292a6d82724c
-      hotspot_rank: 119
+      last_modified: '2026-05-24'
+      source_hash: d060b70443e7bd05
+      hotspot_rank: 116
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1172,9 +1215,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0004-task-center-ui-and-assignment/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: aaedd92470dc20df
-      hotspot_rank: 97
+      last_modified: '2026-05-24'
+      source_hash: 538e71224cf92518
+      hotspot_rank: 92
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1184,10 +1227,10 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0004-task-center-ui-and-assignment/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: aaedd92470dc20df
-      hotspot_rank: 110
-      hotspot_score: 0.0
+      last_modified: '2026-05-24'
+      source_hash: 538e71224cf92518
+      hotspot_rank: 105
+      hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -1196,9 +1239,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0003-task-center/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 7eb8292a6d82724c
-      hotspot_rank: 118
+      last_modified: '2026-05-24'
+      source_hash: d060b70443e7bd05
+      hotspot_rank: 115
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1208,9 +1251,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/F0007-S0007-renewal-activity-timeline-and-audit-trail.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: a04c1c53e13a6081
-      hotspot_rank: 77
+      last_modified: '2026-05-24'
+      source_hash: fbede0188cbc1b28
+      hotspot_rank: 74
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1220,8 +1263,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-16'
-      source_hash: ed1dac89fcc2f958
+      last_modified: '2026-05-24'
+      source_hash: 43fd8104558acba2
       hotspot_rank: 28
       hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
@@ -1232,9 +1275,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-16'
-      source_hash: ed1dac89fcc2f958
-      hotspot_rank: 50
+      last_modified: '2026-05-24'
+      source_hash: 43fd8104558acba2
+      hotspot_rank: 53
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1245,8 +1288,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
       source_count: 3
-      last_modified: '2026-05-16'
-      source_hash: 70a0ed12784ffaff
+      last_modified: '2026-05-24'
+      source_hash: 35616fc33d9e33cb
       hotspot_rank: 47
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
@@ -1257,9 +1300,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-16'
-      source_hash: ed1dac89fcc2f958
-      hotspot_rank: 59
+      last_modified: '2026-05-24'
+      source_hash: 43fd8104558acba2
+      hotspot_rank: 61
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1271,9 +1314,9 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
       source_count: 4
-      last_modified: '2026-05-16'
-      source_hash: dcd53e63dbbd7a2f
-      hotspot_rank: 51
+      last_modified: '2026-05-24'
+      source_hash: 3ad9819194717588
+      hotspot_rank: 54
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1284,9 +1327,9 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/feature-assembly-plan.md
       - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
       source_count: 3
-      last_modified: '2026-05-16'
-      source_hash: 5a4d1d6f74a5732c
-      hotspot_rank: 56
+      last_modified: '2026-05-24'
+      source_hash: d9b5e06673bd970a
+      hotspot_rank: 58
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1296,8 +1339,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-16'
-      source_hash: ed1dac89fcc2f958
+      last_modified: '2026-05-24'
+      source_hash: 43fd8104558acba2
       hotspot_rank: 29
       hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
@@ -1308,8 +1351,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: ed1dac89fcc2f958
+      last_modified: '2026-05-24'
+      source_hash: 43fd8104558acba2
       hotspot_rank: 64
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
@@ -1320,8 +1363,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: ed1dac89fcc2f958
+      last_modified: '2026-05-24'
+      source_hash: 43fd8104558acba2
       hotspot_rank: 63
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
@@ -1332,8 +1375,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: ed1dac89fcc2f958
+      last_modified: '2026-05-24'
+      source_hash: 43fd8104558acba2
       hotspot_rank: 65
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
@@ -1344,9 +1387,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: ed1dac89fcc2f958
-      hotspot_rank: 76
+      last_modified: '2026-05-24'
+      source_hash: 43fd8104558acba2
+      hotspot_rank: 77
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1356,9 +1399,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-16'
-      source_hash: ed1dac89fcc2f958
-      hotspot_rank: 58
+      last_modified: '2026-05-24'
+      source_hash: 43fd8104558acba2
+      hotspot_rank: 60
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1368,8 +1411,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-16'
-      source_hash: ed1dac89fcc2f958
+      last_modified: '2026-05-24'
+      source_hash: 43fd8104558acba2
       hotspot_rank: 20
       hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
@@ -1380,8 +1423,8 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-16'
-      source_hash: ed1dac89fcc2f958
+      last_modified: '2026-05-24'
+      source_hash: 43fd8104558acba2
       hotspot_rank: 18
       hotspot_score: 0.07
       primary_owner: gajapathi.kannan@live.com
@@ -1392,9 +1435,9 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-16'
-      source_hash: ed1dac89fcc2f958
-      hotspot_rank: 57
+      last_modified: '2026-05-24'
+      source_hash: 43fd8104558acba2
+      hotspot_rank: 59
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1404,10 +1447,10 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
-      last_modified: '2026-05-16'
-      source_hash: ed1dac89fcc2f958
-      hotspot_rank: 52
-      hotspot_score: 0.03
+      last_modified: '2026-05-24'
+      source_hash: 43fd8104558acba2
+      hotspot_rank: 49
+      hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -1416,79 +1459,87 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: ecc5c0d5fbd8b47c
+      last_modified: '2026-05-24'
+      source_hash: 723c68e029d7bce8
     endpoint:documents-upload:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
       source_count: 3
-      last_modified: '2026-05-09'
-      source_hash: 02210fab3e61cd15
+      last_modified: '2026-05-24'
+      source_hash: 86288a7b6b62461a
     endpoint:documents-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: aa078f7d0b087eee
+      last_modified: '2026-05-24'
+      source_hash: 234b7617756f31ad
     endpoint:documents-replace:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: e3c74ebff23c103c
+      last_modified: '2026-05-24'
+      source_hash: ca50c197ab757410
     endpoint:documents-metadata-update:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: dfcad416dd5df849
+      last_modified: '2026-05-24'
+      source_hash: aaadd6201d72c830
     endpoint:documents-metadata-schemas:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 57f402c34c7ec145
+      last_modified: '2026-05-24'
+      source_hash: f07b5e408d19fa5b
     endpoint:documents-download:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: e6f22724cd8400ec
+      last_modified: '2026-05-24'
+      source_hash: 7542c66ca9d1d968
     endpoint:documents-completeness:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: 646f260bb5de7e20
+      last_modified: '2026-05-24'
+      source_hash: f42d4cef1c591e6b
     endpoint:document-templates-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: fd048b78038005fe
+      last_modified: '2026-05-24'
+      source_hash: eb0ff114d9b88feb
     endpoint:document-templates-upload:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: fd048b78038005fe
+      last_modified: '2026-05-24'
+      source_hash: eb0ff114d9b88feb
     endpoint:document-templates-link:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: fd048b78038005fe
+      last_modified: '2026-05-24'
+      source_hash: eb0ff114d9b88feb
+    endpoint:internal-telemetry-session-continuity:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0005-session-telemetry-events.md
+      source_count: 3
+      last_modified: '2026-05-24'
+      source_hash: f90ab4b44f2e77ac
     ui_route:dashboard-home:
       source_paths:
       - experience/src/App.tsx
@@ -1592,7 +1643,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-09'
       source_hash: 685f71ec15a676e5
-      hotspot_rank: 117
+      hotspot_rank: 119
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1628,7 +1679,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-06'
       source_hash: 5321141534197e8e
-      hotspot_rank: 32
+      hotspot_rank: 34
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1676,7 +1727,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-09'
       source_hash: fe6684a7affe3ec4
-      hotspot_rank: 105
+      hotspot_rank: 106
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1688,7 +1739,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-08'
       source_hash: 306b3d3e464cf8d0
-      hotspot_rank: 92
+      hotspot_rank: 93
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1698,9 +1749,9 @@ freshness:
       - planning-mds/features/archive/F0003-task-center/README.md
       - planning-mds/architecture/data-model.md
       source_count: 2
-      last_modified: '2026-05-09'
+      last_modified: '2026-05-17'
       source_hash: 9134be5fc3b015ec
-      hotspot_rank: 127
+      hotspot_rank: 125
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1710,9 +1761,9 @@ freshness:
       - planning-mds/features/archive/F0004-task-center-ui-and-assignment/README.md
       - planning-mds/architecture/data-model.md
       source_count: 2
-      last_modified: '2026-05-09'
+      last_modified: '2026-05-17'
       source_hash: 1a56a6ce97da014a
-      hotspot_rank: 128
+      hotspot_rank: 126
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1729,6 +1780,69 @@ freshness:
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
+    event:silent-renewal-success:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0001-silent-token-renewal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: 73d30a52f082a412
+    event:silent-renewal-fail:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0001-silent-token-renewal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: 73d30a52f082a412
+    event:forced-redirect:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0003-forced-reauth-context-restore.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: 56a13b27e78605e4
+    event:idle-warning-shown:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0002-idle-warning-modal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: 33277db54cb75eae
+    event:idle-warning-accepted:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0002-idle-warning-modal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: 33277db54cb75eae
+    event:idle-warning-dismissed:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0002-idle-warning-modal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: 33277db54cb75eae
+    event:auth-classifier-fallback:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0004-auth-error-semantics.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: de1cf6bed9c2799d
+    event:auth-classifier-conflict:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0004-auth-error-semantics.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: de1cf6bed9c2799d
+    event:form-snapshot-skipped:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0003-forced-reauth-context-restore.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 2
+      last_modified: '2026-05-24'
+      source_hash: 56a13b27e78605e4
     config_key:authentication-authority:
       source_paths:
       - planning-mds/architecture/decisions/ADR-Authentication-Strategy.md
@@ -1736,7 +1850,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-08'
       source_hash: fac680ce39e1b345
-      hotspot_rank: 106
+      hotspot_rank: 107
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1748,7 +1862,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-08'
       source_hash: fac680ce39e1b345
-      hotspot_rank: 116
+      hotspot_rank: 118
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1760,7 +1874,7 @@ freshness:
       source_count: 2
       last_modified: '2026-04-21'
       source_hash: 94fb139fc6d84780
-      hotspot_rank: 107
+      hotspot_rank: 108
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1772,7 +1886,7 @@ freshness:
       source_count: 2
       last_modified: '2026-04-21'
       source_hash: 94fb139fc6d84780
-      hotspot_rank: 108
+      hotspot_rank: 109
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1784,7 +1898,7 @@ freshness:
       source_count: 2
       last_modified: '2026-04-21'
       source_hash: 94fb139fc6d84780
-      hotspot_rank: 109
+      hotspot_rank: 110
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1796,7 +1910,7 @@ freshness:
       source_count: 2
       last_modified: '2026-04-23'
       source_hash: 6ae203e185d84b12
-      hotspot_rank: 74
+      hotspot_rank: 75
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1805,9 +1919,9 @@ freshness:
       source_paths:
       - planning-mds/architecture/decisions/ADR-016-published-operational-configuration-governance.md
       source_count: 1
-      last_modified: '2026-05-09'
+      last_modified: '2026-05-17'
       source_hash: 82473df2cd5d3a36
-      hotspot_rank: 104
+      hotspot_rank: 103
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1896,7 +2010,7 @@ freshness:
       source_count: 1
       last_modified: '2026-05-08'
       source_hash: b1d26abf9c7fb691
-      hotspot_rank: 125
+      hotspot_rank: 127
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1918,7 +2032,7 @@ freshness:
       source_count: 1
       last_modified: '2026-05-08'
       source_hash: f5d5b28e423a667b
-      hotspot_rank: 126
+      hotspot_rank: 128
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2076,7 +2190,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-09'
       source_hash: c05b30f07ce259be
-      hotspot_rank: 33
+      hotspot_rank: 35
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2102,7 +2216,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-09'
       source_hash: c05b30f07ce259be
-      hotspot_rank: 34
+      hotspot_rank: 36
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2174,10 +2288,10 @@ freshness:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
       source_count: 3
-      last_modified: '2026-05-09'
+      last_modified: '2026-05-17'
       source_hash: c05b30f07ce259be
-      hotspot_rank: 35
-      hotspot_score: 0.04
+      hotspot_rank: 30
+      hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -2186,10 +2300,10 @@ freshness:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-05-09'
+      last_modified: '2026-05-17'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 53
-      hotspot_score: 0.03
+      hotspot_rank: 50
+      hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -2198,10 +2312,10 @@ freshness:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-05-09'
+      last_modified: '2026-05-17'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 54
-      hotspot_score: 0.03
+      hotspot_rank: 51
+      hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -2210,9 +2324,9 @@ freshness:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 2
-      last_modified: '2026-05-09'
+      last_modified: '2026-05-17'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 60
+      hotspot_rank: 56
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2235,10 +2349,10 @@ freshness:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
       source_count: 3
-      last_modified: '2026-05-09'
+      last_modified: '2026-05-17'
       source_hash: c05b30f07ce259be
-      hotspot_rank: 36
-      hotspot_score: 0.04
+      hotspot_rank: 31
+      hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -2250,7 +2364,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-16'
       source_hash: b3826d071ad6dad1
-      hotspot_rank: 30
+      hotspot_rank: 32
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2335,7 +2449,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-09'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 49
+      hotspot_rank: 52
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2835,6 +2949,12 @@ freshness:
       source_count: 1
       last_modified: '2026-05-09'
       source_hash: 2fcb082e69573990
+    adr:024:
+      source_paths:
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 1
+      last_modified: '2026-05-24'
+      source_hash: 9a2b17c39bbe01d2
     schema:problem-details:
       source_paths:
       - planning-mds/schemas/problem-details.schema.json
@@ -3333,12 +3453,18 @@ freshness:
       source_count: 1
       last_modified: '2026-05-06'
       source_hash: 5178b5fb50841532
+    schema:session-continuity-event:
+      source_paths:
+      - planning-mds/schemas/session-continuity-event.schema.json
+      source_count: 1
+      last_modified: '2026-05-24'
+      source_hash: 179480b3f23c0487
     api:nebula-rest:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       source_count: 1
-      last_modified: '2026-05-09'
-      source_hash: 60e518a5c2b7618d
+      last_modified: '2026-05-24'
+      source_hash: b6cf16ccfcee5dec
   mappings:
     feature:F0001:
       source_paths:
@@ -3562,8 +3688,8 @@ freshness:
       - planning-mds/features/F0019-submission-quoting-proposal-and-approval/README.md
       - planning-mds/features/F0019-submission-quoting-proposal-and-approval/STATUS.md
       source_count: 4
-      last_modified: '2026-05-09'
-      source_hash: d4d8be6dd97cf2d1
+      last_modified: '2026-05-17'
+      source_hash: ab3b1ffbace17d12
     feature:F0020:
       source_paths:
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
@@ -3593,8 +3719,8 @@ freshness:
       - planning-mds/features/F0022-work-queues-assignment-rules-and-coverage-management/README.md
       - planning-mds/features/F0022-work-queues-assignment-rules-and-coverage-management/STATUS.md
       source_count: 4
-      last_modified: '2026-05-09'
-      source_hash: 88466046533d6b01
+      last_modified: '2026-05-17'
+      source_hash: b1212b16e97428e2
     feature:F0030:
       source_paths:
       - planning-mds/features/F0030-integration-hub-and-data-exchange/GETTING-STARTED.md
@@ -3686,8 +3812,8 @@ freshness:
       - planning-mds/features/F0032-admin-configuration-and-reference-data-console/README.md
       - planning-mds/features/F0032-admin-configuration-and-reference-data-console/STATUS.md
       source_count: 4
-      last_modified: '2026-05-09'
-      source_hash: 4749f68c669cee0e
+      last_modified: '2026-05-17'
+      source_hash: b601040114a1ab41
     feature:F0034:
       source_paths:
       - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0001-lock-product-attribute-decision-set.md
@@ -3705,6 +3831,20 @@ freshness:
       source_count: 12
       last_modified: '2026-05-14'
       source_hash: d60b87a1219d8817
+    feature:F0035:
+      source_paths:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0001-silent-token-renewal.md
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0002-idle-warning-modal.md
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0003-forced-reauth-context-restore.md
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0004-auth-error-semantics.md
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0005-session-telemetry-events.md
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/GETTING-STARTED.md
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/PRD.md
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/README.md
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/STATUS.md
+      source_count: 9
+      last_modified: '2026-05-24'
+      source_hash: c98ca3288580b2d7
     story:F0005-S0002:
       source_paths:
       - planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
@@ -4890,8 +5030,8 @@ freshness:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 24
-      last_modified: '2026-05-16'
-      source_hash: 560711437fc8cf4d
+      last_modified: '2026-05-24'
+      source_hash: 0b72204820f0b70b
     capability:dynamic-lob-attributes:
       source_paths:
       - engine/src/Nebula.Application/DTOs/LobAttributeDtos.cs
@@ -4929,8 +5069,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md
       - planning-mds/api/nebula-api.yaml
       source_count: 12
-      last_modified: '2026-05-09'
-      source_hash: 7f64175771eeef76
+      last_modified: '2026-05-24'
+      source_hash: 363aedf6d31a751f
     capability:validator-equivalence:
       source_paths:
       - engine/src/Nebula.Application/Services/LobAttributeService.cs
@@ -4949,8 +5089,8 @@ freshness:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 4
-      last_modified: '2026-05-09'
-      source_hash: b502e5c21b62a206
+      last_modified: '2026-05-24'
+      source_hash: 74965f3ead159d61
     endpoint:lob-schema-bundle-detail:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
@@ -4958,8 +5098,8 @@ freshness:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 4
-      last_modified: '2026-05-09'
-      source_hash: b502e5c21b62a206
+      last_modified: '2026-05-24'
+      source_hash: 74965f3ead159d61
     endpoint:lob-schema-activate:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
@@ -4967,8 +5107,8 @@ freshness:
       - planning-mds/security/policies/policy.csv
       - planning-mds/security/authorization-matrix.md
       source_count: 4
-      last_modified: '2026-05-09'
-      source_hash: b502e5c21b62a206
+      last_modified: '2026-05-24'
+      source_hash: 74965f3ead159d61
     capability:dashboard-home:
       source_paths:
       - engine/src/Nebula.Application/DTOs/DashboardKpisDto.cs
@@ -6060,8 +6200,8 @@ freshness:
       - planning-mds/features/F0032-admin-configuration-and-reference-data-console/README.md
       - planning-mds/features/F0032-admin-configuration-and-reference-data-console/STATUS.md
       source_count: 5
-      last_modified: '2026-05-09'
-      source_hash: 5654e5da93011286
+      last_modified: '2026-05-17'
+      source_hash: 0b0078808d6a03e5
     migration:initial-create:
       source_paths:
       - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260223071234_InitialCreate.cs

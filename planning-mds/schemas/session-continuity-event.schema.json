@@ -1,0 +1,221 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/session-continuity-event.schema.json",
+  "title": "SessionContinuityEvent",
+  "description": "Structured telemetry event emitted by F0035 session-continuity behaviours (silent renewal, idle warning, forced redirect, auth-error classification, form-snapshot skip). Governed by ADR-024. PII boundary: payload carries only stable internal UserId and operationally-meaningful fields; never email, name, IP, raw tokens, broker_tenant_id, role list, form contents, or query-string PII.",
+  "type": "object",
+  "required": [
+    "event_name",
+    "event_version",
+    "timestamp",
+    "user_id",
+    "session_id"
+  ],
+  "properties": {
+    "event_name": {
+      "type": "string",
+      "enum": [
+        "silent-renewal-success",
+        "silent-renewal-fail",
+        "forced-redirect",
+        "idle-warning-shown",
+        "idle-warning-accepted",
+        "idle-warning-dismissed",
+        "auth-classifier-fallback",
+        "auth-classifier-conflict",
+        "form-snapshot-skipped"
+      ]
+    },
+    "event_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Schema version for this event. Additive evolution only without major bump; removing or retyping fields requires bump."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp with timezone offset or 'Z'."
+    },
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Stable internal UserId per ADR-006. IdP-agnostic; safe to log."
+    },
+    "session_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Opaque per-session-bootstrap identifier sourced from F0009 OIDC callback. Correlates all events from one user session."
+    },
+    "payload": {
+      "type": "object",
+      "description": "Event-specific fields. Schema enforced by oneOf in allOf below.",
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": { "properties": { "event_name": { "const": "silent-renewal-success" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "required": ["coalesced_request_count", "renewal_duration_ms"],
+            "additionalProperties": false,
+            "properties": {
+              "coalesced_request_count": { "type": "integer", "minimum": 1 },
+              "renewal_duration_ms": { "type": "integer", "minimum": 0 },
+              "original_request_count_after_retry": { "type": "integer", "minimum": 0 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "silent-renewal-fail" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "required": ["cause"],
+            "additionalProperties": false,
+            "properties": {
+              "cause": {
+                "type": "string",
+                "enum": ["refresh_revoked", "refresh_expired", "idp_unreachable", "renewal_loop_detected"]
+              },
+              "coalesced_request_count": { "type": "integer", "minimum": 0 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "forced-redirect" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "required": ["cause"],
+            "additionalProperties": false,
+            "properties": {
+              "cause": {
+                "type": "string",
+                "enum": [
+                  "hard_cap_reached",
+                  "rolling_window_exceeded",
+                  "idle_timeout",
+                  "idp_revoked",
+                  "network",
+                  "refresh_revoked",
+                  "refresh_expired",
+                  "idp_unreachable",
+                  "renewal_loop_detected"
+                ]
+              },
+              "route_at_redirect": {
+                "type": "string",
+                "description": "Path only; no query string with potential PII."
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "idle-warning-shown" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "route_at_warning": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "idle-warning-accepted" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "required": ["time_remaining_ms"],
+            "additionalProperties": false,
+            "properties": {
+              "time_remaining_ms": { "type": "integer", "minimum": 0, "maximum": 300000 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "idle-warning-dismissed" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "required": ["dismissal_action"],
+            "additionalProperties": false,
+            "properties": {
+              "dismissal_action": {
+                "type": "string",
+                "enum": ["user_signed_out", "grace_period_expired"]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "auth-classifier-fallback" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "endpoint_route": { "type": "string", "description": "Route only; no query string." },
+              "response_status": { "type": "integer", "enum": [401, 403] }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "auth-classifier-conflict" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "endpoint_route": { "type": "string" },
+              "www_authenticate_class": { "type": "string" },
+              "problem_details_type": { "type": "string", "format": "uri" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "form-snapshot-skipped" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "required": ["cause"],
+            "additionalProperties": false,
+            "properties": {
+              "cause": { "type": "string", "enum": ["oversize", "classifier_uncertain", "storage_unavailable"] },
+              "route": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

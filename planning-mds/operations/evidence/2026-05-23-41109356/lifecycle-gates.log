@@ -1,0 +1,256 @@
+# Lifecycle Gates Log — F0035 plan run 2026-05-23-41109356
+
+> Required per §8. Records what validator/lifecycle invocations *ran*; sibling to `gate-decisions.md` which records what *was decided*.
+
+## Lifecycle Gate Run
+
+### PRE-FLIGHT (initial)
+Command: python3 scripts/kg/validate.py
+Stage: pre-flight
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+Notes: Errors — `Feature directory is neither mapped nor excluded: planning-mds/features/F0035-session-continuity-and-token-refresh`; `coverage-report.yaml is stale`. Warning carried forward — low-confidence inferred edge (0.4) on feature:F0028 in feature:F0018.depends_on.
+
+### PRE-FLIGHT REMEDIATION (coverage refresh)
+Command: python3 scripts/kg/validate.py --write-coverage-report
+Stage: pre-flight
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/knowledge-graph/coverage-report.yaml
+Skipped Gates: -
+Notes: Coverage report regenerated after F0035 stub added to feature-mappings.yaml `features:` section.
+
+### PRE-FLIGHT (re-validate)
+Command: python3 scripts/kg/validate.py
+Stage: pre-flight
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+Notes: All KG integrity checks passed. F0035 now mapped (24 features mapped, 11 excluded, 0 uncovered).
+
+## Skipped Gates (pre-feature-action by design)
+
+- All G0–G4.7 feature-evidence gates and `validate-feature-evidence.py --stage *` invocations are not applicable at plan time per `feature-evidence-package-standardization-plan-v2.md` §8 / `agents/actions/plan.md` Exit Validation. Will be invoked when the feature action runs against F0035.
+
+### G2 TRACKER SYNC (A) — validate-stories
+Command: python3 agents/product-manager/scripts/validate-stories.py /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/planning-mds/features/F0035-session-continuity-and-token-refresh/
+Stage: G2
+Exit Code: 1 (initial), 0 (after fixes)
+Result: PASS (after fixes)
+Output References: -
+Skipped Gates: -
+Notes: Initial run failed on S0005 ("Missing or malformed user story") because the story used "As an Admin" instead of the regex-matched "As a"; also S0004 contained the vague AC term "incorrectly renew". Both fixed (S0005 → "As a Nebula administrator (or operations staff member)"; S0004 → "instead of silently renewing on ambiguous evidence"). Re-run: 5 stories PASS with non-blocking warnings (oversized story bodies — intentional comprehensiveness for high-stakes auth/session work; "no edge cases" heuristic false-positive on S0001/S0002 which DO have explicit failure scenarios; "no audit/timeline" heuristic doesn't recognize telemetry events as audit).
+
+### G2 TRACKER SYNC (A) — generate-story-index
+Command: python3 agents/product-manager/scripts/generate-story-index.py /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/planning-mds/features/
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/features/STORY-INDEX.md
+Skipped Gates: -
+Notes: 125 story files indexed (120 prior + 5 new F0035 stories).
+
+### G2 TRACKER SYNC (A) — validate-trackers
+Command: python3 agents/product-manager/scripts/validate-trackers.py
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+Notes: 0 errors, 0 warnings. validated=0 (no Done features in scope of feature-evidence validation since F0035 is not yet Done); 17 skipped_pre_contract_archived; 2 skipped_retired_superseded.
+
+### A1 PHASE A APPROVAL
+Command: AskUserQuestion (operator decision capture)
+Stage: A1
+Exit Code: 0
+Result: APPROVED
+Output References: gate-decisions.md
+Skipped Gates: -
+Notes: Operator selected "Approve — proceed to Phase B" at 2026-05-23T21:35:00-04:00.
+
+### B1 ONTOLOGY SYNC (B) — write-coverage-report
+Command: python3 scripts/kg/validate.py --write-coverage-report
+Stage: B1
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/knowledge-graph/coverage-report.yaml
+Skipped Gates: -
+Notes: Coverage report regenerated after Phase B added 6 capabilities, 1 endpoint, 9 events, 1 schema, 1 ADR. Feature coverage: 24 mapped (unchanged count; F0035 was already stub-mapped in pre-flight; now fully bound).
+
+### B1 ONTOLOGY SYNC (B) — validate
+Command: python3 scripts/kg/validate.py
+Stage: B1
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+Notes: KG integrity clean. One pre-existing warning carried forward (low-confidence inferred edge 0.4 on feature:F0028 in feature:F0018.depends_on — predates F0035; out of scope).
+
+### B1 ONTOLOGY SYNC (B) — check-drift
+Command: python3 scripts/kg/validate.py --check-drift
+Stage: B1
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+Notes: Drift check clean. Two pre-existing warnings carried forward: (1) feature:F0028 low-confidence inferred edge in feature:F0018.depends_on; (2) Casbin policy pair (renewal, update) in policy.csv has no policy_rule node in canonical-nodes.yaml. Both predate F0035 and remain out of scope per `agents/actions/plan.md` Stop Conditions reading.
+
+### B2 PHASE B APPROVAL
+Command: AskUserQuestion (operator decision capture)
+Stage: B2
+Exit Code: 0
+Result: APPROVED
+Output References: gate-decisions.md
+Skipped Gates: -
+Notes: Operator selected "Approve — close the plan run" at 2026-05-24T00:10:00-04:00.
+
+### EXIT-VALIDATION — validate-trackers
+Command: python3 agents/product-manager/scripts/validate-trackers.py
+Stage: exit
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+Notes: 0 errors, 0 warnings. validated=0 (no Done features awaiting feature-evidence at this checkpoint); 17 skipped_pre_contract_archived; 2 skipped_retired_superseded.
+
+### EXIT-VALIDATION — generate-story-index
+Command: python3 agents/product-manager/scripts/generate-story-index.py /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/planning-mds/features/
+Stage: exit
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/features/STORY-INDEX.md
+Skipped Gates: -
+Notes: 125 story files indexed.
+
+### EXIT-VALIDATION — kg/validate --check-drift
+Command: python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py --check-drift
+Stage: exit
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+Notes: Drift check clean. Pre-existing warnings carried forward (feature:F0028 low-confidence edge; Casbin renewal/update policy gap).
+
+### EXIT-VALIDATION — validate_templates
+Command: python3 agents/scripts/validate_templates.py
+Stage: exit
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+Notes: Prompt templates align with action contracts. Validates `agents/templates/prompts/plan-*.md` and `agents/templates/prompts/feature-*.md` against `plan.md` and `feature.md` section contracts.
+
+### EXIT-VALIDATION — validate-feature-evidence (intentionally skipped)
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py (NOT INVOKED)
+Stage: exit
+Exit Code: N/A
+Result: SKIP (by contract)
+Output References: -
+Skipped Gates: validate-feature-evidence
+Notes: Per `agents/actions/plan.md` Exit Validation and `feature-evidence-package-standardization-plan-v2.md` §8 — plan runs use the base run evidence contract, not the feature evidence package. The first `--stage G0` invocation occurs during the feature action against F0035 (after `agents/actions/feature.md` Step 0 creates the feature run folder under `planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/{RUN_ID}/`).
+
+## Run Complete (initial)
+
+Plan run `2026-05-23-41109356` closed at 2026-05-24T00:11:00-04:00. All gates resolved; all exit validators exit 0. Evidence package sealed.
+
+## POST-CLOSEOUT REVIEW REMEDIATION (2026-05-24T01:00:00-04:00)
+
+User-initiated codex review identified 5 findings; orchestrator applied source fixes and re-ran validators. Plan run re-sealed at 2026-05-24T01:05:00-04:00.
+
+### Codex Findings Addressed
+
+- **Finding 1 (High) — telemetry-loss vulnerability:** the four failure-class events (`silent-renewal-fail`, `forced-redirect`, `auth-classifier-fallback`, `auth-classifier-conflict`) coincide with auth disruption that may invalidate the bearer session required by the ingest endpoint, so the in-memory + bearer-authenticated emit path can drop them precisely when the success metric is being established. **Fix:** added ADR-024 §5a Failure-Class Event Durability — synchronous persist-before-emit to `localStorage` with key prefix `nebula.telemetry-defer.v1.<user_id>.<event_uuid>`; drain runs on next successful OIDC bootstrap; LRU bound 100/user; per-entry TTL 7 days; per-user isolation; silent failure on storage exceptions; only failure-class events go through buffer (non-failure-class events remain in-memory only). Matching ACs added to S0005; persist-before-emit notes added to S0001/S0003/S0004; config rows added to GETTING-STARTED.md; PRD Req 9 + Architecture Traceability updated to reference §5a; ADR-024 "Invalid After This ADR" updated to forbid skipping the persist step.
+
+- **Finding 2 (High) — status truth inconsistency:** evidence said A1+B2 APPROVED but PRD/STATUS still said "pending". **Fix:** updated PRD `Status:` header; STATUS.md Overall Status; STATUS.md Planning Checklist (marked A1+B2 approved with timestamps); STATUS.md Tracker Sync Checklist (marked STORY-INDEX regenerated; updated BLUEPRINT alignment note).
+
+- **Finding 3 (Medium) — open questions remain marked open despite ADR-024 answers:** **Fix:** converted resolved Phase-B questions in S0001 (renewal transport), S0002 (renew-on-stay-signed-in), S0003 (return_to parameter + form classifier), S0004 (session-revoked vs invalid-token distinction; middleware capability), S0005 (endpoint location, Serilog category, schema path) to "Resolved by ADR-024" entries with section anchors. The form-classifier question is explicitly framed as a Phase 2 candidate with Security Reviewer signoff path, not as open.
+
+- **Finding 4 (Medium) — contract naming drift:** schema filename and event-name kebab/snake mismatch between stories and the actual schema. **Fix:** `session-continuity-events.json` → `session-continuity-event.schema.json` (5 occurrences across S0005 + GETTING-STARTED.md); `form_snapshot_skipped` → `form-snapshot-skipped` (2 occurrences across S0003 + S0005).
+
+- **Finding 5 (Medium) — tracker state drift:** BLUEPRINT and feature-mappings still labeled F0035 as Planned despite REGISTRY moving it to Active/Draft. **Fix:** BLUEPRINT.md F0035 line updated to "Draft (Phase A+B planned; ADR-024; awaiting build)"; feature-mappings.yaml F0035 `status` field `planned` → `draft`.
+
+### Files Changed in Remediation
+
+- `planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md` — added §5a (Failure-Class Event Durability); extended §6 with two-source ingest note; extended "Invalid After This ADR" with two new rules.
+- `planning-mds/features/F0035-session-continuity-and-token-refresh/PRD.md` — `Status:` header; Req 9 added durability sentence; Architecture Traceability table added §5a row.
+- `planning-mds/features/F0035-session-continuity-and-token-refresh/STATUS.md` — Overall Status; Planning Checklist; Tracker Sync Checklist.
+- `planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0001-silent-token-renewal.md` — Open Questions resolved; persist-before-emit note on Renewal Failure AC.
+- `planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0002-idle-warning-modal.md` — Open Questions resolved.
+- `planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0003-forced-reauth-context-restore.md` — Open Questions resolved; persist-before-emit note on Hard-Cap AC; naming fix `form_snapshot_skipped` → `form-snapshot-skipped`.
+- `planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0004-auth-error-semantics.md` — Open Questions resolved; persist-before-emit notes on Defensive Default + Conflict Resolution ACs.
+- `planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0005-session-telemetry-events.md` — Open Questions resolved; naming fixes; new Failure-Class Event Durability acceptance criteria block.
+- `planning-mds/features/F0035-session-continuity-and-token-refresh/GETTING-STARTED.md` — naming fix on event schema path; added 6 new config rows for deferred-emit buffer + drain.
+- `planning-mds/BLUEPRINT.md` — F0035 status text update.
+- `planning-mds/knowledge-graph/feature-mappings.yaml` — F0035 status field `planned` → `draft`.
+
+### Remediation Validator Re-runs
+
+### REMEDIATION — validate-stories
+Command: python3 agents/product-manager/scripts/validate-stories.py /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/planning-mds/features/F0035-session-continuity-and-token-refresh/
+Stage: remediation
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+Notes: 5 stories PASS with same non-blocking warnings as prior run (oversized story bodies — intentional; "no edge cases" heuristic false-positive). Naming fixes did not introduce new errors.
+
+### REMEDIATION — generate-story-index
+Command: python3 agents/product-manager/scripts/generate-story-index.py /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/planning-mds/features/
+Stage: remediation
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/features/STORY-INDEX.md
+Skipped Gates: -
+Notes: 125 stories (unchanged count).
+
+### REMEDIATION — validate-trackers
+Command: python3 agents/product-manager/scripts/validate-trackers.py
+Stage: remediation
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+Notes: 0 errors, 0 warnings. F0035 status drift fixed (BLUEPRINT + feature-mappings now consistent with REGISTRY).
+
+### REMEDIATION — kg/validate.py --write-coverage-report
+Command: python3 scripts/kg/validate.py --write-coverage-report
+Stage: remediation
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/knowledge-graph/coverage-report.yaml
+Skipped Gates: -
+Notes: Coverage report refreshed; no ontology surface changes (rationale link to ADR-024 unchanged).
+
+### REMEDIATION — kg/validate.py
+Command: python3 scripts/kg/validate.py
+Stage: remediation
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+Notes: KG integrity clean. F0028 pre-existing warning carried forward (out of scope).
+
+### REMEDIATION — kg/validate.py --check-drift
+Command: python3 scripts/kg/validate.py --check-drift
+Stage: remediation
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+Notes: Drift clean. F0028 + Casbin renewal/update pre-existing warnings carried forward (out of scope).
+
+### REMEDIATION — validate_templates
+Command: python3 agents/scripts/validate_templates.py
+Stage: remediation
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+Notes: Prompt templates align with action contracts.
+
+## Run Re-Sealed
+
+Plan run `2026-05-23-41109356` re-sealed at 2026-05-24T01:05:00-04:00 after post-closeout review remediation. All seven validators exit 0. The next agent (`agents/actions/feature.md` for F0035) should consume the current state, including ADR-024 §5a.

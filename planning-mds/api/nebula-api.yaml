@@ -47,6 +47,8 @@ tags:
     description: Document storage, classification, versioning, and parent linkage (F0020). See ADR-012 + ADR-019.
   - name: DocumentTemplates
     description: Reusable document templates (F0020-S0012). Materialise into a parent record to start from a boilerplate.
+  - name: SessionTelemetry
+    description: Internal telemetry ingest for F0035 session-continuity events (silent renewal, idle warning, forced redirect, auth-error classification, form-snapshot skip). Governed by ADR-024.
 
 paths:
   # ──────────────────────────────────────────────────────────────
@@ -3313,6 +3315,58 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "404":
           $ref: "#/components/responses/NotFound"
+
+  # ──────────────────────────────────────────────────────────────
+  # F0035 Session Continuity telemetry ingest (ADR-024)
+  # ──────────────────────────────────────────────────────────────
+  /internal/telemetry/session-continuity:
+    post:
+      operationId: ingestSessionContinuityTelemetry
+      summary: Ingest a batch of F0035 session-continuity telemetry events
+      description: >
+        Accepts a batch of session-continuity events emitted by the frontend
+        (silent renewal, idle warning, forced redirect, auth-error classification,
+        form-snapshot skip). Backend validates each event against
+        `planning-mds/schemas/session-continuity-event.schema.json` and writes
+        accepted events to Serilog under category `Nebula.Session.Continuity`.
+
+        Fire-and-forget contract: failures here MUST NOT affect frontend
+        session-continuity behaviour. The endpoint is not publicly addressable;
+        same authenticated bearer-token boundary as other protected APIs.
+
+        Governed by ADR-024 §6. PII boundary enforced per
+        `session-continuity-event.schema.json` (UserId + session_id only;
+        no email/name/IP/raw tokens/broker_tenant_id/role list).
+      tags: [SessionTelemetry]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [events]
+              additionalProperties: false
+              properties:
+                events:
+                  type: array
+                  minItems: 1
+                  maxItems: 10
+                  description: Batch of 1-10 session-continuity events.
+                  items:
+                    $ref: "https://nebula.local/schemas/session-continuity-event.schema.json"
+      responses:
+        "202":
+          description: Events accepted for async write to Serilog. Body is empty.
+        "400":
+          description: One or more events failed schema validation.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
 
 components:
   securitySchemes:

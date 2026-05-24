@@ -785,6 +785,44 @@ features:
       - feature:F0018
       - feature:F0019
       - feature:F0020
+  - id: feature:F0035
+    path: planning-mds/features/F0035-session-continuity-and-token-refresh
+    status: draft
+    affects:
+      - capability:session-continuity
+      - capability:silent-token-renewal
+      - capability:idle-warning
+      - capability:session-context-restore
+      - capability:auth-error-classification
+      - capability:session-telemetry
+      - capability:authentication
+      - endpoint:internal-telemetry-session-continuity
+      - event:silent-renewal-success
+      - event:silent-renewal-fail
+      - event:forced-redirect
+      - event:idle-warning-shown
+      - event:idle-warning-accepted
+      - event:idle-warning-dismissed
+      - event:auth-classifier-fallback
+      - event:auth-classifier-conflict
+      - event:form-snapshot-skipped
+    governed_by:
+      - adr:024
+      - adr:006
+      - adr:007
+      - adr:008
+    uses_schema:
+      - schema:session-continuity-event
+      - schema:problem-details
+    uses_api_contract:
+      - api:nebula-rest
+    depends_on:
+      - feature:F0005
+      - feature:F0009
+      - feature:F0033
+    notes:
+      - "Operator-mandated invariant (plan run 2026-05-23-41109356): no mutation auto-replay after silent renewal. Reads auto-replay; mutations require explicit user re-confirm. Captured permanently in ADR-024 §2 + 'Invalid After This ADR'."
+      - "Refresh-token transport intentionally remains frontend-mediated via oidc-client-ts (F0005-S0003) for scope discipline; backend-mediated HttpOnly cookie tightening is a Phase 2 candidate in F0035 STATUS.md."
 
 stories:
   - id: story:F0005-S0002

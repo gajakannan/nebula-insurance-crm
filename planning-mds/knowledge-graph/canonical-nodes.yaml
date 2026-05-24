@@ -589,6 +589,77 @@ capabilities:
       - planning-mds/architecture/decisions/ADR-023-rules-governance-jsonlogic.md
     related_nodes:
       - capability:validator-equivalence
+  - id: capability:session-continuity
+    label: Session Continuity
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/PRD.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:authentication
+      - capability:silent-token-renewal
+      - capability:idle-warning
+      - capability:session-context-restore
+      - capability:auth-error-classification
+      - capability:session-telemetry
+    rationale:
+      - adr: adr:024
+        section: "Decision"
+        summary: "Five coordinated mechanisms (auth-error discriminator, silent renewal with coalescing, idle modal, forced-reauth context restore, telemetry) remove disruptive mid-workflow login redirects while preserving F0009 auth boundaries."
+  - id: capability:silent-token-renewal
+    label: Silent Token Renewal
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0001-silent-token-renewal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:authentication
+      - capability:auth-error-classification
+    rationale:
+      - adr: adr:024
+        section: "Decision §2"
+        summary: "Coalescing semaphore guarantees exactly one in-flight refresh per expiry burst; queued requests retry once on success. Mutations are never auto-replayed; only reads."
+  - id: capability:idle-warning
+    label: Idle Warning Modal
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0002-idle-warning-modal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    rationale:
+      - adr: adr:024
+        section: "Decision §3"
+        summary: "25 min inactivity → modal with 5:00 grace; Stay-signed-in triggers silent renewal; Sign-out uses ?reason=signed_out (not session_expired); unattended grace triggers forced re-auth with idle_timeout cause."
+  - id: capability:session-context-restore
+    label: Session Context Restore (Route + Form State)
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0003-forced-reauth-context-restore.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:authentication
+    rationale:
+      - adr: adr:024
+        section: "Decision §4"
+        summary: "sessionStorage snapshot keyed by (user_id, route, form_key); 1-hour TTL; 256 KB cap; mutations require explicit user re-confirm — never auto-replayed."
+  - id: capability:auth-error-classification
+    label: Auth Error Classification (401-expired / 401-failed / 403-denied)
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0004-auth-error-semantics.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:authentication
+      - capability:authorization-enforcement
+    rationale:
+      - adr: adr:024
+        section: "Decision §1"
+        summary: "Backend pairs WWW-Authenticate header with ProblemDetails type URI from a closed set of auth/* and authz/* URIs. Defensive default: unknown 401 → treat as auth_token_invalid, force re-auth."
+  - id: capability:session-telemetry
+    label: Session Continuity Telemetry
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0005-session-telemetry-events.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:session-continuity
+    rationale:
+      - adr: adr:024
+        section: "Decision §5"
+        summary: "9 event types emitted fire-and-forget to Serilog category Nebula.Session.Continuity. Hard PII boundary: UserId + session_id only; no email/name/IP/raw tokens/broker_tenant_id/role list/form contents."
 
 glossary_terms:
   - id: glossary_term:quote
@@ -1343,6 +1414,21 @@ endpoints:
       - entity:document
       - entity:document-template
       - capability:document-templates
+  - id: endpoint:internal-telemetry-session-continuity
+    label: POST /internal/telemetry/session-continuity
+    method: POST
+    route: /internal/telemetry/session-continuity
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0005-session-telemetry-events.md
+    related_nodes:
+      - capability:session-telemetry
+      - capability:session-continuity
+    rationale:
+      - adr: adr:024
+        section: "Decision §6"
+        summary: "Authenticated batch ingest (1-10 events); 202 Accepted fire-and-forget; backend validates against session-continuity-event.schema.json; writes to Serilog Nebula.Session.Continuity; failures here MUST NOT affect frontend session-continuity logic."
 
 ui_routes:
   - id: ui_route:dashboard-home
@@ -1533,6 +1619,87 @@ events:
       - adr: adr:011
         section: "F0007 Renewal Workflow Specification"
         summary: "Renewal transitions follow the same append-only audit pattern as submission transitions for consistent cross-workflow reporting."
+  - id: event:silent-renewal-success
+    label: SilentRenewalSuccess
+    event_type: SilentRenewalSuccess
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0001-silent-token-renewal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:silent-token-renewal
+      - capability:session-telemetry
+  - id: event:silent-renewal-fail
+    label: SilentRenewalFail
+    event_type: SilentRenewalFail
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0001-silent-token-renewal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:silent-token-renewal
+      - capability:session-telemetry
+  - id: event:forced-redirect
+    label: ForcedRedirect
+    event_type: ForcedRedirect
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0003-forced-reauth-context-restore.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:session-context-restore
+      - capability:session-telemetry
+  - id: event:idle-warning-shown
+    label: IdleWarningShown
+    event_type: IdleWarningShown
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0002-idle-warning-modal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:idle-warning
+      - capability:session-telemetry
+  - id: event:idle-warning-accepted
+    label: IdleWarningAccepted
+    event_type: IdleWarningAccepted
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0002-idle-warning-modal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:idle-warning
+      - capability:session-telemetry
+  - id: event:idle-warning-dismissed
+    label: IdleWarningDismissed
+    event_type: IdleWarningDismissed
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0002-idle-warning-modal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:idle-warning
+      - capability:session-telemetry
+  - id: event:auth-classifier-fallback
+    label: AuthClassifierFallback
+    event_type: AuthClassifierFallback
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0004-auth-error-semantics.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:auth-error-classification
+      - capability:session-telemetry
+  - id: event:auth-classifier-conflict
+    label: AuthClassifierConflict
+    event_type: AuthClassifierConflict
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0004-auth-error-semantics.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:auth-error-classification
+      - capability:session-telemetry
+  - id: event:form-snapshot-skipped
+    label: FormSnapshotSkipped
+    event_type: FormSnapshotSkipped
+    source_docs:
+      - planning-mds/features/F0035-session-continuity-and-token-refresh/F0035-S0003-forced-reauth-context-restore.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+    related_nodes:
+      - capability:session-context-restore
+      - capability:session-telemetry
 
 config_keys:
   - id: config_key:authentication-authority
@@ -2985,6 +3152,9 @@ adrs:
   - id: adr:023
     label: JsonLogic Rules Governance
     path: planning-mds/architecture/decisions/ADR-023-rules-governance-jsonlogic.md
+  - id: adr:024
+    label: Session Continuity and Token Refresh Architecture
+    path: planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
 
 api_contracts:
   - id: api:nebula-rest
@@ -3241,3 +3411,6 @@ schemas:
   - id: schema:document-template
     path: planning-mds/schemas/document-template.schema.json
     related_nodes: [entity:document-template]
+  - id: schema:session-continuity-event
+    path: planning-mds/schemas/session-continuity-event.schema.json
+    related_nodes: [capability:session-telemetry, capability:session-continuity]

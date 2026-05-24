@@ -204,7 +204,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 - F0031: Data Import, Deduplication & Go-Live Migration - Planned
 - F0032: Admin Configuration & Reference Data Console - Planned
 - [F0033: Structured Logging and QE Toolchain Activation](features/archive/F0033-structured-logging-and-qe-toolchain-activation/PRD.md) - Done (Archived)
-- [F0035: Session Continuity & Token Refresh](features/F0035-session-continuity-and-token-refresh/PRD.md) - Planned
+- [F0035: Session Continuity & Token Refresh](features/F0035-session-continuity-and-token-refresh/PRD.md) - Draft (Phase A+B planned; ADR-024; awaiting build)
 
 ### 3.4 MVP Features and Stories (vertical-slice friendly)
 
