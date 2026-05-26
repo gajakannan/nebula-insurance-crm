@@ -184,7 +184,10 @@ Rendering, field order, sections, and which widgets appear are all determined by
 - **Assumption:** No backend or database change is required; this is a frontend feature consuming existing F0034 and F0035 contracts.
 - **Assumption:** RHF is an acceptable field-state library for the fixed-shape CRUD forms (not only product attributes); this aligns with ADR-021's choice of RHF as Nebula's form-state library.
 
-## Related User Stories (proposed — to be finalized at Phase A)
+## Related User Stories (finalized at Phase A — plan run `2026-05-25-51ff2a92`)
+
+> All eight stories are colocated in this folder as `F0036-S####-{slug}.md` and pass `validate-stories.py`.
+
 
 _Workstream A — Dynamic product-attribute engine (full ADR-021):_
 
@@ -200,8 +203,33 @@ _Workstream B — CRUD form RHF migration + preservation:_
 - F0036-S0007 — Shared preservation registration helper + migrate the CRUD mutation forms to React Hook Form (broker, account, contact, task, submission native fields)
 - F0036-S0008 — Register migrated CRUD forms with F0035 preservation + restore on mount; close F0035 S0003 Contact Edit canonical scenario end-to-end
 
+## Phase A Clarification Resolution (plan run `2026-05-25-51ff2a92`)
+
+Requirements clarification gate (G1) outcome. The PRD was already broadened by the operator on 2026-05-25; the items below were confirmed against the codebase or explicitly deferred to Phase B architecture (deferral is recorded, not left ambiguous).
+
+**Resolved at Phase A (PM):**
+
+1. **Workstream B inventory locked (6 surfaces).** Verified to exist 2026-05-25: broker (`EditBrokerModal`, `CreateBrokerPage`), account (`CreateAccountPage`), contact (`ContactFormModal`), task (`TaskCreateModal`), and the native fields of `CreateSubmissionPage`. `CreatePolicyPage` hosts the Workstream A attribute panel and is **not** a separate CRUD-migration target. Edit variants served by the same component (e.g. `ContactFormModal` for create+edit) are covered by migrating that component.
+2. **F0035 API confirmed compatible.** The shipped F0035 surface exports `useSessionRestorableForm`, `consumeFormSnapshot`, and a `DirtyFormRegistration` requiring `formKey`/`route`/`isDirty`/`getValues`/`getDirtyFieldPaths`. RHF supplies `getValues()` and `formState.dirtyFields` (flattened to paths), so it maps cleanly — closing PRD Risk #3. No F0035 change required; the adapter lives in the shared registration helper (S0007).
+3. **No-auto-replay invariant inherited.** F0035's operator-mandated no-mutation-auto-replay rule applies to every preserved form (S0006, S0008); the user always re-saves explicitly.
+
+**Deferred to Phase B (Architecture) — these are design decisions, not open PM requirements:**
+
+1. **Widget derivation source.** The shipped Cyber `ui-schema.json` is layout-only (`sections` + `fieldLabels`) — it carries no per-field widget map, unlike ADR-021's prose. Phase B records the data-schema type/enum/format → widget derivation in the amended ADR-021.
+2. **AJV parity scope includes `rules.json`.** Plain AJV over `data-schema.json` does not cover the bundle's cross-field rules (`mfa_required_for_high_record_count`, `minimum_retention_not_met`). To claim 0-disagreement backend parity the client must also evaluate `rules.json`; Phase B fixes that contract.
+3. **Conditional gating mechanism.** MFA-maturity-enabled-when-MFA-enabled is not encoded in the shipped bundle; Phase B decides the engine convention (S0005 preserves today's observable behavior regardless).
+4. **`ui-schema.json` filename.** Shipped name is hyphenated; ADR-021 prose says `ui.schema.json`. Phase B amends the ADR to the shipped name.
+
 ## Architecture Traceability (Architect Phase B)
 
 - Primary governing decision: **ADR-021** (`planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md`). Phase B must reconcile ADR-021's "Accepted" status with reality — either confirm F0036 implements it as written or amend it where F0034 intentionally diverged — and decide whether a companion ADR is needed for the F0035 form-preservation integration contract. Phase B should also confirm that Workstream B (RHF for fixed-shape CRUD forms, no schema engine) is consistent with ADR-021's choice of RHF as Nebula's form-state library, and record that CRUD forms deliberately do not use AJV/widget-registry rendering.
 - Consumes F0034 contracts (`LobSchemaBundle`, `lob-schema-bundle.schema.json`, Cyber bundle) and F0035 contracts (`dirtyFormRegistry`, `useSessionRestorableForm`, `consumeFormSnapshot`).
 - The `feature-assembly-plan.md` is owned by the feature action at Step 0 (per `agents/actions/plan.md` Deliverables Contract), not by Phase A/B.
+
+### Phase B Outcome (Architect — plan run `2026-05-25-51ff2a92`)
+
+- **ADR-021 amended** (2026-05-25, reconciliation section): the ADR was Accepted-but-unimplemented; F0036 realizes it. The amendment records (1) the shipped `ui-schema.json` filename + layout-only shape, (2) the data-schema→widget derivation table, (3) the parity scope (AJV over `data-schema.json` **plus** client evaluation of `rules.json`), (4) the conditional-gating convention, (5) the F0035 preservation integration adapter, and (6) Workstream B RHF-for-CRUD.
+- **No separate companion ADR.** The F0035 form-preservation integration is API consumption already governed by **ADR-024**; recording it inside the ADR-021 amendment avoids ADR fragmentation.
+- **Governing ADRs:** ADR-021 (primary, amended), ADR-020 (LOB extensible attributes), ADR-022 (validator equivalence — defines parity), ADR-023 (rules governance / JsonLogic — `rules.json`), ADR-024 (session continuity / form preservation).
+- **No backend, schema, or bundle change.** The Cyber bundle and `lob-schema-bundle.schema.json` are consumed as-is; backend validation stays authoritative. No new OpenAPI contract or JSON Schema is introduced by F0036.
+- **Ontology bindings completed:** `feature-mappings.yaml` `feature:F0036` moved from `coverage.excluded_features` into `features[]` with `affects` (`capability:dynamic-attribute-panel`, `capability:dynamic-lob-attributes`, `capability:validator-equivalence`, `capability:lob-rules-governance`, `capability:session-context-restore`), `governed_by` (adr:020/021/022/023/024), `uses_schema`, `uses_api_contract` (`api:nebula-rest`), and `depends_on` (F0034, F0035, F0019). **No new canonical nodes** — F0036 reuses and generalizes existing shared semantics.

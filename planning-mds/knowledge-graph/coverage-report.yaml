@@ -1,9 +1,9 @@
 version: 0
 summary:
   canonical_nodes: 411
-  features_mapped: 24
+  features_mapped: 25
   stories_mapped: 109
-  features_excluded: 12
+  features_excluded: 11
   features_uncovered: 0
   code_bindings: 143
   symbol_count: 2517
@@ -36,6 +36,7 @@ coverage:
   - feature:F0032
   - feature:F0034
   - feature:F0035
+  - feature:F0036
   excluded_features:
   - id: feature:F0008
     path: planning-mds/features/F0008-broker-insights
@@ -70,10 +71,6 @@ coverage:
   - id: feature:F0031
     path: planning-mds/features/F0031-data-import-deduplication-and-go-live-migration
     reason: Planned feature folder exists but ontology mapping backfill has not started.
-  - id: feature:F0036
-    path: planning-mds/features/F0036-dynamic-product-attribute-form-engine
-    reason: Phase A draft feature pending approval; ontology mapping backfill has
-      not started.
   uncovered_feature_paths: []
   mapped_story_ids:
   - story:F0005-S0002
@@ -191,10 +188,10 @@ freshness:
       source_paths:
       - planning-mds/architecture/data-model.md
       source_count: 1
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 5b9acd0c2f152271
-      hotspot_rank: 16
-      hotspot_score: 0.12
+      hotspot_rank: 14
+      hotspot_score: 0.14
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -259,10 +256,10 @@ freshness:
       - planning-mds/domain/glossary.md
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 269edf7e84d94999
       hotspot_rank: 3
-      hotspot_score: 0.67
+      hotspot_score: 0.7
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -274,7 +271,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-09'
       source_hash: a7120beb7abf7177
-      hotspot_rank: 7
+      hotspot_rank: 8
       hotspot_score: 0.44
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -288,7 +285,7 @@ freshness:
       source_count: 4
       last_modified: '2026-05-24'
       source_hash: 4090175c8e1aa171
-      hotspot_rank: 6
+      hotspot_rank: 7
       hotspot_score: 0.45
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -383,7 +380,7 @@ freshness:
       source_count: 1
       last_modified: '2026-05-09'
       source_hash: 5b9acd0c2f152271
-      hotspot_rank: 68
+      hotspot_rank: 69
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -395,7 +392,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-16'
       source_hash: 2bf580de5d00aeef
-      hotspot_rank: 42
+      hotspot_rank: 43
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -413,10 +410,10 @@ freshness:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 0b240ddaa2c09f18
-      hotspot_rank: 76
-      hotspot_score: 0.02
+      hotspot_rank: 65
+      hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -523,10 +520,10 @@ freshness:
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: bee2743bb5ce8454
       hotspot_rank: 11
-      hotspot_score: 0.23
+      hotspot_score: 0.24
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -565,7 +562,7 @@ freshness:
       source_count: 4
       last_modified: '2026-05-24'
       source_hash: 4ca33d0b7ff158a6
-      hotspot_rank: 15
+      hotspot_rank: 16
       hotspot_score: 0.13
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -721,7 +718,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-17'
       source_hash: fd8bdfc6907edcb0
-      hotspot_rank: 14
+      hotspot_rank: 15
       hotspot_score: 0.13
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -865,7 +862,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-09'
       source_hash: 03d10ba800481af1
-      hotspot_rank: 18
+      hotspot_rank: 19
       hotspot_score: 0.07
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -875,8 +872,8 @@ freshness:
       - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md
       - planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md
       source_count: 2
-      last_modified: '2026-05-24'
-      source_hash: 4b96f7b24e7a66e9
+      last_modified: '2026-05-26'
+      source_hash: fd05568372068c35
       hotspot_rank: 27
       hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
@@ -908,8 +905,8 @@ freshness:
       source_count: 2
       last_modified: '2026-05-25'
       source_hash: 3a96dfa3bee12e88
-      hotspot_rank: 8
-      hotspot_score: 0.41
+      hotspot_rank: 5
+      hotspot_score: 0.53
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -955,7 +952,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-24'
       source_hash: ecc678b08f04a189
-      hotspot_rank: 49
+      hotspot_rank: 50
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -968,7 +965,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-24'
       source_hash: 23b6c88ef23ff81e
-      hotspot_rank: 5
+      hotspot_rank: 6
       hotspot_score: 0.51
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1139,7 +1136,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-24'
       source_hash: 21d3d7ec3d66eb0a
-      hotspot_rank: 75
+      hotspot_rank: 76
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1165,7 +1162,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-24'
       source_hash: b89ff17711a79972
-      hotspot_rank: 116
+      hotspot_rank: 117
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1286,7 +1283,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-24'
       source_hash: 43fd8104558acba2
-      hotspot_rank: 50
+      hotspot_rank: 51
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1299,7 +1296,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-24'
       source_hash: 35616fc33d9e33cb
-      hotspot_rank: 43
+      hotspot_rank: 44
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1362,7 +1359,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-24'
       source_hash: 43fd8104558acba2
-      hotspot_rank: 66
+      hotspot_rank: 67
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1374,7 +1371,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-24'
       source_hash: 43fd8104558acba2
-      hotspot_rank: 65
+      hotspot_rank: 66
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1386,7 +1383,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-24'
       source_hash: 43fd8104558acba2
-      hotspot_rank: 67
+      hotspot_rank: 68
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1458,7 +1455,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-24'
       source_hash: 43fd8104558acba2
-      hotspot_rank: 51
+      hotspot_rank: 52
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1549,8 +1546,8 @@ freshness:
       source_count: 3
       last_modified: '2026-05-25'
       source_hash: b8aafa33e69a441b
-      hotspot_rank: 54
-      hotspot_score: 0.03
+      hotspot_rank: 36
+      hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -1559,7 +1556,7 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/DashboardPage.tsx
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: e22a4a283c07d5dd
       hotspot_rank: 124
       hotspot_score: 0.0
@@ -1571,7 +1568,7 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/BrokerListPage.tsx
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: d7f9fc15ddfd89bf
       hotspot_rank: 112
       hotspot_score: 0.0
@@ -1583,7 +1580,7 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/CreateBrokerPage.tsx
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 0428413324ccc6f4
       hotspot_rank: 122
       hotspot_score: 0.0
@@ -1595,7 +1592,7 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/BrokerDetailPage.tsx
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: b60aa1d449bb3f0b
       hotspot_rank: 123
       hotspot_score: 0.0
@@ -1607,7 +1604,7 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/AccountsPage.tsx
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 13d7b81978dc1562
       hotspot_rank: 89
       hotspot_score: 0.01
@@ -1619,7 +1616,7 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/CreateAccountPage.tsx
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 5660b2363da2be4d
       hotspot_rank: 88
       hotspot_score: 0.01
@@ -1631,7 +1628,7 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/AccountDetailPage.tsx
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 40d46341aa211b95
       hotspot_rank: 85
       hotspot_score: 0.01
@@ -1643,7 +1640,7 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/SubmissionsPage.tsx
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 4f2b3738ba254945
       hotspot_rank: 125
       hotspot_score: 0.0
@@ -1655,7 +1652,7 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/CreateSubmissionPage.tsx
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 090d44ee19569b31
       hotspot_rank: 118
       hotspot_score: 0.0
@@ -1667,9 +1664,9 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/SubmissionDetailPage.tsx
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 39e04199d2faa362
-      hotspot_rank: 115
+      hotspot_rank: 116
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1679,7 +1676,7 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/TaskCenterPage.tsx
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: a6360f3eb0824505
       hotspot_rank: 131
       hotspot_score: 0.0
@@ -1693,24 +1690,12 @@ freshness:
       source_count: 2
       last_modified: '2026-05-25'
       source_hash: 17fd66aa4ff8a2ca
-      hotspot_rank: 19
-      hotspot_score: 0.07
+      hotspot_rank: 18
+      hotspot_score: 0.08
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
     event:broker-created:
-      source_paths:
-      - planning-mds/features/archive/F0002-broker-relationship-management/README.md
-      - planning-mds/architecture/data-model.md
-      source_count: 2
-      last_modified: '2026-05-09'
-      source_hash: cebd008ef89b9866
-      hotspot_rank: 106
-      hotspot_score: 0.01
-      primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 100
-      bus_factor_flag: true
-    event:broker-updated:
       source_paths:
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       - planning-mds/architecture/data-model.md
@@ -1722,6 +1707,18 @@ freshness:
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
+    event:broker-updated:
+      source_paths:
+      - planning-mds/features/archive/F0002-broker-relationship-management/README.md
+      - planning-mds/architecture/data-model.md
+      source_count: 2
+      last_modified: '2026-05-09'
+      source_hash: cebd008ef89b9866
+      hotspot_rank: 108
+      hotspot_score: 0.01
+      primary_owner: gajapathi.kannan@live.com
+      primary_owner_pct: 100
+      bus_factor_flag: true
     event:contact-created:
       source_paths:
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
@@ -1729,7 +1726,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-09'
       source_hash: cebd008ef89b9866
-      hotspot_rank: 114
+      hotspot_rank: 115
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1862,9 +1859,9 @@ freshness:
       - planning-mds/architecture/decisions/ADR-Authentication-Strategy.md
       - planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: fac680ce39e1b345
-      hotspot_rank: 109
+      hotspot_rank: 106
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1874,9 +1871,9 @@ freshness:
       - planning-mds/architecture/decisions/ADR-Authentication-Strategy.md
       - planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: fac680ce39e1b345
-      hotspot_rank: 117
+      hotspot_rank: 114
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1935,7 +1932,7 @@ freshness:
       source_count: 1
       last_modified: '2026-05-17'
       source_hash: 82473df2cd5d3a36
-      hotspot_rank: 108
+      hotspot_rank: 109
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1951,10 +1948,10 @@ freshness:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       - planning-mds/schemas/document-metadata-schema-registry.schema.json
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 5645afaa98376b62
       hotspot_rank: 17
-      hotspot_score: 0.1
+      hotspot_score: 0.11
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
@@ -2091,7 +2088,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-09'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 71
+      hotspot_rank: 72
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2103,7 +2100,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-09'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 70
+      hotspot_rank: 71
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2115,7 +2112,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-09'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 74
+      hotspot_rank: 75
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2127,7 +2124,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-09'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 73
+      hotspot_rank: 74
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2139,7 +2136,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-09'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 72
+      hotspot_rank: 73
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2151,7 +2148,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-09'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 69
+      hotspot_rank: 70
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2164,7 +2161,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-09'
       source_hash: c05b30f07ce259be
-      hotspot_rank: 38
+      hotspot_rank: 39
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2204,7 +2201,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-09'
       source_hash: c05b30f07ce259be
-      hotspot_rank: 36
+      hotspot_rank: 37
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2217,7 +2214,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-09'
       source_hash: c05b30f07ce259be
-      hotspot_rank: 44
+      hotspot_rank: 45
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2230,7 +2227,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-09'
       source_hash: c05b30f07ce259be
-      hotspot_rank: 37
+      hotspot_rank: 38
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2316,7 +2313,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-17'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 52
+      hotspot_rank: 53
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2328,7 +2325,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-17'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 53
+      hotspot_rank: 54
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2390,7 +2387,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-16'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 45
+      hotspot_rank: 46
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2402,7 +2399,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-16'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 48
+      hotspot_rank: 49
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2414,7 +2411,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-16'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 39
+      hotspot_rank: 40
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2426,7 +2423,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-16'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 41
+      hotspot_rank: 42
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2438,7 +2435,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-16'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 40
+      hotspot_rank: 41
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2451,7 +2448,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-16'
       source_hash: 58d52894d7e9656e
-      hotspot_rank: 46
+      hotspot_rank: 47
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2475,7 +2472,7 @@ freshness:
       source_count: 2
       last_modified: '2026-05-16'
       source_hash: f25d7d3d4503df00
-      hotspot_rank: 47
+      hotspot_rank: 48
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2949,8 +2946,8 @@ freshness:
       source_paths:
       - planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md
       source_count: 1
-      last_modified: '2026-05-09'
-      source_hash: 4f9bfbb7a1675820
+      last_modified: '2026-05-26'
+      source_hash: 838341770b8e2dc3
     adr:022:
       source_paths:
       - planning-mds/architecture/decisions/ADR-022-validator-equivalence-restricted-profile.md
@@ -3860,6 +3857,24 @@ freshness:
       source_count: 10
       last_modified: '2026-05-25'
       source_hash: 120bb64e902b76ca
+    feature:F0036:
+      source_paths:
+      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0001-engine-skeleton-and-dependencies.md
+      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0002-mvp-widget-vocabulary.md
+      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0003-schema-driven-rendering-ajv-parity.md
+      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0004-pin-during-edit.md
+      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0005-replace-cyber-panel-five-screen-regression.md
+      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0006-product-attribute-form-preservation.md
+      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0007-crud-rhf-migration-and-registration-helper.md
+      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0008-crud-form-preservation-restore.md
+      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/GETTING-STARTED.md
+      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/PRD.md
+      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/README.md
+      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/STATUS.md
+      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/acceptance-criteria-checklist.md
+      source_count: 13
+      last_modified: '2026-05-26'
+      source_hash: 6a7c3f3f330b29da
     story:F0005-S0002:
       source_paths:
       - planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
@@ -5084,8 +5099,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md
       - planning-mds/api/nebula-api.yaml
       source_count: 12
-      last_modified: '2026-05-24'
-      source_hash: 363aedf6d31a751f
+      last_modified: '2026-05-26'
+      source_hash: b0c63eeb4e7dc61e
     capability:validator-equivalence:
       source_paths:
       - engine/src/Nebula.Application/Services/LobAttributeService.cs
@@ -5987,7 +6002,7 @@ freshness:
       - experience/src/pages/DashboardPage.tsx
       - experience/src/pages/tests/DashboardPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 027c8b072b60c674
     ui_route:brokers-list:
       source_paths:
@@ -5996,7 +6011,7 @@ freshness:
       - experience/src/features/brokers/tests/BrokerListPage.a11y.test.tsx
       - experience/src/features/brokers/tests/BrokerListPage.integration.test.tsx
       source_count: 4
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 9e0ffa6143a876a8
     ui_route:broker-create:
       source_paths:
@@ -6004,7 +6019,7 @@ freshness:
       - experience/src/pages/CreateBrokerPage.tsx
       - experience/src/pages/tests/CreateBrokerPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 607d41374969a762
     ui_route:broker-detail:
       source_paths:
@@ -6012,7 +6027,7 @@ freshness:
       - experience/src/pages/BrokerDetailPage.tsx
       - experience/src/pages/tests/BrokerDetailPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: a22f228774a3d9d1
     ui_route:submissions-list:
       source_paths:
@@ -6020,7 +6035,7 @@ freshness:
       - experience/src/pages/SubmissionsPage.tsx
       - experience/src/pages/tests/SubmissionsPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: d25f03a2d800cd39
     ui_route:submission-create:
       source_paths:
@@ -6028,7 +6043,7 @@ freshness:
       - experience/src/pages/CreateSubmissionPage.tsx
       - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 2e1613c351badaff
     ui_route:submission-detail:
       source_paths:
@@ -6036,14 +6051,14 @@ freshness:
       - experience/src/pages/SubmissionDetailPage.tsx
       - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: cd471664f1c30088
     ui_route:task-center:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/TaskCenterPage.tsx
       source_count: 2
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: a6360f3eb0824505
     ui_route:login:
       source_paths:
@@ -6434,7 +6449,7 @@ freshness:
       - experience/src/pages/RenewalsPage.tsx
       - experience/src/pages/RenewalDetailPage.tsx
       source_count: 62
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 6687016e10d2ba63
     workflow:account-lifecycle:
       source_paths:
@@ -6600,7 +6615,7 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 12
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: f899427569e48a1d
     endpoint:account-create:
       source_paths:
@@ -6615,7 +6630,7 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 10
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: e7f8731cb9dd8efe
     endpoint:account-detail:
       source_paths:
@@ -6630,7 +6645,7 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 10
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: fbeee9660a721ba4
     endpoint:account-update:
       source_paths:
@@ -6835,7 +6850,7 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 6
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 135be4d60b796f1d
     ui_route:account-create:
       source_paths:
@@ -6846,7 +6861,7 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 6
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 2646dcd5cdadf44a
     ui_route:account-detail:
       source_paths:
@@ -6857,7 +6872,7 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 6
-      last_modified: '2026-05-24'
+      last_modified: '2026-05-25'
       source_hash: 950d9f23054fe6be
     migration:f0016-account-lifecycle:
       source_paths:

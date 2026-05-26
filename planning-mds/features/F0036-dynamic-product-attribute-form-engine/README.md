@@ -55,7 +55,7 @@ _Workstream B — CRUD form migration + preservation:_
 
 ## Architecture
 
-Governed by **ADR-021**. Phase B must reconcile ADR-021's "Accepted" status with the codebase — confirm F0036 implements it as written or amend where F0034 diverged — and decide whether a companion ADR is needed for the F0035 form-preservation integration contract.
+Governed by **ADR-021** (amended 2026-05-25, plan run `2026-05-25-51ff2a92`). Phase B reconciled ADR-021's "Accepted-but-unimplemented" status with the shipped F0034 panel: the amendment records the `ui-schema.json` filename + layout-only shape, the data-schema→widget derivation table, the parity scope (AJV + `rules.json` per ADR-022/023), the conditional-gating convention, the F0035 preservation adapter, and Workstream B RHF-for-CRUD. **No separate companion ADR** was created — the F0035 integration is governed by **ADR-024**. **No backend/schema/bundle change.** Ontology binding completed in `feature-mappings.yaml` (`feature:F0036`); no new canonical nodes. See PRD → *Architecture Traceability → Phase B Outcome*.
 
 ## Notes
 

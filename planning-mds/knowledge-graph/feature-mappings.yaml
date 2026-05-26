@@ -41,9 +41,6 @@ coverage:
     - id: feature:F0031
       path: planning-mds/features/F0031-data-import-deduplication-and-go-live-migration
       reason: Planned feature folder exists but ontology mapping backfill has not started.
-    - id: feature:F0036
-      path: planning-mds/features/F0036-dynamic-product-attribute-form-engine
-      reason: Phase A draft feature pending approval; ontology mapping backfill has not started.
 
 rules:
   - Mappings must reference canonical IDs declared in canonical-nodes.yaml.
@@ -826,6 +823,36 @@ features:
     notes:
       - "Operator-mandated invariant (plan run 2026-05-23-41109356): no mutation auto-replay after silent renewal. Reads auto-replay; mutations require explicit user re-confirm. Captured permanently in ADR-024 §2 + 'Invalid After This ADR'."
       - "Refresh-token transport intentionally remains frontend-mediated via oidc-client-ts (F0005-S0003) for scope discipline; backend-mediated HttpOnly cookie tightening is a Phase 2 candidate in F0035 STATUS.md."
+
+  - id: feature:F0036
+    path: planning-mds/features/F0036-dynamic-product-attribute-form-engine
+    status: draft
+    affects:
+      - capability:dynamic-attribute-panel
+      - capability:dynamic-lob-attributes
+      - capability:validator-equivalence
+      - capability:lob-rules-governance
+      - capability:session-context-restore
+    governed_by:
+      - adr:021
+      - adr:020
+      - adr:022
+      - adr:023
+      - adr:024
+    uses_schema:
+      - schema:lob-attribute-envelope
+      - schema:lob-schema-bundle
+      - schema:lob-validation-problem-details
+    uses_api_contract:
+      - api:nebula-rest
+    depends_on:
+      - feature:F0034
+      - feature:F0035
+      - feature:F0019
+    notes:
+      - "Frontend-only feature (plan run 2026-05-25-51ff2a92). No backend, schema, or bundle changes — the Cyber cyber/1.0.0 bundle (data-schema.json, ui-schema.json, rules.json) and lob-schema-bundle.schema.json are consumed as-is; backend validation stays authoritative."
+      - "Realizes ADR-021 (capability:dynamic-attribute-panel): RHF field state + AJV client validation + an explicit shadcn-style widget registry for LOB product attributes (Cyber pilot). ADR-021 amended at this plan run to reconcile with the shipped F0034 panel — widgets are derived from data-schema.json (the shipped ui-schema.json is layout-only: sections + fieldLabels, no widget map), and client/backend parity (capability:validator-equivalence, ADR-022) requires the client to also evaluate the bundle's rules.json cross-field rules (capability:lob-rules-governance, ADR-023)."
+      - "Workstream B migrates the hand-rolled CRUD forms (broker, account, contact, task, submission native fields) to RHF (fixed-shape; no schema engine) and registers all in-scope mutation forms — product-attribute and CRUD — with the F0035 form-state preservation registry (capability:session-context-restore, ADR-024), closing F0035 finding #1. The F0035 operator-mandated no-mutation-auto-replay invariant is inherited. No new canonical nodes: F0036 reuses and generalizes existing shared semantics."
 
 stories:
   - id: story:F0005-S0002
