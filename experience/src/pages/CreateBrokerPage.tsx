@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card } from '@/components/ui/Card';
 import { TextInput } from '@/components/ui/TextInput';
 import { Select } from '@/components/ui/Select';
 import { useCreateBroker, validateBrokerCreate } from '@/features/brokers';
+import { useControlledDirtyTracker, useRegisteredForm } from '@/features/forms';
+import { useCurrentUser } from '@/features/auth';
 import { ApiError } from '@/services/api';
 import { US_STATES } from '@/lib/us-states';
 import type { BrokerCreateDto } from '@/features/brokers';
@@ -22,6 +24,20 @@ export default function CreateBrokerPage() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState('');
+
+  // F0036-S0007: F0035 registration via the controlled-form dirty-tracker.
+  const user = useCurrentUser();
+  const initialValuesRef = useRef(form);
+  const tracker = useControlledDirtyTracker(form, initialValuesRef.current);
+  useRegisteredForm({
+    registration: {
+      formKey: 'broker:new',
+      route: typeof window !== 'undefined' ? window.location.pathname : '/',
+      ...tracker,
+    },
+    userId: user?.sub ?? null,
+    onRestore: (record) => setForm(record.form_values),
+  });
 
   function updateField(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));

@@ -92,6 +92,35 @@ export function buildCyberEnvelope(values: CyberLobAttributeValues): LobAttribut
   }
 }
 
+/**
+ * Maps the flat editing values to the nested bundle attributes shape the engine
+ * renders/validates (S0005 adapter). Unlike `buildCyberEnvelope` (a save-time
+ * builder that coerces blanks to 0/null), this preserves blanks as `undefined`
+ * so client AJV reports `required` for empty fields — matching the backend — and
+ * empty selects/number/money widgets render blank rather than 0.
+ */
+export function cyberValuesToAttributes(values: CyberLobAttributeValues): Record<string, unknown> {
+  return {
+    revenueBand: values.revenueBand || undefined,
+    recordsHeld: values.recordsHeld === '' ? undefined : Number(values.recordsHeld),
+    controls: {
+      mfaEnabled: values.mfaEnabled,
+      mfaMaturity: values.mfaMaturity || undefined,
+      edrEnabled: values.edrEnabled,
+      backupEnabled: values.backupEnabled,
+      trainingFrequency: values.trainingFrequency || undefined,
+    },
+    requestedLimit: {
+      amountMinor: values.requestedLimit === '' ? undefined : majorToMinor(values.requestedLimit),
+      currency: 'USD',
+    },
+    requestedRetention: {
+      amountMinor: values.requestedRetention === '' ? undefined : majorToMinor(values.requestedRetention),
+      currency: 'USD',
+    },
+  }
+}
+
 export function validateCyberLobAttributes(values: CyberLobAttributeValues): Record<string, string> {
   const errors: Record<string, string> = {}
 

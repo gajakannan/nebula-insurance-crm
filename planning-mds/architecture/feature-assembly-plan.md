@@ -2001,3 +2001,26 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 **F0033-C:** Broker list Pact contract is generated and provider-verified.
 
 **F0033-D:** SonarQube Community ingests backend + frontend coverage in one analysis flow.
+
+---
+
+## F0036 - Form Engine and Form-State Preservation (RHF + AJV + Widget Registry)
+
+**Added:** 2026-05-28 - Feature action Step 0 (run `2026-05-28-077b7b30`) created the feature-local implementation execution plan after Phase B architecture (ADR-021 amended) completed during planning.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0036-dynamic-product-attribute-form-engine/feature-assembly-plan.md) - frontend-only slice order (S0001-S0008), `experience/**` file paths, widget-registry + AJV + RHF engine contracts, the library-agnostic F0035 registration helper, the controlled-form dirty-tracker adapter, the ~11-component Workstream B inventory, and the parity/regression/E2E checkpoints.
+
+### Dependencies
+
+| Dependency | Source | What F0036 Needs | Status |
+|------------|--------|------------------|--------|
+| Cyber schema bundle + registry | F0034 | `LobSchemaBundle`, `lob-schema-bundle.schema.json`, `cyber/1.0.0` bundle consumed as-is | Done dependency |
+| Form-state preservation registry | F0035 | `dirtyFormRegistry`, `useSessionRestorableForm`, `consumeFormSnapshot` | Done dependency |
+| Dynamic form engine decision | ADR-021 (amended) | RHF + AJV + shadcn widget registry; parity scope; controlled-form adapter | Accepted |
+| Submission attribute consumer | F0019 | Dependable product-attribute entry | Planned consumer |
+
+### Architecture Notes
+
+- Frontend-only (`experience/**`); no backend, schema, bundle, or deployment change; backend validation remains authoritative.
+- Client AJV validates `data-schema.json`; parity measured against the actual backend (`(code, pointer)` multiset, ADR-022); cross-field rules backend-authoritative via `lobErrors[]` (no ADR-023 dependency).
+- Workstream B keeps CRUD forms controlled; only F0035 registration is added via `useControlledDirtyTracker` + the shared registration helper.

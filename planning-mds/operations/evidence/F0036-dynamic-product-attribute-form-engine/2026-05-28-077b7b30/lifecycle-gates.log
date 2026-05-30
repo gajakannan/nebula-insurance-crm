@@ -1,0 +1,93 @@
+# Lifecycle Gates Log — F0036 run 2026-05-28-077b7b30
+
+> Validator/lifecycle invocations for this run. Sibling to `gate-decisions.md` (what *ran* vs what *was decided*). Tracker-sync and closeout rows are appended at G4.6/G4.7.
+
+## Lifecycle Gate Run
+
+### session-start
+Command: python3 scripts/kg/validate.py
+Stage: session-start
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G0
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0036 --run-id 2026-05-28-077b7b30 --stage G0
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: g0-assembly-plan-validation.md
+Skipped Gates: G1 runtime preflight not yet required (runtime_bearing=false at G0; flips at G2)
+
+### G1
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0036 --run-id 2026-05-28-077b7b30 --stage G1
+Stage: G1
+Exit Code: 0
+Result: PASS
+Output References: g1-runtime-preflight.md
+Skipped Gates: -
+
+### G2
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0036 --run-id 2026-05-28-077b7b30 --stage G2
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: g2-self-review.md, test-plan.md, test-execution-report.md, coverage-report.md, deployability-check.md
+Skipped Gates: -
+
+### G3
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0036 --run-id 2026-05-28-077b7b30 --stage G3
+Stage: G3
+Exit Code: 0
+Result: PASS
+Output References: code-review-report.md, security-review-report.md
+Skipped Gates: -
+
+### G4.5
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0036 --run-id 2026-05-28-077b7b30 --stage G4.5
+Stage: G4.5
+Exit Code: 0
+Result: PASS
+Output References: signoff-ledger.md
+Skipped Gates: -
+
+### G4.6
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0036 --run-id 2026-05-28-077b7b30 --stage G4.6
+Stage: G4.6
+Exit Code: 0
+Result: PASS
+Output References: feature-action-execution.md
+Skipped Gates: -
+
+### tracker-sync
+Command: python3 agents/product-manager/scripts/validate-trackers.py --feature F0036 --run-id 2026-05-28-077b7b30
+Stage: G4.6
+Exit Code: 0
+Result: PASS
+Output References: - (0 errors, 0 warnings; internally calls validate-feature-evidence --stage G4.6)
+Skipped Gates: -
+
+### patch-prior-manifest
+Command: python3 agents/product-manager/scripts/patch-prior-manifest.py --product-root {PRODUCT_ROOT} --feature F0036 --new-run-id 2026-05-28-077b7b30
+Stage: G4.7
+Exit Code: 0
+Result: PASS
+Output References: - ("no prior approved manifests to patch"; idempotent — no supersession to apply)
+Skipped Gates: -
+
+### tracker-sync (G4.7 archive)
+Command: python3 agents/product-manager/scripts/validate-trackers.py --feature F0036 --run-id 2026-05-28-077b7b30
+Stage: G4.7
+Exit Code: 0
+Result: PASS
+Output References: lifecycle-gates.log — post-archive tracker reconciliation (ROADMAP/BLUEPRINT/REGISTRY/feature-mappings/STATUS + folder move to archive/)
+Skipped Gates: -
+
+### closeout
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0036 --run-id 2026-05-28-077b7b30 --stage closeout
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: pm-closeout.md, evidence-manifest.json (status=approved), latest-run.json — full terminal-feature validation
+Skipped Gates: -

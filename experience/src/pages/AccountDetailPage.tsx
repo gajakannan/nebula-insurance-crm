@@ -1,6 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { useControlledDirtyTracker, useRegisteredForm } from '@/features/forms';
+import { useCurrentUser } from '@/features/auth';
 import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { ErrorFallback } from '@/components/ui/ErrorFallback';
 import { Modal } from '@/components/ui/Modal';
@@ -115,6 +117,37 @@ export default function AccountDetailPage() {
   const [relationshipTerritory, setRelationshipTerritory] = useState('');
   const [relationshipNotes, setRelationshipNotes] = useState('');
   const [relationshipError, setRelationshipError] = useState('');
+
+  // F0036-S0007: register both controlled forms on this page (account edit +
+  // account-contact create/edit) with F0035 via the controlled-form dirty-tracker.
+  const currentUser = useCurrentUser();
+  const route = typeof window !== 'undefined' ? window.location.pathname : '/';
+  const editInitialRef = useRef<AccountUpdateRequestDto | null>(null);
+  const accountEditTracker = useControlledDirtyTracker(editForm, editInitialRef.current);
+  useRegisteredForm({
+    registration: { formKey: `account:${accountId}`, route, ...accountEditTracker },
+    userId: currentUser?.sub ?? null,
+    onRestore: (record) => {
+      editInitialRef.current = record.form_values;
+      setEditForm(record.form_values);
+      setEditOpen(true);
+    },
+  });
+  const contactInitialRef = useRef<AccountContactRequestDto>(contactForm);
+  const contactTracker = useControlledDirtyTracker(contactForm, contactInitialRef.current);
+  useRegisteredForm({
+    registration: {
+      formKey: `account-contact:${accountId}:${editingContact?.id ?? 'new'}`,
+      route,
+      ...contactTracker,
+    },
+    userId: currentUser?.sub ?? null,
+    onRestore: (record) => {
+      contactInitialRef.current = record.form_values;
+      setContactForm(record.form_values);
+      setContactOpen(true);
+    },
+  });
 
   useEffect(() => {
     const account = accountQuery.data;
@@ -240,7 +273,7 @@ export default function AccountDetailPage() {
   const currentAccount = account;
 
   function openEditModal() {
-    setEditForm({
+    const initial = {
       displayName: currentAccount.displayName,
       legalName: currentAccount.legalName,
       taxId: currentAccount.taxId,
@@ -253,7 +286,9 @@ export default function AccountDetailPage() {
       state: currentAccount.state,
       postalCode: currentAccount.postalCode,
       country: currentAccount.country,
-    });
+    };
+    editInitialRef.current = initial;
+    setEditForm(initial);
     setEditErrors({});
     setEditServerError('');
     setEditOpen(true);
@@ -276,13 +311,15 @@ export default function AccountDetailPage() {
 
   function openContactModal(contact?: AccountContactDto) {
     setEditingContact(contact ?? null);
-    setContactForm({
+    const initial = {
       fullName: contact?.fullName ?? '',
       role: contact?.role ?? '',
       email: contact?.email ?? '',
       phone: contact?.phone ?? '',
       isPrimary: contact?.isPrimary ?? false,
-    });
+    };
+    contactInitialRef.current = initial;
+    setContactForm(initial);
     setContactErrors({});
     setContactServerError('');
     setContactOpen(true);

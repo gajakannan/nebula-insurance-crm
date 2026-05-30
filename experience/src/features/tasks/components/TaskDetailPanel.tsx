@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Trash2, Pencil, Check } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
@@ -6,6 +6,7 @@ import { Select } from '@/components/ui/Select';
 import { TextInput } from '@/components/ui/TextInput';
 import { AssigneePicker } from './AssigneePicker';
 import { useUpdateTask, useDeleteTask } from '../hooks/useTaskMutations';
+import { useControlledDirtyTracker, useRegisteredForm } from '@/features/forms';
 import { useCurrentUser } from '@/features/auth';
 import { cn } from '@/lib/utils';
 import { formatRelativeTime } from '@/lib/format';
@@ -67,6 +68,26 @@ export function TaskDetailPanel({ task, onClose }: TaskDetailPanelProps) {
   const [reassignUser, setReassignUser] = useState<UserSummaryDto | null>(null);
   const [showReassign, setShowReassign] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+
+  // F0036-S0007: register the inline title/description edits with F0035 via the
+  // controlled-form dirty-tracker (no field-state-library change).
+  const initialTaskValues = useMemo(
+    () => ({ title: task.title, description: task.description ?? '' }),
+    [task.title, task.description],
+  );
+  const taskEditTracker = useControlledDirtyTracker({ title: titleValue, description: descValue }, initialTaskValues);
+  useRegisteredForm({
+    registration: {
+      formKey: `task:${task.id}`,
+      route: typeof window !== 'undefined' ? window.location.pathname : '/',
+      ...taskEditTracker,
+    },
+    userId: currentUser?.sub ?? null,
+    onRestore: (record) => {
+      setTitleValue(record.form_values.title);
+      setDescValue(record.form_values.description);
+    },
+  });
 
   const canManage =
     currentUser &&

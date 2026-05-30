@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { TextInput } from '@/components/ui/TextInput';
+import { useControlledDirtyTracker, useRegisteredForm } from '@/features/forms';
+import { useCurrentUser } from '@/features/auth';
 import { AssigneePicker, type UserSummaryDto } from '@/features/tasks';
 import { useBrokers } from '@/features/brokers';
 import {
@@ -39,6 +41,20 @@ export default function CreateAccountPage() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState('');
+
+  // F0036-S0007: F0035 registration via the controlled-form dirty-tracker.
+  const user = useCurrentUser();
+  const initialValuesRef = useRef(form);
+  const tracker = useControlledDirtyTracker(form, initialValuesRef.current);
+  useRegisteredForm({
+    registration: {
+      formKey: 'account:new',
+      route: typeof window !== 'undefined' ? window.location.pathname : '/',
+      ...tracker,
+    },
+    userId: user?.sub ?? null,
+    onRestore: (record) => setForm(record.form_values),
+  });
 
   function updateField(field: keyof AccountCreateRequestDto, value: string) {
     setForm((current) => ({ ...current, [field]: value }));

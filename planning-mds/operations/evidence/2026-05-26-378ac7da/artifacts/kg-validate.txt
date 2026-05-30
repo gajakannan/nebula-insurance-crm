@@ -1,0 +1,24 @@
+# kg-validate
+started_at: 2026-05-26T21:58:47-04:00
+finished_at: 2026-05-26T21:59:49-04:00
+cwd: /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm
+command: python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py
+exit_code: 1
+
+## stdout
+Knowledge graph validation
+------------------------------------------------------------
+Features mapped:   25
+Stories mapped:    109
+Feature coverage:  25 mapped, 11 excluded, 0 uncovered
+Code bindings:     143
+Symbol index:      2517 symbols, 2517 on bound nodes (csharp: 2158, typescript: 359)
+Decision markers: 0 markers, 0 WHY
+
+Warnings:
+- Low-confidence inferred edge (0.4) on feature:F0028 in feature:F0018.depends_on
+
+Errors:
+- coverage-report.yaml is stale (run python3 scripts/kg/validate.py --write-coverage-report)
+
+## stderr

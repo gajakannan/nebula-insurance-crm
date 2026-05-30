@@ -11,7 +11,8 @@
 
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
-| F0036 | Form Engine and Form-State Preservation (RHF + AJV + Widget Registry) | Phase A draft pending approval | Platform Foundation / CRM Release MVP Enabler | `F0036-dynamic-product-attribute-form-engine/` |
+
+_No active features — F0036 archived 2026-05-30; see Archived Features._
 
 ## Retired Features
 
@@ -46,6 +47,7 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 
 | Feature ID | Name | Archived Date | Folder |
 |------------|------|---------------|--------|
+| F0036 | Form Engine and Form-State Preservation (RHF + AJV + Widget Registry) | 2026-05-30 | `archive/F0036-dynamic-product-attribute-form-engine/` |
 | F0035 | Session Continuity & Token Refresh | 2026-05-24 | `archive/F0035-session-continuity-and-token-refresh/` |
 | F0034 | Product Schema Registry and Dynamic LOB Attributes | 2026-05-07 | `archive/F0034-product-schema-registry-and-dynamic-lob-attributes/` |
 | F0020 | Document Management & ACORD Intake | 2026-05-05 | `archive/F0020-document-management-and-acord-intake/` |

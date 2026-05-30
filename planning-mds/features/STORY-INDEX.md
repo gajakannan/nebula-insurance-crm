@@ -275,14 +275,14 @@ Auto-generated index of all user stories across feature folders.
 
 | Story ID | Title | Priority | Phase | Persona |
 |----------|-------|----------|-------|---------|
-| [F0036-S0001](./F0036-dynamic-product-attribute-form-engine/F0036-S0001-engine-skeleton-and-dependencies.md) | Form Engine Skeleton, Dependencies, and Widget-Registry Contract | High | MVP | Frontend Platform Engineer |
-| [F0036-S0002](./F0036-dynamic-product-attribute-form-engine/F0036-S0002-mvp-widget-vocabulary.md) | MVP Widget Vocabulary with Theme and Accessibility Coverage | High | MVP | Schema Steward |
-| [F0036-S0003](./F0036-dynamic-product-attribute-form-engine/F0036-S0003-schema-driven-rendering-ajv-parity.md) | Schema-Driven Rendering and AJV Client Validation with Backend Parity (Cyber) | High | MVP | Cyber Underwriter |
-| [F0036-S0004](./F0036-dynamic-product-attribute-form-engine/F0036-S0004-pin-during-edit.md) | Pin-During-Edit Binding to (productVersionId, stage) | High | MVP | Cyber Underwriter |
-| [F0036-S0005](./F0036-dynamic-product-attribute-form-engine/F0036-S0005-replace-cyber-panel-five-screen-regression.md) | Replace Hardcoded Cyber DynamicAttributePanel With the Engine (Five-Screen Regression) | High | MVP | Cyber Underwriter |
-| [F0036-S0006](./F0036-dynamic-product-attribute-form-engine/F0036-S0006-product-attribute-form-preservation.md) | Wire Product-Attribute Form Into F0035 Dirty-Form Registry + Restore (End-to-End Forced-Re-Auth Journey) | High | MVP | Cyber Underwriter entering attributes |
-| [F0036-S0007](./F0036-dynamic-product-attribute-form-engine/F0036-S0007-crud-rhf-migration-and-registration-helper.md) | Shared Preservation Registration Helper + Migrate Hand-Rolled CRUD Forms to React Hook Form | High | MVP | Frontend Platform Engineer |
-| [F0036-S0008](./F0036-dynamic-product-attribute-form-engine/F0036-S0008-crud-form-preservation-restore.md) | Register Migrated CRUD Forms With F0035 + Restore on Mount; Close F0035 S0003 Contact-Edit Scenario | High | MVP | Broker Relationship Manager editing a contact's notes |
+| [F0036-S0001](./archive/F0036-dynamic-product-attribute-form-engine/F0036-S0001-engine-skeleton-and-dependencies.md) | Form Engine Skeleton, Dependencies, and Widget-Registry Contract | High | MVP | Frontend Platform Engineer |
+| [F0036-S0002](./archive/F0036-dynamic-product-attribute-form-engine/F0036-S0002-mvp-widget-vocabulary.md) | MVP Widget Vocabulary with Theme and Accessibility Coverage | High | MVP | Schema Steward |
+| [F0036-S0003](./archive/F0036-dynamic-product-attribute-form-engine/F0036-S0003-schema-driven-rendering-ajv-parity.md) | Schema-Driven Rendering and AJV Client Validation with Backend Parity (Cyber) | High | MVP | Cyber Underwriter |
+| [F0036-S0004](./archive/F0036-dynamic-product-attribute-form-engine/F0036-S0004-pin-during-edit.md) | Pin-During-Edit Binding to (productVersionId, stage) | High | MVP | Cyber Underwriter |
+| [F0036-S0005](./archive/F0036-dynamic-product-attribute-form-engine/F0036-S0005-replace-cyber-panel-five-screen-regression.md) | Replace Hardcoded Cyber DynamicAttributePanel With the Engine (Five-Screen Regression) | High | MVP | Cyber Underwriter |
+| [F0036-S0006](./archive/F0036-dynamic-product-attribute-form-engine/F0036-S0006-product-attribute-form-preservation.md) | Wire Product-Attribute Form Into F0035 Dirty-Form Registry + Restore (End-to-End Forced-Re-Auth Journey) | High | MVP | Cyber Underwriter entering attributes |
+| [F0036-S0007](./archive/F0036-dynamic-product-attribute-form-engine/F0036-S0007-controlled-dirty-tracker-and-registration-helper.md) | Controlled-Form Dirty-Tracker (`useControlledDirtyTracker`) + Library-Agnostic Shared Preservation Registration Helper | High | MVP | Frontend Platform Engineer |
+| [F0036-S0008](./archive/F0036-dynamic-product-attribute-form-engine/F0036-S0008-crud-form-preservation-restore.md) | Register Controlled CRUD Forms With F0035 (via the Controlled-Form Dirty-Tracker Adapter) + Restore on Mount; Close F0035 S0003 Contact-Edit Scenario | High | MVP | Broker Relationship Manager editing a contact's notes |
 
 ---
 

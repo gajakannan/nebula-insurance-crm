@@ -1,5 +1,6 @@
-import { startTransition, useEffect, useState } from 'react';
+import { startTransition, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useControlledDirtyTracker, useRegisteredForm } from '@/features/forms';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { ErrorFallback } from '@/components/ui/ErrorFallback';
@@ -64,6 +65,20 @@ export default function RenewalsPage() {
   const [createForm, setCreateForm] = useState<RenewalCreateForm>({ policyId: '', lineOfBusiness: '' });
   const [createErrors, setCreateErrors] = useState<Record<string, string>>({});
   const [createServerError, setCreateServerError] = useState('');
+
+  // F0036-S0007: register the renewal-create form with F0035 via the
+  // controlled-form dirty-tracker.
+  const renewalCreateInitialRef = useRef<RenewalCreateForm>({ policyId: '', lineOfBusiness: '' });
+  const renewalCreateTracker = useControlledDirtyTracker(createForm, renewalCreateInitialRef.current);
+  useRegisteredForm({
+    registration: {
+      formKey: 'renewal:new',
+      route: typeof window !== 'undefined' ? window.location.pathname : '/',
+      ...renewalCreateTracker,
+    },
+    userId: currentUser?.sub ?? null,
+    onRestore: (record) => setCreateForm(record.form_values),
+  });
 
   const dueWindow = searchParams.get('dueWindow') ?? '';
   const status = searchParams.get('status') ?? '';

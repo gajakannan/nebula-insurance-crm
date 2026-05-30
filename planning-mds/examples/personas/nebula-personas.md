@@ -323,6 +323,60 @@ Use these examples when creating user personas for the insurance CRM. Personas s
 
 ---
 
+## Platform & Engineering Role Archetypes
+
+These are **internal platform/engineering roles** (not insurance CRM business end-users). They are referenced by platform-foundation features such as F0034 (Product Schema Registry / Dynamic LOB Attributes) and F0036 (Form Engine and Form-State Preservation). They are intentionally lighter-weight than the business personas above — no demographics — because they describe a job function, not a market segment.
+
+### Archetype A: Schema Steward
+
+**Priority:** Secondary (platform-internal)
+**Type:** Product/operations role that governs LOB schema bundles
+
+**Background & Role:**
+- Owns the lifecycle of LOB product schema bundles (e.g. `cyber/1.0.0`): the data schema, `ui-schema` layout/labels, cross-field rules, and example payloads.
+- Publishes and activates new bundle versions through the governed registry (F0034); does not write frontend or backend code.
+
+**Goals & Motivations:**
+1. Add or change a product attribute (within the approved widget vocabulary) by publishing a schema-bundle version — **without** requiring a frontend code change.
+2. Trust that a published attribute renders and validates consistently across client and backend.
+3. Keep bundle changes auditable and reversible (versioned, activation-gated).
+
+**Pain Points & Frustrations:**
+1. Today the Cyber panel is hardcoded, so any attribute change requires a frontend deploy — defeating the registry's purpose (the exact gap F0036 closes).
+2. No fast feedback that a bundle will render correctly before activation.
+
+**Jobs-to-be-Done:**
+1. **When I publish a new attribute that uses an approved widget...** I need it to render from the bundle through the widget registry, so no engineer has to hand-edit a panel.
+2. **When I change a cross-field rule...** I need client and backend validation to stay in agreement, so underwriters don't see contradictory errors.
+
+**Success Metrics:** schema-only changes ship without a frontend deploy; bundle activation fails closed on unknown widget/option; 0 client/backend validation disagreements on published examples.
+
+### Archetype B: Frontend Platform Engineer
+
+**Priority:** Secondary (platform-internal)
+**Type:** Engineering role that builds and maintains shared frontend foundations
+
+**Background & Role:**
+- Builds shared frontend infrastructure: the dynamic form engine (RHF + AJV + widget registry, ADR-021), the F0035 form-state preservation registry, and the shared form-registration helper.
+- Maintains consistency across product forms so feature teams don't reinvent form plumbing.
+
+**Goals & Motivations:**
+1. One governed form engine and one preservation-registration path, not bespoke per-screen panels and hand-rolled controlled forms.
+2. Reduce regression risk when forms change (RHF field-state, parity tests, snapshot/restore behavior).
+3. Keep ADRs and shipped code in sync (ADR-021 drift is what triggered F0036).
+
+**Pain Points & Frustrations:**
+1. Divergent form implementations (hardcoded attribute panel + hand-rolled CRUD forms) create maintenance and governance drift.
+2. F0035 preservation was wired to zero forms, so unsaved input is lost on a forced re-auth across the app.
+
+**Jobs-to-be-Done:**
+1. **When I build a new product form...** I want to use the governed engine + the shared registration helper, so field state, validation, and preservation behave consistently.
+2. **When a session boundary forces re-auth...** I want every in-scope mutation form to preserve and restore unsaved input via one shared mechanism, so I don't solve it per form.
+
+**Success Metrics:** all in-scope mutation forms are RHF-managed and registered with F0035 preservation; one shared registration helper owns the dirty-state contract; ADR-021 matches the shipped engine.
+
+---
+
 ## How to Use These Personas
 
 ### During Requirements Gathering:

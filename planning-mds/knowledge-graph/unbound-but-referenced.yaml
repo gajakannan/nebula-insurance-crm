@@ -1,12 +1,12 @@
 version: 0
-generated_at: '2026-05-25T17:37:49+00:00'
+generated_at: '2026-05-30T16:32:03+00:00'
 summary:
-  total_invocations: 14
+  total_invocations: 13
   by_language:
     csharp: 3
-    typescript: 11
-  source_files: 5
-  bound_targets: 4
+    typescript: 10
+  source_files: 6
+  bound_targets: 7
   refreshed_languages:
   - typescript
   preserved_languages:
@@ -27,58 +27,53 @@ invocations:
   language: csharp
   target_symbol: symbol:capability-session-continuity:test-auth-handler.reset-f0009-overrides
   target_node: capability:session-continuity
-- source_file: experience/src/features/session-continuity/SessionContinuityProvider.tsx
-  source_line: 7
+- source_file: experience/src/features/lob-attributes/components/DynamicAttributePanel.tsx
+  source_line: 62
   language: typescript
-  target_symbol: symbol:capability-session-continuity:use-idle-warning.use-idle-warning
-  target_node: capability:session-continuity
-- source_file: experience/src/features/session-continuity/SessionContinuityProvider.tsx
-  source_line: 16
+  target_symbol: symbol:capability-validator-equivalence:cyber.is-cyber-line-of-business
+  target_node: capability:validator-equivalence
+- source_file: experience/src/features/lob-attributes/components/DynamicAttributePanel.tsx
+  source_line: 89
   language: typescript
-  target_symbol: symbol:capability-session-continuity:idle-warning-controller.stay-signed-in
-  target_node: capability:session-continuity
-- source_file: experience/src/features/session-continuity/SessionContinuityProvider.tsx
-  source_line: 19
+  target_symbol: symbol:capability-validator-equivalence:cyber.cyber-values-to-attributes
+  target_node: capability:validator-equivalence
+- source_file: experience/src/features/lob-attributes/components/DynamicAttributePanel.tsx
+  source_line: 105
   language: typescript
-  target_symbol: symbol:capability-session-continuity:idle-warning-controller.sign-out
-  target_node: capability:session-continuity
-- source_file: experience/src/features/session-continuity/tests/useIdleWarning.test.tsx
-  source_line: 94
+  target_symbol: symbol:capability-validator-equivalence:cyber.normalize-cyber-envelope
+  target_node: capability:validator-equivalence
+- source_file: experience/src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx
+  source_line: 53
   language: typescript
-  target_symbol: symbol:capability-session-continuity:use-idle-warning.use-idle-warning
-  target_node: capability:session-continuity
-- source_file: experience/src/features/session-continuity/tests/useIdleWarning.test.tsx
-  source_line: 109
+  target_symbol: symbol:capability-validator-equivalence:cyber.empty-cyber-lob-attributes
+  target_node: capability:validator-equivalence
+- source_file: experience/src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx
+  source_line: 114
   language: typescript
-  target_symbol: symbol:capability-session-continuity:use-idle-warning.use-idle-warning
-  target_node: capability:session-continuity
-- source_file: experience/src/features/session-continuity/tests/useIdleWarning.test.tsx
-  source_line: 117
+  target_symbol: symbol:capability-validator-equivalence:cyber.empty-cyber-lob-attributes
+  target_node: capability:validator-equivalence
+- source_file: experience/src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx
+  source_line: 121
   language: typescript
-  target_symbol: symbol:capability-session-continuity:idle-warning-controller.stay-signed-in
-  target_node: capability:session-continuity
-- source_file: experience/src/features/session-continuity/tests/useIdleWarning.test.tsx
-  source_line: 130
+  target_symbol: symbol:capability-validator-equivalence:cyber.empty-cyber-lob-attributes
+  target_node: capability:validator-equivalence
+- source_file: experience/src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts
+  source_line: 12
   language: typescript
-  target_symbol: symbol:capability-session-continuity:use-idle-warning.use-idle-warning
-  target_node: capability:session-continuity
-- source_file: experience/src/features/session-continuity/tests/useIdleWarning.test.tsx
-  source_line: 158
+  target_symbol: symbol:capability-session-context-restore:rhf-dirty-adapter.flatten-dirty-fields
+  target_node: capability:session-context-restore
+- source_file: experience/src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts
+  source_line: 18
   language: typescript
-  target_symbol: symbol:capability-session-continuity:use-idle-warning.use-idle-warning
-  target_node: capability:session-continuity
-- source_file: experience/src/features/session-continuity/tests/useIdleWarning.test.tsx
-  source_line: 188
+  target_symbol: symbol:capability-session-context-restore:rhf-dirty-adapter.flatten-dirty-fields
+  target_node: capability:session-context-restore
+- source_file: experience/src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts
+  source_line: 22
   language: typescript
-  target_symbol: symbol:capability-session-continuity:use-idle-warning.use-idle-warning
-  target_node: capability:session-continuity
-- source_file: experience/src/features/session-continuity/tests/useIdleWarning.test.tsx
-  source_line: 191
+  target_symbol: symbol:capability-session-context-restore:rhf-dirty-adapter.flatten-dirty-fields
+  target_node: capability:session-context-restore
+- source_file: experience/src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts
+  source_line: 34
   language: typescript
-  target_symbol: symbol:capability-session-continuity:idle-warning-controller.sign-out
-  target_node: capability:session-continuity
-- source_file: experience/src/features/session-continuity/tests/useIdleWarning.test.tsx
-  source_line: 208
-  language: typescript
-  target_symbol: symbol:capability-session-continuity:use-idle-warning.use-idle-warning
-  target_node: capability:session-continuity
+  target_symbol: symbol:capability-session-context-restore:rhf-dirty-adapter.rhf-dirty-adapter
+  target_node: capability:session-context-restore

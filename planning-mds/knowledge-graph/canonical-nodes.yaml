@@ -2063,6 +2063,23 @@ policy_rules:
       - entity:policy
       - workflow:renewal
       - capability:authorization-enforcement
+  - id: policy_rule:renewal-update
+    label: renewal:update
+    resource: renewal
+    action: update
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:distribution-user
+      - role:distribution-manager
+      - role:underwriter
+      - role:admin
+    related_nodes:
+      - entity:renewal
+      - workflow:renewal
+      - capability:authorization-enforcement
+      - capability:dynamic-lob-attributes
   - id: policy_rule:renewal-transition
     label: renewal:transition
     resource: renewal

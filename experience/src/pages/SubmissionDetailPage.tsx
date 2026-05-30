@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { useControlledDirtyTracker, useRegisteredForm } from '@/features/forms';
 import { useCurrentUser, type CurrentUser } from '@/features/auth';
 import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { ErrorFallback } from '@/components/ui/ErrorFallback';
@@ -64,6 +65,24 @@ export default function SubmissionDetailPage() {
   const [selectedAssignee, setSelectedAssignee] = useState<UserSummaryDto | null>(null);
   const [transitionReason, setTransitionReason] = useState('');
   const [transitionError, setTransitionError] = useState('');
+
+  // F0036-S0007: register the submission edit form with F0035 via the
+  // controlled-form dirty-tracker (baseline captured when the edit modal opens).
+  const editInitialRef = useRef<SubmissionEditForm | null>(null);
+  const editTracker = useControlledDirtyTracker(editForm, editInitialRef.current);
+  useRegisteredForm({
+    registration: {
+      formKey: `submission:${submissionId}`,
+      route: typeof window !== 'undefined' ? window.location.pathname : '/',
+      ...editTracker,
+    },
+    userId: currentUser?.sub ?? null,
+    onRestore: (record) => {
+      editInitialRef.current = record.form_values;
+      setEditForm(record.form_values);
+      setEditOpen(true);
+    },
+  });
 
   if (submissionQuery.isLoading) {
     return (
@@ -131,14 +150,16 @@ export default function SubmissionDetailPage() {
   function openEditModal() {
     if (!canEditSubmissionDetails) return;
 
-    setEditForm({
+    const initial = {
       programId: currentSubmission.programId ?? '',
       lineOfBusiness: currentSubmission.lineOfBusiness ?? '',
       effectiveDate: toDateInput(currentSubmission.effectiveDate),
       expirationDate: currentSubmission.expirationDate ? toDateInput(currentSubmission.expirationDate) : '',
       premiumEstimate: currentSubmission.premiumEstimate != null ? String(currentSubmission.premiumEstimate) : '',
       description: currentSubmission.description ?? '',
-    });
+    };
+    editInitialRef.current = initial;
+    setEditForm(initial);
     setEditErrors({});
     setEditServerError('');
     setEditOpen(true);

@@ -1,0 +1,139 @@
+# Story F0036-S0003: Schema-Driven Rendering and AJV Client Validation with Backend Parity
+
+## Story Header
+
+**Story ID:** F0036-S0003
+**Feature:** F0036 — Form Engine and Form-State Preservation
+**Title:** Schema-Driven Rendering and AJV Client Validation with Backend Parity (Cyber)
+**Priority:** High
+**Phase:** MVP
+**Workstream:** A — Dynamic product-attribute engine
+
+## User Story
+
+**As a** Cyber Underwriter
+**I want** the Cyber attributes form to build itself from the governed product definition and tell me immediately when an entry is invalid
+**So that** I can correct mistakes before submitting and trust that what passes on screen is what the system will accept
+
+## Context & Background
+
+This story makes the engine render a real Cyber form from the pinned bundle and validate it in the browser with AJV. The bundle's `data-schema.json` defines fields, types, enums, and constraints; `ui-schema.json` defines section grouping and labels. The engine derives each field's widget (S0002) from the data-schema and orders/labels it from the ui-schema. AJV validates against the same `data-schema.json` the backend enforces, so client and backend agree on the published examples. The bundle also ships `rules.json` (cross-field rules) — see the parity decision below.
+
+## Acceptance Criteria
+
+**Happy Path — Schema-driven render:**
+- **Given** the pinned Cyber `cyber/1.0.0` bundle
+- **When** the engine renders the attribute form
+- **Then** the rendered fields, sections, order, and labels come entirely from `data-schema.json` + `ui-schema.json` (sections `exposure`, `controls`, `terms`), with no Cyber-specific field list in component code
+- **And** widgets resolve from the data-schema: `revenueBand`→select, `recordsHeld`→number, `controls.*Enabled`→checkbox, `controls.mfaMaturity`/`trainingFrequency`→select, `requestedLimit`/`requestedRetention`→money-minor
+
+**Happy Path — AJV validation feedback:**
+- **Given** the rendered form
+- **When** the user enters a value that violates the data-schema (e.g. a negative `recordsHeld`, or an out-of-enum `revenueBand`)
+- **Then** AJV reports the violation and the offending widget shows an inline, human-readable message (via `ajv-errors`)
+- **And** the form blocks its own submit affordance while data-schema-invalid
+
+**Happy Path — Backend parity (data-schema layer):**
+- **Given** the Cyber bundle's published example payloads
+- **When** each example is validated by client AJV (over `data-schema.json`) and by the real backend endpoint
+- **Then** the two agree on the **structural/data-schema layer** for every example — a parity fixture matrix records ≥ 1 row per example with 0 disagreements, using ADR-022 normalization (multiset equality on `(code, pointer)`)
+- **And** backend validation remains authoritative on submit (client validation is an immediate-feedback layer, never a substitute)
+- **And** the harness runs each example through the actual backend (live endpoint or recorded responses), since the backend is the parity authority — not a shared rules artifact
+
+**Cross-field rules — backend-authoritative, displayed by the client (reworked per ADR-021 §3, PR-C1):**
+- **Given** the Cyber cross-field rules (`mfa_required_for_high_record_count`: `recordsHeld >= 1000000` requires `controls.mfaEnabled`; `minimum_retention_not_met`: `requestedRetention` ≥ 1% of `requestedLimit`), which are evaluated by the **backend** (hardcoded today; `rules.json` is not the runtime source)
+- **When** the form is submitted with a value that passes the data-schema but violates a cross-field rule
+- **Then** the backend returns `LobValidationProblemDetails.lobErrors[]`, and the client binds each error to its field via `pointer` and renders it inline (no client-authoritative duplicate of the rule logic)
+- **And** an **optional** client pre-check MAY mirror these two rules for pre-submit UX, but only behind the parity harness; if present it must not disagree with the backend, and if absent the backend round-trip is the sole evaluator (no parity gap, since the client does not claim to evaluate them)
+
+**Edge Case — Required and error states:**
+- **Given** a required field (`revenueBand`, `recordsHeld`, `controls`, `requestedLimit`, `requestedRetention`) left empty
+- **When** validation runs
+- **Then** the field shows a required error and submit is blocked until resolved
+
+## Interaction Contract
+
+| Surface / Entry Point | User Action | Editable State | Save / Mutation Result | Reload / Persistence Evidence | Roles / Status Constraints |
+|-----------------------|-------------|----------------|------------------------|-------------------------------|----------------------------|
+| Cyber attribute form embedded in a host screen | Enter/select attribute values; attempt submit | Editable in create/edit contexts; read-only in read-only contexts (host-driven) | Client AJV gates the form's own validity; the actual persistence is the host screen's save (S0005), which calls the existing F0034 backend write path; backend re-validates and is authoritative | A test enters invalid data → inline error + blocked submit; enters valid data → submit allowed; on host save, reload shows persisted attributes and the entity timeline event from the backend | Roles/states allowed by the host screen (create on draft submission/policy, etc.) |
+
+Required checks:
+- [x] Render-only behavior cannot satisfy: validation must actually block invalid submit and clear on correction, proven by interaction tests.
+- [x] Save path validation: client AJV over `data-schema.json` only; cross-field rules are backend-authoritative (surfaced via `lobErrors[]`); backend authoritative on submit.
+- [x] Audit/timeline: the entity timeline event (e.g. attribute update) is emitted by the backend on the host form's save; this story asserts it persists on reload but does not introduce a new event class.
+- [x] Tests prove invalid→error, valid→submit-allowed, and client/backend parity on examples.
+
+## Data Requirements
+
+**Required fields (from Cyber `data-schema.json`):** `revenueBand` (enum), `recordsHeld` (integer ≥ 0), `controls` (object: `mfaEnabled`, `edrEnabled`, `backupEnabled`, `trainingFrequency` required; `mfaMaturity` nullable enum), `requestedLimit`/`requestedRetention` (object: `amountMinor` integer, `currency` enum `USD`).
+
+**Validation Rules:**
+- Data-schema constraints (types, enums, minimums) enforced client-side by AJV with `ajv-formats`; parity is measured against the actual backend (ADR-022, multiset equality on `(code, pointer)`).
+- Cross-field rules (`mfa_required_for_high_record_count`, `minimum_retention_not_met`) are **backend-authoritative**; the client surfaces them from `LobValidationProblemDetails.lobErrors[]` bound by `pointer` and keeps no authoritative duplicate. An optional client pre-check of these two rules is allowed for pre-submit UX only, behind the parity harness (per ADR-021 §3) — the client does not evaluate `rules.json` as an authoritative layer.
+- Backend validation is authoritative on submit; client never bypasses it.
+
+## Role-Based Visibility
+
+**Roles that can edit Cyber attributes:**
+- The same roles the host screen already authorizes for create/edit (e.g. Underwriter on a draft submission/policy). This story does not change authorization; it renders within the host's existing permission and lifecycle constraints.
+
+**Data Visibility:**
+- Attribute values follow the host entity's existing visibility. No new InternalOnly/ExternalVisible exposure is introduced; unauthorized users never reach the editable form (host route auth, HTTP 401/403 handled upstream).
+
+## Non-Functional Expectations
+
+- **Performance:** AJV validation of a Cyber-sized payload runs in < 50ms; inline error feedback appears within one frame of the triggering change.
+- **Security:** Client validation is advisory; the backend re-validates every submit and remains authoritative (no trust in client-passed data). No tokens/PII handled by the validator.
+- **Reliability:** A malformed or unexpected bundle shape surfaces a controlled error rather than rendering a partial/guessed form.
+
+## Dependencies
+
+**Depends On:**
+- F0036-S0001 — engine skeleton + registry.
+- F0036-S0002 — widgets to render and show errors.
+- F0034 — Cyber bundle (`data-schema.json`, `ui-schema.json`, `rules.json`) and the backend validator that defines parity truth.
+
+**Related Stories:**
+- F0036-S0004 — pins the bundle version this story validates against.
+- F0036-S0005 — embeds this validated form into the five screens.
+
+## Business Rules
+
+1. **Backend is authoritative.** Client AJV is fast feedback; the backend re-validates and wins on submit.
+2. **Parity is measured, not assumed.** A fixture matrix over the published examples proves 0 disagreements; rule-only gaps are recorded explicitly.
+3. **Schema-driven only.** No Cyber field list, option list, or layout is hardcoded in component code.
+
+## Out of Scope
+
+- Pin-during-edit session binding (S0004).
+- Swapping the live panel on the five screens (S0005).
+- F0035 preservation (S0006).
+- Non-Cyber LOB activation (engine is LOB-agnostic but only Cyber is validated here).
+
+## UI/UX Notes
+
+- Inline validation messages come from AJV + `ajv-errors` and must read in plain language aligned with backend semantics.
+- The PRD's ASCII layout is illustrative; the bundle's `ui-schema.json` is authoritative for section grouping (note: it groups `requestedLimit`/`requestedRetention` under a `terms` section, not `exposure`).
+
+## Questions & Assumptions
+
+**✅ Plan Review Finding PR-C1 (Critical) — RESOLVED by Architect Phase B rework 2026-05-26 (ADR-021 §3):**
+- The incorrect "client evaluates `rules.json` per ADR-023" premise is removed. New decision: **two validation layers** — (1) the **client** validates the **data-schema layer** with AJV (the bundle is the client's source of truth) and parity is measured against the **actual backend** (ADR-022 multiset equality on `(code, pointer)` over the Cyber examples, via a CI harness using the live endpoint or recorded responses); (2) **cross-field rules stay backend-authoritative** and are surfaced from `LobValidationProblemDetails.lobErrors[]`, bound to fields via `pointer` — the client keeps no authoritative duplicate. An optional client pre-check of the two known rules is allowed for UX only, behind the parity harness.
+- This needs **no backend change** and **no dependency on the unimplemented ADR-023 platform**. F0036's KG binding drops `adr:023`/`capability:lob-rules-governance` (retains `capability:validator-equivalence`/ADR-022). The ACs above are restated accordingly. Origin: `planning-mds/operations/evidence/2026-05-26-aaa8bd7c/plan-review-report.md`.
+
+**Resolved (Phase B):**
+- **`ui-schema.json` carries no widget map** — widgets are derived from the data-schema (decision recorded in S0002/ADR amendment).
+
+**Assumptions (to be validated):**
+- The Cyber bundle's published examples are available to both client fixtures and the backend validator for the parity matrix.
+
+## Definition of Done
+
+- [ ] Acceptance criteria met (schema-driven render, AJV feedback, data-schema backend parity, backend-authoritative cross-field rules surfaced via lobErrors, required states)
+- [ ] Edge cases handled (cross-field rule violations via backend lobErrors, required/empty, malformed bundle)
+- [ ] Permissions enforced (host-screen auth unchanged; no new exposure)
+- [ ] Audit/timeline logged (backend entity event persists on host save; asserted on reload)
+- [ ] Tests pass (unit: widget derivation; integration: validation feedback; parity fixture matrix 0 disagreements)
+- [ ] Documentation updated (GETTING-STARTED documents the parity fixture matrix location)
+- [ ] Story filename matches `Story ID` prefix
+- [ ] Story index regenerated

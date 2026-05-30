@@ -547,6 +547,21 @@ node_bindings:
         schemas:
           - planning-mds/schemas/lob-validation-problem-details.schema.json
 
+  - id: capability:session-context-restore
+    paths:
+      frontend:
+        feature:
+          # F0036: the library-agnostic shared form-state preservation helper +
+          # the controlled-form dirty-tracker, used by both the RHF attribute
+          # form (Workstream A) and the controlled CRUD forms (Workstream B).
+          - experience/src/features/forms/**
+        engine:
+          - experience/src/features/lob-attributes/engine/FormPreservation.tsx
+          - experience/src/features/lob-attributes/engine/rhfDirtyAdapter.ts
+      docs:
+        architecture:
+          - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+
   - id: endpoint:lob-schemas-active
     paths:
       backend:

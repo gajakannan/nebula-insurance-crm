@@ -146,15 +146,69 @@ export const handlers = [
       lineOfBusiness: 'Cyber',
       schemaVersion: '1.0.0',
       status: 'Active',
+      // Real Cyber data-schema (with properties) so the F0036 schema-driven
+      // engine panel can derive its widgets. Mirrors
+      // planning-mds/lob-schemas/cyber/1.0.0/data-schema.json.
       dataSchema: {
         type: 'object',
         required: ['revenueBand', 'recordsHeld', 'controls', 'requestedLimit', 'requestedRetention'],
+        properties: {
+          revenueBand: { type: 'string', enum: ['0-10M', '10-50M', '50-250M', '250M+'] },
+          recordsHeld: { type: 'integer', minimum: 0 },
+          controls: {
+            type: 'object',
+            required: ['mfaEnabled', 'edrEnabled', 'backupEnabled', 'trainingFrequency'],
+            properties: {
+              mfaEnabled: { type: 'boolean' },
+              mfaMaturity: { type: ['string', 'null'], enum: ['Implemented', 'Partial', 'Planned', null] },
+              edrEnabled: { type: 'boolean' },
+              backupEnabled: { type: 'boolean' },
+              trainingFrequency: { type: 'string', enum: ['Annual', 'SemiAnnual', 'Quarterly'] },
+            },
+            additionalProperties: false,
+          },
+          requestedLimit: {
+            type: 'object',
+            required: ['amountMinor', 'currency'],
+            properties: { amountMinor: { type: 'integer', minimum: 1 }, currency: { type: 'string', enum: ['USD'] } },
+            additionalProperties: false,
+          },
+          requestedRetention: {
+            type: 'object',
+            required: ['amountMinor', 'currency'],
+            properties: { amountMinor: { type: 'integer', minimum: 0 }, currency: { type: 'string', enum: ['USD'] } },
+            additionalProperties: false,
+          },
+        },
+        additionalProperties: true,
       },
       uiSchema: {
         sections: [
           { id: 'exposure', title: 'Exposure', fields: ['revenueBand', 'recordsHeld'] },
-          { id: 'controls', title: 'Controls', fields: ['controls.mfaEnabled'] },
+          {
+            id: 'controls',
+            title: 'Controls',
+            fields: [
+              'controls.mfaEnabled',
+              'controls.mfaMaturity',
+              'controls.edrEnabled',
+              'controls.backupEnabled',
+              'controls.trainingFrequency',
+            ],
+          },
+          { id: 'terms', title: 'Requested Terms', fields: ['requestedLimit', 'requestedRetention'] },
         ],
+        fieldLabels: {
+          revenueBand: 'Revenue band',
+          recordsHeld: 'Records held',
+          'controls.mfaEnabled': 'MFA enabled',
+          'controls.mfaMaturity': 'MFA maturity',
+          'controls.edrEnabled': 'EDR enabled',
+          'controls.backupEnabled': 'Offline backups',
+          'controls.trainingFrequency': 'Training frequency',
+          requestedLimit: 'Requested limit',
+          requestedRetention: 'Requested retention',
+        },
       },
       rules: { rules: [] },
       projectionMap: {},

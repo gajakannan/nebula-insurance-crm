@@ -1,13 +1,13 @@
 version: 0
 summary:
-  canonical_nodes: 411
+  canonical_nodes: 412
   features_mapped: 25
   stories_mapped: 109
   features_excluded: 11
   features_uncovered: 0
-  code_bindings: 143
-  symbol_count: 2517
-  bound_symbol_count: 2517
+  code_bindings: 144
+  symbol_count: 2522
+  bound_symbol_count: 2522
   decision_count: 0
   why_count: 0
 coverage:
@@ -560,8 +560,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/api/nebula-api.yaml
       source_count: 4
-      last_modified: '2026-05-24'
-      source_hash: 4ca33d0b7ff158a6
+      last_modified: '2026-05-29'
+      source_hash: 7e7b59da95be543f
       hotspot_rank: 16
       hotspot_score: 0.13
       primary_owner: gajapathi.kannan@live.com
@@ -575,8 +575,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/api/nebula-api.yaml
       source_count: 5
-      last_modified: '2026-05-24'
-      source_hash: d1438a79a1323d3a
+      last_modified: '2026-05-29'
+      source_hash: 484c508ad17ae6ee
       hotspot_rank: 81
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
@@ -872,9 +872,9 @@ freshness:
       - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/F0034-S0005-render-dynamic-attribute-panel.md
       - planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md
       source_count: 2
-      last_modified: '2026-05-26'
-      source_hash: fd05568372068c35
-      hotspot_rank: 27
+      last_modified: '2026-05-29'
+      source_hash: 9e316a7f2b9b0ef2
+      hotspot_rank: 26
       hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -931,6 +931,11 @@ freshness:
       source_count: 2
       last_modified: '2026-05-25'
       source_hash: 090bb0038b518749
+      hotspot_rank: 140
+      hotspot_score: 0.0
+      primary_owner: gajapathi.kannan@live.com
+      primary_owner_pct: 100
+      bus_factor_flag: true
     capability:auth-error-classification:
       source_paths:
       - planning-mds/features/archive/F0035-session-continuity-and-token-refresh/F0035-S0004-auth-error-semantics.md
@@ -1580,8 +1585,8 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/CreateBrokerPage.tsx
       source_count: 2
-      last_modified: '2026-05-25'
-      source_hash: 0428413324ccc6f4
+      last_modified: '2026-05-30'
+      source_hash: 1b342508427e3e4a
       hotspot_rank: 122
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
@@ -1616,8 +1621,8 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/CreateAccountPage.tsx
       source_count: 2
-      last_modified: '2026-05-25'
-      source_hash: 5660b2363da2be4d
+      last_modified: '2026-05-30'
+      source_hash: 5069dc5e7cb602d2
       hotspot_rank: 88
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
@@ -1628,8 +1633,8 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/AccountDetailPage.tsx
       source_count: 2
-      last_modified: '2026-05-25'
-      source_hash: 40d46341aa211b95
+      last_modified: '2026-05-30'
+      source_hash: a8002559000d011b
       hotspot_rank: 85
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
@@ -1652,8 +1657,8 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/CreateSubmissionPage.tsx
       source_count: 2
-      last_modified: '2026-05-25'
-      source_hash: 090d44ee19569b31
+      last_modified: '2026-05-30'
+      source_hash: 9b2896b692d46710
       hotspot_rank: 118
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
@@ -1664,8 +1669,8 @@ freshness:
       - experience/src/App.tsx
       - experience/src/pages/SubmissionDetailPage.tsx
       source_count: 2
-      last_modified: '2026-05-25'
-      source_hash: 39e04199d2faa362
+      last_modified: '2026-05-30'
+      source_hash: dd7a06e923b25de7
       hotspot_rank: 116
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
@@ -2256,6 +2261,13 @@ freshness:
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
+    policy_rule:renewal-update:
+      source_paths:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      source_count: 2
+      last_modified: '2026-05-09'
+      source_hash: f25d7d3d4503df00
     policy_rule:renewal-transition:
       source_paths:
       - planning-mds/security/policies/policy.csv
@@ -2288,7 +2300,7 @@ freshness:
       source_count: 3
       last_modified: '2026-05-09'
       source_hash: c05b30f07ce259be
-      hotspot_rank: 26
+      hotspot_rank: 27
       hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2755,7 +2767,7 @@ freshness:
       source_count: 1
       last_modified: '2026-04-21'
       source_hash: e1daf0a534574f57
-      hotspot_rank: 143
+      hotspot_rank: 144
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2777,7 +2789,7 @@ freshness:
       source_count: 1
       last_modified: '2026-04-21'
       source_hash: 473f665cfabe11b3
-      hotspot_rank: 141
+      hotspot_rank: 142
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2788,7 +2800,7 @@ freshness:
       source_count: 1
       last_modified: '2026-04-21'
       source_hash: c31f15d4b874fd1f
-      hotspot_rank: 140
+      hotspot_rank: 141
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2799,7 +2811,7 @@ freshness:
       source_count: 1
       last_modified: '2026-04-21'
       source_hash: b0ca0f9a95e73bb5
-      hotspot_rank: 142
+      hotspot_rank: 143
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2946,8 +2958,8 @@ freshness:
       source_paths:
       - planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md
       source_count: 1
-      last_modified: '2026-05-26'
-      source_hash: 838341770b8e2dc3
+      last_modified: '2026-05-29'
+      source_hash: cf0a4241570b1db4
     adr:022:
       source_paths:
       - planning-mds/architecture/decisions/ADR-022-validator-equivalence-restricted-profile.md
@@ -3859,22 +3871,23 @@ freshness:
       source_hash: 120bb64e902b76ca
     feature:F0036:
       source_paths:
-      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0001-engine-skeleton-and-dependencies.md
-      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0002-mvp-widget-vocabulary.md
-      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0003-schema-driven-rendering-ajv-parity.md
-      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0004-pin-during-edit.md
-      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0005-replace-cyber-panel-five-screen-regression.md
-      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0006-product-attribute-form-preservation.md
-      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0007-crud-rhf-migration-and-registration-helper.md
-      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/F0036-S0008-crud-form-preservation-restore.md
-      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/GETTING-STARTED.md
-      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/PRD.md
-      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/README.md
-      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/STATUS.md
-      - planning-mds/features/F0036-dynamic-product-attribute-form-engine/acceptance-criteria-checklist.md
-      source_count: 13
-      last_modified: '2026-05-26'
-      source_hash: 6a7c3f3f330b29da
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/F0036-S0001-engine-skeleton-and-dependencies.md
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/F0036-S0002-mvp-widget-vocabulary.md
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/F0036-S0003-schema-driven-rendering-ajv-parity.md
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/F0036-S0004-pin-during-edit.md
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/F0036-S0005-replace-cyber-panel-five-screen-regression.md
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/F0036-S0006-product-attribute-form-preservation.md
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/F0036-S0007-controlled-dirty-tracker-and-registration-helper.md
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/F0036-S0008-crud-form-preservation-restore.md
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/GETTING-STARTED.md
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/PRD.md
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/README.md
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/STATUS.md
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/acceptance-criteria-checklist.md
+      - planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/feature-assembly-plan.md
+      source_count: 14
+      last_modified: '2026-05-30'
+      source_hash: ac7e2d4c2f473200
     story:F0005-S0002:
       source_paths:
       - planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
@@ -4577,8 +4590,8 @@ freshness:
       - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
       - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
       source_count: 44
-      last_modified: '2026-05-09'
-      source_hash: 0929c5d82fe94471
+      last_modified: '2026-05-30'
+      source_hash: 9959242f42b7b9bb
     entity:renewal:
       source_paths:
       - engine/src/Nebula.Domain/Entities/Renewal.cs
@@ -4655,8 +4668,8 @@ freshness:
       - experience/src/mocks/policies.ts
       - experience/src/mocks/handlers.ts
       source_count: 37
-      last_modified: '2026-05-25'
-      source_hash: 4e03265fbc665cab
+      last_modified: '2026-05-30'
+      source_hash: 06efa3f5f4d514c1
     entity:document:
       source_paths:
       - engine/src/Nebula.Domain/Documents/DocumentConstants.cs
@@ -4709,8 +4722,8 @@ freshness:
       - experience/src/features/documents/tests/ParentDocumentsPanel.test.tsx
       - experience/src/services/api.test.ts
       source_count: 49
-      last_modified: '2026-05-25'
-      source_hash: 521bee53c03aa57f
+      last_modified: '2026-05-30'
+      source_hash: 1f4c74d66cb91693
     entity:document-template:
       source_paths:
       - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
@@ -4801,8 +4814,8 @@ freshness:
       - experience/src/pages/RenewalDetailPage.tsx
       - experience/src/services/api.ts
       source_count: 31
-      last_modified: '2026-05-25'
-      source_hash: a05d924811c909ad
+      last_modified: '2026-05-30'
+      source_hash: e5f197c4af7853d2
     entity:broker:
       source_paths:
       - engine/src/Nebula.Domain/Entities/Broker.cs
@@ -4858,6 +4871,9 @@ freshness:
       - experience/src/features/brokers/lib/validation.ts
       - experience/src/features/brokers/tests/BrokerListPage.a11y.test.tsx
       - experience/src/features/brokers/tests/BrokerListPage.integration.test.tsx
+      - experience/src/features/brokers/tests/ContactFormModal.restore.test.tsx
+      - experience/src/features/brokers/tests/ContactFormModal.test.tsx
+      - experience/src/features/brokers/tests/EditBrokerModal.test.tsx
       - experience/src/features/brokers/tests/validation.test.ts
       - experience/src/features/brokers/types.ts
       - experience/src/pages/BrokerListPage.tsx
@@ -4865,9 +4881,9 @@ freshness:
       - experience/src/pages/CreateBrokerPage.tsx
       - experience/src/pages/tests/BrokerDetailPage.integration.test.tsx
       - experience/src/pages/tests/CreateBrokerPage.integration.test.tsx
-      source_count: 60
-      last_modified: '2026-04-20'
-      source_hash: 4114fc6faeb3e872
+      source_count: 63
+      last_modified: '2026-05-30'
+      source_hash: 8a189f3e35f285b3
     entity:task-item:
       source_paths:
       - engine/src/Nebula.Domain/Entities/TaskItem.cs
@@ -4899,6 +4915,8 @@ freshness:
       - experience/src/features/tasks/components/TaskDetailPanel.tsx
       - experience/src/features/tasks/components/TaskFilterToolbar.tsx
       - experience/src/features/tasks/components/TaskRow.tsx
+      - experience/src/features/tasks/components/__tests__/TaskCreateModal.test.tsx
+      - experience/src/features/tasks/components/__tests__/TaskDetailPanel.test.tsx
       - experience/src/features/tasks/hooks/useMyTasks.ts
       - experience/src/features/tasks/hooks/useTaskList.ts
       - experience/src/features/tasks/hooks/useTaskMutations.ts
@@ -4906,9 +4924,9 @@ freshness:
       - experience/src/features/tasks/index.ts
       - experience/src/features/tasks/types.ts
       - experience/src/pages/TaskCenterPage.tsx
-      source_count: 36
-      last_modified: '2026-05-24'
-      source_hash: b00d5b5b03ea3f20
+      source_count: 38
+      last_modified: '2026-05-30'
+      source_hash: 5e44daad055254e6
     entity:user-profile:
       source_paths:
       - engine/src/Nebula.Domain/Entities/UserProfile.cs
@@ -5070,6 +5088,29 @@ freshness:
       - engine/src/Nebula.Application/Services/LobSchemaDefaults.cs
       - engine/tests/Nebula.Tests/Unit/LobAttributes/LobAttributeServiceTests.cs
       - experience/src/features/lob-attributes/components/DynamicAttributePanel.tsx
+      - experience/src/features/lob-attributes/components/__tests__/DynamicAttributePanel.preservation.test.tsx
+      - experience/src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx
+      - experience/src/features/lob-attributes/engine/FormPreservation.tsx
+      - experience/src/features/lob-attributes/engine/SchemaDrivenForm.tsx
+      - experience/src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx
+      - experience/src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts
+      - experience/src/features/lob-attributes/engine/__tests__/parity.test.ts
+      - experience/src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts
+      - experience/src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts
+      - experience/src/features/lob-attributes/engine/__tests__/widgetRegistry.test.ts
+      - experience/src/features/lob-attributes/engine/__tests__/widgets.a11y.test.tsx
+      - experience/src/features/lob-attributes/engine/__tests__/widgets.test.tsx
+      - experience/src/features/lob-attributes/engine/ajvValidator.ts
+      - experience/src/features/lob-attributes/engine/deriveWidgets.ts
+      - experience/src/features/lob-attributes/engine/index.ts
+      - experience/src/features/lob-attributes/engine/options.ts
+      - experience/src/features/lob-attributes/engine/parity/cyber-examples.fixture.ts
+      - experience/src/features/lob-attributes/engine/rhfDirtyAdapter.ts
+      - experience/src/features/lob-attributes/engine/types.ts
+      - experience/src/features/lob-attributes/engine/uiConditionalMap.ts
+      - experience/src/features/lob-attributes/engine/usePinnedBundle.ts
+      - experience/src/features/lob-attributes/engine/widgetRegistry.ts
+      - experience/src/features/lob-attributes/engine/widgets/index.tsx
       - experience/src/features/lob-attributes/hooks/useLobSchemaBundle.ts
       - experience/src/features/lob-attributes/index.ts
       - experience/src/features/lob-attributes/lib/cyber.ts
@@ -5081,12 +5122,35 @@ freshness:
       - planning-mds/schemas/policy-version.schema.json
       - planning-mds/schemas/policy-endorsement.schema.json
       - planning-mds/schemas/policy.schema.json
-      source_count: 17
-      last_modified: '2026-05-09'
-      source_hash: 7429d98784e2a131
+      source_count: 40
+      last_modified: '2026-05-30'
+      source_hash: bb9c8a35d2eafc82
     capability:dynamic-attribute-panel:
       source_paths:
       - experience/src/features/lob-attributes/components/DynamicAttributePanel.tsx
+      - experience/src/features/lob-attributes/components/__tests__/DynamicAttributePanel.preservation.test.tsx
+      - experience/src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx
+      - experience/src/features/lob-attributes/engine/FormPreservation.tsx
+      - experience/src/features/lob-attributes/engine/SchemaDrivenForm.tsx
+      - experience/src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx
+      - experience/src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts
+      - experience/src/features/lob-attributes/engine/__tests__/parity.test.ts
+      - experience/src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts
+      - experience/src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts
+      - experience/src/features/lob-attributes/engine/__tests__/widgetRegistry.test.ts
+      - experience/src/features/lob-attributes/engine/__tests__/widgets.a11y.test.tsx
+      - experience/src/features/lob-attributes/engine/__tests__/widgets.test.tsx
+      - experience/src/features/lob-attributes/engine/ajvValidator.ts
+      - experience/src/features/lob-attributes/engine/deriveWidgets.ts
+      - experience/src/features/lob-attributes/engine/index.ts
+      - experience/src/features/lob-attributes/engine/options.ts
+      - experience/src/features/lob-attributes/engine/parity/cyber-examples.fixture.ts
+      - experience/src/features/lob-attributes/engine/rhfDirtyAdapter.ts
+      - experience/src/features/lob-attributes/engine/types.ts
+      - experience/src/features/lob-attributes/engine/uiConditionalMap.ts
+      - experience/src/features/lob-attributes/engine/usePinnedBundle.ts
+      - experience/src/features/lob-attributes/engine/widgetRegistry.ts
+      - experience/src/features/lob-attributes/engine/widgets/index.tsx
       - experience/src/features/lob-attributes/hooks/useLobSchemaBundle.ts
       - experience/src/features/lob-attributes/index.ts
       - experience/src/features/lob-attributes/lib/cyber.ts
@@ -5098,9 +5162,9 @@ freshness:
       - experience/src/pages/RenewalDetailPage.tsx
       - planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md
       - planning-mds/api/nebula-api.yaml
-      source_count: 12
-      last_modified: '2026-05-26'
-      source_hash: b0c63eeb4e7dc61e
+      source_count: 35
+      last_modified: '2026-05-30'
+      source_hash: faa59b4154dd2865
     capability:validator-equivalence:
       source_paths:
       - engine/src/Nebula.Application/Services/LobAttributeService.cs
@@ -5110,8 +5174,21 @@ freshness:
       - planning-mds/architecture/validation-perf-baseline.md
       - planning-mds/schemas/lob-validation-problem-details.schema.json
       source_count: 6
-      last_modified: '2026-05-09'
-      source_hash: 20bf81bf06dca1d3
+      last_modified: '2026-05-30'
+      source_hash: e2c1f6242ac9630a
+    capability:session-context-restore:
+      source_paths:
+      - experience/src/features/forms/__tests__/dualBackend.test.tsx
+      - experience/src/features/forms/__tests__/useControlledDirtyTracker.test.ts
+      - experience/src/features/forms/index.ts
+      - experience/src/features/forms/useControlledDirtyTracker.ts
+      - experience/src/features/forms/useRegisteredForm.ts
+      - experience/src/features/lob-attributes/engine/FormPreservation.tsx
+      - experience/src/features/lob-attributes/engine/rhfDirtyAdapter.ts
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      source_count: 8
+      last_modified: '2026-05-30'
+      source_hash: 56f0b15a1bb7cbd8
     endpoint:lob-schemas-active:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
@@ -5241,15 +5318,17 @@ freshness:
       - experience/src/features/tasks/components/TaskDetailPanel.tsx
       - experience/src/features/tasks/components/TaskFilterToolbar.tsx
       - experience/src/features/tasks/components/TaskRow.tsx
+      - experience/src/features/tasks/components/__tests__/TaskCreateModal.test.tsx
+      - experience/src/features/tasks/components/__tests__/TaskDetailPanel.test.tsx
       - experience/src/features/tasks/hooks/useMyTasks.ts
       - experience/src/features/tasks/hooks/useTaskList.ts
       - experience/src/features/tasks/hooks/useTaskMutations.ts
       - experience/src/features/tasks/hooks/useUserSearch.ts
       - experience/src/features/tasks/index.ts
       - experience/src/features/tasks/types.ts
-      source_count: 27
-      last_modified: '2026-05-24'
-      source_hash: 23447517334a447e
+      source_count: 29
+      last_modified: '2026-05-30'
+      source_hash: 14e2432db4387304
     capability:broker-relationship-management:
       source_paths:
       - engine/src/Nebula.Application/DTOs/BrokerBrokerUserDto.cs
@@ -5294,11 +5373,14 @@ freshness:
       - experience/src/features/brokers/lib/validation.ts
       - experience/src/features/brokers/tests/BrokerListPage.a11y.test.tsx
       - experience/src/features/brokers/tests/BrokerListPage.integration.test.tsx
+      - experience/src/features/brokers/tests/ContactFormModal.restore.test.tsx
+      - experience/src/features/brokers/tests/ContactFormModal.test.tsx
+      - experience/src/features/brokers/tests/EditBrokerModal.test.tsx
       - experience/src/features/brokers/tests/validation.test.ts
       - experience/src/features/brokers/types.ts
-      source_count: 44
-      last_modified: '2026-04-20'
-      source_hash: c8f302a2aa142f61
+      source_count: 47
+      last_modified: '2026-05-30'
+      source_hash: 24b784d52f12ad7e
     role:distribution-user:
       source_paths:
       - planning-mds/security/authorization-matrix.md
@@ -5784,8 +5866,8 @@ freshness:
       - experience/src/pages/CreateBrokerPage.tsx
       - experience/src/pages/tests/CreateBrokerPage.integration.test.tsx
       source_count: 8
-      last_modified: '2026-04-20'
-      source_hash: a21f3c2e2ddcea68
+      last_modified: '2026-05-30'
+      source_hash: 9e2af13e3a19b2a9
     endpoint:submission-list:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
@@ -5807,8 +5889,8 @@ freshness:
       - experience/src/pages/SubmissionDetailPage.tsx
       - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
       source_count: 6
-      last_modified: '2026-05-09'
-      source_hash: 21afe030c5e8c623
+      last_modified: '2026-05-30'
+      source_hash: 753f2dfaa6155818
     endpoint:submission-create:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
@@ -5818,8 +5900,8 @@ freshness:
       - experience/src/pages/CreateSubmissionPage.tsx
       - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
       source_count: 6
-      last_modified: '2026-05-09'
-      source_hash: f46b1e7cd35e629e
+      last_modified: '2026-05-30'
+      source_hash: cc2f980b9ffe2d1a
     endpoint:submission-transition:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
@@ -5853,8 +5935,8 @@ freshness:
       - experience/src/features/timeline/hooks/useTimelineEvents.ts
       - experience/src/features/timeline/index.ts
       source_count: 10
-      last_modified: '2026-05-24'
-      source_hash: 29396bcd78872ec8
+      last_modified: '2026-05-30'
+      source_hash: 3ac25a82aca43965
     endpoint:renewal-list:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
@@ -6019,8 +6101,8 @@ freshness:
       - experience/src/pages/CreateBrokerPage.tsx
       - experience/src/pages/tests/CreateBrokerPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-05-25'
-      source_hash: 607d41374969a762
+      last_modified: '2026-05-30'
+      source_hash: 6f19d9fca55010da
     ui_route:broker-detail:
       source_paths:
       - experience/src/App.tsx
@@ -6043,16 +6125,16 @@ freshness:
       - experience/src/pages/CreateSubmissionPage.tsx
       - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-05-25'
-      source_hash: 2e1613c351badaff
+      last_modified: '2026-05-30'
+      source_hash: a2152cb98b8fd99c
     ui_route:submission-detail:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/SubmissionDetailPage.tsx
       - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
       source_count: 3
-      last_modified: '2026-05-25'
-      source_hash: cd471664f1c30088
+      last_modified: '2026-05-30'
+      source_hash: 87bdf4c724bd3dab
     ui_route:task-center:
       source_paths:
       - experience/src/App.tsx
@@ -6211,8 +6293,8 @@ freshness:
       - experience/src/features/auth/tests/useSessionTeardown.test.tsx
       - experience/src/pages/tests/AuthCallbackPage.test.tsx
       source_count: 49
-      last_modified: '2026-05-25'
-      source_hash: 55eb65d3bcd7bf56
+      last_modified: '2026-05-30'
+      source_hash: 1fd37e52688c5799
     endpoint:internal-telemetry-session-continuity:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -6449,8 +6531,8 @@ freshness:
       - experience/src/pages/RenewalsPage.tsx
       - experience/src/pages/RenewalDetailPage.tsx
       source_count: 62
-      last_modified: '2026-05-25'
-      source_hash: 6687016e10d2ba63
+      last_modified: '2026-05-30'
+      source_hash: 9efcb66ba134078a
     workflow:account-lifecycle:
       source_paths:
       - engine/src/Nebula.Domain/Workflow/AccountLifecycleStateMachine.cs
@@ -6459,8 +6541,8 @@ freshness:
       - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
       - experience/src/pages/AccountDetailPage.tsx
       source_count: 5
-      last_modified: '2026-05-24'
-      source_hash: c9632d8b5c616212
+      last_modified: '2026-05-30'
+      source_hash: 749a388cd044f4c7
     policy_rule:account-read:
       source_paths:
       - planning-mds/security/policies/model.conf
@@ -6630,8 +6712,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 10
-      last_modified: '2026-05-25'
-      source_hash: e7f8731cb9dd8efe
+      last_modified: '2026-05-30'
+      source_hash: 1ac418c6b43f4cab
     endpoint:account-detail:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6645,8 +6727,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 10
-      last_modified: '2026-05-25'
-      source_hash: fbeee9660a721ba4
+      last_modified: '2026-05-30'
+      source_hash: b3b56027f1e75491
     endpoint:account-update:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6659,8 +6741,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-05-24'
-      source_hash: 8af5a1c9acffaaeb
+      last_modified: '2026-05-30'
+      source_hash: d6104efa2bc7e988
     endpoint:account-lifecycle:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6674,8 +6756,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 10
-      last_modified: '2026-05-24'
-      source_hash: 6d98a8115f18f0d0
+      last_modified: '2026-05-30'
+      source_hash: e70016cb1315f464
     endpoint:account-merge:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6688,8 +6770,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-05-24'
-      source_hash: db24abb596b622da
+      last_modified: '2026-05-30'
+      source_hash: 8073188cfaa6e111
     endpoint:account-summary:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6705,8 +6787,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 12
-      last_modified: '2026-05-24'
-      source_hash: 96d4ed651d919e41
+      last_modified: '2026-05-30'
+      source_hash: 4b2a2a4d49d2961c
     endpoint:account-contact-list:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6719,8 +6801,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-05-09'
-      source_hash: 584561275d43e35c
+      last_modified: '2026-05-30'
+      source_hash: 8a4715e35c86e2ba
     endpoint:account-contact-create:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6733,8 +6815,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-05-09'
-      source_hash: fb07cc38f8b2e46b
+      last_modified: '2026-05-30'
+      source_hash: 842823758006eee8
     endpoint:account-contact-update:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6747,8 +6829,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-05-09'
-      source_hash: fb07cc38f8b2e46b
+      last_modified: '2026-05-30'
+      source_hash: 842823758006eee8
     endpoint:account-contact-delete:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6760,8 +6842,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 8
-      last_modified: '2026-05-09'
-      source_hash: c28324da40e0ad8d
+      last_modified: '2026-05-30'
+      source_hash: 2b6c9f5e33f630d3
     endpoint:account-relationship-change:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6774,8 +6856,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-05-24'
-      source_hash: 9866a3e39b898aef
+      last_modified: '2026-05-30'
+      source_hash: 71ce69c17e82b7f1
     endpoint:account-submissions:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6792,8 +6874,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 13
-      last_modified: '2026-05-24'
-      source_hash: 850bdd2c02f1bccd
+      last_modified: '2026-05-30'
+      source_hash: 1e286e8b70fd3b5f
     endpoint:account-renewals:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6810,8 +6892,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 13
-      last_modified: '2026-05-24'
-      source_hash: a9ab42d319c5296a
+      last_modified: '2026-05-30'
+      source_hash: 11f5f1ad73ddc14f
     endpoint:account-policies:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6824,8 +6906,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 9
-      last_modified: '2026-05-24'
-      source_hash: a70b463b868fb214
+      last_modified: '2026-05-30'
+      source_hash: 085b508d228627a8
     endpoint:account-timeline:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -6839,8 +6921,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 10
-      last_modified: '2026-05-24'
-      source_hash: 42692e49fb588330
+      last_modified: '2026-05-30'
+      source_hash: fd082ccff6e0b396
     ui_route:accounts-list:
       source_paths:
       - experience/src/App.tsx
@@ -6861,8 +6943,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 6
-      last_modified: '2026-05-25'
-      source_hash: 2646dcd5cdadf44a
+      last_modified: '2026-05-30'
+      source_hash: 3d88481db5c04713
     ui_route:account-detail:
       source_paths:
       - experience/src/App.tsx
@@ -6872,8 +6954,8 @@ freshness:
       - experience/src/features/accounts/index.ts
       - experience/src/features/accounts/types.ts
       source_count: 6
-      last_modified: '2026-05-25'
-      source_hash: 950d9f23054fe6be
+      last_modified: '2026-05-30'
+      source_hash: b9765e6c93a0a1f6
     migration:f0016-account-lifecycle:
       source_paths:
       - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260414120000_F0016_AccountLifecycle.cs
@@ -6898,11 +6980,11 @@ freshness:
       last_modified: '2026-05-09'
       source_hash: 2cf4072bea595516
 symbols:
-  symbol_count: 2517
-  bound_symbol_count: 2517
+  symbol_count: 2522
+  bound_symbol_count: 2522
   by_language:
     csharp: 2158
-    typescript: 359
+    typescript: 364
 decisions:
   decision_count: 0
   why_count: 0

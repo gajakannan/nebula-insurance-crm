@@ -1,0 +1,32 @@
+# validate-templates
+started_at: 2026-05-26T22:00:59-04:00
+finished_at: 2026-05-26T22:00:59-04:00
+cwd: /mnt/c/Users/gajap/sandbox/nebula/nebula-agents
+command: python3 agents/scripts/validate_templates.py
+exit_code: 1
+
+## stdout
+Template validation
+------------------------------------------------------------
+Errors:
+- plan: missing gates in plan-automation-safe.md: G1 CLARIFICATION, G2 TRACKER SYNC (A), G3 PHASE A APPROVAL, G4 ONTOLOGY SYNC (B), G5 PHASE B APPROVAL
+- plan: missing exit-validation commands in plan-automation-safe.md: python3 agents/product-manager/scripts/validate-stories.py {FEATURE_PATH}, python3 {PRODUCT_ROOT}/scripts/kg/validate.py --write-coverage-report
+- plan: missing paths in plan-automation-safe.md: agents/<role>/references/**, agents/product-manager/scripts/validate-stories.py, planning-mds/api/<openapi-spec>.yaml, planning-mds/features/F{NNNN}-{slug}/**, planning-mds/features/ROADMAP.md, planning-mds/knowledge-graph/code-index.yaml, planning-mds/knowledge-graph/coverage-report.yaml, planning-mds/security/authorization-matrix.md, planning-mds/security/policies/policy.csv
+- plan: ownership drift in plan-automation-safe.md: product-manager owns, architect owns, implementation ownership boundary
+- plan: forbidden drift in plan-automation-safe.md: lookup/KG mappings as authoritative, max_auto_tier, workstate.py escalate
+- plan: template plan-automation-safe.md does not describe implementation agent ownership boundaries
+- plan: missing gates in plan-operator-friendly.md: G1 CLARIFICATION, G2 TRACKER SYNC (A), G3 PHASE A APPROVAL, G4 ONTOLOGY SYNC (B), G5 PHASE B APPROVAL
+- plan: missing exit-validation commands in plan-operator-friendly.md: python3 agents/product-manager/scripts/validate-stories.py {FEATURE_PATH}, python3 {PRODUCT_ROOT}/scripts/kg/validate.py --write-coverage-report
+- plan: missing paths in plan-operator-friendly.md: agents/<role>/references/**, agents/actions/feature.md, agents/product-manager/scripts/validate-stories.py, planning-mds/api/<openapi-spec>.yaml, planning-mds/features/F{NNNN}-{slug}/**, planning-mds/features/ROADMAP.md, planning-mds/knowledge-graph/code-index.yaml, planning-mds/knowledge-graph/coverage-report.yaml, planning-mds/security/authorization-matrix.md, planning-mds/security/policies/policy.csv
+- plan: ownership drift in plan-operator-friendly.md: product-manager owns, architect owns, implementation ownership boundary
+- plan: forbidden drift in plan-operator-friendly.md: lookup/KG mappings as authoritative, max_auto_tier, workstate.py escalate
+- plan: template plan-operator-friendly.md does not describe implementation agent ownership boundaries
+- feature: missing gates in feature-automation-safe.md: G0 ARCHITECT ASSEMBLY PLAN VALIDATION, G4.6 CANDIDATE EVIDENCE VALIDATION
+- feature: missing exit-validation commands in feature-automation-safe.md: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature {FEATURE_ID} --run-id {RUN_ID} --stage G4.6, python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature {FEATURE_ID} --stage closeout, python3 agents/product-manager/scripts/validate-trackers.py
+- feature: missing paths in feature-automation-safe.md: planning-mds/operations/evidence/**
+- feature: missing exit-validation commands in feature-operator-friendly.md: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature {FEATURE_ID} --run-id {RUN_ID} --stage G4.6, python3 agents/product-manager/scripts/validate-trackers.py
+- feature: missing paths in feature-operator-friendly.md: planning-mds/operations/evidence/**
+- feature: ownership drift in feature-operator-friendly.md: implementation ownership boundary
+- feature: template feature-operator-friendly.md does not describe implementation agent ownership boundaries
+
+## stderr

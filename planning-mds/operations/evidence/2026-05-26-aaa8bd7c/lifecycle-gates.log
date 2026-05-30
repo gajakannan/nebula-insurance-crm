@@ -1,0 +1,75 @@
+# Lifecycle Gates Log — F0036 plan-review run 2026-05-26-aaa8bd7c
+
+> Required per §8. Validator/lifecycle invocations for this read-only review. Sibling to `gate-decisions.md`.
+
+## Lifecycle Gate Run
+
+Per-invocation rows below (PR2 validator pass).
+
+## Command
+
+The command line invoked, including arguments.
+
+## Stage
+
+`PR2 VALIDATOR PASS` for all rows (the only stage that executes commands; PR0/PR1/PR3/PR4 are review/decision gates).
+
+## Exit Code
+
+Integer exit code.
+
+## Result
+
+`PASS` / `FAIL` / `WARN`.
+
+## Output References
+
+Run-folder-relative capture paths under `artifacts/`.
+
+## Skipped Gates
+
+`validate-feature-evidence.py` — not applicable (plan-review is a base/manual run; no feature evidence package exists or is created). No PR2 command was skipped.
+
+---
+
+### PR2 — validate-stories
+Command: python3 agents/product-manager/scripts/validate-stories.py planning-mds/features/F0036-dynamic-product-attribute-form-engine/
+Stage: PR2 VALIDATOR PASS
+Exit Code: 0
+Result: PASS
+Output References: artifacts/validate-stories.txt (8/8 stories pass; non-blocking INVEST warnings only)
+Skipped Gates: -
+
+### PR2 — validate-trackers
+Command: python3 agents/product-manager/scripts/validate-trackers.py
+Stage: PR2 VALIDATOR PASS
+Exit Code: 0
+Result: PASS
+Output References: artifacts/validate-trackers.txt (result PASS, 0 errors/0 warnings)
+Skipped Gates: -
+
+### PR2 — kg validate
+Command: python3 scripts/kg/validate.py
+Stage: PR2 VALIDATOR PASS
+Exit Code: 0
+Result: PASS
+Output References: artifacts/kg-validate.txt
+Skipped Gates: -
+
+### PR2 — kg validate --check-drift
+Command: python3 scripts/kg/validate.py --check-drift
+Stage: PR2 VALIDATOR PASS
+Exit Code: 0
+Result: PASS
+Output References: artifacts/kg-check-drift.txt (pre-existing F0028 + Casbin warnings carried forward)
+Skipped Gates: -
+
+### PR2 — validate_templates
+Command: python3 agents/scripts/validate_templates.py
+Stage: PR2 VALIDATOR PASS
+Exit Code: 0
+Result: PASS
+Output References: artifacts/validate-templates.txt
+Skipped Gates: -
+
+> Interpretation: all five structural validators PASS, but the PR4 readiness decision is NOT READY. Structural validators cannot detect that a planned validation mechanism (S0003 client/backend rules parity) rests on an unimplemented architecture. See `plan-review-report.md`.

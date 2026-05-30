@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import { TextInput } from '@/components/ui/TextInput';
 import { Select } from '@/components/ui/Select';
+import { useControlledDirtyTracker, useRegisteredForm } from '@/features/forms';
+import { useCurrentUser } from '@/features/auth';
 import { useUpdateBroker } from '../hooks/useUpdateBroker';
 import { validateBrokerUpdate } from '../lib/validation';
 import { US_STATES } from '@/lib/us-states';
@@ -33,19 +35,41 @@ export function EditBrokerModal({ broker, open, onClose }: EditBrokerModalProps)
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState('');
 
+  // F0036-S0007: controlled-form dirty-tracker baseline.
+  const user = useCurrentUser();
+  const initialValuesRef = useRef(form);
+
   useEffect(() => {
     if (open) {
-      setForm({
+      const reset = {
         legalName: broker.legalName,
         state: broker.state,
         status: broker.status,
         email: broker.email ?? '',
         phone: broker.phone ?? '',
-      });
+      };
+      setForm(reset);
+      initialValuesRef.current = reset;
       setErrors({});
       setServerError('');
     }
   }, [open, broker]);
+
+  // F0036-S0008: register AFTER the open-reset effect so a restored snapshot
+  // wins over the on-open reset (restore-on-mount).
+  const tracker = useControlledDirtyTracker(form, initialValuesRef.current);
+  useRegisteredForm({
+    registration: {
+      formKey: `broker:${broker.id}`,
+      route: typeof window !== 'undefined' ? window.location.pathname : '/',
+      ...tracker,
+    },
+    userId: user?.sub ?? null,
+    onRestore: (record) => {
+      setForm(record.form_values);
+      initialValuesRef.current = record.form_values;
+    },
+  });
 
   function updateField(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));

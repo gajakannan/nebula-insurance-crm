@@ -1,12 +1,12 @@
 version: 0
-generated_at: '2026-05-25T17:37:47+00:00'
+generated_at: '2026-05-30T16:32:00+00:00'
 summary:
-  total_symbols: 2517
+  total_symbols: 2522
   by_language:
     typescript:
-      files: 78
-      parsed: 1
-      cached: 77
+      files: 80
+      parsed: 12
+      cached: 68
     csharp:
       files: 273
       parsed: 0
@@ -6035,6 +6035,60 @@ symbols:
   - symbol:capability-product-schema-registry:lob-schema-service.map-bundle
   type_refs:
   - symbol:capability-product-schema-registry:lob-attribute-dtos.lob-schema-bundle-dto
+- id: symbol:capability-session-context-restore:form-preservation.form-preservation
+  node: capability:session-context-restore
+  kind: function
+  name: FormPreservation
+  file: experience/src/features/lob-attributes/engine/FormPreservation.tsx
+  line: 21
+  signature: export function FormPreservation<TValues extends FieldValues>(
+  visibility: export
+  language: typescript
+  end_line: 45
+  callers: []
+  callees:
+  - symbol:capability-session-context-restore:rhf-dirty-adapter.rhf-dirty-adapter
+  type_refs:
+  - symbol:capability-session-context-restore:form-preservation.preserve-config
+- id: symbol:capability-session-context-restore:form-preservation.preserve-config
+  node: capability:session-context-restore
+  kind: interface
+  name: PreserveConfig
+  file: experience/src/features/lob-attributes/engine/FormPreservation.tsx
+  line: 15
+  signature: export interface PreserveConfig
+  visibility: export
+  language: typescript
+  end_line: 19
+  callers: []
+  callees: []
+- id: symbol:capability-session-context-restore:rhf-dirty-adapter.flatten-dirty-fields
+  node: capability:session-context-restore
+  kind: function
+  name: flattenDirtyFields
+  file: experience/src/features/lob-attributes/engine/rhfDirtyAdapter.ts
+  line: 11
+  signature: 'export function flattenDirtyFields(dirty: unknown, prefix = ''''): string[]'
+  visibility: export
+  language: typescript
+  end_line: 26
+  callers:
+  - symbol:capability-session-context-restore:rhf-dirty-adapter.rhf-dirty-adapter
+  callees: []
+- id: symbol:capability-session-context-restore:rhf-dirty-adapter.rhf-dirty-adapter
+  node: capability:session-context-restore
+  kind: function
+  name: rhfDirtyAdapter
+  file: experience/src/features/lob-attributes/engine/rhfDirtyAdapter.ts
+  line: 29
+  signature: export function rhfDirtyAdapter<TValues extends FieldValues>(
+  visibility: export
+  language: typescript
+  end_line: 40
+  callers:
+  - symbol:capability-session-context-restore:form-preservation.form-preservation
+  callees:
+  - symbol:capability-session-context-restore:rhf-dirty-adapter.flatten-dirty-fields
 - id: symbol:capability-session-continuity:auth-error-classifier.auth-classification
   node: capability:session-continuity
   kind: interface
@@ -8493,11 +8547,11 @@ symbols:
   kind: function
   name: asRecord
   file: experience/src/features/lob-attributes/lib/cyber.ts
-  line: 138
+  line: 167
   signature: 'function asRecord(value: unknown): Record<string, unknown> | null'
   visibility: local
   language: typescript
-  end_line: 142
+  end_line: 171
   callers:
   - symbol:capability-validator-equivalence:cyber.normalize-cyber-envelope
   callees: []
@@ -8517,6 +8571,20 @@ symbols:
   - symbol:capability-validator-equivalence:cyber.major-to-minor
   type_refs:
   - symbol:capability-product-schema-registry:lob-attribute-dtos.lob-attribute-envelope-dto
+- id: symbol:capability-validator-equivalence:cyber.cyber-values-to-attributes
+  node: capability:validator-equivalence
+  kind: function
+  name: cyberValuesToAttributes
+  file: experience/src/features/lob-attributes/lib/cyber.ts
+  line: 102
+  signature: 'export function cyberValuesToAttributes(values: CyberLobAttributeValues):
+    Record<string, unknown>'
+  visibility: export
+  language: typescript
+  end_line: 122
+  callers: []
+  callees:
+  - symbol:capability-validator-equivalence:cyber.major-to-minor
 - id: symbol:capability-validator-equivalence:cyber.empty-cyber-lob-attributes
   node: capability:validator-equivalence
   kind: function
@@ -8548,11 +8616,11 @@ symbols:
   kind: function
   name: isNonNegativeNumber
   file: experience/src/features/lob-attributes/lib/cyber.ts
-  line: 157
+  line: 186
   signature: 'function isNonNegativeNumber(value: string): boolean'
   visibility: local
   language: typescript
-  end_line: 160
+  end_line: 189
   callers:
   - symbol:capability-validator-equivalence:cyber.validate-cyber-lob-attributes
   callees: []
@@ -8561,11 +8629,11 @@ symbols:
   kind: function
   name: isPositiveNumber
   file: experience/src/features/lob-attributes/lib/cyber.ts
-  line: 152
+  line: 181
   signature: 'function isPositiveNumber(value: string): boolean'
   visibility: local
   language: typescript
-  end_line: 155
+  end_line: 184
   callers:
   - symbol:capability-validator-equivalence:cyber.validate-cyber-lob-attributes
   callees: []
@@ -8574,24 +8642,25 @@ symbols:
   kind: function
   name: majorToMinor
   file: experience/src/features/lob-attributes/lib/cyber.ts
-  line: 144
+  line: 173
   signature: 'function majorToMinor(value: string): number'
   visibility: local
   language: typescript
-  end_line: 146
+  end_line: 175
   callers:
   - symbol:capability-validator-equivalence:cyber.build-cyber-envelope
+  - symbol:capability-validator-equivalence:cyber.cyber-values-to-attributes
   callees: []
 - id: symbol:capability-validator-equivalence:cyber.minor-to-major-text
   node: capability:validator-equivalence
   kind: function
   name: minorToMajorText
   file: experience/src/features/lob-attributes/lib/cyber.ts
-  line: 148
+  line: 177
   signature: 'function minorToMajorText(value: unknown): string'
   visibility: local
   language: typescript
-  end_line: 150
+  end_line: 179
   callers:
   - symbol:capability-validator-equivalence:cyber.normalize-cyber-envelope
   callees: []
@@ -8619,11 +8688,11 @@ symbols:
   kind: function
   name: toText
   file: experience/src/features/lob-attributes/lib/cyber.ts
-  line: 134
+  line: 163
   signature: 'function toText(value: unknown): string'
   visibility: local
   language: typescript
-  end_line: 136
+  end_line: 165
   callers:
   - symbol:capability-validator-equivalence:cyber.normalize-cyber-envelope
   callees: []
@@ -8632,12 +8701,12 @@ symbols:
   kind: function
   name: validateCyberLobAttributes
   file: experience/src/features/lob-attributes/lib/cyber.ts
-  line: 95
+  line: 124
   signature: 'export function validateCyberLobAttributes(values: CyberLobAttributeValues):
     Record<string, string>'
   visibility: export
   language: typescript
-  end_line: 132
+  end_line: 161
   callers: []
   callees:
   - symbol:capability-validator-equivalence:cyber.is-non-negative-number
@@ -12349,11 +12418,11 @@ symbols:
   kind: function
   name: CreateAccountPage
   file: experience/src/pages/CreateAccountPage.tsx
-  line: 17
+  line: 19
   signature: export default function CreateAccountPage()
   visibility: export
   language: typescript
-  end_line: 227
+  end_line: 243
   callers: []
   callees:
   - symbol:entity-account:create-account-page.normalize-optional
@@ -12362,11 +12431,11 @@ symbols:
   kind: function
   name: normalizeOptional
   file: experience/src/pages/CreateAccountPage.tsx
-  line: 229
+  line: 245
   signature: 'function normalizeOptional(value: string | null | undefined)'
   visibility: local
   language: typescript
-  end_line: 232
+  end_line: 248
   callers:
   - symbol:entity-account:create-account-page.create-account-page
   callees: []
@@ -13398,11 +13467,11 @@ symbols:
   kind: function
   name: DetailPair
   file: experience/src/pages/RenewalsPage.tsx
-  line: 501
+  line: 516
   signature: function DetailPair(
   visibility: local
   language: typescript
-  end_line: 508
+  end_line: 523
   callers: []
   callees: []
 - id: symbol:entity-account:renewals-page.format-date
@@ -13410,11 +13479,11 @@ symbols:
   kind: function
   name: formatDate
   file: experience/src/pages/RenewalsPage.tsx
-  line: 527
+  line: 542
   signature: 'function formatDate(value: string)'
   visibility: local
   language: typescript
-  end_line: 533
+  end_line: 548
   callers:
   - symbol:entity-account:accounts-page.accounts-page
   - symbol:entity-account:renewals-page.renewals-page
@@ -13424,11 +13493,11 @@ symbols:
   kind: interface
   name: RenewalCreateForm
   file: experience/src/pages/RenewalsPage.tsx
-  line: 28
+  line: 29
   signature: interface RenewalCreateForm
   visibility: local
   language: typescript
-  end_line: 31
+  end_line: 32
   callers: []
   callees: []
 - id: symbol:entity-account:renewals-page.renewal-list-skeleton
@@ -13436,11 +13505,11 @@ symbols:
   kind: function
   name: RenewalListSkeleton
   file: experience/src/pages/RenewalsPage.tsx
-  line: 510
+  line: 525
   signature: function RenewalListSkeleton()
   visibility: local
   language: typescript
-  end_line: 525
+  end_line: 540
   callers: []
   callees: []
 - id: symbol:entity-account:renewals-page.renewals-page
@@ -13448,11 +13517,11 @@ symbols:
   kind: function
   name: RenewalsPage
   file: experience/src/pages/RenewalsPage.tsx
-  line: 57
+  line: 58
   signature: export default function RenewalsPage()
   visibility: export
   language: typescript
-  end_line: 499
+  end_line: 514
   callers: []
   callees:
   - symbol:entity-account:accounts-page.format-date
@@ -16027,11 +16096,11 @@ symbols:
   kind: function
   name: CreateBrokerPage
   file: experience/src/pages/CreateBrokerPage.tsx
-  line: 12
+  line: 14
   signature: export default function CreateBrokerPage()
   visibility: export
   language: typescript
-  end_line: 141
+  end_line: 157
   callers: []
   callees: []
 - id: symbol:entity-broker:create-broker-page.integration.test.broker-detail-destination
@@ -16528,11 +16597,11 @@ symbols:
   kind: function
   name: AccountDetailPage
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 59
+  line: 61
   signature: export default function AccountDetailPage()
   visibility: export
   language: typescript
-  end_line: 943
+  end_line: 980
   callers: []
   callees:
   - symbol:entity-document:account-detail-page.format-address
@@ -16554,11 +16623,11 @@ symbols:
   kind: function
   name: AccountSectionSkeleton
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 991
+  line: 1028
   signature: function AccountSectionSkeleton()
   visibility: local
   language: typescript
-  end_line: 999
+  end_line: 1036
   callers: []
   callees: []
 - id: symbol:entity-document:account-detail-page.detail-field
@@ -16566,11 +16635,11 @@ symbols:
   kind: function
   name: DetailField
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 963
+  line: 1000
   signature: function DetailField(
   visibility: local
   language: typescript
-  end_line: 970
+  end_line: 1007
   callers: []
   callees: []
 - id: symbol:entity-document:account-detail-page.empty-rail
@@ -16578,11 +16647,11 @@ symbols:
   kind: function
   name: EmptyRail
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 983
+  line: 1020
   signature: function EmptyRail(
   visibility: local
   language: typescript
-  end_line: 989
+  end_line: 1026
   callers: []
   callees: []
 - id: symbol:entity-document:account-detail-page.format-address
@@ -16590,11 +16659,11 @@ symbols:
   kind: function
   name: formatAddress
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 1034
+  line: 1071
   signature: 'function formatAddress(account: AccountDto)'
   visibility: local
   language: typescript
-  end_line: 1038
+  end_line: 1075
   callers:
   - symbol:entity-document:account-detail-page.account-detail-page
   callees: []
@@ -16603,11 +16672,11 @@ symbols:
   kind: function
   name: formatDate
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 1040
+  line: 1077
   signature: 'function formatDate(value: string)'
   visibility: local
   language: typescript
-  end_line: 1046
+  end_line: 1083
   callers:
   - symbol:entity-document:account-detail-page.account-detail-page
   - symbol:entity-document:document-detail-view.document-detail-view
@@ -16620,11 +16689,11 @@ symbols:
   kind: function
   name: formatDateTime
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 1048
+  line: 1085
   signature: 'function formatDateTime(value: string)'
   visibility: local
   language: typescript
-  end_line: 1056
+  end_line: 1093
   callers:
   - symbol:entity-document:account-detail-page.account-detail-page
   - symbol:entity-document:renewal-detail-page.renewal-detail-page
@@ -16634,11 +16703,11 @@ symbols:
   kind: interface
   name: ForwardedState
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 54
+  line: 56
   signature: interface ForwardedState
   visibility: local
   language: typescript
-  end_line: 57
+  end_line: 59
   callers: []
   callees: []
 - id: symbol:entity-document:account-detail-page.normalize-account-update
@@ -16646,11 +16715,11 @@ symbols:
   kind: function
   name: normalizeAccountUpdate
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 1006
+  line: 1043
   signature: 'function normalizeAccountUpdate(dto: AccountUpdateRequestDto): AccountUpdateRequestDto'
   visibility: local
   language: typescript
-  end_line: 1022
+  end_line: 1059
   callers:
   - symbol:entity-document:account-detail-page.account-detail-page
   callees:
@@ -16660,11 +16729,11 @@ symbols:
   kind: function
   name: normalizeContact
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 1024
+  line: 1061
   signature: 'function normalizeContact(dto: AccountContactRequestDto): AccountContactRequestDto'
   visibility: local
   language: typescript
-  end_line: 1032
+  end_line: 1069
   callers:
   - symbol:entity-document:account-detail-page.account-detail-page
   callees:
@@ -16674,11 +16743,11 @@ symbols:
   kind: function
   name: normalizeOptional
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 1001
+  line: 1038
   signature: 'function normalizeOptional(value: string | null | undefined)'
   visibility: local
   language: typescript
-  end_line: 1004
+  end_line: 1041
   callers:
   - symbol:entity-document:account-detail-page.account-detail-page
   - symbol:entity-document:account-detail-page.normalize-account-update
@@ -16689,11 +16758,11 @@ symbols:
   kind: function
   name: RailCard
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 972
+  line: 1009
   signature: function RailCard(
   visibility: local
   language: typescript
-  end_line: 981
+  end_line: 1018
   callers: []
   callees: []
 - id: symbol:entity-document:account-detail-page.relationship-type
@@ -16701,11 +16770,11 @@ symbols:
   kind: type
   name: RelationshipType
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 52
+  line: 54
   signature: type RelationshipType = 'BrokerOfRecord' | 'PrimaryProducer' | 'Territory';
   visibility: local
   language: typescript
-  end_line: 52
+  end_line: 54
   callers: []
   callees: []
 - id: symbol:entity-document:account-detail-page.summary-chip
@@ -16713,11 +16782,11 @@ symbols:
   kind: function
   name: SummaryChip
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 954
+  line: 991
   signature: function SummaryChip(
   visibility: local
   language: typescript
-  end_line: 961
+  end_line: 998
   callers: []
   callees: []
 - id: symbol:entity-document:account-detail-page.summary-metric
@@ -16725,11 +16794,11 @@ symbols:
   kind: function
   name: SummaryMetric
   file: experience/src/pages/AccountDetailPage.tsx
-  line: 945
+  line: 982
   signature: function SummaryMetric(
   visibility: local
   language: typescript
-  end_line: 952
+  end_line: 989
   callers: []
   callees: []
 - id: symbol:entity-document:allowing-document-gate.authorize-document-async
@@ -24101,11 +24170,11 @@ symbols:
   kind: function
   name: CreatePolicyPage
   file: experience/src/pages/CreatePolicyPage.tsx
-  line: 66
+  line: 68
   signature: export default function CreatePolicyPage()
   visibility: export
   language: typescript
-  end_line: 262
+  end_line: 279
   callers: []
   callees:
   - symbol:entity-policy:create-policy-page.extract-lob-field-errors
@@ -24116,11 +24185,11 @@ symbols:
   kind: function
   name: extractLobFieldErrors
   file: experience/src/pages/CreatePolicyPage.tsx
-  line: 278
+  line: 295
   signature: function extractLobFieldErrors(
   visibility: local
   language: typescript
-  end_line: 289
+  end_line: 306
   callers:
   - symbol:entity-policy:create-policy-page.create-policy-page
   callees: []
@@ -24129,11 +24198,11 @@ symbols:
   kind: function
   name: Field
   file: experience/src/pages/CreatePolicyPage.tsx
-  line: 264
+  line: 281
   signature: function Field(
   visibility: local
   language: typescript
-  end_line: 272
+  end_line: 289
   callers: []
   callees: []
 - id: symbol:entity-policy:create-policy-page.policy-create-form
@@ -24141,11 +24210,11 @@ symbols:
   kind: interface
   name: PolicyCreateForm
   file: experience/src/pages/CreatePolicyPage.tsx
-  line: 34
+  line: 36
   signature: interface PolicyCreateForm
   visibility: local
   language: typescript
-  end_line: 46
+  end_line: 48
   callers: []
   callees: []
 - id: symbol:entity-policy:create-policy-page.to-date-input
@@ -24153,11 +24222,11 @@ symbols:
   kind: function
   name: toDateInput
   file: experience/src/pages/CreatePolicyPage.tsx
-  line: 274
+  line: 291
   signature: 'function toDateInput(date: Date): string'
   visibility: local
   language: typescript
-  end_line: 276
+  end_line: 293
   callers:
   - symbol:entity-policy:policy-detail-page.endorsement-effective-date-for-policy
   - symbol:entity-policy:policy-detail-page.policy-detail-page
@@ -24205,11 +24274,11 @@ symbols:
   kind: function
   name: parseRowVersion
   file: experience/src/mocks/handlers.ts
-  line: 665
+  line: 719
   signature: 'function parseRowVersion(ifMatch: string | null)'
   visibility: local
   language: typescript
-  end_line: 667
+  end_line: 721
   callers: []
   callees: []
 - id: symbol:entity-policy:handlers.policy-mutation-response
@@ -24217,11 +24286,11 @@ symbols:
   kind: function
   name: policyMutationResponse
   file: experience/src/mocks/handlers.ts
-  line: 669
+  line: 723
   signature: 'function policyMutationResponse<T extends object>(result: T | null |'
   visibility: local
   language: typescript
-  end_line: 680
+  end_line: 734
   callers: []
   callees: []
 - id: symbol:entity-policy:i-policy-repository.add-async
@@ -33318,11 +33387,11 @@ symbols:
   kind: function
   name: CreateSubmissionPage
   file: experience/src/pages/CreateSubmissionPage.tsx
-  line: 41
+  line: 43
   signature: export default function CreateSubmissionPage()
   visibility: export
   language: typescript
-  end_line: 307
+  end_line: 324
   callers: []
   callees:
   - symbol:entity-submission:create-submission-page.extract-lob-field-errors
@@ -33333,11 +33402,11 @@ symbols:
   kind: function
   name: extractLobFieldErrors
   file: experience/src/pages/CreateSubmissionPage.tsx
-  line: 309
+  line: 326
   signature: function extractLobFieldErrors(
   visibility: local
   language: typescript
-  end_line: 320
+  end_line: 337
   callers:
   - symbol:entity-submission:create-submission-page.create-submission-page
   callees: []
@@ -33346,11 +33415,11 @@ symbols:
   kind: type
   name: SubmissionTextField
   file: experience/src/pages/CreateSubmissionPage.tsx
-  line: 31
+  line: 33
   signature: type SubmissionTextField =
   visibility: local
   language: typescript
-  end_line: 39
+  end_line: 41
   callers: []
   callees: []
 - id: symbol:entity-submission:f0006-submission-intake-columns.build-target-model
@@ -33668,12 +33737,12 @@ symbols:
   kind: function
   name: canAssignSubmission
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 606
+  line: 627
   signature: 'function canAssignSubmission(currentUser: CurrentUser | null, submission:
     SubmissionDto)'
   visibility: local
   language: typescript
-  end_line: 614
+  end_line: 635
   callers:
   - symbol:entity-submission:submission-detail-page.submission-detail-page
   callees:
@@ -33683,12 +33752,12 @@ symbols:
   kind: function
   name: canEditSubmission
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 596
+  line: 617
   signature: 'function canEditSubmission(currentUser: CurrentUser | null, submission:
     SubmissionDto)'
   visibility: local
   language: typescript
-  end_line: 604
+  end_line: 625
   callers:
   - symbol:entity-submission:submission-detail-page.submission-detail-page
   callees:
@@ -33698,11 +33767,11 @@ symbols:
   kind: function
   name: canPerformSubmissionTransition
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 616
+  line: 637
   signature: function canPerformSubmissionTransition(
   visibility: local
   language: typescript
-  end_line: 637
+  end_line: 658
   callers:
   - symbol:entity-submission:submission-detail-page.submission-detail-page
   callees:
@@ -33712,11 +33781,11 @@ symbols:
   kind: function
   name: currentAssignee
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 582
+  line: 603
   signature: 'function currentAssignee(submission: SubmissionDto): UserSummaryDto'
   visibility: local
   language: typescript
-  end_line: 590
+  end_line: 611
   callers:
   - symbol:entity-submission:submission-detail-page.submission-detail-page
   callees: []
@@ -33725,11 +33794,11 @@ symbols:
   kind: function
   name: DetailStat
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 565
+  line: 586
   signature: function DetailStat(
   visibility: local
   language: typescript
-  end_line: 572
+  end_line: 593
   callers: []
   callees: []
 - id: symbol:entity-submission:submission-detail-page.format-currency
@@ -33737,11 +33806,11 @@ symbols:
   kind: function
   name: formatCurrency
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 677
+  line: 698
   signature: 'function formatCurrency(value: number)'
   visibility: local
   language: typescript
-  end_line: 684
+  end_line: 705
   callers:
   - symbol:entity-submission:submission-detail-page.submission-detail-page
   callees: []
@@ -33750,11 +33819,11 @@ symbols:
   kind: function
   name: formatDate
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 659
+  line: 680
   signature: 'function formatDate(value: string)'
   visibility: local
   language: typescript
-  end_line: 665
+  end_line: 686
   callers:
   - symbol:entity-submission:submission-detail-page.submission-detail-page
   - symbol:entity-submission:submissions-page.submissions-page
@@ -33764,11 +33833,11 @@ symbols:
   kind: function
   name: formatDateTime
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 667
+  line: 688
   signature: 'function formatDateTime(value: string)'
   visibility: local
   language: typescript
-  end_line: 675
+  end_line: 696
   callers:
   - symbol:entity-submission:submission-detail-page.submission-detail-page
   callees: []
@@ -33777,11 +33846,11 @@ symbols:
   kind: function
   name: getReadyForUwReviewGuidance
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 639
+  line: 660
   signature: 'function getReadyForUwReviewGuidance(submission: SubmissionDto)'
   visibility: local
   language: typescript
-  end_line: 653
+  end_line: 674
   callers:
   - symbol:entity-submission:submission-detail-page.submission-detail-page
   callees: []
@@ -33790,11 +33859,11 @@ symbols:
   kind: function
   name: hasRole
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 592
+  line: 613
   signature: 'function hasRole(currentUser: CurrentUser | null, role: string)'
   visibility: local
   language: typescript
-  end_line: 594
+  end_line: 615
   callers:
   - symbol:entity-submission:submission-detail-page.can-assign-submission
   - symbol:entity-submission:submission-detail-page.can-edit-submission
@@ -33818,11 +33887,11 @@ symbols:
   kind: function
   name: Pill
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 574
+  line: 595
   signature: function Pill(
   visibility: local
   language: typescript
-  end_line: 580
+  end_line: 601
   callers: []
   callees: []
 - id: symbol:entity-submission:submission-detail-page.submission-detail-page
@@ -33830,11 +33899,11 @@ symbols:
   kind: function
   name: SubmissionDetailPage
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 43
+  line: 44
   signature: export default function SubmissionDetailPage()
   visibility: export
   language: typescript
-  end_line: 563
+  end_line: 584
   callers: []
   callees:
   - symbol:entity-submission:submission-detail-page.can-assign-submission
@@ -33854,11 +33923,11 @@ symbols:
   kind: interface
   name: SubmissionEditForm
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 34
+  line: 35
   signature: interface SubmissionEditForm
   visibility: local
   language: typescript
-  end_line: 41
+  end_line: 42
   callers: []
   callees: []
 - id: symbol:entity-submission:submission-detail-page.to-date-input
@@ -33866,11 +33935,11 @@ symbols:
   kind: function
   name: toDateInput
   file: experience/src/pages/SubmissionDetailPage.tsx
-  line: 655
+  line: 676
   signature: 'function toDateInput(value: string)'
   visibility: local
   language: typescript
-  end_line: 657
+  end_line: 678
   callers:
   - symbol:entity-submission:submission-detail-page.submission-detail-page
   callees: []

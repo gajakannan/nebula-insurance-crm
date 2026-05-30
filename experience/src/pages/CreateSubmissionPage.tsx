@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card } from '@/components/ui/Card';
+import { useControlledDirtyTracker, useRegisteredForm } from '@/features/forms';
+import { useCurrentUser } from '@/features/auth';
 import { ErrorFallback } from '@/components/ui/ErrorFallback';
 import { Select } from '@/components/ui/Select';
 import { Skeleton } from '@/components/ui/Skeleton';
@@ -58,6 +60,21 @@ export default function CreateSubmissionPage() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState('');
+
+  // F0036-S0007: register the native submission-create form with F0035 (the
+  // Cyber attribute panel owns its own Workstream-A preservation).
+  const user = useCurrentUser();
+  const initialValuesRef = useRef(form);
+  const tracker = useControlledDirtyTracker(form, initialValuesRef.current);
+  useRegisteredForm({
+    registration: {
+      formKey: 'submission:new',
+      route: typeof window !== 'undefined' ? window.location.pathname : '/',
+      ...tracker,
+    },
+    userId: user?.sub ?? null,
+    onRestore: (record) => setForm(record.form_values),
+  });
 
   const isLoading = accountsQuery.isLoading || brokersQuery.isLoading || programsQuery.isLoading;
   const isError = accountsQuery.isError || brokersQuery.isError || programsQuery.isError;

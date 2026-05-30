@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0036",
+  "feature_slug": "dynamic-product-attribute-form-engine",
+  "run_id": "2026-05-28-077b7b30",
+  "status": "approved",
+  "recorded_on": "2026-05-28",
+  "contract_effective_date": "2026-05-25",
+  "feature_path_at_run_start": "planning-mds/features/F0036-dynamic-product-attribute-form-engine",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine",
+  "feature_state": "Archived",
+  "rerun_of": null,
+  "changed_paths": [
+    "experience",
+    "planning-mds/features/F0036-dynamic-product-attribute-form-engine",
+    "planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine",
+    "planning-mds/BLUEPRINT.md",
+    "planning-mds/architecture",
+    "planning-mds/examples/personas/nebula-personas.md",
+    "planning-mds/features/REGISTRY.md",
+    "planning-mds/features/ROADMAP.md",
+    "planning-mds/features/STORY-INDEX.md",
+    "planning-mds/knowledge-graph"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feat/F0036-dynamic-product-attribute-form-engine",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": false,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": false,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g2-self-review.md"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "signoff-ledger.md"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "artifact": "pm-closeout.md"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log"
+    }
+  },
+  "role_results": {
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": ["test-plan.md", "test-execution-report.md", "coverage-report.md"],
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "result": "APPROVED",
+      "required_artifacts": ["code-review-report.md"],
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": ["security-review-report.md"],
+      "verdict_artifact": "security-review-report.md"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "pm_closeout": "pm-closeout.md"
+  },
+  "security_scans": {
+    "dependency": {},
+    "secrets": {},
+    "sast": {},
+    "dast": {}
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {}
+}

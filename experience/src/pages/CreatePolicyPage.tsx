@@ -1,9 +1,11 @@
-import { useState, type ReactNode } from 'react';
+import { useState, useRef, type ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Save } from 'lucide-react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { TextInput } from '@/components/ui/TextInput';
+import { useControlledDirtyTracker, useRegisteredForm } from '@/features/forms';
+import { useCurrentUser } from '@/features/auth';
 import { useBrokers } from '@/features/brokers';
 import {
   DynamicAttributePanel,
@@ -71,6 +73,21 @@ export default function CreatePolicyPage() {
   const [form, setForm] = useState<PolicyCreateForm>(DEFAULT_FORM);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState('');
+
+  // F0036-S0007: register the native policy-create form with F0035 (the Cyber
+  // attribute panel owns its own Workstream-A preservation).
+  const user = useCurrentUser();
+  const initialValuesRef = useRef(form);
+  const tracker = useControlledDirtyTracker(form, initialValuesRef.current);
+  useRegisteredForm({
+    registration: {
+      formKey: 'policy:new',
+      route: typeof window !== 'undefined' ? window.location.pathname : '/',
+      ...tracker,
+    },
+    userId: user?.sub ?? null,
+    onRestore: (record) => setForm(record.form_values),
+  });
 
   const accounts = accountsQuery.data ?? [];
   const brokers = brokersQuery.data?.data ?? [];

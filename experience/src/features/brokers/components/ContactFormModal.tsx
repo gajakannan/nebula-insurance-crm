@@ -1,6 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import { TextInput } from '@/components/ui/TextInput';
+import { useControlledDirtyTracker } from '@/features/forms/useControlledDirtyTracker';
+import { useRegisteredForm } from '@/features/forms/useRegisteredForm';
+import { useCurrentUser } from '@/features/auth/useCurrentUser';
 import { useCreateContact } from '../hooks/useCreateContact';
 import { useUpdateContact } from '../hooks/useUpdateContact';
 import { validateContact } from '../lib/validation';
@@ -28,18 +31,41 @@ export function ContactFormModal({ brokerId, contact, open, onClose }: ContactFo
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState('');
 
+  // F0036-S0007: stable initial-values baseline. The form stays a plain
+  // controlled component — registration is render-side only.
+  const initialValuesRef = useRef(form);
+  const user = useCurrentUser();
+
   useEffect(() => {
     if (open) {
-      setForm({
+      const reset = {
         fullName: contact?.fullName ?? '',
         email: contact?.email ?? '',
         phone: contact?.phone ?? '',
         role: contact?.role ?? '',
-      });
+      };
+      setForm(reset);
+      initialValuesRef.current = reset;
       setErrors({});
       setServerError('');
     }
   }, [open, contact]);
+
+  // F0036-S0008: register AFTER the open-reset effect so a restored snapshot
+  // wins over the on-open reset to server values (restore-on-mount).
+  const tracker = useControlledDirtyTracker(form, initialValuesRef.current);
+  useRegisteredForm({
+    registration: {
+      formKey: `contact:${brokerId}:${contact?.id ?? 'new'}`,
+      route: typeof window !== 'undefined' ? window.location.pathname : '/',
+      ...tracker,
+    },
+    userId: user?.sub ?? null,
+    onRestore: (record) => {
+      setForm(record.form_values);
+      initialValuesRef.current = record.form_values;
+    },
+  });
 
   function updateField(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));

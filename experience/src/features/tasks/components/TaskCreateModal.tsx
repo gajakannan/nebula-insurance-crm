@@ -6,6 +6,7 @@ import { AssigneePicker } from './AssigneePicker';
 import { useCreateTask } from '../hooks/useTaskMutations';
 import type { TaskPriority, UserSummaryDto } from '../types';
 import { useCurrentUser } from '@/features/auth';
+import { useControlledDirtyTracker, useRegisteredForm } from '@/features/forms';
 
 const MANAGER_ROLES = [
   'DistributionManager',
@@ -60,6 +61,19 @@ export function TaskCreateModal({ open, onClose }: TaskCreateModalProps) {
   const [errors, setErrors] = useState<Partial<Record<keyof FormState | 'assignee', string>>>({});
 
   const { mutate: createTask, isPending } = useCreateTask();
+
+  // F0036-S0007: F0035 registration via the controlled-form dirty-tracker.
+  // EMPTY_FORM is a stable module constant -> the baseline for create.
+  const tracker = useControlledDirtyTracker(form, EMPTY_FORM);
+  useRegisteredForm({
+    registration: {
+      formKey: 'task:new',
+      route: typeof window !== 'undefined' ? window.location.pathname : '/',
+      ...tracker,
+    },
+    userId: currentUser?.sub ?? null,
+    onRestore: (record) => setForm(record.form_values),
+  });
 
   const canAssignToOthers = currentUser ? isManager(currentUser.roles) : false;
 

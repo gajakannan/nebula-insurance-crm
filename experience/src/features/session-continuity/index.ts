@@ -13,6 +13,7 @@ export {
   useDirtyFormRegistry,
   useSessionRestorableForm,
 } from './useDirtyFormRegistry'
+export { DirtyFormRegistryContext } from './dirtyFormRegistryContext'
 export type {
   DirtyFormRegistration,
   DirtyFormRegistry,
