@@ -288,7 +288,7 @@ Chosen #1.
 - F0005 IdP: `planning-mds/features/archive/F0005-idp-migration/`
 - F0033 Serilog: `planning-mds/features/archive/F0033-structured-logging-and-qe-toolchain-activation/`
 - ADR-006 (IdP migration), ADR-007 (F0009 login + broker scope), ADR-008 (Casbin), ADR-Auth-Token-Storage, ADR-Authentication-Strategy
-- Plan run evidence: `planning-mds/operations/evidence/2026-05-23-41109356/`
+- Plan run evidence: `planning-mds/operations/evidence/runs/2026-05-23-41109356/`
 
 ## Follow-up Actions
 

@@ -45,7 +45,9 @@ export default function CreateAccountPage() {
   // F0036-S0007: F0035 registration via the controlled-form dirty-tracker.
   const user = useCurrentUser();
   const initialValuesRef = useRef(form);
-  const tracker = useControlledDirtyTracker(form, initialValuesRef.current);
+  const tracker = useControlledDirtyTracker(form, initialValuesRef.current, {
+    sensitiveFieldPaths: ['taxId'],
+  });
   useRegisteredForm({
     registration: {
       formKey: 'account:new',
@@ -53,7 +55,19 @@ export default function CreateAccountPage() {
       ...tracker,
     },
     userId: user?.sub ?? null,
-    onRestore: (record) => setForm(record.form_values),
+    onRestore: (record) => {
+      initialValuesRef.current = record.form_values;
+      setForm(record.form_values);
+      setProducer(record.form_values.primaryProducerUserId
+        ? {
+            userId: record.form_values.primaryProducerUserId,
+            displayName: 'Restored primary producer',
+            email: '',
+            roles: [],
+            isActive: true,
+          }
+        : null);
+    },
   });
 
   function updateField(field: keyof AccountCreateRequestDto, value: string) {
@@ -212,7 +226,13 @@ export default function CreateAccountPage() {
             <AssigneePicker
               label="Primary Producer"
               selectedUser={producer}
-              onSelect={setProducer}
+              onSelect={(nextProducer) => {
+                setProducer(nextProducer);
+                setForm((current) => ({
+                  ...current,
+                  primaryProducerUserId: nextProducer?.userId ?? '',
+                }));
+              }}
               error={errors.primaryProducerUserId}
             />
 

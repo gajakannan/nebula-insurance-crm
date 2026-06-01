@@ -65,6 +65,7 @@ export function EditBrokerModal({ broker, open, onClose }: EditBrokerModalProps)
       ...tracker,
     },
     userId: user?.sub ?? null,
+    enabled: open,
     onRestore: (record) => {
       setForm(record.form_values);
       initialValuesRef.current = record.form_values;

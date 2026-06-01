@@ -119,7 +119,7 @@ Required checks:
 
 **✅ Plan Review Finding PR-C1 (Critical) — RESOLVED by Architect Phase B rework 2026-05-26 (ADR-021 §3):**
 - The incorrect "client evaluates `rules.json` per ADR-023" premise is removed. New decision: **two validation layers** — (1) the **client** validates the **data-schema layer** with AJV (the bundle is the client's source of truth) and parity is measured against the **actual backend** (ADR-022 multiset equality on `(code, pointer)` over the Cyber examples, via a CI harness using the live endpoint or recorded responses); (2) **cross-field rules stay backend-authoritative** and are surfaced from `LobValidationProblemDetails.lobErrors[]`, bound to fields via `pointer` — the client keeps no authoritative duplicate. An optional client pre-check of the two known rules is allowed for UX only, behind the parity harness.
-- This needs **no backend change** and **no dependency on the unimplemented ADR-023 platform**. F0036's KG binding drops `adr:023`/`capability:lob-rules-governance` (retains `capability:validator-equivalence`/ADR-022). The ACs above are restated accordingly. Origin: `planning-mds/operations/evidence/2026-05-26-aaa8bd7c/plan-review-report.md`.
+- This needs **no backend change** and **no dependency on the unimplemented ADR-023 platform**. F0036's KG binding drops `adr:023`/`capability:lob-rules-governance` (retains `capability:validator-equivalence`/ADR-022). The ACs above are restated accordingly. Origin: `planning-mds/operations/evidence/runs/2026-05-26-aaa8bd7c/plan-review-report.md`.
 
 **Resolved (Phase B):**
 - **`ui-schema.json` carries no widget map** — widgets are derived from the data-schema (decision recorded in S0002/ADR amendment).

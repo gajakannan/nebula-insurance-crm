@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback, useId } from 'react';
+import { useEffect, useRef, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
 
@@ -15,10 +15,16 @@ export function Modal({ open, onClose, title, description, children, className }
   const contentRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousActiveRef = useRef<HTMLElement | null>(null);
+  const onCloseRef = useRef(onClose);
   const titleId = useId();
   const descriptionId = useId();
 
-  const handleClose = useCallback(() => onClose(), [onClose]);
+  // Keep the latest onClose without retriggering the focus-management effect.
+  // Parents typically pass an inline arrow for onClose, so its identity changes
+  // every render; depending on it would tear down and re-run the effect below
+  // on each keystroke, stealing focus back to the first focusable element.
+  onCloseRef.current = onClose;
+  const handleClose = () => onCloseRef.current();
 
   useEffect(() => {
     if (!open) return;
@@ -42,7 +48,7 @@ export function Modal({ open, onClose, title, description, children, className }
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') {
         e.preventDefault();
-        handleClose();
+        onCloseRef.current();
         return;
       }
 
@@ -86,7 +92,7 @@ export function Modal({ open, onClose, title, description, children, className }
       document.body.style.overflow = '';
       previousActiveRef.current?.focus();
     };
-  }, [open, handleClose]);
+  }, [open]);
 
   function handleBackdropClick(e: React.MouseEvent) {
     if (contentRef.current && !contentRef.current.contains(e.target as Node)) {

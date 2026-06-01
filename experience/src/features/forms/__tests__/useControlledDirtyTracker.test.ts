@@ -79,4 +79,14 @@ describe('useControlledDirtyTracker (F0036-S0007)', () => {
     expect(result.current.getValues()).toEqual({ notes: 'hello' })
     expect(result.current.getDirtyFieldPaths()).toEqual(['notes'])
   })
+
+  it('does not mark a form dirty when only sensitiveFieldPaths changed', () => {
+    const initial = { ssn: '', notes: '' }
+    const { result } = renderHook(() =>
+      useControlledDirtyTracker({ ssn: '123', notes: '' }, initial, { sensitiveFieldPaths: ['ssn'] }),
+    )
+    expect(result.current.isDirty()).toBe(false)
+    expect(result.current.getValues()).toEqual({ notes: '' })
+    expect(result.current.getDirtyFieldPaths()).toEqual([])
+  })
 })

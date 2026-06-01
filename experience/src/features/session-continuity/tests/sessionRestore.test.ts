@@ -4,6 +4,7 @@ import {
   clearSnapshotsForOtherUsers,
   clearSnapshotsForUser,
   consumeFormSnapshot,
+  listFormSnapshotKeysForUser,
   sanitizeReturnTo,
   snapshotDirtyForm,
 } from '../sessionRestore'
@@ -40,6 +41,30 @@ describe('session restore helpers', () => {
       dirty_field_paths: ['premium'],
     })
     expect(consumeFormSnapshot('user-1', 'policy-edit')).toBeNull()
+  })
+
+  it('lists valid same-user snapshot form keys by prefix without consuming them', () => {
+    snapshotDirtyForm({
+      user_id: 'user-1',
+      route: '/brokers/b1',
+      form_key: 'contact:b1:c1',
+      form_values: { role: 'updated' },
+      dirty_field_paths: ['role'],
+      snapshot_timestamp: new Date().toISOString(),
+    })
+    snapshotDirtyForm({
+      user_id: 'user-1',
+      route: '/brokers/b1',
+      form_key: 'broker:b1',
+      form_values: { legalName: 'Broker' },
+      dirty_field_paths: ['legalName'],
+      snapshot_timestamp: new Date().toISOString(),
+    })
+
+    expect(listFormSnapshotKeysForUser('user-1', 'contact:b1:')).toEqual(['contact:b1:c1'])
+    expect(consumeFormSnapshot('user-1', 'contact:b1:c1')).toMatchObject({
+      form_values: { role: 'updated' },
+    })
   })
 
   it('clears snapshots by current user and by other users', () => {

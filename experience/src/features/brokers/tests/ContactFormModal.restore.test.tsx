@@ -78,6 +78,25 @@ describe('ContactFormModal restore — F0036-S0008 (closes F0035 finding #1)', (
     })
   })
 
+  it('waits to consume a modal snapshot until the parent reopens the form', () => {
+    seedSnapshot('u1', 'Edited Role')
+    const { rerender } = render(
+      <DirtyFormRegistryProvider>
+        <ContactFormModal brokerId="b1" contact={contact} open={false} onClose={vi.fn()} />
+      </DirtyFormRegistryProvider>,
+    )
+
+    expect(screen.queryByLabelText('Role')).not.toBeInTheDocument()
+
+    rerender(
+      <DirtyFormRegistryProvider>
+        <ContactFormModal brokerId="b1" contact={contact} open onClose={vi.fn()} />
+      </DirtyFormRegistryProvider>,
+    )
+
+    expect(screen.getByLabelText('Role')).toHaveValue('Edited Role')
+  })
+
   it('does not restore another user’s snapshot (per-user isolation)', () => {
     seedSnapshot('someone-else', 'Edited Role')
     render(

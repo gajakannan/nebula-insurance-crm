@@ -51,6 +51,26 @@ function ControlledBackend({ onRestore }: { onRestore: () => void }) {
   return <input aria-label="ctrl-notes" value={v.notes} onChange={(e) => setV({ notes: e.target.value })} />
 }
 
+function DynamicKeyBackend({
+  enabled = true,
+  formKey,
+  onRestore,
+}: {
+  enabled?: boolean
+  formKey: string
+  onRestore: () => void
+}) {
+  const values = { notes: '' }
+  const tracker = useControlledDirtyTracker(values, values)
+  useRegisteredForm({
+    registration: { formKey, route: '/r', ...tracker },
+    userId: 'u1',
+    enabled,
+    onRestore,
+  })
+  return null
+}
+
 beforeEach(() => {
   window.sessionStorage.clear()
   registry = undefined
@@ -105,5 +125,35 @@ describe('shared registration helper — dual backend (F0036-S0007)', () => {
 
     expect(rhfRestore).toHaveBeenCalledTimes(1)
     expect(ctrlRestore).toHaveBeenCalledTimes(1)
+  })
+
+  it('restores when a modal parent changes the registered form key after mount', () => {
+    snapshotDirtyForm({
+      user_id: 'u1', route: '/r', form_key: 'ctrl-key:existing',
+      form_values: { notes: 'restored' }, dirty_field_paths: ['notes'],
+      snapshot_timestamp: new Date().toISOString(),
+    })
+    const restore = vi.fn()
+    const { rerender } = render(<DynamicKeyBackend formKey="ctrl-key:new" onRestore={restore} />)
+
+    expect(restore).not.toHaveBeenCalled()
+    rerender(<DynamicKeyBackend formKey="ctrl-key:existing" onRestore={restore} />)
+
+    expect(restore).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not consume a modal snapshot until registration is enabled', () => {
+    snapshotDirtyForm({
+      user_id: 'u1', route: '/r', form_key: 'modal-key',
+      form_values: { notes: 'restored' }, dirty_field_paths: ['notes'],
+      snapshot_timestamp: new Date().toISOString(),
+    })
+    const restore = vi.fn()
+    const { rerender } = render(<DynamicKeyBackend enabled={false} formKey="modal-key" onRestore={restore} />)
+
+    expect(restore).not.toHaveBeenCalled()
+    rerender(<DynamicKeyBackend enabled formKey="modal-key" onRestore={restore} />)
+
+    expect(restore).toHaveBeenCalledTimes(1)
   })
 })

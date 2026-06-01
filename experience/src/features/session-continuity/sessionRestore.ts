@@ -107,6 +107,61 @@ export function consumeFormSnapshot<TValues>(
   }
 }
 
+export function listFormSnapshotKeysForUser(
+  userId: string,
+  formKeyPrefix = '',
+): string[] {
+  const storage = safeSessionStorage()
+  if (!storage) {
+    return []
+  }
+
+  const storageKeyPrefix = `${SESSION_RESTORE_PREFIX}.${userId}.`
+  const matches: string[] = []
+  const invalidKeys: string[] = []
+
+  for (let index = 0; index < storage.length; index += 1) {
+    const storageKey = storage.key(index)
+    if (!storageKey?.startsWith(storageKeyPrefix)) {
+      continue
+    }
+
+    const formKey = storageKey.slice(storageKeyPrefix.length)
+    if (formKeyPrefix && !formKey.startsWith(formKeyPrefix)) {
+      continue
+    }
+
+    const raw = storage.getItem(storageKey)
+    if (!raw) {
+      continue
+    }
+
+    try {
+      const record = JSON.parse(raw) as FormSnapshotRecord
+      const timestamp = Date.parse(record.snapshot_timestamp)
+      if (
+        record.user_id !== userId ||
+        record.form_key !== formKey ||
+        !Number.isFinite(timestamp) ||
+        Date.now() - timestamp > SESSION_RESTORE_TTL_MS
+      ) {
+        invalidKeys.push(storageKey)
+        continue
+      }
+
+      matches.push(formKey)
+    } catch {
+      invalidKeys.push(storageKey)
+    }
+  }
+
+  for (const storageKey of invalidKeys) {
+    storage.removeItem(storageKey)
+  }
+
+  return matches
+}
+
 export function clearSnapshotsForUser(userId: string): void {
   removeSnapshotKeys((key) => key.startsWith(`${SESSION_RESTORE_PREFIX}.${userId}.`))
 }

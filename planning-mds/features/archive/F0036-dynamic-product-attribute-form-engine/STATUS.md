@@ -13,7 +13,7 @@
 | Closeout review date | 2026-05-30 |
 | Run ID | 2026-05-28-077b7b30 |
 | Archive decision | Archived (planning folder → `planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/`) |
-| Evidence | `planning-mds/operations/evidence/F0036-dynamic-product-attribute-form-engine/2026-05-28-077b7b30/` (`latest-run.json`) |
+| Evidence | `planning-mds/operations/evidence/runs/2026-05-28-077b7b30/` (`latest-run.json`) |
 | Deferred follow-ups | account-form `sensitiveFieldPaths` (taxId, [low]); CRUD restore banner; per-screen E2E (SubmissionDetailPage/AccountDetailPage); live-backend AJV parity capture; CI dependency scan of 4 new deps; CreateSubmissionPage/RenewalsPage pre-existing integration reds (not F0036) |
 
 > Folder slug remains `F0036-dynamic-product-attribute-form-engine` for link stability; the feature title was broadened on 2026-05-25 (see scope revision below).
@@ -43,7 +43,7 @@ F0036 was created after a review of the archived F0035 found that its form-state
 
 ## Plan Review Findings (run `2026-05-26-aaa8bd7c` — NOT READY)
 
-An independent, read-only plan-review audit (`agents/actions/plan-review.md`) returned **NOT READY** (1 critical, 1 high, 2 medium, 1 low). Full report: `planning-mds/operations/evidence/2026-05-26-aaa8bd7c/plan-review-report.md`. Findings are tracked here and folded into the owning artifacts; the critical must be repaired (and high resolved) before the feature action.
+An independent, read-only plan-review audit (`agents/actions/plan-review.md`) returned **NOT READY** (1 critical, 1 high, 2 medium, 1 low). Full report: `planning-mds/operations/evidence/runs/2026-05-26-aaa8bd7c/plan-review-report.md`. Findings are tracked here and folded into the owning artifacts; the critical must be repaired (and high resolved) before the feature action.
 
 | ID | Severity | Owner | Folded into | Status | Summary |
 |----|----------|-------|-------------|--------|---------|
@@ -62,7 +62,7 @@ An independent, read-only plan-review audit (`agents/actions/plan-review.md`) re
 
 ## Plan Review Findings (run `2026-05-26-378ac7da` — CONDITIONALLY READY)
 
-A second independent, read-only plan-review audit (`agents/actions/plan-review.md`) returned **CONDITIONALLY READY** (0 critical, 4 high, 1 medium, 1 low). The round-1 architecture rework was sound, but implementation-facing artifacts still carried stale text that contradicted it, and required validators were failing. Full report: `planning-mds/operations/evidence/2026-05-26-378ac7da/plan-review-report.md`. All findings resolved by rework 2026-05-26/27:
+A second independent, read-only plan-review audit (`agents/actions/plan-review.md`) returned **CONDITIONALLY READY** (0 critical, 4 high, 1 medium, 1 low). The round-1 architecture rework was sound, but implementation-facing artifacts still carried stale text that contradicted it, and required validators were failing. Full report: `planning-mds/operations/evidence/runs/2026-05-26-378ac7da/plan-review-report.md`. All findings resolved by rework 2026-05-26/27:
 
 | ID | Severity | Owner | Folded into | Status | Summary |
 |----|----------|-------|-------------|--------|---------|
@@ -108,7 +108,7 @@ A second independent, read-only plan-review audit (`agents/actions/plan-review.m
 
 > Append-only audit history. Current verdict per `(story, role)` is the latest row. Empty at Phase A (no implementation has occurred). Populated during the feature/build action; evidence paths must resolve under the canonical feature run folder `planning-mds/operations/evidence/F0036-dynamic-product-attribute-form-engine/{RUN_ID}/...`.
 
-> Populated during the feature action (run `2026-05-28-077b7b30`). Evidence filenames resolve under the canonical run folder `planning-mds/operations/evidence/F0036-dynamic-product-attribute-form-engine/2026-05-28-077b7b30/`.
+> Populated during the feature action (run `2026-05-28-077b7b30`). Evidence filenames resolve under the canonical run folder `planning-mds/operations/evidence/runs/2026-05-28-077b7b30/`.
 
 | Story | Role | Reviewer | Verdict | Evidence | Date | Notes |
 |-------|------|----------|---------|----------|------|-------|

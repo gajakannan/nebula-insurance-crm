@@ -10,7 +10,7 @@ applies_to: product-manager
 **Feature Name:** Session Continuity & Token Refresh
 **Priority:** High
 **Phase:** Release Enablement / Platform Operations
-**Status:** Draft (Phase A + Phase B complete and approved; awaiting `agents/actions/feature.md` for implementation. Plan run `2026-05-23-41109356` — see `planning-mds/operations/evidence/2026-05-23-41109356/`.)
+**Status:** Draft (Phase A + Phase B complete and approved; awaiting `agents/actions/feature.md` for implementation. Plan run `2026-05-23-41109356` — see `planning-mds/operations/evidence/runs/2026-05-23-41109356/`.)
 
 ## Feature Statement
 

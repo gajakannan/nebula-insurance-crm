@@ -73,7 +73,10 @@ export default function CreateSubmissionPage() {
       ...tracker,
     },
     userId: user?.sub ?? null,
-    onRestore: (record) => setForm(record.form_values),
+    onRestore: (record) => {
+      initialValuesRef.current = record.form_values;
+      setForm(record.form_values);
+    },
   });
 
   const isLoading = accountsQuery.isLoading || brokersQuery.isLoading || programsQuery.isLoading;

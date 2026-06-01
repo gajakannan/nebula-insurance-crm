@@ -62,4 +62,4 @@ These values are starting points; Architect may parameterize at the build action
 ## Plan Run Reference
 
 - Plan run id: `2026-05-23-41109356`
-- Plan run evidence: `planning-mds/operations/evidence/2026-05-23-41109356/`
+- Plan run evidence: `planning-mds/operations/evidence/runs/2026-05-23-41109356/`

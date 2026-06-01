@@ -1,0 +1,46 @@
+# Lifecycle Gates Log - F0036 Feature Review 2026-05-30-6c8cd3ee
+
+## FR2 Validators
+
+### closeout-evidence
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0036 --stage closeout
+Stage: FR2
+Exit Code: 1
+Result: FAIL
+Output References: artifacts/validate-feature-evidence-closeout.log
+Skipped Gates: Remaining FR2 validators skipped after required evidence validation failed.
+
+### validate-trackers
+Command: python3 agents/product-manager/scripts/validate-trackers.py
+Stage: FR2
+Exit Code: SKIPPED
+Result: SKIPPED
+Reason: Stop condition after required closeout evidence validation failed.
+
+### generate-story-index
+Command: python3 agents/product-manager/scripts/generate-story-index.py /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/planning-mds/features/
+Stage: FR2
+Exit Code: SKIPPED
+Result: SKIPPED
+Reason: Mutates STORY-INDEX.md; review action is read-only outside this folder, and stop condition had already been reached.
+
+### kg-check-symbols
+Command: python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py --check-symbols
+Stage: FR2
+Exit Code: SKIPPED
+Result: SKIPPED
+Reason: Stop condition after required closeout evidence validation failed.
+
+### kg-check-drift
+Command: python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py --check-drift
+Stage: FR2
+Exit Code: SKIPPED
+Result: SKIPPED
+Reason: Stop condition after required closeout evidence validation failed.
+
+### validate-templates
+Command: python3 agents/scripts/validate_templates.py
+Stage: FR2
+Exit Code: SKIPPED
+Result: SKIPPED
+Reason: Stop condition after required closeout evidence validation failed.

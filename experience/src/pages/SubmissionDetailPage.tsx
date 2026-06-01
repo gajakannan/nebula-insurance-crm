@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { useControlledDirtyTracker, useRegisteredForm } from '@/features/forms';
@@ -11,6 +11,7 @@ import { Select } from '@/components/ui/Select';
 import { TextInput } from '@/components/ui/TextInput';
 import { AccountReference, AccountStatusBadge, useAccount } from '@/features/accounts';
 import { ParentDocumentsPanel } from '@/features/documents';
+import { listFormSnapshotKeysForUser } from '@/features/session-continuity';
 import { DynamicAttributePanel, normalizeCyberEnvelope } from '@/features/lob-attributes';
 import { usePrograms } from '@/features/submissions/hooks/useReferenceData';
 import { AssigneePicker, type UserSummaryDto } from '@/features/tasks';
@@ -77,12 +78,22 @@ export default function SubmissionDetailPage() {
       ...editTracker,
     },
     userId: currentUser?.sub ?? null,
+    enabled: editOpen,
     onRestore: (record) => {
       editInitialRef.current = record.form_values;
       setEditForm(record.form_values);
       setEditOpen(true);
     },
   });
+
+  useEffect(() => {
+    if (!currentUser?.sub || !submissionId || editOpen) return;
+    if (listFormSnapshotKeysForUser(currentUser.sub, `submission:${submissionId}`).includes(`submission:${submissionId}`)) {
+      setEditErrors({});
+      setEditServerError('');
+      setEditOpen(true);
+    }
+  }, [currentUser?.sub, editOpen, submissionId]);
 
   if (submissionQuery.isLoading) {
     return (

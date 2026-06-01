@@ -1,0 +1,6 @@
+$ python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0036 --stage closeout
+ERROR gate_decisions_missing_stage_required_row_fails: gate-decisions.md missing required gate row(s) for stage closeout: G5, G6, G8
+ERROR gate_decisions_missing_g5_fails: gate-decisions.md missing G5 row
+ERROR gate_decisions_missing_g6_fails: gate-decisions.md missing G6 row
+ERROR gate_decisions_missing_g8_fails: gate-decisions.md missing G8 row
+Summary: validated=0, skipped_pre_contract_archived=0, skipped_active_done_pre_contract=0, skipped_retired_abandoned=0, skipped_retired_superseded=0

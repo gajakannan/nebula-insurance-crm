@@ -114,6 +114,6 @@ For the forced-re-auth-with-form-state-restore sequence, the idle-warning modal 
 
 ## Notes
 
-This README is the lightweight index. Authoritative content lives in `PRD.md` (requirements), `ADR-024` (architecture), and the colocated story files. Plan run `2026-05-23-41109356` performed both Phase A enrichment and Phase B architecture; the corresponding base run evidence package is at `planning-mds/operations/evidence/2026-05-23-41109356/`.
+This README is the lightweight index. Authoritative content lives in `PRD.md` (requirements), `ADR-024` (architecture), and the colocated story files. Plan run `2026-05-23-41109356` performed both Phase A enrichment and Phase B architecture; the corresponding base run evidence package is at `planning-mds/operations/evidence/runs/2026-05-23-41109356/`.
 
-Implementation and closeout evidence lives at `planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/`.
+Implementation and closeout evidence lives at `planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/`.

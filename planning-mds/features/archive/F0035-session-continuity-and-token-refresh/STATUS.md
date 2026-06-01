@@ -88,26 +88,26 @@ This table is initialized empty by PM Phase A. Rows are append-only and added by
 
 | Story | Role | Reviewer | Verdict | Evidence | Date | Notes |
 |-------|------|----------|---------|----------|------|-------|
-| F0035-S0001 | Quality Engineer | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/test-execution-report.md | 2026-05-24 | Silent renewal tests passed with coalescing, retry, and mutation non-replay coverage. |
-| F0035-S0001 | Code Reviewer | Codex | APPROVED | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/code-review-report.md | 2026-05-24 | Post-review fixes complete; no blocking findings remain. |
-| F0035-S0001 | Security Reviewer | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/security-review-report.md | 2026-05-24 | Token handling and mutation replay boundaries pass. |
-| F0035-S0001 | DevOps | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/deployability-check.md | 2026-05-24 | Runtime preflight, frontend build, lint, and focused backend tests pass. |
-| F0035-S0002 | Quality Engineer | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/test-execution-report.md | 2026-05-24 | Idle modal unit and accessibility tests passed. |
-| F0035-S0002 | Code Reviewer | Codex | APPROVED | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/code-review-report.md | 2026-05-24 | Public auth-route idle suppression was fixed and re-tested. |
-| F0035-S0002 | Security Reviewer | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/security-review-report.md | 2026-05-24 | Idle forced re-auth behavior passes security review. |
-| F0035-S0002 | DevOps | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/deployability-check.md | 2026-05-24 | No deployment blocker for idle modal runtime surface. |
-| F0035-S0003 | Quality Engineer | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/test-execution-report.md | 2026-05-24 | Route restore, dirty snapshot, TTL, and cross-user isolation tests passed. |
-| F0035-S0003 | Code Reviewer | Codex | APPROVED | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/code-review-report.md | 2026-05-24 | Snapshot and forced re-auth flow review has no blocking findings. |
-| F0035-S0003 | Security Reviewer | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/security-review-report.md | 2026-05-24 | Same-origin return_to and sessionStorage boundaries pass. |
-| F0035-S0003 | DevOps | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/deployability-check.md | 2026-05-24 | No migration or deployment config blocker for restore flow. |
-| F0035-S0004 | Quality Engineer | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/test-execution-report.md | 2026-05-24 | Backend ProblemDetails and frontend classifier tests passed. |
-| F0035-S0004 | Code Reviewer | Codex | APPROVED | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/code-review-report.md | 2026-05-24 | Classifier and backend contract review has no blocking findings. |
-| F0035-S0004 | Security Reviewer | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/security-review-report.md | 2026-05-24 | 401/403 ProblemDetails semantics pass information-boundary review. |
-| F0035-S0004 | DevOps | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/deployability-check.md | 2026-05-24 | Backend runtime contract tests pass in SDK container. |
-| F0035-S0005 | Quality Engineer | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/test-execution-report.md | 2026-05-24 | Session telemetry frontend and backend validation tests passed. |
-| F0035-S0005 | Code Reviewer | Codex | APPROVED | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/code-review-report.md | 2026-05-24 | Deferred telemetry TTL gap was fixed and re-tested. |
-| F0035-S0005 | Security Reviewer | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/security-review-report.md | 2026-05-24 | Telemetry allowlist, user binding, and no-PII checks pass. |
-| F0035-S0005 | DevOps | Codex | PASS | planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/deployability-check.md | 2026-05-24 | `/internal` dev proxy and runtime checks pass. |
+| F0035-S0001 | Quality Engineer | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/test-execution-report.md | 2026-05-24 | Silent renewal tests passed with coalescing, retry, and mutation non-replay coverage. |
+| F0035-S0001 | Code Reviewer | Codex | APPROVED | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/code-review-report.md | 2026-05-24 | Post-review fixes complete; no blocking findings remain. |
+| F0035-S0001 | Security Reviewer | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/security-review-report.md | 2026-05-24 | Token handling and mutation replay boundaries pass. |
+| F0035-S0001 | DevOps | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/deployability-check.md | 2026-05-24 | Runtime preflight, frontend build, lint, and focused backend tests pass. |
+| F0035-S0002 | Quality Engineer | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/test-execution-report.md | 2026-05-24 | Idle modal unit and accessibility tests passed. |
+| F0035-S0002 | Code Reviewer | Codex | APPROVED | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/code-review-report.md | 2026-05-24 | Public auth-route idle suppression was fixed and re-tested. |
+| F0035-S0002 | Security Reviewer | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/security-review-report.md | 2026-05-24 | Idle forced re-auth behavior passes security review. |
+| F0035-S0002 | DevOps | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/deployability-check.md | 2026-05-24 | No deployment blocker for idle modal runtime surface. |
+| F0035-S0003 | Quality Engineer | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/test-execution-report.md | 2026-05-24 | Route restore, dirty snapshot, TTL, and cross-user isolation tests passed. |
+| F0035-S0003 | Code Reviewer | Codex | APPROVED | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/code-review-report.md | 2026-05-24 | Snapshot and forced re-auth flow review has no blocking findings. |
+| F0035-S0003 | Security Reviewer | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/security-review-report.md | 2026-05-24 | Same-origin return_to and sessionStorage boundaries pass. |
+| F0035-S0003 | DevOps | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/deployability-check.md | 2026-05-24 | No migration or deployment config blocker for restore flow. |
+| F0035-S0004 | Quality Engineer | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/test-execution-report.md | 2026-05-24 | Backend ProblemDetails and frontend classifier tests passed. |
+| F0035-S0004 | Code Reviewer | Codex | APPROVED | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/code-review-report.md | 2026-05-24 | Classifier and backend contract review has no blocking findings. |
+| F0035-S0004 | Security Reviewer | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/security-review-report.md | 2026-05-24 | 401/403 ProblemDetails semantics pass information-boundary review. |
+| F0035-S0004 | DevOps | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/deployability-check.md | 2026-05-24 | Backend runtime contract tests pass in SDK container. |
+| F0035-S0005 | Quality Engineer | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/test-execution-report.md | 2026-05-24 | Session telemetry frontend and backend validation tests passed. |
+| F0035-S0005 | Code Reviewer | Codex | APPROVED | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/code-review-report.md | 2026-05-24 | Deferred telemetry TTL gap was fixed and re-tested. |
+| F0035-S0005 | Security Reviewer | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/security-review-report.md | 2026-05-24 | Telemetry allowlist, user binding, and no-PII checks pass. |
+| F0035-S0005 | DevOps | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/deployability-check.md | 2026-05-24 | `/internal` dev proxy and runtime checks pass. |
 
 ## Deferred Scope
 
@@ -148,7 +148,7 @@ Satisfied 2026-05-24. F0035 was archived at the end of feature evidence run `202
 | Item | Result |
 |------|--------|
 | Implementation Date | 2026-05-24 |
-| Evidence Run | `planning-mds/operations/evidence/F0035-session-continuity-and-token-refresh/2026-05-24-c92b16b6/` |
+| Evidence Run | `planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/` |
 | Final Story Status | F0035-S0001 through F0035-S0005 Done |
 | Backend Tests | 8 focused integration tests passed (`backend-session-continuity.trx`) |
 | Frontend Tests | 58 focused Vitest tests passed (`frontend-session-continuity-g3-fixes.xml`) |
@@ -162,5 +162,5 @@ Satisfied 2026-05-24. F0035 was archived at the end of feature evidence run `202
 ## Plan Run Reference
 
 - Plan run id: `2026-05-23-41109356`
-- Plan run evidence: `planning-mds/operations/evidence/2026-05-23-41109356/`
+- Plan run evidence: `planning-mds/operations/evidence/runs/2026-05-23-41109356/`
 - Base run files: README.md, action-context.md, artifact-trace.md, gate-decisions.md, commands.log, lifecycle-gates.log

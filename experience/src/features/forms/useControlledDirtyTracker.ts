@@ -109,12 +109,14 @@ export function useControlledDirtyTracker<T>(
   // registry snapshots.
   const sensitiveKey = JSON.stringify(sensitive)
   return useMemo(() => {
-    const dirty = !deepEqual(values, initialValues, arrayOrderSensitive)
+    const snapshotValues = omitPaths(values, sensitive)
+    const snapshotInitialValues = omitPaths(initialValues, sensitive)
+    const dirty = !deepEqual(snapshotValues, snapshotInitialValues, arrayOrderSensitive)
     return {
       isDirty: () => dirty,
-      getValues: () => omitPaths(values, sensitive),
+      getValues: () => snapshotValues,
       getDirtyFieldPaths: () =>
-        diffPaths(values, initialValues, arrayOrderSensitive).filter(
+        diffPaths(snapshotValues, snapshotInitialValues, arrayOrderSensitive).filter(
           (p) => !sensitive.some((s) => p === s || p.startsWith(`${s}.`)),
         ),
     }

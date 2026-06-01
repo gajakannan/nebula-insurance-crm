@@ -36,7 +36,10 @@ export default function CreateBrokerPage() {
       ...tracker,
     },
     userId: user?.sub ?? null,
-    onRestore: (record) => setForm(record.form_values),
+    onRestore: (record) => {
+      initialValuesRef.current = record.form_values;
+      setForm(record.form_values);
+    },
   });
 
   function updateField(field: string, value: string) {

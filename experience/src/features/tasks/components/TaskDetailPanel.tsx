@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Trash2, Pencil, Check } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
@@ -69,34 +69,10 @@ export function TaskDetailPanel({ task, onClose }: TaskDetailPanelProps) {
   const [showReassign, setShowReassign] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
-  // F0036-S0007: register the inline title/description edits with F0035 via the
-  // controlled-form dirty-tracker (no field-state-library change).
-  const initialTaskValues = useMemo(
-    () => ({ title: task.title, description: task.description ?? '' }),
-    [task.title, task.description],
-  );
-  const taskEditTracker = useControlledDirtyTracker({ title: titleValue, description: descValue }, initialTaskValues);
-  useRegisteredForm({
-    registration: {
-      formKey: `task:${task.id}`,
-      route: typeof window !== 'undefined' ? window.location.pathname : '/',
-      ...taskEditTracker,
-    },
-    userId: currentUser?.sub ?? null,
-    onRestore: (record) => {
-      setTitleValue(record.form_values.title);
-      setDescValue(record.form_values.description);
-    },
-  });
-
-  const canManage =
-    currentUser &&
-    (currentUser.sub === task.createdByUserId || isManager(currentUser.roles));
-
-  const isOwn = currentUser?.sub === task.assignedToUserId;
-
-  // Keep local state in sync when a different task is selected
+  const initialTaskValuesRef = useRef({ title: task.title, description: task.description ?? '' });
   useEffect(() => {
+    const nextInitial = { title: task.title, description: task.description ?? '' };
+    initialTaskValuesRef.current = nextInitial;
     setTitleValue(task.title);
     setDescValue(task.description ?? '');
     setEditingTitle(false);
@@ -105,6 +81,34 @@ export function TaskDetailPanel({ task, onClose }: TaskDetailPanelProps) {
     setShowReassign(false);
     setReassignUser(null);
   }, [task.id, task.title, task.description]);
+
+  // F0036-S0007: register the inline title/description edits with F0035 via the
+  // controlled-form dirty-tracker (no field-state-library change).
+  const taskEditTracker = useControlledDirtyTracker(
+    { title: titleValue, description: descValue },
+    initialTaskValuesRef.current,
+  );
+  useRegisteredForm({
+    registration: {
+      formKey: `task:${task.id}`,
+      route: typeof window !== 'undefined' ? window.location.pathname : '/',
+      ...taskEditTracker,
+    },
+    userId: currentUser?.sub ?? null,
+    onRestore: (record) => {
+      initialTaskValuesRef.current = record.form_values;
+      setTitleValue(record.form_values.title);
+      setDescValue(record.form_values.description);
+      setEditingTitle(record.dirty_field_paths.includes('title'));
+      setEditingDesc(record.dirty_field_paths.includes('description'));
+    },
+  });
+
+  const canManage =
+    currentUser &&
+    (currentUser.sub === task.createdByUserId || isManager(currentUser.roles));
+
+  const isOwn = currentUser?.sub === task.assignedToUserId;
 
   const handleClose = useCallback(() => onClose(), [onClose]);
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card } from '@/components/ui/Card';
@@ -18,6 +18,9 @@ import {
   ReactivateBrokerAction,
   useBroker,
 } from '@/features/brokers';
+import { useCurrentUser } from '@/features/auth';
+import { listFormSnapshotKeysForUser } from '@/features/session-continuity';
+import { useBrokerContacts } from '@/features/brokers/hooks/useBrokerContacts';
 import { ApiError } from '@/services/api';
 import type { ContactDto } from '@/features/brokers';
 
@@ -26,6 +29,8 @@ const TABS = ['Profile', 'Contacts', 'Timeline'];
 export default function BrokerDetailPage() {
   const { brokerId } = useParams<{ brokerId: string }>();
   const { data: broker, isLoading, error, refetch } = useBroker(brokerId!);
+  const currentUser = useCurrentUser();
+  const brokerContactsQuery = useBrokerContacts(brokerId ?? '');
 
   const [activeTab, setActiveTab] = useState('Profile');
   const [showEditModal, setShowEditModal] = useState(false);
@@ -35,6 +40,37 @@ export default function BrokerDetailPage() {
   const [showContactForm, setShowContactForm] = useState(false);
   const [editingContact, setEditingContact] = useState<ContactDto | null>(null);
   const [deletingContact, setDeletingContact] = useState<ContactDto | null>(null);
+
+  useEffect(() => {
+    if (!currentUser?.sub || !broker) return;
+
+    if (
+      !showEditModal &&
+      listFormSnapshotKeysForUser(currentUser.sub, `broker:${broker.id}`).includes(`broker:${broker.id}`)
+    ) {
+      setShowEditModal(true);
+    }
+
+    if (showContactForm) return;
+
+    const prefix = `contact:${broker.id}:`;
+    const formKey = listFormSnapshotKeysForUser(currentUser.sub, prefix)[0];
+    if (!formKey) return;
+
+    const contactId = formKey.slice(prefix.length);
+    setActiveTab('Contacts');
+    if (contactId === 'new') {
+      setEditingContact(null);
+      setShowContactForm(true);
+      return;
+    }
+
+    const contact = brokerContactsQuery.data?.data.find((item) => item.id === contactId);
+    if (contact) {
+      setEditingContact(contact);
+      setShowContactForm(true);
+    }
+  }, [broker, brokerContactsQuery.data, currentUser?.sub, showContactForm, showEditModal]);
 
   if (isLoading) {
     return (

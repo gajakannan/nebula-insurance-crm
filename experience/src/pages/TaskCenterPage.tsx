@@ -4,6 +4,7 @@ import { Plus, SlidersHorizontal } from 'lucide-react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Tabs } from '@/components/ui/Tabs';
 import { useCurrentUser } from '@/features/auth';
+import { listFormSnapshotKeysForUser } from '@/features/session-continuity';
 import { cn } from '@/lib/utils';
 import { TaskCenterList } from '@/features/tasks/components/TaskCenterList';
 import { TaskFilterToolbar } from '@/features/tasks/components/TaskFilterToolbar';
@@ -62,6 +63,13 @@ export default function TaskCenterPage() {
   const [createOpen, setCreateOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<TaskListItemDto | null>(null);
   const [assigneeFilterUser, setAssigneeFilterUser] = useState<UserSummaryDto | null>(null);
+
+  useEffect(() => {
+    if (!currentUser?.sub || createOpen) return;
+    if (listFormSnapshotKeysForUser(currentUser.sub, 'task:new').includes('task:new')) {
+      setCreateOpen(true);
+    }
+  }, [currentUser?.sub, createOpen]);
 
   const currentView: TaskView = activeTab === TAB_ASSIGNED_BY_ME ? 'assignedByMe' : 'myWork';
   const currentFilters = currentView === 'assignedByMe' ? assignedFilters : myWorkFilters;

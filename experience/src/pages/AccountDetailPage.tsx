@@ -42,6 +42,7 @@ import { SubmissionStatusBadge, useSubmissions } from '@/features/submissions';
 import { AssigneePicker, type UserSummaryDto } from '@/features/tasks';
 import { ActivityFeedItem } from '@/features/timeline/components/ActivityFeedItem';
 import { ApiError } from '@/services/api';
+import { listFormSnapshotKeysForUser } from '@/features/session-continuity';
 import { US_STATES } from '@/lib/us-states';
 
 const TABS = ['Overview', 'Contacts', 'Documents', 'Activity'];
@@ -123,13 +124,21 @@ export default function AccountDetailPage() {
   const currentUser = useCurrentUser();
   const route = typeof window !== 'undefined' ? window.location.pathname : '/';
   const editInitialRef = useRef<AccountUpdateRequestDto | null>(null);
-  const accountEditTracker = useControlledDirtyTracker(editForm, editInitialRef.current);
+  const accountEditTracker = useControlledDirtyTracker(editForm, editInitialRef.current, {
+    sensitiveFieldPaths: ['taxId'],
+  });
   useRegisteredForm({
     registration: { formKey: `account:${accountId}`, route, ...accountEditTracker },
     userId: currentUser?.sub ?? null,
+    enabled: editOpen,
     onRestore: (record) => {
-      editInitialRef.current = record.form_values;
-      setEditForm(record.form_values);
+      if (!record.form_values) return;
+      const restoredValues = {
+        ...record.form_values,
+        taxId: record.form_values.taxId ?? accountQuery.data?.taxId ?? null,
+      };
+      editInitialRef.current = restoredValues;
+      setEditForm(restoredValues);
       setEditOpen(true);
     },
   });
@@ -142,6 +151,7 @@ export default function AccountDetailPage() {
       ...contactTracker,
     },
     userId: currentUser?.sub ?? null,
+    enabled: contactOpen,
     onRestore: (record) => {
       contactInitialRef.current = record.form_values;
       setContactForm(record.form_values);
@@ -189,6 +199,41 @@ export default function AccountDetailPage() {
       ['Updated', formatDateTime(account.updatedAt)],
     ] as const;
   }, [account]);
+
+  useEffect(() => {
+    if (!currentUser?.sub || !accountId || !accountQuery.data || editOpen) return;
+
+    if (listFormSnapshotKeysForUser(currentUser.sub, `account:${accountId}`).includes(`account:${accountId}`)) {
+      setEditErrors({});
+      setEditServerError('');
+      setEditOpen(true);
+    }
+  }, [accountId, accountQuery.data, currentUser?.sub, editOpen]);
+
+  useEffect(() => {
+    if (!currentUser?.sub || !accountId || contactOpen) return;
+
+    const prefix = `account-contact:${accountId}:`;
+    const formKey = listFormSnapshotKeysForUser(currentUser.sub, prefix)[0];
+    if (!formKey) return;
+
+    const contactId = formKey.slice(prefix.length);
+    setContactErrors({});
+    setContactServerError('');
+    setActiveTab('Contacts');
+
+    if (contactId === 'new') {
+      setEditingContact(null);
+      setContactOpen(true);
+      return;
+    }
+
+    const contact = contactsQuery.data?.data.find((item) => item.id === contactId);
+    if (contact) {
+      setEditingContact(contact);
+      setContactOpen(true);
+    }
+  }, [accountId, currentUser?.sub, contactOpen, contactsQuery.data]);
 
   if (accountQuery.isLoading) {
     return (

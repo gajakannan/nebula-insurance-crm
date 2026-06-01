@@ -1,0 +1,12 @@
+PR2 VALIDATOR PASS 2026-05-26T22:01:00-04:00
+- PASS: python3 agents/product-manager/scripts/validate-stories.py /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/planning-mds/features/F0036-dynamic-product-attribute-form-engine -> planning-mds/operations/evidence/runs/2026-05-26-378ac7da/artifacts/validate-stories.txt
+- PASS: python3 agents/product-manager/scripts/validate-trackers.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm -> planning-mds/operations/evidence/runs/2026-05-26-378ac7da/artifacts/validate-trackers.txt
+- FAIL: python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py -> planning-mds/operations/evidence/runs/2026-05-26-378ac7da/artifacts/kg-validate.txt
+- FAIL: python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py --check-drift -> planning-mds/operations/evidence/runs/2026-05-26-378ac7da/artifacts/kg-validate-drift.txt
+- FAIL: python3 agents/scripts/validate_templates.py -> planning-mds/operations/evidence/runs/2026-05-26-378ac7da/artifacts/validate-templates.txt
+PR1 PARALLEL READINESS REVIEW 2026-05-26T22:12:00-04:00
+- PASS WITH FINDINGS: Product, architecture, and buildability readiness reviews completed in plan-review-report.md.
+PR3 SELF-REVIEW GATE 2026-05-26T22:12:00-04:00
+- PASS: Findings cite concrete artifacts, severities were checked, validator failures are recorded, and no hidden fixes were made.
+PR4 READINESS GATE 2026-05-26T22:12:00-04:00
+- CONDITIONALLY READY: No critical findings; high findings remain.

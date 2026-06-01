@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import { TextInput } from '@/components/ui/TextInput';
 import { Select } from '@/components/ui/Select';
@@ -41,6 +41,7 @@ interface FormState {
   description: string;
   priority: TaskPriority;
   dueDate: string;
+  assigneeUser: UserSummaryDto | null;
   linkedEntityType: string;
   linkedEntityId: string;
 }
@@ -50,6 +51,7 @@ const EMPTY_FORM: FormState = {
   description: '',
   priority: 'Normal',
   dueDate: '',
+  assigneeUser: null,
   linkedEntityType: '',
   linkedEntityId: '',
 };
@@ -57,14 +59,13 @@ const EMPTY_FORM: FormState = {
 export function TaskCreateModal({ open, onClose }: TaskCreateModalProps) {
   const currentUser = useCurrentUser();
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
-  const [assigneeUser, setAssigneeUser] = useState<UserSummaryDto | null>(null);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState | 'assignee', string>>>({});
 
   const { mutate: createTask, isPending } = useCreateTask();
 
   // F0036-S0007: F0035 registration via the controlled-form dirty-tracker.
-  // EMPTY_FORM is a stable module constant -> the baseline for create.
-  const tracker = useControlledDirtyTracker(form, EMPTY_FORM);
+  const initialValuesRef = useRef<FormState>(EMPTY_FORM);
+  const tracker = useControlledDirtyTracker(form, initialValuesRef.current);
   useRegisteredForm({
     registration: {
       formKey: 'task:new',
@@ -72,7 +73,11 @@ export function TaskCreateModal({ open, onClose }: TaskCreateModalProps) {
       ...tracker,
     },
     userId: currentUser?.sub ?? null,
-    onRestore: (record) => setForm(record.form_values),
+    enabled: open,
+    onRestore: (record) => {
+      initialValuesRef.current = record.form_values;
+      setForm(record.form_values);
+    },
   });
 
   const canAssignToOthers = currentUser ? isManager(currentUser.roles) : false;
@@ -84,9 +89,9 @@ export function TaskCreateModal({ open, onClose }: TaskCreateModalProps) {
   function validate(): boolean {
     const next: typeof errors = {};
     if (!form.title.trim()) next.title = 'Title is required.';
-    if (!assigneeUser && !canAssignToOthers) {
+    if (!form.assigneeUser && !canAssignToOthers) {
       // Will be self-assigned; no error
-    } else if (!assigneeUser && canAssignToOthers) {
+    } else if (!form.assigneeUser && canAssignToOthers) {
       next.assignee = 'Please select an assignee.';
     }
     setErrors(next);
@@ -97,7 +102,7 @@ export function TaskCreateModal({ open, onClose }: TaskCreateModalProps) {
     e.preventDefault();
     if (!validate()) return;
 
-    const assignedToUserId = assigneeUser?.userId ?? (currentUser?.sub ?? '');
+    const assignedToUserId = form.assigneeUser?.userId ?? (currentUser?.sub ?? '');
 
     createTask(
       {
@@ -111,8 +116,8 @@ export function TaskCreateModal({ open, onClose }: TaskCreateModalProps) {
       },
       {
         onSuccess: () => {
+          initialValuesRef.current = EMPTY_FORM;
           setForm(EMPTY_FORM);
-          setAssigneeUser(null);
           setErrors({});
           onClose();
         },
@@ -121,8 +126,8 @@ export function TaskCreateModal({ open, onClose }: TaskCreateModalProps) {
   }
 
   function handleClose() {
+    initialValuesRef.current = EMPTY_FORM;
     setForm(EMPTY_FORM);
-    setAssigneeUser(null);
     setErrors({});
     onClose();
   }
@@ -185,8 +190,8 @@ export function TaskCreateModal({ open, onClose }: TaskCreateModalProps) {
         {canAssignToOthers ? (
           <AssigneePicker
             label="Assign To"
-            selectedUser={assigneeUser}
-            onSelect={setAssigneeUser}
+            selectedUser={form.assigneeUser}
+            onSelect={(nextAssignee) => patch({ assigneeUser: nextAssignee })}
             required
             error={errors.assignee}
           />

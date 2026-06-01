@@ -61,6 +61,7 @@ export function ContactFormModal({ brokerId, contact, open, onClose }: ContactFo
       ...tracker,
     },
     userId: user?.sub ?? null,
+    enabled: open,
     onRestore: (record) => {
       setForm(record.form_values);
       initialValuesRef.current = record.form_values;

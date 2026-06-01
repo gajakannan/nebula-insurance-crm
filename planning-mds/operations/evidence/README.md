@@ -11,7 +11,7 @@ Effective `2026-05-19` (the Feature Evidence Package Standardization contract �
 Path:
 
 ```text
-planning-mds/operations/evidence/{run-id}/
+planning-mds/operations/evidence/runs/{run-id}/
   README.md
   action-context.md
   artifact-trace.md
@@ -26,31 +26,32 @@ Used by `agents/actions/validate.md` and other operator-initiated runs. The vali
 - `architect-validation-report.md`
 - `implementation-validation-report.md`
 
-These live alongside the base files in the manual-run folder. They do **not** require an `evidence-manifest.json`.
+These live alongside the base files in the run folder. They do **not** require an `evidence-manifest.json`.
 
 ### Feature completion (§9, §10) — `feature.md` / `build.md` closeout
 
 Path:
 
 ```text
-planning-mds/operations/evidence/F####-{slug}/
+planning-mds/operations/evidence/features/F####-{slug}/
   latest-run.json                       # only after PM closeout + supersession patch
-  {run-id}/
-    <§8 base files>
-    evidence-manifest.json              # §11 schema v1
-    feature-action-execution.md
-    g0-assembly-plan-validation.md
-    g1-runtime-preflight.md             # when runtime_bearing = true
-    g2-self-review.md
-    test-plan.md
-    test-execution-report.md
-    coverage-report.md
-    deployability-check.md
-    code-review-report.md
-    security-review-report.md           # when security_sensitive_scope or required
-    signoff-ledger.md
-    pm-closeout.md
-    artifacts/{coverage,diffs,test-results,security,screenshots}/
+
+planning-mds/operations/evidence/runs/{run-id}/
+  <§8 base files>
+  evidence-manifest.json                # §11 schema v1
+  feature-action-execution.md
+  g0-assembly-plan-validation.md
+  g1-runtime-preflight.md               # when runtime_bearing = true
+  g2-self-review.md
+  test-plan.md
+  test-execution-report.md
+  coverage-report.md
+  deployability-check.md
+  code-review-report.md
+  security-review-report.md             # when security_sensitive_scope or required
+  signoff-ledger.md
+  pm-closeout.md
+  artifacts/{coverage,diffs,test-results,security,screenshots}/
 ```
 
 Run ID format: `YYYY-MM-DD-XXXXXXXX` (`secrets.token_hex(4)` style 8-char suffix). Templates for each artifact live under `nebula-agents/agents/templates/`.
@@ -91,7 +92,7 @@ python3 agents/product-manager/scripts/validate-trackers.py --product-root /path
 python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /path/to/nebula-insurance-crm --json
 ```
 
-The first invocation also calls feature-evidence at `--stage G4.6` per §22 integration. Closeout (`--stage closeout`) is run by the closeout action after tracker results are appended to `lifecycle-gates.log`.
+The first invocation also calls feature-evidence during tracker integration per §22. Closeout (`--stage closeout`) is run by the closeout action after tracker results are appended to `lifecycle-gates.log`.
 
 ## Phase 4 Baseline Acceptance (§27)
 
@@ -109,4 +110,4 @@ This table is the Phase 4 acceptance oracle. Update it before re-running validat
 
 ## Legacy Evidence Folders
 
-The directories `f0004/`, `f0006/`, `f0007/`, `f0013/`, `f0015/`, `f0018/`, `F0020/`, `F0034/` predate the contract. They are not validated against §10. Their evidence remains accessible for audit but does not need to be migrated (§4 non-goal).
+The directories `f0004/`, `f0006/`, `f0007/`, `f0013/`, `f0015/`, `f0018/`, `F0020/`, `F0034/`, and `plan-2026-02-08-preview-walkthrough/` predate the run-id consolidation contract. They are not validated against §10. Their evidence remains accessible for audit, and new validators ignore these root-level legacy folders instead of applying compatibility path rules.

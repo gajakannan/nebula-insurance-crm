@@ -1,6 +1,7 @@
 import { startTransition, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useControlledDirtyTracker, useRegisteredForm } from '@/features/forms';
+import { listFormSnapshotKeysForUser } from '@/features/session-continuity';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { ErrorFallback } from '@/components/ui/ErrorFallback';
@@ -29,6 +30,7 @@ import { AssigneePicker, type UserSummaryDto } from '@/features/tasks';
 interface RenewalCreateForm {
   policyId: string;
   lineOfBusiness: string;
+  assignedToUserId: string;
 }
 
 const DUE_WINDOW_OPTIONS = [
@@ -62,13 +64,13 @@ export default function RenewalsPage() {
   const [selectedUser, setSelectedUser] = useState<UserSummaryDto | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
   const [createAssignee, setCreateAssignee] = useState<UserSummaryDto | null>(null);
-  const [createForm, setCreateForm] = useState<RenewalCreateForm>({ policyId: '', lineOfBusiness: '' });
+  const [createForm, setCreateForm] = useState<RenewalCreateForm>({ policyId: '', lineOfBusiness: '', assignedToUserId: '' });
   const [createErrors, setCreateErrors] = useState<Record<string, string>>({});
   const [createServerError, setCreateServerError] = useState('');
 
   // F0036-S0007: register the renewal-create form with F0035 via the
   // controlled-form dirty-tracker.
-  const renewalCreateInitialRef = useRef<RenewalCreateForm>({ policyId: '', lineOfBusiness: '' });
+  const renewalCreateInitialRef = useRef<RenewalCreateForm>({ policyId: '', lineOfBusiness: '', assignedToUserId: '' });
   const renewalCreateTracker = useControlledDirtyTracker(createForm, renewalCreateInitialRef.current);
   useRegisteredForm({
     registration: {
@@ -77,8 +79,28 @@ export default function RenewalsPage() {
       ...renewalCreateTracker,
     },
     userId: currentUser?.sub ?? null,
-    onRestore: (record) => setCreateForm(record.form_values),
+    enabled: createOpen,
+    onRestore: (record) => {
+      renewalCreateInitialRef.current = record.form_values;
+      setCreateForm(record.form_values);
+      setCreateAssignee(record.form_values.assignedToUserId
+        ? {
+            userId: record.form_values.assignedToUserId,
+            displayName: 'Restored assignee',
+            email: '',
+            roles: [],
+            isActive: true,
+          }
+        : null);
+    },
   });
+
+  useEffect(() => {
+    if (!currentUser?.sub || createOpen) return;
+    if (listFormSnapshotKeysForUser(currentUser.sub, 'renewal:new').includes('renewal:new')) {
+      setCreateOpen(true);
+    }
+  }, [currentUser?.sub, createOpen]);
 
   const dueWindow = searchParams.get('dueWindow') ?? '';
   const status = searchParams.get('status') ?? '';
@@ -144,7 +166,9 @@ export default function RenewalsPage() {
   }
 
   function openCreateModal() {
-    setCreateForm({ policyId: '', lineOfBusiness: '' });
+    const nextForm = { policyId: '', lineOfBusiness: '', assignedToUserId: '' };
+    renewalCreateInitialRef.current = nextForm;
+    setCreateForm(nextForm);
     setCreateAssignee(null);
     setCreateErrors({});
     setCreateServerError('');
@@ -166,7 +190,7 @@ export default function RenewalsPage() {
       const dto: RenewalCreateDto = {
         policyId: createForm.policyId.trim(),
         lineOfBusiness: createForm.lineOfBusiness || null,
-        assignedToUserId: canChooseAssigneeAtCreate ? createAssignee?.userId ?? null : null,
+        assignedToUserId: canChooseAssigneeAtCreate ? createForm.assignedToUserId || null : null,
       };
 
       const renewal = await createRenewal.mutateAsync(dto);
@@ -479,7 +503,13 @@ export default function RenewalsPage() {
             <AssigneePicker
               label="Initial assignee"
               selectedUser={createAssignee}
-              onSelect={setCreateAssignee}
+              onSelect={(nextAssignee) => {
+                setCreateAssignee(nextAssignee);
+                setCreateForm((current) => ({
+                  ...current,
+                  assignedToUserId: nextAssignee?.userId ?? '',
+                }));
+              }}
               allowedRoles={getAllowedAssignmentRoles('Identified')}
             />
           )}

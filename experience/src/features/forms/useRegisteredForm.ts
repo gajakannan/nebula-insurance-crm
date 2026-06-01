@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import {
   DirtyFormRegistryContext,
   consumeFormSnapshot,
@@ -30,8 +30,10 @@ export function useRegisteredForm<TValues>(opts: {
   registration: DirtyFormRegistration<TValues>
   userId: string | null | undefined
   onRestore: (record: FormSnapshotRecord<TValues>) => void
+  restoreFormKeys?: string[]
+  enabled?: boolean
 }): UseRegisteredFormResult {
-  const { registration, userId, onRestore } = opts
+  const { registration, userId, onRestore, restoreFormKeys, enabled = true } = opts
   const registry = useContext(DirtyFormRegistryContext)
 
   // Keep a live ref to the latest registration and register a STABLE wrapper
@@ -52,29 +54,42 @@ export function useRegisteredForm<TValues>(opts: {
 
   // Register with F0035 when a provider is present (snapshot-on-forced-re-auth).
   useEffect(() => {
-    if (!registry || !stableRef.current) return undefined
+    if (!enabled || !registry || !stableRef.current) return undefined
     stableRef.current.formKey = registration.formKey
     stableRef.current.route = registration.route
     return registry.register(stableRef.current)
-  }, [registry, registration.formKey, registration.route])
+  }, [enabled, registry, registration.formKey, registration.route])
 
-  const consumedRef = useRef(false)
+  const consumedKeysRef = useRef(new Set<string>())
   const [restored, setRestored] = useState(false)
   const onRestoreRef = useRef(onRestore)
   onRestoreRef.current = onRestore
+  const restoreKeys = useMemo(
+    () => restoreFormKeys ?? [registration.formKey],
+    [registration.formKey, restoreFormKeys],
+  )
 
-  // Rehydrate exactly once on mount (per (userId, form_key)).
+  // Rehydrate at most once per (userId, form_key). Modal parents may open a
+  // restored form after the first render, so form-key changes get their own try.
   useEffect(() => {
-    if (consumedRef.current || !userId) {
+    if (!enabled || !userId) {
       return
     }
-    consumedRef.current = true
-    const record = consumeFormSnapshot<TValues>(userId, registration.formKey)
-    if (record) {
-      onRestoreRef.current(record)
-      setRestored(true)
+
+    for (const formKey of restoreKeys) {
+      if (consumedKeysRef.current.has(formKey)) {
+        continue
+      }
+
+      consumedKeysRef.current.add(formKey)
+      const record = consumeFormSnapshot<TValues>(userId, formKey)
+      if (record) {
+        onRestoreRef.current(record)
+        setRestored(true)
+        break
+      }
     }
-  }, [userId, registration.formKey])
+  }, [enabled, userId, restoreKeys])
 
   return { restored }
 }

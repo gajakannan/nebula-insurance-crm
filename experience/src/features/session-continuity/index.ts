@@ -20,6 +20,7 @@ export type {
 } from './dirtyFormRegistryContext'
 export {
   consumeFormSnapshot,
+  listFormSnapshotKeysForUser,
   sanitizeReturnTo,
   snapshotDirtyForm,
 } from './sessionRestore'
