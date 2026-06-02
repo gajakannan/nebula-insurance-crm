@@ -61,7 +61,7 @@ public class SessionTelemetryEndpointTests(CustomWebApplicationFactory factory)
     public async Task PostSessionContinuityTelemetry_UserMismatch_Returns403WithoutAuthenticateHeader()
     {
         await ArrangeCurrentUserAsync();
-        var otherUser = Guid.NewGuid();
+        var otherUser = "session-telemetry-other-001";
 
         var response = await _client.PostAsJsonAsync(
             "/internal/telemetry/session-continuity",
@@ -78,7 +78,7 @@ public class SessionTelemetryEndpointTests(CustomWebApplicationFactory factory)
     public async Task PostSessionContinuityTelemetry_UserMismatchWithSchemaErrors_Returns400ValidationProblem()
     {
         var currentUser = await ArrangeCurrentUserAsync();
-        var otherUser = Guid.NewGuid();
+        var otherUser = "session-telemetry-other-001";
         var body = new Dictionary<string, object?>
         {
             ["events"] = new[]
@@ -130,7 +130,7 @@ public class SessionTelemetryEndpointTests(CustomWebApplicationFactory factory)
 
         var response = await _client.PostAsJsonAsync(
             "/internal/telemetry/session-continuity",
-            RequestBody(Guid.NewGuid()));
+            RequestBody("session-telemetry-any-001"));
 
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
         response.Headers.WwwAuthenticate.ShouldContain(header => header.Scheme == "Bearer");
@@ -139,7 +139,7 @@ public class SessionTelemetryEndpointTests(CustomWebApplicationFactory factory)
         problem.GetProperty("code").GetString().ShouldBe("invalid_token");
     }
 
-    private async Task<Guid> ArrangeCurrentUserAsync()
+    private async Task<string> ArrangeCurrentUserAsync()
     {
         var subject = $"session-telemetry-{Guid.NewGuid():N}";
         var userId = Guid.NewGuid();
@@ -163,11 +163,13 @@ public class SessionTelemetryEndpointTests(CustomWebApplicationFactory factory)
             UpdatedAt = now,
         });
         await db.SaveChangesAsync();
-        return userId;
+        // Telemetry identity is the OIDC subject (what the SPA sends as user_id),
+        // not the internal UserProfile.Id.
+        return subject;
     }
 
     private static Dictionary<string, object?> RequestBody(
-        Guid userId,
+        string userId,
         Dictionary<string, object?>? payload = null,
         string eventName = "forced-redirect") =>
         new()

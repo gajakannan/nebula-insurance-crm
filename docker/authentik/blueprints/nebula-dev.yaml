@@ -104,6 +104,13 @@ entries:
         - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-openid]]
         - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-email]]
         - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-profile]]
+        # offline_access is required for authentik to issue a refresh token. The SPA
+        # requests it (oidcUserManager scope) and relies on refresh-token silent
+        # renewal (a fetch to the token endpoint, allowed by CSP connect-src) so it
+        # never needs the cross-origin iframe that CSP frame-src intentionally blocks.
+        # Without this mapping no refresh token is issued, signinSilent() falls back
+        # to the blocked iframe, and the user is bounced to /login on every token expiry.
+        - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-offline_access]]
         - !KeyOf nebula-roles-mapping
         - !KeyOf nebula-broker-tenant-id-mapping
       sub_mode: user_username

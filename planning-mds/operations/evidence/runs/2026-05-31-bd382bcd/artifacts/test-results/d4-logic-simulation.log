@@ -1,0 +1,10 @@
+PASS  transient-then-success resolves with token
+PASS  transient-then-success retries exactly once (2 calls)
+PASS  terminal revoked rejects with refresh_revoked
+PASS  terminal revoked does NOT retry (1 call)
+PASS  exhausted retry rejects with idp_unreachable
+PASS  exhausted retry stops after the single retry (2 calls)
+PASS  terminal invalid_grant maps to refresh_expired
+PASS  terminal invalid_grant does NOT retry (1 call)
+
+TOTAL_FAILURES=0

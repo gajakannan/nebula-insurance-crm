@@ -1,0 +1,44 @@
+# Lifecycle Gates Log — Defect Run 2026-05-31-bd382bcd
+
+> Run audit log of validator/test invocations. NOT feature-stage validation.
+> Defect-run gates D0–D5 (base run contract).
+
+### D0
+Command: (no validator) scope lock recorded in action-context.md + gate-decisions.md
+Stage: D0
+Exit Code: 0
+Result: PASS
+Output References: action-context.md
+Skipped Gates: -
+
+### D1
+Command: static root-cause trace (api.ts / ProtectedRoute.tsx / sessionRenewal.ts / useAuthEventHandler.ts / LoginPage.tsx)
+Stage: D1
+Exit Code: 0
+Result: PASS
+Output References: architect-analysis.md (§1–§2)
+Skipped Gates: dynamic/live reproduction — IdP+backend+intermittent timing not available (documented)
+
+### D4 — transpile check
+Command: node ts.transpileModule on sessionRenewal.ts + sessionRenewal.test.ts (store typescript@5.7.3)
+Stage: D4
+Exit Code: 0
+Result: PASS (0 syntax errors)
+Output References: artifacts/test-results/d4-transpile-check.log
+Skipped Gates: -
+
+### D4 — control-flow logic simulation
+Command: node artifacts/test-results/d4-logic-simulation.mjs
+Stage: D4
+Exit Code: 0
+Result: PASS (8/8 assertions)
+Output References: artifacts/test-results/d4-logic-simulation.log
+Skipped Gates: -
+
+### D4 — runtime test/lint/build
+Command: pnpm exec vitest run sessionRenewal.test.ts; pnpm lint; pnpm build
+Stage: D4
+Exit Code: 1 (could not start)
+Result: BLOCKED — escalated to CI / Linux-native install
+Output References: artifacts/test-results/d4-env-blocker.md, d1-baseline-sessionRenewal.log
+Skipped Gates: runtime execution blocked by pnpm/WSL node_modules linking on /mnt/c (ERR_PNPM_EACCES); one repair cycle attempted and failed for env reasons unrelated to the fix

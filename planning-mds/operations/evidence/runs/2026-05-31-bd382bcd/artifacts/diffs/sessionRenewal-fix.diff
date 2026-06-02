@@ -1,0 +1,190 @@
+diff --git a/experience/src/features/session-continuity/sessionRenewal.ts b/experience/src/features/session-continuity/sessionRenewal.ts
+index 4b75bf3..ef26883 100644
+--- a/experience/src/features/session-continuity/sessionRenewal.ts
++++ b/experience/src/features/session-continuity/sessionRenewal.ts
+@@ -32,6 +32,18 @@ export class RenewalError extends Error {
+ 
+ const RENEWAL_LOOP_WINDOW_MS = 5_000
+ 
++// A silent renewal can fail for a purely transient reason: a momentary network
++// blip, a slow IdP that exceeds the silent-request timeout, or a brief 5xx at
++// the token endpoint. Because `automaticSilentRenew` is disabled, these
++// renewals run on the live request/navigation path, so a single transient
++// failure would otherwise eject an actively-working user to the login screen.
++// Retry the silent sign-in once, after a short backoff, for transient
++// (idp_unreachable) failures only. Terminal causes (refresh revoked/expired,
++// loop detected) still fail fast so a genuinely dead session forces reauth
++// without added latency.
++export const RENEWAL_TRANSIENT_RETRY_DELAY_MS = 400
++export const MAX_TRANSIENT_RENEWAL_RETRIES = 1
++
+ let inFlightRenewal: Promise<RenewalResult> | null = null
+ let inFlightRequestCount = 0
+ let lastSuccessfulRenewalAt = 0
+@@ -54,42 +66,68 @@ export function renewSessionForExpiredToken(options: RenewalOptions = {}): Promi
+ 
+   const startedAt = performance.now()
+   inFlightRequestCount = 1
+-  inFlightRenewal = oidcUserManager
+-    .signinSilent({ silentRequestTimeoutInSeconds: 10 })
+-    .then((user) => {
+-      if (!user?.access_token) {
+-        throw new RenewalError(
+-          'refresh_expired',
+-          'Silent renewal did not return an access token.',
+-        )
+-      }
++  inFlightRenewal = renewWithTransientRetry(startedAt).finally(() => {
++    inFlightRenewal = null
++    inFlightRequestCount = 0
++  })
+ 
+-      const result: RenewalResult = {
+-        accessToken: user.access_token,
+-        coalescedRequestCount: inFlightRequestCount,
+-        renewalDurationMs: Math.max(0, Math.round(performance.now() - startedAt)),
+-      }
++  return inFlightRenewal
++}
+ 
+-      lastSuccessfulRenewalAt = Date.now()
+-      const event = buildSessionContinuityEvent(user, 'silent-renewal-success', {
+-        coalesced_request_count: result.coalescedRequestCount,
+-        renewal_duration_ms: result.renewalDurationMs,
+-      })
+-      if (event) {
+-        emitSessionContinuityEvent(event)
++async function renewWithTransientRetry(startedAt: number): Promise<RenewalResult> {
++  for (let attempt = 0; ; attempt += 1) {
++    try {
++      return await performSilentRenewal(startedAt)
++    } catch (error: unknown) {
++      const renewalError = mapRenewalError(error)
++      // Only genuinely transient failures are retried, and only up to the
++      // bounded budget. Everything else surfaces immediately.
++      if (
++        renewalError.cause !== 'idp_unreachable' ||
++        attempt >= MAX_TRANSIENT_RENEWAL_RETRIES
++      ) {
++        throw renewalError
+       }
+ 
+-      return result
+-    })
+-    .catch((error: unknown) => {
+-      throw mapRenewalError(error)
+-    })
+-    .finally(() => {
+-      inFlightRenewal = null
+-      inFlightRequestCount = 0
+-    })
++      await delay(RENEWAL_TRANSIENT_RETRY_DELAY_MS)
++    }
++  }
++}
+ 
+-  return inFlightRenewal
++async function performSilentRenewal(startedAt: number): Promise<RenewalResult> {
++  const user = await oidcUserManager.signinSilent({
++    silentRequestTimeoutInSeconds: 10,
++  })
++
++  if (!user?.access_token) {
++    throw new RenewalError(
++      'refresh_expired',
++      'Silent renewal did not return an access token.',
++    )
++  }
++
++  const result: RenewalResult = {
++    accessToken: user.access_token,
++    coalescedRequestCount: inFlightRequestCount,
++    renewalDurationMs: Math.max(0, Math.round(performance.now() - startedAt)),
++  }
++
++  lastSuccessfulRenewalAt = Date.now()
++  const event = buildSessionContinuityEvent(user, 'silent-renewal-success', {
++    coalesced_request_count: result.coalescedRequestCount,
++    renewal_duration_ms: result.renewalDurationMs,
++  })
++  if (event) {
++    emitSessionContinuityEvent(event)
++  }
++
++  return result
++}
++
++function delay(ms: number): Promise<void> {
++  return new Promise((resolve) => {
++    setTimeout(resolve, ms)
++  })
+ }
+ 
+ export function resetRenewalStateForTests(): void {
+diff --git a/experience/src/features/session-continuity/tests/sessionRenewal.test.ts b/experience/src/features/session-continuity/tests/sessionRenewal.test.ts
+index c9ec66c..bc23388 100644
+--- a/experience/src/features/session-continuity/tests/sessionRenewal.test.ts
++++ b/experience/src/features/session-continuity/tests/sessionRenewal.test.ts
+@@ -1,5 +1,6 @@
+-import { beforeEach, describe, expect, it, vi } from 'vitest'
++import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+ import {
++  RENEWAL_TRANSIENT_RETRY_DELAY_MS,
+   RenewalError,
+   renewSessionForExpiredToken,
+   resetRenewalStateForTests,
+@@ -100,4 +101,54 @@ describe('renewSessionForExpiredToken', () => {
+       cause: 'refresh_expired',
+     })
+   })
++
++  // Regression: a single transient (idp_unreachable) silent-renewal failure must
++  // not eject an actively-working user. With automaticSilentRenew disabled,
++  // renewals run on the live request/navigation path, so one network/IdP blip
++  // would otherwise force a redirect to /login (the "random redirect" defect).
++  describe('transient renewal resilience', () => {
++    // A fixed, far-from-zero clock keeps the post-success loop guard inert while
++    // we drive the retry backoff with fake timers.
++    const fakeTimerOptions = { now: 1_700_000_000_000 }
++
++    afterEach(() => {
++      vi.useRealTimers()
++    })
++
++    it('retries a transient idp_unreachable failure once and then succeeds', async () => {
++      vi.useFakeTimers(fakeTimerOptions)
++      mocks.signinSilent
++        .mockRejectedValueOnce(new Error('network request failed'))
++        .mockResolvedValueOnce(renewedUser)
++
++      const renewal = renewSessionForExpiredToken()
++      await vi.advanceTimersByTimeAsync(RENEWAL_TRANSIENT_RETRY_DELAY_MS)
++
++      await expect(renewal).resolves.toMatchObject({ accessToken: 'renewed-token' })
++      expect(mocks.signinSilent).toHaveBeenCalledTimes(2)
++    })
++
++    it('does not retry terminal renewal failures', async () => {
++      mocks.signinSilent.mockRejectedValue(new Error('refresh token revoked'))
++
++      await expect(renewSessionForExpiredToken()).rejects.toMatchObject({
++        cause: 'refresh_revoked',
++      })
++      expect(mocks.signinSilent).toHaveBeenCalledTimes(1)
++    })
++
++    it('surfaces idp_unreachable after the single retry is exhausted', async () => {
++      vi.useFakeTimers(fakeTimerOptions)
++      mocks.signinSilent.mockRejectedValue(new Error('network down'))
++
++      const renewal = renewSessionForExpiredToken()
++      const rejection = expect(renewal).rejects.toMatchObject({
++        cause: 'idp_unreachable',
++      })
++      await vi.advanceTimersByTimeAsync(RENEWAL_TRANSIENT_RETRY_DELAY_MS)
++
++      await rejection
++      expect(mocks.signinSilent).toHaveBeenCalledTimes(2)
++    })
++  })
+ })

@@ -89,7 +89,7 @@ public sealed class SessionContinuityTelemetryService
 
     public Task<SessionTelemetryValidationResult> ValidateAsync(
         SessionContinuityTelemetryRequest request,
-        Guid currentUserId,
+        string currentUserSubject,
         CancellationToken ct)
     {
         _ = ct;
@@ -106,14 +106,14 @@ public sealed class SessionContinuityTelemetryService
             result.Add("events", "No more than 10 telemetry events are accepted per request.");
 
         for (var i = 0; i < events.Count; i++)
-            ValidateEvent(events[i], i, currentUserId, result);
+            ValidateEvent(events[i], i, currentUserSubject, result);
 
         return Task.FromResult(result);
     }
 
     public void WriteAcceptedEvents(
         SessionContinuityTelemetryRequest request,
-        Guid currentUserId,
+        string currentUserSubject,
         string traceId)
     {
         if (request.Events is null)
@@ -126,7 +126,7 @@ public sealed class SessionContinuityTelemetryService
                 item.EventName,
                 item.EventVersion,
                 item.Timestamp,
-                currentUserId,
+                currentUserSubject,
                 item.SessionId,
                 traceId,
                 item.Payload is null ? null : PayloadForLog(item.Payload));
@@ -136,7 +136,7 @@ public sealed class SessionContinuityTelemetryService
     private static void ValidateEvent(
         SessionContinuityEventDto item,
         int index,
-        Guid currentUserId,
+        string currentUserSubject,
         SessionTelemetryValidationResult result)
     {
         var prefix = $"events[{index}]";
@@ -149,9 +149,9 @@ public sealed class SessionContinuityTelemetryService
         if (item.EventVersion < 1)
             result.Add($"{prefix}.event_version", "Event version must be at least 1.");
 
-        if (item.UserId == Guid.Empty)
+        if (string.IsNullOrWhiteSpace(item.UserId))
             result.Add($"{prefix}.user_id", "User ID is required.");
-        else if (item.UserId != currentUserId)
+        else if (!string.Equals(item.UserId, currentUserSubject, StringComparison.Ordinal))
         {
             result.IsForbidden = true;
             result.Add(

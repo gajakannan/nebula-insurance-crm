@@ -1,0 +1,18 @@
+# Agent retrieval guard. Gitignore-style patterns for AI agents.
+# This is not .gitignore; it does not change source control behavior.
+
+# Treat operations evidence as cold archive by default.
+/planning-mds/operations/**
+
+# Re-allow only small index entry points.
+!/planning-mds/operations/
+!/planning-mds/operations/evidence/
+!/planning-mds/operations/evidence/README.md
+!/planning-mds/operations/evidence/features/
+!/planning-mds/operations/evidence/features/**/
+!/planning-mds/operations/evidence/features/**/latest-run.json
+!/planning-mds/operations/evidence/frontend-quality/
+!/planning-mds/operations/evidence/frontend-quality/README.md
+!/planning-mds/operations/evidence/frontend-quality/latest-run.json
+!/planning-mds/operations/evidence/frontend-ux/
+!/planning-mds/operations/evidence/frontend-ux/README.md

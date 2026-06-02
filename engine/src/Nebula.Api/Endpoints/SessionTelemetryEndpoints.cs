@@ -1,7 +1,7 @@
+using System.Security.Claims;
 using Nebula.Api.Helpers;
 using Nebula.Api.Models;
 using Nebula.Api.Services;
-using Nebula.Application.Common;
 
 namespace Nebula.Api.Endpoints;
 
@@ -21,12 +21,20 @@ public static class SessionTelemetryEndpoints
 
     internal static async Task<IResult> IngestAsync(
         SessionContinuityTelemetryRequest request,
-        ICurrentUserService currentUser,
         SessionContinuityTelemetryService telemetry,
         HttpContext httpContext,
         CancellationToken ct)
     {
-        var validation = await telemetry.ValidateAsync(request, currentUser.UserId, ct);
+        // Telemetry identity is the OIDC subject (`sub`) — the same value the SPA puts in
+        // `user_id`. Previously this was compared against the internal UserProfile.Id Guid
+        // (which the browser never has) and the DTO typed `user_id` as a Guid, so every
+        // ingest failed: a username sub could not bind to a Guid and all telemetry was
+        // dropped with a 500.
+        var subject = httpContext.User.FindFirstValue("sub")
+            ?? httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)
+            ?? string.Empty;
+
+        var validation = await telemetry.ValidateAsync(request, subject, ct);
         if (!validation.IsValid)
         {
             return validation.IsForbidden && !validation.HasNonForbiddenErrors
@@ -34,7 +42,7 @@ public static class SessionTelemetryEndpoints
                 : ProblemDetailsHelper.TelemetryValidationError(validation.Errors);
         }
 
-        telemetry.WriteAcceptedEvents(request, currentUser.UserId, TraceId(httpContext));
+        telemetry.WriteAcceptedEvents(request, subject, TraceId(httpContext));
         return Results.Accepted();
     }
 

@@ -10,7 +10,7 @@ public sealed record SessionContinuityEventDto(
     [property: JsonPropertyName("event_name")] string? EventName,
     [property: JsonPropertyName("event_version")] int EventVersion,
     [property: JsonPropertyName("timestamp")] DateTimeOffset Timestamp,
-    [property: JsonPropertyName("user_id")] Guid UserId,
+    [property: JsonPropertyName("user_id")] string? UserId,
     [property: JsonPropertyName("session_id")] string? SessionId,
     [property: JsonPropertyName("payload")] Dictionary<string, JsonElement>? Payload);
 
