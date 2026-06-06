@@ -17,10 +17,16 @@ public class Submission : BaseEntity
     public string AccountDisplayNameAtLink { get; set; } = default!;
     public string AccountStatusAtRead { get; set; } = default!;
     public Guid? AccountSurvivorId { get; set; }
+    public bool IsArchived { get; set; }
+    public DateTime? ArchivedAt { get; set; }
+    public Guid? ArchivedByUserId { get; set; }
 
     public Account Account { get; set; } = default!;
     public Broker Broker { get; set; } = default!;
     public Program? Program { get; set; }
     public LobProductVersion LobProductVersion { get; set; } = default!;
     public UserProfile AssignedToUser { get; set; } = default!;
+    public ICollection<SubmissionQuotePacket> QuotePackets { get; set; } = new List<SubmissionQuotePacket>();
+    public ICollection<SubmissionApprovalDecision> ApprovalDecisions { get; set; } = new List<SubmissionApprovalDecision>();
+    public ICollection<SubmissionBindHandoff> BindHandoffs { get; set; } = new List<SubmissionBindHandoff>();
 }

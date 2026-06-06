@@ -181,6 +181,113 @@ public class WorkflowServiceTests
     }
 
     [Fact]
+    public async Task SubmissionService_UpdateQuotePacketAsync_MarkReady_TransitionsToQuotedAndAuditsPacket()
+    {
+        var repo = new StubSubmissionRepository();
+        var now = DateTime.UtcNow;
+        var underwriter = new StubCurrentUserService(_user.UserId, roles: ["Underwriter"]);
+        var assignee = NewUserProfile(_user.UserId, "Underwriter");
+        repo.Seed(new Submission
+        {
+            Account = NewAccount(now),
+            Broker = NewBroker(now),
+            AssignedToUser = assignee,
+            AccountId = Guid.NewGuid(),
+            BrokerId = Guid.NewGuid(),
+            LineOfBusiness = "Cyber",
+            CurrentStatus = "InReview",
+            EffectiveDate = now.Date,
+            PremiumEstimate = 50000m,
+            AssignedToUserId = underwriter.UserId,
+            CreatedAt = now.AddDays(-1),
+            CreatedByUserId = underwriter.UserId,
+            UpdatedAt = now.AddDays(-1),
+            UpdatedByUserId = underwriter.UserId,
+        });
+
+        var service = CreateSubmissionService(repo, assignee);
+        var seeded = repo.Single();
+
+        var (result, error, missingItems) = await service.UpdateQuotePacketAsync(
+            seeded.Id,
+            new SubmissionQuotePacketUpdateDto(
+                [Guid.NewGuid()],
+                125000m,
+                "$1M/$2M",
+                "$25K",
+                now.Date.AddDays(30),
+                "Admitted Market",
+                MarkReady: true),
+            seeded.RowVersion,
+            underwriter);
+
+        error.ShouldBeNull();
+        missingItems.ShouldBeNull();
+        result.ShouldNotBeNull();
+        result!.CurrentStatus.ShouldBe("Quoted");
+        result.QuotePacket.ReadinessState.ShouldBe("ReadyForApproval");
+        result.ApprovalStatus.ShouldBe("Pending");
+        seeded.CurrentStatus.ShouldBe("Quoted");
+        _transitionRepo.Items.ShouldContain(transition => transition.ToState == "Quoted");
+        _timelineRepo.Events.ShouldContain(evt => evt.EventType == "SubmissionPacketUpdated");
+        _timelineRepo.Events.ShouldContain(evt => evt.EventType == "SubmissionTransitioned");
+    }
+
+    [Fact]
+    public async Task SubmissionService_ArchiveAndReactivateAsync_BlankReason_ReturnsMissingReason()
+    {
+        var repo = new StubSubmissionRepository();
+        var now = DateTime.UtcNow;
+        var underwriter = new StubCurrentUserService(_user.UserId, roles: ["Underwriter"]);
+        var assignee = NewUserProfile(_user.UserId, "Underwriter");
+        repo.Seed(new Submission
+        {
+            Account = NewAccount(now),
+            Broker = NewBroker(now),
+            AssignedToUser = assignee,
+            AccountId = Guid.NewGuid(),
+            BrokerId = Guid.NewGuid(),
+            LineOfBusiness = "Cyber",
+            CurrentStatus = "Bound",
+            EffectiveDate = now.Date,
+            PremiumEstimate = 50000m,
+            AssignedToUserId = underwriter.UserId,
+            CreatedAt = now.AddDays(-1),
+            CreatedByUserId = underwriter.UserId,
+            UpdatedAt = now.AddDays(-1),
+            UpdatedByUserId = underwriter.UserId,
+        });
+
+        var service = CreateSubmissionService(repo, assignee);
+        var seeded = repo.Single();
+
+        var (archiveResult, archiveError) = await service.ArchiveAsync(
+            seeded.Id,
+            new SubmissionArchiveRequestDto(" "),
+            seeded.RowVersion,
+            underwriter);
+
+        archiveResult.ShouldBeNull();
+        archiveError.ShouldBe("missing_reason");
+        seeded.IsArchived.ShouldBeFalse();
+
+        seeded.IsArchived = true;
+        seeded.ArchivedAt = now;
+        seeded.ArchivedByUserId = underwriter.UserId;
+
+        var (reactivateResult, reactivateError) = await service.ReactivateAsync(
+            seeded.Id,
+            new SubmissionArchiveRequestDto(" "),
+            seeded.RowVersion,
+            underwriter);
+
+        reactivateResult.ShouldBeNull();
+        reactivateError.ShouldBe("missing_reason");
+        seeded.IsArchived.ShouldBeTrue();
+        _timelineRepo.Events.ShouldBeEmpty();
+    }
+
+    [Fact]
     public async Task SubmissionService_UpdateAsync_ClearOptionalFields_SetsNullAndTracksChanges()
     {
         var repo = new StubSubmissionRepository();
@@ -232,8 +339,9 @@ public class WorkflowServiceTests
 
         var timelineEvent = _timelineRepo.Events.ShouldHaveSingleItem();
         timelineEvent.EventType.ShouldBe("SubmissionUpdated");
-        timelineEvent.EventPayloadJson.ShouldContain("\"programId\"");
-        timelineEvent.EventPayloadJson.ShouldContain("\"description\"");
+        var payloadJson = timelineEvent.EventPayloadJson.ShouldNotBeNull();
+        payloadJson.ShouldContain("\"programId\"");
+        payloadJson.ShouldContain("\"description\"");
     }
 
     [Fact]
@@ -474,6 +582,9 @@ public class WorkflowServiceTests
 
         return new SubmissionService(
             repo,
+            new StubSubmissionQuotePacketRepository(),
+            new StubSubmissionApprovalDecisionRepository(),
+            new StubSubmissionBindHandoffRepository(),
             _transitionRepo,
             _timelineRepo,
             new StubBrokerRepository(),
@@ -610,6 +721,83 @@ internal sealed class StubSubmissionRepository : ISubmissionRepository
         IReadOnlyCollection<Guid> submissionIds,
         CancellationToken ct = default) =>
         Task.FromResult<IReadOnlyDictionary<Guid, bool>>(submissionIds.ToDictionary(id => id, _ => false));
+
+    public Task<IReadOnlyDictionary<Guid, int>> GetAgeDaysInStateAsync(
+        IReadOnlyCollection<Guid> submissionIds,
+        CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyDictionary<Guid, int>>(submissionIds.ToDictionary(id => id, _ => 0));
+}
+
+internal sealed class StubSubmissionQuotePacketRepository : ISubmissionQuotePacketRepository
+{
+    private readonly Dictionary<Guid, SubmissionQuotePacket> _packetsBySubmissionId = new();
+
+    public Task<SubmissionQuotePacket?> GetBySubmissionIdAsync(Guid submissionId, CancellationToken ct = default) =>
+        Task.FromResult(_packetsBySubmissionId.GetValueOrDefault(submissionId));
+
+    public Task AddAsync(SubmissionQuotePacket packet, CancellationToken ct = default)
+    {
+        _packetsBySubmissionId[packet.SubmissionId] = packet;
+        return Task.CompletedTask;
+    }
+
+    public Task UpdateAsync(SubmissionQuotePacket packet, CancellationToken ct = default)
+    {
+        _packetsBySubmissionId[packet.SubmissionId] = packet;
+        return Task.CompletedTask;
+    }
+}
+
+internal sealed class StubSubmissionApprovalDecisionRepository : ISubmissionApprovalDecisionRepository
+{
+    private readonly List<SubmissionApprovalDecision> _decisions = [];
+
+    public Task<IReadOnlyList<SubmissionApprovalDecision>> ListBySubmissionIdAsync(
+        Guid submissionId,
+        CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<SubmissionApprovalDecision>>(_decisions
+            .Where(decision => decision.SubmissionId == submissionId)
+            .OrderByDescending(decision => decision.DecidedAt)
+            .ToList());
+
+    public Task<SubmissionApprovalDecision?> GetLatestGrantedAsync(Guid submissionId, CancellationToken ct = default) =>
+        Task.FromResult(_decisions
+            .Where(decision => decision.SubmissionId == submissionId && decision.Decision == "Granted")
+            .OrderByDescending(decision => decision.DecidedAt)
+            .FirstOrDefault());
+
+    public Task AddAsync(SubmissionApprovalDecision decision, CancellationToken ct = default)
+    {
+        _decisions.Add(decision);
+        return Task.CompletedTask;
+    }
+}
+
+internal sealed class StubSubmissionBindHandoffRepository : ISubmissionBindHandoffRepository
+{
+    private readonly List<SubmissionBindHandoff> _handoffs = [];
+
+    public Task<SubmissionBindHandoff?> GetLatestBySubmissionIdAsync(Guid submissionId, CancellationToken ct = default) =>
+        Task.FromResult(_handoffs
+            .Where(handoff => handoff.SubmissionId == submissionId)
+            .OrderByDescending(handoff => handoff.RequestedAt)
+            .FirstOrDefault());
+
+    public Task<SubmissionBindHandoff?> GetByIdempotencyKeyAsync(
+        Guid submissionId,
+        string idempotencyKey,
+        CancellationToken ct = default) =>
+        Task.FromResult(_handoffs.FirstOrDefault(handoff =>
+            handoff.SubmissionId == submissionId && handoff.IdempotencyKey == idempotencyKey));
+
+    public Task AddAsync(SubmissionBindHandoff handoff, CancellationToken ct = default)
+    {
+        _handoffs.Add(handoff);
+        return Task.CompletedTask;
+    }
+
+    public Task UpdateAsync(SubmissionBindHandoff handoff, CancellationToken ct = default) =>
+        Task.CompletedTask;
 }
 
 internal sealed class StubRenewalRepository : IRenewalRepository

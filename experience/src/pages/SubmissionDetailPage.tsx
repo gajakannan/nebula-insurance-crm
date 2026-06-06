@@ -26,9 +26,15 @@ import {
   normalizeOptionalNumber,
   normalizeOptionalText,
   useAssignSubmission,
+  useArchiveSubmission,
+  useConfirmBindSubmission,
+  useReactivateSubmission,
+  useRequestBindSubmission,
   useSubmission,
+  useSubmissionApproval,
   useTransitionSubmission,
   useUpdateSubmission,
+  useUpdateSubmissionQuotePacket,
 } from '@/features/submissions';
 import type { SubmissionDto, SubmissionStatus } from '@/features/submissions';
 import { ApiError } from '@/services/api';
@@ -408,6 +414,12 @@ export default function SubmissionDetailPage() {
           )}
         </Card>
 
+        <SubmissionDownstreamPanel
+          submission={submission}
+          currentUser={currentUser}
+          onReload={() => submissionQuery.refetch()}
+        />
+
         <Card>
           <CardHeader>
             <CardTitle>Completeness</CardTitle>
@@ -594,6 +606,313 @@ export default function SubmissionDetailPage() {
   );
 }
 
+interface SubmissionDownstreamPanelProps {
+  submission: SubmissionDto;
+  currentUser: CurrentUser | null;
+  onReload: () => Promise<unknown>;
+}
+
+interface QuotePacketForm {
+  linkedDocumentRefs: string;
+  recordedPremiumAmount: string;
+  recordedLimits: string;
+  recordedDeductibles: string;
+  effectiveDate: string;
+  carrierMarket: string;
+}
+
+function SubmissionDownstreamPanel({ submission, currentUser, onReload }: SubmissionDownstreamPanelProps) {
+  const updatePacket = useUpdateSubmissionQuotePacket(submission.id);
+  const approval = useSubmissionApproval(submission.id);
+  const requestBind = useRequestBindSubmission(submission.id);
+  const confirmBind = useConfirmBindSubmission(submission.id);
+  const archiveSubmission = useArchiveSubmission(submission.id);
+  const reactivateSubmission = useReactivateSubmission(submission.id);
+
+  const [packetForm, setPacketForm] = useState<QuotePacketForm>(() => packetToForm(submission));
+  const [approvalReason, setApprovalReason] = useState('');
+  const [archiveReason, setArchiveReason] = useState('');
+  const [serverError, setServerError] = useState('');
+
+  useEffect(() => {
+    setPacketForm(packetToForm(submission));
+  }, [submission.id, submission.quotePacket.rowVersion, submission.quotePacket.readinessState]);
+
+  const canManageDownstream = canManageDownstreamSubmission(currentUser, submission);
+  const canApprove = canManageDownstream
+    && submission.currentStatus === 'Quoted'
+    && submission.quotePacket.readinessState === 'ReadyForApproval';
+  const canRequestBind = canManageDownstream
+    && submission.currentStatus === 'Quoted'
+    && submission.approvalStatus === 'Granted';
+  const canConfirmBind = canManageDownstream && submission.currentStatus === 'BindRequested';
+  const canArchive = canArchiveSubmission(currentUser, submission);
+  const isPacketEditable = canManageDownstream
+    && !submission.isArchived
+    && (submission.currentStatus === 'InReview' || submission.currentStatus === 'Quoted');
+
+  async function savePacket(markReady: boolean) {
+    const premium = normalizeOptionalNumber(packetForm.recordedPremiumAmount);
+    if (packetForm.recordedPremiumAmount && premium == null) {
+      setServerError('Recorded premium must be a valid number.');
+      return;
+    }
+
+    try {
+      await updatePacket.mutateAsync({
+        dto: {
+          linkedDocumentRefs: parseDocumentRefs(packetForm.linkedDocumentRefs),
+          recordedPremiumAmount: premium,
+          recordedLimits: normalizeOptionalText(packetForm.recordedLimits),
+          recordedDeductibles: normalizeOptionalText(packetForm.recordedDeductibles),
+          effectiveDate: packetForm.effectiveDate || null,
+          carrierMarket: normalizeOptionalText(packetForm.carrierMarket),
+          markReady,
+        },
+        rowVersion: submission.rowVersion,
+      });
+      setServerError('');
+      await onReload();
+    } catch (error) {
+      setServerError(describeSubmissionApiError(error));
+    }
+  }
+
+  async function decideApproval(decision: 'Granted' | 'Declined') {
+    if (!approvalReason.trim()) {
+      setServerError('Approval decisions require a reason.');
+      return;
+    }
+
+    try {
+      await approval.mutateAsync({
+        dto: { decision, reason: approvalReason.trim() },
+        rowVersion: submission.rowVersion,
+      });
+      setApprovalReason('');
+      setServerError('');
+      await onReload();
+    } catch (error) {
+      setServerError(describeSubmissionApiError(error));
+    }
+  }
+
+  async function requestBindHandoff() {
+    try {
+      await requestBind.mutateAsync({
+        dto: { idempotencyKey: `submission-bind:${submission.id}:${submission.updatedAt}` },
+        rowVersion: submission.rowVersion,
+      });
+      setServerError('');
+      await onReload();
+    } catch (error) {
+      setServerError(describeSubmissionApiError(error));
+    }
+  }
+
+  async function confirmBindHandoff() {
+    try {
+      await confirmBind.mutateAsync({
+        dto: { idempotencyKey: submission.bindHandoff?.idempotencyKey ?? null },
+        rowVersion: submission.rowVersion,
+      });
+      setServerError('');
+      await onReload();
+    } catch (error) {
+      setServerError(describeSubmissionApiError(error));
+    }
+  }
+
+  async function toggleArchive(archive: boolean) {
+    if (!archiveReason.trim()) {
+      setServerError('Archive and reactivation actions require a reason.');
+      return;
+    }
+
+    try {
+      const mutation = archive ? archiveSubmission : reactivateSubmission;
+      await mutation.mutateAsync({
+        dto: { reason: archiveReason.trim() },
+        rowVersion: submission.rowVersion,
+      });
+      setArchiveReason('');
+      setServerError('');
+      await onReload();
+    } catch (error) {
+      setServerError(describeSubmissionApiError(error));
+    }
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Quote, approval, and bind</CardTitle>
+      </CardHeader>
+
+      <div className="space-y-5">
+        {submission.isArchived && (
+          <div className="rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-secondary">
+            Archived{submission.archivedAt ? ` on ${formatDateTime(submission.archivedAt)}` : ''}. Reactivate to resume edits.
+          </div>
+        )}
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="space-y-3 rounded-lg border border-surface-border bg-surface-card/50 p-4">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-sm font-semibold text-text-primary">Quote/proposal packet</h3>
+              <span className="rounded-full border border-surface-border px-2 py-0.5 text-xs text-text-muted">
+                {submission.quotePacket.readinessState}
+              </span>
+            </div>
+
+            <TextInput
+              label="Linked document refs"
+              value={packetForm.linkedDocumentRefs}
+              disabled={!isPacketEditable}
+              onChange={(event) => setPacketForm((current) => ({ ...current, linkedDocumentRefs: event.target.value }))}
+              placeholder="Comma-separated document IDs"
+            />
+            <div className="grid gap-3 md:grid-cols-2">
+              <TextInput
+                label="Recorded premium"
+                type="number"
+                min="0"
+                step="0.01"
+                value={packetForm.recordedPremiumAmount}
+                disabled={!isPacketEditable}
+                onChange={(event) => setPacketForm((current) => ({ ...current, recordedPremiumAmount: event.target.value }))}
+              />
+              <TextInput
+                label="Effective date"
+                type="date"
+                value={packetForm.effectiveDate}
+                disabled={!isPacketEditable}
+                onChange={(event) => setPacketForm((current) => ({ ...current, effectiveDate: event.target.value }))}
+              />
+              <TextInput
+                label="Limits"
+                value={packetForm.recordedLimits}
+                disabled={!isPacketEditable}
+                onChange={(event) => setPacketForm((current) => ({ ...current, recordedLimits: event.target.value }))}
+              />
+              <TextInput
+                label="Deductibles"
+                value={packetForm.recordedDeductibles}
+                disabled={!isPacketEditable}
+                onChange={(event) => setPacketForm((current) => ({ ...current, recordedDeductibles: event.target.value }))}
+              />
+            </div>
+            <TextInput
+              label="Carrier market"
+              value={packetForm.carrierMarket}
+              disabled={!isPacketEditable}
+              onChange={(event) => setPacketForm((current) => ({ ...current, carrierMarket: event.target.value }))}
+            />
+
+            {isPacketEditable && (
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => savePacket(false)}
+                  disabled={updatePacket.isPending}
+                  className="rounded-lg border border-surface-border bg-surface-card px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary disabled:opacity-50"
+                >
+                  Save packet
+                </button>
+                <button
+                  type="button"
+                  onClick={() => savePacket(true)}
+                  disabled={updatePacket.isPending}
+                  className="rounded-lg bg-nebula-violet px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-nebula-violet/90 disabled:opacity-50"
+                >
+                  Mark ready
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-4 rounded-lg border border-surface-border bg-surface-card/50 p-4">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <DetailStat label="Approval" value={submission.approvalStatus} />
+              <DetailStat label="Age in state" value={`${submission.ageDaysInState} day${submission.ageDaysInState === 1 ? '' : 's'}`} />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="submission-approval-reason" className="block text-xs font-medium text-text-secondary">
+                Decision reason
+              </label>
+              <textarea
+                id="submission-approval-reason"
+                rows={3}
+                value={approvalReason}
+                disabled={!canApprove}
+                onChange={(event) => setApprovalReason(event.target.value)}
+                className="w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 focus:ring-nebula-violet disabled:opacity-60"
+              />
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => decideApproval('Granted')}
+                  disabled={!canApprove || approval.isPending}
+                  className="rounded-lg bg-nebula-violet px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-nebula-violet/90 disabled:opacity-50"
+                >
+                  Grant approval
+                </button>
+                <button
+                  type="button"
+                  onClick={() => decideApproval('Declined')}
+                  disabled={!canApprove || approval.isPending}
+                  className="rounded-lg border border-surface-border bg-surface-card px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary disabled:opacity-50"
+                >
+                  Decline approval
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={requestBindHandoff}
+                disabled={!canRequestBind || requestBind.isPending}
+                className="rounded-lg bg-nebula-violet/15 px-3 py-1.5 text-sm font-medium text-nebula-violet transition-colors hover:bg-nebula-violet/25 disabled:opacity-50"
+              >
+                Request bind
+              </button>
+              <button
+                type="button"
+                onClick={confirmBindHandoff}
+                disabled={!canConfirmBind || confirmBind.isPending}
+                className="rounded-lg bg-nebula-violet/15 px-3 py-1.5 text-sm font-medium text-nebula-violet transition-colors hover:bg-nebula-violet/25 disabled:opacity-50"
+              >
+                Confirm bound
+              </button>
+            </div>
+
+            <div className="space-y-2 border-t border-surface-border pt-4">
+              <TextInput
+                label={submission.isArchived ? 'Reactivation reason' : 'Archive reason'}
+                value={archiveReason}
+                onChange={(event) => setArchiveReason(event.target.value)}
+                disabled={!canArchive}
+              />
+              <button
+                type="button"
+                onClick={() => toggleArchive(!submission.isArchived)}
+                disabled={!canArchive || archiveSubmission.isPending || reactivateSubmission.isPending}
+                className="rounded-lg border border-surface-border bg-surface-card px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary disabled:opacity-50"
+              >
+                {submission.isArchived ? 'Reactivate' : 'Archive'}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {serverError && <p className="text-sm text-status-error">{serverError}</p>}
+      </div>
+    </Card>
+  );
+}
+
 function DetailStat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl border border-surface-border bg-surface-card/50 p-4">
@@ -626,6 +945,7 @@ function hasRole(currentUser: CurrentUser | null, role: string) {
 }
 
 function canEditSubmission(currentUser: CurrentUser | null, submission: SubmissionDto) {
+  if (submission.isArchived) return false;
   if (!currentUser) return false;
 
   if (hasRole(currentUser, 'Admin') || hasRole(currentUser, 'DistributionManager')) {
@@ -636,6 +956,7 @@ function canEditSubmission(currentUser: CurrentUser | null, submission: Submissi
 }
 
 function canAssignSubmission(currentUser: CurrentUser | null, submission: SubmissionDto) {
+  if (submission.isArchived) return false;
   if (!currentUser) return false;
 
   if (hasRole(currentUser, 'Admin') || hasRole(currentUser, 'DistributionManager')) {
@@ -666,6 +987,44 @@ function canPerformSubmissionTransition(
   }
 
   return hasRole(currentUser, 'Underwriter');
+}
+
+function canManageDownstreamSubmission(currentUser: CurrentUser | null, submission: SubmissionDto) {
+  if (!currentUser || submission.isArchived) return false;
+
+  if (hasRole(currentUser, 'Admin')) return true;
+  return currentUser.sub === submission.assignedToUserId && hasRole(currentUser, 'Underwriter');
+}
+
+function canArchiveSubmission(currentUser: CurrentUser | null, submission: SubmissionDto) {
+  if (!currentUser) return false;
+
+  const terminal = submission.currentStatus === 'Bound'
+    || submission.currentStatus === 'Declined'
+    || submission.currentStatus === 'Withdrawn';
+  if (!terminal) return false;
+  if (hasRole(currentUser, 'Admin')) return true;
+  return currentUser.sub === submission.assignedToUserId && hasRole(currentUser, 'Underwriter');
+}
+
+function packetToForm(submission: SubmissionDto): QuotePacketForm {
+  return {
+    linkedDocumentRefs: submission.quotePacket.linkedDocumentRefs.join(', '),
+    recordedPremiumAmount: submission.quotePacket.recordedPremiumAmount != null
+      ? String(submission.quotePacket.recordedPremiumAmount)
+      : '',
+    recordedLimits: submission.quotePacket.recordedLimits ?? '',
+    recordedDeductibles: submission.quotePacket.recordedDeductibles ?? '',
+    effectiveDate: submission.quotePacket.effectiveDate ? toDateInput(submission.quotePacket.effectiveDate) : '',
+    carrierMarket: submission.quotePacket.carrierMarket ?? '',
+  };
+}
+
+function parseDocumentRefs(value: string) {
+  return value
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
 function getReadyForUwReviewGuidance(submission: SubmissionDto) {

@@ -1,0 +1,267 @@
+# Lifecycle Gates Log — F0019-submission-quoting-proposal-and-approval run 2026-06-03-7e8e0ddc
+
+## Lifecycle Gate Run
+
+### G0 Attempt 1
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G0
+Stage: G0
+Exit Code: 1
+Result: FAIL
+Output References: commands.log
+Skipped Gates: -
+
+## Command
+
+See per-attempt command lines above.
+
+## Stage
+
+See per-attempt stage values above.
+
+## Exit Code
+
+See per-attempt exit code values above.
+
+## Result
+
+See per-attempt result values above.
+
+## Output References
+
+See per-attempt output references above.
+
+## Skipped Gates
+
+None.
+
+### G0 Attempt 2
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G0
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: commands.log
+Skipped Gates: -
+
+## G1 Runtime Preflight Attempt 1
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G1`
+- Stage: G1
+- Exit Code: 1
+- Result: Failed because `gate-decisions.md` had a detached `G1 Runtime Preflight` table instead of a `G1` row inside the required `Gate Decisions` section.
+
+## G1 Runtime Preflight Attempt 2
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G1`
+- Stage: G1
+- Exit Code: 0
+- Result: PASS
+
+## G2 Self-Review/QE/Deployability Attempt 1
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G2`
+- Stage: G2
+- Exit Code: 1
+- Result: Failed because earlier command artifact summary files were missing and DevOps required_artifacts omitted g1-runtime-preflight.md.
+
+## G2 Self-Review/QE/Deployability Attempt 2
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G2`
+- Stage: G2
+- Exit Code: 0
+- Result: PASS
+
+## G2 Self-Review/QE/Deployability Attempt 3
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G2`
+- Stage: G2
+- Exit Code: 0
+- Result: PASS after G3 review fix added archive/reactivate reason validation and updated backend test evidence.
+
+## G2 Self-Review/QE/Deployability Attempt 4
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G2`
+- Stage: G2
+- Exit Code: 0
+- Result: PASS after final G3 approvalPending filter fix artifact updates.
+
+## G3 Code/Security Review Attempt 1
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G3`
+- Stage: G3
+- Exit Code: 1
+- Result: Failed because `gate-decisions.md` was missing the required `G3` row.
+
+## G3 Code/Security Review Attempt 2
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G3`
+- Stage: G3
+- Exit Code: 0
+- Result: PASS
+
+## G4 Approval Validation Attempt 1
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G4`
+- Stage: G4
+- Exit Code: 2
+- Result: Validator CLI does not support G4. G4 approval evidence is recorded in gate-decisions.md and the validator coverage defect is tracked in README.md Open Follow-ups.
+
+## G5 Signoff Attempt 1
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G5`
+- Stage: G5
+- Exit Code: 1
+- Result: Failed because STATUS.md used the non-canonical heading `Required Signoff Roles`; validator only parses `Required Role Matrix`.
+
+## G5 Signoff Attempt 2
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G5`
+- Stage: G5
+- Exit Code: 0
+- Result: PASS
+
+## G6 Candidate Evidence Validation Attempt 1
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G6`
+- Stage: G6
+- Exit Code: 0
+- Result: PASS
+
+## G6 Scoped Tracker Validation Attempt 1
+
+- Command: `python3 agents/product-manager/scripts/validate-trackers.py --feature F0019 --run-id 2026-06-03-7e8e0ddc`
+- Stage: G6 Tracker Sync Candidate
+- Exit Code: 0
+- Result: PASS with 0 errors and 0 warnings.
+
+## G4 Approval Validation Attempt 2
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G4`
+- Stage: G4
+- Exit Code: 0
+- Result: PASS after validator stage support was added.
+
+## G7 KG Symbol Validation Attempt 1
+
+- Command: `python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py --regenerate-symbols --check-symbols`
+- Stage: G7 KG Reconciliation
+- Exit Code: 1
+- Result: Failed because coverage-report.yaml staleness was enforced during an explicit symbol-only validation mode, while the feature evidence contract defers the path-sensitive coverage rewrite to G8 after the archive move.
+
+## G7 KG Symbol Validation Attempt 2
+
+- Command: `python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py --regenerate-symbols --check-symbols`
+- Stage: G7 KG Reconciliation
+- Exit Code: 0
+- Result: PASS after validator explicit-check behavior was corrected.
+
+## G7 KG Drift Validation Attempt 1
+
+- Command: `python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py --check-drift`
+- Stage: G7 KG Reconciliation
+- Exit Code: 0
+- Result: PASS.
+
+## G7 Feature Evidence Validation Attempt 1
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G7`
+- Stage: G7
+- Exit Code: 0
+- Result: PASS.
+
+## G8 KG Coverage Report Write Attempt 1
+
+- Command: `python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py --write-coverage-report`
+- Stage: G8 PM Closeout
+- Exit Code: 0
+- Result: PASS after F0019 archive move.
+
+## G8 KG Drift Validation Attempt 1
+
+- Command: `python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py --check-drift`
+- Stage: G8 PM Closeout
+- Exit Code: 0
+- Result: PASS after F0019 archive move.
+
+## G8 Story Index Generation Attempt 1
+
+- Command: `python3 agents/product-manager/scripts/generate-story-index.py /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/planning-mds/features/`
+- Stage: G8 PM Closeout
+- Exit Code: 0
+- Result: PASS; 141 story files indexed.
+
+## G8 Tracker Validation Attempt 1
+
+- Command: `python3 agents/product-manager/scripts/validate-trackers.py --feature F0019 --run-id 2026-06-03-7e8e0ddc`
+- Stage: G8 PM Closeout
+- Exit Code: 1
+- Result: Failed because command-log artifact paths still referenced the pre-archive feature plan path and tracker validation only accepted the legacy `Required Signoff Roles` heading.
+
+## G8 Tracker Validation Attempt 2
+
+- Command: `python3 agents/product-manager/scripts/validate-trackers.py --feature F0019 --run-id 2026-06-03-7e8e0ddc`
+- Stage: G8 PM Closeout
+- Exit Code: 0
+- Result: PASS after the artifact path and heading compatibility fixes.
+
+## G8 Final Closeout Validation Attempt 1
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --run-id 2026-06-03-7e8e0ddc --stage G8`
+- Stage: G8
+- Exit Code: 0
+- Result: PASS.
+
+## G8 Final Closeout Validation Attempt 2
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --stage closeout`
+- Stage: closeout
+- Exit Code: 0
+- Result: PASS.
+
+## G8 Final Story Index Generation Attempt 2
+
+- Command: `python3 agents/product-manager/scripts/generate-story-index.py /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/planning-mds/features/`
+- Stage: G8 PM Closeout
+- Exit Code: 0
+- Result: PASS; 141 story files indexed.
+
+## G8 Final KG Symbol Regeneration Attempt 1
+
+- Command: `python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py --regenerate-symbols`
+- Stage: G8 PM Closeout
+- Exit Code: 0
+- Result: PASS.
+
+## G8 Final KG Symbol Check Attempt 1
+
+- Command: `python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py --check-symbols`
+- Stage: G8 PM Closeout
+- Exit Code: 0
+- Result: PASS.
+
+## G8 Final KG Drift Check Attempt 1
+
+- Command: `python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py --check-drift`
+- Stage: G8 PM Closeout
+- Exit Code: 0
+- Result: PASS.
+
+## G8 Template Validation Attempt 1
+
+- Command: `python3 agents/scripts/validate_templates.py`
+- Stage: G8 PM Closeout
+- Exit Code: 0
+- Result: PASS.
+
+## G8 Final JSON Validation Capture Attempt 1
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --stage closeout --json`
+- Stage: closeout
+- Exit Code: 0
+- Result: PASS; JSON captured to `artifacts/feature-evidence-validation.json`.
+
+## G8 Final JSON Validation Capture Attempt 2
+
+- Command: `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm --feature F0019 --stage closeout --json`
+- Stage: closeout
+- Exit Code: 0
+- Result: PASS after manifest registered `artifacts/feature-evidence-validation.json`; JSON captured to `artifacts/feature-evidence-validation.json`.

@@ -532,7 +532,12 @@ public static class AccountEndpoints
             return ProblemDetailsHelper.NotFound("Account", accountId);
 
         var result = await svc.ListAsync(
-            new SubmissionListQuery(null, null, accountId, null, null, null, "createdAt", "desc", page ?? 1, pageSize ?? 25),
+            new SubmissionListQuery(
+                AccountId: accountId,
+                Sort: "createdAt",
+                SortDir: "desc",
+                Page: page ?? 1,
+                PageSize: pageSize ?? 25),
             user,
             ct);
 

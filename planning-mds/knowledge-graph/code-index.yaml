@@ -11,19 +11,22 @@ node_bindings:
     paths:
       backend:
         domain:
-          - engine/src/Nebula.Domain/Entities/Submission.cs
+          - engine/src/Nebula.Domain/Entities/Submission*.cs
         application:
           - engine/src/Nebula.Application/DTOs/Submission*.cs
           - engine/src/Nebula.Application/Interfaces/ISubmission*.cs
           - engine/src/Nebula.Application/Services/SubmissionService.cs
           - engine/src/Nebula.Application/Validators/Submission*.cs
         infrastructure:
-          - engine/src/Nebula.Infrastructure/Repositories/SubmissionRepository.cs
-          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Repositories/Submission*.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/Submission*.cs
           - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0006*Submission*.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0019*Submission*.cs
         api:
           - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
         tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
           - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
       frontend:
         feature:
@@ -36,6 +39,79 @@ node_bindings:
           - experience/src/pages/tests/SubmissionsPage.integration.test.tsx
           - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
           - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
+
+  - id: entity:submission-quote-packet
+    paths:
+      backend:
+        domain:
+          - engine/src/Nebula.Domain/Entities/SubmissionQuotePacket.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionQuotePacketDto.cs
+          - engine/src/Nebula.Application/Interfaces/ISubmissionQuotePacketRepository.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/SubmissionQuotePacketRepository.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionQuotePacketConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0019*Submission*.cs
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/submissions/hooks/useSubmissionQuotePacket.ts
+          - experience/src/features/submissions/types.ts
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+
+  - id: entity:submission-approval-decision
+    paths:
+      backend:
+        domain:
+          - engine/src/Nebula.Domain/Entities/SubmissionApprovalDecision.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionApprovalDecisionDto.cs
+          - engine/src/Nebula.Application/Interfaces/ISubmissionApprovalDecisionRepository.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/SubmissionApprovalDecisionRepository.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionApprovalDecisionConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0019*Submission*.cs
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/submissions/hooks/useSubmissionApproval.ts
+          - experience/src/features/submissions/types.ts
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+
+  - id: entity:submission-bind-handoff
+    paths:
+      backend:
+        domain:
+          - engine/src/Nebula.Domain/Entities/SubmissionBindHandoff.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionBindRequestDto.cs
+          - engine/src/Nebula.Application/DTOs/SubmissionDto.cs
+          - engine/src/Nebula.Application/Interfaces/ISubmissionBindHandoffRepository.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/SubmissionBindHandoffRepository.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionBindHandoffConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0019*Submission*.cs
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/submissions/hooks/useBindSubmission.ts
+          - experience/src/features/submissions/types.ts
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
 
   - id: entity:renewal
     paths:
@@ -1309,6 +1385,118 @@ node_bindings:
         features:
           - experience/src/features/timeline/**
 
+  - id: endpoint:submission-quote-packet-read
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/DTOs/SubmissionQuotePacketDto.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+        features:
+          - experience/src/features/submissions/hooks/useSubmissionQuotePacket.ts
+
+  - id: endpoint:submission-quote-packet-update
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/DTOs/SubmissionQuotePacketDto.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+        features:
+          - experience/src/features/submissions/hooks/useSubmissionQuotePacket.ts
+
+  - id: endpoint:submission-approval
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/DTOs/SubmissionApprovalDecisionDto.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+        features:
+          - experience/src/features/submissions/hooks/useSubmissionApproval.ts
+
+  - id: endpoint:submission-bind-request
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/DTOs/SubmissionBindRequestDto.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+        features:
+          - experience/src/features/submissions/hooks/useBindSubmission.ts
+
+  - id: endpoint:submission-bind-confirmation
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/DTOs/SubmissionBindRequestDto.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+        features:
+          - experience/src/features/submissions/hooks/useBindSubmission.ts
+
+  - id: endpoint:submission-archive
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/DTOs/SubmissionArchiveRequestDto.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+        features:
+          - experience/src/features/submissions/hooks/useArchiveSubmission.ts
+
+  - id: endpoint:submission-reactivate
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/DTOs/SubmissionArchiveRequestDto.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+        features:
+          - experience/src/features/submissions/hooks/useArchiveSubmission.ts
+
   # F0007 endpoint bindings reference the existing RenewalEndpoints.cs surface,
   # the shared Renewal*.cs DTOs and validators, and the existing repository.
   # New artifacts (RenewalListItemDto, RenewalListQuery, RenewalAssignmentRequestDto,
@@ -1609,6 +1797,61 @@ node_bindings:
         tests:
           - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
           - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+
+  - id: event:submission-packet-updated
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+          - engine/src/Nebula.Domain/Entities/SubmissionQuotePacket.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+
+  - id: event:submission-approval-granted
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+          - engine/src/Nebula.Domain/Entities/SubmissionApprovalDecision.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+
+  - id: event:submission-approval-declined
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+          - engine/src/Nebula.Domain/Entities/SubmissionApprovalDecision.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+
+  - id: event:submission-archived
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+          - engine/src/Nebula.Domain/Entities/Submission.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+
+  - id: event:submission-reactivated
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+          - engine/src/Nebula.Domain/Entities/Submission.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
 
   - id: event:task-created
     paths:

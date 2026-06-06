@@ -12,6 +12,45 @@ Define the build order, role handoffs, and integration checkpoints for implement
 
 ---
 
+---
+
+## F0019 - Submission Quoting, Proposal & Approval Workflow
+
+**Added:** 2026-06-03 - Feature action Step 0 authored the feature-local implementation execution plan after Phase B architecture completed during planning.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0019-submission-quoting-proposal-and-approval/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, timeline events, packet/approval/bind/archive lifecycle, and validation checkpoints for the downstream submission workflow.
+
+### Dependencies
+
+| Dependency | Source | What F0019 Needs | Status |
+|------------|--------|------------------|--------|
+| Submission intake boundary | F0006 | Existing submission aggregate, transition endpoint, list/detail/timeline surfaces through `ReadyForUWReview` | Done and archived |
+| Policy bind hook | F0018 | `/policies/from-bind` contract and policy correlation target | Done and archived |
+| Document completeness and refs | F0020 | Submission-parented document refs and completeness signal for quote packet readiness | Done and archived |
+| Product schema attributes | F0034 | Structured LOB/product attributes reused by packet/policy handoff | Done and archived |
+| Workflow state-machine ADR | ADR-011 | Append-only transition history and atomic timeline events | Accepted |
+| Document architecture ADR | ADR-012 | Document linkage/storage boundary | Accepted |
+| Downstream workflow ADR | ADR-025 | Packet, approval, bind, archive and CRM-not-workbench boundary | Accepted |
+
+### Assembly Slice Order
+
+1. Downstream transition activation and boundary regression.
+2. Quote/proposal packet persistence and mark-ready transition.
+3. Approval checkpoint.
+4. Bind requested/bound handoff.
+5. Terminal decline/withdraw plus archive/reactivate.
+6. Downstream list/timeline UI and verification.
+
+### Signoff Role Matrix
+
+| Role | Required | Rationale |
+|------|----------|-----------|
+| Quality Engineer | Yes | Workflow state machine, approval/bind behavior, idempotency, archive, and boundary regression require test validation |
+| Code Reviewer | Yes | Workflow orchestration, approval logic, packet persistence, and recorded-not-computed boundary need independent review |
+| Security Reviewer | Yes | Approval and archive authorization deltas plus audit-bearing decisions are security-sensitive |
+| DevOps | No | No new infrastructure expected; revisit if EF migration/runtime deployment changes require operational validation |
+| Architect | Yes | ADR-025 implementation and KG binding reconciliation are required |
+
 ## F0020 - Document Management & ACORD Intake
 
 **Added:** 2026-05-04 - Feature action Step 0 created the feature-local implementation execution plan after Phase B architecture completed during planning.

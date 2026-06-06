@@ -1,6 +1,6 @@
 # Feature Roadmap (Now / Next / Later)
 
-**Last Reviewed:** 2026-05-24
+**Last Reviewed:** 2026-06-03
 
 This document is the working prioritization view for feature sequencing.
 
@@ -20,11 +20,10 @@ This document is the working prioritization view for feature sequencing.
 
 | Feature | Phase | Why Now |
 |---------|-------|---------|
-| [F0019 — Submission Quoting, Proposal & Approval Workflow](./F0019-submission-quoting-proposal-and-approval/README.md) | CRM Release MVP | Completes the core submission journey now that intake, policy, document, and product-schema foundations are archived and available; owns submission-bound quote/proposal packet workflow, not the broader outbound template engine. |
 
-**Implementation Readiness Note:** F0034 completed on 2026-05-07 and F0035 completed on 2026-05-24. F0019 remains in `Now` because it is the missing core workflow between completed intake, policy, document, product-schema, and authenticated-session reliability capabilities.
+_No active Now items after F0019 closeout on 2026-06-03._
 
-**Boundary Notes:** F0019 owns the submission-bound quote/proposal packet needed to move a submission through approval and bind. F0027 later owns reusable COI, ACORD, proposal-template, and outbound document generation capability.
+**Boundary Notes:** F0019 delivered the submission-bound quote/proposal packet workflow needed to move a submission through approval and bind. F0027 later owns reusable COI, ACORD, proposal-template, and outbound document generation capability.
 
 ## Next
 
@@ -61,6 +60,7 @@ This document is the working prioritization view for feature sequencing.
 
 | Feature | Phase | Completion State |
 |---------|-------|------------------|
+| [F0019 — Submission Quoting, Proposal & Approval Workflow](./archive/F0019-submission-quoting-proposal-and-approval/README.md) | CRM Release MVP | Done and archived (2026-06-03) — 8 stories: downstream workflow activation, quote/proposal packet, underwriting approval, bind handoff, decline/withdraw, archive/reactivate, pipeline visibility, timeline/audit |
 | [F0036 — Form Engine and Form-State Preservation (RHF + AJV + Widget Registry)](./archive/F0036-dynamic-product-attribute-form-engine/README.md) | Platform Foundation / CRM Release MVP Enabler | Done and archived (2026-05-30) — 8 stories: engine skeleton + deps, MVP widget vocabulary, schema render + AJV parity, pin-during-edit, replace Cyber panel, attr-form preservation, controlled-form dirty-tracker + shared helper, CRUD preservation/restore |
 | [F0035 — Session Continuity & Token Refresh](./archive/F0035-session-continuity-and-token-refresh/README.md) | Release Enablement / Platform Operations | Done and archived (2026-05-24) - 5 stories: silent renewal, idle warning modal, forced re-auth restore, auth error semantics, session telemetry |
 | [F0034 — Product Schema Registry and Dynamic LOB Attributes](./archive/F0034-product-schema-registry-and-dynamic-lob-attributes/README.md) | Platform Foundation / CRM Release MVP Enabler | Done and archived (2026-05-07) — 7 stories: decision lock, registry foundation, lifecycle carrier pinning, validator parity, dynamic panel, Cyber bundle, lifecycle/F0019 handoff |
@@ -84,7 +84,8 @@ This document is the working prioritization view for feature sequencing.
 ## Notes
 
 - This roadmap is the authoritative Now/Next/Later view.
-- Boundary guardrails: F0019 owns submission-bound quote/proposal workflow while F0027 owns reusable outbound generation; F0022 owns usable queue/routing foundations while F0032 later governs shared configuration; F0008 remains separate but must land after F0023 and F0017.
+- Boundary guardrails: F0019 delivered submission-bound quote/proposal workflow while F0027 owns reusable outbound generation; F0022 owns usable queue/routing foundations while F0032 later governs shared configuration; F0008 remains separate but must land after F0023 and F0017.
+- Reviewed 2026-06-03 after F0019 closeout; moved F0019 from Now to Completed and archived it.
 - Reviewed 2026-05-17 after roadmap sequencing review against completed feature foundations; F0019 moved into `Now`, F0031 moved earlier in `Next`, F0027/F0032 moved into `Next`, and `Later` reordered around dependency readiness.
 - Reviewed 2026-05-17 after auth/session review identified disruptive active-session expiry behavior; F0035 added as a Now item.
 - Reviewed 2026-05-25 after an F0035 review found its form-state preservation wired to zero forms, traced to ADR-021 drift (the accepted RHF/AJV/widget-registry form engine was never implemented; F0034 shipped a hardcoded Cyber panel). F0036 added as a Now item to realize ADR-021 for LOB product attributes (Cyber first) and connect those forms to F0035 preservation. Broadened the same day (operator decision) to also cover the hand-rolled CRUD forms; the 2026-05-27 scope refinement confirmed they stay controlled and register through a controlled-form dirty-tracker adapter. F0036 title updated to "Form Engine and Form-State Preservation."

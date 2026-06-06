@@ -7,6 +7,7 @@ public class WorkflowStateMachineTests
 {
     [Theory]
     [InlineData("Submission", "Received", "Triaging")]
+    [InlineData("Submission", "ReadyForUWReview", "InReview")]
     [InlineData("Submission", "BindRequested", "Bound")]
     [InlineData("Renewal", "Identified", "Outreach")]
     [InlineData("Renewal", "Quoted", "Completed")]
@@ -18,6 +19,7 @@ public class WorkflowStateMachineTests
     [Theory]
     [InlineData("Submission", "Bound", "Quoted")]
     [InlineData("Submission", "Received", "WaitingOnBroker")]
+    [InlineData("Submission", "ReadyForUWReview", "Bound")]
     [InlineData("Submission", "Quoted", "Bound")]
     [InlineData("Renewal", "Completed", "Quoted")]
     [InlineData("Renewal", "Identified", "Completed")]

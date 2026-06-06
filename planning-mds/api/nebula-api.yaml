@@ -1086,6 +1086,25 @@ paths:
           description: Filter by stale flag. True returns only stale submissions.
           schema:
             type: boolean
+        - name: approvalPending
+          in: query
+          required: false
+          description: Filter to quoted submissions whose current quote packet is ready and awaiting approval.
+          schema:
+            type: boolean
+        - name: stuckOnly
+          in: query
+          required: false
+          description: Filter to submissions that exceed their current workflow aging threshold.
+          schema:
+            type: boolean
+        - name: includeArchived
+          in: query
+          required: false
+          description: Include archived submissions. Defaults to false.
+          schema:
+            type: boolean
+            default: false
         - name: sort
           in: query
           required: false
@@ -1217,6 +1236,269 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "404":
           $ref: "#/components/responses/NotFound"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+
+  /submissions/{submissionId}/quote-packet:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    get:
+      operationId: getSubmissionQuotePacket
+      summary: Get submission quote/proposal packet
+      description: Returns the current quote/proposal packet for a submission, or null fields when no packet has been started.
+      tags: [Submissions]
+      responses:
+        "200":
+          description: Quote/proposal packet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubmissionQuotePacket"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      operationId: updateSubmissionQuotePacket
+      summary: Update submission quote/proposal packet
+      description: |
+        Upserts the downstream quote/proposal packet and optionally marks it ready.
+        When marked ready, the submission transitions to Quoted if prerequisites pass.
+        Requires `If-Match` with the submission `rowVersion`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionQuotePacketUpdateRequest"
+      responses:
+        "200":
+          description: Submission updated with current packet state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+
+  /submissions/{submissionId}/approval:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    post:
+      operationId: approveSubmissionQuotePacket
+      summary: Record submission approval decision
+      description: |
+        Records an approval decision for the current ready quote packet. A granted
+        decision unblocks bind request; a declined decision preserves the packet
+        and records blocking conditions. Requires `If-Match`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionApprovalRequest"
+      responses:
+        "200":
+          description: Submission updated with approval decision
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+
+  /submissions/{submissionId}/bind-request:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    post:
+      operationId: requestSubmissionBind
+      summary: Request bind handoff for an approved submission
+      description: |
+        Starts the bind handoff for an approved quoted submission, transitions the
+        submission to BindRequested, and records an idempotent handoff record.
+        Accepts an `Idempotency-Key` header or request-body key. Requires `If-Match`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+        - name: Idempotency-Key
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Optional idempotency key for bind handoff creation.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionBindRequest"
+      responses:
+        "200":
+          description: Submission transitioned to BindRequested or existing idempotent result returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+
+  /submissions/{submissionId}/bind-confirmation:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    post:
+      operationId: confirmSubmissionBind
+      summary: Confirm bind handoff completion
+      description: Confirms the bind handoff and transitions the submission to Bound. Requires `If-Match`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+        - name: Idempotency-Key
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Optional idempotency key matching the bind handoff.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionBindRequest"
+      responses:
+        "200":
+          description: Submission transitioned to Bound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+
+  /submissions/{submissionId}/archive:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    post:
+      operationId: archiveSubmission
+      summary: Archive a terminal submission
+      description: Archives a terminal submission and makes it read-only until reactivated. Requires `If-Match`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionArchiveRequest"
+      responses:
+        "200":
+          description: Submission archived
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+
+  /submissions/{submissionId}/reactivate:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    post:
+      operationId: reactivateSubmission
+      summary: Reactivate an archived submission
+      description: Reactivates an archived submission and restores it to the active submission list. Requires `If-Match`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionArchiveRequest"
+      responses:
+        "200":
+          description: Submission reactivated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
         "412":
           $ref: "#/components/responses/PreconditionFailed"
 
@@ -4498,6 +4780,36 @@ components:
         isStale:
           type: boolean
           description: Whether submission exceeds stale threshold for its current state.
+        ageDaysInState:
+          type: integer
+          minimum: 0
+          description: Number of whole days since the submission entered its current workflow state.
+        approvalStatus:
+          type: string
+          description: Current downstream approval status for the quote/proposal packet.
+          enum: [NotRequired, Pending, Granted, Declined]
+        approvalPending:
+          type: boolean
+          description: True when a ready quote/proposal packet is awaiting approval.
+        isArchived:
+          type: boolean
+          description: True when the submission has been archived and is read-only.
+        archivedAt:
+          type: string
+          format: date-time
+          nullable: true
+        archivedByUserId:
+          type: string
+          format: uuid
+          nullable: true
+        quotePacket:
+          $ref: "#/components/schemas/SubmissionQuotePacket"
+        approvalDecisions:
+          type: array
+          items:
+            $ref: "#/components/schemas/SubmissionApprovalDecision"
+        bindHandoff:
+          $ref: "#/components/schemas/SubmissionBindHandoff"
         completeness:
           $ref: "#/components/schemas/SubmissionCompleteness"
         availableTransitions:
@@ -4563,6 +4875,220 @@ components:
         isStale:
           type: boolean
           description: Whether submission exceeds stale threshold.
+        ageDaysInState:
+          type: integer
+          minimum: 0
+          description: Number of whole days since the submission entered its current workflow state.
+        approvalStatus:
+          type: string
+          enum: [NotRequired, Pending, Granted, Declined]
+        approvalPending:
+          type: boolean
+        isArchived:
+          type: boolean
+        stuckFlag:
+          type: boolean
+          description: True when the submission exceeds its configured aging threshold.
+
+    SubmissionQuotePacket:
+      type: object
+      description: Downstream quote/proposal packet for F0019 submission quoting.
+      required:
+        - submissionId
+        - status
+        - linkedDocumentRefs
+        - readinessState
+        - rowVersion
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        submissionId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [Draft, ReadyForApproval, Approved]
+        linkedDocumentRefs:
+          type: array
+          items:
+            type: string
+            format: uuid
+        recordedPremiumAmount:
+          type: number
+          format: double
+          nullable: true
+        recordedLimits:
+          type: string
+          nullable: true
+        recordedDeductibles:
+          type: string
+          nullable: true
+        effectiveDate:
+          type: string
+          format: date-time
+          nullable: true
+        carrierMarket:
+          type: string
+          nullable: true
+        readinessState:
+          type: string
+          enum: [Draft, ReadyForApproval, Approved]
+        readyAt:
+          type: string
+          format: date-time
+          nullable: true
+        readyByUserId:
+          type: string
+          format: uuid
+          nullable: true
+        approvedAt:
+          type: string
+          format: date-time
+          nullable: true
+        approvedByUserId:
+          type: string
+          format: uuid
+          nullable: true
+        rowVersion:
+          type: string
+
+    SubmissionQuotePacketUpdateRequest:
+      type: object
+      description: Quote/proposal packet mutation payload.
+      properties:
+        linkedDocumentRefs:
+          type: array
+          nullable: true
+          items:
+            type: string
+            format: uuid
+        recordedPremiumAmount:
+          type: number
+          format: double
+          nullable: true
+        recordedLimits:
+          type: string
+          nullable: true
+        recordedDeductibles:
+          type: string
+          nullable: true
+        effectiveDate:
+          type: string
+          format: date-time
+          nullable: true
+        carrierMarket:
+          type: string
+          nullable: true
+        markReady:
+          type: boolean
+          default: false
+
+    SubmissionApprovalDecision:
+      type: object
+      description: Immutable approval decision for a submission quote/proposal packet.
+      required:
+        - id
+        - submissionId
+        - decision
+        - approverUserId
+        - reason
+        - blockingConditions
+        - decidedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        submissionId:
+          type: string
+          format: uuid
+        decision:
+          type: string
+          enum: [Granted, Declined]
+        approverUserId:
+          type: string
+          format: uuid
+        reason:
+          type: string
+          maxLength: 2000
+        blockingConditions:
+          type: array
+          items:
+            type: string
+        decidedAt:
+          type: string
+          format: date-time
+
+    SubmissionApprovalRequest:
+      type: object
+      description: Approval decision payload for the current quote/proposal packet.
+      required:
+        - decision
+        - reason
+      properties:
+        decision:
+          type: string
+          enum: [Granted, Declined]
+        reason:
+          type: string
+          maxLength: 2000
+        blockingConditions:
+          type: array
+          nullable: true
+          items:
+            type: string
+
+    SubmissionBindRequest:
+      type: object
+      description: Optional idempotency payload for bind handoff actions.
+      properties:
+        idempotencyKey:
+          type: string
+          nullable: true
+
+    SubmissionBindHandoff:
+      type: object
+      description: Idempotent bind handoff record for a submission.
+      required:
+        - id
+        - submissionId
+        - idempotencyKey
+        - status
+        - correlationId
+        - requestedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        submissionId:
+          type: string
+          format: uuid
+        idempotencyKey:
+          type: string
+        status:
+          type: string
+          enum: [Pending, Completed]
+        correlationId:
+          type: string
+          format: uuid
+        requestedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    SubmissionArchiveRequest:
+      type: object
+      description: Archive or reactivation reason payload.
+      required:
+        - reason
+      properties:
+        reason:
+          type: string
+          maxLength: 2000
 
     SubmissionCompleteness:
       type: object
@@ -4689,6 +5215,15 @@ components:
           nullable: true
           maxLength: 2000
           description: Optional transition comment. Recommended for `WaitingOnBroker` transitions.
+        reasonCode:
+          type: string
+          nullable: true
+          description: Required for Declined and Withdrawn submission transitions.
+        reasonDetail:
+          type: string
+          nullable: true
+          maxLength: 500
+          description: Required when reasonCode=Other.
 
     # ── Submission / Renewal Schemas (continued) ─────────────────
 

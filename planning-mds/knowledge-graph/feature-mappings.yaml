@@ -492,18 +492,31 @@ features:
       - {id: feature:F0019, provenance: inferred, confidence: 0.6, note: "F0019 future consumer of POST /api/policies/from-bind hook"}
       - {id: feature:F0028, provenance: inferred, confidence: 0.4, note: "Future replacement for lightweight CarrierRef seed"}
   - id: feature:F0019
-    path: planning-mds/features/F0019-submission-quoting-proposal-and-approval
-    status: planned
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval
+    status: archived-done
     affects:
       - workflow:submission
       - entity:submission
       - entity:submission-quote-packet
       - entity:submission-approval-decision
+      - entity:submission-bind-handoff
       - entity:policy
       - entity:document
       - entity:workflow-transition
       - entity:activity-timeline-event
       - capability:submission-workflow
+      - endpoint:submission-quote-packet-read
+      - endpoint:submission-quote-packet-update
+      - endpoint:submission-approval
+      - endpoint:submission-bind-request
+      - endpoint:submission-bind-confirmation
+      - endpoint:submission-archive
+      - endpoint:submission-reactivate
+      - event:submission-packet-updated
+      - event:submission-approval-granted
+      - event:submission-approval-declined
+      - event:submission-archived
+      - event:submission-reactivated
       - state:submission:in-review
       - state:submission:quoted
       - state:submission:bind-requested
@@ -533,6 +546,8 @@ features:
       - {id: feature:F0018, provenance: extracted, confidence: 1.0, note: "Bind emits policy-creation handoff/correlation to F0018 (ADR-025 §4)"}
       - {id: feature:F0020, provenance: extracted, confidence: 1.0, note: "Quote packet links submission-parented documents (ADR-012 / ADR-025 §2)"}
       - {id: feature:F0034, provenance: extracted, confidence: 1.0, note: "Structured coverage/product attributes reused from product-schema registry (F0034-S0007 handoff)"}
+    notes:
+      - "Closed 2026-06-03 with feature evidence run 2026-06-03-7e8e0ddc. Scope stays CRM workflow coordination: quote figures are recorded reference values, never rating/pricing/scoring computations."
   - id: feature:F0020
     path: planning-mds/features/archive/F0020-document-management-and-acord-intake
     status: archived-done
@@ -872,7 +887,7 @@ features:
 
 stories:
   - id: story:F0019-S0001
-    path: planning-mds/features/F0019-submission-quoting-proposal-and-approval/F0019-S0001-activate-downstream-submission-workflow.md
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0001-activate-downstream-submission-workflow.md
     feature: feature:F0019
     affects:
       - workflow:submission
@@ -888,7 +903,7 @@ stories:
     uses_api_contract:
       - api:nebula-rest
   - id: story:F0019-S0002
-    path: planning-mds/features/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
     feature: feature:F0019
     affects:
       - entity:submission-quote-packet
@@ -908,7 +923,7 @@ stories:
     uses_api_contract:
       - api:nebula-rest
   - id: story:F0019-S0003
-    path: planning-mds/features/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
     feature: feature:F0019
     affects:
       - entity:submission-approval-decision
@@ -921,7 +936,7 @@ stories:
     uses_api_contract:
       - api:nebula-rest
   - id: story:F0019-S0004
-    path: planning-mds/features/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md
     feature: feature:F0019
     affects:
       - state:submission:bind-requested
@@ -939,7 +954,7 @@ stories:
     uses_api_contract:
       - api:nebula-rest
   - id: story:F0019-S0005
-    path: planning-mds/features/F0019-submission-quoting-proposal-and-approval/F0019-S0005-decline-and-withdraw-terminal-decisions.md
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0005-decline-and-withdraw-terminal-decisions.md
     feature: feature:F0019
     affects:
       - state:submission:declined
@@ -954,7 +969,7 @@ stories:
     uses_api_contract:
       - api:nebula-rest
   - id: story:F0019-S0006
-    path: planning-mds/features/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
     feature: feature:F0019
     affects:
       - entity:submission
@@ -966,7 +981,7 @@ stories:
     uses_api_contract:
       - api:nebula-rest
   - id: story:F0019-S0007
-    path: planning-mds/features/F0019-submission-quoting-proposal-and-approval/F0019-S0007-downstream-submission-pipeline-list-and-workflow-visibility.md
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0007-downstream-submission-pipeline-list-and-workflow-visibility.md
     feature: feature:F0019
     affects:
       - workflow:submission
@@ -978,7 +993,7 @@ stories:
     uses_api_contract:
       - api:nebula-rest
   - id: story:F0019-S0008
-    path: planning-mds/features/F0019-submission-quoting-proposal-and-approval/F0019-S0008-downstream-submission-workflow-timeline-and-audit-trail.md
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0008-downstream-submission-workflow-timeline-and-audit-trail.md
     feature: feature:F0019
     affects:
       - entity:activity-timeline-event

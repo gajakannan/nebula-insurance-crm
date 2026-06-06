@@ -207,8 +207,8 @@ entities:
   - id: entity:submission-quote-packet
     label: SubmissionQuotePacket
     source_docs:
-      - planning-mds/features/F0019-submission-quoting-proposal-and-approval/PRD.md
-      - planning-mds/features/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/PRD.md
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
       - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md
     rationale:
       - adr: adr:025
@@ -217,13 +217,23 @@ entities:
   - id: entity:submission-approval-decision
     label: SubmissionApprovalDecision
     source_docs:
-      - planning-mds/features/F0019-submission-quoting-proposal-and-approval/PRD.md
-      - planning-mds/features/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/PRD.md
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
       - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md
     rationale:
       - adr: adr:025
         section: "Decision §3"
         summary: "Append-only single-approver decision (approver, reason, authority context) gating bind; shaped to extend to maker-checker / authority limits without a workflow rewrite."
+  - id: entity:submission-bind-handoff
+    label: SubmissionBindHandoff
+    source_docs:
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/PRD.md
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md
+      - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md
+    rationale:
+      - adr: adr:025
+        section: "Decision §4"
+        summary: "Append-only bind handoff coordination record created after approval; records handoff metadata and supports idempotent bind request/confirmation without creating policies directly."
 
 workflows:
   - id: workflow:submission
@@ -479,7 +489,7 @@ capabilities:
   - id: capability:submission-workflow
     label: Submission Downstream Workflow
     source_docs:
-      - planning-mds/features/F0019-submission-quoting-proposal-and-approval/PRD.md
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/PRD.md
       - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md
     rationale:
       - adr: adr:025
@@ -982,6 +992,85 @@ endpoints:
       - entity:submission
       - entity:activity-timeline-event
       - policy_rule:timeline-event-read
+  - id: endpoint:submission-quote-packet-read
+    label: GET /submissions/{submissionId}/quote-packet
+    method: GET
+    route: /submissions/{submissionId}/quote-packet
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-quote-packet
+      - workflow:submission
+  - id: endpoint:submission-quote-packet-update
+    label: PUT /submissions/{submissionId}/quote-packet
+    method: PUT
+    route: /submissions/{submissionId}/quote-packet
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-quote-packet
+      - workflow:submission
+  - id: endpoint:submission-approval
+    label: POST /submissions/{submissionId}/approval
+    method: POST
+    route: /submissions/{submissionId}/approval
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-approval-decision
+      - policy_rule:submission-approve
+      - workflow:submission
+  - id: endpoint:submission-bind-request
+    label: POST /submissions/{submissionId}/bind-request
+    method: POST
+    route: /submissions/{submissionId}/bind-request
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-approval-decision
+      - entity:submission-bind-handoff
+      - workflow:submission
+  - id: endpoint:submission-bind-confirmation
+    label: POST /submissions/{submissionId}/bind-confirmation
+    method: POST
+    route: /submissions/{submissionId}/bind-confirmation
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-bind-handoff
+      - workflow:submission
+  - id: endpoint:submission-archive
+    label: POST /submissions/{submissionId}/archive
+    method: POST
+    route: /submissions/{submissionId}/archive
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
+    related_nodes:
+      - entity:submission
+      - policy_rule:submission-archive
+      - workflow:submission
+  - id: endpoint:submission-reactivate
+    label: POST /submissions/{submissionId}/reactivate
+    method: POST
+    route: /submissions/{submissionId}/reactivate
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
+    related_nodes:
+      - entity:submission
+      - policy_rule:submission-archive
+      - workflow:submission
   - id: endpoint:renewal-list
     label: GET /renewals
     method: GET
@@ -1622,6 +1711,59 @@ events:
       - adr: adr:011
         section: "Decision"
         summary: "Immutable transition events with timestamps, actor identity, and reason enable auditable reporting over structured transition history."
+  - id: event:submission-packet-updated
+    label: SubmissionPacketUpdated
+    event_type: SubmissionPacketUpdated
+    source_docs:
+      - planning-mds/schemas/activity-event-payloads.schema.json
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-quote-packet
+      - entity:activity-timeline-event
+      - workflow:submission
+  - id: event:submission-approval-granted
+    label: SubmissionApprovalGranted
+    event_type: SubmissionApprovalGranted
+    source_docs:
+      - planning-mds/schemas/activity-event-payloads.schema.json
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-approval-decision
+      - entity:activity-timeline-event
+      - workflow:submission
+  - id: event:submission-approval-declined
+    label: SubmissionApprovalDeclined
+    event_type: SubmissionApprovalDeclined
+    source_docs:
+      - planning-mds/schemas/activity-event-payloads.schema.json
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-approval-decision
+      - entity:activity-timeline-event
+      - workflow:submission
+  - id: event:submission-archived
+    label: SubmissionArchived
+    event_type: SubmissionArchived
+    source_docs:
+      - planning-mds/schemas/activity-event-payloads.schema.json
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
+    related_nodes:
+      - entity:submission
+      - entity:activity-timeline-event
+      - workflow:submission
+  - id: event:submission-reactivated
+    label: SubmissionReactivated
+    event_type: SubmissionReactivated
+    source_docs:
+      - planning-mds/schemas/activity-event-payloads.schema.json
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
+    related_nodes:
+      - entity:submission
+      - entity:activity-timeline-event
+      - workflow:submission
   - id: event:task-created
     label: TaskCreated
     event_type: TaskCreated

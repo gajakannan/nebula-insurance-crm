@@ -29,7 +29,6 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 |------------|------|--------|-------|--------|
 | F0008 | Broker Insights | Planned | MVP | `F0008-broker-insights/` |
 | F0017 | Broker/MGA Hierarchy, Producer Ownership & Territory Management | Planned | CRM Release MVP+ | `F0017-broker-mga-hierarchy-and-producer-ownership/` |
-| F0019 | Submission Quoting, Proposal & Approval Workflow | Planned | CRM Release MVP | `F0019-submission-quoting-proposal-and-approval/` |
 | F0021 | Communication Hub & Activity Capture | Planned | CRM Release MVP | `F0021-communication-hub-and-activity-capture/` |
 | F0022 | Work Queues, Assignment Rules & Coverage Management | Planned | CRM Release MVP | `F0022-work-queues-assignment-rules-and-coverage-management/` |
 | F0023 | Global Search, Saved Views & Operational Reporting | Planned | CRM Release MVP | `F0023-global-search-saved-views-and-operational-reporting/` |
@@ -47,6 +46,7 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 
 | Feature ID | Name | Archived Date | Folder |
 |------------|------|---------------|--------|
+| F0019 | Submission Quoting, Proposal & Approval Workflow | 2026-06-03 | `archive/F0019-submission-quoting-proposal-and-approval/` |
 | F0036 | Form Engine and Form-State Preservation (RHF + AJV + Widget Registry) | 2026-05-30 | `archive/F0036-dynamic-product-attribute-form-engine/` |
 | F0035 | Session Continuity & Token Refresh | 2026-05-24 | `archive/F0035-session-continuity-and-token-refresh/` |
 | F0034 | Product Schema Registry and Dynamic LOB Attributes | 2026-05-07 | `archive/F0034-product-schema-registry-and-dynamic-lob-attributes/` |

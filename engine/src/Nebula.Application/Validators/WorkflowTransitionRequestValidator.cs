@@ -11,12 +11,12 @@ public class WorkflowTransitionRequestValidator : AbstractValidator<WorkflowTran
 
         RuleFor(x => x.ReasonCode)
             .NotEmpty()
-            .When(x => string.Equals(x.ToState, "Lost", StringComparison.Ordinal));
+            .When(x => IsTerminalReasonRequired(x.ToState));
 
         RuleFor(x => x.ReasonDetail)
             .NotEmpty()
             .When(x =>
-                string.Equals(x.ToState, "Lost", StringComparison.Ordinal)
+                IsTerminalReasonRequired(x.ToState)
                 && string.Equals(x.ReasonCode, "Other", StringComparison.Ordinal));
 
         RuleFor(x => x.ReasonDetail)
@@ -30,4 +30,9 @@ public class WorkflowTransitionRequestValidator : AbstractValidator<WorkflowTran
                 || x.RenewalSubmissionId.HasValue)
             .WithMessage("boundPolicyId or renewalSubmissionId is required when transitioning to Completed.");
     }
+
+    private static bool IsTerminalReasonRequired(string toState) =>
+        string.Equals(toState, "Lost", StringComparison.Ordinal)
+        || string.Equals(toState, "Declined", StringComparison.Ordinal)
+        || string.Equals(toState, "Withdrawn", StringComparison.Ordinal);
 }

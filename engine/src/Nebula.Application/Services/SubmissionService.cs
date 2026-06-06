@@ -10,6 +10,9 @@ namespace Nebula.Application.Services;
 
 public class SubmissionService(
     ISubmissionRepository submissionRepo,
+    ISubmissionQuotePacketRepository quotePacketRepo,
+    ISubmissionApprovalDecisionRepository approvalDecisionRepo,
+    ISubmissionBindHandoffRepository bindHandoffRepo,
     IWorkflowTransitionRepository transitionRepo,
     ITimelineRepository timelineRepo,
     IBrokerRepository brokerRepo,
@@ -25,12 +28,16 @@ public class SubmissionService(
         CancellationToken ct = default)
     {
         var result = await submissionRepo.ListAsync(query, user, ct);
-        var staleFlags = await submissionRepo.GetStaleFlagsAsync(result.Data.Select(submission => submission.Id).ToArray(), ct);
+        var submissionIds = result.Data.Select(submission => submission.Id).ToArray();
+        var staleFlags = await submissionRepo.GetStaleFlagsAsync(submissionIds, ct);
+        var ageDays = await submissionRepo.GetAgeDaysInStateAsync(submissionIds, ct);
 
         var mapped = result.Data
             .Select(submission =>
             {
                 var fallback = BuildAccountFallback(submission);
+                var isStale = staleFlags.GetValueOrDefault(submission.Id);
+                var approvalStatus = ResolveApprovalStatus(submission);
                 return new SubmissionListItemDto(
                     submission.Id,
                     submission.AccountId,
@@ -45,7 +52,12 @@ public class SubmissionService(
                     submission.AssignedToUserId,
                     submission.AssignedToUser.DisplayName,
                     submission.CreatedAt,
-                    staleFlags.GetValueOrDefault(submission.Id));
+                    isStale,
+                    ageDays.GetValueOrDefault(submission.Id),
+                    approvalStatus,
+                    string.Equals(approvalStatus, "Pending", StringComparison.Ordinal),
+                    submission.IsArchived,
+                    isStale);
             })
             .ToList();
 
@@ -76,6 +88,495 @@ public class SubmissionService(
     {
         var transitions = await transitionRepo.ListByEntityAsync("Submission", submissionId, ct);
         return transitions.Select(MapTransition).ToList();
+    }
+
+    public async Task<(SubmissionQuotePacketDto? Dto, string? ErrorCode)> GetQuotePacketAsync(
+        Guid submissionId,
+        ICurrentUserService user,
+        CancellationToken ct = default)
+    {
+        var submission = await submissionRepo.GetByIdWithIncludesAsync(submissionId, ct);
+        if (submission is null || !CanReadSubmission(user, submission))
+            return (null, "not_found");
+
+        return (MapQuotePacket(submission.QuotePackets.OrderByDescending(packet => packet.UpdatedAt).FirstOrDefault(), submission.Id), null);
+    }
+
+    public async Task<(SubmissionDto? Dto, string? ErrorCode, IReadOnlyList<string>? MissingItems)> UpdateQuotePacketAsync(
+        Guid submissionId,
+        SubmissionQuotePacketUpdateDto dto,
+        uint expectedRowVersion,
+        ICurrentUserService user,
+        CancellationToken ct = default)
+    {
+        var submission = await submissionRepo.GetByIdWithIncludesAsync(submissionId, ct);
+        if (submission is null || !CanManageDownstreamSubmission(user, submission))
+            return (null, "not_found", null);
+
+        if (submission.RowVersion != expectedRowVersion)
+            return (null, "precondition_failed", null);
+
+        if (submission.IsArchived)
+            return (null, "archived_submission", null);
+
+        if (!IsAnyStatus(submission.CurrentStatus, "InReview", "Quoted"))
+            return (null, "invalid_transition", null);
+
+        var now = DateTime.UtcNow;
+        var packet = await quotePacketRepo.GetBySubmissionIdAsync(submissionId, ct);
+        var isNewPacket = packet is null;
+        packet ??= new SubmissionQuotePacket
+        {
+            SubmissionId = submissionId,
+            CreatedAt = now,
+            CreatedByUserId = user.UserId,
+        };
+
+        if (dto.LinkedDocumentRefs is not null)
+            packet.LinkedDocumentRefsJson = JsonSerializer.Serialize(dto.LinkedDocumentRefs);
+
+        packet.RecordedPremiumAmount = dto.RecordedPremiumAmount;
+        packet.RecordedLimits = dto.RecordedLimits;
+        packet.RecordedDeductibles = dto.RecordedDeductibles;
+        packet.EffectiveDate = dto.EffectiveDate;
+        packet.CarrierMarket = dto.CarrierMarket;
+        packet.UpdatedAt = now;
+        packet.UpdatedByUserId = user.UserId;
+
+        if (dto.MarkReady)
+        {
+            var missingItems = GetQuotePacketMissingItems(packet);
+            if (missingItems.Count > 0)
+                return (null, "missing_transition_prerequisite", missingItems);
+
+            packet.Status = "ReadyForApproval";
+            packet.ReadinessState = "ReadyForApproval";
+            packet.ReadyAt ??= now;
+            packet.ReadyByUserId ??= user.UserId;
+        }
+
+        if (isNewPacket)
+            await quotePacketRepo.AddAsync(packet, ct);
+        else
+            await quotePacketRepo.UpdateAsync(packet, ct);
+
+        if (submission.QuotePackets.All(existing => existing.Id != packet.Id))
+            submission.QuotePackets.Add(packet);
+
+        await timelineRepo.AddEventAsync(new ActivityTimelineEvent
+        {
+            EntityType = "Submission",
+            EntityId = submissionId,
+            EventType = "SubmissionPacketUpdated",
+            EventDescription = dto.MarkReady
+                ? "Quote/proposal packet marked ready for approval"
+                : "Quote/proposal packet updated",
+            ActorUserId = user.UserId,
+            ActorDisplayName = user.DisplayName,
+            OccurredAt = now,
+            EventPayloadJson = JsonSerializer.Serialize(new
+            {
+                packetStatus = packet.Status,
+                packetReadiness = packet.ReadinessState,
+                linkedDocumentRefs = DeserializeGuidList(packet.LinkedDocumentRefsJson),
+                recordedPremiumAmount = packet.RecordedPremiumAmount,
+                packet.RecordedLimits,
+                packet.RecordedDeductibles,
+                packet.EffectiveDate,
+                packet.CarrierMarket,
+            }),
+        }, ct);
+
+        if (dto.MarkReady && string.Equals(submission.CurrentStatus, "InReview", StringComparison.Ordinal))
+            await AddSubmissionTransitionAsync(submission, "Quoted", "Quote/proposal packet ready for approval", user, now, ct);
+
+        submission.UpdatedAt = now;
+        submission.UpdatedByUserId = user.UserId;
+        submission.RowVersion = expectedRowVersion;
+        await submissionRepo.UpdateAsync(submission, ct);
+
+        try
+        {
+            await unitOfWork.CommitAsync(ct);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return (null, "precondition_failed", null);
+        }
+
+        var updated = await submissionRepo.GetByIdWithIncludesAsync(submissionId, ct)
+            ?? throw new InvalidOperationException("Updated submission could not be reloaded.");
+        return (await MapToDtoAsync(updated, user, ct), null, null);
+    }
+
+    public async Task<(SubmissionDto? Dto, string? ErrorCode, IReadOnlyList<string>? MissingItems)> ApproveSubmissionAsync(
+        Guid submissionId,
+        SubmissionApprovalRequestDto dto,
+        uint expectedRowVersion,
+        ICurrentUserService user,
+        CancellationToken ct = default)
+    {
+        var submission = await submissionRepo.GetByIdWithIncludesAsync(submissionId, ct);
+        if (submission is null || !CanApproveSubmission(user, submission))
+            return (null, "not_found", null);
+
+        if (submission.RowVersion != expectedRowVersion)
+            return (null, "precondition_failed", null);
+
+        if (submission.IsArchived)
+            return (null, "archived_submission", null);
+
+        if (!string.Equals(submission.CurrentStatus, "Quoted", StringComparison.Ordinal))
+            return (null, "invalid_transition", null);
+
+        var decision = NormalizeApprovalDecision(dto.Decision);
+        if (decision is null)
+            return (null, "invalid_approval_decision", null);
+
+        if (string.IsNullOrWhiteSpace(dto.Reason))
+            return (null, "missing_reason", null);
+
+        var packet = await quotePacketRepo.GetBySubmissionIdAsync(submissionId, ct);
+        if (packet is null || !IsPacketReadyForApproval(packet))
+            return (null, "missing_transition_prerequisite", ["Ready quote/proposal packet"]);
+
+        if (string.Equals(decision, "Granted", StringComparison.Ordinal)
+            && await approvalDecisionRepo.GetLatestGrantedAsync(submissionId, ct) is not null)
+        {
+            return (null, "duplicate_approval", null);
+        }
+
+        var now = DateTime.UtcNow;
+        var approval = new SubmissionApprovalDecision
+        {
+            SubmissionId = submissionId,
+            Decision = decision,
+            ApproverUserId = user.UserId,
+            Reason = dto.Reason.Trim(),
+            AuthorityContextJson = JsonSerializer.Serialize(new
+            {
+                user.UserId,
+                user.DisplayName,
+                user.Roles,
+            }),
+            BlockingConditionsJson = JsonSerializer.Serialize(dto.BlockingConditions ?? []),
+            DecidedAt = now,
+            CreatedAt = now,
+            CreatedByUserId = user.UserId,
+            UpdatedAt = now,
+            UpdatedByUserId = user.UserId,
+        };
+
+        if (string.Equals(decision, "Granted", StringComparison.Ordinal))
+        {
+            packet.Status = "Approved";
+            packet.ReadinessState = "Approved";
+            packet.ApprovedAt = now;
+            packet.ApprovedByUserId = user.UserId;
+            packet.UpdatedAt = now;
+            packet.UpdatedByUserId = user.UserId;
+            await quotePacketRepo.UpdateAsync(packet, ct);
+        }
+
+        submission.UpdatedAt = now;
+        submission.UpdatedByUserId = user.UserId;
+        submission.RowVersion = expectedRowVersion;
+
+        await approvalDecisionRepo.AddAsync(approval, ct);
+        await submissionRepo.UpdateAsync(submission, ct);
+        await timelineRepo.AddEventAsync(new ActivityTimelineEvent
+        {
+            EntityType = "Submission",
+            EntityId = submissionId,
+            EventType = string.Equals(decision, "Granted", StringComparison.Ordinal)
+                ? "SubmissionApprovalGranted"
+                : "SubmissionApprovalDeclined",
+            EventDescription = string.Equals(decision, "Granted", StringComparison.Ordinal)
+                ? "Underwriting approval granted"
+                : "Underwriting approval declined",
+            ActorUserId = user.UserId,
+            ActorDisplayName = user.DisplayName,
+            OccurredAt = now,
+            EventPayloadJson = JsonSerializer.Serialize(new
+            {
+                decision,
+                approval.Reason,
+                blockingConditions = dto.BlockingConditions ?? [],
+            }),
+        }, ct);
+
+        try
+        {
+            await unitOfWork.CommitAsync(ct);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return (null, "precondition_failed", null);
+        }
+
+        var updated = await submissionRepo.GetByIdWithIncludesAsync(submissionId, ct)
+            ?? throw new InvalidOperationException("Approved submission could not be reloaded.");
+        return (await MapToDtoAsync(updated, user, ct), null, null);
+    }
+
+    public async Task<(SubmissionDto? Dto, string? ErrorCode, IReadOnlyList<string>? MissingItems)> RequestBindAsync(
+        Guid submissionId,
+        SubmissionBindRequestDto dto,
+        uint expectedRowVersion,
+        ICurrentUserService user,
+        CancellationToken ct = default)
+    {
+        var submission = await submissionRepo.GetByIdWithIncludesAsync(submissionId, ct);
+        if (submission is null || !CanManageDownstreamSubmission(user, submission))
+            return (null, "not_found", null);
+
+        if (submission.RowVersion != expectedRowVersion)
+            return (null, "precondition_failed", null);
+
+        if (submission.IsArchived)
+            return (null, "archived_submission", null);
+
+        if (!string.Equals(submission.CurrentStatus, "Quoted", StringComparison.Ordinal))
+            return (null, "invalid_transition", null);
+
+        var packet = await quotePacketRepo.GetBySubmissionIdAsync(submissionId, ct);
+        if (packet is null || !IsPacketApproved(packet))
+            return (null, "missing_transition_prerequisite", ["Approved quote/proposal packet"]);
+
+        var granted = await approvalDecisionRepo.GetLatestGrantedAsync(submissionId, ct);
+        if (granted is null)
+            return (null, "missing_transition_prerequisite", ["Granted underwriting approval"]);
+
+        var idempotencyKey = NormalizeIdempotencyKey(dto.IdempotencyKey) ?? $"submission-bind:{submissionId:N}";
+        var existing = await bindHandoffRepo.GetByIdempotencyKeyAsync(submissionId, idempotencyKey, ct);
+        if (existing is not null)
+            return (await MapToDtoAsync(submission, user, ct), null, null);
+
+        var now = DateTime.UtcNow;
+        var handoff = new SubmissionBindHandoff
+        {
+            SubmissionId = submissionId,
+            IdempotencyKey = idempotencyKey,
+            Status = "Pending",
+            CorrelationId = Guid.NewGuid(),
+            PayloadSnapshotJson = JsonSerializer.Serialize(new
+            {
+                submission.Id,
+                submission.AccountId,
+                submission.BrokerId,
+                submission.LineOfBusiness,
+                packet.RecordedPremiumAmount,
+                packet.RecordedLimits,
+                packet.RecordedDeductibles,
+                packet.EffectiveDate,
+                packet.CarrierMarket,
+                linkedDocumentRefs = DeserializeGuidList(packet.LinkedDocumentRefsJson),
+                approvalDecisionId = granted.Id,
+            }),
+            RequestedAt = now,
+            CreatedAt = now,
+            CreatedByUserId = user.UserId,
+            UpdatedAt = now,
+            UpdatedByUserId = user.UserId,
+        };
+
+        await bindHandoffRepo.AddAsync(handoff, ct);
+        await AddSubmissionTransitionAsync(submission, "BindRequested", "Approved submission sent for bind handoff", user, now, ct);
+
+        submission.UpdatedAt = now;
+        submission.UpdatedByUserId = user.UserId;
+        submission.RowVersion = expectedRowVersion;
+        await submissionRepo.UpdateAsync(submission, ct);
+
+        try
+        {
+            await unitOfWork.CommitAsync(ct);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return (null, "precondition_failed", null);
+        }
+
+        var updated = await submissionRepo.GetByIdWithIncludesAsync(submissionId, ct)
+            ?? throw new InvalidOperationException("Bind-requested submission could not be reloaded.");
+        return (await MapToDtoAsync(updated, user, ct), null, null);
+    }
+
+    public async Task<(SubmissionDto? Dto, string? ErrorCode, IReadOnlyList<string>? MissingItems)> ConfirmBindAsync(
+        Guid submissionId,
+        SubmissionBindRequestDto dto,
+        uint expectedRowVersion,
+        ICurrentUserService user,
+        CancellationToken ct = default)
+    {
+        var submission = await submissionRepo.GetByIdWithIncludesAsync(submissionId, ct);
+        if (submission is null || !CanManageDownstreamSubmission(user, submission))
+            return (null, "not_found", null);
+
+        if (submission.RowVersion != expectedRowVersion)
+            return (null, "precondition_failed", null);
+
+        if (submission.IsArchived)
+            return (null, "archived_submission", null);
+
+        if (!string.Equals(submission.CurrentStatus, "BindRequested", StringComparison.Ordinal))
+            return (null, "invalid_transition", null);
+
+        var idempotencyKey = NormalizeIdempotencyKey(dto.IdempotencyKey);
+        var handoff = idempotencyKey is not null
+            ? await bindHandoffRepo.GetByIdempotencyKeyAsync(submissionId, idempotencyKey, ct)
+            : await bindHandoffRepo.GetLatestBySubmissionIdAsync(submissionId, ct);
+
+        if (handoff is null)
+            return (null, "missing_transition_prerequisite", ["Pending bind handoff"]);
+
+        var now = DateTime.UtcNow;
+        handoff.Status = "Completed";
+        handoff.CompletedAt ??= now;
+        handoff.UpdatedAt = now;
+        handoff.UpdatedByUserId = user.UserId;
+
+        await bindHandoffRepo.UpdateAsync(handoff, ct);
+        await AddSubmissionTransitionAsync(submission, "Bound", "Bind handoff confirmed", user, now, ct);
+
+        submission.UpdatedAt = now;
+        submission.UpdatedByUserId = user.UserId;
+        submission.RowVersion = expectedRowVersion;
+        await submissionRepo.UpdateAsync(submission, ct);
+
+        try
+        {
+            await unitOfWork.CommitAsync(ct);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return (null, "precondition_failed", null);
+        }
+
+        var updated = await submissionRepo.GetByIdWithIncludesAsync(submissionId, ct)
+            ?? throw new InvalidOperationException("Bound submission could not be reloaded.");
+        return (await MapToDtoAsync(updated, user, ct), null, null);
+    }
+
+    public async Task<(SubmissionDto? Dto, string? ErrorCode)> ArchiveAsync(
+        Guid submissionId,
+        SubmissionArchiveRequestDto dto,
+        uint expectedRowVersion,
+        ICurrentUserService user,
+        CancellationToken ct = default)
+    {
+        var submission = await submissionRepo.GetByIdWithIncludesAsync(submissionId, ct);
+        if (submission is null || !CanArchiveSubmission(user, submission))
+            return (null, "not_found");
+
+        if (submission.RowVersion != expectedRowVersion)
+            return (null, "precondition_failed");
+
+        if (string.IsNullOrWhiteSpace(dto.Reason))
+            return (null, "missing_reason");
+
+        if (!IsAnyStatus(submission.CurrentStatus, "Bound", "Declined", "Withdrawn"))
+            return (null, "invalid_transition");
+
+        if (submission.IsArchived)
+            return (await MapToDtoAsync(submission, user, ct), null);
+
+        var now = DateTime.UtcNow;
+        submission.IsArchived = true;
+        submission.ArchivedAt = now;
+        submission.ArchivedByUserId = user.UserId;
+        submission.UpdatedAt = now;
+        submission.UpdatedByUserId = user.UserId;
+        submission.RowVersion = expectedRowVersion;
+
+        await submissionRepo.UpdateAsync(submission, ct);
+        await timelineRepo.AddEventAsync(new ActivityTimelineEvent
+        {
+            EntityType = "Submission",
+            EntityId = submissionId,
+            EventType = "SubmissionArchived",
+            EventDescription = "Submission archived",
+            ActorUserId = user.UserId,
+            ActorDisplayName = user.DisplayName,
+            OccurredAt = now,
+            EventPayloadJson = JsonSerializer.Serialize(new
+            {
+                reason = dto.Reason,
+                archivedAt = now,
+            }),
+        }, ct);
+
+        try
+        {
+            await unitOfWork.CommitAsync(ct);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return (null, "precondition_failed");
+        }
+
+        var updated = await submissionRepo.GetByIdWithIncludesAsync(submissionId, ct)
+            ?? throw new InvalidOperationException("Archived submission could not be reloaded.");
+        return (await MapToDtoAsync(updated, user, ct), null);
+    }
+
+    public async Task<(SubmissionDto? Dto, string? ErrorCode)> ReactivateAsync(
+        Guid submissionId,
+        SubmissionArchiveRequestDto dto,
+        uint expectedRowVersion,
+        ICurrentUserService user,
+        CancellationToken ct = default)
+    {
+        var submission = await submissionRepo.GetByIdWithIncludesAsync(submissionId, ct);
+        if (submission is null || !CanArchiveSubmission(user, submission))
+            return (null, "not_found");
+
+        if (submission.RowVersion != expectedRowVersion)
+            return (null, "precondition_failed");
+
+        if (string.IsNullOrWhiteSpace(dto.Reason))
+            return (null, "missing_reason");
+
+        if (!submission.IsArchived)
+            return (await MapToDtoAsync(submission, user, ct), null);
+
+        var now = DateTime.UtcNow;
+        submission.IsArchived = false;
+        submission.ArchivedAt = null;
+        submission.ArchivedByUserId = null;
+        submission.UpdatedAt = now;
+        submission.UpdatedByUserId = user.UserId;
+        submission.RowVersion = expectedRowVersion;
+
+        await submissionRepo.UpdateAsync(submission, ct);
+        await timelineRepo.AddEventAsync(new ActivityTimelineEvent
+        {
+            EntityType = "Submission",
+            EntityId = submissionId,
+            EventType = "SubmissionReactivated",
+            EventDescription = "Archived submission reactivated",
+            ActorUserId = user.UserId,
+            ActorDisplayName = user.DisplayName,
+            OccurredAt = now,
+            EventPayloadJson = JsonSerializer.Serialize(new
+            {
+                reason = dto.Reason,
+                reactivatedAt = now,
+            }),
+        }, ct);
+
+        try
+        {
+            await unitOfWork.CommitAsync(ct);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return (null, "precondition_failed");
+        }
+
+        var updated = await submissionRepo.GetByIdWithIncludesAsync(submissionId, ct)
+            ?? throw new InvalidOperationException("Reactivated submission could not be reloaded.");
+        return (await MapToDtoAsync(updated, user, ct), null);
     }
 
     public async Task<(SubmissionDto? Dto, string? ErrorCode, IReadOnlyList<LobValidationIssueDto>? LobErrors)> CreateAsync(
@@ -187,6 +688,9 @@ public class SubmissionService(
 
         if (submission.RowVersion != expectedRowVersion)
             return (null, "precondition_failed", null);
+
+        if (submission.IsArchived)
+            return (null, "archived_submission", null);
 
         if (presentFields.Contains("programId") && dto.ProgramId.HasValue)
         {
@@ -326,6 +830,9 @@ public class SubmissionService(
         if (submission.RowVersion != expectedRowVersion)
             return (null, "precondition_failed", null);
 
+        if (submission.IsArchived)
+            return (null, "archived_submission", null);
+
         if (!WorkflowStateMachine.IsValidTransition("Submission", submission.CurrentStatus, dto.ToState))
             return (null, "invalid_transition", null);
 
@@ -337,6 +844,31 @@ public class SubmissionService(
             var completeness = await EvaluateCompletenessAsync(submission, ct);
             if (!completeness.IsComplete)
                 return (null, "missing_transition_prerequisite", completeness.MissingItems);
+        }
+
+        if (string.Equals(dto.ToState, "Quoted", StringComparison.Ordinal))
+        {
+            var packet = await quotePacketRepo.GetBySubmissionIdAsync(submissionId, ct);
+            if (packet is null || !IsPacketReadyForApproval(packet))
+                return (null, "missing_transition_prerequisite", ["Ready quote/proposal packet"]);
+        }
+
+        if (string.Equals(dto.ToState, "BindRequested", StringComparison.Ordinal)
+            || string.Equals(dto.ToState, "Bound", StringComparison.Ordinal))
+        {
+            return (null, "missing_transition_prerequisite", ["Use the bind handoff endpoint for bind transitions"]);
+        }
+
+        if (IsAnyStatus(dto.ToState, "Declined", "Withdrawn"))
+        {
+            if (string.IsNullOrWhiteSpace(dto.ReasonCode))
+                return (null, "missing_transition_prerequisite", ["Reason code"]);
+
+            if (string.Equals(dto.ReasonCode, "Other", StringComparison.Ordinal)
+                && string.IsNullOrWhiteSpace(dto.ReasonDetail))
+            {
+                return (null, "missing_transition_prerequisite", ["Reason detail"]);
+            }
         }
 
         var now = DateTime.UtcNow;
@@ -375,6 +907,8 @@ public class SubmissionService(
                 fromState = transition.FromState,
                 toState = transition.ToState,
                 reason = transition.Reason,
+                reasonCode = dto.ReasonCode,
+                reasonDetail = dto.ReasonDetail,
             }),
         }, ct);
 
@@ -403,6 +937,9 @@ public class SubmissionService(
 
         if (submission.RowVersion != expectedRowVersion)
             return (null, "precondition_failed", null);
+
+        if (submission.IsArchived)
+            return (null, "archived_submission", null);
 
         if (dto.AssignedToUserId == submission.AssignedToUserId)
             return (await MapToDtoAsync(submission, user, ct), null, null);
@@ -507,11 +1044,24 @@ public class SubmissionService(
         CancellationToken ct)
     {
         var staleFlags = await submissionRepo.GetStaleFlagsAsync([submission.Id], ct);
+        var ageDays = await submissionRepo.GetAgeDaysInStateAsync([submission.Id], ct);
         var completeness = await EvaluateCompletenessAsync(submission, ct);
         var fallback = BuildAccountFallback(submission);
         var availableTransitions = WorkflowStateMachine.GetAvailableTransitions("Submission", submission.CurrentStatus)
-            .Where(target => CanPerformTransition(user, submission.CurrentStatus, target))
+            .Where(target => CanShowTransitionAction(user, submission, target))
             .ToList();
+        var quotePacket = submission.QuotePackets
+            .OrderByDescending(packet => packet.UpdatedAt)
+            .FirstOrDefault();
+        var approvalDecisions = submission.ApprovalDecisions
+            .OrderByDescending(decision => decision.DecidedAt)
+            .Select(MapApprovalDecision)
+            .ToList();
+        var bindHandoff = submission.BindHandoffs
+            .OrderByDescending(handoff => handoff.RequestedAt)
+            .Select(MapBindHandoff)
+            .FirstOrDefault();
+        var approvalStatus = ResolveApprovalStatus(submission);
 
         return new SubmissionDto(
             submission.Id,
@@ -537,7 +1087,16 @@ public class SubmissionService(
             submission.Program?.Name,
             submission.AssignedToUser.DisplayName,
             staleFlags.GetValueOrDefault(submission.Id),
+            ageDays.GetValueOrDefault(submission.Id),
+            approvalStatus,
+            string.Equals(approvalStatus, "Pending", StringComparison.Ordinal),
+            submission.IsArchived,
+            submission.ArchivedAt,
+            submission.ArchivedByUserId,
             completeness,
+            MapQuotePacket(quotePacket, submission.Id),
+            approvalDecisions,
+            bindHandoff,
             availableTransitions,
             submission.RowVersion.ToString(),
             submission.CreatedAt,
@@ -570,6 +1129,224 @@ public class SubmissionService(
         transition.ToState,
         transition.Reason,
         transition.OccurredAt);
+
+    private async Task<WorkflowTransition> AddSubmissionTransitionAsync(
+        Submission submission,
+        string toState,
+        string? reason,
+        ICurrentUserService user,
+        DateTime occurredAt,
+        CancellationToken ct)
+    {
+        var transition = new WorkflowTransition
+        {
+            WorkflowType = "Submission",
+            EntityId = submission.Id,
+            FromState = submission.CurrentStatus,
+            ToState = toState,
+            Reason = reason,
+            ActorUserId = user.UserId,
+            OccurredAt = occurredAt,
+        };
+
+        var transitionDescription = string.IsNullOrWhiteSpace(reason)
+            ? $"Status changed from {transition.FromState} to {transition.ToState}"
+            : $"Status changed from {transition.FromState} to {transition.ToState}. Note: {reason}";
+
+        submission.CurrentStatus = toState;
+
+        await transitionRepo.AddAsync(transition, ct);
+        await timelineRepo.AddEventAsync(new ActivityTimelineEvent
+        {
+            EntityType = "Submission",
+            EntityId = submission.Id,
+            EventType = "SubmissionTransitioned",
+            EventDescription = transitionDescription,
+            ActorUserId = user.UserId,
+            ActorDisplayName = user.DisplayName,
+            OccurredAt = occurredAt,
+            EventPayloadJson = JsonSerializer.Serialize(new
+            {
+                fromState = transition.FromState,
+                toState = transition.ToState,
+                reason,
+            }),
+        }, ct);
+
+        return transition;
+    }
+
+    private static SubmissionQuotePacketDto MapQuotePacket(SubmissionQuotePacket? packet, Guid submissionId) =>
+        packet is null
+            ? new SubmissionQuotePacketDto(
+                null,
+                submissionId,
+                "Draft",
+                [],
+                null,
+                null,
+                null,
+                null,
+                null,
+                "Draft",
+                null,
+                null,
+                null,
+                null,
+                string.Empty)
+            : new SubmissionQuotePacketDto(
+                packet.Id,
+                packet.SubmissionId,
+                packet.Status,
+                DeserializeGuidList(packet.LinkedDocumentRefsJson),
+                packet.RecordedPremiumAmount,
+                packet.RecordedLimits,
+                packet.RecordedDeductibles,
+                packet.EffectiveDate,
+                packet.CarrierMarket,
+                packet.ReadinessState,
+                packet.ReadyAt,
+                packet.ReadyByUserId,
+                packet.ApprovedAt,
+                packet.ApprovedByUserId,
+                packet.RowVersion.ToString());
+
+    private static SubmissionApprovalDecisionDto MapApprovalDecision(SubmissionApprovalDecision decision) => new(
+        decision.Id,
+        decision.SubmissionId,
+        decision.Decision,
+        decision.ApproverUserId,
+        decision.Reason,
+        DeserializeStringList(decision.BlockingConditionsJson),
+        decision.DecidedAt);
+
+    private static SubmissionBindHandoffDto MapBindHandoff(SubmissionBindHandoff handoff) => new(
+        handoff.Id,
+        handoff.SubmissionId,
+        handoff.IdempotencyKey,
+        handoff.Status,
+        handoff.CorrelationId,
+        handoff.RequestedAt,
+        handoff.CompletedAt);
+
+    private static IReadOnlyList<Guid> DeserializeGuidList(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            return [];
+
+        try
+        {
+            return JsonSerializer.Deserialize<IReadOnlyList<Guid>>(json) ?? [];
+        }
+        catch (JsonException)
+        {
+            return [];
+        }
+    }
+
+    private static IReadOnlyList<string> DeserializeStringList(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            return [];
+
+        try
+        {
+            return JsonSerializer.Deserialize<IReadOnlyList<string>>(json) ?? [];
+        }
+        catch (JsonException)
+        {
+            return [];
+        }
+    }
+
+    private static IReadOnlyList<string> GetQuotePacketMissingItems(SubmissionQuotePacket packet)
+    {
+        var missing = new List<string>();
+        if (DeserializeGuidList(packet.LinkedDocumentRefsJson).Count == 0)
+            missing.Add("Linked document refs");
+        if (!packet.RecordedPremiumAmount.HasValue)
+            missing.Add("Recorded premium amount");
+        if (string.IsNullOrWhiteSpace(packet.RecordedLimits))
+            missing.Add("Recorded limits");
+        if (string.IsNullOrWhiteSpace(packet.RecordedDeductibles))
+            missing.Add("Recorded deductibles");
+        if (!packet.EffectiveDate.HasValue)
+            missing.Add("Effective date");
+        if (string.IsNullOrWhiteSpace(packet.CarrierMarket))
+            missing.Add("Carrier market");
+        return missing;
+    }
+
+    private static bool IsPacketReadyForApproval(SubmissionQuotePacket packet) =>
+        IsAnyStatus(packet.ReadinessState, "ReadyForApproval", "Approved")
+        || IsAnyStatus(packet.Status, "ReadyForApproval", "Approved");
+
+    private static bool IsPacketApproved(SubmissionQuotePacket packet) =>
+        string.Equals(packet.ReadinessState, "Approved", StringComparison.Ordinal)
+        || string.Equals(packet.Status, "Approved", StringComparison.Ordinal);
+
+    private static string ResolveApprovalStatus(Submission submission)
+    {
+        var latestDecision = submission.ApprovalDecisions
+            .OrderByDescending(decision => decision.DecidedAt)
+            .FirstOrDefault();
+        if (latestDecision is not null)
+            return latestDecision.Decision;
+
+        var packet = submission.QuotePackets
+            .OrderByDescending(item => item.UpdatedAt)
+            .FirstOrDefault();
+        if (packet is not null && IsPacketApproved(packet))
+            return "Granted";
+
+        if (string.Equals(submission.CurrentStatus, "Quoted", StringComparison.Ordinal)
+            && packet is not null
+            && IsPacketReadyForApproval(packet))
+        {
+            return "Pending";
+        }
+
+        return "NotRequired";
+    }
+
+    private static string? NormalizeApprovalDecision(string decision)
+    {
+        if (string.Equals(decision, "Granted", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(decision, "Approved", StringComparison.OrdinalIgnoreCase))
+        {
+            return "Granted";
+        }
+
+        if (string.Equals(decision, "Declined", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(decision, "Denied", StringComparison.OrdinalIgnoreCase))
+        {
+            return "Declined";
+        }
+
+        return null;
+    }
+
+    private static string? NormalizeIdempotencyKey(string? value) =>
+        string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+
+    private static bool CanShowTransitionAction(ICurrentUserService user, Submission submission, string target)
+    {
+        if (submission.IsArchived || !CanPerformTransition(user, submission.CurrentStatus, target))
+            return false;
+
+        if (IsAnyStatus(target, "BindRequested", "Bound"))
+            return false;
+
+        if (string.Equals(target, "Quoted", StringComparison.Ordinal))
+        {
+            var packet = submission.QuotePackets
+                .OrderByDescending(item => item.UpdatedAt)
+                .FirstOrDefault();
+            return packet is not null && IsPacketReadyForApproval(packet);
+        }
+
+        return true;
+    }
 
     private static void TrackChange(
         IDictionary<string, object?> changedFields,
@@ -617,6 +1394,18 @@ public class SubmissionService(
             || HasRole(user, "DistributionManager")
             || HasRole(user, "DistributionUser")
             || HasRole(user, "Underwriter"));
+
+    private static bool CanManageDownstreamSubmission(ICurrentUserService user, Submission submission) =>
+        CanReadSubmission(user, submission)
+        && (HasRole(user, "Admin") || HasRole(user, "Underwriter"));
+
+    private static bool CanApproveSubmission(ICurrentUserService user, Submission submission) =>
+        CanReadSubmission(user, submission)
+        && (HasRole(user, "Admin") || HasRole(user, "Underwriter"));
+
+    private static bool CanArchiveSubmission(ICurrentUserService user, Submission submission) =>
+        CanReadSubmission(user, submission)
+        && (HasRole(user, "Admin") || HasRole(user, "Underwriter"));
 
     private static bool CanAssignSubmission(ICurrentUserService user, Submission submission)
     {
@@ -680,6 +1469,9 @@ public class SubmissionService(
         "AssignedToUserId" => "Assigned underwriter",
         _ => field,
     };
+
+    private static bool IsAnyStatus(string value, params string[] statuses) =>
+        statuses.Any(status => string.Equals(value, status, StringComparison.Ordinal));
 
     private static string[] NormalizeRegions(IReadOnlyList<string> regions) =>
         regions

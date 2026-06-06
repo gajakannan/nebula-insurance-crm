@@ -1,0 +1,9 @@
+Scope: F0019 dependency exposure
+Result: PASS
+
+Disposition:
+- No new NuGet package references were added.
+- No new pnpm dependencies were added.
+- Existing dependency lockfiles were not changed.
+- Dependency scanner was not rerun because dependency surface is unchanged.
+

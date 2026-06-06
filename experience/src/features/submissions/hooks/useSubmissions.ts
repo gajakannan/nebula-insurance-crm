@@ -13,6 +13,9 @@ export function useSubmissions({
   lineOfBusiness,
   assignedToUserId,
   stale,
+  approvalPending,
+  stuckOnly,
+  includeArchived,
   sort = 'createdAt',
   sortDir = 'desc',
   page = 1,
@@ -26,6 +29,9 @@ export function useSubmissions({
   if (lineOfBusiness) params.set('lineOfBusiness', lineOfBusiness);
   if (assignedToUserId) params.set('assignedToUserId', assignedToUserId);
   if (typeof stale === 'boolean') params.set('stale', String(stale));
+  if (typeof approvalPending === 'boolean') params.set('approvalPending', String(approvalPending));
+  if (typeof stuckOnly === 'boolean') params.set('stuckOnly', String(stuckOnly));
+  if (typeof includeArchived === 'boolean') params.set('includeArchived', String(includeArchived));
   params.set('sort', sort);
   params.set('sortDir', sortDir);
   params.set('page', String(page));
@@ -35,7 +41,21 @@ export function useSubmissions({
     queryKey: [
       'submissions',
       'list',
-      { status, brokerId, accountId, lineOfBusiness, assignedToUserId, stale, sort, sortDir, page, pageSize },
+      {
+        status,
+        brokerId,
+        accountId,
+        lineOfBusiness,
+        assignedToUserId,
+        stale,
+        approvalPending,
+        stuckOnly,
+        includeArchived,
+        sort,
+        sortDir,
+        page,
+        pageSize,
+      },
     ],
     queryFn: () => api.get<PaginatedResponse<SubmissionListItemDto>>(`/submissions?${params.toString()}`),
     enabled,

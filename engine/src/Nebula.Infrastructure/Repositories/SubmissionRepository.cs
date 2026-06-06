@@ -19,6 +19,9 @@ public class SubmissionRepository(AppDbContext db) : ISubmissionRepository
             .Include(s => s.Broker)
             .Include(s => s.Program)
             .Include(s => s.AssignedToUser)
+            .Include(s => s.QuotePackets)
+            .Include(s => s.ApprovalDecisions)
+            .Include(s => s.BindHandoffs)
             .FirstOrDefaultAsync(s => s.Id == id, ct);
 
     public async Task AddAsync(Submission submission, CancellationToken ct = default) =>
@@ -34,7 +37,8 @@ public class SubmissionRepository(AppDbContext db) : ISubmissionRepository
     {
         var filteredQuery = ApplyFilters(GetScopedQuery(user), query);
 
-        if (query.Stale.HasValue)
+        var staleFilter = query.StuckOnly is true ? true : query.Stale;
+        if (staleFilter.HasValue)
         {
             var candidates = await filteredQuery
                 .Select(submission => new SubmissionStaleInfo(
@@ -45,7 +49,7 @@ public class SubmissionRepository(AppDbContext db) : ISubmissionRepository
 
             var staleFlags = await BuildStaleFlagsAsync(candidates, ct);
             var matchingIds = staleFlags
-                .Where(item => item.Value == query.Stale.Value)
+                .Where(item => item.Value == staleFilter.Value)
                 .Select(item => item.Key)
                 .ToList();
 
@@ -82,6 +86,45 @@ public class SubmissionRepository(AppDbContext db) : ISubmissionRepository
         return await BuildStaleFlagsAsync(submissions, ct);
     }
 
+    public async Task<IReadOnlyDictionary<Guid, int>> GetAgeDaysInStateAsync(
+        IReadOnlyCollection<Guid> submissionIds,
+        CancellationToken ct = default)
+    {
+        if (submissionIds.Count == 0)
+            return new Dictionary<Guid, int>();
+
+        var submissions = await db.Submissions
+            .Where(submission => submissionIds.Contains(submission.Id))
+            .Select(submission => new SubmissionStaleInfo(
+                submission.Id,
+                submission.CurrentStatus,
+                submission.CreatedAt))
+            .ToListAsync(ct);
+
+        var latestTransitionTimes = await db.WorkflowTransitions
+            .Where(transition =>
+                transition.WorkflowType == "Submission"
+                && submissionIds.Contains(transition.EntityId))
+            .GroupBy(transition => transition.EntityId)
+            .Select(group => new
+            {
+                EntityId = group.Key,
+                LatestOccurredAt = group.Max(item => item.OccurredAt),
+            })
+            .ToDictionaryAsync(item => item.EntityId, item => item.LatestOccurredAt, ct);
+
+        var now = DateTime.UtcNow;
+        return submissions.ToDictionary(
+            submission => submission.Id,
+            submission =>
+            {
+                var referenceTimestamp = latestTransitionTimes.TryGetValue(submission.Id, out var latestOccurredAt)
+                    ? latestOccurredAt
+                    : submission.CreatedAt;
+                return Math.Max(0, (int)Math.Floor((now - referenceTimestamp).TotalDays));
+            });
+    }
+
     private IQueryable<Submission> GetScopedQuery(ICurrentUserService user)
     {
         var submissions = db.Submissions
@@ -90,6 +133,9 @@ public class SubmissionRepository(AppDbContext db) : ISubmissionRepository
             .Include(submission => submission.Broker)
             .Include(submission => submission.Program)
             .Include(submission => submission.AssignedToUser)
+            .Include(submission => submission.QuotePackets)
+            .Include(submission => submission.ApprovalDecisions)
+            .Include(submission => submission.BindHandoffs)
             .AsQueryable();
 
         if (HasRole(user, "Admin"))
@@ -109,6 +155,7 @@ public class SubmissionRepository(AppDbContext db) : ISubmissionRepository
             (includeAssigned && submission.AssignedToUserId == user.UserId)
             || (includeRegion
                 && normalizedRegions.Count > 0
+                && submission.Account.Region != null
                 && normalizedRegions.Contains(submission.Account.Region))
             || (includeManagedBroker && submission.Broker.ManagedByUserId == user.UserId)
             || (includeManagedProgram
@@ -120,6 +167,9 @@ public class SubmissionRepository(AppDbContext db) : ISubmissionRepository
         IQueryable<Submission> query,
         SubmissionListQuery filters)
     {
+        if (!filters.IncludeArchived)
+            query = query.Where(submission => !submission.IsArchived);
+
         if (!string.IsNullOrWhiteSpace(filters.Status))
         {
             var statuses = filters.Status
@@ -142,6 +192,16 @@ public class SubmissionRepository(AppDbContext db) : ISubmissionRepository
 
         if (!string.IsNullOrWhiteSpace(filters.LineOfBusiness))
             query = query.Where(submission => submission.LineOfBusiness == filters.LineOfBusiness);
+
+        if (filters.ApprovalPending is true)
+        {
+            query = query.Where(submission =>
+                submission.CurrentStatus == "Quoted"
+                && submission.QuotePackets.Any(packet =>
+                    packet.ReadinessState == "ReadyForApproval"
+                    || packet.Status == "ReadyForApproval")
+                && !submission.ApprovalDecisions.Any());
+        }
 
         return query;
     }

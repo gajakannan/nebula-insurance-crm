@@ -218,14 +218,14 @@ Auto-generated index of all user stories across feature folders.
 
 | Story ID | Title | Priority | Phase | Persona |
 |----------|-------|----------|-------|---------|
-| [F0019-S0001](./F0019-submission-quoting-proposal-and-approval/F0019-S0001-activate-downstream-submission-workflow.md) | Activate downstream submission workflow | Critical | CRM Release MVP | underwriter |
-| [F0019-S0002](./F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md) | Submission quote/proposal packet lifecycle | Critical | CRM Release MVP | underwriter |
-| [F0019-S0003](./F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md) | Underwriting approval checkpoint | Critical | CRM Release MVP | underwriting approval authority |
-| [F0019-S0004](./F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md) | Bind decision and policy handoff | Critical | CRM Release MVP | underwriter |
-| [F0019-S0005](./F0019-submission-quoting-proposal-and-approval/F0019-S0005-decline-and-withdraw-terminal-decisions.md) | Decline and withdraw terminal decisions | High | CRM Release MVP | underwriter or distribution user |
-| [F0019-S0006](./F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md) | Submission archive and deactivate | High | CRM Release MVP | underwriter or distribution user |
-| [F0019-S0007](./F0019-submission-quoting-proposal-and-approval/F0019-S0007-downstream-submission-pipeline-list-and-workflow-visibility.md) | Downstream submission pipeline list and workflow visibility | High | CRM Release MVP | distribution user or underwriter |
-| [F0019-S0008](./F0019-submission-quoting-proposal-and-approval/F0019-S0008-downstream-submission-workflow-timeline-and-audit-trail.md) | Downstream submission workflow timeline and audit trail | Medium | CRM Release MVP | underwriter or distribution user |
+| [F0019-S0001](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0001-activate-downstream-submission-workflow.md) | Activate downstream submission workflow | Critical | CRM Release MVP | underwriter |
+| [F0019-S0002](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md) | Submission quote/proposal packet lifecycle | Critical | CRM Release MVP | underwriter |
+| [F0019-S0003](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md) | Underwriting approval checkpoint | Critical | CRM Release MVP | underwriting approval authority |
+| [F0019-S0004](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md) | Bind decision and policy handoff | Critical | CRM Release MVP | underwriter |
+| [F0019-S0005](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0005-decline-and-withdraw-terminal-decisions.md) | Decline and withdraw terminal decisions | High | CRM Release MVP | underwriter or distribution user |
+| [F0019-S0006](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md) | Submission archive and deactivate | High | CRM Release MVP | underwriter or distribution user |
+| [F0019-S0007](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0007-downstream-submission-pipeline-list-and-workflow-visibility.md) | Downstream submission pipeline list and workflow visibility | High | CRM Release MVP | distribution user or underwriter |
+| [F0019-S0008](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0008-downstream-submission-workflow-timeline-and-audit-trail.md) | Downstream submission workflow timeline and audit trail | Medium | CRM Release MVP | underwriter or distribution user |
 
 ---
 

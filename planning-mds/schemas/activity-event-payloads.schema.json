@@ -215,7 +215,9 @@
       "properties": {
         "fromState": { "type": ["string", "null"], "description": "null for initial creation (null→Received)" },
         "toState":   { "type": "string" },
-        "reason":    { "type": ["string", "null"], "description": "Optional transition reason (e.g., for WaitingOnBroker)" }
+        "reason":    { "type": ["string", "null"], "description": "Optional transition reason (e.g., for WaitingOnBroker)" },
+        "reasonCode": { "type": ["string", "null"], "description": "Present for F0019 terminal Declined/Withdrawn transitions" },
+        "reasonDetail": { "type": ["string", "null"], "description": "Present when reasonCode=Other" }
       },
       "additionalProperties": false,
       "descriptionTemplate": "Status changed from {fromState} to {toState}"
@@ -257,6 +259,83 @@
       },
       "additionalProperties": false,
       "descriptionTemplate": "Submission updated ({changedFieldNames})"
+    },
+
+    "SubmissionPacketUpdated": {
+      "description": "Emitted when a submission quote/proposal packet is updated or marked ready for approval (F0019-S0002).",
+      "type": "object",
+      "required": ["packetStatus", "packetReadiness", "linkedDocumentRefs"],
+      "properties": {
+        "packetStatus": { "type": "string" },
+        "packetReadiness": { "type": "string" },
+        "linkedDocumentRefs": {
+          "type": "array",
+          "items": { "type": "string", "format": "uuid" }
+        },
+        "recordedPremiumAmount": { "type": ["number", "null"] },
+        "recordedLimits": { "type": ["string", "null"] },
+        "recordedDeductibles": { "type": ["string", "null"] },
+        "effectiveDate": { "type": ["string", "null"], "format": "date-time" },
+        "carrierMarket": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Quote/proposal packet updated"
+    },
+
+    "SubmissionApprovalGranted": {
+      "description": "Emitted when underwriting approval is granted for the current quote/proposal packet (F0019-S0003).",
+      "type": "object",
+      "required": ["decision", "reason", "blockingConditions"],
+      "properties": {
+        "decision": { "type": "string", "const": "Granted" },
+        "reason": { "type": "string" },
+        "blockingConditions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Underwriting approval granted"
+    },
+
+    "SubmissionApprovalDeclined": {
+      "description": "Emitted when underwriting approval is declined for the current quote/proposal packet (F0019-S0003).",
+      "type": "object",
+      "required": ["decision", "reason", "blockingConditions"],
+      "properties": {
+        "decision": { "type": "string", "const": "Declined" },
+        "reason": { "type": "string" },
+        "blockingConditions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Underwriting approval declined"
+    },
+
+    "SubmissionArchived": {
+      "description": "Emitted when a terminal submission is archived (F0019-S0006).",
+      "type": "object",
+      "required": ["reason", "archivedAt"],
+      "properties": {
+        "reason": { "type": "string" },
+        "archivedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Submission archived"
+    },
+
+    "SubmissionReactivated": {
+      "description": "Emitted when an archived submission is reactivated (F0019-S0006).",
+      "type": "object",
+      "required": ["reason", "reactivatedAt"],
+      "properties": {
+        "reason": { "type": "string" },
+        "reactivatedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Archived submission reactivated"
     },
 
     "RenewalCreated": {
@@ -327,6 +406,11 @@
       { "eventType": "SubmissionTransitioned", "entityType": "Submission", "emittedBy": "F0006-S0004" },
       { "eventType": "SubmissionAssigned",     "entityType": "Submission", "emittedBy": "F0006-S0006" },
       { "eventType": "SubmissionUpdated",      "entityType": "Submission", "emittedBy": "F0006-S0003" },
+      { "eventType": "SubmissionPacketUpdated",    "entityType": "Submission", "emittedBy": "F0019-S0002" },
+      { "eventType": "SubmissionApprovalGranted",  "entityType": "Submission", "emittedBy": "F0019-S0003" },
+      { "eventType": "SubmissionApprovalDeclined", "entityType": "Submission", "emittedBy": "F0019-S0003" },
+      { "eventType": "SubmissionArchived",         "entityType": "Submission", "emittedBy": "F0019-S0006" },
+      { "eventType": "SubmissionReactivated",      "entityType": "Submission", "emittedBy": "F0019-S0006" },
       { "eventType": "RenewalCreated",         "entityType": "Renewal",    "emittedBy": "F0007-S0006" },
       { "eventType": "RenewalTransitioned",    "entityType": "Renewal",    "emittedBy": "F0007-S0003" },
       { "eventType": "RenewalAssigned",        "entityType": "Renewal",    "emittedBy": "F0007-S0004" }

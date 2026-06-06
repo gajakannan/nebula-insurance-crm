@@ -26,6 +26,9 @@ export default function SubmissionsPage() {
   const lineOfBusiness = searchParams.get('lineOfBusiness') ?? '';
   const assignedToUserId = searchParams.get('assignedToUserId') ?? '';
   const staleParam = searchParams.get('stale') ?? '';
+  const approvalPendingParam = searchParams.get('approvalPending') ?? '';
+  const stuckOnlyParam = searchParams.get('stuckOnly') ?? '';
+  const includeArchivedParam = searchParams.get('includeArchived') ?? '';
   const sort = (searchParams.get('sort') ?? 'createdAt') as 'createdAt' | 'effectiveDate' | 'accountName' | 'currentStatus';
   const sortDir = (searchParams.get('sortDir') ?? 'desc') as 'asc' | 'desc';
   const page = Number(searchParams.get('page') ?? '1');
@@ -57,6 +60,9 @@ export default function SubmissionsPage() {
     lineOfBusiness: lineOfBusiness || undefined,
     assignedToUserId: assignedToUserId || undefined,
     stale: staleParam === 'true' ? true : staleParam === 'false' ? false : undefined,
+    approvalPending: approvalPendingParam === 'true' ? true : undefined,
+    stuckOnly: stuckOnlyParam === 'true' ? true : undefined,
+    includeArchived: includeArchivedParam === 'true',
     sort,
     sortDir,
     page,
@@ -210,6 +216,42 @@ export default function SubmissionsPage() {
             </label>
 
             <label className="space-y-1.5">
+              <span className="block text-xs font-medium text-text-secondary">Approval</span>
+              <select
+                aria-label="Filter submissions by approval"
+                value={approvalPendingParam}
+                onChange={(event) => updateParam('approvalPending', event.target.value || null)}
+                className="w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-nebula-violet"
+              >
+                <option value="">All</option>
+                <option value="true">Pending approval</option>
+              </select>
+            </label>
+
+            <label className="space-y-1.5">
+              <span className="block text-xs font-medium text-text-secondary">Stuck</span>
+              <select
+                aria-label="Filter stuck submissions"
+                value={stuckOnlyParam}
+                onChange={(event) => updateParam('stuckOnly', event.target.value || null)}
+                className="w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-nebula-violet"
+              >
+                <option value="">All</option>
+                <option value="true">Only stuck</option>
+              </select>
+            </label>
+
+            <label className="flex items-center gap-2 self-end rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-secondary">
+              <input
+                type="checkbox"
+                checked={includeArchivedParam === 'true'}
+                onChange={(event) => updateParam('includeArchived', event.target.checked ? 'true' : null)}
+                className="h-4 w-4 rounded border-surface-border text-nebula-violet focus:ring-nebula-violet"
+              />
+              Include archived
+            </label>
+
+            <label className="space-y-1.5">
               <span className="block text-xs font-medium text-text-secondary">Sort</span>
               <select
                 aria-label="Sort submissions"
@@ -272,13 +314,14 @@ export default function SubmissionsPage() {
                   <thead>
                     <tr className="border-b border-surface-border text-left text-xs font-medium uppercase tracking-wider text-text-muted">
                       <th className="pb-3 pr-4">Status</th>
+                      <th className="pb-3 pr-4">Signals</th>
                       <th className="pb-3 pr-4">Account</th>
                       <th className="pb-3 pr-4">Broker</th>
                       <th className="pb-3 pr-4">LOB</th>
                       <th className="pb-3 pr-4">Effective</th>
+                      <th className="pb-3 pr-4">Approval</th>
                       <th className="pb-3 pr-4">Assigned to</th>
-                      <th className="pb-3 pr-4">Created</th>
-                      <th className="pb-3">Stale</th>
+                      <th className="pb-3">Age</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-surface-border">
@@ -286,6 +329,13 @@ export default function SubmissionsPage() {
                       <tr key={submission.id} className="text-text-secondary">
                         <td className="py-3 pr-4">
                           <SubmissionStatusBadge status={submission.currentStatus} />
+                        </td>
+                        <td className="py-3 pr-4">
+                          <div className="flex flex-wrap gap-1.5">
+                            {submission.isArchived && <SubmissionSignalPill tone="neutral">Archived</SubmissionSignalPill>}
+                            {submission.stuckFlag && <SubmissionSignalPill tone="warning">Stuck</SubmissionSignalPill>}
+                            {submission.isStale && !submission.stuckFlag && <SubmissionSignalPill tone="warning">Stale</SubmissionSignalPill>}
+                          </div>
                         </td>
                         <td className="py-3 pr-4">
                           <AccountReference
@@ -299,16 +349,16 @@ export default function SubmissionsPage() {
                         <td className="py-3 pr-4">{submission.brokerName}</td>
                         <td className="py-3 pr-4">{getLineOfBusinessLabel(submission.lineOfBusiness)}</td>
                         <td className="py-3 pr-4">{formatDate(submission.effectiveDate)}</td>
-                        <td className="py-3 pr-4">{submission.assignedToDisplayName ?? 'Unassigned'}</td>
-                        <td className="py-3 pr-4">{formatDate(submission.createdAt)}</td>
-                        <td className="py-3">
-                          {submission.isStale ? (
-                            <span className="rounded-full border border-status-warning/35 bg-status-warning/20 px-2 py-0.5 text-xs font-medium text-text-primary">
-                              Stale
-                            </span>
+                        <td className="py-3 pr-4">
+                          {submission.approvalPending ? (
+                            <SubmissionSignalPill tone="warning">Pending</SubmissionSignalPill>
                           ) : (
-                            <span className="text-xs text-text-muted">Fresh</span>
+                            <span className="text-xs text-text-muted">{submission.approvalStatus}</span>
                           )}
+                        </td>
+                        <td className="py-3 pr-4">{submission.assignedToDisplayName ?? 'Unassigned'}</td>
+                        <td className="py-3 text-xs text-text-muted">
+                          {submission.ageDaysInState}d
                         </td>
                       </tr>
                     ))}
@@ -327,11 +377,9 @@ export default function SubmissionsPage() {
                       <SubmissionStatusBadge status={submission.currentStatus} />
                       <div className="flex items-center gap-2">
                         <AccountStatusBadge status={submission.accountStatus} />
-                        {submission.isStale && (
-                          <span className="rounded-full border border-status-warning/35 bg-status-warning/20 px-2 py-0.5 text-xs font-medium text-text-primary">
-                            Stale
-                          </span>
-                        )}
+                        {submission.isArchived && <SubmissionSignalPill tone="neutral">Archived</SubmissionSignalPill>}
+                        {submission.stuckFlag && <SubmissionSignalPill tone="warning">Stuck</SubmissionSignalPill>}
+                        {submission.approvalPending && <SubmissionSignalPill tone="warning">Approval</SubmissionSignalPill>}
                       </div>
                     </div>
                     <p className="mt-3 text-sm font-semibold text-text-primary">{submission.accountDisplayName}</p>
@@ -340,7 +388,8 @@ export default function SubmissionsPage() {
                       <span>{getLineOfBusinessLabel(submission.lineOfBusiness)}</span>
                       <span>{formatDate(submission.effectiveDate)}</span>
                       <span>{submission.assignedToDisplayName ?? 'Unassigned'}</span>
-                      <span>{formatDate(submission.createdAt)}</span>
+                      <span>{submission.ageDaysInState}d in state</span>
+                      <span>{submission.approvalStatus}</span>
                     </div>
                   </Link>
                 ))}
@@ -384,6 +433,18 @@ function SubmissionListSkeleton() {
         <Skeleton key={index} className="h-12 w-full" />
       ))}
     </div>
+  );
+}
+
+function SubmissionSignalPill({ children, tone }: { children: React.ReactNode; tone: 'neutral' | 'warning' }) {
+  const className = tone === 'warning'
+    ? 'border-status-warning/35 bg-status-warning/20 text-text-primary'
+    : 'border-surface-border bg-surface-card text-text-muted';
+
+  return (
+    <span className={`rounded-full border px-2 py-0.5 text-xs font-medium ${className}`}>
+      {children}
+    </span>
   );
 }
 

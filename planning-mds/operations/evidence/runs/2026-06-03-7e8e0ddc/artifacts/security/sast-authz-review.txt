@@ -1,0 +1,13 @@
+Scope: F0019 manual SAST/authz review
+Result: PASS
+
+Reviewed controls:
+- submission:read guards quote packet reads.
+- submission:update or submission:transition gates quote packet mutation before service-level downstream role checks.
+- submission:approve gates approval decisions.
+- submission:transition gates bind request/confirmation before service-level status and role checks.
+- submission:archive gates archive/reactivate before service-level terminal/archive checks.
+- Optimistic concurrency is enforced with If-Match rowVersion for mutating endpoints.
+- Archive/reactivate now reject blank audit reasons.
+- Timeline payloads contain workflow/audit metadata, not secrets.
+

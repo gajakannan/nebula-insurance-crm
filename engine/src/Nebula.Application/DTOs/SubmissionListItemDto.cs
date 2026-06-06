@@ -14,4 +14,9 @@ public record SubmissionListItemDto(
     Guid AssignedToUserId,
     string? AssignedToDisplayName,
     DateTime CreatedAt,
-    bool IsStale);
+    bool IsStale,
+    int AgeDaysInState,
+    string ApprovalStatus,
+    bool ApprovalPending,
+    bool IsArchived,
+    bool StuckFlag);
