@@ -36,3 +36,17 @@
 |-------|------|----------|---------|----------|------|-------|
 | F0017-S0001 | Quality Engineer | - | N/A | - | - | Populate after story breakdown is created. |
 | F0017-S0001 | Code Reviewer | - | N/A | - | - | Populate after story breakdown is created. |
+
+## Backend Progress (feature run 2026-06-07-771a5ef6)
+
+> In-progress build. Gates G0 (assembly plan) and G1 (runtime preflight) passed (validator exit 0). Step 1 implementation is partial: the **DistributionNode hierarchy vertical (S0001/S0002) is complete and tested**; producer ownership (S0003), territory (S0004), audit (S0005), and the frontend slice are deferred to the next session.
+
+| Slice | Status | Evidence |
+|-------|--------|----------|
+| Entities + EF configs + migration (S0001/S0003/S0004) | Done (4 entities, migration `20260608033854_F0017_…` applies in postgres) | `dotnet build` 0 errors; migration applied by integration-test startup |
+| DistributionNode service + 3 endpoints + Casbin + DI (S0001/S0002) | Done, tested | 8 integration tests green (reparent/cycle/ancestry/ancestors/descendants/403/404/428) |
+| ProducerOwnership service + endpoints (S0003) | Pending (entity+config done) | — |
+| Territory + TerritoryAssignment service + endpoints (S0004) | Pending (entity+config done) | — |
+| Frontend distribution panels (S0002/S0003/S0004) | Pending (CI-validated) | — |
+
+Test evidence: `planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-hierarchy-integration-tests.txt` — `dotnet test … DistributionEndpointTests|BrokerEndpointTests` → 20/20 passed (sdk 10.0 + Testcontainers postgres:16).

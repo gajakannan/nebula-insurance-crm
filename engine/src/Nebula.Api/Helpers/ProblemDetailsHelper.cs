@@ -228,6 +228,25 @@ public static class ProblemDetailsHelper
             ["traceId"] = Activity.Current?.Id,
         });
 
+    // ── F0017 distribution hierarchy ───────────────────────────────────────
+    public static IResult DistributionNodeSelfParent() => Results.Problem(
+        title: "Invalid parent",
+        detail: "A distribution node cannot be its own parent.",
+        statusCode: 422,
+        extensions: Ext("distribution_node_self_parent"));
+
+    public static IResult DistributionNodeCycle() => Results.Problem(
+        title: "Hierarchy cycle",
+        detail: "The requested parent is a descendant of this node; the move would create a cycle.",
+        statusCode: 409,
+        extensions: Ext("distribution_node_cycle"));
+
+    public static IResult InvalidDistributionParent() => Results.Problem(
+        title: "Invalid distribution parent",
+        detail: "The requested parent does not exist, is inactive, or is soft-deleted.",
+        statusCode: 422,
+        extensions: Ext("invalid_distribution_parent"));
+
     public static IResult PreconditionFailed() =>
         PreconditionFailed("submission");
 

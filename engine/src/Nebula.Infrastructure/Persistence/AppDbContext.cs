@@ -19,6 +19,10 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<Program> Programs => Set<Program>();
     public DbSet<Broker> Brokers => Set<Broker>();
     public DbSet<BrokerRegion> BrokerRegions => Set<BrokerRegion>();
+    public DbSet<DistributionNode> DistributionNodes => Set<DistributionNode>();
+    public DbSet<ProducerOwnership> ProducerOwnership => Set<ProducerOwnership>();
+    public DbSet<Territory> Territories => Set<Territory>();
+    public DbSet<TerritoryAssignment> TerritoryAssignments => Set<TerritoryAssignment>();
     public DbSet<Contact> Contacts => Set<Contact>();
     public DbSet<Submission> Submissions => Set<Submission>();
     public DbSet<SubmissionQuotePacket> SubmissionQuotePackets => Set<SubmissionQuotePacket>();

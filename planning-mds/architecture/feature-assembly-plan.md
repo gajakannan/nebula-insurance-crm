@@ -2063,3 +2063,26 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 - Frontend-only (`experience/**`); no backend, schema, bundle, or deployment change; backend validation remains authoritative.
 - Client AJV validates `data-schema.json`; parity measured against the actual backend (`(code, pointer)` multiset, ADR-022); cross-field rules backend-authoritative via `lobErrors[]` (no ADR-023 dependency).
 - Workstream B keeps CRUD forms controlled; only F0035 registration is added via `useControlledDirtyTracker` + the shared registration helper.
+
+---
+
+## F0017 - Broker/MGA Hierarchy, Producer Ownership & Territory Management
+
+**Added:** 2026-06-07 - Feature action Step 0 (run `2026-06-07-771a5ef6`) created the feature-local implementation execution plan after Phase B architecture (ADR-026) completed during planning.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0017-broker-mga-hierarchy-and-producer-ownership/feature-assembly-plan.md) - backend-led slice order (S0001-S0005): 4 new entities (`DistributionNode`, `ProducerOwnership`, `Territory`, `TerritoryAssignment`), self-referencing hierarchy with materialized ancestry + cycle/orphan guards, shared effective-dating period logic, territory overlap rule, 9 endpoints with Casbin role-based mutation guards, and immutable timeline emission. Frontend distribution panels validated in CI (WSL `/mnt/c` toolchain constraint).
+
+### Dependencies
+
+| Dependency | Source | What F0017 Needs | Status |
+|------------|--------|------------------|--------|
+| Broker/MGA + timeline pattern | F0002 | Flat broker/MGA records, `ActivityTimelineEvent` pattern, Casbin scaffolding | Done dependency |
+| Hierarchy/ownership/territory decision | ADR-026 | Self-ref tree + cached ancestry; effective-dated relationships; overlap rule; deferred enforcement | Accepted |
+| Reporting substrate / enforcement | F0023 / F0037 | Downstream consumers (not build prerequisites) | Planned consumers |
+
+### Architecture Notes
+
+- Backend-bearing (`engine/**`) + UI-bearing (`experience/**`); EF Core migration adds 4 tables + 3 filtered indexes (single-open-period, active territory name, single-open-assignment).
+- Hierarchy uses a nullable self-referencing `ParentId` + materialized `AncestryPath`; reparent recomputes node + descendants transactionally with cycle/orphan guards (O(depth)).
+- Producer ownership and territory assignment are effective-dated periods (close-prior/open-new in one transaction); "as of D" reads return the covering period.
+- Authorization is role-based mutation guards only (`distribution_node:update`, `producer_ownership:assign`, `territory:create`, `territory:assign`); hierarchy-aware read enforcement + rollups deferred to F0037; Security Reviewer not forced.

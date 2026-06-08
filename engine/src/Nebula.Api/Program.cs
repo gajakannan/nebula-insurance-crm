@@ -188,6 +188,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TimelineService>();
 builder.Services.AddScoped<ReferenceDataService>();
 builder.Services.AddScoped<BrokerScopeResolver>();
+builder.Services.AddScoped<DistributionNodeService>();
 builder.Services.AddScoped<SessionContinuityTelemetryService>();
 
 // Current user
@@ -320,6 +321,7 @@ app.MapHealthChecks("/healthz").AllowAnonymous();
 // API endpoints
 app.MapAuthEndpoints();
 app.MapBrokerEndpoints();
+app.MapDistributionEndpoints();
 app.MapAccountEndpoints();
 app.MapContactEndpoints();
 app.MapReferenceDataEndpoints();
