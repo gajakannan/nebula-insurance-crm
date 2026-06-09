@@ -39,7 +39,7 @@
 
 ## Backend Progress (feature run 2026-06-07-771a5ef6)
 
-> In-progress build. Gates G0 (assembly plan) and G1 (runtime preflight) passed (validator exit 0). The **entire F0017 backend is implemented and tested** (S0001–S0005): hierarchy, producer ownership, territory, and audit/timeline — **23/23 backend integration tests green** on Testcontainers postgres:16. Remaining: the frontend distribution slice (CI-validated) and evidence gates G2–G8.
+> In-progress build. Gates G0 (assembly plan) and G1 (runtime preflight) passed (validator exit 0). The **entire F0017 backend is implemented and tested** (S0001–S0005): hierarchy, producer ownership, territory, and audit/timeline — **23/23 backend integration tests green** on Testcontainers postgres:16. The frontend distribution slice (`experience/src/features/distribution/**`) is code-complete and validated in CI (local `/mnt/c` WSL toolchain blocker). Remaining: evidence gates G2–G8.
 
 | Slice | Status | Evidence |
 |-------|--------|----------|
@@ -48,6 +48,6 @@
 | ProducerOwnership service + 2 endpoints + Casbin + DI (S0003) | Done, tested | 6 integration tests green (assign/reassign/as-of/backdate-422/404/403) |
 | Territory + TerritoryAssignment service + 4 endpoints + Casbin + DI (S0004) | Done, tested | 9 integration tests green (create/duplicate-409/assign/list/as-of/backdate-422/404/403) |
 | Audit/timeline on all structural mutations (S0005) | Done (events emitted) | timeline events on reparent/ownership-assign/territory-create/member-assign |
-| Frontend distribution panels (S0002/S0003/S0004) | Pending (CI-validated) | — |
+| Frontend distribution slice (S0002/S0003/S0004) | Code complete; validated in CI | `experience/src/features/distribution/**` (10 files: types, 3 hooks, 4 panels, index, 1 test). Vitest/lint/build deferred to CI — local `/mnt/c` WSL toolchain blocker. |
 
 Test evidence: `planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-hierarchy-integration-tests.txt` — `dotnet test … DistributionEndpointTests|BrokerEndpointTests` → 20/20 passed (sdk 10.0 + Testcontainers postgres:16).
