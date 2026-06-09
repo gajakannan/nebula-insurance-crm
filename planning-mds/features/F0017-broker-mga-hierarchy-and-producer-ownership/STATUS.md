@@ -39,14 +39,15 @@
 
 ## Backend Progress (feature run 2026-06-07-771a5ef6)
 
-> In-progress build. Gates G0 (assembly plan) and G1 (runtime preflight) passed (validator exit 0). Step 1 implementation is partial: the **DistributionNode hierarchy vertical (S0001/S0002) is complete and tested**; producer ownership (S0003), territory (S0004), audit (S0005), and the frontend slice are deferred to the next session.
+> In-progress build. Gates G0 (assembly plan) and G1 (runtime preflight) passed (validator exit 0). The **entire F0017 backend is implemented and tested** (S0001–S0005): hierarchy, producer ownership, territory, and audit/timeline — **23/23 backend integration tests green** on Testcontainers postgres:16. Remaining: the frontend distribution slice (CI-validated) and evidence gates G2–G8.
 
 | Slice | Status | Evidence |
 |-------|--------|----------|
 | Entities + EF configs + migration (S0001/S0003/S0004) | Done (4 entities, migration `20260608033854_F0017_…` applies in postgres) | `dotnet build` 0 errors; migration applied by integration-test startup |
 | DistributionNode service + 3 endpoints + Casbin + DI (S0001/S0002) | Done, tested | 8 integration tests green (reparent/cycle/ancestry/ancestors/descendants/403/404/428) |
 | ProducerOwnership service + 2 endpoints + Casbin + DI (S0003) | Done, tested | 6 integration tests green (assign/reassign/as-of/backdate-422/404/403) |
-| Territory + TerritoryAssignment service + endpoints (S0004) | Pending (entity+config done) | — |
+| Territory + TerritoryAssignment service + 4 endpoints + Casbin + DI (S0004) | Done, tested | 9 integration tests green (create/duplicate-409/assign/list/as-of/backdate-422/404/403) |
+| Audit/timeline on all structural mutations (S0005) | Done (events emitted) | timeline events on reparent/ownership-assign/territory-create/member-assign |
 | Frontend distribution panels (S0002/S0003/S0004) | Pending (CI-validated) | — |
 
 Test evidence: `planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-hierarchy-integration-tests.txt` — `dotnet test … DistributionEndpointTests|BrokerEndpointTests` → 20/20 passed (sdk 10.0 + Testcontainers postgres:16).

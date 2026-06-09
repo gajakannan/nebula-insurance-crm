@@ -190,6 +190,7 @@ builder.Services.AddScoped<ReferenceDataService>();
 builder.Services.AddScoped<BrokerScopeResolver>();
 builder.Services.AddScoped<DistributionNodeService>();
 builder.Services.AddScoped<ProducerOwnershipService>();
+builder.Services.AddScoped<TerritoryService>();
 builder.Services.AddScoped<SessionContinuityTelemetryService>();
 
 // Current user
@@ -324,6 +325,7 @@ app.MapAuthEndpoints();
 app.MapBrokerEndpoints();
 app.MapDistributionEndpoints();
 app.MapProducerOwnershipEndpoints();
+app.MapTerritoryEndpoints();
 app.MapAccountEndpoints();
 app.MapContactEndpoints();
 app.MapReferenceDataEndpoints();

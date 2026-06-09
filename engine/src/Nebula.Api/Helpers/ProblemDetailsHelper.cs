@@ -260,6 +260,25 @@ public static class ProblemDetailsHelper
         statusCode: 422,
         extensions: Ext("ownership_period_invalid"));
 
+    // ── F0017 territory + effective-dated territory assignment ──────────────
+    public static IResult TerritoryDuplicateName() => Results.Problem(
+        title: "Duplicate territory name",
+        detail: "An active territory with the same name already exists.",
+        statusCode: 409,
+        extensions: Ext("territory_duplicate_name"));
+
+    public static IResult TerritoryAssignmentOverlap() => Results.Problem(
+        title: "Territory assignment overlap",
+        detail: "A conflicting active territory assignment already exists for this member.",
+        statusCode: 409,
+        extensions: Ext("territory_assignment_overlap"));
+
+    public static IResult TerritoryAssignmentPeriodInvalid() => Results.Problem(
+        title: "Invalid territory assignment period",
+        detail: "The effective date is invalid: it must be on or after the current open period and form a valid range.",
+        statusCode: 422,
+        extensions: Ext("territory_assignment_period_invalid"));
+
     public static IResult PreconditionFailed() =>
         PreconditionFailed("submission");
 

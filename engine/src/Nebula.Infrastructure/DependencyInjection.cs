@@ -15,6 +15,8 @@ public static class DependencyInjection
         services.AddScoped<IBrokerRepository, BrokerRepository>();
         services.AddScoped<IDistributionNodeRepository, DistributionNodeRepository>();
         services.AddScoped<IProducerOwnershipRepository, ProducerOwnershipRepository>();
+        services.AddScoped<ITerritoryRepository, TerritoryRepository>();
+        services.AddScoped<ITerritoryAssignmentRepository, TerritoryAssignmentRepository>();
         services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<IAccountContactRepository, AccountContactRepository>();
         services.AddScoped<IAccountRelationshipHistoryRepository, AccountRelationshipHistoryRepository>();
