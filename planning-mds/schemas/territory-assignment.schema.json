@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/territory-assignment.schema.json",
+  "title": "TerritoryAssignment",
+  "description": "Effective-dated territory membership for a broker or producer.",
+  "type": "object",
+  "required": ["id", "territoryId", "memberType", "memberId", "effectiveFrom", "effectiveTo", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "territoryId": { "type": "string", "format": "uuid" },
+    "territoryName": { "type": ["string", "null"] },
+    "memberType": { "type": "string", "enum": ["Broker", "Producer"] },
+    "memberId": { "type": "string", "format": "uuid" },
+    "memberDisplayName": { "type": ["string", "null"] },
+    "effectiveFrom": { "type": "string", "format": "date" },
+    "effectiveTo": { "type": ["string", "null"], "format": "date" },
+    "assignmentReason": { "type": ["string", "null"], "maxLength": 500 },
+    "rowVersion": { "type": "string" },
+    "changedBy": { "type": ["string", "null"], "format": "uuid" },
+    "changedAt": { "type": ["string", "null"], "format": "date-time" }
+  },
+  "additionalProperties": false
+}

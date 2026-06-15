@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/distribution-node-ancestors-response.schema.json",
+  "title": "DistributionNodeAncestorsResponse",
+  "description": "Distribution node plus ordered root-to-parent ancestors.",
+  "type": "object",
+  "required": ["node", "ancestors"],
+  "properties": {
+    "node": { "$ref": "https://nebula.local/schemas/distribution-node.schema.json" },
+    "ancestors": {
+      "type": "array",
+      "items": { "$ref": "https://nebula.local/schemas/distribution-node.schema.json" }
+    }
+  },
+  "additionalProperties": false
+}

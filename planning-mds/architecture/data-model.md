@@ -810,8 +810,74 @@ F0034 adds a governed product schema registry and dynamic attributes for variant
 5. Install invariant triggers and service middleware.
 6. Activate `cyber/1.0.0` after bundle profile, parity, projection, and signature checks pass.
 
+## 9. Broker/MGA Hierarchy, Producer Ownership & Territory (F0017)
+
+Adds the structural distribution model on top of F0002's flat broker/MGA +
+contact records. Governed by [ADR-026](decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md).
+Scope confirmed at the F0017 G1 clarification gate: arbitrary-depth
+self-referencing hierarchy + effective-dated ownership/territory + change audit;
+hierarchy-aware enforcement and rollups deferred to F0037.
+
+### 9.1 Distribution node hierarchy (self-referencing)
+
+A nullable self-reference over distribution nodes (MGA / Broker / SubBroker /
+Producer). `node_type` ordering is advisory; depth is unbounded.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid | distribution node identity (Broker/MGA/Producer share the node concept) |
+| `NodeType` | enum | MGA \| Broker \| SubBroker \| Producer |
+| `ParentId` | uuid? | self-FK; null = root |
+| `AncestryPath` | string/array | materialized root→node path (cached) |
+| `Depth` | int | derived from ancestry |
+| audit | — | `CreatedBy/At`, `UpdatedBy/At` per SOLUTION-PATTERNS |
+
+**Invariants:** no self-parent; no cycle (a node may not become a descendant of
+itself); reparent moves the whole subtree and recomputes descendant
+`AncestryPath` in one transaction; optimistic concurrency on reparent.
+
+### 9.2 ProducerOwnership (effective-dated)
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid | |
+| `ScopeRef` | uuid | account / broker relationship being owned |
+| `ProducerId` | uuid | FK → distribution node (Producer) |
+| `EffectiveFrom` | date | |
+| `EffectiveTo` | date? | null = open/current |
+| audit | — | actor + timestamps |
+
+**Invariants:** at most one open period per `ScopeRef`; `EffectiveFrom <
+EffectiveTo`; reassignment closes prior + opens new in one transaction;
+backdating before an existing period uses an explicit correction path. "As of D"
+returns the covering period.
+
+### 9.3 Territory + TerritoryAssignment (effective-dated)
+
+| Entity | Key fields | Notes |
+|--------|-----------|-------|
+| `Territory` | `Id`, `Name` (unique active), region/segment criteria | nested territories out of scope |
+| `TerritoryAssignment` | `Id`, `TerritoryId`, `MemberRef` (broker/producer), `EffectiveFrom`, `EffectiveTo?` | effective-dated |
+
+**Invariants:** no conflicting active overlapping assignment for the same member
++ period (reject 409); unique active territory name; same effective-date rules as §9.2.
+
+### 9.4 Audit
+
+All §9 mutations emit an immutable `ActivityTimelineEvent` (reusing F0002's
+pattern), committed atomically with the change (actor, timestamp, old→new,
+correlation id for bulk reparent). Rejected mutations emit nothing.
+
+### 9.5 Migration order (F0017)
+
+1. Add `ParentId`, `NodeType`, `AncestryPath`, `Depth` to the distribution-node table(s); backfill existing brokers as roots.
+2. Create `Producers` (or extend broker rows typed as Producer), `ProducerOwnership`, `Territory`, `TerritoryAssignment`.
+3. Add indexes: `ParentId`, `AncestryPath`, `(ScopeRef, EffectiveTo)`, `(MemberRef, EffectiveTo)`, unique active `Territory.Name`.
+4. Install cycle/overlap validators in the service layer; wire timeline emission.
+
 ## Related Documents
 
+- [ADR-026: Broker/MGA Hierarchy, Producer Ownership & Territory](decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md) — F0017 structural model
 - [BLUEPRINT.md Section 4.2](../BLUEPRINT.md) — Core entity definitions
 - [ADR-003: Task Entity and Nudge Engine](decisions/ADR-003-task-entity-nudge-engine.md) — Design rationale
 - [ADR-002: Dashboard Data Aggregation](decisions/ADR-002-dashboard-data-aggregation.md) — Endpoint structure
@@ -822,6 +888,8 @@ F0034 adds a governed product schema registry and dynamic attributes for variant
 - [ADR-023: JsonLogic Rules Governance](decisions/ADR-023-rules-governance-jsonlogic.md) — Rule envelope and op governance
 
 ---
+
+**Version:** 5.0 — 2026-06-06: Added §9 F0017 broker/MGA hierarchy (self-referencing + cached ancestry), effective-dated ProducerOwnership, Territory/TerritoryAssignment, and change audit (ADR-026). Enforcement + rollups deferred to F0037.
 
 **Version:** 4.0 — 2026-05-06: Added F0034 product schema registry, dynamic LOB attribute carrier columns, sentinel/backfill strategy, and Policy parent exception.
 

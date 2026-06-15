@@ -2,7 +2,7 @@
 
 Auto-generated index of all user stories across feature folders.
 
-**Total Stories:** 133
+**Total Stories:** 146
 
 ---
 
@@ -196,6 +196,18 @@ Auto-generated index of all user stories across feature folders.
 
 ---
 
+## F0017 — Broker/MGA Hierarchy, Producer Ownership & Territory Management
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0017-S0001](./F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0001-model-broker-mga-hierarchy.md) | Model broker/MGA hierarchy (self-referencing, arbitrary depth) | High | MVP | Distribution & Marketing Manager |
+| [F0017-S0002](./F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0002-navigate-hierarchy.md) | Navigate and traverse the distribution hierarchy | High | MVP | Broker Relationship Coordinator |
+| [F0017-S0003](./F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md) | Assign and maintain producer ownership (effective-dated) | High | MVP | Distribution & Marketing Manager |
+| [F0017-S0004](./F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md) | Define and manage territories with effective-dated assignment | High | MVP | Distribution & Marketing Manager |
+| [F0017-S0005](./F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0005-hierarchy-ownership-territory-audit.md) | Audit and timeline for hierarchy, ownership, and territory changes | High | MVP | Distribution & Marketing Manager |
+
+---
+
 ## F0018 — Policy Lifecycle & Policy 360
 
 | Story ID | Title | Priority | Phase | Persona |
@@ -211,6 +223,21 @@ Auto-generated index of all user stories across feature folders.
 | [F0018-S0009](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0009-policy-renewal-linkage.md) | Policy renewal linkage (predecessor / successor) and F0007 handoff | Critical | CRM Release MVP | underwriter, distribution user, or distribution manager |
 | [F0018-S0010](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0010-policy-activity-timeline-and-audit.md) | Policy activity timeline and audit trail | Critical | CRM Release MVP | underwriter, distribution manager, relationship manager, program manager, or admin |
 | [F0018-S0011](./archive/F0018-policy-lifecycle-and-policy-360/F0018-S0011-policy-summary-projection.md) | Policy summary projection for Account 360 and Policy List | Critical | CRM Release MVP | underwriter, distribution user, distribution manager, or relationship manager |
+
+---
+
+## F0019 — Submission Quoting, Proposal & Approval Workflow
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0019-S0001](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0001-activate-downstream-submission-workflow.md) | Activate downstream submission workflow | Critical | CRM Release MVP | underwriter |
+| [F0019-S0002](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md) | Submission quote/proposal packet lifecycle | Critical | CRM Release MVP | underwriter |
+| [F0019-S0003](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md) | Underwriting approval checkpoint | Critical | CRM Release MVP | underwriting approval authority |
+| [F0019-S0004](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md) | Bind decision and policy handoff | Critical | CRM Release MVP | underwriter |
+| [F0019-S0005](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0005-decline-and-withdraw-terminal-decisions.md) | Decline and withdraw terminal decisions | High | CRM Release MVP | underwriter or distribution user |
+| [F0019-S0006](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md) | Submission archive and deactivate | High | CRM Release MVP | underwriter or distribution user |
+| [F0019-S0007](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0007-downstream-submission-pipeline-list-and-workflow-visibility.md) | Downstream submission pipeline list and workflow visibility | High | CRM Release MVP | distribution user or underwriter |
+| [F0019-S0008](./archive/F0019-submission-quoting-proposal-and-approval/F0019-S0008-downstream-submission-workflow-timeline-and-audit-trail.md) | Downstream submission workflow timeline and audit trail | Medium | CRM Release MVP | underwriter or distribution user |
 
 ---
 
@@ -290,10 +317,10 @@ Auto-generated index of all user stories across feature folders.
 
 | Phase | Count |
 |-------|-------|
-| CRM Release MVP | 49 |
+| CRM Release MVP | 57 |
 | Future | 1 |
 | Infrastructure | 10 |
-| MVP | 50 |
+| MVP | 55 |
 | MVP Hardening | 1 |
 | Phase 1 | 11 |
 | Platform Foundation | 7 |
@@ -305,9 +332,9 @@ Auto-generated index of all user stories across feature folders.
 
 | Priority | Count |
 |----------|-------|
-| Critical | 58 |
-| High | 59 |
-| Medium | 12 |
+| Critical | 62 |
+| High | 67 |
+| Medium | 13 |
 
 ---
 

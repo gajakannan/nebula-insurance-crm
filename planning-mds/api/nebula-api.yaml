@@ -19,6 +19,12 @@ security:
 tags:
   - name: Brokers
     description: Broker CRUD operations
+  - name: DistributionHierarchy
+    description: Distribution node hierarchy traversal and reparenting (F0017)
+  - name: ProducerOwnership
+    description: Effective-dated producer ownership assignment and lookup (F0017)
+  - name: Territories
+    description: Territory definition and effective-dated membership (F0017)
   - name: Contacts
     description: Contact CRUD operations
   - name: Accounts
@@ -51,6 +57,317 @@ tags:
     description: Internal telemetry ingest for F0035 session-continuity events (silent renewal, idle warning, forced redirect, auth-error classification, form-snapshot skip). Governed by ADR-024.
 
 paths:
+  # ──────────────────────────────────────────────────────────────
+  # F0017 Distribution hierarchy, producer ownership, and territory
+  # ──────────────────────────────────────────────────────────────
+  /distribution-nodes/{nodeId}/parent:
+    parameters:
+      - $ref: "#/components/parameters/DistributionNodeId"
+    put:
+      operationId: setDistributionNodeParent
+      summary: Set or clear a distribution node parent
+      description: |
+        Sets or clears the parent of an MGA, broker, sub-broker, or producer
+        distribution node. Requires `If-Match` with the node `rowVersion`.
+        The service rejects self-parent attempts
+        (`distribution_node_self_parent`, 422), cycle-producing moves
+        (`distribution_node_cycle`, 409), inactive or invalid parents
+        (`invalid_distribution_parent`, 422), and stale versions
+        (`precondition_failed`, 412). Successful reparent recomputes cached
+        ancestry for the node and its descendants and emits immutable timeline
+        events atomically.
+      tags: [DistributionHierarchy]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DistributionNodeParentRequest"
+      responses:
+        "200":
+          description: Parent updated; ancestry cache recomputed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DistributionNode"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+
+  /distribution-nodes/{nodeId}/ancestors:
+    parameters:
+      - $ref: "#/components/parameters/DistributionNodeId"
+    get:
+      operationId: getDistributionNodeAncestors
+      summary: Get distribution node ancestors
+      description: |
+        Returns the requested node and its cached root-to-node ancestry path.
+        F0017 read scope is authenticated internal access; hierarchy-aware read
+        scoping is deferred to F0037.
+      tags: [DistributionHierarchy]
+      responses:
+        "200":
+          description: Ancestors for the distribution node
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DistributionNodeAncestorsResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /distribution-nodes/{nodeId}/descendants:
+    parameters:
+      - $ref: "#/components/parameters/DistributionNodeId"
+    get:
+      operationId: listDistributionNodeDescendants
+      summary: List distribution node descendants
+      description: |
+        Returns a depth-bounded, paginated descendant list for lazy hierarchy
+        expansion. `depth` defaults to 2 and is capped to prevent unbounded tree
+        responses.
+      tags: [DistributionHierarchy]
+      parameters:
+        - $ref: "#/components/parameters/Depth"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated descendant nodes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedDistributionNodeList"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /producer-ownership:
+    get:
+      operationId: getProducerOwnership
+      summary: Get producer ownership for a scope
+      description: |
+        Returns the effective-dated owner for an account or broker relationship
+        scope. When `asOf` is omitted, returns the open/current ownership period.
+      tags: [ProducerOwnership]
+      parameters:
+        - $ref: "#/components/parameters/OwnershipScopeType"
+        - $ref: "#/components/parameters/OwnershipScopeId"
+        - $ref: "#/components/parameters/AsOfDate"
+      responses:
+        "200":
+          description: Producer ownership lookup result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProducerOwnershipLookupResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    post:
+      operationId: assignProducerOwnership
+      summary: Assign or reassign producer ownership
+      description: |
+        Creates an effective-dated producer ownership period. Reassignment with
+        a later effective date closes the prior period and opens the new period
+        in one transaction. Requires `If-Match` with the owned scope rowVersion.
+        Overlap conflicts return `ownership_period_overlap` (409); invalid
+        backdating/order returns `ownership_period_invalid` (422); stale scope
+        versions return `precondition_failed` (412). Successful changes emit
+        immutable timeline events atomically.
+      tags: [ProducerOwnership]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProducerOwnershipAssignmentRequest"
+      responses:
+        "201":
+          description: Producer ownership period created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProducerOwnership"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+
+  /territories:
+    post:
+      operationId: createTerritory
+      summary: Create territory
+      description: |
+        Creates a territory definition with region/segment criteria. Active
+        territory names must be unique; duplicate names return
+        `territory_duplicate_name` (409). Successful creates emit immutable
+        timeline events atomically.
+      tags: [Territories]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TerritoryCreateRequest"
+      responses:
+        "201":
+          description: Territory created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Territory"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+
+  /territories/{territoryId}/members:
+    parameters:
+      - $ref: "#/components/parameters/TerritoryId"
+    get:
+      operationId: listTerritoryMembers
+      summary: List territory members as of a date
+      description: |
+        Returns members assigned to a territory for the requested as-of date.
+        When `asOf` is omitted, returns current/open assignments.
+      tags: [Territories]
+      parameters:
+        - $ref: "#/components/parameters/AsOfDate"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated territory assignments
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedTerritoryAssignmentList"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    post:
+      operationId: assignTerritoryMember
+      summary: Assign or reassign a territory member
+      description: |
+        Creates an effective-dated territory assignment for a broker or producer.
+        Requires `If-Match` with the territory `rowVersion`. Reassignment closes
+        the prior period and opens the new period in one transaction. Duplicate
+        or conflicting active overlaps return `territory_assignment_overlap`
+        (409); invalid date order returns `territory_assignment_period_invalid`
+        (422); stale territory versions return `precondition_failed` (412).
+        Successful changes emit immutable timeline events atomically.
+      tags: [Territories]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TerritoryMemberAssignmentRequest"
+      responses:
+        "201":
+          description: Territory assignment created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TerritoryAssignment"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+
+  /territory-assignments:
+    get:
+      operationId: getTerritoryAssignmentForMember
+      summary: Get territory assignment for a member
+      description: |
+        Returns the territory assignment for a broker or producer member as of
+        a date. When `asOf` is omitted, returns the current/open assignment if
+        one exists.
+      tags: [Territories]
+      parameters:
+        - $ref: "#/components/parameters/TerritoryMemberType"
+        - $ref: "#/components/parameters/TerritoryMemberId"
+        - $ref: "#/components/parameters/AsOfDate"
+      responses:
+        "200":
+          description: Territory assignment lookup result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TerritoryAssignmentLookupResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
   # ──────────────────────────────────────────────────────────────
   # Broker endpoints (existing)
   # ──────────────────────────────────────────────────────────────
@@ -1086,6 +1403,25 @@ paths:
           description: Filter by stale flag. True returns only stale submissions.
           schema:
             type: boolean
+        - name: approvalPending
+          in: query
+          required: false
+          description: Filter to quoted submissions whose current quote packet is ready and awaiting approval.
+          schema:
+            type: boolean
+        - name: stuckOnly
+          in: query
+          required: false
+          description: Filter to submissions that exceed their current workflow aging threshold.
+          schema:
+            type: boolean
+        - name: includeArchived
+          in: query
+          required: false
+          description: Include archived submissions. Defaults to false.
+          schema:
+            type: boolean
+            default: false
         - name: sort
           in: query
           required: false
@@ -1217,6 +1553,269 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "404":
           $ref: "#/components/responses/NotFound"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+
+  /submissions/{submissionId}/quote-packet:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    get:
+      operationId: getSubmissionQuotePacket
+      summary: Get submission quote/proposal packet
+      description: Returns the current quote/proposal packet for a submission, or null fields when no packet has been started.
+      tags: [Submissions]
+      responses:
+        "200":
+          description: Quote/proposal packet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubmissionQuotePacket"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      operationId: updateSubmissionQuotePacket
+      summary: Update submission quote/proposal packet
+      description: |
+        Upserts the downstream quote/proposal packet and optionally marks it ready.
+        When marked ready, the submission transitions to Quoted if prerequisites pass.
+        Requires `If-Match` with the submission `rowVersion`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionQuotePacketUpdateRequest"
+      responses:
+        "200":
+          description: Submission updated with current packet state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+
+  /submissions/{submissionId}/approval:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    post:
+      operationId: approveSubmissionQuotePacket
+      summary: Record submission approval decision
+      description: |
+        Records an approval decision for the current ready quote packet. A granted
+        decision unblocks bind request; a declined decision preserves the packet
+        and records blocking conditions. Requires `If-Match`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionApprovalRequest"
+      responses:
+        "200":
+          description: Submission updated with approval decision
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+
+  /submissions/{submissionId}/bind-request:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    post:
+      operationId: requestSubmissionBind
+      summary: Request bind handoff for an approved submission
+      description: |
+        Starts the bind handoff for an approved quoted submission, transitions the
+        submission to BindRequested, and records an idempotent handoff record.
+        Accepts an `Idempotency-Key` header or request-body key. Requires `If-Match`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+        - name: Idempotency-Key
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Optional idempotency key for bind handoff creation.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionBindRequest"
+      responses:
+        "200":
+          description: Submission transitioned to BindRequested or existing idempotent result returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+
+  /submissions/{submissionId}/bind-confirmation:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    post:
+      operationId: confirmSubmissionBind
+      summary: Confirm bind handoff completion
+      description: Confirms the bind handoff and transitions the submission to Bound. Requires `If-Match`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+        - name: Idempotency-Key
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Optional idempotency key matching the bind handoff.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionBindRequest"
+      responses:
+        "200":
+          description: Submission transitioned to Bound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+
+  /submissions/{submissionId}/archive:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    post:
+      operationId: archiveSubmission
+      summary: Archive a terminal submission
+      description: Archives a terminal submission and makes it read-only until reactivated. Requires `If-Match`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionArchiveRequest"
+      responses:
+        "200":
+          description: Submission archived
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+
+  /submissions/{submissionId}/reactivate:
+    parameters:
+      - $ref: "#/components/parameters/SubmissionId"
+    post:
+      operationId: reactivateSubmission
+      summary: Reactivate an archived submission
+      description: Reactivates an archived submission and restores it to the active submission list. Requires `If-Match`.
+      tags: [Submissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionArchiveRequest"
+      responses:
+        "200":
+          description: Submission reactivated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
         "412":
           $ref: "#/components/responses/PreconditionFailed"
 
@@ -3403,6 +4002,64 @@ components:
       schema:
         type: string
         format: uuid
+    DistributionNodeId:
+      name: nodeId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    TerritoryId:
+      name: territoryId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    Depth:
+      name: depth
+      in: query
+      required: false
+      description: Maximum descendant levels to return for lazy expansion.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 10
+        default: 2
+    AsOfDate:
+      name: asOf
+      in: query
+      required: false
+      description: Point-in-time date for effective-dated reads. Defaults to current date.
+      schema:
+        type: string
+        format: date
+    OwnershipScopeType:
+      name: scopeType
+      in: query
+      required: true
+      schema:
+        $ref: "#/components/schemas/ProducerOwnershipScopeType"
+    OwnershipScopeId:
+      name: scopeId
+      in: query
+      required: true
+      schema:
+        type: string
+        format: uuid
+    TerritoryMemberType:
+      name: memberType
+      in: query
+      required: true
+      schema:
+        $ref: "#/components/schemas/TerritoryMemberType"
+    TerritoryMemberId:
+      name: memberId
+      in: query
+      required: true
+      schema:
+        type: string
+        format: uuid
     ContactId:
       name: contactId
       in: path
@@ -3857,6 +4514,408 @@ components:
           type: integer
         totalPages:
           type: integer
+
+    # ── F0017 Distribution Hierarchy / Ownership / Territory Schemas ──
+    DistributionNodeType:
+      type: string
+      description: Distribution hierarchy node category. Ordering is advisory; depth is unbounded.
+      enum:
+        - MGA
+        - Broker
+        - SubBroker
+        - Producer
+
+    DistributionNode:
+      type: object
+      description: Distribution hierarchy node for MGA, broker, sub-broker, or producer.
+      required:
+        - id
+        - nodeType
+        - displayName
+        - parentId
+        - ancestryPath
+        - depth
+        - childCount
+        - rowVersion
+      properties:
+        id:
+          type: string
+          format: uuid
+        nodeType:
+          $ref: "#/components/schemas/DistributionNodeType"
+        displayName:
+          type: string
+          minLength: 1
+          maxLength: 255
+        parentId:
+          type: string
+          format: uuid
+          nullable: true
+        ancestryPath:
+          type: array
+          description: Root-to-node path including this node.
+          items:
+            type: string
+            format: uuid
+        depth:
+          type: integer
+          minimum: 0
+        childCount:
+          type: integer
+          minimum: 0
+        isActive:
+          type: boolean
+          default: true
+        rowVersion:
+          type: string
+          description: Optimistic concurrency token for reparenting.
+
+    DistributionNodeParentRequest:
+      type: object
+      description: Body for PUT /distribution-nodes/{nodeId}/parent.
+      required:
+        - parentId
+      additionalProperties: false
+      properties:
+        parentId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Parent node id; null clears the parent and makes the node a root.
+        note:
+          type: string
+          maxLength: 500
+          nullable: true
+
+    DistributionNodeAncestorsResponse:
+      type: object
+      required:
+        - node
+        - ancestors
+      additionalProperties: false
+      properties:
+        node:
+          $ref: "#/components/schemas/DistributionNode"
+        ancestors:
+          type: array
+          description: Ordered root-to-parent ancestors for the node.
+          items:
+            $ref: "#/components/schemas/DistributionNode"
+
+    PaginatedDistributionNodeList:
+      type: object
+      required:
+        - data
+        - page
+        - pageSize
+        - totalCount
+        - totalPages
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/DistributionNode"
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        totalCount:
+          type: integer
+        totalPages:
+          type: integer
+
+    ProducerOwnershipScopeType:
+      type: string
+      description: Business scope type owned by a producer in F0017.
+      enum:
+        - Account
+        - BrokerRelationship
+
+    ProducerOwnership:
+      type: object
+      description: Effective-dated producer ownership period.
+      required:
+        - id
+        - scopeType
+        - scopeId
+        - producerNodeId
+        - effectiveFrom
+        - effectiveTo
+        - rowVersion
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          format: uuid
+        scopeType:
+          $ref: "#/components/schemas/ProducerOwnershipScopeType"
+        scopeId:
+          type: string
+          format: uuid
+        producerNodeId:
+          type: string
+          format: uuid
+        producerDisplayName:
+          type: string
+          nullable: true
+        effectiveFrom:
+          type: string
+          format: date
+        effectiveTo:
+          type: string
+          format: date
+          nullable: true
+        assignmentReason:
+          type: string
+          nullable: true
+          maxLength: 500
+        rowVersion:
+          type: string
+        changedBy:
+          type: string
+          format: uuid
+          nullable: true
+        changedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    ProducerOwnershipAssignmentRequest:
+      type: object
+      description: Body for POST /producer-ownership.
+      required:
+        - scopeType
+        - scopeId
+        - producerNodeId
+        - effectiveFrom
+      additionalProperties: false
+      properties:
+        scopeType:
+          $ref: "#/components/schemas/ProducerOwnershipScopeType"
+        scopeId:
+          type: string
+          format: uuid
+        producerNodeId:
+          type: string
+          format: uuid
+        effectiveFrom:
+          type: string
+          format: date
+        assignmentReason:
+          type: string
+          nullable: true
+          maxLength: 500
+
+    ProducerOwnershipLookupResponse:
+      type: object
+      required:
+        - scopeType
+        - scopeId
+        - asOf
+        - ownership
+      additionalProperties: false
+      properties:
+        scopeType:
+          $ref: "#/components/schemas/ProducerOwnershipScopeType"
+        scopeId:
+          type: string
+          format: uuid
+        asOf:
+          type: string
+          format: date
+        ownership:
+          allOf:
+            - $ref: "#/components/schemas/ProducerOwnership"
+          nullable: true
+
+    TerritoryMemberType:
+      type: string
+      description: Distribution member type assignable to a territory.
+      enum:
+        - Broker
+        - Producer
+
+    Territory:
+      type: object
+      description: Territory definition used for distribution accountability.
+      required:
+        - id
+        - name
+        - criteria
+        - isActive
+        - rowVersion
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        description:
+          type: string
+          nullable: true
+          maxLength: 500
+        criteria:
+          type: object
+          description: Region/segment criteria for the territory.
+          additionalProperties:
+            type: string
+        isActive:
+          type: boolean
+        rowVersion:
+          type: string
+        changedBy:
+          type: string
+          format: uuid
+          nullable: true
+        changedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    TerritoryCreateRequest:
+      type: object
+      description: Body for POST /territories.
+      required:
+        - name
+        - criteria
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        description:
+          type: string
+          nullable: true
+          maxLength: 500
+        criteria:
+          type: object
+          description: Region/segment criteria for the territory.
+          additionalProperties:
+            type: string
+
+    TerritoryAssignment:
+      type: object
+      description: Effective-dated territory membership for a broker or producer.
+      required:
+        - id
+        - territoryId
+        - memberType
+        - memberId
+        - effectiveFrom
+        - effectiveTo
+        - rowVersion
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          format: uuid
+        territoryId:
+          type: string
+          format: uuid
+        territoryName:
+          type: string
+          nullable: true
+        memberType:
+          $ref: "#/components/schemas/TerritoryMemberType"
+        memberId:
+          type: string
+          format: uuid
+        memberDisplayName:
+          type: string
+          nullable: true
+        effectiveFrom:
+          type: string
+          format: date
+        effectiveTo:
+          type: string
+          format: date
+          nullable: true
+        assignmentReason:
+          type: string
+          nullable: true
+          maxLength: 500
+        rowVersion:
+          type: string
+        changedBy:
+          type: string
+          format: uuid
+          nullable: true
+        changedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    TerritoryMemberAssignmentRequest:
+      type: object
+      description: Body for POST /territories/{territoryId}/members.
+      required:
+        - memberType
+        - memberId
+        - effectiveFrom
+      additionalProperties: false
+      properties:
+        memberType:
+          $ref: "#/components/schemas/TerritoryMemberType"
+        memberId:
+          type: string
+          format: uuid
+        effectiveFrom:
+          type: string
+          format: date
+        assignmentReason:
+          type: string
+          nullable: true
+          maxLength: 500
+
+    PaginatedTerritoryAssignmentList:
+      type: object
+      required:
+        - data
+        - page
+        - pageSize
+        - totalCount
+        - totalPages
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/TerritoryAssignment"
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        totalCount:
+          type: integer
+        totalPages:
+          type: integer
+
+    TerritoryAssignmentLookupResponse:
+      type: object
+      required:
+        - memberType
+        - memberId
+        - asOf
+        - assignment
+      additionalProperties: false
+      properties:
+        memberType:
+          $ref: "#/components/schemas/TerritoryMemberType"
+        memberId:
+          type: string
+          format: uuid
+        asOf:
+          type: string
+          format: date
+        assignment:
+          allOf:
+            - $ref: "#/components/schemas/TerritoryAssignment"
+          nullable: true
 
     # ── Contact Schemas ─────────────────────────────────────────
     Contact:
@@ -4498,6 +5557,36 @@ components:
         isStale:
           type: boolean
           description: Whether submission exceeds stale threshold for its current state.
+        ageDaysInState:
+          type: integer
+          minimum: 0
+          description: Number of whole days since the submission entered its current workflow state.
+        approvalStatus:
+          type: string
+          description: Current downstream approval status for the quote/proposal packet.
+          enum: [NotRequired, Pending, Granted, Declined]
+        approvalPending:
+          type: boolean
+          description: True when a ready quote/proposal packet is awaiting approval.
+        isArchived:
+          type: boolean
+          description: True when the submission has been archived and is read-only.
+        archivedAt:
+          type: string
+          format: date-time
+          nullable: true
+        archivedByUserId:
+          type: string
+          format: uuid
+          nullable: true
+        quotePacket:
+          $ref: "#/components/schemas/SubmissionQuotePacket"
+        approvalDecisions:
+          type: array
+          items:
+            $ref: "#/components/schemas/SubmissionApprovalDecision"
+        bindHandoff:
+          $ref: "#/components/schemas/SubmissionBindHandoff"
         completeness:
           $ref: "#/components/schemas/SubmissionCompleteness"
         availableTransitions:
@@ -4563,6 +5652,220 @@ components:
         isStale:
           type: boolean
           description: Whether submission exceeds stale threshold.
+        ageDaysInState:
+          type: integer
+          minimum: 0
+          description: Number of whole days since the submission entered its current workflow state.
+        approvalStatus:
+          type: string
+          enum: [NotRequired, Pending, Granted, Declined]
+        approvalPending:
+          type: boolean
+        isArchived:
+          type: boolean
+        stuckFlag:
+          type: boolean
+          description: True when the submission exceeds its configured aging threshold.
+
+    SubmissionQuotePacket:
+      type: object
+      description: Downstream quote/proposal packet for F0019 submission quoting.
+      required:
+        - submissionId
+        - status
+        - linkedDocumentRefs
+        - readinessState
+        - rowVersion
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        submissionId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [Draft, ReadyForApproval, Approved]
+        linkedDocumentRefs:
+          type: array
+          items:
+            type: string
+            format: uuid
+        recordedPremiumAmount:
+          type: number
+          format: double
+          nullable: true
+        recordedLimits:
+          type: string
+          nullable: true
+        recordedDeductibles:
+          type: string
+          nullable: true
+        effectiveDate:
+          type: string
+          format: date-time
+          nullable: true
+        carrierMarket:
+          type: string
+          nullable: true
+        readinessState:
+          type: string
+          enum: [Draft, ReadyForApproval, Approved]
+        readyAt:
+          type: string
+          format: date-time
+          nullable: true
+        readyByUserId:
+          type: string
+          format: uuid
+          nullable: true
+        approvedAt:
+          type: string
+          format: date-time
+          nullable: true
+        approvedByUserId:
+          type: string
+          format: uuid
+          nullable: true
+        rowVersion:
+          type: string
+
+    SubmissionQuotePacketUpdateRequest:
+      type: object
+      description: Quote/proposal packet mutation payload.
+      properties:
+        linkedDocumentRefs:
+          type: array
+          nullable: true
+          items:
+            type: string
+            format: uuid
+        recordedPremiumAmount:
+          type: number
+          format: double
+          nullable: true
+        recordedLimits:
+          type: string
+          nullable: true
+        recordedDeductibles:
+          type: string
+          nullable: true
+        effectiveDate:
+          type: string
+          format: date-time
+          nullable: true
+        carrierMarket:
+          type: string
+          nullable: true
+        markReady:
+          type: boolean
+          default: false
+
+    SubmissionApprovalDecision:
+      type: object
+      description: Immutable approval decision for a submission quote/proposal packet.
+      required:
+        - id
+        - submissionId
+        - decision
+        - approverUserId
+        - reason
+        - blockingConditions
+        - decidedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        submissionId:
+          type: string
+          format: uuid
+        decision:
+          type: string
+          enum: [Granted, Declined]
+        approverUserId:
+          type: string
+          format: uuid
+        reason:
+          type: string
+          maxLength: 2000
+        blockingConditions:
+          type: array
+          items:
+            type: string
+        decidedAt:
+          type: string
+          format: date-time
+
+    SubmissionApprovalRequest:
+      type: object
+      description: Approval decision payload for the current quote/proposal packet.
+      required:
+        - decision
+        - reason
+      properties:
+        decision:
+          type: string
+          enum: [Granted, Declined]
+        reason:
+          type: string
+          maxLength: 2000
+        blockingConditions:
+          type: array
+          nullable: true
+          items:
+            type: string
+
+    SubmissionBindRequest:
+      type: object
+      description: Optional idempotency payload for bind handoff actions.
+      properties:
+        idempotencyKey:
+          type: string
+          nullable: true
+
+    SubmissionBindHandoff:
+      type: object
+      description: Idempotent bind handoff record for a submission.
+      required:
+        - id
+        - submissionId
+        - idempotencyKey
+        - status
+        - correlationId
+        - requestedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        submissionId:
+          type: string
+          format: uuid
+        idempotencyKey:
+          type: string
+        status:
+          type: string
+          enum: [Pending, Completed]
+        correlationId:
+          type: string
+          format: uuid
+        requestedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    SubmissionArchiveRequest:
+      type: object
+      description: Archive or reactivation reason payload.
+      required:
+        - reason
+      properties:
+        reason:
+          type: string
+          maxLength: 2000
 
     SubmissionCompleteness:
       type: object
@@ -4689,6 +5992,15 @@ components:
           nullable: true
           maxLength: 2000
           description: Optional transition comment. Recommended for `WaitingOnBroker` transitions.
+        reasonCode:
+          type: string
+          nullable: true
+          description: Required for Declined and Withdrawn submission transitions.
+        reasonDetail:
+          type: string
+          nullable: true
+          maxLength: 500
+          description: Required when reasonCode=Other.
 
     # ── Submission / Renewal Schemas (continued) ─────────────────
 

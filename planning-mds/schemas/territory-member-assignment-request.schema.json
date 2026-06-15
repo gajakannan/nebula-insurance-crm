@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/territory-member-assignment-request.schema.json",
+  "title": "TerritoryMemberAssignmentRequest",
+  "description": "Assign or reassign a broker or producer to a territory.",
+  "type": "object",
+  "required": ["memberType", "memberId", "effectiveFrom"],
+  "properties": {
+    "memberType": { "type": "string", "enum": ["Broker", "Producer"] },
+    "memberId": { "type": "string", "format": "uuid" },
+    "effectiveFrom": { "type": "string", "format": "date" },
+    "assignmentReason": { "type": ["string", "null"], "maxLength": 500 }
+  },
+  "additionalProperties": false
+}

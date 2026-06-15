@@ -93,3 +93,4 @@ The transition, WorkflowTransition append, and ActivityTimelineEvent append must
 - ~~Create workflow specifications for each major domain process.~~ Renewal workflow specified (F0007 README). Submission workflow carries forward from existing implementation.
 - Reference this ADR from workflow-bearing feature PRDs.
 - Keep transition history append-only across modules.
+- **F0019 submission downstream workflow** (quote/proposal packet, approval checkpoint, bind + F0018 handoff, decline/withdraw, archive/deactivate) activates the previously-declared downstream submission states on this state-machine + append-only-history contract — see [ADR-025](./ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md).

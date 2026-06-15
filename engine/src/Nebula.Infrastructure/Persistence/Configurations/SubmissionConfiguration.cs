@@ -27,6 +27,9 @@ public class SubmissionConfiguration : IEntityTypeConfiguration<Submission>
         builder.Property(e => e.UpdatedByUserId).IsRequired();
         builder.Property(e => e.DeletedByUserId);
         builder.Property(e => e.IsDeleted).HasDefaultValue(false);
+        builder.Property(e => e.IsArchived).HasDefaultValue(false);
+        builder.Property(e => e.ArchivedAt);
+        builder.Property(e => e.ArchivedByUserId);
 
         builder.HasOne(e => e.Account)
             .WithMany()
@@ -80,5 +83,8 @@ public class SubmissionConfiguration : IEntityTypeConfiguration<Submission>
 
         builder.HasIndex(e => new { e.AssignedToUserId, e.CurrentStatus })
             .HasDatabaseName("IX_Submissions_AssignedToUserId_CurrentStatus");
+
+        builder.HasIndex(e => e.IsArchived)
+            .HasDatabaseName("IX_Submissions_IsArchived");
     }
 }

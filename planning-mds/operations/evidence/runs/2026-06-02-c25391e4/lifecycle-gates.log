@@ -1,0 +1,21 @@
+# Lifecycle Gates Log — Plan-Review Run 2026-06-02-c25391e4
+
+> Validator/tool invocation audit for the F0019 **plan-review** action (read-only
+> post-plan readiness audit). Plan-review gates are PR0–PR4 (base run contract);
+> NOT plan G1–G5 and NOT feature G0–G8.
+> No `validate-feature-evidence.py` runs here — plan-review produces no feature
+> evidence package (owned by feature.md / build.md).
+
+| Timestamp | Gate | Command | Exit | Result | Artifact |
+|-----------|------|---------|------|--------|----------|
+| 2026-06-02T19:10:00-04:00 | PR2 | `validate-stories.py {FEATURE_PATH}` | 0 | PASS (8/8; 1 INVEST warning on S0008) | artifacts/validate-stories.txt |
+| 2026-06-02T19:10:30-04:00 | PR2 | `validate-trackers.py` | 0 | PASS (errors 0, warnings 0) | artifacts/validate-trackers.txt |
+| 2026-06-02T19:11:00-04:00 | PR2 | `scripts/kg/validate.py` | 0 | PASS (1 pre-existing out-of-scope warning) | artifacts/kg-validate.txt |
+| 2026-06-02T19:12:00-04:00 | PR2 | `scripts/kg/validate.py --check-drift` | 0 | PASS (no drift errors) | artifacts/kg-validate-drift.txt |
+| 2026-06-02T19:12:30-04:00 | PR2 | `validate_templates.py` | 0 | PASS | artifacts/validate-templates.txt |
+
+All five applicable plan-review validators exited 0. The only warnings are non-blocking:
+(1) S0008 INVEST "Independent" — expected for a read-only consolidation/visibility slice that
+surfaces events emitted by S0001–S0006; (2) pre-existing low-confidence inferred edge (0.4) on
+`feature:F0028` in `feature:F0018.depends_on` — not introduced by F0019, out of scope, recommend a
+separate KG-hygiene pass.

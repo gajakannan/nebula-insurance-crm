@@ -1237,7 +1237,24 @@ def main() -> int:
     if args.write_coverage_report:
         write_coverage_report(coverage_report)
     else:
-        if not COVERAGE_REPORT_PATH.exists():
+        explicit_check_requested = any(
+            [
+                args.check_drift,
+                args.check_symbols,
+                args.regenerate_symbols,
+                args.check_decisions,
+                args.regenerate_decisions,
+                args.check_orphans,
+                args.orphans_as_errors,
+                args.check_coverage_gaps,
+                args.coverage_gaps_as_errors,
+                args.check_untested,
+                args.untested_as_errors,
+            ]
+        )
+        if explicit_check_requested:
+            pass
+        elif not COVERAGE_REPORT_PATH.exists():
             report.error(
                 "Missing coverage report: planning-mds/knowledge-graph/coverage-report.yaml "
                 "(run python3 scripts/kg/validate.py --write-coverage-report)"

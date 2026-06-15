@@ -60,6 +60,14 @@
 | `folder_entry_unsupported` | 400 | Bulk upload received a nested folder entry; only top-level files are accepted. | F0020-S0002 |
 | `retention_policy_invalid` | 400 | Retention YAML failed validation (per-type or default exceeds the 10-day MVP cap, or unknown type). | F0020-S0011 |
 | `classification_policy_invalid` | 400 | Casbin-document-roles YAML failed schema validation (unknown role/tier/op or empty closure). | F0020-S0009 |
+| `distribution_node_self_parent` | 422 | Distribution node parent update attempted to set a node as its own parent. | F0017-S0001 |
+| `distribution_node_cycle` | 409 | Distribution node parent update would create a hierarchy cycle. | F0017-S0001 |
+| `invalid_distribution_parent` | 422 | Distribution node parent is inactive, invalid for the request, or would orphan the subtree. | F0017-S0001 |
+| `ownership_period_overlap` | 409 | Producer ownership assignment overlaps an existing period for the same scope. | F0017-S0003 |
+| `ownership_period_invalid` | 422 | Producer ownership effective dates are out of order or require an explicit correction path. | F0017-S0003 |
+| `territory_duplicate_name` | 409 | Active territory name already exists. | F0017-S0004 |
+| `territory_assignment_overlap` | 409 | Territory member assignment overlaps a conflicting active period for the same member. | F0017-S0004 |
+| `territory_assignment_period_invalid` | 422 | Territory assignment effective dates are out of order or require an explicit correction path. | F0017-S0004 |
 
 ## Notes
 

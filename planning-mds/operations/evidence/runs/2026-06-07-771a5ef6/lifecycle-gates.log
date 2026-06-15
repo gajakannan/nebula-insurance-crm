@@ -1,0 +1,21 @@
+# Lifecycle Gates Log — F0017-broker-mga-hierarchy-and-producer-ownership run 2026-06-07-771a5ef6
+
+## Lifecycle Gate Run
+
+Per-invocation rows below. Each block records a validator/lifecycle invocation.
+
+### G0
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0017 --run-id 2026-06-07-771a5ef6 --stage G0
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: g0-assembly-plan-validation.md
+Skipped Gates: -
+
+### G1
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0017 --run-id 2026-06-07-771a5ef6 --stage G1
+Stage: G1
+Exit Code: 0
+Result: PASS
+Output References: g1-runtime-preflight.md, artifacts/test-results/g1-docker-ps.txt
+Skipped Gates: -

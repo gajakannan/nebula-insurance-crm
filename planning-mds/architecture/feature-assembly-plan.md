@@ -12,6 +12,45 @@ Define the build order, role handoffs, and integration checkpoints for implement
 
 ---
 
+---
+
+## F0019 - Submission Quoting, Proposal & Approval Workflow
+
+**Added:** 2026-06-03 - Feature action Step 0 authored the feature-local implementation execution plan after Phase B architecture completed during planning.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0019-submission-quoting-proposal-and-approval/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, timeline events, packet/approval/bind/archive lifecycle, and validation checkpoints for the downstream submission workflow.
+
+### Dependencies
+
+| Dependency | Source | What F0019 Needs | Status |
+|------------|--------|------------------|--------|
+| Submission intake boundary | F0006 | Existing submission aggregate, transition endpoint, list/detail/timeline surfaces through `ReadyForUWReview` | Done and archived |
+| Policy bind hook | F0018 | `/policies/from-bind` contract and policy correlation target | Done and archived |
+| Document completeness and refs | F0020 | Submission-parented document refs and completeness signal for quote packet readiness | Done and archived |
+| Product schema attributes | F0034 | Structured LOB/product attributes reused by packet/policy handoff | Done and archived |
+| Workflow state-machine ADR | ADR-011 | Append-only transition history and atomic timeline events | Accepted |
+| Document architecture ADR | ADR-012 | Document linkage/storage boundary | Accepted |
+| Downstream workflow ADR | ADR-025 | Packet, approval, bind, archive and CRM-not-workbench boundary | Accepted |
+
+### Assembly Slice Order
+
+1. Downstream transition activation and boundary regression.
+2. Quote/proposal packet persistence and mark-ready transition.
+3. Approval checkpoint.
+4. Bind requested/bound handoff.
+5. Terminal decline/withdraw plus archive/reactivate.
+6. Downstream list/timeline UI and verification.
+
+### Signoff Role Matrix
+
+| Role | Required | Rationale |
+|------|----------|-----------|
+| Quality Engineer | Yes | Workflow state machine, approval/bind behavior, idempotency, archive, and boundary regression require test validation |
+| Code Reviewer | Yes | Workflow orchestration, approval logic, packet persistence, and recorded-not-computed boundary need independent review |
+| Security Reviewer | Yes | Approval and archive authorization deltas plus audit-bearing decisions are security-sensitive |
+| DevOps | No | No new infrastructure expected; revisit if EF migration/runtime deployment changes require operational validation |
+| Architect | Yes | ADR-025 implementation and KG binding reconciliation are required |
+
 ## F0020 - Document Management & ACORD Intake
 
 **Added:** 2026-05-04 - Feature action Step 0 created the feature-local implementation execution plan after Phase B architecture completed during planning.
@@ -2024,3 +2063,26 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 - Frontend-only (`experience/**`); no backend, schema, bundle, or deployment change; backend validation remains authoritative.
 - Client AJV validates `data-schema.json`; parity measured against the actual backend (`(code, pointer)` multiset, ADR-022); cross-field rules backend-authoritative via `lobErrors[]` (no ADR-023 dependency).
 - Workstream B keeps CRUD forms controlled; only F0035 registration is added via `useControlledDirtyTracker` + the shared registration helper.
+
+---
+
+## F0017 - Broker/MGA Hierarchy, Producer Ownership & Territory Management
+
+**Added:** 2026-06-07 - Feature action Step 0 (run `2026-06-07-771a5ef6`) created the feature-local implementation execution plan after Phase B architecture (ADR-026) completed during planning.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0017-broker-mga-hierarchy-and-producer-ownership/feature-assembly-plan.md) - backend-led slice order (S0001-S0005): 4 new entities (`DistributionNode`, `ProducerOwnership`, `Territory`, `TerritoryAssignment`), self-referencing hierarchy with materialized ancestry + cycle/orphan guards, shared effective-dating period logic, territory overlap rule, 9 endpoints with Casbin role-based mutation guards, and immutable timeline emission. Frontend distribution panels validated in CI (WSL `/mnt/c` toolchain constraint).
+
+### Dependencies
+
+| Dependency | Source | What F0017 Needs | Status |
+|------------|--------|------------------|--------|
+| Broker/MGA + timeline pattern | F0002 | Flat broker/MGA records, `ActivityTimelineEvent` pattern, Casbin scaffolding | Done dependency |
+| Hierarchy/ownership/territory decision | ADR-026 | Self-ref tree + cached ancestry; effective-dated relationships; overlap rule; deferred enforcement | Accepted |
+| Reporting substrate / enforcement | F0023 / F0037 | Downstream consumers (not build prerequisites) | Planned consumers |
+
+### Architecture Notes
+
+- Backend-bearing (`engine/**`) + UI-bearing (`experience/**`); EF Core migration adds 4 tables + 3 filtered indexes (single-open-period, active territory name, single-open-assignment).
+- Hierarchy uses a nullable self-referencing `ParentId` + materialized `AncestryPath`; reparent recomputes node + descendants transactionally with cycle/orphan guards (O(depth)).
+- Producer ownership and territory assignment are effective-dated periods (close-prior/open-new in one transaction); "as of D" reads return the covering period.
+- Authorization is role-based mutation guards only (`distribution_node:update`, `producer_ownership:assign`, `territory:create`, `territory:assign`); hierarchy-aware read enforcement + rollups deferred to F0037; Security Reviewer not forced.

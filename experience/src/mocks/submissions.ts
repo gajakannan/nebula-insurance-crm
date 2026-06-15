@@ -620,6 +620,11 @@ function toListItem(record: MockSubmissionRecord): SubmissionListItemDto {
     assignedToDisplayName: record.assignedToDisplayName,
     createdAt: record.createdAt,
     isStale: record.isStale,
+    ageDaysInState: ageDays(record.updatedAt),
+    approvalStatus: approvalStatusFor(record.currentStatus),
+    approvalPending: record.currentStatus === 'Quoted',
+    isArchived: false,
+    stuckFlag: record.isStale,
   };
 }
 
@@ -650,7 +655,32 @@ function toDetail(record: MockSubmissionRecord): SubmissionDto {
     programName: record.programName,
     assignedToDisplayName: record.assignedToDisplayName,
     isStale: record.isStale,
+    ageDaysInState: ageDays(record.updatedAt),
+    approvalStatus: approvalStatusFor(record.currentStatus),
+    approvalPending: record.currentStatus === 'Quoted',
+    isArchived: false,
+    archivedAt: null,
+    archivedByUserId: null,
     completeness,
+    quotePacket: {
+      id: null,
+      submissionId: record.id,
+      status: record.currentStatus === 'Quoted' ? 'ReadyForApproval' : 'Draft',
+      linkedDocumentRefs: [],
+      recordedPremiumAmount: null,
+      recordedLimits: null,
+      recordedDeductibles: null,
+      effectiveDate: null,
+      carrierMarket: null,
+      readinessState: record.currentStatus === 'Quoted' ? 'ReadyForApproval' : 'Draft',
+      readyAt: null,
+      readyByUserId: null,
+      approvedAt: null,
+      approvedByUserId: null,
+      rowVersion: '',
+    },
+    approvalDecisions: [],
+    bindHandoff: null,
     availableTransitions: transitionMap[record.currentStatus],
     rowVersion: String(record.rowVersion),
     createdAt: record.createdAt,
@@ -658,6 +688,14 @@ function toDetail(record: MockSubmissionRecord): SubmissionDto {
     updatedAt: record.updatedAt,
     updatedByUserId: record.updatedByUserId,
   };
+}
+
+function ageDays(value: string) {
+  return Math.max(0, Math.floor((Date.now() - new Date(value).getTime()) / (24 * 60 * 60 * 1000)));
+}
+
+function approvalStatusFor(status: SubmissionStatus) {
+  return status === 'Quoted' ? 'Pending' : 'NotRequired';
 }
 
 function buildCompleteness(record: MockSubmissionRecord) {

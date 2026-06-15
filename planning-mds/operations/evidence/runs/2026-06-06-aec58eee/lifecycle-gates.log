@@ -1,0 +1,53 @@
+# Lifecycle Gates Log - F0017 plan-review run 2026-06-06-aec58eee
+
+## PR2 Validator Invocations
+
+### validate-stories
+Command: python3 agents/product-manager/scripts/validate-stories.py /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership
+Stage: PR2
+Exit Code: 0
+Result: PASS
+Output References: artifacts/validator-01-validate-stories.log
+Skipped Gates: -
+
+### validate-trackers
+Command: python3 agents/product-manager/scripts/validate-trackers.py
+Stage: PR2
+Exit Code: 0
+Result: PASS
+Output References: artifacts/validator-02-validate-trackers.log
+Skipped Gates: -
+
+### kg-validate
+Command: python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py
+Stage: PR2
+Exit Code: 1
+Result: FAIL
+Output References: artifacts/validator-03-kg-validate.log
+Skipped Gates: -
+
+### kg-check-drift
+Command: python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/validate.py --check-drift
+Stage: PR2
+Exit Code: 0
+Result: PASS
+Output References: artifacts/validator-04-kg-check-drift.log
+Skipped Gates: -
+
+### validate-templates
+Command: python3 agents/scripts/validate_templates.py
+Stage: PR2
+Exit Code: 0
+Result: PASS
+Output References: artifacts/validator-05-validate-templates.log
+Skipped Gates: -
+
+## Supporting Routing Aid
+
+### kg-lookup-F0017
+Command: python3 /mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/scripts/kg/lookup.py F0017
+Stage: PR1
+Exit Code: 0
+Result: PASS
+Output References: artifacts/kg-lookup-F0017.log
+Skipped Gates: -

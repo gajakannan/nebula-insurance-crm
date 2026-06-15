@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/territory-create-request.schema.json",
+  "title": "TerritoryCreateRequest",
+  "description": "Create a territory definition.",
+  "type": "object",
+  "required": ["name", "criteria"],
+  "properties": {
+    "name": { "type": "string", "minLength": 1, "maxLength": 150 },
+    "description": { "type": ["string", "null"], "maxLength": 500 },
+    "criteria": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

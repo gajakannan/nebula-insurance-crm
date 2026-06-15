@@ -1,79 +1,23 @@
 version: 0
-generated_at: '2026-05-30T16:32:03+00:00'
+generated_at: '2026-06-04T02:35:57+00:00'
 summary:
-  total_invocations: 13
+  total_invocations: 2
   by_language:
-    csharp: 3
-    typescript: 10
-  source_files: 6
-  bound_targets: 7
+    typescript: 2
+  source_files: 2
+  bound_targets: 2
   refreshed_languages:
-  - typescript
-  preserved_languages:
   - csharp
+  - typescript
+  preserved_languages: []
 invocations:
-- source_file: engine/tests/Nebula.Tests/Integration/BrokerAuthorizationTests.cs
-  source_line: 24
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:test-auth-handler.reset-f0009-overrides
+- source_file: experience/src/features/session-continuity/dirtyFormRegistry.tsx
+  source_line: 41
+  language: typescript
+  target_symbol: symbol:capability-session-continuity:session-restore.snapshot-dirty-form
   target_node: capability:session-continuity
-- source_file: engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
-  source_line: 29
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:test-auth-handler.reset-f0009-overrides
+- source_file: experience/src/features/session-continuity/tests/sessionContinuity.smoke.test.tsx
+  source_line: 144
+  language: typescript
+  target_symbol: symbol:capability-session-continuity:session-restore.build-restore-key
   target_node: capability:session-continuity
-- source_file: engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
-  source_line: 34
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:test-auth-handler.reset-f0009-overrides
-  target_node: capability:session-continuity
-- source_file: experience/src/features/lob-attributes/components/DynamicAttributePanel.tsx
-  source_line: 62
-  language: typescript
-  target_symbol: symbol:capability-validator-equivalence:cyber.is-cyber-line-of-business
-  target_node: capability:validator-equivalence
-- source_file: experience/src/features/lob-attributes/components/DynamicAttributePanel.tsx
-  source_line: 89
-  language: typescript
-  target_symbol: symbol:capability-validator-equivalence:cyber.cyber-values-to-attributes
-  target_node: capability:validator-equivalence
-- source_file: experience/src/features/lob-attributes/components/DynamicAttributePanel.tsx
-  source_line: 105
-  language: typescript
-  target_symbol: symbol:capability-validator-equivalence:cyber.normalize-cyber-envelope
-  target_node: capability:validator-equivalence
-- source_file: experience/src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx
-  source_line: 53
-  language: typescript
-  target_symbol: symbol:capability-validator-equivalence:cyber.empty-cyber-lob-attributes
-  target_node: capability:validator-equivalence
-- source_file: experience/src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx
-  source_line: 114
-  language: typescript
-  target_symbol: symbol:capability-validator-equivalence:cyber.empty-cyber-lob-attributes
-  target_node: capability:validator-equivalence
-- source_file: experience/src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx
-  source_line: 121
-  language: typescript
-  target_symbol: symbol:capability-validator-equivalence:cyber.empty-cyber-lob-attributes
-  target_node: capability:validator-equivalence
-- source_file: experience/src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts
-  source_line: 12
-  language: typescript
-  target_symbol: symbol:capability-session-context-restore:rhf-dirty-adapter.flatten-dirty-fields
-  target_node: capability:session-context-restore
-- source_file: experience/src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts
-  source_line: 18
-  language: typescript
-  target_symbol: symbol:capability-session-context-restore:rhf-dirty-adapter.flatten-dirty-fields
-  target_node: capability:session-context-restore
-- source_file: experience/src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts
-  source_line: 22
-  language: typescript
-  target_symbol: symbol:capability-session-context-restore:rhf-dirty-adapter.flatten-dirty-fields
-  target_node: capability:session-context-restore
-- source_file: experience/src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts
-  source_line: 34
-  language: typescript
-  target_symbol: symbol:capability-session-context-restore:rhf-dirty-adapter.rhf-dirty-adapter
-  target_node: capability:session-context-restore

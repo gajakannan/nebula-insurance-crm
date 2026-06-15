@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/territory-assignment-lookup-response.schema.json",
+  "title": "TerritoryAssignmentLookupResponse",
+  "description": "Point-in-time territory assignment lookup result for a broker or producer.",
+  "type": "object",
+  "required": ["memberType", "memberId", "asOf", "assignment"],
+  "properties": {
+    "memberType": { "type": "string", "enum": ["Broker", "Producer"] },
+    "memberId": { "type": "string", "format": "uuid" },
+    "asOf": { "type": "string", "format": "date" },
+    "assignment": {
+      "anyOf": [
+        { "$ref": "https://nebula.local/schemas/territory-assignment.schema.json" },
+        { "type": "null" }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

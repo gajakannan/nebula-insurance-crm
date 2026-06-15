@@ -26,6 +26,13 @@ public static class SubmissionEndpoints
         group.MapGet("/{submissionId:guid}", GetSubmission);
         group.MapPut("/{submissionId:guid}", UpdateSubmission);
         group.MapPost("/{submissionId:guid}/transitions", PostTransition);
+        group.MapGet("/{submissionId:guid}/quote-packet", GetQuotePacket);
+        group.MapPut("/{submissionId:guid}/quote-packet", UpdateQuotePacket);
+        group.MapPost("/{submissionId:guid}/approval", PostApproval);
+        group.MapPost("/{submissionId:guid}/bind-request", RequestBind);
+        group.MapPost("/{submissionId:guid}/bind-confirmation", ConfirmBind);
+        group.MapPost("/{submissionId:guid}/archive", ArchiveSubmission);
+        group.MapPost("/{submissionId:guid}/reactivate", ReactivateSubmission);
         group.MapPut("/{submissionId:guid}/assignment", AssignSubmission);
         group.MapGet("/{submissionId:guid}/timeline", GetTimeline);
 
@@ -39,6 +46,9 @@ public static class SubmissionEndpoints
         string? lineOfBusiness,
         Guid? assignedToUserId,
         bool? stale,
+        bool? approvalPending,
+        bool? stuckOnly,
+        bool? includeArchived,
         string? sort,
         string? sortDir,
         int? page,
@@ -62,6 +72,9 @@ public static class SubmissionEndpoints
             lineOfBusiness,
             assignedToUserId,
             stale,
+            approvalPending,
+            stuckOnly,
+            includeArchived ?? false,
             sort ?? "createdAt",
             sortDir ?? "desc",
             page ?? 1,
@@ -164,6 +177,7 @@ public static class SubmissionEndpoints
             "invalid_lob" => ProblemDetailsHelper.InvalidLob(dto.LineOfBusiness!),
             "lob_validation_failed" => ProblemDetailsHelper.LobValidationFailed(lobErrors ?? []),
             "precondition_failed" => ProblemDetailsHelper.PreconditionFailed(),
+            "archived_submission" => Conflict("archived_submission", "Archived submission", "Archived submissions are read-only until reactivated."),
             _ => Results.Ok(result),
         };
     }
@@ -202,6 +216,140 @@ public static class SubmissionEndpoints
         };
     }
 
+    private static async Task<IResult> GetQuotePacket(
+        Guid submissionId,
+        SubmissionService svc,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        CancellationToken ct)
+    {
+        if (!await HasAccessAsync(user, authz, "submission", "read"))
+            return ProblemDetailsHelper.PolicyDenied();
+
+        var (result, error) = await svc.GetQuotePacketAsync(submissionId, user, ct);
+        return error switch
+        {
+            "not_found" => ProblemDetailsHelper.NotFound("Submission", submissionId),
+            _ => Results.Ok(result),
+        };
+    }
+
+    private static async Task<IResult> UpdateQuotePacket(
+        Guid submissionId,
+        SubmissionQuotePacketUpdateDto dto,
+        SubmissionService svc,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        HttpContext httpContext,
+        CancellationToken ct)
+    {
+        if (!await HasAnyAccessAsync(user, authz, "submission", ["update", "transition"]))
+            return ProblemDetailsHelper.PolicyDenied();
+
+        if (!TryParseExpectedRowVersion(httpContext, out var rowVersion))
+            return ProblemDetailsHelper.PreconditionFailed();
+
+        var (result, error, missingItems) = await svc.UpdateQuotePacketAsync(submissionId, dto, rowVersion, user, ct);
+        return MapSubmissionMutationResult(submissionId, result, error, missingItems);
+    }
+
+    private static async Task<IResult> PostApproval(
+        Guid submissionId,
+        SubmissionApprovalRequestDto dto,
+        SubmissionService svc,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        HttpContext httpContext,
+        CancellationToken ct)
+    {
+        if (!await HasAccessAsync(user, authz, "submission", "approve"))
+            return ProblemDetailsHelper.PolicyDenied();
+
+        if (!TryParseExpectedRowVersion(httpContext, out var rowVersion))
+            return ProblemDetailsHelper.PreconditionFailed();
+
+        var (result, error, missingItems) = await svc.ApproveSubmissionAsync(submissionId, dto, rowVersion, user, ct);
+        return MapSubmissionMutationResult(submissionId, result, error, missingItems);
+    }
+
+    private static async Task<IResult> RequestBind(
+        Guid submissionId,
+        SubmissionBindRequestDto dto,
+        SubmissionService svc,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        HttpContext httpContext,
+        CancellationToken ct)
+    {
+        if (!await HasAccessAsync(user, authz, "submission", "transition"))
+            return ProblemDetailsHelper.PolicyDenied();
+
+        if (!TryParseExpectedRowVersion(httpContext, out var rowVersion))
+            return ProblemDetailsHelper.PreconditionFailed();
+
+        var request = WithIdempotencyHeader(dto, httpContext);
+        var (result, error, missingItems) = await svc.RequestBindAsync(submissionId, request, rowVersion, user, ct);
+        return MapSubmissionMutationResult(submissionId, result, error, missingItems);
+    }
+
+    private static async Task<IResult> ConfirmBind(
+        Guid submissionId,
+        SubmissionBindRequestDto dto,
+        SubmissionService svc,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        HttpContext httpContext,
+        CancellationToken ct)
+    {
+        if (!await HasAccessAsync(user, authz, "submission", "transition"))
+            return ProblemDetailsHelper.PolicyDenied();
+
+        if (!TryParseExpectedRowVersion(httpContext, out var rowVersion))
+            return ProblemDetailsHelper.PreconditionFailed();
+
+        var request = WithIdempotencyHeader(dto, httpContext);
+        var (result, error, missingItems) = await svc.ConfirmBindAsync(submissionId, request, rowVersion, user, ct);
+        return MapSubmissionMutationResult(submissionId, result, error, missingItems);
+    }
+
+    private static async Task<IResult> ArchiveSubmission(
+        Guid submissionId,
+        SubmissionArchiveRequestDto dto,
+        SubmissionService svc,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        HttpContext httpContext,
+        CancellationToken ct)
+    {
+        if (!await HasAccessAsync(user, authz, "submission", "archive"))
+            return ProblemDetailsHelper.PolicyDenied();
+
+        if (!TryParseExpectedRowVersion(httpContext, out var rowVersion))
+            return ProblemDetailsHelper.PreconditionFailed();
+
+        var (result, error) = await svc.ArchiveAsync(submissionId, dto, rowVersion, user, ct);
+        return MapSubmissionMutationResult(submissionId, result, error, null);
+    }
+
+    private static async Task<IResult> ReactivateSubmission(
+        Guid submissionId,
+        SubmissionArchiveRequestDto dto,
+        SubmissionService svc,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        HttpContext httpContext,
+        CancellationToken ct)
+    {
+        if (!await HasAccessAsync(user, authz, "submission", "archive"))
+            return ProblemDetailsHelper.PolicyDenied();
+
+        if (!TryParseExpectedRowVersion(httpContext, out var rowVersion))
+            return ProblemDetailsHelper.PreconditionFailed();
+
+        var (result, error) = await svc.ReactivateAsync(submissionId, dto, rowVersion, user, ct);
+        return MapSubmissionMutationResult(submissionId, result, error, null);
+    }
+
     private static async Task<IResult> AssignSubmission(
         Guid submissionId,
         SubmissionAssignmentRequestDto dto,
@@ -230,6 +378,7 @@ public static class SubmissionEndpoints
             "not_found" => ProblemDetailsHelper.NotFound("Submission", submissionId),
             "invalid_assignee" => ProblemDetailsHelper.InvalidSubmissionAssignee(errorDetail ?? "The specified assignee is invalid."),
             "precondition_failed" => ProblemDetailsHelper.PreconditionFailed(),
+            "archived_submission" => Conflict("archived_submission", "Archived submission", "Archived submissions are read-only until reactivated."),
             _ => Results.Ok(result),
         };
     }
@@ -279,6 +428,62 @@ public static class SubmissionEndpoints
 
         return false;
     }
+
+    private static async Task<bool> HasAnyAccessAsync(
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        string resource,
+        IReadOnlyList<string> actions)
+    {
+        foreach (var action in actions)
+        {
+            if (await HasAccessAsync(user, authz, resource, action))
+                return true;
+        }
+
+        return false;
+    }
+
+    private static SubmissionBindRequestDto WithIdempotencyHeader(
+        SubmissionBindRequestDto dto,
+        HttpContext httpContext)
+    {
+        if (!string.IsNullOrWhiteSpace(dto.IdempotencyKey))
+            return dto;
+
+        var header = httpContext.Request.Headers["Idempotency-Key"].FirstOrDefault();
+        return new SubmissionBindRequestDto(header);
+    }
+
+    private static IResult MapSubmissionMutationResult(
+        Guid submissionId,
+        SubmissionDto? result,
+        string? error,
+        IReadOnlyList<string>? missingItems) =>
+        error switch
+        {
+            "not_found" => ProblemDetailsHelper.NotFound("Submission", submissionId),
+            "policy_denied" => ProblemDetailsHelper.PolicyDenied(),
+            "invalid_transition" => ProblemDetailsHelper.InvalidTransition("current", "requested"),
+            "missing_transition_prerequisite" => ProblemDetailsHelper.MissingTransitionPrerequisite(missingItems ?? []),
+            "precondition_failed" => ProblemDetailsHelper.PreconditionFailed(),
+            "archived_submission" => Conflict("archived_submission", "Archived submission", "Archived submissions are read-only until reactivated."),
+            "invalid_approval_decision" => ProblemDetailsHelper.ValidationError(
+                new Dictionary<string, string[]> { ["decision"] = ["Decision must be Granted or Declined."] }),
+            "missing_reason" => ProblemDetailsHelper.ValidationError(
+                new Dictionary<string, string[]> { ["reason"] = ["Reason is required."] }),
+            "duplicate_approval" => Conflict("duplicate_approval", "Duplicate approval", "This submission already has a granted approval for the current packet."),
+            _ => Results.Ok(result),
+        };
+
+    private static IResult Conflict(string code, string title, string detail) => Results.Problem(
+        title: title,
+        detail: detail,
+        statusCode: 409,
+        extensions: new Dictionary<string, object?>
+        {
+            ["code"] = code,
+        });
 
     private static bool TryParseExpectedRowVersion(HttpContext httpContext, out uint rowVersion)
     {

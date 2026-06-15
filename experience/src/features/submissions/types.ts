@@ -30,6 +30,11 @@ export interface SubmissionListItemDto {
   assignedToDisplayName: string | null;
   createdAt: string;
   isStale: boolean;
+  ageDaysInState: number;
+  approvalStatus: string;
+  approvalPending: boolean;
+  isArchived: boolean;
+  stuckFlag: boolean;
 }
 
 export interface SubmissionFieldCheckDto {
@@ -75,7 +80,16 @@ export interface SubmissionDto {
   programName: string | null;
   assignedToDisplayName: string | null;
   isStale: boolean;
+  ageDaysInState: number;
+  approvalStatus: string;
+  approvalPending: boolean;
+  isArchived: boolean;
+  archivedAt: string | null;
+  archivedByUserId: string | null;
   completeness: SubmissionCompletenessDto;
+  quotePacket: SubmissionQuotePacketDto;
+  approvalDecisions: SubmissionApprovalDecisionDto[];
+  bindHandoff: SubmissionBindHandoffDto | null;
   availableTransitions: SubmissionStatus[];
   rowVersion: string;
   createdAt: string;
@@ -123,6 +137,70 @@ export interface SubmissionAssignmentRequestDto {
 export interface WorkflowTransitionRequestDto {
   toState: SubmissionStatus;
   reason?: string | null;
+  reasonCode?: string | null;
+  reasonDetail?: string | null;
+}
+
+export interface SubmissionQuotePacketDto {
+  id: string | null;
+  submissionId: string;
+  status: string;
+  linkedDocumentRefs: string[];
+  recordedPremiumAmount: number | null;
+  recordedLimits: string | null;
+  recordedDeductibles: string | null;
+  effectiveDate: string | null;
+  carrierMarket: string | null;
+  readinessState: string;
+  readyAt: string | null;
+  readyByUserId: string | null;
+  approvedAt: string | null;
+  approvedByUserId: string | null;
+  rowVersion: string;
+}
+
+export interface SubmissionQuotePacketUpdateDto {
+  linkedDocumentRefs?: string[] | null;
+  recordedPremiumAmount?: number | null;
+  recordedLimits?: string | null;
+  recordedDeductibles?: string | null;
+  effectiveDate?: string | null;
+  carrierMarket?: string | null;
+  markReady?: boolean;
+}
+
+export interface SubmissionApprovalDecisionDto {
+  id: string;
+  submissionId: string;
+  decision: string;
+  approverUserId: string;
+  reason: string;
+  blockingConditions: string[];
+  decidedAt: string;
+}
+
+export interface SubmissionApprovalRequestDto {
+  decision: 'Granted' | 'Declined';
+  reason: string;
+  blockingConditions?: string[];
+}
+
+export interface SubmissionBindRequestDto {
+  idempotencyKey?: string | null;
+}
+
+export interface SubmissionBindHandoffDto {
+  id: string;
+  submissionId: string;
+  idempotencyKey: string;
+  status: string;
+  correlationId: string;
+  requestedAt: string;
+  completedAt: string | null;
+}
+
+export interface SubmissionArchiveRequestDto {
+  reason: string;
 }
 
 export interface SubmissionListQuery {
@@ -132,6 +210,9 @@ export interface SubmissionListQuery {
   lineOfBusiness?: string;
   assignedToUserId?: string;
   stale?: boolean;
+  approvalPending?: boolean;
+  stuckOnly?: boolean;
+  includeArchived?: boolean;
   sort?: 'createdAt' | 'effectiveDate' | 'accountName' | 'brokerName' | 'currentStatus';
   sortDir?: 'asc' | 'desc';
   page?: number;

@@ -37,6 +37,19 @@ Current baseline:
 - `task-create-request.schema.json` - task creation payload
 - `task-update-request.schema.json` - task update payload
 - `timeline-event.schema.json` - activity timeline event response
+- `distribution-node.schema.json` - F0017 distribution hierarchy node response
+- `distribution-node-parent-request.schema.json` - F0017 set/clear parent payload
+- `distribution-node-ancestors-response.schema.json` - F0017 ancestor breadcrumb response
+- `paginated-distribution-node-list.schema.json` - F0017 descendant list response
+- `producer-ownership.schema.json` - F0017 effective-dated producer ownership period
+- `producer-ownership-assignment-request.schema.json` - F0017 producer ownership assignment payload
+- `producer-ownership-lookup-response.schema.json` - F0017 point-in-time ownership lookup response
+- `territory.schema.json` - F0017 territory response
+- `territory-create-request.schema.json` - F0017 territory creation payload
+- `territory-assignment.schema.json` - F0017 effective-dated territory assignment period
+- `territory-member-assignment-request.schema.json` - F0017 territory member assignment payload
+- `paginated-territory-assignment-list.schema.json` - F0017 territory member list response
+- `territory-assignment-lookup-response.schema.json` - F0017 point-in-time territory assignment lookup response
 
 Use these files as the source of truth for validation, OpenAPI alignment, and generated types.
 

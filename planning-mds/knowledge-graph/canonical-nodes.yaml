@@ -30,6 +30,38 @@ entities:
     label: BrokerRegion
     source_docs:
       - planning-mds/architecture/data-model.md
+  - id: entity:producer
+    label: Producer
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+    rationale:
+      - adr: adr:026
+        section: "Decision"
+        summary: "Producers are distribution nodes in the self-referencing hierarchy and the subject of effective-dated ownership; node_type ordering is advisory so depth is unbounded."
+  - id: entity:territory
+    label: Territory
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: entity:producer-ownership
+    label: ProducerOwnership
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+    rationale:
+      - adr: adr:026
+        section: "Decision"
+        summary: "Effective-dated ownership relationship (effective_from/to): reassignment closes the prior period and opens a new one so point-in-time attribution is preserved."
+  - id: entity:territory-assignment
+    label: TerritoryAssignment
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+    rationale:
+      - adr: adr:026
+        section: "Decision"
+        summary: "Effective-dated territory membership with no conflicting active overlap for the same member/period."
   - id: entity:account
     label: Account
     source_docs:
@@ -204,6 +236,36 @@ entities:
       - adr: adr:012
         section: "Decision §10"
         summary: "Templates are documents stored under <docroot>/templates/ with the same sidecar JSON shape; materialising a template into a parent record creates an independent document with provenance.source = template:{id}."
+  - id: entity:submission-quote-packet
+    label: SubmissionQuotePacket
+    source_docs:
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/PRD.md
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+      - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md
+    rationale:
+      - adr: adr:025
+        section: "Decision §2"
+        summary: "Submission-scoped coordination record (status, linked F0020 documents, recorded reference facts validated for presence/format only) — never computed. A CRM packet, not a quoting/rating artifact."
+  - id: entity:submission-approval-decision
+    label: SubmissionApprovalDecision
+    source_docs:
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/PRD.md
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
+      - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md
+    rationale:
+      - adr: adr:025
+        section: "Decision §3"
+        summary: "Append-only single-approver decision (approver, reason, authority context) gating bind; shaped to extend to maker-checker / authority limits without a workflow rewrite."
+  - id: entity:submission-bind-handoff
+    label: SubmissionBindHandoff
+    source_docs:
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/PRD.md
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md
+      - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md
+    rationale:
+      - adr: adr:025
+        section: "Decision §4"
+        summary: "Append-only bind handoff coordination record created after approval; records handoff metadata and supports idempotent bind request/confirmation without creating policies directly."
 
 workflows:
   - id: workflow:submission
@@ -213,13 +275,19 @@ workflows:
       - planning-mds/architecture/feature-assembly-plan.md
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md
     notes: >
       F0006 owns the intake half of this workflow through ReadyForUWReview.
-      F0019 extends the downstream quote, bind, decline, and withdrawal path.
+      F0019 activates and extends the downstream quote, approval, bind, decline, and withdrawal
+      path, owns the archive/deactivate lifecycle, and is bounded as CRM status/workflow only
+      (recorded, never computed) — not an underwriting workbench.
     rationale:
       - adr: adr:011
         section: "Decision"
         summary: "Explicit state machine with declared transitions and append-only history prevents ad hoc status edits and enables audit-ready reporting."
+      - adr: adr:025
+        section: "Decision §1, §6"
+        summary: "F0019 deliberately activates the downstream transitions (boundary move beyond F0006) and bounds the workflow as CRM status coordination — no rating/pricing/scoring; quote figures are recorded, never computed."
     states:
       - id: state:submission:received
         label: Received
@@ -440,6 +508,25 @@ capabilities:
     label: Broker Contact Management
     source_docs:
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
+  - id: capability:distribution-hierarchy-management
+    label: Distribution Hierarchy Management
+    source_docs:
+      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/README.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+    rationale:
+      - adr: adr:026
+        section: "Decision"
+        summary: "Arbitrary-depth self-referencing tree with cached ancestry; cycle/orphan-safe reparent and bounded lazy traversal reads."
+  - id: capability:producer-ownership-management
+    label: Producer Ownership Management
+    source_docs:
+      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/README.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: capability:territory-management
+    label: Territory Management
+    source_docs:
+      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/README.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
   - id: capability:authorization-enforcement
     label: Authorization Enforcement
     source_docs:
@@ -450,6 +537,15 @@ capabilities:
       - adr: adr:008
         section: "Decision"
         summary: "Native Casbin enforcer replaces hand-rolled policy parser to eliminate syntax drift from Casbin semantics and avoid manual parser changes for new policy conditions."
+  - id: capability:submission-workflow
+    label: Submission Downstream Workflow
+    source_docs:
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/PRD.md
+      - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md
+    rationale:
+      - adr: adr:025
+        section: "Decision §6"
+        summary: "CRM status/workflow coordination, NOT an underwriting workbench: no rating/pricing/scoring; quote figures are recorded, never computed. Any feature touching workflow:submission inherits this boundary."
   - id: capability:task-center
     label: Task Center
     source_docs:
@@ -885,6 +981,128 @@ endpoints:
     related_nodes:
       - entity:broker
       - capability:broker-relationship-management
+  - id: endpoint:distribution-node-parent-update
+    label: PUT /distribution-nodes/{nodeId}/parent
+    method: PUT
+    route: /distribution-nodes/{nodeId}/parent
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0001-model-broker-mga-hierarchy.md
+    related_nodes:
+      - capability:distribution-hierarchy-management
+      - entity:broker
+      - entity:mga
+      - entity:producer
+      - entity:activity-timeline-event
+      - policy_rule:distribution-node-update
+  - id: endpoint:distribution-node-ancestors
+    label: GET /distribution-nodes/{nodeId}/ancestors
+    method: GET
+    route: /distribution-nodes/{nodeId}/ancestors
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0002-navigate-hierarchy.md
+    related_nodes:
+      - capability:distribution-hierarchy-management
+      - entity:broker
+      - entity:mga
+      - entity:producer
+      - policy_rule:distribution-node-read
+  - id: endpoint:distribution-node-descendants
+    label: GET /distribution-nodes/{nodeId}/descendants
+    method: GET
+    route: /distribution-nodes/{nodeId}/descendants
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0002-navigate-hierarchy.md
+    related_nodes:
+      - capability:distribution-hierarchy-management
+      - entity:broker
+      - entity:mga
+      - entity:producer
+      - policy_rule:distribution-node-read
+  - id: endpoint:producer-ownership-read
+    label: GET /producer-ownership
+    method: GET
+    route: /producer-ownership
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md
+    related_nodes:
+      - capability:producer-ownership-management
+      - entity:producer-ownership
+      - entity:producer
+      - policy_rule:producer-ownership-read
+  - id: endpoint:producer-ownership-assign
+    label: POST /producer-ownership
+    method: POST
+    route: /producer-ownership
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md
+    related_nodes:
+      - capability:producer-ownership-management
+      - entity:producer-ownership
+      - entity:producer
+      - entity:activity-timeline-event
+      - policy_rule:producer-ownership-assign
+  - id: endpoint:territory-create
+    label: POST /territories
+    method: POST
+    route: /territories
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
+    related_nodes:
+      - capability:territory-management
+      - entity:territory
+      - entity:activity-timeline-event
+      - policy_rule:territory-create
+  - id: endpoint:territory-members-list
+    label: GET /territories/{territoryId}/members
+    method: GET
+    route: /territories/{territoryId}/members
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
+    related_nodes:
+      - capability:territory-management
+      - entity:territory
+      - entity:territory-assignment
+      - policy_rule:territory-read
+  - id: endpoint:territory-member-assign
+    label: POST /territories/{territoryId}/members
+    method: POST
+    route: /territories/{territoryId}/members
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
+    related_nodes:
+      - capability:territory-management
+      - entity:territory
+      - entity:territory-assignment
+      - entity:activity-timeline-event
+      - policy_rule:territory-assign
+  - id: endpoint:territory-assignment-lookup
+    label: GET /territory-assignments
+    method: GET
+    route: /territory-assignments
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
+    related_nodes:
+      - capability:territory-management
+      - entity:territory-assignment
+      - policy_rule:territory-read
   - id: endpoint:submission-list
     label: GET /submissions
     method: GET
@@ -947,6 +1165,85 @@ endpoints:
       - entity:submission
       - entity:activity-timeline-event
       - policy_rule:timeline-event-read
+  - id: endpoint:submission-quote-packet-read
+    label: GET /submissions/{submissionId}/quote-packet
+    method: GET
+    route: /submissions/{submissionId}/quote-packet
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-quote-packet
+      - workflow:submission
+  - id: endpoint:submission-quote-packet-update
+    label: PUT /submissions/{submissionId}/quote-packet
+    method: PUT
+    route: /submissions/{submissionId}/quote-packet
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-quote-packet
+      - workflow:submission
+  - id: endpoint:submission-approval
+    label: POST /submissions/{submissionId}/approval
+    method: POST
+    route: /submissions/{submissionId}/approval
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-approval-decision
+      - policy_rule:submission-approve
+      - workflow:submission
+  - id: endpoint:submission-bind-request
+    label: POST /submissions/{submissionId}/bind-request
+    method: POST
+    route: /submissions/{submissionId}/bind-request
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-approval-decision
+      - entity:submission-bind-handoff
+      - workflow:submission
+  - id: endpoint:submission-bind-confirmation
+    label: POST /submissions/{submissionId}/bind-confirmation
+    method: POST
+    route: /submissions/{submissionId}/bind-confirmation
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-bind-handoff
+      - workflow:submission
+  - id: endpoint:submission-archive
+    label: POST /submissions/{submissionId}/archive
+    method: POST
+    route: /submissions/{submissionId}/archive
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
+    related_nodes:
+      - entity:submission
+      - policy_rule:submission-archive
+      - workflow:submission
+  - id: endpoint:submission-reactivate
+    label: POST /submissions/{submissionId}/reactivate
+    method: POST
+    route: /submissions/{submissionId}/reactivate
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
+    related_nodes:
+      - entity:submission
+      - policy_rule:submission-archive
+      - workflow:submission
   - id: endpoint:renewal-list
     label: GET /renewals
     method: GET
@@ -1587,6 +1884,59 @@ events:
       - adr: adr:011
         section: "Decision"
         summary: "Immutable transition events with timestamps, actor identity, and reason enable auditable reporting over structured transition history."
+  - id: event:submission-packet-updated
+    label: SubmissionPacketUpdated
+    event_type: SubmissionPacketUpdated
+    source_docs:
+      - planning-mds/schemas/activity-event-payloads.schema.json
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-quote-packet
+      - entity:activity-timeline-event
+      - workflow:submission
+  - id: event:submission-approval-granted
+    label: SubmissionApprovalGranted
+    event_type: SubmissionApprovalGranted
+    source_docs:
+      - planning-mds/schemas/activity-event-payloads.schema.json
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-approval-decision
+      - entity:activity-timeline-event
+      - workflow:submission
+  - id: event:submission-approval-declined
+    label: SubmissionApprovalDeclined
+    event_type: SubmissionApprovalDeclined
+    source_docs:
+      - planning-mds/schemas/activity-event-payloads.schema.json
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
+    related_nodes:
+      - entity:submission
+      - entity:submission-approval-decision
+      - entity:activity-timeline-event
+      - workflow:submission
+  - id: event:submission-archived
+    label: SubmissionArchived
+    event_type: SubmissionArchived
+    source_docs:
+      - planning-mds/schemas/activity-event-payloads.schema.json
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
+    related_nodes:
+      - entity:submission
+      - entity:activity-timeline-event
+      - workflow:submission
+  - id: event:submission-reactivated
+    label: SubmissionReactivated
+    event_type: SubmissionReactivated
+    source_docs:
+      - planning-mds/schemas/activity-event-payloads.schema.json
+      - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
+    related_nodes:
+      - entity:submission
+      - entity:activity-timeline-event
+      - workflow:submission
   - id: event:task-created
     label: TaskCreated
     event_type: TaskCreated
@@ -2490,6 +2840,37 @@ policy_rules:
       - entity:user-profile
       - capability:authorization-enforcement
     notes: DistributionUser self-assign and DistributionManager/Admin region- or cross-scope assignment are both gated here; query-layer filters the assignable pool.
+  - id: policy_rule:submission-approve
+    label: submission:approve
+    resource: submission
+    action: approve
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:underwriter
+      - role:admin
+    related_nodes:
+      - entity:submission
+      - entity:submission-approval-decision
+      - workflow:submission
+      - capability:authorization-enforcement
+    notes: MVP single authorized approver; distinct from submission:transition and a precondition for bind. Maker-checker / authority limits are Future via SubmissionApprovalDecision.authorityContext.
+  - id: policy_rule:submission-archive
+    label: submission:archive
+    resource: submission
+    action: archive
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+    allowed_roles:
+      - role:underwriter
+      - role:admin
+    related_nodes:
+      - entity:submission
+      - workflow:submission
+      - capability:authorization-enforcement
+    notes: Explicit archive/deactivate lifecycle action allowed only for terminal submission states; not a generic delete. Reactivation is gated by the same rule.
   - id: policy_rule:dashboard-kpi-read
     label: dashboard_kpi:read
     resource: dashboard_kpi
@@ -2589,6 +2970,130 @@ policy_rules:
       - capability:broker-relationship-management
       - capability:authorization-enforcement
     notes: Reverse of broker:delete (F0002-S0008). Manager authority required; DistributionUser and RelationshipManager excluded because structural record change requires manager authority.
+  - id: policy_rule:distribution-node-read
+    label: distribution_node:read
+    resource: distribution_node
+    action: read
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+    allowed_roles:
+      - role:distribution-user
+      - role:distribution-manager
+      - role:underwriter
+      - role:relationship-manager
+      - role:program-manager
+      - role:admin
+    related_nodes:
+      - capability:distribution-hierarchy-management
+      - capability:authorization-enforcement
+    notes: Authenticated internal read only; hierarchy-aware subtree scoping is deferred to F0037.
+  - id: policy_rule:distribution-node-update
+    label: distribution_node:update
+    resource: distribution_node
+    action: update
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+    allowed_roles:
+      - role:distribution-manager
+      - role:admin
+    related_nodes:
+      - capability:distribution-hierarchy-management
+      - capability:authorization-enforcement
+      - entity:activity-timeline-event
+    notes: Covers set/clear parent; service enforces self-parent, cycle/orphan, and rowVersion guards.
+  - id: policy_rule:producer-ownership-read
+    label: producer_ownership:read
+    resource: producer_ownership
+    action: read
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+    allowed_roles:
+      - role:distribution-user
+      - role:distribution-manager
+      - role:underwriter
+      - role:relationship-manager
+      - role:program-manager
+      - role:admin
+    related_nodes:
+      - capability:producer-ownership-management
+      - capability:authorization-enforcement
+    notes: Authenticated internal read only; ownership-scoped read enforcement is deferred to F0037.
+  - id: policy_rule:producer-ownership-assign
+    label: producer_ownership:assign
+    resource: producer_ownership
+    action: assign
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+    allowed_roles:
+      - role:distribution-manager
+      - role:admin
+    related_nodes:
+      - capability:producer-ownership-management
+      - capability:authorization-enforcement
+      - entity:producer-ownership
+      - entity:activity-timeline-event
+    notes: Effective-dated assign/reassign; service enforces overlap, date-order, backdating, and rowVersion guards.
+  - id: policy_rule:territory-read
+    label: territory:read
+    resource: territory
+    action: read
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+    allowed_roles:
+      - role:distribution-user
+      - role:distribution-manager
+      - role:underwriter
+      - role:relationship-manager
+      - role:program-manager
+      - role:admin
+    related_nodes:
+      - capability:territory-management
+      - capability:authorization-enforcement
+    notes: Authenticated internal read only; territory-scoped read enforcement is deferred to F0037.
+  - id: policy_rule:territory-create
+    label: territory:create
+    resource: territory
+    action: create
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+    allowed_roles:
+      - role:distribution-manager
+      - role:admin
+    related_nodes:
+      - capability:territory-management
+      - capability:authorization-enforcement
+      - entity:territory
+      - entity:activity-timeline-event
+    notes: Service enforces unique active territory name and emits timeline on successful create.
+  - id: policy_rule:territory-assign
+    label: territory:assign
+    resource: territory
+    action: assign
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+    allowed_roles:
+      - role:distribution-manager
+      - role:admin
+    related_nodes:
+      - capability:territory-management
+      - capability:authorization-enforcement
+      - entity:territory-assignment
+      - entity:activity-timeline-event
+    notes: Effective-dated member assign/reassign; service enforces overlap, date-order, and rowVersion guards.
   - id: policy_rule:contact-create
     label: contact:create
     resource: contact
@@ -3172,6 +3677,12 @@ adrs:
   - id: adr:024
     label: Session Continuity and Token Refresh Architecture
     path: planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+  - id: adr:025
+    label: Submission Downstream Workflow — Quote/Approval/Bind, Recorded-Not-Computed Packet, and Archive
+    path: planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md
+  - id: adr:026
+    label: Broker/MGA Hierarchy, Producer Ownership & Territory
+    path: planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
 
 api_contracts:
   - id: api:nebula-rest
@@ -3197,6 +3708,45 @@ schemas:
   - id: schema:paginated-broker-list
     path: planning-mds/schemas/paginated-broker-list.schema.json
     related_nodes: [entity:broker]
+  - id: schema:distribution-node
+    path: planning-mds/schemas/distribution-node.schema.json
+    related_nodes: [entity:broker, entity:mga, entity:producer, capability:distribution-hierarchy-management]
+  - id: schema:distribution-node-parent-request
+    path: planning-mds/schemas/distribution-node-parent-request.schema.json
+    related_nodes: [entity:broker, entity:mga, entity:producer, capability:distribution-hierarchy-management]
+  - id: schema:distribution-node-ancestors-response
+    path: planning-mds/schemas/distribution-node-ancestors-response.schema.json
+    related_nodes: [entity:broker, entity:mga, entity:producer, capability:distribution-hierarchy-management]
+  - id: schema:paginated-distribution-node-list
+    path: planning-mds/schemas/paginated-distribution-node-list.schema.json
+    related_nodes: [entity:broker, entity:mga, entity:producer, capability:distribution-hierarchy-management]
+  - id: schema:producer-ownership
+    path: planning-mds/schemas/producer-ownership.schema.json
+    related_nodes: [entity:producer-ownership, entity:producer, capability:producer-ownership-management]
+  - id: schema:producer-ownership-assignment-request
+    path: planning-mds/schemas/producer-ownership-assignment-request.schema.json
+    related_nodes: [entity:producer-ownership, entity:producer, capability:producer-ownership-management]
+  - id: schema:producer-ownership-lookup-response
+    path: planning-mds/schemas/producer-ownership-lookup-response.schema.json
+    related_nodes: [entity:producer-ownership, entity:producer, capability:producer-ownership-management]
+  - id: schema:territory
+    path: planning-mds/schemas/territory.schema.json
+    related_nodes: [entity:territory, capability:territory-management]
+  - id: schema:territory-create-request
+    path: planning-mds/schemas/territory-create-request.schema.json
+    related_nodes: [entity:territory, capability:territory-management]
+  - id: schema:territory-assignment
+    path: planning-mds/schemas/territory-assignment.schema.json
+    related_nodes: [entity:territory, entity:territory-assignment, capability:territory-management]
+  - id: schema:territory-member-assignment-request
+    path: planning-mds/schemas/territory-member-assignment-request.schema.json
+    related_nodes: [entity:territory, entity:territory-assignment, capability:territory-management]
+  - id: schema:paginated-territory-assignment-list
+    path: planning-mds/schemas/paginated-territory-assignment-list.schema.json
+    related_nodes: [entity:territory, entity:territory-assignment, capability:territory-management]
+  - id: schema:territory-assignment-lookup-response
+    path: planning-mds/schemas/territory-assignment-lookup-response.schema.json
+    related_nodes: [entity:territory-assignment, capability:territory-management]
   - id: schema:contact
     path: planning-mds/schemas/contact.schema.json
     related_nodes: [entity:contact, entity:broker, entity:account]

@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/producer-ownership.schema.json",
+  "title": "ProducerOwnership",
+  "description": "Effective-dated producer ownership period.",
+  "type": "object",
+  "required": ["id", "scopeType", "scopeId", "producerNodeId", "effectiveFrom", "effectiveTo", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "scopeType": { "type": "string", "enum": ["Account", "BrokerRelationship"] },
+    "scopeId": { "type": "string", "format": "uuid" },
+    "producerNodeId": { "type": "string", "format": "uuid" },
+    "producerDisplayName": { "type": ["string", "null"] },
+    "effectiveFrom": { "type": "string", "format": "date" },
+    "effectiveTo": { "type": ["string", "null"], "format": "date" },
+    "assignmentReason": { "type": ["string", "null"], "maxLength": 500 },
+    "rowVersion": { "type": "string" },
+    "changedBy": { "type": ["string", "null"], "format": "uuid" },
+    "changedAt": { "type": ["string", "null"], "format": "date-time" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/distribution-node-parent-request.schema.json",
+  "title": "DistributionNodeParentRequest",
+  "description": "Set or clear a distribution node parent.",
+  "type": "object",
+  "required": ["parentId"],
+  "properties": {
+    "parentId": { "type": ["string", "null"], "format": "uuid" },
+    "note": { "type": ["string", "null"], "maxLength": 500 }
+  },
+  "additionalProperties": false
+}

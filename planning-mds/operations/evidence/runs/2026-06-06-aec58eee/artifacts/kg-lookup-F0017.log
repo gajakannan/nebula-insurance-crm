@@ -1,0 +1,296 @@
+{
+  "target": {
+    "id": "feature:F0017",
+    "path": "planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership",
+    "status": "planned",
+    "affects": [
+      "capability:distribution-hierarchy-management",
+      "capability:producer-ownership-management",
+      "capability:territory-management",
+      "entity:broker",
+      "entity:mga",
+      "entity:producer",
+      "entity:territory",
+      "entity:producer-ownership",
+      "entity:territory-assignment",
+      "entity:activity-timeline-event"
+    ],
+    "governed_by": [
+      "adr:026"
+    ],
+    "depends_on": [
+      "feature:F0002",
+      "feature:F0023"
+    ],
+    "notes": [
+      "Phase B Architect bindings (plan run 2026-06-06-5fb353e9), governed by ADR-026. MVP = arbitrary-depth self-referencing hierarchy + effective-dated producer ownership + effective-dated territory + change audit (stories S0001-S0005).",
+      "No endpoint/schema nodes bound yet: the full OpenAPI (planning-mds/api/nebula-api.yaml) and JSON schemas are authored during the F0017 feature action; uses_api_contract/uses_schema/endpoints bind then. Hierarchy-aware access-control enforcement and rollup reporting are deferred to F0037."
+    ],
+    "_kind": "feature"
+  },
+  "source_precedence": [
+    "target feature folder and feature-assembly-plan.md for feature-local implementation intent",
+    "planning-mds/architecture/decisions/** for architectural decisions",
+    "planning-mds/api/*.yaml and planning-mds/schemas/*.json for interface and payload contracts",
+    "planning-mds/architecture/data-model.md and planning-mds/domain/glossary.md for domain definitions",
+    "planning-mds/knowledge-graph/*.yaml for compressed retrieval and routing"
+  ],
+  "affects": [
+    {
+      "id": "capability:distribution-hierarchy-management",
+      "label": "Distribution Hierarchy Management",
+      "source_docs": [
+        "planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/README.md",
+        "planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md"
+      ],
+      "rationale": [
+        {
+          "adr": "adr:026",
+          "section": "Decision",
+          "summary": "Arbitrary-depth self-referencing tree with cached ancestry; cycle/orphan-safe reparent and bounded lazy traversal reads."
+        }
+      ],
+      "_kind": "capability"
+    },
+    {
+      "id": "capability:producer-ownership-management",
+      "label": "Producer Ownership Management",
+      "source_docs": [
+        "planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/README.md",
+        "planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md"
+      ],
+      "_kind": "capability"
+    },
+    {
+      "id": "capability:territory-management",
+      "label": "Territory Management",
+      "source_docs": [
+        "planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/README.md",
+        "planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md"
+      ],
+      "_kind": "capability"
+    },
+    {
+      "id": "entity:broker",
+      "label": "Broker",
+      "source_docs": [
+        "planning-mds/architecture/data-model.md",
+        "planning-mds/domain/glossary.md"
+      ],
+      "_kind": "entity",
+      "code_paths": {
+        "backend": {
+          "domain": [
+            "engine/src/Nebula.Domain/Entities/Broker.cs",
+            "engine/src/Nebula.Domain/Entities/BrokerRegion.cs"
+          ],
+          "application": [
+            "engine/src/Nebula.Application/DTOs/Broker*.cs",
+            "engine/src/Nebula.Application/Interfaces/IBrokerRepository.cs",
+            "engine/src/Nebula.Application/Services/Broker*.cs",
+            "engine/src/Nebula.Application/Validators/Broker*.cs"
+          ],
+          "infrastructure": [
+            "engine/src/Nebula.Infrastructure/Repositories/BrokerRepository.cs",
+            "engine/src/Nebula.Infrastructure/Persistence/Configurations/Broker*.cs",
+            "engine/src/Nebula.Infrastructure/Persistence/Migrations/*Broker*.cs"
+          ],
+          "api": [
+            "engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs"
+          ],
+          "tests": [
+            "engine/tests/Nebula.Tests/Contracts/BrokerListProviderPactTests.cs",
+            "engine/tests/Nebula.Tests/Integration/Broker*.cs",
+            "engine/tests/Nebula.Tests/Unit/BrokerScopeResolverTests/BrokerScopeResolverTests.cs"
+          ]
+        },
+        "frontend": {
+          "feature": [
+            "experience/src/features/brokers/**"
+          ],
+          "pages": [
+            "experience/src/pages/BrokerListPage.tsx",
+            "experience/src/pages/BrokerDetailPage.tsx",
+            "experience/src/pages/CreateBrokerPage.tsx"
+          ],
+          "tests": [
+            "experience/src/features/brokers/tests/BrokerListPage*.tsx",
+            "experience/src/pages/tests/BrokerDetailPage.integration.test.tsx",
+            "experience/src/pages/tests/CreateBrokerPage.integration.test.tsx"
+          ]
+        }
+      }
+    },
+    {
+      "id": "entity:mga",
+      "label": "MGA",
+      "source_docs": [
+        "planning-mds/architecture/data-model.md",
+        "planning-mds/domain/glossary.md"
+      ],
+      "_kind": "entity",
+      "code_paths": {
+        "backend": {
+          "application": [
+            "engine/src/Nebula.Application/Services/ReferenceDataService.cs",
+            "engine/src/Nebula.Application/Interfaces/IReferenceDataRepository.cs"
+          ],
+          "infrastructure": [
+            "engine/src/Nebula.Infrastructure/Repositories/ReferenceDataRepository.cs"
+          ],
+          "api": [
+            "engine/src/Nebula.Api/Endpoints/ReferenceDataEndpoints.cs"
+          ]
+        }
+      }
+    },
+    {
+      "id": "entity:producer",
+      "label": "Producer",
+      "source_docs": [
+        "planning-mds/architecture/data-model.md",
+        "planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md"
+      ],
+      "rationale": [
+        {
+          "adr": "adr:026",
+          "section": "Decision",
+          "summary": "Producers are distribution nodes in the self-referencing hierarchy and the subject of effective-dated ownership; node_type ordering is advisory so depth is unbounded."
+        }
+      ],
+      "_kind": "entity"
+    },
+    {
+      "id": "entity:territory",
+      "label": "Territory",
+      "source_docs": [
+        "planning-mds/architecture/data-model.md",
+        "planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md"
+      ],
+      "_kind": "entity"
+    },
+    {
+      "id": "entity:producer-ownership",
+      "label": "ProducerOwnership",
+      "source_docs": [
+        "planning-mds/architecture/data-model.md",
+        "planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md"
+      ],
+      "rationale": [
+        {
+          "adr": "adr:026",
+          "section": "Decision",
+          "summary": "Effective-dated ownership relationship (effective_from/to): reassignment closes the prior period and opens a new one so point-in-time attribution is preserved."
+        }
+      ],
+      "_kind": "entity"
+    },
+    {
+      "id": "entity:territory-assignment",
+      "label": "TerritoryAssignment",
+      "source_docs": [
+        "planning-mds/architecture/data-model.md",
+        "planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md"
+      ],
+      "rationale": [
+        {
+          "adr": "adr:026",
+          "section": "Decision",
+          "summary": "Effective-dated territory membership with no conflicting active overlap for the same member/period."
+        }
+      ],
+      "_kind": "entity"
+    },
+    {
+      "id": "entity:activity-timeline-event",
+      "label": "ActivityTimelineEvent",
+      "source_docs": [
+        "planning-mds/architecture/data-model.md"
+      ],
+      "_kind": "entity",
+      "code_paths": {
+        "backend": {
+          "domain": [
+            "engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs"
+          ],
+          "application": [
+            "engine/src/Nebula.Application/Interfaces/ITimelineRepository.cs",
+            "engine/src/Nebula.Application/DTOs/Timeline*.cs"
+          ],
+          "infrastructure": [
+            "engine/src/Nebula.Infrastructure/Repositories/TimelineRepository.cs",
+            "engine/src/Nebula.Infrastructure/Persistence/Configurations/ActivityTimelineEventConfiguration.cs"
+          ],
+          "api": [
+            "engine/src/Nebula.Api/Endpoints/TimelineEndpoints.cs"
+          ]
+        },
+        "frontend": {
+          "feature": [
+            "experience/src/features/timeline/**",
+            "experience/src/contracts/timeline.ts"
+          ]
+        }
+      }
+    }
+  ],
+  "governed_by": [
+    {
+      "id": "adr:026",
+      "label": "Broker/MGA Hierarchy, Producer Ownership & Territory",
+      "path": "planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md",
+      "_kind": "adr"
+    }
+  ],
+  "depends_on": [
+    {
+      "id": "feature:F0002",
+      "path": "planning-mds/features/archive/F0002-broker-relationship-management",
+      "status": "archived-done",
+      "affects": [
+        "capability:broker-relationship-management",
+        "capability:broker-360",
+        "capability:broker-contact-management",
+        "capability:authorization-enforcement",
+        "endpoint:broker-list",
+        "endpoint:broker-detail",
+        "endpoint:broker-create",
+        "endpoint:timeline-events",
+        "ui_route:brokers-list",
+        "ui_route:broker-detail",
+        "ui_route:broker-create",
+        "event:broker-created",
+        "event:contact-created",
+        "entity:broker",
+        "entity:contact",
+        "entity:activity-timeline-event"
+      ],
+      "governed_by": [
+        "adr:008"
+      ],
+      "uses_schema": [
+        "schema:broker",
+        "schema:broker-create-request",
+        "schema:broker-update-request",
+        "schema:broker-search-query",
+        "schema:paginated-broker-list",
+        "schema:contact",
+        "schema:contact-create-request",
+        "schema:contact-update-request",
+        "schema:timeline-event",
+        "schema:activity-event-payloads"
+      ],
+      "uses_api_contract": [
+        "api:nebula-rest"
+      ],
+      "_kind": "feature"
+    },
+    {
+      "id": "feature:F0023",
+      "path": "planning-mds/features/F0023-global-search-saved-views-and-operational-reporting",
+      "reason": "Planned feature folder exists but ontology mapping backfill has not started.",
+      "_kind": "feature",
+      "excluded": true
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+# Lifecycle Gates Log — F0017-broker-mga-hierarchy-and-producer-ownership run 2026-06-06-5fb353e9
+
+> Base run (plan action). Records the lifecycle/validator invocations executed at closeout. Sibling to `gate-decisions.md` (this records what *ran*; gate-decisions records what was *decided*).
+
+## Lifecycle Gate Run
+
+### knowledge_graph_sync
+Command: python3 scripts/kg/validate.py --write-coverage-report && python3 scripts/kg/validate.py && python3 scripts/kg/validate.py --check-drift
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/knowledge-graph/coverage-report.yaml (verdicts mirrored in commands.log)
+Skipped Gates: -
+
+### story_and_tracker_validation
+Command: validate-stories.py (F0017) ; generate-story-index.py (planning-mds/features/) ; validate-trackers.py
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/features/STORY-INDEX.md
+Skipped Gates: -
+
+### framework_template_alignment
+Command: python3 agents/scripts/validate_templates.py
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+## Command
+
+See per-block `Command:` lines above; full telemetry in `commands.log`.
+
+## Stage
+
+closeout (plan action — base run profile).
+
+## Exit Code
+
+All recorded invocations exited 0.
+
+## Result
+
+PASS (all closeout validations green).
+
+## Output References
+
+`coverage-report.yaml`, `STORY-INDEX.md`, and the base run files in this folder.
+
+## Skipped Gates
+
+- `boundary_genericness` (`agents/scripts/validate-genericness.py`) and `skill_regression` (`agents/scripts/run-skill-regression.py`): framework-CI lifecycle gates, **not part of the plan action's product-evidence close list** (plan.md Exit Validation). Not run for this product planning run; they belong to framework-repo CI.

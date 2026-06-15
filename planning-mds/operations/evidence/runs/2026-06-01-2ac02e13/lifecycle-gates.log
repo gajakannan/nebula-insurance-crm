@@ -1,0 +1,26 @@
+# Lifecycle Gates Log — Plan Run 2026-06-01-2ac02e13
+
+> Run audit log of validator/test invocations for the F0019 plan action.
+> Plan-run gates are G1–G5 (base run contract); NOT feature G0–G8 stages.
+> No `validate-feature-evidence.py` runs at plan — there is no feature evidence package yet.
+
+| Timestamp | Invocation | Purpose | Exit | Notes |
+|-----------|------------|---------|------|-------|
+| 2026-06-01T21:13:00-04:00 | `python3 scripts/kg/validate.py` | Prerequisite check | 1 | FAILED — `coverage-report.yaml` stale (committed report behind recent source edits; repo otherwise clean). |
+| 2026-06-01T21:17:00-04:00 | `python3 scripts/kg/validate.py --write-coverage-report` | Prerequisite repair | 0 | `[PASS]`. Diff = derived freshness metadata only (source_hash / last_modified / hotspot_rank+score); 0 feature/story IDs added or removed. |
+| 2026-06-01T21:22:00-04:00 | `python3 scripts/kg/validate.py` | Prerequisite re-confirm | 0 | Green. Plan start prerequisite satisfied. |
+| 2026-06-01T21:50:00-04:00 | `validate-stories.py {FEATURE_PATH}` | G2 story validation (first) | 1 | 7/8 failed — user-story token `**As an**` did not match validator regex `**As a**`. Fixed. |
+| 2026-06-01T21:52:00-04:00 | `validate-stories.py {FEATURE_PATH}` | G2 story validation (re-run) | 0 | 8/8 pass; 1 non-blocking INVEST warning (S0007 "needs"). |
+| 2026-06-01T21:53:00-04:00 | `generate-story-index.py …/features/` | G2 story index regen | 0 | 141 story files; STORY-INDEX.md regenerated. |
+| 2026-06-01T21:54:00-04:00 | `validate-trackers.py` | G2 tracker validation | 0 | PASS — errors 0, warnings 0. |
+| 2026-06-01T22:30:00-04:00 | `scripts/kg/validate.py` | G4 integrity (post KG edits) | 1 | Integrity OK (0 ref/path errors); only the expected stale-coverage error after KG changes. Stories 109→117. |
+| 2026-06-01T22:40:00-04:00 | `scripts/kg/validate.py --write-coverage-report` | G4 coverage regen | 0 | `[PASS]`. |
+| 2026-06-01T22:43:00-04:00 | `scripts/kg/validate.py` | G4 re-confirm | 0 | `[PASS]`. |
+| 2026-06-01T22:44:00-04:00 | `scripts/kg/validate.py --check-drift` | G4 drift check | 0 | `[PASS]`. |
+| 2026-06-02T00:05:00-04:00 | `validate-stories.py {FEATURE_PATH}` | Closeout #1 | 0 | 8/8 PASSED, no warnings. |
+| 2026-06-02T00:06:00-04:00 | `generate-story-index.py …/features/` | Closeout #2 | 0 | 141 story files; STORY-INDEX.md regenerated. |
+| 2026-06-02T00:07:00-04:00 | `validate-trackers.py` | Closeout #3 | 0 | PASS — errors 0, warnings 0. |
+| 2026-06-02T00:08:00-04:00 | `scripts/kg/validate.py --write-coverage-report` | Closeout #4 | 0 | `[PASS]` (KG changed this run). |
+| 2026-06-02T00:09:00-04:00 | `scripts/kg/validate.py` | Closeout #5 | 0 | `[PASS]`. |
+| 2026-06-02T00:09:30-04:00 | `scripts/kg/validate.py --check-drift` | Closeout #6 | 0 | `[PASS]`. |
+| 2026-06-02T00:10:00-04:00 | `agents/scripts/validate_templates.py` | Closeout #7 (framework) | 0 | `[PASS]` prompt templates align with action contracts. |

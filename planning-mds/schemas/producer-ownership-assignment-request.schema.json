@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/producer-ownership-assignment-request.schema.json",
+  "title": "ProducerOwnershipAssignmentRequest",
+  "description": "Assign or reassign producer ownership for an account or broker relationship scope.",
+  "type": "object",
+  "required": ["scopeType", "scopeId", "producerNodeId", "effectiveFrom"],
+  "properties": {
+    "scopeType": { "type": "string", "enum": ["Account", "BrokerRelationship"] },
+    "scopeId": { "type": "string", "format": "uuid" },
+    "producerNodeId": { "type": "string", "format": "uuid" },
+    "effectiveFrom": { "type": "string", "format": "date" },
+    "assignmentReason": { "type": ["string", "null"], "maxLength": 500 }
+  },
+  "additionalProperties": false
+}

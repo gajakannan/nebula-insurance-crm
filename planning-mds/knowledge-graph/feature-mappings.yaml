@@ -11,9 +11,6 @@ coverage:
     - id: feature:F0008
       path: planning-mds/features/F0008-broker-insights
       reason: Planned feature folder exists but ontology mapping backfill has not started.
-    - id: feature:F0017
-      path: planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership
-      reason: Planned feature folder exists but ontology mapping backfill has not started.
     - id: feature:F0021
       path: planning-mds/features/F0021-communication-hub-and-activity-capture
       reason: Planned feature folder exists but ontology mapping backfill has not started.
@@ -38,6 +35,9 @@ coverage:
     - id: feature:F0029
       path: planning-mds/features/F0029-external-broker-collaboration-portal
       reason: Planned feature folder exists but ontology mapping backfill has not started.
+    - id: feature:F0037
+      path: planning-mds/features/F0037-hierarchy-aware-access-scoping-and-distribution-rollups
+      reason: Planned placeholder feature (homes F0017 deferred scope); ontology mapping backfill has not started.
     - id: feature:F0031
       path: planning-mds/features/F0031-data-import-deduplication-and-go-live-migration
       reason: Planned feature folder exists but ontology mapping backfill has not started.
@@ -492,18 +492,41 @@ features:
       - {id: feature:F0019, provenance: inferred, confidence: 0.6, note: "F0019 future consumer of POST /api/policies/from-bind hook"}
       - {id: feature:F0028, provenance: inferred, confidence: 0.4, note: "Future replacement for lightweight CarrierRef seed"}
   - id: feature:F0019
-    path: planning-mds/features/F0019-submission-quoting-proposal-and-approval
-    status: planned
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval
+    status: archived-done
     affects:
       - workflow:submission
       - entity:submission
+      - entity:submission-quote-packet
+      - entity:submission-approval-decision
+      - entity:submission-bind-handoff
       - entity:policy
       - entity:document
       - entity:workflow-transition
       - entity:activity-timeline-event
+      - capability:submission-workflow
+      - endpoint:submission-quote-packet-read
+      - endpoint:submission-quote-packet-update
+      - endpoint:submission-approval
+      - endpoint:submission-bind-request
+      - endpoint:submission-bind-confirmation
+      - endpoint:submission-archive
+      - endpoint:submission-reactivate
+      - event:submission-packet-updated
+      - event:submission-approval-granted
+      - event:submission-approval-declined
+      - event:submission-archived
+      - event:submission-reactivated
+      - state:submission:in-review
+      - state:submission:quoted
+      - state:submission:bind-requested
+      - state:submission:bound
+      - state:submission:declined
+      - state:submission:withdrawn
     governed_by:
       - adr:011
       - adr:012
+      - adr:025
     uses_schema:
       - schema:submission
       - schema:submission-transition-request
@@ -511,10 +534,20 @@ features:
       - schema:activity-event-payloads
     uses_api_contract:
       - api:nebula-rest
+    enforced_by_policy:
+      - policy_rule:submission-transition
+      - policy_rule:submission-approve
+      - policy_rule:submission-archive
+    restricted_to_role:
+      - role:underwriter
+      - role:distribution-user
     depends_on:
       - feature:F0006
-      - {id: feature:F0018, provenance: inferred, confidence: 0.8}
-      - {id: feature:F0020, provenance: inferred, confidence: 0.8}
+      - {id: feature:F0018, provenance: extracted, confidence: 1.0, note: "Bind emits policy-creation handoff/correlation to F0018 (ADR-025 §4)"}
+      - {id: feature:F0020, provenance: extracted, confidence: 1.0, note: "Quote packet links submission-parented documents (ADR-012 / ADR-025 §2)"}
+      - {id: feature:F0034, provenance: extracted, confidence: 1.0, note: "Structured coverage/product attributes reused from product-schema registry (F0034-S0007 handoff)"}
+    notes:
+      - "Closed 2026-06-03 with feature evidence run 2026-06-03-7e8e0ddc. Scope stays CRM workflow coordination: quote figures are recorded reference values, never rating/pricing/scoring computations."
   - id: feature:F0020
     path: planning-mds/features/archive/F0020-document-management-and-acord-intake
     status: archived-done
@@ -852,7 +885,185 @@ features:
       - "Realizes ADR-021 (capability:dynamic-attribute-panel): RHF field state + AJV client validation + an explicit shadcn-style widget registry for LOB product attributes (Cyber pilot). ADR-021 amended 2026-05-25 and §3/§4 reworked 2026-05-26 (plan-review 2026-05-26-aaa8bd7c): widgets derive from data-schema.json (ui-schema.json is layout-only). Client validates the data-schema with AJV and parity is measured against the actual backend (capability:validator-equivalence, ADR-022); cross-field rules stay backend-authoritative (surfaced via lobErrors[]), so F0036 does NOT depend on ADR-023 / capability:lob-rules-governance — that binding was dropped. Conditional gating uses an engine-level UI-conditional map (frontend config, not the bundle)."
       - "Workstream B keeps the hand-rolled CRUD forms controlled and wires the exhaustive ~11-component create+edit inventory in F0036-S0007 (broker, account incl. account-contact, contact, task create + inline edit, submission native, policy create native, renewal create — original create-centric list of 6 expanded by the 2026-05-26 PR-M1 sweep, operator-confirmed full set with no deferrals) through a controlled-form dirty-tracker adapter plus the library-agnostic F0035 registration helper. All in-scope mutation forms — product-attribute and CRUD — register with the F0035 form-state preservation registry (capability:session-context-restore, ADR-024), closing F0035 finding #1. CRUD forms stay fixed-shape: no schema engine, no field-state-library change, no validation or submit-path reshape. The F0035 operator-mandated no-mutation-auto-replay invariant is inherited. No new canonical nodes: F0036 reuses and generalizes existing shared semantics."
 
+  - id: feature:F0017
+    path: planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership
+    status: planned
+    affects:
+      - capability:distribution-hierarchy-management
+      - capability:producer-ownership-management
+      - capability:territory-management
+      - entity:broker
+      - entity:mga
+      - entity:producer
+      - entity:territory
+      - entity:producer-ownership
+      - entity:territory-assignment
+      - entity:activity-timeline-event
+      - endpoint:distribution-node-parent-update
+      - endpoint:distribution-node-ancestors
+      - endpoint:distribution-node-descendants
+      - endpoint:producer-ownership-read
+      - endpoint:producer-ownership-assign
+      - endpoint:territory-create
+      - endpoint:territory-members-list
+      - endpoint:territory-member-assign
+      - endpoint:territory-assignment-lookup
+    governed_by:
+      - adr:026
+    enforced_by_policy:
+      - policy_rule:distribution-node-read
+      - policy_rule:distribution-node-update
+      - policy_rule:producer-ownership-read
+      - policy_rule:producer-ownership-assign
+      - policy_rule:territory-read
+      - policy_rule:territory-create
+      - policy_rule:territory-assign
+    uses_schema:
+      - schema:distribution-node
+      - schema:distribution-node-parent-request
+      - schema:distribution-node-ancestors-response
+      - schema:paginated-distribution-node-list
+      - schema:producer-ownership
+      - schema:producer-ownership-assignment-request
+      - schema:producer-ownership-lookup-response
+      - schema:territory
+      - schema:territory-create-request
+      - schema:territory-assignment
+      - schema:territory-member-assignment-request
+      - schema:paginated-territory-assignment-list
+      - schema:territory-assignment-lookup-response
+      - schema:timeline-event
+      - schema:activity-event-payloads
+      - schema:problem-details
+    uses_api_contract:
+      - api:nebula-rest
+    depends_on:
+      - feature:F0002
+    notes:
+      - "Phase B Architect bindings (plan run 2026-06-06-5fb353e9), governed by ADR-026. MVP = arbitrary-depth self-referencing hierarchy + effective-dated producer ownership + effective-dated territory + change audit (stories S0001-S0005)."
+      - "Plan-review repair 2026-06-06 bound F0017 to concrete OpenAPI routes, JSON Schemas, and role-based mutation policy rules. F0023 is a downstream reporting substrate/consumer, not a build prerequisite. Hierarchy-aware access-control enforcement and rollup reporting are deferred to F0037."
+
 stories:
+  - id: story:F0019-S0001
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0001-activate-downstream-submission-workflow.md
+    feature: feature:F0019
+    affects:
+      - workflow:submission
+      - state:submission:in-review
+      - entity:submission
+      - entity:workflow-transition
+      - entity:activity-timeline-event
+    governed_by:
+      - adr:011
+      - adr:025
+    enforced_by_policy:
+      - policy_rule:submission-transition
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0019-S0002
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+    feature: feature:F0019
+    affects:
+      - entity:submission-quote-packet
+      - state:submission:quoted
+      - entity:submission
+      - entity:document
+    governed_by:
+      - adr:025
+      - adr:012
+    uses_schema:
+      - schema:submission
+    enforced_by_policy:
+      - policy_rule:submission-update
+    depends_on:
+      - feature:F0020
+      - feature:F0034
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0019-S0003
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
+    feature: feature:F0019
+    affects:
+      - entity:submission-approval-decision
+      - entity:submission
+      - workflow:submission
+    governed_by:
+      - adr:025
+    enforced_by_policy:
+      - policy_rule:submission-approve
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0019-S0004
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md
+    feature: feature:F0019
+    affects:
+      - state:submission:bind-requested
+      - state:submission:bound
+      - entity:submission
+      - entity:policy
+      - entity:workflow-transition
+    governed_by:
+      - adr:025
+      - adr:011
+    enforced_by_policy:
+      - policy_rule:submission-transition
+    depends_on:
+      - feature:F0018
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0019-S0005
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0005-decline-and-withdraw-terminal-decisions.md
+    feature: feature:F0019
+    affects:
+      - state:submission:declined
+      - state:submission:withdrawn
+      - entity:submission
+      - entity:workflow-transition
+    governed_by:
+      - adr:011
+      - adr:025
+    enforced_by_policy:
+      - policy_rule:submission-transition
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0019-S0006
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
+    feature: feature:F0019
+    affects:
+      - entity:submission
+      - workflow:submission
+    governed_by:
+      - adr:025
+    enforced_by_policy:
+      - policy_rule:submission-archive
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0019-S0007
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0007-downstream-submission-pipeline-list-and-workflow-visibility.md
+    feature: feature:F0019
+    affects:
+      - workflow:submission
+      - entity:submission
+    governed_by:
+      - adr:025
+    enforced_by_policy:
+      - policy_rule:submission-read
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0019-S0008
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0008-downstream-submission-workflow-timeline-and-audit-trail.md
+    feature: feature:F0019
+    affects:
+      - entity:activity-timeline-event
+      - entity:workflow-transition
+      - entity:submission
+    governed_by:
+      - adr:011
+      - adr:025
+    enforced_by_policy:
+      - policy_rule:submission-read
+    uses_api_contract:
+      - api:nebula-rest
   - id: story:F0005-S0002
     path: planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
     feature: feature:F0005
@@ -2844,3 +3055,117 @@ stories:
       - story:F0034-S0004
       - story:F0034-S0005
       - story:F0034-S0006
+  - id: story:F0017-S0001
+    path: planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0001-model-broker-mga-hierarchy.md
+    feature: feature:F0017
+    affects:
+      - capability:distribution-hierarchy-management
+      - entity:broker
+      - entity:mga
+      - entity:producer
+      - entity:activity-timeline-event
+      - endpoint:distribution-node-parent-update
+    governed_by:
+      - adr:026
+    enforced_by_policy:
+      - policy_rule:distribution-node-update
+    uses_schema:
+      - schema:distribution-node
+      - schema:distribution-node-parent-request
+      - schema:timeline-event
+      - schema:activity-event-payloads
+      - schema:problem-details
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0017-S0002
+    path: planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0002-navigate-hierarchy.md
+    feature: feature:F0017
+    affects:
+      - capability:distribution-hierarchy-management
+      - endpoint:distribution-node-ancestors
+      - endpoint:distribution-node-descendants
+    governed_by:
+      - adr:026
+    enforced_by_policy:
+      - policy_rule:distribution-node-read
+    uses_schema:
+      - schema:distribution-node
+      - schema:distribution-node-ancestors-response
+      - schema:paginated-distribution-node-list
+      - schema:problem-details
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0017-S0003
+    path: planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md
+    feature: feature:F0017
+    affects:
+      - capability:producer-ownership-management
+      - entity:producer-ownership
+      - entity:producer
+      - entity:activity-timeline-event
+      - endpoint:producer-ownership-read
+      - endpoint:producer-ownership-assign
+    governed_by:
+      - adr:026
+    enforced_by_policy:
+      - policy_rule:producer-ownership-read
+      - policy_rule:producer-ownership-assign
+    uses_schema:
+      - schema:producer-ownership
+      - schema:producer-ownership-assignment-request
+      - schema:producer-ownership-lookup-response
+      - schema:timeline-event
+      - schema:activity-event-payloads
+      - schema:problem-details
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0017-S0004
+    path: planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
+    feature: feature:F0017
+    affects:
+      - capability:territory-management
+      - entity:territory
+      - entity:territory-assignment
+      - entity:activity-timeline-event
+      - endpoint:territory-create
+      - endpoint:territory-members-list
+      - endpoint:territory-member-assign
+      - endpoint:territory-assignment-lookup
+    governed_by:
+      - adr:026
+    enforced_by_policy:
+      - policy_rule:territory-read
+      - policy_rule:territory-create
+      - policy_rule:territory-assign
+    uses_schema:
+      - schema:territory
+      - schema:territory-create-request
+      - schema:territory-assignment
+      - schema:territory-member-assignment-request
+      - schema:paginated-territory-assignment-list
+      - schema:territory-assignment-lookup-response
+      - schema:timeline-event
+      - schema:activity-event-payloads
+      - schema:problem-details
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0017-S0005
+    path: planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0005-hierarchy-ownership-territory-audit.md
+    feature: feature:F0017
+    affects:
+      - entity:activity-timeline-event
+      - capability:distribution-hierarchy-management
+      - capability:producer-ownership-management
+      - capability:territory-management
+      - endpoint:distribution-node-parent-update
+      - endpoint:producer-ownership-assign
+      - endpoint:territory-create
+      - endpoint:territory-member-assign
+    governed_by:
+      - adr:026
+    uses_schema:
+      - schema:timeline-event
+      - schema:activity-event-payloads
+      - schema:problem-details
+    uses_api_contract:
+      - api:nebula-rest

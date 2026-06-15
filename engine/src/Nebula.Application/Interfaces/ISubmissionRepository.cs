@@ -17,4 +17,7 @@ public interface ISubmissionRepository
     Task<IReadOnlyDictionary<Guid, bool>> GetStaleFlagsAsync(
         IReadOnlyCollection<Guid> submissionIds,
         CancellationToken ct = default);
+    Task<IReadOnlyDictionary<Guid, int>> GetAgeDaysInStateAsync(
+        IReadOnlyCollection<Guid> submissionIds,
+        CancellationToken ct = default);
 }

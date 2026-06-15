@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/distribution-node.schema.json",
+  "title": "DistributionNode",
+  "description": "Distribution hierarchy node for MGA, broker, sub-broker, or producer.",
+  "type": "object",
+  "required": ["id", "nodeType", "displayName", "parentId", "ancestryPath", "depth", "childCount", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "nodeType": { "type": "string", "enum": ["MGA", "Broker", "SubBroker", "Producer"] },
+    "displayName": { "type": "string", "minLength": 1, "maxLength": 255 },
+    "parentId": { "type": ["string", "null"], "format": "uuid" },
+    "ancestryPath": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" }
+    },
+    "depth": { "type": "integer", "minimum": 0 },
+    "childCount": { "type": "integer", "minimum": 0 },
+    "isActive": { "type": "boolean" },
+    "rowVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

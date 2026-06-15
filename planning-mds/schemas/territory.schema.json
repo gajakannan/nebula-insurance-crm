@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/territory.schema.json",
+  "title": "Territory",
+  "description": "Territory definition used for distribution accountability.",
+  "type": "object",
+  "required": ["id", "name", "criteria", "isActive", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "name": { "type": "string", "minLength": 1, "maxLength": 150 },
+    "description": { "type": ["string", "null"], "maxLength": 500 },
+    "criteria": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "isActive": { "type": "boolean" },
+    "rowVersion": { "type": "string" },
+    "changedBy": { "type": ["string", "null"], "format": "uuid" },
+    "changedAt": { "type": ["string", "null"], "format": "date-time" }
+  },
+  "additionalProperties": false
+}

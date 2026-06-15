@@ -1,0 +1,8 @@
+Scope: F0019 DAST disposition
+Result: NOT RUN
+
+Reason:
+- G3 security review was feature-scoped and local.
+- No external public endpoint, browser session, or deployed preview URL was created for DAST in this run.
+- Runtime preflight was already validated at G1; functional authz was reviewed through endpoint/service code and tests.
+

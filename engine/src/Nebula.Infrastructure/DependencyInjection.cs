@@ -13,11 +13,18 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddScoped<IBrokerRepository, BrokerRepository>();
+        services.AddScoped<IDistributionNodeRepository, DistributionNodeRepository>();
+        services.AddScoped<IProducerOwnershipRepository, ProducerOwnershipRepository>();
+        services.AddScoped<ITerritoryRepository, TerritoryRepository>();
+        services.AddScoped<ITerritoryAssignmentRepository, TerritoryAssignmentRepository>();
         services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<IAccountContactRepository, AccountContactRepository>();
         services.AddScoped<IAccountRelationshipHistoryRepository, AccountRelationshipHistoryRepository>();
         services.AddScoped<IContactRepository, ContactRepository>();
         services.AddScoped<ISubmissionRepository, SubmissionRepository>();
+        services.AddScoped<ISubmissionQuotePacketRepository, SubmissionQuotePacketRepository>();
+        services.AddScoped<ISubmissionApprovalDecisionRepository, SubmissionApprovalDecisionRepository>();
+        services.AddScoped<ISubmissionBindHandoffRepository, SubmissionBindHandoffRepository>();
         services.AddScoped<IPolicyRepository, PolicyRepository>();
         services.AddScoped<IRenewalRepository, RenewalRepository>();
         services.AddScoped<ILobSchemaRepository, LobSchemaRepository>();
