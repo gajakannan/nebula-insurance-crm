@@ -1,0 +1,262 @@
+version: 1
+purpose: >
+  Product-local prompt context strategy for nebula-insurance-crm. Agents use
+  this map to minimize default context and route large or historical surfaces
+  through exact-file, knowledge-graph, changed-path, manifest, or explicit-user
+  requests.
+
+defaults:
+  load_order:
+    - product_core
+    - feature_scope
+    - knowledge_graph_scope
+  max_default_strategy: indexes_and_target_only
+  exact_file_access_allowed: true
+  broad_search_policy: honor_agentignore
+
+routing_modes:
+  exact_file: Read a specific file path named by the task, manifest, KG output, or user.
+  target_feature: Read only the selected planning-mds/features/F####-* folder.
+  kg_lookup: Use scripts/kg/lookup.py, hint.py, blast.py, or code-index bindings first.
+  changed_path: Use git diff/status, KG hint output, or explicit changed files to scope source reads.
+  manifest: Use evidence-manifest.json, latest-run.json, or artifact trace to select evidence files.
+  explicit_user: The user explicitly requested the path, artifact, screenshot, log, or archive.
+
+layers:
+  product_core:
+    default_context:
+      - README.md
+      - lifecycle-stage.yaml
+      - .agentignore
+      - planning-mds/features/REGISTRY.md
+      - planning-mds/features/ROADMAP.md
+    on_demand_context:
+      - planning-mds/BLUEPRINT.md
+      - planning-mds/domain/glossary.md
+      - planning-mds/security/authorization-matrix.md
+    routing_required:
+      - exact_file
+      - explicit_user
+    notes:
+      - BLUEPRINT.md is baseline strategy and should be loaded only when the task needs full product or architecture baseline.
+
+  feature_scope:
+    target_scoped: true
+    default_context:
+      - planning-mds/features/REGISTRY.md
+      - planning-mds/features/ROADMAP.md
+    target_context_template:
+      - planning-mds/features/F####-*/README.md
+      - planning-mds/features/F####-*/*.md
+      - planning-mds/features/F####-*/feature-assembly-plan.md
+    on_demand_context:
+      - planning-mds/features/F####-*/**
+    forbidden_default_context:
+      - planning-mds/features/**
+      - planning-mds/features/archive/**
+    routing_required:
+      - target_feature
+      - kg_lookup
+      - explicit_user
+    notes:
+      - Do not load every planned feature folder. Select the target feature from ROADMAP, REGISTRY, user scope, or KG lookup.
+
+  architecture_scope:
+    default_context: []
+    on_demand_context:
+      - planning-mds/architecture/SOLUTION-PATTERNS.md
+      - planning-mds/architecture/api-guidelines-profile.md
+      - planning-mds/architecture/api-design-guide.md
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/*.md
+      - planning-mds/architecture/*.md
+    routing_required:
+      - exact_file
+      - kg_lookup
+      - explicit_user
+    notes:
+      - Load only architecture files referenced by the feature plan, ADR, KG mapping, or current role.
+
+  knowledge_graph_scope:
+    default_context:
+      - scripts/kg/lookup.py output for the target feature when available
+      - scripts/kg/hint.py output for changed paths when available
+    on_demand_context:
+      - planning-mds/knowledge-graph/solution-ontology.yaml
+      - planning-mds/knowledge-graph/canonical-nodes.yaml
+      - planning-mds/knowledge-graph/feature-mappings.yaml
+      - planning-mds/knowledge-graph/code-index.yaml
+      - planning-mds/knowledge-graph/coverage-report.yaml
+      - planning-mds/knowledge-graph/symbol-index.yaml
+      - planning-mds/knowledge-graph/*.yaml
+    routing_required:
+      - kg_lookup
+      - exact_file
+      - explicit_user
+    notes:
+      - Prefer CLI output as compressed routing context. Read raw KG YAML only for drift repair, validation, or missing lookup detail.
+
+  api_schema_scope:
+    default_context: []
+    on_demand_context:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/schemas/*.json
+      - planning-mds/lob-schemas/**/*.json
+      - planning-mds/lob-schemas/**/README.md
+    routing_required:
+      - exact_file
+      - kg_lookup
+      - changed_path
+      - explicit_user
+    notes:
+      - Full API specs, JSON Schemas, and LOB schema bundles are large contract surfaces. Load exact contracts needed by the endpoint, story, validation, or failing test.
+
+  frontend_scope:
+    default_context: []
+    on_demand_context:
+      - experience/src/**
+      - experience/tests/**
+      - experience/package.json
+      - experience/vite.config.ts
+      - experience/playwright.config.ts
+      - experience/vitest*.config.ts
+      - experience/scripts/**
+    forbidden_default_context:
+      - experience/**
+      - experience/src/**
+      - experience/node_modules/**
+      - experience/dist/**
+      - experience/test-results/**
+      - experience/playwright-report/**
+      - experience/coverage/**
+    routing_required:
+      - changed_path
+      - kg_lookup
+      - exact_file
+      - explicit_user
+    notes:
+      - Never load the whole frontend tree. Start from changed files, feature slice paths, tests named by failure output, or KG code-index bindings.
+
+  backend_scope:
+    default_context: []
+    on_demand_context:
+      - engine/src/**
+      - engine/tests/**
+      - engine/*.slnx
+      - engine/**/*.csproj
+      - services/*/README.md
+      - services/*/pyproject.toml
+      - services/*/alembic.ini
+      - services/*/Dockerfile
+      - services/*/src/**
+      - services/*/tests/**
+    forbidden_default_context:
+      - engine/**
+      - engine/src/**
+      - engine/tests/**
+      - engine/**/bin/**
+      - engine/**/obj/**
+      - services/**
+      - services/*/src/**
+      - services/*/tests/**
+    routing_required:
+      - changed_path
+      - kg_lookup
+      - exact_file
+      - explicit_user
+    notes:
+      - Never load the whole backend or future service tree. Use KG hint/lookup, changed files, failing test names, endpoint paths, service root files, or exact source files.
+
+  neuron_scope:
+    default_context: []
+    on_demand_context:
+      - neuron/README.md
+      - neuron/config/*.yaml
+      - neuron/**/*.py
+      - neuron/**/*.md
+    forbidden_default_context:
+      - neuron/**
+    routing_required:
+      - changed_path
+      - kg_lookup
+      - exact_file
+      - explicit_user
+    notes:
+      - Load neuron only when the feature includes AI, MCP, model routing, or explicit neuron paths.
+
+  evidence_scope:
+    default_context:
+      - planning-mds/operations/evidence/README.md
+      - planning-mds/operations/evidence/features/**/latest-run.json
+    on_demand_context:
+      - planning-mds/operations/evidence/runs/*/evidence-manifest.json
+      - planning-mds/operations/evidence/runs/*/README.md
+      - planning-mds/operations/evidence/runs/*/*.md
+      - planning-mds/operations/evidence/runs/*/artifacts/**
+      - planning-mds/operations/evidence/**/*.log
+      - planning-mds/operations/evidence/**/*.png
+      - planning-mds/operations/evidence/**/*.jpg
+      - planning-mds/operations/evidence/**/*.jpeg
+    forbidden_default_context:
+      - planning-mds/operations/evidence/**
+      - planning-mds/operations/evidence/runs/**
+      - planning-mds/operations/evidence/**/artifacts/**
+      - planning-mds/operations/evidence/**/*.log
+      - planning-mds/operations/evidence/**/*.png
+      - planning-mds/operations/evidence/**/*.jpg
+      - planning-mds/operations/evidence/**/*.jpeg
+    routing_required:
+      - manifest
+      - exact_file
+      - explicit_user
+    notes:
+      - Treat evidence as cold archive. Start from README, latest-run.json, and evidence-manifest.json; then read exact cited artifacts only.
+
+  archive_scope:
+    default_context: []
+    on_demand_context:
+      - planning-mds/features/archive/F####-*/README.md
+      - planning-mds/features/archive/F####-*/*.md
+      - planning-mds/features/archive/**
+    forbidden_default_context:
+      - planning-mds/features/archive/**
+    routing_required:
+      - exact_file
+      - explicit_user
+      - kg_lookup
+    notes:
+      - Archived features are historical context. Load only a named archived feature or exact file for audit, dependency, or comparison work.
+
+  output_format:
+    default_context: []
+    on_demand_context:
+      - planning-mds/features/TRACKER-GOVERNANCE.md
+      - planning-mds/features/STORY-INDEX.md
+      - planning-mds/operations/evidence/README.md
+      - planning-mds/testing/*.py
+    routing_required:
+      - exact_file
+      - explicit_user
+    notes:
+      - Load templates, tracker rules, or validator docs only when producing or validating that artifact type.
+
+  examples:
+    default_context: []
+    on_demand_context:
+      - planning-mds/examples/**
+      - planning-mds/screens/**
+      - planning-mds/features/archive/**
+    forbidden_default_context:
+      - planning-mds/examples/**
+      - planning-mds/screens/**
+      - planning-mds/**/*.png
+      - planning-mds/**/*.jpg
+      - planning-mds/**/*.jpeg
+      - planning-mds/**/*.gif
+      - planning-mds/**/*.webp
+      - planning-mds/**/*.pdf
+    routing_required:
+      - exact_file
+      - explicit_user
+    notes:
+      - Screenshots, visual artifacts, examples, and historical docs are on-demand inspection material, not default prompt context.

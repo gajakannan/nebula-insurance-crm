@@ -18,8 +18,9 @@ import { UserManager, WebStorageStateStore } from 'oidc-client-ts';
 const authority = import.meta.env.VITE_OIDC_AUTHORITY as string | undefined;
 const clientId = import.meta.env.VITE_OIDC_CLIENT_ID as string | undefined;
 const redirectUri = import.meta.env.VITE_OIDC_REDIRECT_URI as string | undefined;
+const authMode = import.meta.env.VITE_AUTH_MODE as string | undefined;
 
-if (!authority || !clientId || !redirectUri) {
+if (authMode === 'oidc' && (!authority || !clientId || !redirectUri)) {
   // Fail loudly in dev/CI so misconfiguration is visible immediately.
   // In production a missing variable is a deployment error, not a runtime one.
   console.warn(

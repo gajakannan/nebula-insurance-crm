@@ -46,6 +46,7 @@ See `docker-compose.yml` and per-layer READMEs for the authoritative local-dev c
 ## Planning structure
 
 - `planning-mds/BLUEPRINT.md` — single source of truth for product vision, features, architecture, API, NFRs
+- `planning-mds/context-map.yaml` — product-local prompt context map for token-optimized agent retrieval
 - `planning-mds/domain/glossary.md` — canonical domain vocabulary
 - `planning-mds/api/nebula-api.yaml` — OpenAPI contract
 - `planning-mds/features/REGISTRY.md` — feature registry (authoritative list)
@@ -63,6 +64,12 @@ See `docker-compose.yml` and per-layer READMEs for the authoritative local-dev c
 
 `planning-mds/features/ROADMAP.md`, `planning-mds/features/REGISTRY.md`, and `lifecycle-stage.yaml` are authoritative for what is active. The repo split itself did not activate or start a feature — consult those files for current status.
 
+## Agent context loading
+
+Agents must use `planning-mds/context-map.yaml` and `.agentignore` before broad product discovery. Default context is limited to `README.md`, `lifecycle-stage.yaml`, `.agentignore`, feature registry/roadmap, the target feature folder, KG lookup/hint output when available, and exact changed files.
+
+On-demand only: archived features, operations evidence, screenshots/images, old run logs, full API specs, full schema bundles, full backend/frontend/neuron source trees, full test trees, examples, generated outputs, and historical feature docs. These remain available by exact path for audits, validation, evidence review, failure triage, KG-directed lookup, changed-path routing, or explicit user requests.
+
 ## Validation
 
 Product-local gates declared in `lifecycle-stage.yaml` run against this repo only:
@@ -71,6 +78,7 @@ Product-local gates declared in `lifecycle-stage.yaml` run against this repo onl
 python3 scripts/kg/validate.py                             # knowledge_graph_sync
 python3 planning-mds/testing/validate-nebula-api-contract.py planning-mds/api/nebula-api.yaml   # solution_contract
 python3 planning-mds/testing/validate-frontend-quality-gate.py                                  # frontend_quality
+python3 scripts/validate-context-map.py                    # prompt context loading policy
 ```
 
 ## Migration provenance

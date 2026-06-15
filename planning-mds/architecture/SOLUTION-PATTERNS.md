@@ -13,6 +13,11 @@
 - Apply patterns to new designs
 - Reference patterns in ADRs
 - Update patterns when new conventions emerge
+- For stack or service-boundary decisions, also read:
+  - `planning-mds/architecture/polyglot-service-governance.md`
+  - `planning-mds/architecture/microservices-decision-framework.md`
+  - `planning-mds/architecture/event-contract-governance.md`
+  - `planning-mds/architecture/deployment-topology-guidance.md`
 
 ### During Implementation (Developers)
 - Read relevant patterns before coding
@@ -872,7 +877,63 @@ AUTHENTIK_SECRET_KEY=...
 
 ---
 
-## 11. Dashboard Infographic Canvas Patterns (F0012)
+## 11. Polyglot and Service Boundary Patterns
+
+### Pattern: .NET-First Modular Monolith, Polyglot-Ready
+**Decision:** Nebula CRM remains a .NET-first modular monolith by default. Future `.NET` or `Python` bounded services are allowed only after an ADR proves the bounded context, stack selection, data ownership, contracts, authorization boundary, audit boundary, observability, and rollback path.
+**Rationale:** The existing CRM system of record, authorization, audit, and aggregate patterns are mature in `engine/`. The enhanced Architect harness supports polyglot services, but distribution must be intentional rather than introduced by implementation convenience.
+**Applied in:** Future architecture planning only; no service is created by this pattern.
+**Enforcement:** Architect-owned ADR and feature assembly plan before implementation.
+
+**Current stack posture:**
+
+```yaml
+backend_stack: dotnet
+default_stack: dotnet
+architecture_style: modular_monolith
+polyglot_ready: true
+service_assignment_required_for:
+  - python_backend_service
+  - independently_deployed_service
+  - bounded_context_extraction
+  - cross_service_event_publisher
+```
+
+### Pattern: Service Stack Assignment
+**Decision:** A future backend service must declare stack and ownership before code generation.
+**Rationale:** Backend Developer agents use `SOLUTION-PATTERNS.md` to decide whether to load .NET or Python references. Without an explicit assignment, implementation defaults to the existing .NET backend.
+**Required fields:**
+
+| Field | Requirement |
+|-------|-------------|
+| Service name | Stable service identifier |
+| Bounded context | Business capability owned |
+| Stack | `.NET`, `Python`, or explicitly approved alternative |
+| Data ownership | Owned database/schema/store; no shared mutable tables |
+| Contracts | REST, event schema, dataset contract, or gRPC |
+| Authorization | Enforcer or consumer of CRM authorization context |
+| Audit | Owner of immutable audit/timeline records |
+| Observability | Logs, traces, metrics, health/readiness |
+| ADR | Accepted architecture decision |
+
+### Pattern: Microservices Only When Justified
+**Decision:** Microservices are approved only when independent deployment, scaling, runtime, persistence, or team-autonomy forces outweigh distributed-system cost.
+**Rationale:** Most CRM capabilities remain easier to deliver and validate inside the modular monolith. Service extraction is a future option, not the default design.
+**Reference:** `planning-mds/architecture/microservices-decision-framework.md`
+
+### Pattern: Event-Driven Cross-Service Changes
+**Decision:** Cross-service state changes use domain events with transactional outbox or an equivalent reliable publication pattern. Synchronous calls are reserved for public APIs, internal queries requiring freshness, or explicitly approved real-time flows.
+**Rationale:** Prevents direct coupling and preserves replay/idempotency.
+**Reference:** `planning-mds/architecture/event-contract-governance.md`
+
+### Pattern: Deployment Topology Before Runtime Code
+**Decision:** Any new service, worker, relay, or scheduler requires deployment topology guidance before implementation.
+**Rationale:** Health, readiness, configuration, secrets, observability, and rollback must be known before runtime code lands.
+**Reference:** `planning-mds/architecture/deployment-topology-guidance.md`
+
+---
+
+## 12. Dashboard Infographic Canvas Patterns (F0012)
 
 ### Pattern: Flat Canvas Layout (No Panels)
 **Decision:** The dashboard is a single continuous flat canvas. Content zones are differentiated by spacing, typography, and color weight — never by panel borders, card wrappers, or divider lines.
