@@ -7,6 +7,7 @@ import {
   Building2,
   ShieldCheck,
   Users,
+  TrendingUp,
   ClipboardList,
   PanelLeftClose,
   LogOut,
@@ -22,6 +23,7 @@ const NAV_ITEMS = [
   { label: 'Renewals', href: '/renewals', icon: RotateCwSquare },
   { label: 'Policies', href: '/policies', icon: ShieldCheck },
   { label: 'Brokers', href: '/brokers', icon: Users },
+  { label: 'Broker Insights', href: '/broker-insights', icon: TrendingUp },
   { label: 'Tasks', href: '/tasks', icon: ClipboardList },
 ];
 

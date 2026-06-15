@@ -16,3 +16,77 @@
 !/planning-mds/operations/evidence/frontend-quality/latest-run.json
 !/planning-mds/operations/evidence/frontend-ux/
 !/planning-mds/operations/evidence/frontend-ux/README.md
+
+# Token-optimized prompt context exclusions
+# These patterns reduce broad agent retrieval. Exact-file access remains allowed
+# for audit, validation, evidence review, closeout, failure triage, security
+# review, changed-path routing, KG routing, exact contract checks, or explicit
+# user requests.
+
+# Historical planning and evidence are cold archives by default.
+planning-mds/features/archive/**
+planning-mds/operations/evidence/**
+
+# Large contracts and schemas are loaded by exact contract/schema routing.
+planning-mds/api/**
+planning-mds/lob-schemas/**
+planning-mds/schemas/**
+
+# Generated, visual, binary, and log-heavy artifacts.
+**/screenshots/**
+**/visual-evidence/**
+**/artifacts/**
+**/test-results/**
+**/coverage/**
+**/playwright-report/**
+**/reports/**
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.webp
+**/*.svg
+**/*.mp4
+**/*.mov
+**/*.webm
+**/*.har
+**/*.log
+**/*.trx
+**/*.coverage
+**/*.binlog
+
+# Build and dependency output.
+**/bin/**
+**/obj/**
+**/dist/**
+**/build/**
+**/.next/**
+**/.turbo/**
+**/node_modules/**
+**/__pycache__/**
+**/.pytest_cache/**
+**/.mypy_cache/**
+**/.ruff_cache/**
+
+# Source trees are routed by exact changed path or KG hint during normal runs.
+engine/src/**
+engine/tests/**
+experience/src/**
+experience/tests/**
+neuron/**
+
+# Keep root files and planning indexes discoverable despite broad rules.
+!README.md
+!lifecycle-stage.yaml
+!.agentignore
+!planning-mds/context-map.yaml
+!planning-mds/BLUEPRINT.md
+!planning-mds/features/REGISTRY.md
+!planning-mds/features/ROADMAP.md
+!planning-mds/features/*/README.md
+!planning-mds/features/*/STATUS.md
+!planning-mds/features/*/PRD.md
+!planning-mds/features/*/feature-assembly-plan.md
+!planning-mds/features/*/F*-S*.md
+!planning-mds/knowledge-graph/README.md
+

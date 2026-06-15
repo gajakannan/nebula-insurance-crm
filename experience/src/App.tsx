@@ -4,6 +4,7 @@ import { ThemeContext, useThemeProvider } from './hooks/useTheme'
 import { useAuthEventHandler, ProtectedRoute } from './features/auth'
 import DashboardPage from './pages/DashboardPage'
 import BrokerListPage from './pages/BrokerListPage'
+import BrokerInsightsPage from './pages/BrokerInsightsPage'
 import CreateBrokerPage from './pages/CreateBrokerPage'
 import BrokerDetailPage from './pages/BrokerDetailPage'
 import AccountsPage from './pages/AccountsPage'
@@ -69,6 +70,7 @@ function AppInner() {
       <Route path="/documents/:documentId" element={<ProtectedRoute><DocumentDetailView /></ProtectedRoute>} />
       <Route path="/document-templates" element={<ProtectedRoute><DocumentTemplatesLibrary /></ProtectedRoute>} />
       <Route path="/brokers" element={<ProtectedRoute><BrokerListPage /></ProtectedRoute>} />
+      <Route path="/broker-insights" element={<ProtectedRoute><BrokerInsightsPage /></ProtectedRoute>} />
       <Route path="/brokers/new" element={<ProtectedRoute><CreateBrokerPage /></ProtectedRoute>} />
       <Route path="/brokers/:brokerId" element={<ProtectedRoute><BrokerDetailPage /></ProtectedRoute>} />
       <Route path="/tasks" element={<ProtectedRoute><TaskCenterPage /></ProtectedRoute>} />

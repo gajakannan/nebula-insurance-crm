@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/Card';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { ErrorFallback } from '@/components/ui/ErrorFallback';
 import { Tabs } from '@/components/ui/Tabs';
+import BrokerInsightsTabContent from './BrokerInsightsTabContent';
 import {
   BrokerContactsTab,
   BrokerProfileHeader,
@@ -24,7 +25,7 @@ import { useBrokerContacts } from '@/features/brokers/hooks/useBrokerContacts';
 import { ApiError } from '@/services/api';
 import type { ContactDto } from '@/features/brokers';
 
-const TABS = ['Profile', 'Contacts', 'Timeline'];
+const TABS = ['Profile', 'Contacts', 'Timeline', 'Insights'];
 
 export default function BrokerDetailPage() {
   const { brokerId } = useParams<{ brokerId: string }>();
@@ -171,6 +172,9 @@ export default function BrokerDetailPage() {
               />
             )}
             {activeTab === 'Timeline' && <BrokerTimelineTab brokerId={broker.id} />}
+            {activeTab === 'Insights' && (
+              <BrokerInsightsTabContent brokerId={broker.id} />
+            )}
           </Tabs>
         </Card>
       </div>

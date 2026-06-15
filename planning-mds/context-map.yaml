@@ -1,0 +1,219 @@
+version: 1
+name: nebula-insurance-crm-context-map
+description: >
+  Product-local prompt-loading strategy for Nebula Insurance CRM. This file
+  keeps default LLM context small while preserving exact-file access for audits,
+  validation, evidence review, and explicit user requests.
+
+principles:
+  - Load the smallest context that can answer the current task safely.
+  - Prefer registry, roadmap, target feature files, KG lookup, and changed paths before broad reads.
+  - Treat archives, historical evidence, screenshots, logs, generated output, and full source trees as on-demand.
+  - Never remove or hide safety, authorization, validation, compliance, schemas, evidence, or historical records.
+  - Exact-file access is allowed when required for audit, validation, closeout, debugging, or explicit user inspection.
+
+default_prompt_context:
+  routing: minimal
+  layers:
+    - product_core
+    - feature_scope
+    - knowledge_graph_scope
+    - output_format
+  token_budget_guidance:
+    normal_run: "Load target-scoped files and KG hints first; avoid broad globs."
+    review_run: "Load changed files, target feature status/evidence pointers, and exact contracts touched by the change."
+    validation_run: "Load validator outputs and exact evidence files only after reading the evidence manifest."
+
+layers:
+  product_core:
+    default: true
+    load:
+      - README.md
+      - lifecycle-stage.yaml
+      - .agentignore
+      - planning-mds/features/REGISTRY.md
+      - planning-mds/features/ROADMAP.md
+    conditional:
+      - path: planning-mds/BLUEPRINT.md
+        when: "planning, architecture, scope reconciliation, or product-wide tradeoff decisions require it"
+    forbidden_defaults:
+      - planning-mds/features/**
+      - planning-mds/features/archive/**
+      - planning-mds/operations/evidence/**
+      - engine/**
+      - experience/**
+      - neuron/**
+
+  feature_scope:
+    default: true
+    routing: target-feature-only
+    load:
+      - "planning-mds/features/{FEATURE_ID}-*/README.md"
+      - "planning-mds/features/{FEATURE_ID}-*/STATUS.md"
+      - "planning-mds/features/{FEATURE_ID}-*/PRD.md"
+      - "planning-mds/features/{FEATURE_ID}-*/feature-assembly-plan.md"
+      - "planning-mds/features/{FEATURE_ID}-*/F*-S*.md"
+    rules:
+      - "Never load all feature folders by default."
+      - "When FEATURE_ID is unknown, load REGISTRY.md and ROADMAP.md first, then select the target feature."
+      - "Archived feature folders are archive_scope, not feature_scope."
+
+  architecture_scope:
+    default: false
+    routing: exact-file-or-topic
+    load_on_demand:
+      - planning-mds/architecture/SOLUTION-PATTERNS.md
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/api-guidelines-profile.md
+      - planning-mds/architecture/api-design-guide.md
+      - planning-mds/architecture/decisions/**
+      - planning-mds/architecture/**
+    rules:
+      - "Load SOLUTION-PATTERNS.md for implementation and review pattern checks."
+      - "Load only the architecture file related to the changed feature, contract, entity, or service."
+      - "Do not load the full architecture tree unless the user asks for architecture audit or cross-cutting refactor analysis."
+
+  knowledge_graph_scope:
+    default: true
+    routing: kg-first
+    load:
+      - planning-mds/knowledge-graph/README.md
+    commands:
+      - "python3 scripts/kg/hint.py <path>"
+      - "python3 scripts/kg/lookup.py <feature-or-story-id>"
+      - "python3 scripts/kg/lookup.py --file <repo-path>"
+      - "python3 scripts/kg/lookup.py --symbol <method-name>"
+    load_on_demand:
+      - planning-mds/knowledge-graph/canonical-nodes.yaml
+      - planning-mds/knowledge-graph/feature-mappings.yaml
+      - planning-mds/knowledge-graph/code-index.yaml
+      - planning-mds/knowledge-graph/coverage-report.yaml
+      - planning-mds/knowledge-graph/**
+    rules:
+      - "Prefer command output over raw KG files."
+      - "Load raw KG files only for ontology edits, validation failures, or exact-file review."
+
+  api_schema_scope:
+    default: false
+    routing: exact-contract-or-schema
+    load_on_demand:
+      - planning-mds/api/*.yaml
+      - planning-mds/schemas/**
+      - planning-mds/lob-schemas/**
+    rules:
+      - "Load only the API spec or schema touched by the target story."
+      - "Full API and LOB schema directories are not default prompt context."
+      - "Schema files remain authoritative for validation; this strategy changes loading, not contract behavior."
+
+  frontend_scope:
+    default: false
+    routing: changed-path-or-kg
+    load_on_demand:
+      - experience/src/**
+      - experience/tests/**
+      - experience/package.json
+      - experience/vite.config.*
+      - experience/tsconfig*.json
+    rules:
+      - "Load exact changed files, route/page/component files named by KG, or files needed by test failures."
+      - "Do not load the full frontend tree by default."
+
+  backend_scope:
+    default: false
+    routing: changed-path-or-kg
+    load_on_demand:
+      - engine/src/**
+      - engine/tests/**
+      - engine/*.sln
+      - engine/**/*.csproj
+    rules:
+      - "Load exact changed files, endpoint/domain/service files named by KG, or files needed by compiler/test failures."
+      - "Do not load the full backend tree by default."
+
+  neuron_scope:
+    default: false
+    routing: changed-path-or-kg
+    load_on_demand:
+      - neuron/**
+    rules:
+      - "Load Neuron files only for AI/agent scope, changed paths, or explicit user requests."
+      - "Do not load the full Neuron tree for ordinary backend/frontend implementation."
+
+  evidence_scope:
+    default: false
+    routing: manifest-first-exact-file
+    load_on_demand:
+      - planning-mds/operations/evidence/README.md
+      - "planning-mds/features/{FEATURE_ID}-*/latest-run.json"
+      - "planning-mds/operations/evidence/**/evidence-manifest.json"
+      - planning-mds/operations/evidence/**
+    rules:
+      - "Start from evidence README, target feature latest-run.json, and the selected evidence manifest."
+      - "Load raw reports, logs, screenshots, and artifacts only when required for validation, audit, failure triage, closeout, or explicit user request."
+      - "Old evidence runs are never default prompt context."
+
+  archive_scope:
+    default: false
+    routing: explicit-user-or-regression-audit
+    load_on_demand:
+      - planning-mds/features/archive/**
+    rules:
+      - "Archive folders are historical reference only."
+      - "Do not load archived features during normal implementation, review, planning, or validation unless explicitly required."
+
+  output_format:
+    default: true
+    load:
+      - planning-mds/features/REGISTRY.md
+      - planning-mds/features/ROADMAP.md
+    rules:
+      - "Use target feature STATUS/GETTING-STARTED conventions when updating feature progress."
+      - "Use existing report formats when adding validation or closeout notes."
+
+  examples:
+    default: false
+    routing: explicit-user-or-template-need
+    load_on_demand:
+      - planning-mds/examples/**
+      - planning-mds/features/archive/**
+      - docs/examples/**
+    rules:
+      - "Examples and historical docs are optional context, never default context."
+
+never_default_prompt_context:
+  - planning-mds/features/archive/**
+  - planning-mds/operations/evidence/**
+  - planning-mds/lob-schemas/**
+  - planning-mds/api/*.yaml
+  - engine/**
+  - experience/**
+  - neuron/**
+  - "**/bin/**"
+  - "**/obj/**"
+  - "**/node_modules/**"
+  - "**/dist/**"
+  - "**/build/**"
+  - "**/coverage/**"
+  - "**/test-results/**"
+  - "**/screenshots/**"
+  - "**/artifacts/**"
+  - "**/*.png"
+  - "**/*.jpg"
+  - "**/*.jpeg"
+  - "**/*.gif"
+  - "**/*.webp"
+  - "**/*.mp4"
+  - "**/*.har"
+  - "**/*.log"
+
+allowed_on_demand_reasons:
+  - explicit-user-request
+  - audit
+  - validation
+  - evidence-review
+  - closeout
+  - failure-triage
+  - security-review
+  - changed-path-routing
+  - kg-lookup-routing
+  - exact-contract-needed

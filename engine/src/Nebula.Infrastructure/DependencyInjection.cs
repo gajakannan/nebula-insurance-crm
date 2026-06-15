@@ -40,6 +40,13 @@ public static class DependencyInjection
         services.AddScoped<Nebula.Application.Services.DocumentTemplateService>();
         services.AddScoped<Nebula.Application.Services.DocumentRetentionService>();
         services.AddSingleton<IQuarantineScanner, MockTimerScanner>();
+        services.AddSingleton<NeuronSettings>();
+        services.AddHttpClient("neuron", (sp, client) =>
+        {
+            var settings = sp.GetRequiredService<NeuronSettings>();
+            client.BaseAddress = new Uri(settings.BaseUrl);
+        });
+        services.AddScoped<INeuronClient, NeuronClient>();
         services.AddHostedService<PolicyExpirationHostedService>();
         services.AddHostedService<QuarantinePromotionWorker>();
         services.AddHostedService<DocumentRetentionHostedService>();

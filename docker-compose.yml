@@ -135,6 +135,26 @@ services:
       authentik-server:
         condition: service_healthy
 
+  neuron:
+    build:
+      context: ./neuron
+      dockerfile: Dockerfile
+    container_name: nebula-neuron
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/nebula
+      SERVICE_NAME: nebula-neuron
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health/live').read()\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   nebula-db-data:
   nebula-document-data:

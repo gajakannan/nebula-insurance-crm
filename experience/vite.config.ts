@@ -56,15 +56,21 @@ export default defineConfig(() => {
     },
     server: {
       port: 5173,
-      proxy: Object.fromEntries(
-        apiProxyPaths.map((pathPrefix) => [
-          pathPrefix,
-          {
-            target: apiProxyTarget,
-            changeOrigin: true,
-          },
-        ]),
-      ),
+      proxy: {
+        '/api/v1/broker-insights': {
+          target: 'http://localhost:8000',
+          changeOrigin: true,
+        },
+        ...Object.fromEntries(
+          apiProxyPaths.map((pathPrefix) => [
+            pathPrefix,
+            {
+              target: apiProxyTarget,
+              changeOrigin: true,
+            },
+          ]),
+        ),
+      },
       headers: {
         // Development CSP — Vite/React HMR needs inline + eval script allowances.
         // connect-src includes http://localhost:9000 (authentik IdP) because oidc-client-ts
