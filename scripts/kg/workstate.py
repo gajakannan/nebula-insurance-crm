@@ -182,6 +182,51 @@ def compact_state(state: dict[str, Any], *, current_view: bool = False) -> dict[
     return compact
 
 
+def build_digest(state: dict[str, Any]) -> dict[str, Any]:
+    """A terse work-narrative for cheap session resume: what was done, decided, and next.
+
+    Cheaper to rehydrate than `dump --compact`: files collapse to action counts + only
+    the *changed* paths (not every read), decisions are the current-view actives, open
+    questions are framed as "next", and escalations collapse to a count. Complements
+    `dump` (full structured state) — this is the narrative, not the replay.
+    """
+    state = ensure_state_shape(state)
+    session = state.get("session", {})
+    header = {
+        key: session[key]
+        for key in ("role", "scope", "scope_label", "mode", "run_id", "started")
+        if session.get(key) is not None
+    }
+
+    action_counts: dict[str, int] = {}
+    changed: list[str] = []
+    for entry in state.get("files_touched", []):
+        action = entry.get("action", "touched")
+        action_counts[action] = action_counts.get(action, 0) + 1
+        if action in ("modified", "created"):
+            changed.append(entry["path"])
+
+    active = compact_state(state, current_view=True).get("decisions", [])
+    next_up = [q["question"] for q in state.get("open_questions", []) if not q.get("resolved")]
+    escalations = state.get("escalations", [])
+
+    digest: dict[str, Any] = {"session": header}
+    done: dict[str, Any] = {}
+    if action_counts:
+        done["files"] = action_counts
+    if changed:
+        done["changed"] = changed
+    if done:
+        digest["done"] = done
+    if active:
+        digest["decided"] = active
+    if next_up:
+        digest["next"] = next_up
+    if escalations:
+        digest["escalations"] = len(escalations)
+    return digest
+
+
 def emit_workstate_event(
     telemetry_file: Path | None,
     state: dict[str, Any],
@@ -432,6 +477,22 @@ def cmd_dump(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_digest(args: argparse.Namespace) -> int:
+    """Print a terse work-narrative digest (done/decided/next) for cheap session resume."""
+    sf = Path(args.state_file)
+    state = ensure_state_shape(load_state(sf))
+    if not state.get("session"):
+        print("No working state found.", file=sys.stderr)
+        return 1
+    digest = build_digest(state)
+    if args.json:
+        json.dump(digest, sys.stdout, indent=2)
+        sys.stdout.write("\n")
+    else:
+        yaml.safe_dump(digest, sys.stdout, sort_keys=False, allow_unicode=True, width=120)
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Maintain structured working state for long agent sessions."
@@ -495,6 +556,9 @@ def main() -> int:
     )
     p_dump.add_argument("--json", action="store_true", help="Output as JSON instead of YAML.")
 
+    p_digest = sub.add_parser("digest", help="Terse work-narrative for cheap resume (done/decided/next).")
+    p_digest.add_argument("--json", action="store_true", help="Output as JSON instead of YAML.")
+
     args = parser.parse_args()
     if not args.command:
         parser.print_help()
@@ -508,6 +572,7 @@ def main() -> int:
         "resolve": cmd_resolve,
         "escalate": cmd_escalate,
         "dump": cmd_dump,
+        "digest": cmd_digest,
     }
     return handlers[args.command](args)
 

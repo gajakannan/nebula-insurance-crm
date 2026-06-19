@@ -170,6 +170,10 @@ def test_kg_workstate_init_decision_dump_roundtrip(bundle):
         dump = mcp_server.build_workstate({"action": "dump", "session_id": sid}, bundle)
         assert dump["ok"] is True
         assert dump["state"]["session"]["role"] == "architect"
+        digest = mcp_server.build_workstate({"action": "digest", "session_id": sid}, bundle)
+        assert digest["ok"] is True
+        assert digest["digest"]["session"]["role"] == "architect"
+        assert "use temporal" in digest["digest"].get("decided", [])
     finally:
         if sf.exists():
             sf.unlink()

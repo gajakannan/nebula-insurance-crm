@@ -267,8 +267,8 @@ def build_workstate(args: dict[str, Any], bundle: dict[str, Any]) -> dict[str, A
     """kg_workstate — session resilience; the ONE tool that writes (to a safe per-session
     state file under .kg-state/workstate/, never the KG). Wraps workstate.py cmd_*."""
     action = args.get("action")
-    if action not in ("init", "decision", "escalate", "dump"):
-        raise McpToolError("`action` must be one of: init, decision, escalate, dump")
+    if action not in ("init", "decision", "escalate", "dump", "digest"):
+        raise McpToolError("`action` must be one of: init, decision, escalate, dump, digest")
     state_file = _safe_state_file(args.get("session_id"))
     ns = argparse.Namespace(state_file=str(state_file), telemetry_file=None)
     result: dict[str, Any] = {"action": action, "session_id": args["session_id"],
@@ -281,6 +281,13 @@ def build_workstate(args: dict[str, Any], bundle: dict[str, Any]) -> dict[str, A
         out, rc = _run_workstate(workstate.cmd_dump, ns)
         result["ok"] = rc == 0
         result["state"] = json.loads(out) if out.strip() else {}
+        return result
+
+    if action == "digest":
+        ns.json = True
+        out, rc = _run_workstate(workstate.cmd_digest, ns)
+        result["ok"] = rc == 0
+        result["digest"] = json.loads(out) if out.strip() else {}
         return result
 
     if action == "init":
@@ -387,7 +394,7 @@ TOOLS: dict[str, dict[str, Any]] = {
         "inputSchema": {
             "type": "object",
             "properties": {
-                "action": {"type": "string", "enum": ["init", "decision", "escalate", "dump"]},
+                "action": {"type": "string", "enum": ["init", "decision", "escalate", "dump", "digest"]},
                 "session_id": {"type": "string", "description": "Safe session id ([A-Za-z0-9._-]+)"},
                 "role": {"type": "string", "description": "init: agent role"},
                 "scope": {"type": "string", "description": "init: feature/story id"},

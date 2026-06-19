@@ -166,6 +166,24 @@ def load_telemetry_events() -> list[dict[str, Any]]:
     return events
 
 
+def retrieval_by_source(events: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    """Group non-usage telemetry by `source` so MCP retrievals (`source="mcp"`) can be
+    compared against CLI ones (CLI events have no/None source -> labelled "cli")."""
+    groups: dict[str, dict[str, Any]] = {}
+    for event in events:
+        if event.get("tool") == "turn":  # harness usage turns are covered by cache_metrics
+            continue
+        source = event.get("source") or "cli"
+        group = groups.setdefault(source, {"events": 0, "tokens_estimated": 0, "by_tool": {}})
+        group["events"] += 1
+        tokens = (event.get("payload") or {}).get("tokens_estimated")
+        if isinstance(tokens, (int, float)):
+            group["tokens_estimated"] += tokens
+        tool = event.get("tool")
+        group["by_tool"][tool] = group["by_tool"].get(tool, 0) + 1
+    return groups
+
+
 def group_runs(events: list[dict[str, Any]], feature_ids: set[str]) -> dict[str, list[dict[str, Any]]]:
     runs: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for event in events:
@@ -305,6 +323,14 @@ def render_human(report: dict[str, Any]) -> str:
                 f"  ! cache-write spike {s['x_median']}x median "
                 f"(write_share={s['write_share']}, sidechain={s['is_sidechain']})"
             )
+    by_source = report.get("retrieval_by_source") or {}
+    if by_source:
+        lines.append("")
+        lines.append("Retrieval by source:")
+        for source in sorted(by_source):
+            g = by_source[source]
+            tools = ", ".join(f"{t}={n}" for t, n in sorted(g["by_tool"].items()))
+            lines.append(f"- {source}: {g['events']} event(s), ~{g['tokens_estimated']} tok est  [{tools}]")
     if telemetry["tier_vs_outcome"]:
         lines.append("")
         lines.append("Tier vs outcome:")
@@ -377,6 +403,7 @@ def main() -> int:
         "node_recall": mean(recalls) if recalls else 0.0,
         "telemetry": telemetry_metrics(telemetry_events, feature_ids_seen),
         "cache": cache_metrics(telemetry_events),
+        "retrieval_by_source": retrieval_by_source(telemetry_events),
     }
 
     if args.json:

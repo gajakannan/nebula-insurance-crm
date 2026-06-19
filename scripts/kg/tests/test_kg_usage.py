@@ -208,3 +208,22 @@ def test_ingest_is_idempotent(tmp_path: Path) -> None:
     assert first == 1
     assert second == 0  # dedup by msg_id across runs
     assert len(out.read_text(encoding="utf-8").strip().splitlines()) == 1
+
+
+# ---- §13.3 context budget check ----
+
+def test_budget_status_thresholds() -> None:
+    # window 200k, reserve 0.30 -> input budget 140k
+    assert kg_usage.budget_status(100_000)["input_budget"] == 140_000
+    assert kg_usage.budget_status(100_000)["status"] == "ok"
+    assert kg_usage.budget_status(130_000)["status"] == "warn"   # 130k/140k = 0.929 >= 0.9
+    over = kg_usage.budget_status(150_000)
+    assert over["status"] == "over" and over["headroom"] < 0
+
+
+def test_latest_loaded_tokens_uses_most_recent() -> None:
+    e1 = _turn_event(msg_id="a", input_tokens=100, cache_read_tokens=800, cache_write_tokens=50)
+    e2 = _turn_event(msg_id="b", input_tokens=200, cache_read_tokens=900, cache_write_tokens=0)
+    e1["ts"], e2["ts"] = "2026-06-16T00:00:00Z", "2026-06-16T01:00:00Z"  # e2 later
+    assert kg_usage.latest_loaded_tokens([e1, e2]) == 200 + 900 + 0     # latest prefix_input
+    assert kg_usage.latest_loaded_tokens([]) is None

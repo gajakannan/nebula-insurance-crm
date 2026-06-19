@@ -346,6 +346,37 @@ def _load_usage_events(path: Path = USAGE_PATH) -> list[dict[str, Any]]:
     return events
 
 
+# ---------- §13.3 context budget (gate-time check) ----------
+# Loaded input (tier1+tier2) should fit ~70% of the window, leaving ~30% for output.
+DEFAULT_CONTEXT_WINDOW = 200_000  # input-token-equivalents; override per model
+OUTPUT_RESERVE = 0.30
+
+
+def latest_loaded_tokens(events: list[dict[str, Any]]) -> int | None:
+    """The most recent turn's input-side prefix (input + cache_read + cache_write) — a
+    proxy for 'how full is the context right now', read from the harness usage stream."""
+    turns = [t for t in (_turn_from_event(e) for e in events) if t is not None]
+    if not turns:
+        return None
+    return max(turns, key=lambda t: (t.ts or "")).prefix_input
+
+
+def budget_status(loaded_tokens: int, window: int = DEFAULT_CONTEXT_WINDOW,
+                  reserve: float = OUTPUT_RESERVE) -> dict[str, Any]:
+    """Check loaded input against the §13.3 budget: ok | warn (>=90% of budget) | over."""
+    input_budget = int(window * (1 - reserve))
+    utilization = round(loaded_tokens / input_budget, 3) if input_budget else None
+    if input_budget and loaded_tokens > input_budget:
+        status = "over"
+    elif utilization is not None and utilization >= 0.9:
+        status = "warn"
+    else:
+        status = "ok"
+    return {"window": window, "reserve": reserve, "input_budget": input_budget,
+            "loaded_tokens": loaded_tokens, "headroom": input_budget - loaded_tokens,
+            "utilization": utilization, "status": status}
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Tool-agnostic harness-usage ingestion + cache metrics.")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -361,6 +392,11 @@ def main() -> int:
     rep = sub.add_parser("report", help="Print cache metrics from .kg-state/usage.jsonl")
     rep.add_argument("--json", action="store_true")
     rep.add_argument("--spike-factor", type=float, default=SPIKE_FACTOR)
+    bud = sub.add_parser("budget", help="Check loaded context against the §13.3 70/30 budget (exit 1 if over)")
+    bud.add_argument("--window", type=int, default=DEFAULT_CONTEXT_WINDOW, help="Context window (input-token-equivalents).")
+    bud.add_argument("--reserve", type=float, default=OUTPUT_RESERVE, help="Fraction reserved for output (default 0.30).")
+    bud.add_argument("--loaded", type=int, default=None, help="Loaded input tokens (default: latest turn from usage.jsonl).")
+    bud.add_argument("--json", action="store_true")
     args = ap.parse_args()
 
     if args.cmd == "ingest":
@@ -381,6 +417,21 @@ def main() -> int:
             return 1
         print(f"ingested {ingest(inputs, source=args.source)} new turn event(s) -> {USAGE_PATH}")
         return 0
+
+    if args.cmd == "budget":
+        loaded = args.loaded if args.loaded is not None else latest_loaded_tokens(_load_usage_events())
+        if loaded is None:
+            print("no loaded-token figure — pass --loaded or ingest harness usage first", flush=True)
+            return 1
+        status = budget_status(loaded, window=args.window, reserve=args.reserve)
+        if args.json:
+            json.dump(status, sys.stdout, indent=2)
+            sys.stdout.write("\n")
+        else:
+            print(f"budget: {status['status'].upper()}  loaded={status['loaded_tokens']} / "
+                  f"{status['input_budget']} input-budget ({status['utilization']}x)  "
+                  f"window={status['window']}, reserve={status['reserve']}")
+        return 1 if status["status"] == "over" else 0
 
     m = cache_metrics(_load_usage_events(), spike_factor=args.spike_factor)
     if args.json:
