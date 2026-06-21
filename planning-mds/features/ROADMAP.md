@@ -21,7 +21,6 @@ This document is the working prioritization view for feature sequencing.
 | Feature | Phase | Why Now |
 |---------|-------|---------|
 | [F0017 — Broker/MGA Hierarchy, Producer Ownership & Territory Management](./F0017-broker-mga-hierarchy-and-producer-ownership/README.md) | CRM Release MVP+ | Planned (plan run `2026-06-06-5fb353e9`); promoted to Now by operator decision. MVP slice (arbitrary-depth hierarchy + effective-dated producer ownership + effective-dated territory + change audit) depends only on F0002 (done), so it can start immediately. Establishes the structural distribution backbone that F0022 routing, F0023 reporting, F0008 insights, and F0037 (access scoping + rollups) all consume. Hierarchy-aware rollups and access-control enforcement were deferred to F0037 to keep this slice shippable. |
-| [F0023 — Global Search, Saved Views & Operational Reporting](./F0023-global-search-saved-views-and-operational-reporting/README.md) | CRM Release MVP | Promoted `Next`→`Now` (2026-06-19, operator decision) to run in parallel with F0017. It is the cross-object search/saved-views/operational-reporting substrate that F0008 insights and F0037 rollups depend on, and it surfaces F0017's hierarchy/territory dimensions; pulling it into Now lets the base substrate build concurrently with F0017. Provides cross-object findability, operational visibility, and daily management reporting required for adoption. **Dependency note:** the core search/saved-views/reporting substrate can build in parallel with F0017, but F0023's hierarchy/territory-aware report facets depend on F0017 (also Now) landing first. |
 
 **Boundary Notes:** F0017 owns the **structural** distribution model + audit only; hierarchy-aware access enforcement and distribution rollups are owned by F0037. F0019 delivered the submission-bound quote/proposal packet workflow needed to move a submission through approval and bind. F0027 later owns reusable COI, ACORD, proposal-template, and outbound document generation capability.
 
@@ -59,6 +58,7 @@ This document is the working prioritization view for feature sequencing.
 
 | Feature | Phase | Completion State |
 |---------|-------|------------------|
+| [F0023 — Global Search, Saved Views & Operational Reporting](./archive/F0023-global-search-saved-views-and-operational-reporting/README.md) | CRM Release MVP | Done and archived (2026-06-20, feature run `2026-06-19-a4e3fdd6`) — 7 stories: global search, filter/open, personal saved views, team saved views + defaults, daily workload report, workflow aging/backlog, permission-safe behavior |
 | [F0019 — Submission Quoting, Proposal & Approval Workflow](./archive/F0019-submission-quoting-proposal-and-approval/README.md) | CRM Release MVP | Done and archived (2026-06-03) — 8 stories: downstream workflow activation, quote/proposal packet, underwriting approval, bind handoff, decline/withdraw, archive/reactivate, pipeline visibility, timeline/audit |
 | [F0036 — Form Engine and Form-State Preservation (RHF + AJV + Widget Registry)](./archive/F0036-dynamic-product-attribute-form-engine/README.md) | Platform Foundation / CRM Release MVP Enabler | Done and archived (2026-05-30) — 8 stories: engine skeleton + deps, MVP widget vocabulary, schema render + AJV parity, pin-during-edit, replace Cyber panel, attr-form preservation, controlled-form dirty-tracker + shared helper, CRUD preservation/restore |
 | [F0035 — Session Continuity & Token Refresh](./archive/F0035-session-continuity-and-token-refresh/README.md) | Release Enablement / Platform Operations | Done and archived (2026-05-24) - 5 stories: silent renewal, idle warning modal, forced re-auth restore, auth error semantics, session telemetry |
@@ -96,3 +96,4 @@ This document is the working prioritization view for feature sequencing.
 - `BLUEPRINT.md` remains the baseline product/architecture source of truth.
 - Tracker sync policy is defined in `TRACKER-GOVERNANCE.md`.
 - Archived features are tracked under `planning-mds/features/archive/`.
+- Reviewed 2026-06-20 after F0023 closeout (feature run `2026-06-19-a4e3fdd6`); moved F0023 from Now to Completed and archived it. Resulting `Now`: F0017.

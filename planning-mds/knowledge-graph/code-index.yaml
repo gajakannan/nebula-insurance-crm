@@ -2715,12 +2715,22 @@ node_bindings:
           - planning-mds/architecture/data-model.md
           - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
         schemas:
           - planning-mds/schemas/global-search-result.schema.json
           - planning-mds/schemas/global-search-response.schema.json
         api:
           - planning-mds/api/nebula-api.yaml
+      backend:
+        domain:
+          - engine/src/Nebula.Domain/Entities/SearchDocument.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SearchDtos.cs
+          - engine/src/Nebula.Application/Interfaces/ISearchDocumentRepository.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/SearchDocumentRepository.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SearchDocumentConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0023_SearchSavedViewsOperationalReporting.cs
 
   - id: entity:saved-view
     paths:
@@ -2729,7 +2739,7 @@ node_bindings:
           - planning-mds/architecture/data-model.md
           - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
         schemas:
           - planning-mds/schemas/saved-view.schema.json
           - planning-mds/schemas/saved-view-upsert-request.schema.json
@@ -2738,6 +2748,16 @@ node_bindings:
         security:
           - planning-mds/security/authorization-matrix.md
           - planning-mds/security/policies/policy.csv
+      backend:
+        domain:
+          - engine/src/Nebula.Domain/Entities/SavedView.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SavedViewDtos.cs
+          - engine/src/Nebula.Application/Interfaces/ISavedViewRepository.cs
+          - engine/src/Nebula.Application/Services/SavedViewService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/SavedViewRepository.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SavedViewConfiguration.cs
 
   - id: entity:saved-view-audit-event
     paths:
@@ -2746,7 +2766,12 @@ node_bindings:
           - planning-mds/architecture/data-model.md
           - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      backend:
+        domain:
+          - engine/src/Nebula.Domain/Entities/SavedViewAuditEvent.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SavedViewAuditEventConfiguration.cs
 
   - id: entity:operational-report-projection
     paths:
@@ -2755,30 +2780,56 @@ node_bindings:
           - planning-mds/architecture/data-model.md
           - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
         schemas:
           - planning-mds/schemas/operational-workload-report.schema.json
           - planning-mds/schemas/workflow-aging-report.schema.json
         api:
           - planning-mds/api/nebula-api.yaml
+      backend:
+        domain:
+          - engine/src/Nebula.Domain/Entities/OperationalReportProjection.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/OperationalReportDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IOperationalReportProjectionRepository.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/OperationalReportProjectionRepository.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/OperationalReportProjectionConfiguration.cs
 
   - id: capability:global-search
     paths:
       planning:
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/README.md
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/README.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
         api:
           - planning-mds/api/nebula-api.yaml
         schemas:
           - planning-mds/schemas/global-search-response.schema.json
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SearchService.cs
+          - engine/src/Nebula.Application/Services/ProjectionVisibilityResolver.cs
+          - engine/src/Nebula.Application/Validators/GlobalSearchQueryValidator.cs
+          - engine/src/Nebula.Application/Interfaces/ISearchReportingServices.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Services/SearchProjectionService.cs
+        api:
+          - engine/src/Nebula.Api/Endpoints/SearchEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/SearchReporting/SearchServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/search/**
+        pages:
+          - experience/src/pages/SearchResultsPage.tsx
 
   - id: capability:saved-views
     paths:
       planning:
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/README.md
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/README.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
         api:
           - planning-mds/api/nebula-api.yaml
         schemas:
@@ -2787,13 +2838,24 @@ node_bindings:
         security:
           - planning-mds/security/authorization-matrix.md
           - planning-mds/security/policies/policy.csv
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SavedViewService.cs
+          - engine/src/Nebula.Application/Validators/SavedViewUpsertRequestValidator.cs
+        api:
+          - engine/src/Nebula.Api/Endpoints/SavedViewEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/SearchReporting/SavedViewServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/search/**
 
   - id: capability:operational-reporting
     paths:
       planning:
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/README.md
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/README.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
         api:
           - planning-mds/api/nebula-api.yaml
         schemas:
@@ -2802,6 +2864,19 @@ node_bindings:
         security:
           - planning-mds/security/authorization-matrix.md
           - planning-mds/security/policies/policy.csv
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/OperationalReportService.cs
+          - engine/src/Nebula.Application/Validators/OperationalReportQueryValidator.cs
+        api:
+          - engine/src/Nebula.Api/Endpoints/OperationalReportEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/reports/**
+        pages:
+          - experience/src/pages/OperationalReportsPage.tsx
 
   - id: endpoint:global-search-results
     paths:
@@ -2809,7 +2884,7 @@ node_bindings:
         api:
           - planning-mds/api/nebula-api.yaml
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
 
   - id: endpoint:saved-view-list
     paths:
@@ -2817,7 +2892,7 @@ node_bindings:
         api:
           - planning-mds/api/nebula-api.yaml
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
 
   - id: endpoint:saved-view-create
     paths:
@@ -2825,7 +2900,7 @@ node_bindings:
         api:
           - planning-mds/api/nebula-api.yaml
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
 
   - id: endpoint:saved-view-detail
     paths:
@@ -2833,7 +2908,7 @@ node_bindings:
         api:
           - planning-mds/api/nebula-api.yaml
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
 
   - id: endpoint:saved-view-update
     paths:
@@ -2841,7 +2916,7 @@ node_bindings:
         api:
           - planning-mds/api/nebula-api.yaml
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
 
   - id: endpoint:saved-view-archive
     paths:
@@ -2849,7 +2924,7 @@ node_bindings:
         api:
           - planning-mds/api/nebula-api.yaml
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
 
   - id: endpoint:saved-view-default
     paths:
@@ -2857,7 +2932,7 @@ node_bindings:
         api:
           - planning-mds/api/nebula-api.yaml
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
 
   - id: endpoint:operational-workload-report
     paths:
@@ -2865,7 +2940,7 @@ node_bindings:
         api:
           - planning-mds/api/nebula-api.yaml
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
 
   - id: endpoint:workflow-aging-report
     paths:
@@ -2873,7 +2948,7 @@ node_bindings:
         api:
           - planning-mds/api/nebula-api.yaml
         feature:
-          - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
 
   - id: policy_rule:global-search-read
     paths:

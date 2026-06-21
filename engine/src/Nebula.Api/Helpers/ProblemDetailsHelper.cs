@@ -288,6 +288,37 @@ public static class ProblemDetailsHelper
         statusCode: 412,
         extensions: Ext("precondition_failed"));
 
+    // ── F0023 global search, saved views, operational reporting ─────────────
+    public static IResult SearchQueryTooShort() => Results.Problem(
+        title: "Search query too short",
+        detail: "The search query must be at least 2 characters after trimming.",
+        statusCode: 400,
+        extensions: Ext("search_query_too_short"));
+
+    public static IResult SavedViewDuplicateName() => Results.Problem(
+        title: "Duplicate saved view name",
+        detail: "An active saved view with the same name already exists in this scope.",
+        statusCode: 409,
+        extensions: Ext("saved_view_duplicate_name"));
+
+    public static IResult SavedViewScopeRequired() => Results.Problem(
+        title: "Team scope required",
+        detail: "Team saved views require a valid teamScopeType and teamScopeKey.",
+        statusCode: 400,
+        extensions: Ext("saved_view_scope_required"));
+
+    public static IResult SavedViewScopeDenied() => Results.Problem(
+        title: "Saved view scope denied",
+        detail: "You do not administer the requested team scope.",
+        statusCode: 403,
+        extensions: Ext("saved_view_scope_denied"));
+
+    public static IResult SavedViewCriteriaInvalid() => Results.Problem(
+        title: "Saved view criteria invalid",
+        detail: "The saved view criteria must be a structured JSON object.",
+        statusCode: 422,
+        extensions: Ext("saved_view_criteria_invalid"));
+
     private static Dictionary<string, object?> Ext(string code) => new()
     {
         ["code"] = code,

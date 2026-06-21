@@ -2,6 +2,7 @@ import { Menu, Sun, Moon, PanelLeftClose, PanelLeft, PanelRightClose, PanelRight
 import { useSidebar } from '@/hooks/useSidebar';
 import { useTheme } from '@/hooks/useTheme';
 import { NotificationDropdown } from '@/features/notifications';
+import { SearchOverlay } from '@/features/search';
 
 interface TopBarProps {
   title?: string;
@@ -48,6 +49,8 @@ export function TopBar({ title, chatCollapsed, onToggleChatCollapsed, onOpenMobi
 
       {/* Spacer */}
       <div className="flex-1" />
+
+      <SearchOverlay />
 
       {/* Right-side controls */}
       <div className="flex items-center gap-1">

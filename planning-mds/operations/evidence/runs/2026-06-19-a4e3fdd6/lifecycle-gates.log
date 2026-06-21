@@ -1,0 +1,49 @@
+# Lifecycle Gates Log — F0023 run 2026-06-19-a4e3fdd6
+
+### G0
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0023 --run-id 2026-06-19-a4e3fdd6 --stage G0
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: g0-assembly-plan-validation.md
+Skipped Gates: -
+
+### G1
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0023 --run-id 2026-06-19-a4e3fdd6 --stage G1
+Stage: G1
+Exit Code: 0
+Result: PASS
+Output References: g1-runtime-preflight.md
+Skipped Gates: -
+
+### G6
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0023 --run-id 2026-06-19-a4e3fdd6 --stage G6
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: feature-action-execution.md
+Skipped Gates: -
+
+### G6 tracker-sync
+Command: python3 agents/product-manager/scripts/validate-trackers.py --feature F0023 --run-id 2026-06-19-a4e3fdd6
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G7
+Command: python3 scripts/kg/validate.py --check-symbols && python3 scripts/kg/validate.py --check-drift
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: kg-reconciliation.md
+Skipped Gates: --regenerate-symbols (extractors unavailable in environment; committed symbol-index.yaml preserved)
+
+### G8 tracker-sync
+Command: python3 agents/product-manager/scripts/validate-trackers.py --feature F0023
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: pm-closeout.md
+Skipped Gates: -

@@ -13,6 +13,7 @@ using Nebula.Api.Helpers;
 using Nebula.Infrastructure;
 using Nebula.Infrastructure.Persistence;
 using Nebula.Application.Common;
+using Nebula.Application.Interfaces;
 using Nebula.Application.Services;
 using Nebula.Application.Validators;
 using Nebula.Api.Endpoints;
@@ -209,6 +210,17 @@ using (var scope = app.Services.CreateScope())
     await db.Database.MigrateAsync();
     if (app.Environment.IsDevelopment())
         await DevSeedData.SeedDevDataAsync(db);
+
+    var searchProjection = scope.ServiceProvider.GetRequiredService<ISearchProjectionService>();
+    var projectionResult = await searchProjection.BackfillAsync(DateTimeOffset.UtcNow, CancellationToken.None);
+    if (projectionResult.Errors > 0)
+    {
+        Log.Warning(
+            "Search/report projection backfill completed with {ErrorCount} errors; searchDocuments={SearchDocuments}, reportProjections={ReportProjections}",
+            projectionResult.Errors,
+            projectionResult.SearchDocuments,
+            projectionResult.ReportProjections);
+    }
 }
 
 // Global exception handler — RFC 7807 ProblemDetails
@@ -339,6 +351,9 @@ app.MapTaskEndpoints();
 app.MapUserEndpoints();
 app.MapTimelineEndpoints();
 app.MapSessionTelemetryEndpoints();
+app.MapSearchEndpoints();
+app.MapSavedViewEndpoints();
+app.MapOperationalReportEndpoints();
 
 app.Run();
 

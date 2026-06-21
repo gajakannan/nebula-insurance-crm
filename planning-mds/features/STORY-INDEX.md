@@ -264,13 +264,13 @@ Auto-generated index of all user stories across feature folders.
 
 | Story ID | Title | Priority | Phase | Persona |
 |----------|-------|----------|-------|---------|
-| [F0023-S0001](./F0023-global-search-saved-views-and-operational-reporting/F0023-S0001-global-search-results.md) | Global search returns grouped CRM results | Critical | MVP | Relationship Manager |
-| [F0023-S0002](./F0023-global-search-saved-views-and-operational-reporting/F0023-S0002-filter-and-open-search-results.md) | Filter, sort, and open search results | High | MVP | Relationship Manager |
-| [F0023-S0003](./F0023-global-search-saved-views-and-operational-reporting/F0023-S0003-personal-saved-views.md) | Personal saved views | High | MVP | Relationship Manager |
-| [F0023-S0004](./F0023-global-search-saved-views-and-operational-reporting/F0023-S0004-team-saved-views.md) | Team saved views and defaults | High | MVP | Distribution Operations Manager |
-| [F0023-S0005](./F0023-global-search-saved-views-and-operational-reporting/F0023-S0005-daily-operational-workload-report.md) | Daily operational workload report | High | MVP | Distribution Operations Manager |
-| [F0023-S0006](./F0023-global-search-saved-views-and-operational-reporting/F0023-S0006-workflow-aging-and-backlog-report.md) | Workflow aging and backlog drilldowns | High | MVP | Distribution Operations Manager |
-| [F0023-S0007](./F0023-global-search-saved-views-and-operational-reporting/F0023-S0007-permission-safe-search-and-reporting.md) | Permission-safe search and reporting behavior | Critical | MVP | CRM user |
+| [F0023-S0001](./archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0001-global-search-results.md) | Global search returns grouped CRM results | Critical | MVP | Relationship Manager |
+| [F0023-S0002](./archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0002-filter-and-open-search-results.md) | Filter, sort, and open search results | High | MVP | Relationship Manager |
+| [F0023-S0003](./archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0003-personal-saved-views.md) | Personal saved views | High | MVP | Relationship Manager |
+| [F0023-S0004](./archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0004-team-saved-views.md) | Team saved views and defaults | High | MVP | Distribution Operations Manager |
+| [F0023-S0005](./archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0005-daily-operational-workload-report.md) | Daily operational workload report | High | MVP | Distribution Operations Manager |
+| [F0023-S0006](./archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0006-workflow-aging-and-backlog-report.md) | Workflow aging and backlog drilldowns | High | MVP | Distribution Operations Manager |
+| [F0023-S0007](./archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0007-permission-safe-search-and-reporting.md) | Permission-safe search and reporting behavior | Critical | MVP | CRM user |
 
 ---
 

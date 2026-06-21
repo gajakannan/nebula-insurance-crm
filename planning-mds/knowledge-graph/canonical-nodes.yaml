@@ -232,7 +232,7 @@ entities:
     source_docs:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
     rationale:
       - adr: adr:014-search
         section: "Search Index Design"
@@ -243,7 +243,7 @@ entities:
     source_docs:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       - planning-mds/schemas/saved-view.schema.json
     rationale:
       - adr: adr:014-search
@@ -254,7 +254,7 @@ entities:
     source_docs:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
     rationale:
       - adr: adr:014-search
         section: "Decision"
@@ -264,7 +264,7 @@ entities:
     source_docs:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
     rationale:
       - adr: adr:014-search
         section: "Operational Report Projection Design"
@@ -541,8 +541,8 @@ capabilities:
   - id: capability:global-search
     label: Global Search
     source_docs:
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/README.md
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/README.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
       - planning-mds/schemas/global-search-response.schema.json
     related_nodes:
@@ -555,8 +555,8 @@ capabilities:
   - id: capability:saved-views
     label: Saved Views
     source_docs:
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/README.md
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/README.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
       - planning-mds/schemas/saved-view.schema.json
     related_nodes:
@@ -570,8 +570,8 @@ capabilities:
   - id: capability:operational-reporting
     label: Operational Reporting
     source_docs:
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/README.md
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/README.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
       - planning-mds/schemas/operational-workload-report.schema.json
       - planning-mds/schemas/workflow-aging-report.schema.json
@@ -1054,7 +1054,7 @@ endpoints:
     route: /saved-views
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
     related_nodes:
       - capability:saved-views
       - entity:saved-view
@@ -1065,7 +1065,7 @@ endpoints:
     route: /saved-views
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
     related_nodes:
       - capability:saved-views
       - entity:saved-view
@@ -1077,7 +1077,7 @@ endpoints:
     route: /saved-views/{savedViewId}
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
     related_nodes:
       - capability:saved-views
       - entity:saved-view
@@ -1088,7 +1088,7 @@ endpoints:
     route: /saved-views/{savedViewId}
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
     related_nodes:
       - capability:saved-views
       - entity:saved-view
@@ -1100,7 +1100,7 @@ endpoints:
     route: /saved-views/{savedViewId}
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
     related_nodes:
       - capability:saved-views
       - entity:saved-view
@@ -1112,7 +1112,7 @@ endpoints:
     route: /saved-views/{savedViewId}/default
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
     related_nodes:
       - capability:saved-views
       - entity:saved-view
@@ -1124,7 +1124,7 @@ endpoints:
     route: /operational-reports/workload
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
     related_nodes:
       - capability:operational-reporting
       - entity:operational-report-projection
@@ -1135,7 +1135,7 @@ endpoints:
     route: /operational-reports/workflow-aging
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+      - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
     related_nodes:
       - capability:operational-reporting
       - entity:operational-report-projection

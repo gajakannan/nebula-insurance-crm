@@ -186,7 +186,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 - [F0020: Document Management & ACORD Intake](features/archive/F0020-document-management-and-acord-intake/PRD.md) - Done (Archived 2026-05-05; 12 stories: single upload, bulk upload, quarantine promote, classification-filtered list, detail/provenance, downloads, immutable replace, metadata update, classification ABAC, completeness signal, retention cleanup, templates library)
 - F0021: Communication Hub & Activity Capture - Planned
 - F0022: Work Queues, Assignment Rules & Coverage Management - Planned
-- [F0023: Global Search, Saved Views & Operational Reporting](features/F0023-global-search-saved-views-and-operational-reporting/PRD.md) - Planned (Phase A refined 2026-06-19; 7 stories: global search, filter/open results, personal saved views, team saved views, daily workload report, workflow aging/backlog report, permission-safe behavior)
+- [F0023: Global Search, Saved Views & Operational Reporting](features/archive/F0023-global-search-saved-views-and-operational-reporting/PRD.md) - Done (archived 2026-06-20; Phase A refined 2026-06-19; 7 stories: global search, filter/open results, personal saved views, team saved views, daily workload report, workflow aging/backlog report, permission-safe behavior)
 
 **CRM Release MVP+ (Planned):**
 - F0008: Broker Insights - Planned
@@ -275,13 +275,13 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 - [F0035-S0005: Session Continuity Telemetry Events](features/archive/F0035-session-continuity-and-token-refresh/F0035-S0005-session-telemetry-events.md) - Done (Archived)
 
 **CRM Release MVP Stories (Feature F0023: Global Search, Saved Views & Operational Reporting):**
-- [F0023-S0001: Global search returns grouped CRM results](features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0001-global-search-results.md) - Planned
-- [F0023-S0002: Filter, sort, and open search results](features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0002-filter-and-open-search-results.md) - Planned
-- [F0023-S0003: Personal saved views](features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0003-personal-saved-views.md) - Planned
-- [F0023-S0004: Team saved views and defaults](features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0004-team-saved-views.md) - Planned
-- [F0023-S0005: Daily operational workload report](features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0005-daily-operational-workload-report.md) - Planned
-- [F0023-S0006: Workflow aging and backlog drilldowns](features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0006-workflow-aging-and-backlog-report.md) - Planned
-- [F0023-S0007: Permission-safe search and reporting behavior](features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0007-permission-safe-search-and-reporting.md) - Planned
+- [F0023-S0001: Global search returns grouped CRM results](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0001-global-search-results.md) - Done
+- [F0023-S0002: Filter, sort, and open search results](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0002-filter-and-open-search-results.md) - Done
+- [F0023-S0003: Personal saved views](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0003-personal-saved-views.md) - Done
+- [F0023-S0004: Team saved views and defaults](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0004-team-saved-views.md) - Done
+- [F0023-S0005: Daily operational workload report](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0005-daily-operational-workload-report.md) - Done
+- [F0023-S0006: Workflow aging and backlog drilldowns](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0006-workflow-aging-and-backlog-report.md) - Done
+- [F0023-S0007: Permission-safe search and reporting behavior](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0007-permission-safe-search-and-reporting.md) - Done
 
 **MVP Stories (Feature F0010: Dashboard Opportunities Refactor):**
 - [F0010-S0001: Replace Sankey default with Pipeline Board](features/archive/F0010-dashboard-opportunities-refactor/F0010-S0001-replace-sankey-with-pipeline-board-default.md) - Done (Historical; superseded by F0013)

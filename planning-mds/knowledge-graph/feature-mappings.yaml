@@ -625,8 +625,8 @@ features:
     depends_on:
       - {id: feature:F0032, provenance: inferred, confidence: 0.7}
   - id: feature:F0023
-    path: planning-mds/features/F0023-global-search-saved-views-and-operational-reporting
-    status: planned
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting
+    status: archived-done
     affects:
       - entity:search-document
       - entity:saved-view
@@ -1001,7 +1001,7 @@ features:
 
 stories:
   - id: story:F0023-S0001
-    path: planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0001-global-search-results.md
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0001-global-search-results.md
     feature: feature:F0023
     affects:
       - entity:search-document
@@ -1023,7 +1023,7 @@ stories:
     uses_api_contract:
       - api:nebula-rest
   - id: story:F0023-S0002
-    path: planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0002-filter-and-open-search-results.md
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0002-filter-and-open-search-results.md
     feature: feature:F0023
     affects:
       - entity:search-document
@@ -1045,7 +1045,7 @@ stories:
     depends_on:
       - story:F0023-S0001
   - id: story:F0023-S0003
-    path: planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0003-personal-saved-views.md
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0003-personal-saved-views.md
     feature: feature:F0023
     affects:
       - entity:saved-view
@@ -1072,7 +1072,7 @@ stories:
       - story:F0023-S0001
       - story:F0023-S0002
   - id: story:F0023-S0004
-    path: planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0004-team-saved-views.md
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0004-team-saved-views.md
     feature: feature:F0023
     affects:
       - entity:saved-view
@@ -1099,7 +1099,7 @@ stories:
     depends_on:
       - story:F0023-S0003
   - id: story:F0023-S0005
-    path: planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0005-daily-operational-workload-report.md
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0005-daily-operational-workload-report.md
     feature: feature:F0023
     affects:
       - entity:operational-report-projection
@@ -1127,7 +1127,7 @@ stories:
       - feature:F0018
       - feature:F0019
   - id: story:F0023-S0006
-    path: planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0006-workflow-aging-and-backlog-report.md
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0006-workflow-aging-and-backlog-report.md
     feature: feature:F0023
     affects:
       - entity:operational-report-projection
@@ -1154,7 +1154,7 @@ stories:
       - feature:F0017
       - feature:F0019
   - id: story:F0023-S0007
-    path: planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/F0023-S0007-permission-safe-search-and-reporting.md
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0007-permission-safe-search-and-reporting.md
     feature: feature:F0023
     affects:
       - entity:search-document

@@ -465,3 +465,24 @@ Copy the F0023 rows from `planning-mds/security/policies/policy.csv` into `engin
 | Projection lag confuses operational reports | Medium | Expose `generatedAt`/`indexedAt`, metric projection lag, and keep source detail authoritative. | Backend + DevOps |
 | Team saved-view scope model drifts from auth context | High | Use `teamScopeType/teamScopeKey` only from current authorization context; reject unsupported scopes. | Backend + Security |
 | External search engine scope creep | Medium | F0023 MVP uses PostgreSQL full-text search only. | Architect |
+
+## Knowledge-Graph Binding Plan
+
+> Predicted semantic-graph delta for the `G7` architect reconciliation to diff the as-built source against. The F0023 capability/entity/endpoint nodes already exist in `canonical-nodes.yaml` / `code-index.yaml` (added in Phase B plan run `2026-06-19-2f180001`); their `sources` currently point to planning docs only. No **new** canonical nodes are expected — this feature implements existing planned nodes. `G7` is expected to **add code-path globs** to the existing node bindings.
+
+**Expected `code-index.yaml` glob/file bindings to add at G7 (code paths, stable across the closeout archive move):**
+
+| Node | Anticipated code binding |
+|------|--------------------------|
+| `capability:global-search` | `engine/src/Nebula.Application/Services/SearchService.cs`, `engine/src/Nebula.Application/Services/SearchProjectionService.cs`, `engine/src/Nebula.Api/Endpoints/SearchEndpoints.cs`, `experience/src/features/search/**` |
+| `capability:saved-views` | `engine/src/Nebula.Application/Services/SavedViewService.cs`, `engine/src/Nebula.Api/Endpoints/SavedViewEndpoints.cs`, `experience/src/features/search/**` (saved-view drawer) |
+| `capability:operational-reporting` | `engine/src/Nebula.Application/Services/OperationalReportService.cs`, `engine/src/Nebula.Api/Endpoints/OperationalReportEndpoints.cs`, `experience/src/features/reports/**` |
+| `entity:search-document` | `engine/src/Nebula.Domain/Entities/SearchDocument.cs`, `engine/src/Nebula.Infrastructure/Repositories/SearchDocumentRepository.cs`, `engine/src/Nebula.Infrastructure/Persistence/Configurations/SearchDocumentConfiguration.cs` |
+| `entity:saved-view` | `engine/src/Nebula.Domain/Entities/SavedView.cs`, `engine/src/Nebula.Infrastructure/Repositories/SavedViewRepository.cs`, `engine/src/Nebula.Infrastructure/Persistence/Configurations/SavedViewConfiguration.cs` |
+| `entity:saved-view-audit-event` | `engine/src/Nebula.Domain/Entities/SavedViewAuditEvent.cs`, `engine/src/Nebula.Infrastructure/Persistence/Configurations/SavedViewAuditEventConfiguration.cs` |
+| `entity:operational-report-projection` | `engine/src/Nebula.Domain/Entities/OperationalReportProjection.cs`, `engine/src/Nebula.Infrastructure/Repositories/OperationalReportProjectionRepository.cs`, `engine/src/Nebula.Infrastructure/Persistence/Configurations/OperationalReportProjectionConfiguration.cs` |
+| `endpoint:global-search-results` | `engine/src/Nebula.Api/Endpoints/SearchEndpoints.cs` |
+| `endpoint:saved-view-*` | `engine/src/Nebula.Api/Endpoints/SavedViewEndpoints.cs` |
+| `endpoint:operational-workload-report`, `endpoint:workflow-aging-report` | `engine/src/Nebula.Api/Endpoints/OperationalReportEndpoints.cs` |
+
+**New canonical nodes expected:** None. F0023 reuses the existing Phase B planned nodes; `G7` affirms them and binds code.

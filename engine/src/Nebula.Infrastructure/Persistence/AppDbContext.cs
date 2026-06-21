@@ -48,6 +48,12 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<ReferenceRenewalStatus> ReferenceRenewalStatuses => Set<ReferenceRenewalStatus>();
     public DbSet<IdempotencyRecord> IdempotencyRecords => Set<IdempotencyRecord>();
 
+    // F0023 — SearchReporting read-side module
+    public DbSet<SearchDocument> SearchDocuments => Set<SearchDocument>();
+    public DbSet<SavedView> SavedViews => Set<SavedView>();
+    public DbSet<SavedViewAuditEvent> SavedViewAuditEvents => Set<SavedViewAuditEvent>();
+    public DbSet<OperationalReportProjection> OperationalReportProjections => Set<OperationalReportProjection>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
