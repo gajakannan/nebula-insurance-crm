@@ -125,6 +125,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
   - Provide a single operating system for commercial P&C distribution teams to manage broker/MGA relationships, accounts, submissions, renewals, and activity history with strong auditability.
   - Replace spreadsheet/email-driven processes with structured workflows, permission-aware collaboration, and traceable transitions.
   - Deliver a modular foundation that supports AI-assisted workflows later without changing the source-of-truth system.
+  - Add an AI-assisted, permission-aware, **CRM-scoped** conversational companion (**Neuron**) over existing CRM data — presented as a multi-zone Day-at-a-Glance shell with a bounded set of assisted writes — without changing the .NET engine as the source of truth (Neuron is a secondary interface). See the Neuron Companion epic in §3.3.
 
 - Non-goals (explicit):
   - No external broker/MGA self-service portal in MVP.
@@ -132,6 +133,8 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
   - No document OCR/intelligence workflows in MVP.
   - No claims management module in MVP.
   - No multi-region regulatory rules engine in MVP.
+  - Neuron is a **CRM-scoped assistant, not a general-purpose chatbot** — off-topic queries are politely redirected, not answered.
+  - **No real outbound email/communication send from Neuron** in its first slice (mock-send only); real send + Communication Hub (F0021) draft home are deferred.
 
 ### 3.2 Personas
 
@@ -142,6 +145,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 - Persona 2: Underwriter
   - Primary job: review triaged submissions, provide quote/bind decisions, maintain decision traceability.
   - Success metric: faster, consistent movement from ReadyForUWReview to Quoted/Bound or Declined.
+  - Neuron companion: **primary user** of the Neuron Day-at-a-Glance companion as the **renewal owner** (commercial P&C); drafts renewal outreach (the only role with `renewal:draft_outreach` in v1). Distribution / Relationship Manager (Persona 1/3) assists.
 
 - Persona 3: Relationship Manager
   - Primary job: maintain broker/account relationships, contacts, and timeline context.
@@ -206,6 +210,15 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 - F0032: Admin Configuration & Reference Data Console - Planned
 - [F0033: Structured Logging and QE Toolchain Activation](features/archive/F0033-structured-logging-and-qe-toolchain-activation/PRD.md) - Done (Archived)
 - [F0035: Session Continuity & Token Refresh](features/archive/F0035-session-continuity-and-token-refresh/PRD.md) - Done (Archived 2026-05-24; 5 stories: silent renewal, idle warning modal, forced re-auth restore, auth error semantics, session telemetry)
+
+**Neuron Companion — AI Conversational Layer (Planned):**
+
+The first epic since the harness adopted the action/KG flow. A conversational companion embedded in the CRM (`experience/src/features/neuron`) that chats about CRM work and renders rich, registered components inline. The Python `neuron/` backend classifies intent and routes to specialist mini-orchestrators; the .NET engine stays the single source of truth (Neuron is secondary, calls the engine as the user via forwarded token, Casbin ABAC enforced unchanged). Sequenced Now → Next → Later; the reusable platform is extracted on the second live head (F0040), not on stubs. Source intake: `planning-mds/features/F0038-neuron-day-at-a-glance-shell/intake-brief.md`.
+
+- F0038: Neuron Day-at-a-Glance Shell (Renewals live + draft outreach + mock-send) - Planned (Now)
+- F0039: Neuron Multi-Thread Conversations - Planned (Next, provisional)
+- F0040: Neuron Second Specialist Head - Planned (Next, provisional)
+- _Later (unreserved):_ Day-at-a-Glance **brain** (cross-zone composition/ranking) · more specialist heads · real outbound send + Communication Hub (F0021) draft home · MCP-UI for external hosts · writes beyond drafting · thread search/share niceties.
 
 ### 3.4 MVP Features and Stories (vertical-slice friendly)
 
