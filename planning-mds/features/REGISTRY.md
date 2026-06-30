@@ -1,6 +1,6 @@
 # Feature Registry
 
-**Next Available Feature Number:** F0038
+**Next Available Feature Number:** F0041
 
 **Planning Views:**
 - Roadmap sequencing (`Now / Next / Later`): `planning-mds/features/ROADMAP.md`
@@ -41,6 +41,9 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 | F0031 | Data Import, Deduplication & Go-Live Migration | Planned | Release Enablement | `F0031-data-import-deduplication-and-go-live-migration/` |
 | F0032 | Admin Configuration & Reference Data Console | Planned | Platform Operations | `F0032-admin-configuration-and-reference-data-console/` |
 | F0037 | Hierarchy-Aware Access Scoping & Distribution Rollups | Planned | CRM Release MVP+ | `F0037-hierarchy-aware-access-scoping-and-distribution-rollups/` |
+| F0038 | Neuron Day-at-a-Glance Shell (Renewals live + draft outreach + mock-send) | Planned | Neuron Companion | `F0038-neuron-day-at-a-glance-shell/` |
+| F0039 | Neuron Multi-Thread Conversations | Planned (provisional) | Neuron Companion | `F0039-neuron-multi-thread-conversations/` |
+| F0040 | Neuron Second Specialist Head | Planned (provisional) | Neuron Companion | `F0040-neuron-second-specialist-head/` |
 
 ## Archived Features
 
