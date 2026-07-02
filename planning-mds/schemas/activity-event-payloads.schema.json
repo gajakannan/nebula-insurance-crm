@@ -383,6 +383,58 @@
       },
       "additionalProperties": false,
       "descriptionTemplate": "Reassigned from \"{previousAssigneeName}\" to \"{newAssigneeName}\""
+    },
+
+    "CommunicationCaptured": {
+      "description": "Emitted when a structured communication source record is captured (F0021-S0001).",
+      "type": "object",
+      "required": ["communicationId", "communicationType", "summary", "primaryEntityType", "primaryEntityId"],
+      "properties": {
+        "communicationId": { "type": "string", "format": "uuid" },
+        "communicationType": { "type": "string", "enum": ["Note", "Call", "Meeting", "EmailReference"] },
+        "summary": { "type": "string" },
+        "primaryEntityType": { "type": "string", "enum": ["Broker", "Account", "Submission", "Policy", "Renewal", "Task"] },
+        "primaryEntityId": { "type": "string", "format": "uuid" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "{communicationType}: {summary}"
+    },
+
+    "CommunicationCorrected": {
+      "description": "Emitted when a communication receives an append-only correction (F0021-S0005).",
+      "type": "object",
+      "required": ["communicationId", "reason"],
+      "properties": {
+        "communicationId": { "type": "string", "format": "uuid" },
+        "reason": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Communication corrected"
+    },
+
+    "CommunicationRedacted": {
+      "description": "Emitted when communication content is redacted while preserving audit metadata (F0021-S0005).",
+      "type": "object",
+      "required": ["communicationId", "reason"],
+      "properties": {
+        "communicationId": { "type": "string", "format": "uuid" },
+        "reason": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Communication redacted"
+    },
+
+    "CommunicationFollowUpTaskCreated": {
+      "description": "Emitted when a follow-up task is created from a communication (F0021-S0004).",
+      "type": "object",
+      "required": ["communicationId", "taskId", "taskTitle"],
+      "properties": {
+        "communicationId": { "type": "string", "format": "uuid" },
+        "taskId": { "type": "string", "format": "uuid" },
+        "taskTitle": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Follow-up task \"{taskTitle}\" created"
     }
   },
 
@@ -413,7 +465,11 @@
       { "eventType": "SubmissionReactivated",      "entityType": "Submission", "emittedBy": "F0019-S0006" },
       { "eventType": "RenewalCreated",         "entityType": "Renewal",    "emittedBy": "F0007-S0006" },
       { "eventType": "RenewalTransitioned",    "entityType": "Renewal",    "emittedBy": "F0007-S0003" },
-      { "eventType": "RenewalAssigned",        "entityType": "Renewal",    "emittedBy": "F0007-S0004" }
+      { "eventType": "RenewalAssigned",        "entityType": "Renewal",    "emittedBy": "F0007-S0004" },
+      { "eventType": "CommunicationCaptured",  "entityType": "Broker|Account|Submission|Policy|Renewal|Task", "emittedBy": "F0021-S0001" },
+      { "eventType": "CommunicationCorrected", "entityType": "Broker|Account|Submission|Policy|Renewal|Task", "emittedBy": "F0021-S0005" },
+      { "eventType": "CommunicationRedacted",  "entityType": "Broker|Account|Submission|Policy|Renewal|Task", "emittedBy": "F0021-S0005" },
+      { "eventType": "CommunicationFollowUpTaskCreated", "entityType": "Task", "emittedBy": "F0021-S0004" }
     ]
   },
 

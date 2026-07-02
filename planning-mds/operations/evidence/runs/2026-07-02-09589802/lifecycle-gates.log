@@ -1,0 +1,6 @@
+{"timestamp":"2026-07-02T16:27:24+05:30","gate":"D0 DEFECT SCOPE LOCK","status":"PASS","notes":"Defect run opened from standalone F0021 E2E T1 failure."}
+{"timestamp":"2026-07-02T16:27:24+05:30","gate":"D1 REPRODUCTION AND TRIAGE","status":"PASS","notes":"Reproduced via Playwright failure waiting for AssigneePicker option; traced to missing /users Vite proxy path."}
+{"timestamp":"2026-07-02T16:40:00+05:30","gate":"D2 ROOT CAUSE AND FIX PLAN","status":"PASS","notes":"Missing /users Vite proxy path blocks AssigneePicker user search in dev."}
+{"timestamp":"2026-07-02T16:40:00+05:30","gate":"D3 IMPLEMENTATION","status":"PASS","notes":"Added /users to experience/vite.config.ts proxy paths."}
+{"timestamp":"2026-07-02T16:40:00+05:30","gate":"D4 VALIDATION","status":"PASS","notes":"Authenticated frontend-origin /users check passed; final F0021 E2E passed 5/5."}
+{"timestamp":"2026-07-02T16:40:00+05:30","gate":"D5 REVIEW AND CLOSEOUT","status":"PASS","notes":"Defect run closed."}

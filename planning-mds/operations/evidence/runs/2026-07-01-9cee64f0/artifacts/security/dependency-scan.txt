@@ -1,0 +1,21 @@
+=== Dependency Vulnerability Scan ===
+--- Frontend ---
+Running pnpm audit (level: high).
+(node:53935) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ WARN  post https://registry.npmjs.org/-/npm/v1/security/audits error (ENOTFOUND). Will retry in 10 seconds. 2 retries left.
+ WARN  post https://registry.npmjs.org/-/npm/v1/security/audits error (ENOTFOUND). Will retry in 1 minute. 1 retries left.
+ ENOTFOUND  request to https://registry.npmjs.org/-/npm/v1/security/audits failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org
+
+FetchError: request to https://registry.npmjs.org/-/npm/v1/security/audits failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org
+    at ClientRequest.<anonymous> (/Users/wallstreet62/.cache/node/corepack/v1/pnpm/9.15.9/dist/pnpm.cjs:67084:18)
+    at ClientRequest.emit (node:events:509:28)
+    at emitErrorEvent (node:_http_client:109:11)
+    at TLSSocket.socketErrorListener (node:_http_client:593:5)
+    at TLSSocket.emit (node:events:521:24)
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+FAIL (frontend): dependency scan failed (exit 1).
+--- Backend ---
+Running dotnet dependency vulnerability scan on engine/tests/Nebula.Tests/Nebula.Tests.csproj.

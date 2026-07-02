@@ -35,6 +35,7 @@ import {
   type AccountUpdateRequestDto,
 } from '@/features/accounts';
 import { useBrokers } from '@/features/brokers';
+import { CommunicationPanel } from '@/features/communications';
 import { ParentDocumentsPanel } from '@/features/documents';
 import { PolicyStatusBadge, formatPolicyCurrency } from '@/features/policies';
 import { RenewalStatusBadge, useRenewals } from '@/features/renewals';
@@ -45,7 +46,7 @@ import { ApiError } from '@/services/api';
 import { listFormSnapshotKeysForUser } from '@/features/session-continuity';
 import { US_STATES } from '@/lib/us-states';
 
-const TABS = ['Overview', 'Contacts', 'Documents', 'Activity'];
+const TABS = ['Overview', 'Contacts', 'Documents', 'Communications', 'Activity'];
 const DELETE_REASON_OPTIONS = [
   { value: 'Duplicate', label: 'Duplicate' },
   { value: 'NoLongerInsured', label: 'No Longer Insured' },
@@ -802,6 +803,14 @@ export default function AccountDetailPage() {
               <ParentDocumentsPanel
                 parent={{ type: 'account', id: account.id }}
                 variant="plain"
+              />
+            )}
+
+            {activeTab === 'Communications' && (
+              <CommunicationPanel
+                entityType="Account"
+                entityId={account.id}
+                entityLabel={account.displayName}
               />
             )}
 

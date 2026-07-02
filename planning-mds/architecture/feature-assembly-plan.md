@@ -51,6 +51,41 @@ Define the build order, role handoffs, and integration checkpoints for implement
 | DevOps | No | No new infrastructure expected; revisit if EF migration/runtime deployment changes require operational validation |
 | Architect | Yes | ADR-025 implementation and KG binding reconciliation are required |
 
+## F0021 - Communication Hub & Activity Capture
+
+**Added:** 2026-07-01 - Feature action Step 0 authored the feature-local implementation execution plan after Phase A+B planning completed and was approved in plan run `2026-07-01-c1726908`.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0021-communication-hub-and-activity-capture/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, timeline events, communication source record handling, follow-up linkage, correction/redaction, and validation checkpoints.
+
+### Dependencies
+
+| Dependency | Source | What F0021 Needs | Status |
+|------------|--------|------------------|--------|
+| Broker detail and timeline | F0002 | Broker context and timeline projection | Done and archived |
+| Task creation and assignment | F0004 | Follow-up task behavior and assignee validation | Done and archived |
+| Submission detail and timeline | F0006 | Submission context and linked timeline | Done and archived |
+| Account 360 | F0016 | Account context and timeline surface | Done and archived |
+| Policy 360 | F0018 | Policy context and timeline surface | Done and archived |
+| Communication architecture | ADR-028 | Source communication records, redaction, and timeline projection boundary | Proposed in Phase B |
+
+### Assembly Slice Order
+
+1. Backend communication source model and EF configuration.
+2. Communication service, repository, authorization, timeline, and task integration.
+3. API endpoints and OpenAPI/schema alignment.
+4. Frontend communication slice and contextual panels.
+5. QE, code/security review, signoff, KG reconciliation, and PM closeout.
+
+### Signoff Role Matrix
+
+| Role | Required | Rationale |
+|------|----------|-----------|
+| Quality Engineer | Yes | Capture, contextual history, follow-up, correction/redaction, reload, and regression behavior require acceptance evidence |
+| Code Reviewer | Yes | New backend source records, API contracts, frontend panels, task integration, and timeline projection need independent review |
+| Security Reviewer | Yes | Notes, participant metadata, visibility, external role denial, and redaction are security-sensitive |
+| DevOps | No | No new runtime services expected; revisit if migrations/config require deployability evidence beyond normal runtime checks |
+| Architect | Yes | KG reconciliation and communication source/timeline boundary must be verified against as-built implementation |
+
 ## F0020 - Document Management & ACORD Intake
 
 **Added:** 2026-05-04 - Feature action Step 0 created the feature-local implementation execution plan after Phase B architecture completed during planning.

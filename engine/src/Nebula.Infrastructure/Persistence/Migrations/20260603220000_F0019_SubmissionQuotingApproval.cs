@@ -13,24 +13,20 @@ public partial class F0019_SubmissionQuotingApproval : Migration
 {
     protected override void Up(MigrationBuilder migrationBuilder)
     {
-        migrationBuilder.AddColumn<DateTime>(
-            name: "ArchivedAt",
-            table: "Submissions",
-            type: "timestamp with time zone",
-            nullable: true);
+        migrationBuilder.Sql("""
+            ALTER TABLE "Submissions"
+                ADD COLUMN IF NOT EXISTS "ArchivedAt" timestamp with time zone;
+            """);
 
-        migrationBuilder.AddColumn<Guid>(
-            name: "ArchivedByUserId",
-            table: "Submissions",
-            type: "uuid",
-            nullable: true);
+        migrationBuilder.Sql("""
+            ALTER TABLE "Submissions"
+                ADD COLUMN IF NOT EXISTS "ArchivedByUserId" uuid;
+            """);
 
-        migrationBuilder.AddColumn<bool>(
-            name: "IsArchived",
-            table: "Submissions",
-            type: "boolean",
-            nullable: false,
-            defaultValue: false);
+        migrationBuilder.Sql("""
+            ALTER TABLE "Submissions"
+                ADD COLUMN IF NOT EXISTS "IsArchived" boolean NOT NULL DEFAULT false;
+            """);
 
         migrationBuilder.CreateTable(
             name: "SubmissionQuotePackets",
@@ -134,10 +130,10 @@ public partial class F0019_SubmissionQuotingApproval : Migration
                     onDelete: ReferentialAction.Restrict);
             });
 
-        migrationBuilder.CreateIndex(
-            name: "IX_Submissions_IsArchived",
-            table: "Submissions",
-            column: "IsArchived");
+        migrationBuilder.Sql("""
+            CREATE INDEX IF NOT EXISTS "IX_Submissions_IsArchived"
+                ON "Submissions" ("IsArchived");
+            """);
 
         migrationBuilder.CreateIndex(
             name: "IX_SubmissionQuotePackets_SubmissionId",

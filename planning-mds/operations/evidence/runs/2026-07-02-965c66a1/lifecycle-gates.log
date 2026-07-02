@@ -1,0 +1,6 @@
+D0 DEFECT SCOPE LOCK | PASS | Scope locked to F0021 communication panel load failure caused by missing dev proxy route.
+D1 REPRODUCTION AND TRIAGE | PASS | `/communications?...` returned Vite HTML instead of API JSON.
+D2 ROOT CAUSE AND FIX PLAN | PASS | Missing `/communications` in Vite API proxy path list.
+D3 IMPLEMENTATION | PASS | Added `/communications` to `apiProxyPaths`.
+D4 VALIDATION | PASS | Proxy, focused component test, browser/network smoke, lint, theme guard, and build passed.
+D5 REVIEW AND CLOSEOUT | PASS | Role reports and evidence summary complete.

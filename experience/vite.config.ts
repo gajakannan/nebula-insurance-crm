@@ -1,12 +1,15 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
-export default defineConfig(() => {
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
   const apiProxyTarget = process.env.NEBULA_API_PROXY_TARGET?.trim()
+    || env.NEBULA_API_PROXY_TARGET?.trim()
     || process.env.VITE_API_PROXY_TARGET?.trim()
+    || env.VITE_API_PROXY_TARGET?.trim()
     || 'http://localhost:5113'
   const apiProxyPaths = [
     // Keep OIDC callback (`/auth/callback`) on the frontend router.
@@ -14,11 +17,13 @@ export default defineConfig(() => {
     '/auth/logout',
     '/brokers',
     '/contacts',
+    '/communications',
     '/dashboard',
     '/my',
     '/tasks',
     '/timeline',
     '/accounts',
+    '/users',
     '/mgas',
     '/programs',
     '/policies',

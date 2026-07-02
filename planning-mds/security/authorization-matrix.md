@@ -305,6 +305,34 @@ F0004 extends the self-assigned-only task model with creator-based access for Di
 
 ---
 
+### 2.7a Communication Event — Capture / Read / Link / Correct / Redact / Follow-Up (F0021)
+
+| Role | Action | Decision | Business Scope / Constraints | Story / AC Reference |
+|------|--------|----------|------------------------------|----------------------|
+| DistributionUser | create / read / link / correct / create_follow_up | **ALLOW** | Must pass linked entity read access; task follow-up also requires `task:create`. | F0021-S0001 through S0005 |
+| DistributionUser | redact | **DENY** | Redaction is Admin-only in MVP. | F0021-S0005; ADR-028 |
+| DistributionManager | create / read / link / correct / create_follow_up | **ALLOW** | Region scope applies through linked broker/account/submission/policy/renewal/task records. | F0021-S0001 through S0005 |
+| DistributionManager | redact | **DENY** | Redaction is Admin-only in MVP. | F0021-S0005; ADR-028 |
+| Underwriter | create / read / link / correct / create_follow_up | **ALLOW** | Submission/policy access scope applies through linked records. | F0021-S0001 through S0005 |
+| Underwriter | redact | **DENY** | Redaction is Admin-only in MVP. | F0021-S0005; ADR-028 |
+| RelationshipManager | create / read / link / correct / create_follow_up | **ALLOW** | Broker/account relationship scope applies through linked records. | F0021-S0001 through S0005 |
+| RelationshipManager | redact | **DENY** | Redaction is Admin-only in MVP. | F0021-S0005; ADR-028 |
+| ProgramManager | create / read / link / correct / create_follow_up | **ALLOW** | Program scope applies through linked records. | F0021-S0001 through S0005 |
+| ProgramManager | redact | **DENY** | Redaction is Admin-only in MVP. | F0021-S0005; ADR-028 |
+| Admin | create / read / link / correct / redact / create_follow_up | **ALLOW** | Unscoped internal authority; redaction remains audit-preserving. | F0021-S0001 through S0005; ADR-028 |
+| BrokerUser | all | **DENY** | External communication capture/history is out of MVP scope. | F0021 PRD Out of Scope |
+| ExternalUser | all | **DENY** | No external self-service in MVP. | BLUEPRINT §3.1 non-goals |
+
+**Constraints applying to all ALLOW decisions on Communication Event:**
+- Communication source records are InternalOnly for MVP.
+- Create/read/link/follow-up actions must also pass read access on the primary linked CRM record.
+- Additional linked records must pass read access before persistence.
+- Follow-up creation must pass existing task assignee validation and `task:create`.
+- Corrections and redactions are append-only audit actions; no communication record is hard-deleted.
+- Email-linked activity stores metadata/reference only and does not authorize outbound send, mailbox read, or connector ingestion.
+
+---
+
 ### 2.8 Submission — Read / Create / Update / Transition / Assign / Approve / Archive
 
 | Role | Action | Decision | Business Scope / Constraints | Story / AC Reference |

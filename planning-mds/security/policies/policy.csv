@@ -493,6 +493,44 @@ p, ProgramManager,      timeline_event, read, true
 p, Admin,               timeline_event, read, true
 
 # ─────────────────────────────────────────────────────────────────────────────
+# §2.9 Communication Event (F0021)
+# Source communication records are internal-only in MVP. Query/application layer
+# must also enforce linked-entity read access for every create/read/link action.
+# ─────────────────────────────────────────────────────────────────────────────
+
+p, DistributionUser,    communication_event, create, true
+p, DistributionUser,    communication_event, read, true
+p, DistributionUser,    communication_event, link, true
+p, DistributionUser,    communication_event, correct, true
+p, DistributionUser,    communication_event, create_follow_up, true
+p, DistributionManager, communication_event, create, true
+p, DistributionManager, communication_event, read, true
+p, DistributionManager, communication_event, link, true
+p, DistributionManager, communication_event, correct, true
+p, DistributionManager, communication_event, create_follow_up, true
+p, Underwriter,         communication_event, create, true
+p, Underwriter,         communication_event, read, true
+p, Underwriter,         communication_event, link, true
+p, Underwriter,         communication_event, correct, true
+p, Underwriter,         communication_event, create_follow_up, true
+p, RelationshipManager, communication_event, create, true
+p, RelationshipManager, communication_event, read, true
+p, RelationshipManager, communication_event, link, true
+p, RelationshipManager, communication_event, correct, true
+p, RelationshipManager, communication_event, create_follow_up, true
+p, ProgramManager,      communication_event, create, true
+p, ProgramManager,      communication_event, read, true
+p, ProgramManager,      communication_event, link, true
+p, ProgramManager,      communication_event, correct, true
+p, ProgramManager,      communication_event, create_follow_up, true
+p, Admin,               communication_event, create, true
+p, Admin,               communication_event, read, true
+p, Admin,               communication_event, link, true
+p, Admin,               communication_event, correct, true
+p, Admin,               communication_event, redact, true
+p, Admin,               communication_event, create_follow_up, true
+
+# ─────────────────────────────────────────────────────────────────────────────
 # §2.10 BrokerUser (Phase 1 Delta — F0009)
 # BrokerUser is external and read-first in Phase 1.
 # Scope + field filtering constraints are enforced at query/response layer:

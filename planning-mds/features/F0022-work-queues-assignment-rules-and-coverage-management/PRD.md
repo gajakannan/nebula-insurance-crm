@@ -62,7 +62,7 @@ applies_to: product-manager
 - **Risk:** Queue and rule design becomes too complex before core workflows are stable.
 - **Assumption:** Simple, explicit rules provide strong value before advanced automation is needed.
 - **Mitigation:** Start with constrained queue types and clear rule precedence.
-
+ 
 ## Dependencies
 
 - F0004 Task Center UI + Manager Assignment

@@ -1,0 +1,162 @@
+# Lifecycle Gates Log — F0021 Plan Run 2026-07-01-c1726908
+
+## Initial Preflight
+
+Command: `python3 scripts/kg/validate.py`
+Stage: plan-start
+Exit Code: 0
+Result: PASS
+Output References: command output in session transcript
+Skipped Gates: -
+
+## Planned Gate Commands
+
+- `python3 agents/product-manager/scripts/validate-stories.py {FEATURE_PATH}`
+- `python3 agents/product-manager/scripts/generate-story-index.py {PRODUCT_ROOT}/planning-mds/features/`
+- `python3 agents/product-manager/scripts/validate-trackers.py`
+- `python3 {PRODUCT_ROOT}/scripts/kg/validate.py --write-coverage-report` when KG changed
+- `python3 {PRODUCT_ROOT}/scripts/kg/validate.py`
+- `python3 {PRODUCT_ROOT}/scripts/kg/validate.py --check-drift`
+- `python3 agents/scripts/validate_templates.py`
+
+## G1 CLARIFICATION
+
+Stage: Phase A requirements
+Result: PASS WITH RECOMMENDATIONS
+Timestamp: 2026-07-01T12:40:36Z
+Notes: Phase A MVP clarifications are resolved in the PRD/stories: email-linked activity means metadata/reference only, correction/redaction is audit-preserving, linked entity scope is limited to approved CRM records, and follow-up ownership defaults to explicit assignee/current user. Phase B must confirm post-create related-link editability and exact authorization policy names.
+
+## G2 TRACKER SYNC (A)
+
+Command: `.venv/bin/python agents/product-manager/scripts/validate-stories.py ../nebula-insurance-crm/planning-mds/features/F0021-communication-hub-and-activity-capture`
+Stage: Phase A story validation
+Exit Code: 0
+Result: PASS
+Output References: command output in session transcript
+
+Command: `.venv/bin/python agents/product-manager/scripts/generate-story-index.py ../nebula-insurance-crm/planning-mds/features/`
+Stage: Phase A story index
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/features/STORY-INDEX.md`
+
+Command: `.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root ../nebula-insurance-crm`
+Stage: strict tracker validation
+Exit Code: 1
+Result: BLOCKED
+Output References: command output in session transcript
+Notes: The strict validator reports historical missing evidence artifacts in archived/pre-contract runs such as `2026-06-03-7e8e0ddc`, `2026-05-28-077b7b30`, and `2026-05-24-c92b16b6`. This is outside the F0021 plan package, but the strict command does not exit 0.
+
+Command: `.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root ../nebula-insurance-crm --skip-feature-evidence`
+Stage: scoped tracker consistency diagnostic
+Exit Code: 0
+Result: PASS
+Output References: command output in session transcript
+Notes: Confirms current tracker structure has 0 errors and 0 warnings when unrelated historical feature evidence artifact checks are skipped.
+
+## G2 STRICT-PATH REPAIR
+
+Stage: legacy evidence repair
+Timestamp: 2026-07-01T13:02:00Z
+Result: PASS
+Notes: Per user direction, followed the strict path instead of accepting the scoped validation exception. Normalized stale `/mnt/c/Users/gajap/sandbox/nebula/nebula-insurance-crm/` evidence paths to product-root-relative references, removed stale scratch-state artifact references for ignored `.kg-state` files, and restored missing historical run artifacts under their owning evidence run folders. Product code was not changed by this repair.
+
+Command: `.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root ../nebula-insurance-crm`
+Stage: strict tracker validation after repair
+Exit Code: 0
+Result: PASS
+Output References: command output in session transcript
+Notes: Feature evidence validation passed; summary validated=4, skipped_pre_contract_archived=17, skipped_active_done_pre_contract=0, skipped_retired_abandoned=0, skipped_retired_superseded=2; tracker result PASS.
+
+## G3 PHASE A APPROVAL
+
+Stage: user requirements approval
+Timestamp: 2026-07-01T13:09:44Z
+Result: PASS
+Notes: User approved Phase A requirements in chat with token "approved". Phase B Architect planning may proceed inside the same plan action. No feature action or implementation work is authorized by this gate.
+
+## KG / Template Validation
+
+Command: `python3 scripts/kg/validate.py --write-coverage-report`
+Stage: ontology mapping coverage
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/knowledge-graph/coverage-report.yaml`
+
+Command: `python3 scripts/kg/validate.py`
+Stage: ontology validation
+Exit Code: 0
+Result: PASS
+Output References: command output in session transcript
+
+Command: `python3 scripts/kg/validate.py --check-drift`
+Stage: ontology drift check
+Exit Code: 0
+Result: PASS
+Output References: command output in session transcript
+
+Command: `.venv/bin/python agents/scripts/validate_templates.py`
+Stage: agent template validation
+Exit Code: 0
+Result: PASS
+Output References: command output in session transcript
+
+## G4 ONTOLOGY SYNC (B)
+
+Stage: Phase B architecture and ontology sync
+Timestamp: 2026-07-01T13:17:10Z
+Result: PASS
+Notes: Architect planning created the F0021 architecture plan, API/schema deltas, authorization deltas, ADR-028, communication schemas, communication timeline payload definitions, policy rows, authorization matrix entries, and KG bindings. `CommunicationEvent` is the source business record; `ActivityTimelineEvent` remains the append-only projection/audit feed. BrokerUser and ExternalUser are denied for MVP communication capture/history. Security Reviewer remains mandatory for feature action.
+
+Command: `.venv/bin/python agents/product-manager/scripts/validate-stories.py ../nebula-insurance-crm/planning-mds/features/F0021-communication-hub-and-activity-capture`
+Stage: ordered closeout story validation
+Exit Code: 0
+Result: PASS
+Output References: command output in session transcript
+
+Command: `.venv/bin/python agents/product-manager/scripts/generate-story-index.py ../nebula-insurance-crm/planning-mds/features/`
+Stage: ordered closeout story index
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/features/STORY-INDEX.md`
+
+Command: `.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root ../nebula-insurance-crm`
+Stage: ordered closeout tracker validation
+Exit Code: 0
+Result: PASS
+Output References: command output in session transcript
+Notes: Feature evidence validation passed; summary validated=4, skipped_pre_contract_archived=17, skipped_active_done_pre_contract=0, skipped_retired_abandoned=0, skipped_retired_superseded=2.
+
+Command: `python3 scripts/kg/validate.py --write-coverage-report`
+Stage: ordered closeout ontology coverage
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/knowledge-graph/coverage-report.yaml`
+Notes: Existing symbol-index warnings remain, but integrity checks pass.
+
+Command: `python3 scripts/kg/validate.py`
+Stage: ordered closeout ontology validation
+Exit Code: 0
+Result: PASS
+Output References: command output in session transcript
+Notes: Existing symbol-index warnings remain, but integrity checks pass.
+
+Command: `python3 scripts/kg/validate.py --check-drift`
+Stage: ordered closeout ontology drift
+Exit Code: 0
+Result: PASS
+Output References: command output in session transcript
+Notes: Existing symbol-index warnings remain, but drift check passes.
+
+Command: `.venv/bin/python agents/scripts/validate_templates.py`
+Stage: ordered closeout template validation
+Exit Code: 0
+Result: PASS
+Output References: command output in session transcript
+
+## G5 PHASE B APPROVAL
+
+Stage: user architecture approval
+Timestamp: 2026-07-01T13:21:30Z
+Result: PASS
+Notes: User approved Phase B architecture in chat with token "approve". This completes plan action A+B approval. It does not start the separate feature action; the next harness step is a new feature run beginning at G0 with `feature-assembly-plan.md`.

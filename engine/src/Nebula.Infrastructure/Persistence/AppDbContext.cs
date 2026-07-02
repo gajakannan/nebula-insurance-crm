@@ -39,6 +39,11 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<PolicyCoverageLine> PolicyCoverageLines => Set<PolicyCoverageLine>();
     public DbSet<Renewal> Renewals => Set<Renewal>();
     public DbSet<TaskItem> Tasks => Set<TaskItem>();
+    public DbSet<CommunicationEvent> CommunicationEvents => Set<CommunicationEvent>();
+    public DbSet<CommunicationLink> CommunicationLinks => Set<CommunicationLink>();
+    public DbSet<CommunicationParticipant> CommunicationParticipants => Set<CommunicationParticipant>();
+    public DbSet<CommunicationCorrection> CommunicationCorrections => Set<CommunicationCorrection>();
+    public DbSet<CommunicationFollowUpTaskLink> CommunicationFollowUpTaskLinks => Set<CommunicationFollowUpTaskLink>();
     public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
     public DbSet<ActivityTimelineEvent> ActivityTimelineEvents => Set<ActivityTimelineEvent>();
     public DbSet<WorkflowTransition> WorkflowTransitions => Set<WorkflowTransition>();

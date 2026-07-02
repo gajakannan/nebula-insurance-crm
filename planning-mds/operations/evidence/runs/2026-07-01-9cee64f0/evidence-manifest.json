@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0021",
+  "feature_slug": "communication-hub-and-activity-capture",
+  "run_id": "2026-07-01-9cee64f0",
+  "status": "approved",
+  "recorded_on": "2026-07-01",
+  "contract_effective_date": "2026-07-01",
+  "feature_path_at_run_start": "planning-mds/features/F0021-communication-hub-and-activity-capture",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0021-communication-hub-and-activity-capture",
+  "feature_state": "Done",
+  "rerun_of": null,
+  "changed_paths": [
+    "planning-mds/features/F0021-communication-hub-and-activity-capture",
+    "planning-mds/architecture/feature-assembly-plan.md",
+    "planning-mds/operations/evidence/runs/2026-07-01-9cee64f0",
+    "engine/src/Nebula.Domain/Entities",
+    "engine/src/Nebula.Application/DTOs/CommunicationDtos.cs",
+    "engine/src/Nebula.Application/Interfaces/ICommunicationRepository.cs",
+    "engine/src/Nebula.Application/Validators/CommunicationValidators.cs",
+    "engine/src/Nebula.Application/Services/CommunicationService.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/CommunicationRepository.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations",
+    "engine/src/Nebula.Infrastructure/Persistence/Migrations",
+    "engine/src/Nebula.Infrastructure/Persistence/AppDbContext.cs",
+    "engine/src/Nebula.Infrastructure/DependencyInjection.cs",
+    "engine/src/Nebula.Api/Endpoints/CommunicationEndpoints.cs",
+    "engine/src/Nebula.Api/Program.cs",
+    "engine/tests/Nebula.Tests/Unit/CommunicationValidatorsTests.cs",
+    "experience/src/features/communications",
+    "experience/src/pages/AccountDetailPage.tsx",
+    "experience/src/pages/BrokerDetailPage.tsx",
+    "experience/src/pages/SubmissionDetailPage.tsx",
+    "experience/src/pages/PolicyDetailPage.tsx",
+    "experience/src/pages/RenewalDetailPage.tsx"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feature/F0021-communication-hub-and-activity-capture",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": true,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer",
+    "DevOps",
+    "Architect"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "g1-runtime-preflight.md"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "g2-self-review.md"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "deployability-check.md"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "signoff-ledger.md"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED",
+      "artifact": "pm-closeout.md"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md"
+  },
+  "role_results": {
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "DevOps": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ],
+      "verdict_artifact": "deployability-check.md"
+    },
+    "Architect": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md"
+      ],
+      "verdict_artifact": "g0-assembly-plan-validation.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "verdict_artifact": "security-review-report.md"
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": true,
+      "result": "findings_present",
+      "artifact": "artifacts/security/dependency-scan-escalated.txt",
+      "waiver": null
+    },
+    "secrets": {
+      "ran": true,
+      "result": "tool_unavailable_fallback_clean",
+      "artifact": "artifacts/security/secrets-scan.txt",
+      "waiver": null
+    },
+    "sast": {
+      "ran": true,
+      "result": "tool_unavailable_fallback_clean",
+      "artifact": "artifacts/security/sast-scan.txt",
+      "waiver": null
+    },
+    "dast": {
+      "ran": true,
+      "result": "tool_unavailable_fallback_health_passed",
+      "artifact": "artifacts/security/dast-scan.txt",
+      "waiver": null
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {
+    "approved_plan_run": "planning-mds/operations/evidence/runs/2026-07-01-c1726908"
+  }
+}

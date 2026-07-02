@@ -10,6 +10,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { Select } from '@/components/ui/Select';
 import { TextInput } from '@/components/ui/TextInput';
 import { AccountReference, AccountStatusBadge, useAccount } from '@/features/accounts';
+import { CommunicationPanel } from '@/features/communications';
 import { ParentDocumentsPanel } from '@/features/documents';
 import { listFormSnapshotKeysForUser } from '@/features/session-continuity';
 import { DynamicAttributePanel, normalizeCyberEnvelope } from '@/features/lob-attributes';
@@ -428,6 +429,12 @@ export default function SubmissionDetailPage() {
         </Card>
 
         <ParentDocumentsPanel parent={{ type: 'submission', id: submission.id }} />
+
+        <CommunicationPanel
+          entityType="Submission"
+          entityId={submission.id}
+          entityLabel={submission.accountDisplayName}
+        />
 
         <Card>
           <CardHeader>

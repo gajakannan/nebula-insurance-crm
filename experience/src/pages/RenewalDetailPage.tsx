@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { TextInput } from '@/components/ui/TextInput';
 import { AccountReference, AccountStatusBadge, useAccount } from '@/features/accounts';
 import { useCurrentUser } from '@/features/auth';
+import { CommunicationPanel } from '@/features/communications';
 import { ParentDocumentsPanel } from '@/features/documents';
 import {
   DynamicAttributePanel,
@@ -498,6 +499,12 @@ export default function RenewalDetailPage() {
         </div>
 
         <ParentDocumentsPanel parent={{ type: 'renewal', id: renewal.id }} />
+
+        <CommunicationPanel
+          entityType="Renewal"
+          entityId={renewal.id}
+          entityLabel={renewal.accountDisplayName ?? renewal.accountName ?? renewal.policyNumber ?? 'Renewal detail'}
+        />
 
         <Card>
           <CardHeader>
