@@ -14,7 +14,7 @@ Neuron is the cognitive layer that powers intelligent features in Nebula CRM thr
 
 ## Current Status
 
-`neuron/` is currently scaffold-only. The application implementation has not started yet.
+`neuron/` now hosts the **Neuron Companion runtime (F0038-S0001)**: a stateless FastAPI service under `app/` with Agent-Card/tool registries, versioned YAML orchestration plans (`orchestration/plans/`), the Neuron-owned operation store (`app/persistence/`, ADR-028), an engine client that forwards the user token, and a mocked model provider. Specialist-head/goal-agent **behavior** (Renewals read, stub zones, outreach drafter, scope guard) lands in F0038-S0002..S0007. See `../planning-mds/features/F0038-neuron-day-at-a-glance-shell/GETTING-STARTED.md`.
 
 ## Directory Structure
 

@@ -1,0 +1,12 @@
+# Intent classifier (F0038-S0007). Routes an in-scope CRM message to the matching
+# specialist head. On classifier failure the orchestrator defaults to a safe bounded
+# path (no silent fallthrough). Pure classification → auth_mode: none.
+card_id: crm.intent_classifier
+card_version: 1.0.0
+kind: intent_classifier
+name: CRM Intent Classifier
+description: Routes an in-scope CRM message to the matching specialist head.
+active: true
+public: false
+auth_mode: none
+accepted_output_modes: [status]

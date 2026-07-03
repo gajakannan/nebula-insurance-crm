@@ -1,0 +1,84 @@
+Knowledge graph validation
+------------------------------------------------------------
+Features mapped:   28
+Stories mapped:    137
+Feature coverage:  28 mapped, 12 excluded, 0 uncovered
+Code bindings:     186
+Symbol index:      2702 symbols, 2702 on bound nodes (csharp: 2293, typescript: 409)
+Decision markers: 0 markers, 0 WHY
+
+Warnings:
+- Low-confidence inferred edge (0.4) on feature:F0028 in feature:F0018.depends_on
+- symbol symbol:capability-product-schema-registry:i-lob-schema-repository.add-activation-event-async.callees references unknown symbol: symbol:entity-renewal:stub-lob-schema-repository.add-activation-event-async
+- symbol symbol:capability-product-schema-registry:i-lob-schema-repository.deactivate-active-bundles-async.callees references unknown symbol: symbol:entity-renewal:stub-lob-schema-repository.deactivate-active-bundles-async
+- symbol symbol:capability-product-schema-registry:i-lob-schema-repository.get-active-bundle-async.callees references unknown symbol: symbol:entity-renewal:stub-lob-schema-repository.get-active-bundle-async
+- symbol symbol:capability-product-schema-registry:i-lob-schema-repository.get-bundle-by-id-async.callees references unknown symbol: symbol:entity-renewal:stub-lob-schema-repository.get-bundle-by-id-async
+- symbol symbol:capability-product-schema-registry:i-lob-schema-repository.get-bundle-by-product-version-id-async.callees references unknown symbol: symbol:entity-renewal:stub-lob-schema-repository.get-bundle-by-product-version-id-async
+- symbol symbol:capability-product-schema-registry:i-lob-schema-repository.list-bundles-async.callees references unknown symbol: symbol:entity-renewal:stub-lob-schema-repository.list-bundles-async
+- symbol symbol:entity-mga:i-reference-data-repository.get-account-by-id-async.callees references unknown symbol: symbol:entity-renewal:stub-reference-data-repository.get-account-by-id-async
+- symbol symbol:entity-mga:i-reference-data-repository.get-accounts-async.callees references unknown symbol: symbol:entity-renewal:stub-reference-data-repository.get-accounts-async
+- symbol symbol:entity-mga:i-reference-data-repository.get-mgas-async.callees references unknown symbol: symbol:entity-renewal:stub-reference-data-repository.get-mgas-async
+- symbol symbol:entity-mga:i-reference-data-repository.get-policy-by-id-async.callees references unknown symbol: symbol:entity-renewal:stub-reference-data-repository.get-policy-by-id-async
+- symbol symbol:entity-mga:i-reference-data-repository.get-program-by-id-async.callees references unknown symbol: symbol:entity-renewal:stub-reference-data-repository.get-program-by-id-async
+- symbol symbol:entity-mga:i-reference-data-repository.get-programs-async.callees references unknown symbol: symbol:entity-renewal:stub-reference-data-repository.get-programs-async
+- symbol symbol:entity-mga:i-reference-data-repository.get-renewal-statuses-async.callees references unknown symbol: symbol:entity-renewal:stub-reference-data-repository.get-renewal-statuses-async
+- symbol symbol:entity-mga:i-reference-data-repository.get-submission-statuses-async.callees references unknown symbol: symbol:entity-renewal:stub-reference-data-repository.get-submission-statuses-async
+- symbol symbol:entity-policy:i-policy-repository.add-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.add-async
+- symbol symbol:entity-policy:i-policy-repository.add-coverage-lines-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.add-coverage-lines-async
+- symbol symbol:entity-policy:i-policy-repository.add-endorsement-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.add-endorsement-async
+- symbol symbol:entity-policy:i-policy-repository.add-version-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.add-version-async
+- symbol symbol:entity-policy:i-policy-repository.count-current-coverage-lines-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.count-current-coverage-lines-async
+- symbol symbol:entity-policy:i-policy-repository.count-endorsements-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.count-endorsements-async
+- symbol symbol:entity-policy:i-policy-repository.count-open-renewals-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.count-open-renewals-async
+- symbol symbol:entity-policy:i-policy-repository.count-policies-for-year-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.count-policies-for-year-async
+- symbol symbol:entity-policy:i-policy-repository.count-versions-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.count-versions-async
+- symbol symbol:entity-policy:i-policy-repository.get-accessible-by-id-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.get-accessible-by-id-async
+- symbol symbol:entity-policy:i-policy-repository.get-account-by-id-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.get-account-by-id-async
+- symbol symbol:entity-policy:i-policy-repository.get-account-summary-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.get-account-summary-async
+- symbol symbol:entity-policy:i-policy-repository.get-broker-by-id-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.get-broker-by-id-async
+- symbol symbol:entity-policy:i-policy-repository.get-by-id-for-update-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.get-by-id-for-update-async
+- symbol symbol:entity-policy:i-policy-repository.get-by-id-with-relations-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.get-by-id-with-relations-async
+- symbol symbol:entity-policy:i-policy-repository.get-carrier-by-id-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.get-carrier-by-id-async
+- symbol symbol:entity-policy:i-policy-repository.get-current-version-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.get-current-version-async
+- symbol symbol:entity-policy:i-policy-repository.get-current-version-for-update-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.get-current-version-for-update-async
+- symbol symbol:entity-policy:i-policy-repository.get-successor-policy-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.get-successor-policy-async
+- symbol symbol:entity-policy:i-policy-repository.get-version-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.get-version-async
+- symbol symbol:entity-policy:i-policy-repository.list-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.list-async
+- symbol symbol:entity-policy:i-policy-repository.list-current-coverage-lines-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.list-current-coverage-lines-async
+- symbol symbol:entity-policy:i-policy-repository.list-endorsements-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.list-endorsements-async
+- symbol symbol:entity-policy:i-policy-repository.list-issued-policies-expired-before-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.list-issued-policies-expired-before-async
+- symbol symbol:entity-policy:i-policy-repository.list-versions-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.list-versions-async
+- symbol symbol:entity-policy:i-policy-repository.producer-exists-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.producer-exists-async
+- symbol symbol:entity-policy:i-policy-repository.set-coverage-current-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.set-coverage-current-async
+- symbol symbol:entity-renewal:i-renewal-repository.add-async.callees references unknown symbol: symbol:entity-renewal:stub-renewal-repository.add-async
+- symbol symbol:entity-renewal:i-renewal-repository.get-by-id-async.callees references unknown symbol: symbol:entity-renewal:stub-renewal-repository.get-by-id-async
+- symbol symbol:entity-renewal:i-renewal-repository.get-by-id-with-relations-async.callees references unknown symbol: symbol:entity-renewal:stub-renewal-repository.get-by-id-with-relations-async
+- symbol symbol:entity-renewal:i-renewal-repository.has-active-renewal-for-policy-async.callees references unknown symbol: symbol:entity-renewal:stub-renewal-repository.has-active-renewal-for-policy-async
+- symbol symbol:entity-renewal:i-renewal-repository.list-async.callees references unknown symbol: symbol:entity-renewal:stub-renewal-repository.list-async
+- symbol symbol:entity-renewal:i-renewal-repository.update-async.callees references unknown symbol: symbol:entity-renewal:stub-renewal-repository.update-async
+- symbol symbol:entity-renewal:renewal-repository.add-async.callees references unknown symbol: symbol:entity-renewal:stub-policy-repository.add-async
+- symbol symbol:entity-renewal:renewal-repository.add-async.callees references unknown symbol: symbol:entity-renewal:stub-renewal-repository.add-async
+- symbol symbol:entity-renewal:renewal-repository.add-async.callees references unknown symbol: symbol:entity-renewal:stub-submission-repository.add-async
+- symbol symbol:entity-renewal:renewal-repository.add-async.callees references unknown symbol: symbol:entity-renewal:stub-workflow-transition-repository.add-async
+- symbol symbol:entity-renewal:renewal-service.get-by-id-async.callers references unknown symbol: symbol:entity-renewal:workflow-service-tests.renewal-service-get-by-id-async-maps-dto
+- symbol symbol:entity-renewal:renewal-service.get-transitions-async.callers references unknown symbol: symbol:entity-renewal:workflow-service-tests.renewal-service-get-transitions-async-maps-transitions
+- symbol symbol:entity-renewal:renewal-service.transition-async.callers references unknown symbol: symbol:entity-renewal:workflow-service-tests.renewal-service-transition-async-invalid-transition-returns-invalid-transition
+- symbol symbol:entity-renewal:renewal-service.transition-async.callers references unknown symbol: symbol:entity-renewal:workflow-service-tests.renewal-service-transition-async-not-found-returns-not-found
+- symbol symbol:entity-renewal:renewal-service.transition-async.callers references unknown symbol: symbol:entity-renewal:workflow-service-tests.renewal-service-transition-async-valid-transition-persists-transition-and-timeline
+- symbol symbol:entity-submission:i-submission-document-checklist-reader.get-checklist-async.callees references unknown symbol: symbol:entity-renewal:stub-submission-document-checklist-reader.get-checklist-async
+- symbol symbol:entity-task-item:stub-user-profile-repository.seed.callers references unknown symbol: symbol:entity-renewal:workflow-service-tests.create-renewal-service
+- symbol symbol:entity-task-item:stub-user-profile-repository.seed.callers references unknown symbol: symbol:entity-renewal:workflow-service-tests.create-submission-service
+- symbol symbol:entity-workflow-transition:i-workflow-transition-repository.add-async.callees references unknown symbol: symbol:entity-renewal:stub-workflow-transition-repository.add-async
+- symbol symbol:entity-workflow-transition:i-workflow-transition-repository.list-by-entity-async.callees references unknown symbol: symbol:entity-renewal:stub-workflow-transition-repository.list-by-entity-async
+- symbol symbol:entity-workflow-transition:workflow-state-machine.get-available-renewal-transitions.callers references unknown symbol: symbol:entity-renewal:workflow-state-machine-tests.get-available-renewal-transitions-filters-by-role
+- symbol symbol:entity-workflow-transition:workflow-state-machine.get-available-transitions.callers references unknown symbol: symbol:entity-renewal:workflow-state-machine-tests.get-available-transitions-submission-returns-configured-targets
+- symbol symbol:entity-workflow-transition:workflow-state-machine.get-available-transitions-2.callers references unknown symbol: symbol:entity-renewal:workflow-state-machine-tests.get-available-transitions-submission-returns-configured-targets
+- symbol symbol:entity-workflow-transition:workflow-state-machine.is-terminal-state.callers references unknown symbol: symbol:entity-renewal:workflow-state-machine-tests.is-terminal-state-returns-expected-value
+- symbol symbol:entity-workflow-transition:workflow-state-machine.is-valid-transition.callers references unknown symbol: symbol:entity-renewal:workflow-state-machine-tests.is-valid-transition-with-allowed-transition-returns-true
+- symbol symbol:entity-workflow-transition:workflow-state-machine.is-valid-transition.callers references unknown symbol: symbol:entity-renewal:workflow-state-machine-tests.is-valid-transition-with-disallowed-transition-returns-false
+- symbol symbol:entity-workflow-transition:workflow-state-machine.is-valid-transition-2.callers references unknown symbol: symbol:entity-renewal:workflow-state-machine-tests.is-valid-transition-with-allowed-transition-returns-true
+- symbol symbol:entity-workflow-transition:workflow-state-machine.is-valid-transition-2.callers references unknown symbol: symbol:entity-renewal:workflow-state-machine-tests.is-valid-transition-with-disallowed-transition-returns-false
+- symbol symbol:entity-workflow-transition:workflow-state-machine.validate-renewal-transition.callers references unknown symbol: symbol:entity-renewal:workflow-state-machine-tests.validate-renewal-transition-for-distribution-user-into-underwriter-stage-returns-policy-denied
+
+Errors:
+- coverage-report.yaml is stale (run python3 scripts/kg/validate.py --write-coverage-report)

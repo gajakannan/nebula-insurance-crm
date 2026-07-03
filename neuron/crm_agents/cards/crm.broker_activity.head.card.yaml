@@ -1,0 +1,11 @@
+# Broker activity zone — inert stub head (active: false, F0038-S0004). Returns an
+# "inactive" zone payload; reads nothing, exposes no CTA. auth_mode: none.
+card_id: crm.broker_activity.head
+card_version: 1.0.0
+kind: specialist_head
+name: Broker activity
+description: Not yet active. Placeholder zone advertising the multi-head pathway.
+active: false
+public: false
+auth_mode: none
+accepted_output_modes: [status]

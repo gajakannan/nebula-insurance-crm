@@ -1,0 +1,36 @@
+Name                                Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------------
+app/__init__.py                         1      0      0      0   100%
+app/actions.py                        104      3     18      2    96%   107, 118-119
+app/auth.py                            36      4     16      3    87%   24->28, 26-27, 54, 57
+app/bootstrap.py                       57      3     20      1    92%   40-42
+app/config.py                          24      2      0      0    92%   25-26
+app/engine_client.py                   32      0      6      0   100%
+app/envelope.py                        39      2     10      1    94%   68, 97
+app/errors.py                          35      4      2      0    84%   28-36
+app/main.py                            70     70      6      0     0%   11-138
+app/messages.py                        66      4     10      1    93%   122-125, 148
+app/models/__init__.py                  0      0      0      0   100%
+app/models/mock_provider.py            11      4      0      0    64%   23-27
+app/models/router.py                   36      8      2      1    76%   30, 43, 52-56, 66
+app/orchestration/__init__.py           0      0      0      0   100%
+app/orchestration/agent_card.py        58      6     12      4    86%   88, 93-94, 96, 99, 102
+app/orchestration/glance.py            48      0      8      1    98%   75->73
+app/orchestration/heads.py             12      1      0      0    92%   39
+app/orchestration/plan.py              82     10     34      5    84%   56-59, 91, 123->101, 151, 156-157, 159, 162
+app/orchestration/registries.py        45      0      6      0   100%
+app/orchestration/task_manager.py      27      1      8      1    94%   122
+app/orchestration/zone_heads.py        70      1     14      3    95%   33->35, 35->37, 117
+app/outreach_drafter.py                19      1      4      1    91%   28
+app/persistence/__init__.py             0      0      0      0   100%
+app/persistence/in_memory.py           81      3     12      1    96%   72, 124-125
+app/persistence/models.py              77      0      0      0   100%
+app/persistence/repository.py          11      0      0      0   100%
+app/runtime.py                         25      0      0      0   100%
+app/schemas.py                         20      2      0      0    90%   31-32
+app/scope_guard.py                     83      3     26      1    96%   124, 228, 246
+app/telemetry.py                       32      1      8      1    95%   69
+app/tools/__init__.py                   0      0      0      0   100%
+app/tools/engine_tools.py              20      1      2      1    91%   36
+-------------------------------------------------------------------------------
+TOTAL                                1221    134    224     28    88%

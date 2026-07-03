@@ -1005,7 +1005,7 @@ features:
       - "Phase B Architect bindings (plan run 2026-06-06-5fb353e9), governed by ADR-026. MVP = arbitrary-depth self-referencing hierarchy + effective-dated producer ownership + effective-dated territory + change audit (stories S0001-S0005)."
       - "Plan-review repair 2026-06-06 bound F0017 to concrete OpenAPI routes, JSON Schemas, and role-based mutation policy rules. F0023 is a downstream reporting substrate/consumer, not a build prerequisite. Hierarchy-aware access-control enforcement and rollup reporting are deferred to F0037."
   - id: feature:F0038
-    path: planning-mds/features/F0038-neuron-day-at-a-glance-shell
+    path: planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell
     status: architecture-complete
     affects:
       - capability:neuron-companion
@@ -3481,7 +3481,7 @@ stories:
       - api:nebula-rest
   # ── F0038 Neuron Day-at-a-Glance Shell (plan run 2026-06-30-d1dd91f7) ──────
   - id: story:F0038-S0001
-    path: planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md
+    path: planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md
     feature: feature:F0038
     affects:
       - capability:neuron-orchestration-runtime
@@ -3495,7 +3495,7 @@ stories:
     uses_api_contract:
       - api:neuron-rest
   - id: story:F0038-S0002
-    path: planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
+    path: planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
     feature: feature:F0038
     affects:
       - capability:neuron-day-at-a-glance-shell
@@ -3513,7 +3513,7 @@ stories:
     depends_on:
       - story:F0038-S0001
   - id: story:F0038-S0003
-    path: planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0003-live-renewals-zone-read.md
+    path: planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0003-live-renewals-zone-read.md
     feature: feature:F0038
     affects:
       - capability:neuron-renewals-head
@@ -3537,7 +3537,7 @@ stories:
       - story:F0038-S0002
       - feature:F0007
   - id: story:F0038-S0004
-    path: planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0004-stub-zones-inactive-payload.md
+    path: planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0004-stub-zones-inactive-payload.md
     feature: feature:F0038
     affects:
       - capability:neuron-zone-dispatch
@@ -3551,7 +3551,7 @@ stories:
       - story:F0038-S0001
       - story:F0038-S0002
   - id: story:F0038-S0005
-    path: planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0005-renewal-outreach-draft.md
+    path: planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0005-renewal-outreach-draft.md
     feature: feature:F0038
     affects:
       - capability:neuron-outreach-drafter
@@ -3574,7 +3574,7 @@ stories:
     depends_on:
       - story:F0038-S0003
   - id: story:F0038-S0006
-    path: planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0006-mock-send-and-workflow-transition.md
+    path: planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0006-mock-send-and-workflow-transition.md
     feature: feature:F0038
     affects:
       - capability:neuron-outreach-drafter
@@ -3601,7 +3601,7 @@ stories:
       - story:F0038-S0005
       - feature:F0007
   - id: story:F0038-S0007
-    path: planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0007-crm-scope-guard.md
+    path: planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0007-crm-scope-guard.md
     feature: feature:F0038
     affects:
       - capability:neuron-scope-guard
@@ -3616,7 +3616,7 @@ stories:
       - story:F0038-S0001
       - story:F0038-S0002
   - id: story:F0038-S0008
-    path: planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md
+    path: planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md
     feature: feature:F0038
     affects:
       - capability:neuron-companion-telemetry

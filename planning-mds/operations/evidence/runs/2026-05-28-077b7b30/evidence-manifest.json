@@ -3,7 +3,7 @@
   "feature_id": "F0036",
   "feature_slug": "dynamic-product-attribute-form-engine",
   "run_id": "2026-05-28-077b7b30",
-  "status": "approved",
+  "status": "superseded",
   "recorded_on": "2026-05-28",
   "contract_effective_date": "2026-05-25",
   "feature_path_at_run_start": "planning-mds/features/F0036-dynamic-product-attribute-form-engine",
@@ -77,19 +77,27 @@
     "Quality Engineer": {
       "required": true,
       "result": "PASS",
-      "required_artifacts": ["test-plan.md", "test-execution-report.md", "coverage-report.md"],
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
       "verdict_artifact": "test-execution-report.md"
     },
     "Code Reviewer": {
       "required": true,
       "result": "APPROVED",
-      "required_artifacts": ["code-review-report.md"],
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
       "verdict_artifact": "code-review-report.md"
     },
     "Security Reviewer": {
       "required": true,
       "result": "PASS",
-      "required_artifacts": ["security-review-report.md"],
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
       "verdict_artifact": "security-review-report.md"
     }
   },

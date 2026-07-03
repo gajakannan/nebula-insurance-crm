@@ -848,7 +848,7 @@ capabilities:
   - id: capability:neuron-companion
     label: Neuron Companion
     source_docs:
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/README.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/README.md
       - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
     notes: >
       In-CRM conversational companion (stateless Python/FastAPI, secondary
@@ -861,7 +861,7 @@ capabilities:
   - id: capability:neuron-orchestration-runtime
     label: Neuron Orchestration Runtime (bootstrap, registries, YAML plans, A2A profile)
     source_docs:
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md
       - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
       - planning-mds/schemas/neuron-orchestration-plan.schema.json
       - planning-mds/schemas/neuron-agent-card.schema.json
@@ -877,16 +877,16 @@ capabilities:
   - id: capability:neuron-day-at-a-glance-shell
     label: Day-at-a-Glance Multi-Zone Shell
     source_docs:
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/README.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/README.md
     notes: >
       Multi-zone frame; assembly, not composition (no cross-zone ranking — that
       is the deferred Day-at-a-Glance brain). Renewals live, three inert stubs.
   - id: capability:neuron-zone-dispatch
     label: Zone-Dispatch (multi-head extension point)
     source_docs:
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0004-stub-zones-inactive-payload.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0004-stub-zones-inactive-payload.md
       - planning-mds/schemas/neuron-zone-payload.schema.json
     notes: >
       Orchestrator enumerates registered specialist heads and dispatches per zone;
@@ -896,7 +896,7 @@ capabilities:
   - id: capability:neuron-message-envelope
     label: Versioned Multi-Part Message/Component Envelope
     source_docs:
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
       - planning-mds/schemas/neuron-message-envelope.schema.json
       - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
     notes: >
@@ -909,7 +909,7 @@ capabilities:
   - id: capability:neuron-renewals-head
     label: Live Renewals Specialist Head
     source_docs:
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0003-live-renewals-zone-read.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0003-live-renewals-zone-read.md
       - planning-mds/schemas/renewal-needs-attention-item.schema.json
     notes: >
       The one live zone in F0038. Reads renewals needing attention (Identified/
@@ -918,7 +918,7 @@ capabilities:
   - id: capability:neuron-scope-guard
     label: CRM Scope Guard (out_of_scope redirect)
     source_docs:
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0007-crm-scope-guard.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0007-crm-scope-guard.md
       - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
     notes: >
       CRM-scoped assistant (intake L8), not a general chatbot. Non-CRM intents
@@ -927,8 +927,8 @@ capabilities:
   - id: capability:neuron-outreach-drafter
     label: Renewal Outreach Drafter (goal agent + persist + mock-send)
     source_docs:
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0005-renewal-outreach-draft.md
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0006-mock-send-and-workflow-transition.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0005-renewal-outreach-draft.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0006-mock-send-and-workflow-transition.md
       - planning-mds/schemas/renewal-outreach-draft-request.schema.json
       - planning-mds/schemas/renewal-outreach-mock-send-request.schema.json
     notes: >
@@ -944,7 +944,7 @@ capabilities:
     source_docs:
       - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
       - planning-mds/architecture/data-model.md
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md
     notes: >
       Neuron owns and writes its own neuron.* schema directly (threads, messages,
       message_parts, agent_runs, tool_calls, provenance_events) — not via an engine
@@ -956,7 +956,7 @@ capabilities:
   - id: capability:neuron-companion-telemetry
     label: Neuron Companion Telemetry
     source_docs:
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md
       - planning-mds/schemas/neuron-companion-telemetry-event.schema.json
     notes: >
       Establishes the baseline needs-attention→draft-ready duration plus a minimal
@@ -2453,7 +2453,7 @@ events:
     label: RenewalOutreachDrafted
     event_type: RenewalOutreachDrafted
     source_docs:
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0005-renewal-outreach-draft.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0005-renewal-outreach-draft.md
       - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
     related_nodes:
       - entity:renewal
@@ -2467,7 +2467,7 @@ events:
     label: RenewalOutreachMockSent
     event_type: RenewalOutreachMockSent
     source_docs:
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0006-mock-send-and-workflow-transition.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0006-mock-send-and-workflow-transition.md
       - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
     related_nodes:
       - entity:renewal
@@ -2482,7 +2482,7 @@ events:
     label: NeuronCompanionTelemetry
     event_type: NeuronCompanionTelemetry
     source_docs:
-      - planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md
+      - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md
       - planning-mds/schemas/neuron-companion-telemetry-event.schema.json
     related_nodes:
       - capability:neuron-companion-telemetry

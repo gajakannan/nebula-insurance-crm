@@ -36,6 +36,15 @@ public static class WorkflowStateMachine
         [("Quoted", "Lost")] = ["Underwriter", "Admin"],
     };
 
+    // WHY (F0038 / ADR-028 §3): the Underwriter owns the renewal in commercial P&C and is the sole
+    // outreach author, but Identified->Outreach is a Distribution-owned move under the general
+    // renewal:transition rules above. Rather than widen that Distribution-owned surface for every
+    // path (over-grant), F0038 permits the move for the Underwriter (and Admin) ONLY on the
+    // outreach mock-send path, which is gated by the dedicated least-privilege renewal:draft_outreach
+    // Casbin action. This set is the defense-in-depth role check behind that gate.
+    private static readonly HashSet<string> OutreachMockSendRoles =
+        new(StringComparer.OrdinalIgnoreCase) { "Underwriter", "Admin" };
+
     public static bool IsValidTransition(string workflowType, string from, string to) =>
         workflowType switch
         {
@@ -69,6 +78,23 @@ public static class WorkflowStateMachine
             return "invalid_transition";
 
         return userRoles.Any(role => allowedRoles.Contains(role, StringComparer.OrdinalIgnoreCase))
+            ? null
+            : "policy_denied";
+    }
+
+    // F0038 / ADR-028 §3: path-scoped exception for the outreach mock-send flow only.
+    // Permits Identified -> Outreach for the Underwriter (and Admin) exclusively via mock-send,
+    // gated at the endpoint by the renewal:draft_outreach Casbin action. Every other renewal
+    // transition path continues to use ValidateRenewalTransition (ownership split unchanged).
+    public static string? ValidateOutreachMockSendTransition(string from, string to, IReadOnlyList<string> userRoles)
+    {
+        if (!string.Equals(from, "Identified", StringComparison.Ordinal)
+            || !string.Equals(to, "Outreach", StringComparison.Ordinal))
+        {
+            return "invalid_transition";
+        }
+
+        return userRoles.Any(OutreachMockSendRoles.Contains)
             ? null
             : "policy_denied";
     }

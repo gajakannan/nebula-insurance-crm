@@ -1,0 +1,17 @@
+# G1 Runtime Preflight Evidence — F0038 run 2026-07-01-90a75ace
+## Timestamp
+2026-07-01T12:12:52-04:00
+## docker compose ps
+NAME                      STATE     STATUS                    PORTS
+nebula-api                running   Up 23 minutes             0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+nebula-authentik-server   running   Up 24 minutes (healthy)   0.0.0.0:9000->9000/tcp, [::]:9000->9000/tcp, 0.0.0.0:9443->9443/tcp, [::]:9443->9443/tcp
+nebula-authentik-worker   running   Up 24 minutes (healthy)   
+nebula-db                 running   Up 24 minutes (healthy)   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
+nebula-temporal           running   Up 24 minutes             0.0.0.0:7233->7233/tcp, [::]:7233->7233/tcp
+nebula-temporal-ui        running   Up 24 minutes             0.0.0.0:8082->8080/tcp, [::]:8082->8080/tcp
+## db pg_isready
+/var/run/postgresql:5432 - accepting connections
+## api health probe (http://localhost:8080/health)
+HTTP 404
+## authentik live probe (http://localhost:9000/-/health/live/)
+HTTP 200

@@ -413,6 +413,221 @@ public class RenewalService(
         return (await MapDetailAsync(updated, user, ct), null, null);
     }
 
+    public async Task<IReadOnlyList<RenewalNeedsAttentionItemDto>> GetNeedsAttentionAsync(
+        int withinDays,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        CancellationToken ct = default)
+    {
+        var rows = await renewalRepo.ListNeedsAttentionAsync(user.UserId, user.Roles, user.Regions, withinDays, ct);
+        if (rows.Count == 0)
+            return [];
+
+        // renewal:draft_outreach is Underwriter/Admin (ADR-028 §3); it drives the
+        // proactive Draft CTA. It is a per-user capability (added by F0038-S0005) —
+        // false here until that policy lands, then the CTA lights up automatically.
+        var canDraftOutreach = false;
+        foreach (var role in user.Roles)
+        {
+            if (await authz.AuthorizeAsync(role, "renewal", "draft_outreach"))
+            {
+                canDraftOutreach = true;
+                break;
+            }
+        }
+
+        var today = DateTime.UtcNow.Date;
+        var noContactThreshold = DateTime.UtcNow.AddDays(-30);
+
+        return rows.Select(row => new RenewalNeedsAttentionItemDto(
+            row.RenewalId.ToString(),
+            row.AccountName,
+            row.PolicyExpirationDate.ToString("yyyy-MM-dd"),
+            (int)(row.PolicyExpirationDate.Date - today).TotalDays,
+            row.WorkflowState,
+            row.LastBrokerContactAt?.ToUniversalTime().ToString("o"),
+            row.LastBrokerContactAt is null || row.LastBrokerContactAt.Value < noContactThreshold,
+            row.BrokerName,
+            canDraftOutreach)).ToList();
+    }
+
+    public async Task<(RenewalCompanionContextDto? Dto, string? ErrorCode)> GetCompanionContextAsync(
+        Guid renewalId,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        CancellationToken ct = default)
+    {
+        var renewal = await renewalRepo.GetByIdWithRelationsAsync(renewalId, ct);
+        if (renewal is null || !CanReadRenewal(user, renewal))
+            return (null, "not_found");
+
+        // companion-context is a Renewals-zone (Identified/Outreach) concept.
+        if (renewal.CurrentStatus is not ("Identified" or "Outreach"))
+            return (null, "not_found");
+
+        var canDraftOutreach = false;
+        foreach (var role in user.Roles)
+        {
+            if (await authz.AuthorizeAsync(role, "renewal", "draft_outreach"))
+            {
+                canDraftOutreach = true;
+                break;
+            }
+        }
+
+        var events = await timelineRepo.ListEventsAsync("Renewal", renewalId, 20, ct);
+        var timeline = events
+            .Select(evt => new TimelineEventDto(
+                evt.Id, evt.EntityType, evt.EntityId, evt.EventType,
+                evt.EventDescription, null, evt.ActorDisplayName ?? "Unknown User", evt.OccurredAt))
+            .ToList();
+
+        var accountName = string.IsNullOrWhiteSpace(renewal.AccountDisplayNameAtLink)
+            ? renewal.Account.StableDisplayName
+            : renewal.AccountDisplayNameAtLink;
+
+        var dto = new RenewalCompanionContextDto(
+            renewal.Id.ToString(),
+            accountName,
+            renewal.CurrentStatus,
+            renewal.Broker.LegalName,
+            null,
+            renewal.PolicyExpirationDate.ToString("yyyy-MM-dd"),
+            canDraftOutreach,
+            timeline);
+        return (dto, null);
+    }
+
+    public async Task<(RenewalOutreachDraftResponseDto? Dto, string? ErrorCode, string? ErrorDetail)> PersistOutreachDraftAsync(
+        Guid renewalId,
+        RenewalOutreachDraftRequestDto dto,
+        ICurrentUserService user,
+        CancellationToken ct = default)
+    {
+        var renewal = await renewalRepo.GetByIdWithRelationsAsync(renewalId, ct);
+        if (renewal is null || !CanReadRenewal(user, renewal))
+            return (null, "not_found", null);
+
+        // Drafting requires a live-zone renewal; it does NOT transition (that is mock-send).
+        if (renewal.CurrentStatus is not ("Identified" or "Outreach"))
+            return (null, "invalid_state", null);
+
+        var contentError = OutreachContentGuard.Validate(dto.DraftBody);
+        if (contentError is not null)
+            return (null, "content_constraint", contentError);
+
+        var now = DateTime.UtcNow;
+        var evt = new ActivityTimelineEvent
+        {
+            EntityType = "Renewal",
+            EntityId = renewal.Id,
+            EventType = "RenewalOutreachDrafted",
+            EventDescription = "AI-generated outreach draft (InternalOnly)",
+            BrokerDescription = null, // InternalOnly — excluded from BrokerUser responses.
+            ActorUserId = user.UserId,
+            ActorDisplayName = user.DisplayName,
+            OccurredAt = now,
+            EventPayloadJson = JsonSerializer.Serialize(new
+            {
+                label = dto.Label ?? "AI-generated draft",
+                internalOnly = true,
+                draftBody = dto.DraftBody,
+                model = dto.Provenance.Model,
+                promptId = dto.Provenance.PromptId,
+                promptVersion = dto.Provenance.PromptVersion,
+                contentHash = dto.Provenance.ContentHash,
+                agentRunId = dto.Provenance.AgentRunId,
+            }),
+        };
+
+        await timelineRepo.AddEventAsync(evt, ct);
+        await unitOfWork.CommitAsync(ct);
+
+        return (new RenewalOutreachDraftResponseDto(evt.Id, renewal.Id, true), null, null);
+    }
+
+    public async Task<(RenewalOutreachMockSendResponseDto? Dto, string? ErrorCode, string? ErrorDetail)> OutreachMockSendAsync(
+        Guid renewalId,
+        RenewalOutreachMockSendRequestDto dto,
+        uint expectedRowVersion,
+        ICurrentUserService user,
+        CancellationToken ct = default)
+    {
+        var renewal = await renewalRepo.GetByIdWithRelationsAsync(renewalId, ct);
+        if (renewal is null || !CanReadRenewal(user, renewal))
+            return (null, "not_found", null);
+
+        if (renewal.RowVersion != expectedRowVersion)
+            return (null, "precondition_failed", null);
+
+        // Defense in depth behind the renewal:draft_outreach Casbin gate: Identified->Outreach is
+        // permitted for the Underwriter (and Admin) ONLY on this mock-send path (ADR-028 §3).
+        var transitionError = WorkflowStateMachine.ValidateOutreachMockSendTransition(
+            renewal.CurrentStatus, "Outreach", user.Roles);
+        if (transitionError is not null)
+            return (null, transitionError, null);
+
+        var contentError = OutreachContentGuard.Validate(dto.FinalDraftBody);
+        if (contentError is not null)
+            return (null, "content_constraint", contentError);
+
+        var now = DateTime.UtcNow;
+        var fromState = renewal.CurrentStatus;
+        renewal.CurrentStatus = "Outreach";
+        renewal.UpdatedAt = now;
+        renewal.UpdatedByUserId = user.UserId;
+        renewal.RowVersion = expectedRowVersion;
+
+        var transition = new WorkflowTransition
+        {
+            WorkflowType = "Renewal",
+            EntityId = renewal.Id,
+            FromState = fromState,
+            ToState = "Outreach",
+            Reason = "Outreach mock-send (simulated delivery)",
+            ActorUserId = user.UserId,
+            OccurredAt = now,
+        };
+
+        await transitionRepo.AddAsync(transition, ct);
+        await renewalRepo.UpdateAsync(renewal, ct);
+
+        // "sent (simulated)" — NO SMTP/transport is invoked on this path (delivery is faked).
+        var sentEvent = new ActivityTimelineEvent
+        {
+            EntityType = "Renewal",
+            EntityId = renewal.Id,
+            EventType = "RenewalOutreachMockSent",
+            EventDescription = "Outreach sent (simulated) — no email dispatched",
+            BrokerDescription = null,
+            ActorUserId = user.UserId,
+            ActorDisplayName = user.DisplayName,
+            OccurredAt = now,
+            EventPayloadJson = JsonSerializer.Serialize(new
+            {
+                simulated = true,
+                draftTimelineEventId = dto.DraftTimelineEventId,
+                model = dto.Provenance.Model,
+                promptId = dto.Provenance.PromptId,
+                promptVersion = dto.Provenance.PromptVersion,
+                contentHash = dto.Provenance.ContentHash,
+                agentRunId = dto.Provenance.AgentRunId,
+            }),
+        };
+        await timelineRepo.AddEventAsync(sentEvent, ct);
+
+        try
+        {
+            await unitOfWork.CommitAsync(ct);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return (null, "precondition_failed", null);
+        }
+
+        return (new RenewalOutreachMockSendResponseDto(MapTransition(transition), sentEvent.Id), null, null);
+    }
+
     private async Task<RenewalListItemDto> MapListItemAsync(Renewal renewal, CancellationToken ct)
     {
         var urgency = await ComputeUrgencyAsync(renewal.CurrentStatus, renewal.PolicyExpirationDate, renewal.LineOfBusiness, ct);

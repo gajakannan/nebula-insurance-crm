@@ -1,0 +1,18 @@
+ERROR action_context_wrong_feature_fails: action-context.md is missing required heading(s): Run Identity, Inputs, Assumptions, Scope Boundaries, Lifecycle Stage
+ERROR artifact_trace_missing_global_ref_fails: artifact-trace.md is missing required heading(s): Artifacts Read, Artifacts Created Or Updated, Generated Evidence, External Or Global Evidence References, Omissions And Waivers
+ERROR missing_g2_fails: g2-self-review.md is missing required heading(s): Scope Review, Acceptance Criteria Review, Implementation Risks, Validation Evidence
+ERROR signoff_ledger_disagrees_fails: signoff-ledger.md is missing required heading(s): Required Role Matrix, Current Signoff State, Recommendation Acceptances, Waivers And Omissions
+ERROR missing_pm_closeout_fails: pm-closeout.md is missing required heading(s): Final Story Status, Archive Decision, Deferred Follow-ups, Recommendation Acceptances, Tracker Updates, Validator Results
+ERROR missing_readme_heading_fails: kg-reconciliation.md is missing required heading(s): Binding Delta, Canonical Nodes, Validator Results, Handoff to Closeout
+ERROR lifecycle_gates_missing_exit_code_fails: lifecycle-gates.log is missing the Exit Code structure
+ERROR manifest_role_results_mismatch_fails: role_results['DevOps'].required_artifacts must include ['g1-runtime-preflight.md', 'deployability-check.md']
+ERROR changed_paths_missing_diff_entry_fails: scm.diff_artifact lists 106 path(s) not covered by manifest.changed_paths: ['engine/src/Nebula.Application/DTOs/SubmissionApprovalDecisionDto.cs', 'engine/src/Nebula.Application/DTOs/SubmissionArchiveRequestDto.cs', 'engine/src/Nebula.Application/DTOs/SubmissionBindRequestDto.cs', 'engine/src/Nebula.Application/DTOs/SubmissionDto.cs', 'engine/src/Nebula.Application/DTOs/SubmissionListItemDto.cs']
+ERROR artifact_missing_fails: coverage-report.md artifact reference '`artifacts/coverage/backend-workflow-coverage.cobertura.xml`.' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-30-6187bd30/artifacts/coverage/backend-workflow-coverage.cobertura.xml`.'
+ERROR coverage_claim_without_artifact_fails: coverage-report.md references '`artifacts/coverage/backend-workflow-coverage.cobertura.xml`.' but the artifact is missing
+ERROR artifact_missing_fails: coverage-report.md artifact reference '`artifacts/coverage/frontend-submissions/`,' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-30-6187bd30/artifacts/coverage/frontend-submissions/`,'
+ERROR coverage_claim_without_artifact_fails: coverage-report.md references '`artifacts/coverage/frontend-submissions/`,' but the artifact is missing
+ERROR artifact_missing_fails: test-execution-report.md artifact reference '`artifacts/test-results/f0019-dotnet/f0019-workflow.trx`.' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-30-6187bd30/artifacts/test-results/f0019-dotnet/f0019-workflow.trx`.'
+ERROR test_results_reference_missing_fails: test-execution-report.md references '`artifacts/test-results/f0019-dotnet/f0019-workflow.trx`.' but the artifact is missing
+ERROR artifact_missing_fails: security-review-report.md artifact reference '`artifacts/security/gitleaks-availability.txt`.' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-30-6187bd30/artifacts/security/gitleaks-availability.txt`.'
+ERROR security_scan_reference_missing_fails: security-review-report.md references '`artifacts/security/gitleaks-availability.txt`.' but the artifact is missing
+Summary: validated=0, skipped_pre_contract_archived=0, skipped_active_done_pre_contract=0, skipped_retired_abandoned=0, skipped_retired_superseded=0

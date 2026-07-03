@@ -16,6 +16,10 @@ public static class RenewalEndpoints
             .RequireAuthorization();
 
         group.MapGet("/", ListRenewals);
+        group.MapGet("/needs-attention", ListNeedsAttention);
+        group.MapGet("/{renewalId:guid}/companion-context", GetCompanionContext);
+        group.MapPost("/{renewalId:guid}/outreach-draft", PostOutreachDraft);
+        group.MapPost("/{renewalId:guid}/outreach-mock-send", PostOutreachMockSend);
         group.MapPost("/", CreateRenewal);
         group.MapGet("/{renewalId:guid}", GetRenewal);
         group.MapPut("/{renewalId:guid}/lob-attributes", PutLobAttributes);
@@ -252,6 +256,120 @@ public static class RenewalEndpoints
             "policy_denied" => ProblemDetailsHelper.PolicyDenied(),
             "precondition_failed" => ProblemDetailsHelper.PreconditionFailed("renewal"),
             "missing_transition_prerequisite" => ProblemDetailsHelper.MissingTransitionPrerequisite(missingItems ?? []),
+            _ => Results.Created($"/renewals/{renewalId}/transitions", result),
+        };
+    }
+
+    private static async Task<IResult> ListNeedsAttention(
+        int? withinDays,
+        RenewalService svc,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        CancellationToken ct)
+    {
+        if (!await HasAccessAsync(user, authz, "renewal", "read"))
+            return ProblemDetailsHelper.PolicyDenied();
+
+        var window = withinDays ?? 90;
+        if (window < 1 || window > 365)
+        {
+            return ProblemDetailsHelper.ValidationError(new Dictionary<string, string[]>
+            {
+                ["withinDays"] = ["withinDays must be between 1 and 365."],
+            });
+        }
+
+        var items = await svc.GetNeedsAttentionAsync(window, user, authz, ct);
+        return Results.Ok(new RenewalNeedsAttentionResponse(items));
+    }
+
+    private static async Task<IResult> GetCompanionContext(
+        Guid renewalId,
+        RenewalService svc,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        CancellationToken ct)
+    {
+        if (!await HasAccessAsync(user, authz, "renewal", "read"))
+            return ProblemDetailsHelper.PolicyDenied();
+
+        var (dto, error) = await svc.GetCompanionContextAsync(renewalId, user, authz, ct);
+        return error switch
+        {
+            "not_found" => ProblemDetailsHelper.NotFound("Renewal", renewalId),
+            _ => Results.Ok(dto),
+        };
+    }
+
+    private static async Task<IResult> PostOutreachDraft(
+        Guid renewalId,
+        RenewalOutreachDraftRequestDto dto,
+        RenewalService svc,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        CancellationToken ct)
+    {
+        if (!await HasAccessAsync(user, authz, "renewal", "draft_outreach"))
+            return ProblemDetailsHelper.PolicyDenied();
+
+        if (dto?.Provenance is null || string.IsNullOrWhiteSpace(dto.DraftBody) || dto.DraftBody.Length > 8000)
+        {
+            return ProblemDetailsHelper.ValidationError(new Dictionary<string, string[]>
+            {
+                ["draft_body"] = ["draft_body (1..8000 chars) and provenance are required."],
+            });
+        }
+
+        var (result, error, detail) = await svc.PersistOutreachDraftAsync(renewalId, dto, user, ct);
+        return error switch
+        {
+            "not_found" => ProblemDetailsHelper.NotFound("Renewal", renewalId),
+            "invalid_state" => Results.Problem(
+                title: "Invalid renewal state",
+                detail: "An outreach draft requires an Identified or Outreach renewal.",
+                statusCode: 409),
+            "content_constraint" => Results.Problem(
+                title: "Draft content not allowed",
+                detail: detail ?? "Draft must not include premium/quote/coverage-terms/binding language.",
+                statusCode: 422),
+            _ => Results.Created($"/renewals/{renewalId}/timeline", result),
+        };
+    }
+
+    private static async Task<IResult> PostOutreachMockSend(
+        Guid renewalId,
+        RenewalOutreachMockSendRequestDto dto,
+        RenewalService svc,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        HttpContext httpContext,
+        CancellationToken ct)
+    {
+        if (!await HasAccessAsync(user, authz, "renewal", "draft_outreach"))
+            return ProblemDetailsHelper.PolicyDenied();
+
+        if (!TryParseExpectedRowVersion(httpContext, out var rowVersion))
+            return ProblemDetailsHelper.PreconditionFailed("renewal");
+
+        if (dto?.Provenance is null || string.IsNullOrWhiteSpace(dto.FinalDraftBody) || dto.FinalDraftBody.Length > 8000)
+        {
+            return ProblemDetailsHelper.ValidationError(new Dictionary<string, string[]>
+            {
+                ["final_draft_body"] = ["final_draft_body (1..8000 chars) and provenance are required."],
+            });
+        }
+
+        var (result, error, detail) = await svc.OutreachMockSendAsync(renewalId, dto, rowVersion, user, ct);
+        return error switch
+        {
+            "not_found" => ProblemDetailsHelper.NotFound("Renewal", renewalId),
+            "precondition_failed" => ProblemDetailsHelper.PreconditionFailed("renewal"),
+            "policy_denied" => ProblemDetailsHelper.PolicyDenied(),
+            "invalid_transition" => ProblemDetailsHelper.InvalidTransition("current", "Outreach"),
+            "content_constraint" => ProblemDetailsHelper.ValidationError(new Dictionary<string, string[]>
+            {
+                ["final_draft_body"] = [detail ?? "Content not allowed."],
+            }),
             _ => Results.Created($"/renewals/{renewalId}/transitions", result),
         };
     }

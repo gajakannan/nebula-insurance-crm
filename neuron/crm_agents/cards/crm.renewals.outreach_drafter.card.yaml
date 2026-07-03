@@ -1,0 +1,24 @@
+# Renewal outreach drafter — goal agent (F0038-S0005/S0006). Generate-on-action only.
+# Persists the draft engine-first (ActivityTimelineEvent) then writes an idempotent
+# Neuron record; mock-send commits Identified->Outreach. Calls engine as the user
+# (auth_mode: user_token); the engine enforces renewal:draft_outreach.
+card_id: crm.renewals.outreach_drafter
+card_version: 1.0.0
+kind: goal_agent
+name: Renewal Outreach Drafter
+description: >-
+  Generates a renewal outreach draft on explicit action, persists it engine-first, and
+  performs the mock-send (Identified->Outreach, fake SMTP). Content guard forbids
+  premium/quote/terms/binding language.
+active: true
+public: false
+auth_mode: user_token
+accepted_output_modes: [app, text, actions, status]
+capabilities:
+  - skill_id: draft_outreach
+    description: Generate + persist an outreach draft (no state transition).
+  - skill_id: mock_send
+    description: Commit Identified->Outreach and fake SMTP delivery.
+tools:
+  - engine.renewals.outreach_draft
+  - engine.renewals.outreach_mock_send

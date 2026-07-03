@@ -1,0 +1,32 @@
+
+ RUN  v2.1.9 /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/experience
+      Coverage enabled with v8
+
+ ❯ src/features/session-continuity/tests/sessionTelemetry.test.ts (4 tests | 1 failed) 23ms
+   × session continuity telemetry > persists and drains deferred failure-class events by user 4ms
+     → expected "spy" to be called at least once
+ ✓ src/features/auth/tests/useSessionTeardown.test.tsx (11 tests) 77ms
+ ✓ src/features/session-continuity/tests/sessionContinuity.smoke.test.tsx (2 tests) 52ms
+ ✓ src/features/auth/tests/LoginPage.test.tsx (7 tests) 196ms
+ ✓ src/services/api.test.ts (12 tests) 177ms
+ ✓ src/pages/tests/AuthCallbackPage.test.tsx (9 tests) 364ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/session-continuity/tests/sessionTelemetry.test.ts > session continuity telemetry > persists and drains deferred failure-class events by user
+AssertionError: expected "spy" to be called at least once
+ ❯ src/features/session-continuity/tests/sessionTelemetry.test.ts:98:23
+     96|     await drainDeferredEvents(currentUser.profile.sub)
+     97| 
+     98|     expect(fetchMock).toHaveBeenCalled()
+       |                       ^
+     99|     expect(window.localStorage.length).toBe(0)
+    100|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 44 passed (45)
+   Start at  08:48:25
+   Duration  3.00s (transform 575ms, setup 2.70s, collect 646ms, tests 890ms, environment 2.01s, prepare 359ms)
+

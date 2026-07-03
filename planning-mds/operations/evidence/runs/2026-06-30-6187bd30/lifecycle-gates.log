@@ -1,0 +1,61 @@
+# F0019 Lifecycle Gates
+
+## Command
+
+See per-gate command entries below and `commands.log`.
+
+## Stage
+
+G0 through G8 remediation/revalidation.
+
+## Exit Code
+
+Exit Code: see per-gate entries; final G6 validator rerun is recorded after this package update.
+
+## Result
+
+See per-gate result values below.
+
+## Output References
+
+Primary output references are `commands.log` and validator artifacts under `artifacts/test-results/`.
+
+## Skipped Gates
+
+None.
+
+## G0 Assembly Plan Validation
+
+PASS - historical assembly plan accepted for remediation context.
+
+## G1 Runtime Preflight
+
+PASS - current workspace available; backend and frontend commands identified.
+
+## G2 Self Review
+
+PASS - package is scoped to remediation/revalidation only.
+
+## G3 Quality Evidence
+
+PASS - focused backend and frontend tests captured under run-local artifacts.
+
+## G4 Deployability
+
+PASS - backend build and frontend direct build captured.
+
+## G5 Signoff
+
+PASS - current tracker signoff provenance mirrored in `signoff-ledger.md`.
+
+## G6 Candidate Evidence Validation
+
+PENDING - populated after scoped validation command.
+
+## G7 KG Reconciliation
+
+PASS - remediation does not alter KG nodes; prior KG link retained.
+
+## G8 PM Closeout
+
+PENDING - populated after final validation and latest-run promotion.

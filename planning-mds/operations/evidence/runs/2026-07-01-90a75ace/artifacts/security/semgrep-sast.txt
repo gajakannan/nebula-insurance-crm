@@ -1,0 +1,19 @@
+SAST — semgrep (Docker image semgrep/semgrep:latest, arm64) — run 2026-07-02
+Rulesets: p/python p/typescript p/csharp p/security-audit
+Targets: F0038 source (neuron/app, neuron/crm_agents, experience/src/features/neuron, engine/src/Nebula.Api {Endpoints,Services,Models,Helpers,Program.cs})
+Full JSON: semgrep-sast.json
+
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 0 (0 blocking)
+ • Rules run: 315
+ • Targets scanned: 96
+ • Parsed lines: ~99.0%
+ • Scan was limited to files tracked by git
+ • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
+Ran 315 rules on 96 files: 0 findings.
+(need more rules? `semgrep login` for additional free Semgrep Registry rules)
+
+If Semgrep missed a finding, please send us feedback to let us know!
+See https://semgrep.dev/docs/reporting-false-negatives/

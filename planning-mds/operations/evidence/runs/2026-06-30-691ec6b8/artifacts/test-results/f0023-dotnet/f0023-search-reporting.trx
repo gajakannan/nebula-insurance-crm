@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="4fc51f51-1b83-4bea-9d03-1140576da1e2" name="@myStarPort-01 2026-07-01 08:38:08" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-07-01T08:38:08.6044482-04:00" queuing="2026-07-01T08:38:08.6044485-04:00" start="2026-07-01T08:38:04.3814254-04:00" finish="2026-07-01T08:38:10.6677143-04:00" />
+  <TestSettings name="default" id="476f11bd-0ba0-4e78-a623-5eb6830e393f">
+    <Deployment runDeploymentRoot="_myStarPort-01_2026-07-01_08_38_08" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="6da69cea-72ca-4176-ab0d-dba4f83f3ed4" testId="45db72e6-f763-23cb-3cae-37bac0b208ca" testName="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.SetDefaultAsync_ClearsPriorDefault_AndAudits" computerName="myStarPort-01" duration="00:00:00.0019423" startTime="2026-07-01T08:38:08.5765190-04:00" endTime="2026-07-01T08:38:08.5765642-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6da69cea-72ca-4176-ab0d-dba4f83f3ed4" />
+    <UnitTestResult executionId="c1901d37-8340-4943-a429-b6f2ffb51c9e" testId="5d10b618-b582-a1af-1dd5-8df6a2cb2c91" testName="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.GetAsync_PersonalByNonOwner_ReturnsNull" computerName="myStarPort-01" duration="00:00:00.0013082" startTime="2026-07-01T08:38:08.5750013-04:00" endTime="2026-07-01T08:38:08.5750416-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c1901d37-8340-4943-a429-b6f2ffb51c9e" />
+    <UnitTestResult executionId="145b710b-9295-48ff-b214-6fb9b9c68270" testId="b70c49e2-c3b1-ed60-1693-39b269103277" testName="Nebula.Tests.Unit.SearchReporting.OperationalReportServiceTests.GetWorkflowAgingAsync_GroupsBandsAndOrders" computerName="myStarPort-01" duration="00:00:00.0116700" startTime="2026-07-01T08:38:08.5730761-04:00" endTime="2026-07-01T08:38:08.5731416-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="145b710b-9295-48ff-b214-6fb9b9c68270" />
+    <UnitTestResult executionId="10c58b18-efa3-490c-a5cd-6e174e006eec" testId="2631b7b5-5897-f350-4d77-27beecbe12fc" testName="Nebula.Tests.Unit.SearchReporting.SearchServiceTests.SearchAsync_MapsResultsAndComputesPaging" computerName="myStarPort-01" duration="00:00:00.0310437" startTime="2026-07-01T08:38:08.5302466-04:00" endTime="2026-07-01T08:38:08.5459341-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="10c58b18-efa3-490c-a5cd-6e174e006eec" />
+    <UnitTestResult executionId="305c11b1-34bc-462a-bae6-b81947d18e83" testId="3ec90948-2d7d-2101-70a9-354f3a8b28fe" testName="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.CreateAsync_TeamByNonManager_ReturnsScopeDenied" computerName="myStarPort-01" duration="00:00:00.0007194" startTime="2026-07-01T08:38:08.5745862-04:00" endTime="2026-07-01T08:38:08.5746268-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="305c11b1-34bc-462a-bae6-b81947d18e83" />
+    <UnitTestResult executionId="0d7cbace-4c97-4613-98fb-abef58fe661b" testId="1047b917-58e3-8b71-a21c-b824183693ea" testName="Nebula.Tests.Unit.SearchReporting.SearchServiceTests.SearchAsync_ScopedRole_NotSeeAll_PassesRegions" computerName="myStarPort-01" duration="00:00:00.0005847" startTime="2026-07-01T08:38:08.5467993-04:00" endTime="2026-07-01T08:38:08.5468906-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0d7cbace-4c97-4613-98fb-abef58fe661b" />
+    <UnitTestResult executionId="ecbc6889-47c4-4c27-b685-8dbac18136a5" testId="b64b9bb2-479b-dec2-c8a3-db4240a12cd7" testName="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.UpdateAsync_StaleRowVersion_ReturnsPreconditionFailed" computerName="myStarPort-01" duration="00:00:00.0115099" startTime="2026-07-01T08:38:08.5441919-04:00" endTime="2026-07-01T08:38:08.5442558-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ecbc6889-47c4-4c27-b685-8dbac18136a5" />
+    <UnitTestResult executionId="66bd7945-e5c1-43fb-85a3-d65629650d02" testId="41a545ec-db60-64b2-fa01-899a31c5ed72" testName="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.CreateAsync_TeamWithoutScope_ReturnsScopeRequired" computerName="myStarPort-01" duration="00:00:00.0151745" startTime="2026-07-01T08:38:08.5303373-04:00" endTime="2026-07-01T08:38:08.5314194-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="66bd7945-e5c1-43fb-85a3-d65629650d02" />
+    <UnitTestResult executionId="46111e5f-c3bb-4de8-886f-d794bba53309" testId="83fdeba1-826e-2f43-c2fc-a7a387347d17" testName="Nebula.Tests.Unit.SearchReporting.SearchProjectionServiceTests.BackfillAsync_IndexesPolicyNumberWithAccountRegionAndProducerOwner" computerName="myStarPort-01" duration="00:00:01.2570096" startTime="2026-07-01T08:38:08.5267270-04:00" endTime="2026-07-01T08:38:09.7678287-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="46111e5f-c3bb-4de8-886f-d794bba53309" />
+    <UnitTestResult executionId="7c429526-ea29-4c8b-b622-1813e7b7f88d" testId="850bfb93-ebc6-1901-6b3c-ff297af7e848" testName="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.UpdateAsync_ByOwner_UpdatesAndAudits" computerName="myStarPort-01" duration="00:00:00.0006356" startTime="2026-07-01T08:38:08.5770734-04:00" endTime="2026-07-01T08:38:08.5771174-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7c429526-ea29-4c8b-b622-1813e7b7f88d" />
+    <UnitTestResult executionId="14e70967-2c77-4623-9c56-895819654255" testId="f575c1ca-ae1f-772d-ea4a-219402fe4737" testName="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.UpdateAsync_ByNonOwnerNonManager_ReturnsPolicyDenied" computerName="myStarPort-01" duration="00:00:00.0004002" startTime="2026-07-01T08:38:08.5754256-04:00" endTime="2026-07-01T08:38:08.5754645-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="14e70967-2c77-4623-9c56-895819654255" />
+    <UnitTestResult executionId="00562ec1-9f1e-4cd5-afee-942274d2b310" testId="6c0ba8aa-0b22-4103-0519-c81241da300f" testName="Nebula.Tests.Unit.SearchReporting.SearchServiceTests.SearchAsync_BroadRole_GetsSeeAllVisibility" computerName="myStarPort-01" duration="00:00:00.0003525" startTime="2026-07-01T08:38:08.5473207-04:00" endTime="2026-07-01T08:38:08.5473629-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="00562ec1-9f1e-4cd5-afee-942274d2b310" />
+    <UnitTestResult executionId="f5575e5d-8440-4ff8-a642-83eb5e9d77e0" testId="07dda35d-a92f-2f87-3fdb-98d81fe7c827" testName="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.ArchiveAsync_ByOwner_SetsArchivedAndAudits" computerName="myStarPort-01" duration="00:00:00.0021849" startTime="2026-07-01T08:38:08.5740513-04:00" endTime="2026-07-01T08:38:08.5741075-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f5575e5d-8440-4ff8-a642-83eb5e9d77e0" />
+    <UnitTestResult executionId="0a430029-2f35-4c4f-a7b6-a2293292e71f" testId="42159014-473a-4a6e-f830-70ed748009b6" testName="Nebula.Tests.Unit.SearchReporting.OperationalReportServiceTests.GetWorkloadAsync_ScopedRole_PassesNonSeeAllVisibility" computerName="myStarPort-01" duration="00:00:00.0008182" startTime="2026-07-01T08:38:08.5479688-04:00" endTime="2026-07-01T08:38:08.5489501-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0a430029-2f35-4c4f-a7b6-a2293292e71f" />
+    <UnitTestResult executionId="41d59faf-1853-43a7-9784-3150b449875a" testId="13241dfe-21b8-01a8-fd29-a37403b20390" testName="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.CreateAsync_TeamByManagerInAdministeredRegion_Succeeds" computerName="myStarPort-01" duration="00:00:00.0005513" startTime="2026-07-01T08:38:08.5789557-04:00" endTime="2026-07-01T08:38:08.5793583-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="41d59faf-1853-43a7-9784-3150b449875a" />
+    <UnitTestResult executionId="bded721c-c5dd-4d0e-81ed-d70200dafc32" testId="0db1ec68-2ca4-c427-dacd-f283b26d6ddc" testName="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.CreateAsync_PersonalValid_PersistsAndAudits" computerName="myStarPort-01" duration="00:00:00.0266523" startTime="2026-07-01T08:38:08.5468524-04:00" endTime="2026-07-01T08:38:08.5735062-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bded721c-c5dd-4d0e-81ed-d70200dafc32" />
+    <UnitTestResult executionId="77594cc0-4e21-4b84-9541-e3f4995e6d4c" testId="20eab006-afdf-c62b-ac6b-69e201506bc6" testName="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.CreateAsync_DuplicateName_ReturnsDuplicateError" computerName="myStarPort-01" duration="00:00:00.0003688" startTime="2026-07-01T08:38:08.5758423-04:00" endTime="2026-07-01T08:38:08.5758845-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="77594cc0-4e21-4b84-9541-e3f4995e6d4c" />
+    <UnitTestResult executionId="4cbe9785-e24c-4ad6-b49f-eb0ca0b1850d" testId="d37378be-509d-2ab0-631e-554c1aa6a1e8" testName="Nebula.Tests.Unit.SearchReporting.OperationalReportServiceTests.GetWorkloadAsync_ComputesCounts" computerName="myStarPort-01" duration="00:00:00.0327667" startTime="2026-07-01T08:38:08.5303586-04:00" endTime="2026-07-01T08:38:08.5475770-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4cbe9785-e24c-4ad6-b49f-eb0ca0b1850d" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.CreateAsync_TeamWithoutScope_ReturnsScopeRequired" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="41a545ec-db60-64b2-fa01-899a31c5ed72">
+      <Execution id="66bd7945-e5c1-43fb-85a3-d65629650d02" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests" name="CreateAsync_TeamWithoutScope_ReturnsScopeRequired" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.CreateAsync_DuplicateName_ReturnsDuplicateError" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="20eab006-afdf-c62b-ac6b-69e201506bc6">
+      <Execution id="77594cc0-4e21-4b84-9541-e3f4995e6d4c" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests" name="CreateAsync_DuplicateName_ReturnsDuplicateError" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SearchServiceTests.SearchAsync_BroadRole_GetsSeeAllVisibility" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="6c0ba8aa-0b22-4103-0519-c81241da300f">
+      <Execution id="00562ec1-9f1e-4cd5-afee-942274d2b310" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SearchServiceTests" name="SearchAsync_BroadRole_GetsSeeAllVisibility" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.SetDefaultAsync_ClearsPriorDefault_AndAudits" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="45db72e6-f763-23cb-3cae-37bac0b208ca">
+      <Execution id="6da69cea-72ca-4176-ab0d-dba4f83f3ed4" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests" name="SetDefaultAsync_ClearsPriorDefault_AndAudits" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.OperationalReportServiceTests.GetWorkloadAsync_ComputesCounts" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="d37378be-509d-2ab0-631e-554c1aa6a1e8">
+      <Execution id="4cbe9785-e24c-4ad6-b49f-eb0ca0b1850d" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.OperationalReportServiceTests" name="GetWorkloadAsync_ComputesCounts" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.ArchiveAsync_ByOwner_SetsArchivedAndAudits" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="07dda35d-a92f-2f87-3fdb-98d81fe7c827">
+      <Execution id="f5575e5d-8440-4ff8-a642-83eb5e9d77e0" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests" name="ArchiveAsync_ByOwner_SetsArchivedAndAudits" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.CreateAsync_PersonalValid_PersistsAndAudits" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="0db1ec68-2ca4-c427-dacd-f283b26d6ddc">
+      <Execution id="bded721c-c5dd-4d0e-81ed-d70200dafc32" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests" name="CreateAsync_PersonalValid_PersistsAndAudits" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.UpdateAsync_StaleRowVersion_ReturnsPreconditionFailed" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="b64b9bb2-479b-dec2-c8a3-db4240a12cd7">
+      <Execution id="ecbc6889-47c4-4c27-b685-8dbac18136a5" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests" name="UpdateAsync_StaleRowVersion_ReturnsPreconditionFailed" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SearchProjectionServiceTests.BackfillAsync_IndexesPolicyNumberWithAccountRegionAndProducerOwner" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="83fdeba1-826e-2f43-c2fc-a7a387347d17">
+      <Execution id="46111e5f-c3bb-4de8-886f-d794bba53309" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SearchProjectionServiceTests" name="BackfillAsync_IndexesPolicyNumberWithAccountRegionAndProducerOwner" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.OperationalReportServiceTests.GetWorkflowAgingAsync_GroupsBandsAndOrders" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="b70c49e2-c3b1-ed60-1693-39b269103277">
+      <Execution id="145b710b-9295-48ff-b214-6fb9b9c68270" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.OperationalReportServiceTests" name="GetWorkflowAgingAsync_GroupsBandsAndOrders" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.UpdateAsync_ByOwner_UpdatesAndAudits" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="850bfb93-ebc6-1901-6b3c-ff297af7e848">
+      <Execution id="7c429526-ea29-4c8b-b622-1813e7b7f88d" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests" name="UpdateAsync_ByOwner_UpdatesAndAudits" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.CreateAsync_TeamByManagerInAdministeredRegion_Succeeds" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="13241dfe-21b8-01a8-fd29-a37403b20390">
+      <Execution id="41d59faf-1853-43a7-9784-3150b449875a" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests" name="CreateAsync_TeamByManagerInAdministeredRegion_Succeeds" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SearchServiceTests.SearchAsync_ScopedRole_NotSeeAll_PassesRegions" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="1047b917-58e3-8b71-a21c-b824183693ea">
+      <Execution id="0d7cbace-4c97-4613-98fb-abef58fe661b" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SearchServiceTests" name="SearchAsync_ScopedRole_NotSeeAll_PassesRegions" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SearchServiceTests.SearchAsync_MapsResultsAndComputesPaging" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="2631b7b5-5897-f350-4d77-27beecbe12fc">
+      <Execution id="10c58b18-efa3-490c-a5cd-6e174e006eec" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SearchServiceTests" name="SearchAsync_MapsResultsAndComputesPaging" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.CreateAsync_TeamByNonManager_ReturnsScopeDenied" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="3ec90948-2d7d-2101-70a9-354f3a8b28fe">
+      <Execution id="305c11b1-34bc-462a-bae6-b81947d18e83" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests" name="CreateAsync_TeamByNonManager_ReturnsScopeDenied" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.GetAsync_PersonalByNonOwner_ReturnsNull" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="5d10b618-b582-a1af-1dd5-8df6a2cb2c91">
+      <Execution id="c1901d37-8340-4943-a429-b6f2ffb51c9e" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests" name="GetAsync_PersonalByNonOwner_ReturnsNull" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests.UpdateAsync_ByNonOwnerNonManager_ReturnsPolicyDenied" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="f575c1ca-ae1f-772d-ea4a-219402fe4737">
+      <Execution id="14e70967-2c77-4623-9c56-895819654255" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.SavedViewServiceTests" name="UpdateAsync_ByNonOwnerNonManager_ReturnsPolicyDenied" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Unit.SearchReporting.OperationalReportServiceTests.GetWorkloadAsync_ScopedRole_PassesNonSeeAllVisibility" storage="/home/gajap/usandbox/repos/nebula/nebula-insurance-crm/engine/tests/nebula.tests/bin/debug/net10.0/nebula.tests.dll" id="42159014-473a-4a6e-f830-70ed748009b6">
+      <Execution id="0a430029-2f35-4c4f-a7b6-a2293292e71f" />
+      <TestMethod codeBase="/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Unit.SearchReporting.OperationalReportServiceTests" name="GetWorkloadAsync_ScopedRole_PassesNonSeeAllVisibility" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="45db72e6-f763-23cb-3cae-37bac0b208ca" executionId="6da69cea-72ca-4176-ab0d-dba4f83f3ed4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5d10b618-b582-a1af-1dd5-8df6a2cb2c91" executionId="c1901d37-8340-4943-a429-b6f2ffb51c9e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b70c49e2-c3b1-ed60-1693-39b269103277" executionId="145b710b-9295-48ff-b214-6fb9b9c68270" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2631b7b5-5897-f350-4d77-27beecbe12fc" executionId="10c58b18-efa3-490c-a5cd-6e174e006eec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3ec90948-2d7d-2101-70a9-354f3a8b28fe" executionId="305c11b1-34bc-462a-bae6-b81947d18e83" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1047b917-58e3-8b71-a21c-b824183693ea" executionId="0d7cbace-4c97-4613-98fb-abef58fe661b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b64b9bb2-479b-dec2-c8a3-db4240a12cd7" executionId="ecbc6889-47c4-4c27-b685-8dbac18136a5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="41a545ec-db60-64b2-fa01-899a31c5ed72" executionId="66bd7945-e5c1-43fb-85a3-d65629650d02" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="83fdeba1-826e-2f43-c2fc-a7a387347d17" executionId="46111e5f-c3bb-4de8-886f-d794bba53309" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="850bfb93-ebc6-1901-6b3c-ff297af7e848" executionId="7c429526-ea29-4c8b-b622-1813e7b7f88d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f575c1ca-ae1f-772d-ea4a-219402fe4737" executionId="14e70967-2c77-4623-9c56-895819654255" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6c0ba8aa-0b22-4103-0519-c81241da300f" executionId="00562ec1-9f1e-4cd5-afee-942274d2b310" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="07dda35d-a92f-2f87-3fdb-98d81fe7c827" executionId="f5575e5d-8440-4ff8-a642-83eb5e9d77e0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="42159014-473a-4a6e-f830-70ed748009b6" executionId="0a430029-2f35-4c4f-a7b6-a2293292e71f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="13241dfe-21b8-01a8-fd29-a37403b20390" executionId="41d59faf-1853-43a7-9784-3150b449875a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0db1ec68-2ca4-c427-dacd-f283b26d6ddc" executionId="bded721c-c5dd-4d0e-81ed-d70200dafc32" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="20eab006-afdf-c62b-ac6b-69e201506bc6" executionId="77594cc0-4e21-4b84-9541-e3f4995e6d4c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d37378be-509d-2ab0-631e-554c1aa6a1e8" executionId="4cbe9785-e24c-4ad6-b49f-eb0ca0b1850d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="18" executed="18" passed="18" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)
+[xUnit.net 00:00:00.09]   Discovering: Nebula.Tests
+[xUnit.net 00:00:00.18]   Discovered:  Nebula.Tests
+[xUnit.net 00:00:00.20]   Starting:    Nebula.Tests
+[xUnit.net 00:00:01.48]   Finished:    Nebula.Tests
+</StdOut>
+    </Output>
+    <CollectorDataEntries>
+      <Collector agentName="myStarPort-01" uri="datacollector://microsoft/CoverletCodeCoverage/1.0" collectorDisplayName="XPlat code coverage">
+        <UriAttachments>
+          <UriAttachment>
+            <A href="myStarPort-01/coverage.cobertura.xml"></A>
+          </UriAttachment>
+        </UriAttachments>
+      </Collector>
+    </CollectorDataEntries>
+  </ResultSummary>
+</TestRun>

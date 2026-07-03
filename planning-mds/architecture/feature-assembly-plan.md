@@ -2110,3 +2110,28 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 - F0023 uses PostgreSQL full-text search and read-side projection tables for MVP; no OpenSearch/Elasticsearch or new runtime service.
 - Saved views store reusable criteria only. Applying a view reruns current authorization and never grants access.
 - External broker/MGA users have no F0023 policy lines; search/reporting remains internal-only.
+
+---
+
+## F0038 - Neuron Day-at-a-Glance Shell (Renewals live + draft outreach + mock-send)
+
+**Added:** 2026-07-01 - Feature action Step 0 authored the feature-local implementation execution plan after Phase B architecture (ADR-027/028) completed during planning (plan run `2026-06-30-d1dd91f7`).
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0038-neuron-day-at-a-glance-shell/feature-assembly-plan.md) - build order, per-layer scope (engine `renewal:draft_outreach` + WorkflowStateMachine outreach exception + 5 endpoints; stateless `neuron/` FastAPI runtime with A2A-aligned orchestration, registries, `neuron.*` persistence; Day-at-a-Glance React shell), mutation traceability (outreach-draft + mock-send), Casbin enforcement, cross-store write consistency, and KG binding plan.
+
+### Dependencies
+
+| Dependency | Source | What F0038 Needs | Status |
+|------------|--------|------------------|--------|
+| Renewal pipeline + `Identified`/`Outreach` states + transition machinery | F0007 | Renewal records, workflow states, WorkflowStateMachine to extend | Done |
+| A2A orchestration foundation | ADR-027 | Internal A2A profile, YAML plans, registries, envelope mapping | Accepted |
+| Persistence + cross-store consistency + outreach authorization | ADR-028 | `neuron.*` schema, engine-first idempotent write, `renewal:draft_outreach` | Accepted |
+| Auth boundary | F0005/Casbin | Forwarded authentik token; engine enforces ABAC | Done |
+
+### Assembly Slice Order
+
+1. Engine endpoints + `renewal:draft_outreach` + WorkflowStateMachine outreach exception + migration.
+2. Neuron runtime + registries + YAML loader + `neuron.*` persistence + engine client + scope guard/classifier (mocked model).
+3. Neuron Renewals head + stub heads + outreach drafter + glance assembly + envelope + provenance/telemetry.
+4. Frontend Day-at-a-Glance shell + zone slots + registry renderer + draft editor + mock-send.
+5. QE cross-tier E2E + coverage + security scans; DevOps new `neuron` service runtime + deployability.

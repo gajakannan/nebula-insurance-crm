@@ -53,6 +53,72 @@ public class RenewalRepository(AppDbContext db) : IRenewalRepository
     public Task UpdateAsync(Renewal renewal, CancellationToken ct = default) =>
         Task.CompletedTask;
 
+    // Timeline event types that count as a broker-contact signal (F0038-S0003). The
+    // outreach events land in F0038-S0005/S0006; until then a renewal has no contact.
+    private static readonly string[] BrokerContactEventTypes = ["RenewalOutreachDrafted", "RenewalOutreachMockSent"];
+
+    public async Task<IReadOnlyList<RenewalNeedsAttentionRow>> ListNeedsAttentionAsync(
+        Guid callerUserId,
+        IReadOnlyList<string> callerRoles,
+        IReadOnlyList<string> callerRegions,
+        int withinDays,
+        CancellationToken ct = default)
+    {
+        // Reuse the exact row-level authorization scope the list read uses.
+        var scopeQuery = new RenewalListQuery(
+            callerUserId, callerRoles, callerRegions,
+            null, null, null, null, null, null, false, null, "policyExpirationDate", "asc", 1, 25);
+
+        var today = DateTime.UtcNow.Date;
+        var upperBound = today.AddDays(withinDays);
+
+        // Needs-attention rule: Identified/Outreach expiring before the window end (overdue
+        // included -> negative days-to-expiry), soonest first. We PROJECT the few fields the
+        // zone needs rather than materializing the scoped read's full Include graph, keeping
+        // the row set lean.
+        var projected = await GetScopedQuery(scopeQuery)
+            .Where(renewal =>
+                (renewal.CurrentStatus == "Identified" || renewal.CurrentStatus == "Outreach")
+                && renewal.PolicyExpirationDate < upperBound
+                && !renewal.IsDeleted)
+            .OrderBy(renewal => renewal.PolicyExpirationDate)
+            .ThenBy(renewal => renewal.AccountDisplayNameAtLink)
+            .Select(renewal => new
+            {
+                renewal.Id,
+                AccountName = string.IsNullOrEmpty(renewal.AccountDisplayNameAtLink)
+                    ? renewal.Account.StableDisplayName
+                    : renewal.AccountDisplayNameAtLink,
+                renewal.PolicyExpirationDate,
+                renewal.CurrentStatus,
+                BrokerName = renewal.Broker.LegalName,
+            })
+            .ToListAsync(ct);
+
+        if (projected.Count == 0)
+            return [];
+
+        var renewalIds = projected.Select(row => row.Id).ToList();
+        var latestContacts = await db.ActivityTimelineEvents
+            .Where(evt => evt.EntityType == "Renewal"
+                && renewalIds.Contains(evt.EntityId)
+                && BrokerContactEventTypes.Contains(evt.EventType))
+            .GroupBy(evt => evt.EntityId)
+            .Select(group => new { EntityId = group.Key, LastAt = group.Max(evt => evt.OccurredAt) })
+            .ToListAsync(ct);
+        var lastContactByRenewal = latestContacts.ToDictionary(entry => entry.EntityId, entry => entry.LastAt);
+
+        return projected
+            .Select(row => new RenewalNeedsAttentionRow(
+                row.Id,
+                row.AccountName,
+                row.PolicyExpirationDate,
+                row.CurrentStatus,
+                row.BrokerName,
+                lastContactByRenewal.TryGetValue(row.Id, out var contactAt) ? contactAt : null))
+            .ToList();
+    }
+
     private IQueryable<Renewal> GetScopedQuery(RenewalListQuery query)
     {
         var renewals = db.Renewals

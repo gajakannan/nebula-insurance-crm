@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0035",
+  "feature_slug": "session-continuity-and-token-refresh",
+  "run_id": "2026-06-30-bac66bac",
+  "status": "approved",
+  "recorded_on": "2026-07-01",
+  "contract_effective_date": "2026-06-30",
+  "feature_path_at_run_start": "planning-mds/features/archive/F0035-session-continuity-and-token-refresh",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0035-session-continuity-and-token-refresh",
+  "feature_state": "Archived",
+  "rerun_of": "2026-05-24-c92b16b6",
+  "changed_paths": [
+    ".gitignore",
+    "engine/src/Nebula.Api/Endpoints/SessionTelemetryEndpoints.cs",
+    "engine/src/Nebula.Api/Helpers/ProblemDetailsHelper.cs",
+    "engine/src/Nebula.Api/Models/SessionContinuityTelemetryModels.cs",
+    "engine/src/Nebula.Api/Program.cs",
+    "engine/src/Nebula.Api/Services/SessionContinuityTelemetryService.cs",
+    "engine/tests/Nebula.Tests/Integration/AuthProblemDetailsContractTests.cs",
+    "engine/tests/Nebula.Tests/Integration/SessionTelemetryEndpointTests.cs",
+    "engine/tests/Nebula.Tests/Integration/TestAuthHandler.cs",
+    "experience/src/App.tsx",
+    "experience/src/features/auth/authEvents.ts",
+    "experience/src/features/auth/oidcUserManager.ts",
+    "experience/src/features/auth/tests/LoginPage.test.tsx",
+    "experience/src/features/auth/tests/useSessionTeardown.test.tsx",
+    "experience/src/features/auth/useAuthEventHandler.ts",
+    "experience/src/features/auth/useSessionTeardown.ts",
+    "experience/src/features/session-continuity/IdleWarningModal.tsx",
+    "experience/src/features/session-continuity/SessionContinuityProvider.tsx",
+    "experience/src/features/session-continuity/authErrorClassifier.ts",
+    "experience/src/features/session-continuity/deferredTelemetryBuffer.ts",
+    "experience/src/features/session-continuity/dirtyFormRegistry.tsx",
+    "experience/src/features/session-continuity/dirtyFormRegistryContext.ts",
+    "experience/src/features/session-continuity/index.ts",
+    "experience/src/features/session-continuity/sessionRenewal.ts",
+    "experience/src/features/session-continuity/sessionRestore.ts",
+    "experience/src/features/session-continuity/sessionTelemetry.ts",
+    "experience/src/features/session-continuity/tests/IdleWarningModal.a11y.test.tsx",
+    "experience/src/features/session-continuity/tests/IdleWarningModal.test.tsx",
+    "experience/src/features/session-continuity/tests/authErrorClassifier.test.ts",
+    "experience/src/features/session-continuity/tests/sessionRenewal.test.ts",
+    "experience/src/features/session-continuity/tests/sessionRestore.test.ts",
+    "experience/src/features/session-continuity/tests/sessionTelemetry.test.ts",
+    "experience/src/features/session-continuity/tests/useIdleWarning.test.tsx",
+    "experience/src/features/session-continuity/useDirtyFormRegistry.ts",
+    "experience/src/features/session-continuity/useIdleWarning.ts",
+    "experience/src/mocks/policies.ts",
+    "experience/src/pages/AuthCallbackPage.tsx",
+    "experience/src/pages/LoginPage.tsx",
+    "experience/src/pages/tests/AuthCallbackPage.test.tsx",
+    "experience/src/services/api.test.ts",
+    "experience/src/services/api.ts",
+    "experience/vite.config.ts",
+    "planning-mds/BLUEPRINT.md",
+    "planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md",
+    "planning-mds/features/F0035-session-continuity-and-token-refresh/STATUS.md",
+    "planning-mds/features/REGISTRY.md",
+    "planning-mds/features/ROADMAP.md",
+    "planning-mds/features/STORY-INDEX.md",
+    "planning-mds/features/archive/F0035-session-continuity-and-token-refresh/F0035-S0001-silent-token-renewal.md",
+    "planning-mds/features/archive/F0035-session-continuity-and-token-refresh/F0035-S0002-idle-warning-modal.md",
+    "planning-mds/features/archive/F0035-session-continuity-and-token-refresh/F0035-S0003-forced-reauth-context-restore.md",
+    "planning-mds/features/archive/F0035-session-continuity-and-token-refresh/F0035-S0004-auth-error-semantics.md",
+    "planning-mds/features/archive/F0035-session-continuity-and-token-refresh/F0035-S0005-session-telemetry-events.md",
+    "planning-mds/features/archive/F0035-session-continuity-and-token-refresh/GETTING-STARTED.md",
+    "planning-mds/features/archive/F0035-session-continuity-and-token-refresh/PRD.md",
+    "planning-mds/features/archive/F0035-session-continuity-and-token-refresh/README.md",
+    "planning-mds/features/archive/F0035-session-continuity-and-token-refresh/STATUS.md",
+    "planning-mds/features/archive/F0035-session-continuity-and-token-refresh/feature-assembly-plan.md",
+    "planning-mds/knowledge-graph/canonical-nodes.yaml",
+    "planning-mds/knowledge-graph/code-index.yaml",
+    "planning-mds/knowledge-graph/coverage-report.yaml",
+    "planning-mds/knowledge-graph/feature-mappings.yaml",
+    "planning-mds/knowledge-graph/symbol-index.yaml",
+    "planning-mds/knowledge-graph/unbound-but-referenced.yaml",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/README.md",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/artifact-trace.md",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/artifacts/diffs/changed-files.txt",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/artifacts/feature-evidence-validation.json",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/code-review-report.md",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/commands.log",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/coverage-report.md",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/deployability-check.md",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/evidence-manifest.json",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/feature-action-execution.md",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/g1-runtime-preflight.md",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/g2-self-review.md",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/gate-decisions.md",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/lifecycle-gates.log",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/pm-closeout.md",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/security-review-report.md",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/signoff-ledger.md",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/test-execution-report.md",
+    "planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/test-plan.md",
+    "planning-mds/operations/evidence/features/F0035-session-continuity-and-token-refresh/latest-run.json"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feature/F0035-remediation-revalidation",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": false,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer",
+    "DevOps"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g2-self-review.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "signoff-ledger.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "candidate_evidence_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "feature-action-execution.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED",
+      "artifact": "pm-closeout.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md",
+    "scm_diff": "artifacts/diffs/changed-files.txt",
+    "backend_build_result": "artifacts/test-results/backend-build.txt",
+    "backend_test_attempt": "artifacts/test-results/backend-session-auth-tests.txt",
+    "backend_coverage": "artifacts/coverage/backend-session-auth-coverage.cobertura.xml",
+    "frontend_build_result": "artifacts/test-results/frontend-build-direct-binaries.txt",
+    "frontend_session_tests": "artifacts/test-results/frontend-session-continuity-tests-direct-rerun.txt",
+    "frontend_coverage_summary": "artifacts/coverage/frontend-session-continuity/coverage-summary.json",
+    "dotnet_dependency_scan": "artifacts/security/dependency-dotnet-vulnerable-escalated.txt",
+    "frontend_dependency_scan": "artifacts/security/dependency-pnpm-audit-escalated.txt",
+    "secrets_keyword_review": "artifacts/security/secrets-keyword-review.txt"
+  },
+  "role_results": {
+    "Quality Engineer": {
+      "required": true,
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "result": "PASS",
+      "reviewer": "Quality Engineer Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "result": "PASS",
+      "reviewer": "Code Reviewer Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "result": "PASS",
+      "reviewer": "Security Reviewer Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "security-review-report.md"
+    },
+    "DevOps": {
+      "required": true,
+      "required_artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ],
+      "result": "PASS",
+      "reviewer": "DevOps Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "deployability-check.md"
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": true,
+      "result": "FINDINGS",
+      "artifact": "artifacts/security/dependency-pnpm-audit-escalated.txt"
+    },
+    "secrets": {
+      "ran": true,
+      "result": "REVIEWED",
+      "artifact": "artifacts/security/secrets-keyword-review.txt"
+    },
+    "sast": {
+      "ran": false,
+      "result": "NOT RUN",
+      "waiver": {
+        "reason": "Semgrep was not installed in the execution environment; evidence remediation did not change product runtime code.",
+        "owner": "Security Reviewer Agent",
+        "approved_on": "2026-07-01"
+      }
+    },
+    "dast": {
+      "ran": false,
+      "result": "NOT RUN",
+      "waiver": {
+        "reason": "No deployed preview or live target was available for this evidence remediation run.",
+        "owner": "Security Reviewer Agent",
+        "approved_on": "2026-07-01"
+      }
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {}
+}

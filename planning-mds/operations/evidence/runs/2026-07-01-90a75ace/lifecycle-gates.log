@@ -1,0 +1,98 @@
+# F0038 Lifecycle Gates — run 2026-07-01-90a75ace
+
+## Command
+
+See per-gate command entries below and `commands.log` (JSON Lines). Lifecycle validator
+invocations (tracker, story-index, KG, template) are appended at G6 and closeout.
+
+## Stage
+
+G0 through G8, `feature` action, clean mode.
+
+## Exit Code
+
+Exit Code: see per-gate entries below; validator artifacts carry the authoritative results.
+
+## Result
+
+See per-gate result values below.
+
+## Output References
+
+`commands.log`, `artifacts/feature-evidence-validation.json`, and per-gate report files in this run folder.
+
+## Skipped Gates
+
+None planned (feature is runtime-bearing + frontend + security-sensitive once code lands).
+
+## G0 Assembly Plan Validation
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --stage G0 --feature F0038 --run-id 2026-07-01-90a75ace
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: g0-assembly-plan-validation.md
+Skipped Gates: -
+
+## G1 Runtime Preflight
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --stage G1 --feature F0038 --run-id 2026-07-01-90a75ace
+Stage: G1
+Exit Code: 0
+Result: PASS
+Output References: g1-runtime-preflight.md, artifacts/test-results/g1-runtime-preflight-evidence.txt
+Skipped Gates: -
+
+## G2 Self Review + QE + Deployability
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --stage G2 --feature F0038 --run-id 2026-07-01-90a75ace
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: g2-self-review.md, test-plan.md, test-execution-report.md, coverage-report.md, deployability-check.md, artifacts/coverage/, artifacts/security/
+Skipped Gates: -
+
+## G3 Code + Security Review
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --stage G3 --feature F0038 --run-id 2026-07-01-90a75ace
+Stage: G3
+Exit Code: 0
+Result: PASS
+Output References: code-review-report.md (APPROVED WITH RECOMMENDATIONS), security-review-report.md (PASS)
+Skipped Gates: -
+
+## G4 Approval
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --stage G4 --feature F0038 --run-id 2026-07-01-90a75ace
+Stage: G4
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: gate-decisions.md (G4 row); open [high] recommendation: commit F0038 source before G6/merge
+Skipped Gates: -
+
+## G5 Signoff
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --stage G5 --feature F0038 --run-id 2026-07-01-90a75ace
+Stage: G5
+Exit Code: 0
+Result: PASS
+Output References: signoff-ledger.md; STATUS.md Story Signoff Provenance (8 stories x 6 roles, all passing)
+Skipped Gates: -
+
+## G6 Candidate Evidence Validation
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --stage G6 --feature F0038 --run-id 2026-07-01-90a75ace
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: feature-action-execution.md; validate-feature-evidence --stage G6 exit 0. Scoped tracker-sync + latest-run promotion performed at G8 closeout.
+Skipped Gates: -
+
+## G7 KG Reconciliation
+Command: python3 scripts/kg/validate.py --write-coverage-report ; python3 agents/product-manager/scripts/validate-feature-evidence.py --stage G7 --feature F0038 --run-id 2026-07-01-90a75ace
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: kg-reconciliation.md; code-index.yaml (+14 neuron node_bindings); coverage-report.yaml regenerated. scripts/kg/validate.py --write-coverage-report exit 0.
+Skipped Gates: -
+
+## G8 PM Closeout
+Command: python3 agents/product-manager/scripts/validate-trackers.py --product-root <crm> ; python3 agents/product-manager/scripts/validate-feature-evidence.py --stage closeout --feature F0038 --run-id 2026-07-01-90a75ace
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: pm-closeout.md (APPROVED); tracker-sync via validate-trackers.py = PASS (0 errors, 0 warnings) after archiving F0038 + syncing REGISTRY/ROADMAP/STORY-INDEX/STATUS; latest-run.json promoted; validate-feature-evidence --stage G8 and --stage closeout exit 0.
+Skipped Gates: -

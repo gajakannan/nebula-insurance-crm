@@ -1,0 +1,24 @@
+[ENOENT] ENOENT: no such file or directory, mkdir '/home/gajap/.local/share/pnpm'
+
+pnpm: ENOENT: no such file or directory, mkdir '/home/gajap/.local/share/pnpm'
+    at async Object.mkdir (node:internal/fs/promises:859:10)
+    at async createNewStoreController (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:162397:5)
+    at async installDeps (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:197015:17)
+    at async Object.handler5 (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:198150:3)
+    at async file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:305851:19
+    at async main4 (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:305819:30)
+    at async runPnpm (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:306093:5)
+    at async file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:306086:3
+[ERROR] Command failed with exit code 254: /home/gajap/.nvm/versions/node/v24.16.0/bin/node /home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/bin/pnpm.mjs install
+
+pnpm: Command failed with exit code 254: /home/gajap/.nvm/versions/node/v24.16.0/bin/node /home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/bin/pnpm.mjs install
+    at getFinalError (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:34291:14)
+    at makeError (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:36598:21)
+    at getSyncResult (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:38442:10)
+    at spawnSubprocessSync (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:38402:14)
+    at execaCoreSync (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:38332:23)
+    at callBoundExeca (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:40860:23)
+    at boundExeca (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:40837:49)
+    at sync (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:40996:10)
+    at runPnpmCli (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:247126:5)
+    at runDepsStatusCheck (file:///home/gajap/.cache/node/corepack/v1/pnpm/11.9.0/dist/pnpm.mjs:248869:7)

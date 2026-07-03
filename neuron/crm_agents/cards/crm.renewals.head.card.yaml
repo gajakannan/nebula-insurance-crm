@@ -1,0 +1,24 @@
+# Renewals specialist head (live). Reads the engine needs-attention list + per-renewal
+# companion context AS THE USER (auth_mode: user_token) and may delegate a draft to the
+# outreach drafter. Behavior lands in F0038-S0003.
+card_id: crm.renewals.head
+card_version: 1.0.0
+kind: specialist_head
+name: Renewals Head
+description: >-
+  Live Day-at-a-Glance zone. Surfaces renewals needing attention and per-renewal drill
+  context read from the engine with the forwarded user token.
+active: true
+public: false
+auth_mode: user_token
+accepted_output_modes: [app, status, sources, actions]
+capabilities:
+  - skill_id: needs_attention_read
+    description: List renewals needing attention (Identified/Outreach, expiry <=90d).
+  - skill_id: companion_context_read
+    description: Per-renewal drill context.
+tools:
+  - engine.renewals.needs_attention
+  - engine.renewals.companion_context
+delegates_to:
+  - crm.renewals.outreach_drafter

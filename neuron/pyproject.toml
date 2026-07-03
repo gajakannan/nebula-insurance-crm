@@ -1,0 +1,30 @@
+[project]
+name = "nebula-neuron"
+version = "0.1.0"
+description = "Neuron Companion — stateless AI companion runtime for Nebula CRM (F0038)"
+requires-python = ">=3.12"
+# WHY: runtime deps are intentionally small — Neuron is a thin stateless orchestration
+# service. Heavy agent frameworks are excluded per ADR-027 (simple versioned YAML plans).
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.29",
+  "httpx>=0.27",
+  "pyyaml>=6.0",
+  "jsonschema>=4.19",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["app", "crm_agents"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

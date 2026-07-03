@@ -1,0 +1,24 @@
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +785
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 785, reused 779, downloaded 0, added 453
+Progress: resolved 785, reused 779, downloaded 0, added 779
+Progress: resolved 785, reused 779, downloaded 1, added 779
+Progress: resolved 785, reused 779, downloaded 1, added 780
+Progress: resolved 785, reused 779, downloaded 2, added 780
+Progress: resolved 785, reused 779, downloaded 2, added 781
+Progress: resolved 785, reused 779, downloaded 3, added 781
+Progress: resolved 785, reused 779, downloaded 3, added 782
+Progress: resolved 785, reused 779, downloaded 4, added 783
+Progress: resolved 785, reused 779, downloaded 5, added 783
+Progress: resolved 785, reused 779, downloaded 5, added 784
+[WARN] GET https://registry.npmjs.org/@pact-foundation/pact-core/-/pact-core-15.2.1.tgz error (23). Will retry in 10 seconds. 2 retries left.
+[WARN] GET https://registry.npmjs.org/@pact-foundation/pact-core/-/pact-core-15.2.1.tgz error (23). Will retry in 1 minute. 1 retries left.
+[23] The operation was aborted due to timeout
+
+TimeoutError: The operation was aborted due to timeout
+    at new DOMException (node:internal/per_context/domexception:76:18)
+    at Timeout._onTimeout (node:internal/abort_controller:210:9)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7)

@@ -1,3 +1,6 @@
 allowBuilds:
   esbuild: true
   msw: false
+# Force the patched fast-uri (transitive via ajv) to clear GHSA-q3j6-qgpj-74h6 / GHSA-v39h-62p7-jpjc.
+overrides:
+  fast-uri: '>=3.1.2'

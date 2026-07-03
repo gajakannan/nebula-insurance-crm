@@ -1,0 +1,157 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/neuron-message-envelope.schema.json",
+  "title": "NeuronMessageEnvelope",
+  "description": "Versioned multi-part message envelope returned by the Neuron companion (F0038-S0002, ADR-027 §6). A message carries an ordered list of typed parts (text | app | status | sources | actions) and is keyed by thread_id so persisted threads replay correctly as the app-part schema evolves. The frontend renders only registered component identifiers with validated props (component registry, intake L1) — Neuron never returns executable markup or model-emitted numbers. Maps A2A messages/parts/artifacts onto these part types.",
+  "type": "object",
+  "required": ["envelope_version", "thread_id", "message_id", "role", "parts"],
+  "additionalProperties": false,
+  "properties": {
+    "envelope_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Envelope schema version. Additive evolution only without a major bump; removing or retyping a part shape requires a bump so persisted threads replay deterministically."
+    },
+    "thread_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Conversation thread that keys all companion state (intake seam 1). Maps to A2A contextId. Single-thread v1 ('Day at a Glance' / 'Renewals'); thread management UX is F0039."
+    },
+    "message_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Stable id for this message; corresponds to a neuron.messages row."
+    },
+    "role": {
+      "type": "string",
+      "enum": ["user", "assistant"],
+      "description": "Author of the message."
+    },
+    "in_reply_to_message_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Optional id of the message this one responds to."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp with timezone offset or 'Z'."
+    },
+    "parts": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Ordered parts assembled into the rendered message.",
+      "items": { "$ref": "#/definitions/part" }
+    }
+  },
+  "definitions": {
+    "part": {
+      "type": "object",
+      "required": ["part_type"],
+      "properties": {
+        "part_type": {
+          "type": "string",
+          "enum": ["text", "app", "status", "sources", "actions"]
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "part_type": { "const": "text" } } },
+          "then": {
+            "required": ["text"],
+            "additionalProperties": false,
+            "properties": {
+              "part_type": { "const": "text" },
+              "text": { "type": "string", "description": "Plain text; never interpreted as markup." }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "part_type": { "const": "app" } } },
+          "then": {
+            "required": ["component", "props"],
+            "additionalProperties": false,
+            "properties": {
+              "part_type": { "const": "app" },
+              "component": {
+                "type": "string",
+                "description": "Registered component identifier. The frontend rejects any identifier not in the component registry and renders a safe fallback (F0038-S0002)."
+              },
+              "props": {
+                "type": "object",
+                "description": "Props validated against the registered component's prop schema before render. No executable markup."
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "part_type": { "const": "status" } } },
+          "then": {
+            "required": ["state"],
+            "additionalProperties": false,
+            "properties": {
+              "part_type": { "const": "status" },
+              "state": {
+                "type": "string",
+                "enum": ["working", "input_required", "completed", "failed", "inactive"],
+                "description": "A2A-task-state-aligned status surfaced to the user."
+              },
+              "detail": { "type": "string" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "part_type": { "const": "sources" } } },
+          "then": {
+            "required": ["sources"],
+            "additionalProperties": false,
+            "properties": {
+              "part_type": { "const": "sources" },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["label"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "label": { "type": "string" },
+                    "ref": { "type": "string", "description": "Internal reference id (e.g. renewal id); never a raw external URL with PII." }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "part_type": { "const": "actions" } } },
+          "then": {
+            "required": ["actions"],
+            "additionalProperties": false,
+            "properties": {
+              "part_type": { "const": "actions" },
+              "actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["action_id", "label", "action_type"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "action_id": { "type": "string", "description": "Registered action identifier echoed back to the action-callback endpoint." },
+                    "label": { "type": "string" },
+                    "action_type": {
+                      "type": "string",
+                      "enum": ["draft_outreach", "mock_send", "drill_renewal", "scope_redirect_ack"],
+                      "description": "Registered, allow-listed action. The callback handler re-authorizes server-side; the action payload never carries authorization claims."
+                    },
+                    "payload": { "type": "object", "description": "Action-specific data (e.g. renewalId) carried back on invocation." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -108,6 +108,26 @@ This table is initialized empty by PM Phase A. Rows are append-only and added by
 | F0035-S0005 | Code Reviewer | Codex | APPROVED | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/code-review-report.md | 2026-05-24 | Deferred telemetry TTL gap was fixed and re-tested. |
 | F0035-S0005 | Security Reviewer | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/security-review-report.md | 2026-05-24 | Telemetry allowlist, user binding, and no-PII checks pass. |
 | F0035-S0005 | DevOps | Codex | PASS | planning-mds/operations/evidence/runs/2026-05-24-c92b16b6/deployability-check.md | 2026-05-24 | `/internal` dev proxy and runtime checks pass. |
+| F0035-S0001 | Quality Engineer | Codex | PASS | test-execution-report.md | 2026-07-01 | Remediation revalidation: current-code frontend focused tests passed; backend integration artifact captured Docker/Testcontainers prerequisite failure. |
+| F0035-S0001 | Code Reviewer | Codex | APPROVED | code-review-report.md | 2026-07-01 | Evidence-only remediation; no product code changed except fixed-date test fixture drift. |
+| F0035-S0001 | Security Reviewer | Codex | PASS | security-review-report.md | 2026-07-01 | Current-code dependency findings documented; no remediation-added product secret. |
+| F0035-S0001 | DevOps | Codex | PASS | deployability-check.md | 2026-07-01 | Backend and frontend builds passed; Docker prerequisite noted for integration tests. |
+| F0035-S0002 | Quality Engineer | Codex | PASS | test-execution-report.md | 2026-07-01 | Remediation revalidation: current-code frontend focused tests passed. |
+| F0035-S0002 | Code Reviewer | Codex | APPROVED | code-review-report.md | 2026-07-01 | Evidence-only remediation; no product runtime code changed. |
+| F0035-S0002 | Security Reviewer | Codex | PASS | security-review-report.md | 2026-07-01 | Current-code dependency findings documented. |
+| F0035-S0002 | DevOps | Codex | PASS | deployability-check.md | 2026-07-01 | Frontend direct build passed. |
+| F0035-S0003 | Quality Engineer | Codex | PASS | test-execution-report.md | 2026-07-01 | Remediation revalidation: route/auth focused frontend tests passed. |
+| F0035-S0003 | Code Reviewer | Codex | APPROVED | code-review-report.md | 2026-07-01 | Evidence-only remediation; no product runtime code changed. |
+| F0035-S0003 | Security Reviewer | Codex | PASS | security-review-report.md | 2026-07-01 | SessionStorage and auth-boundary current-code evidence documented. |
+| F0035-S0003 | DevOps | Codex | PASS | deployability-check.md | 2026-07-01 | Frontend direct build passed. |
+| F0035-S0004 | Quality Engineer | Codex | PASS | test-execution-report.md | 2026-07-01 | Remediation revalidation: frontend classifier tests passed; backend contract tests blocked by Docker prerequisite. |
+| F0035-S0004 | Code Reviewer | Codex | APPROVED | code-review-report.md | 2026-07-01 | Evidence-only remediation; fixed-date test fixture drift patched. |
+| F0035-S0004 | Security Reviewer | Codex | PASS | security-review-report.md | 2026-07-01 | Current-code auth/dependency findings documented. |
+| F0035-S0004 | DevOps | Codex | PASS | deployability-check.md | 2026-07-01 | Backend build passed; Docker prerequisite noted for contract tests. |
+| F0035-S0005 | Quality Engineer | Codex | PASS | test-execution-report.md | 2026-07-01 | Remediation revalidation: session telemetry frontend tests passed after fixed-date fixture drift patch. |
+| F0035-S0005 | Code Reviewer | Codex | APPROVED | code-review-report.md | 2026-07-01 | Evidence-only remediation; fixed-date test fixture drift patched. |
+| F0035-S0005 | Security Reviewer | Codex | PASS | security-review-report.md | 2026-07-01 | Telemetry evidence and current-code dependency findings documented. |
+| F0035-S0005 | DevOps | Codex | PASS | deployability-check.md | 2026-07-01 | Frontend direct build passed; Docker prerequisite noted for backend telemetry endpoint tests. |
 
 ## Deferred Scope
 

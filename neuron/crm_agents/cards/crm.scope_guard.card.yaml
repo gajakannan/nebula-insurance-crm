@@ -1,0 +1,14 @@
+# CRM scope guard (F0038-S0007). Classifies each inbound message as in/out of CRM
+# scope; out-of-scope (incl. injection attempts) → polite CRM redirect. Pure
+# classification, no engine data → auth_mode: none. Behavior lands in F0038-S0007.
+card_id: crm.scope_guard
+card_version: 1.0.0
+kind: scope_guard
+name: CRM Scope Guard
+description: >-
+  Keeps the companion inside CRM scope. Non-CRM intents and prompt-injection attempts
+  are redirected politely; they never reach a specialist head or a general assistant.
+active: true
+public: false
+auth_mode: none
+accepted_output_modes: [text, status]

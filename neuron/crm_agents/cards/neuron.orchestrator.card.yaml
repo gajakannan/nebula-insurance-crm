@@ -1,0 +1,20 @@
+# Neuron orchestrator — enumerates registered heads and dispatches per zone
+# (assembly, not composition). Touches no engine data itself, so auth_mode: none.
+card_id: neuron.orchestrator
+card_version: 1.0.0
+kind: orchestrator
+name: Neuron Orchestrator
+description: >-
+  Day-at-a-Glance orchestrator. Dispatches each registered specialist head into its
+  zone slot and assembles the message envelope. Does not read or rank another zone.
+active: true
+public: false
+auth_mode: none
+accepted_output_modes: [app, status]
+delegates_to:
+  - crm.scope_guard
+  - crm.intent_classifier
+  - crm.renewals.head
+  - crm.tasks.head
+  - crm.pipeline.head
+  - crm.broker_activity.head

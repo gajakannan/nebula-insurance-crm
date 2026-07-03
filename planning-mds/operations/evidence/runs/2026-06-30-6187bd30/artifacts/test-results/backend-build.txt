@@ -1,0 +1,37 @@
+
+Welcome to .NET 10.0!
+---------------------
+SDK Version: 10.0.109
+
+----------------
+Installed an ASP.NET Core HTTPS development certificate.
+To trust the certificate, run 'dotnet dev-certs https --trust'
+Learn about HTTPS: https://aka.ms/dotnet-https
+
+----------------
+Write your first app: https://aka.ms/dotnet-hello-world
+Find out what's new: https://aka.ms/dotnet-whats-new
+Explore documentation: https://aka.ms/dotnet-docs
+Report issues and find source on GitHub: https://github.com/dotnet/core
+Use 'dotnet --help' to see available commands or visit: https://aka.ms/dotnet-cli
+--------------------------------------------------------------------------------------
+  Determining projects to restore...
+  Restored /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Domain/Nebula.Domain.csproj (in 76 ms).
+  Restored /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Application/Nebula.Application.csproj (in 36.76 sec).
+  Restored /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Infrastructure/Nebula.Infrastructure.csproj (in 56.05 sec).
+  Restored /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Api/Nebula.Api.csproj (in 1.24 min).
+  Nebula.Domain -> /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Domain/bin/Debug/net10.0/Nebula.Domain.dll
+  Nebula.Application -> /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Application/bin/Debug/net10.0/Nebula.Application.dll
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Infrastructure/Repositories/DashboardRepository.cs(209,57): warning CS8604: Possible null reference argument for parameter 'SourceStatus' in 'OpportunityFlowLinkDto.OpportunityFlowLinkDto(string SourceStatus, string TargetStatus, int Count)'. [/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Infrastructure/Nebula.Infrastructure.csproj]
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Infrastructure/Repositories/DashboardRepository.cs(307,73): warning CS8629: Nullable value type may be null. [/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Infrastructure/Nebula.Infrastructure.csproj]
+  Nebula.Infrastructure -> /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Infrastructure/bin/Debug/net10.0/Nebula.Infrastructure.dll
+  Nebula.Api -> /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Api/bin/Debug/net10.0/Nebula.Api.dll
+
+Build succeeded.
+
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Infrastructure/Repositories/DashboardRepository.cs(209,57): warning CS8604: Possible null reference argument for parameter 'SourceStatus' in 'OpportunityFlowLinkDto.OpportunityFlowLinkDto(string SourceStatus, string TargetStatus, int Count)'. [/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Infrastructure/Nebula.Infrastructure.csproj]
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Infrastructure/Repositories/DashboardRepository.cs(307,73): warning CS8629: Nullable value type may be null. [/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/src/Nebula.Infrastructure/Nebula.Infrastructure.csproj]
+    2 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:01:23.86

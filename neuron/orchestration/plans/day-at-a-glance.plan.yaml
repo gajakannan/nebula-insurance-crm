@@ -1,0 +1,55 @@
+# Day-at-a-Glance orchestration plan (F0038-S0002).
+# Validated at startup against neuron-orchestration-plan.schema.json AND cross-checked
+# against the head/tool registries. Every agent + tool below must resolve or the
+# service refuses to start.
+#
+# NOTE: this expresses zone COVERAGE and per-step fallbacks. The orchestrator fans the
+# zones out in parallel and isolates a failing zone at execution time (F0038-S0002);
+# the linear on_success chain here is the validation walk, not a sequential runtime.
+plan_id: day-at-a-glance
+plan_version: 1.0.0
+description: Assemble the Day-at-a-Glance shell via zone dispatch (assembly, not composition).
+entrypoint: dispatch
+terminal_states:
+  - assembled
+  - dispatch_failed
+trace:
+  emit_provenance: true
+  redact:
+    - raw_prompt
+    - raw_response
+    - customer_pii
+steps:
+  - step_id: dispatch
+    agent: neuron.orchestrator
+    accepted_output_modes: [status]
+    on_success: renewals_zone
+    on_failure: dispatch_failed
+
+  - step_id: renewals_zone
+    agent: crm.renewals.head
+    skill_id: needs_attention_read
+    accepted_output_modes: [app, status, sources, actions]
+    tools:
+      - engine.renewals.needs_attention
+      - engine.renewals.companion_context
+    on_success: tasks_zone
+    on_failure: dispatch_failed
+
+  - step_id: tasks_zone
+    agent: crm.tasks.head
+    accepted_output_modes: [status]
+    on_success: pipeline_zone
+    on_failure: dispatch_failed
+
+  - step_id: pipeline_zone
+    agent: crm.pipeline.head
+    accepted_output_modes: [status]
+    on_success: broker_activity_zone
+    on_failure: dispatch_failed
+
+  - step_id: broker_activity_zone
+    agent: crm.broker_activity.head
+    accepted_output_modes: [status]
+    on_success: assembled
+    on_failure: dispatch_failed

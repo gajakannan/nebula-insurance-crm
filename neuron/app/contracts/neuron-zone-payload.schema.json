@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/neuron-zone-payload.schema.json",
+  "title": "NeuronZonePayload",
+  "description": "Result of dispatching the Day-at-a-Glance orchestrator to one registered specialist head (F0038-S0002 zone-dispatch). A live head (Renewals) returns zone_status 'content' with an app-part component; stub heads (Tasks, Pipeline, Broker activity) return zone_status 'inactive' with no business data (F0038-S0004). This is assembly, not composition: a payload never reads or ranks another zone. The 'inactive' branch is the F0040 extension point that flips a stub to live. The head contract is intentionally thin and provisional (intake guardrail) — do not gold-plate.",
+  "type": "object",
+  "required": ["zone_id", "zone_status"],
+  "additionalProperties": false,
+  "properties": {
+    "zone_id": {
+      "type": "string",
+      "enum": ["renewals", "tasks", "pipeline", "broker_activity"],
+      "description": "Registered specialist-head zone slot."
+    },
+    "zone_status": {
+      "type": "string",
+      "enum": ["content", "inactive", "empty", "error"],
+      "description": "content = live head returned data; inactive = stub head (reads nothing, no CTA); empty = live head, nothing needs attention; error = head failed/timed out (slot-isolated, other zones still render)."
+    },
+    "title": { "type": "string", "description": "Slot heading, e.g. 'Renewals' or 'Tasks'." },
+    "component": {
+      "type": "string",
+      "description": "Registered component identifier for the slot body (required when zone_status = content). Rendered via the component registry; never markup."
+    },
+    "props": {
+      "type": "object",
+      "description": "Validated props for the component (required when zone_status = content). For the Renewals zone this carries the needs-attention list items."
+    },
+    "detail": {
+      "type": "string",
+      "description": "Human-readable note for inactive ('not yet active'), empty ('nothing needs you in the next 90 days'), or error states."
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "zone_status": { "const": "content" } } },
+      "then": { "required": ["component", "props"] }
+    },
+    {
+      "if": { "properties": { "zone_status": { "const": "inactive" } } },
+      "then": {
+        "not": { "required": ["component"] },
+        "description": "Stub payload carries no component/props and no business data — a stub agrees with anything and does not validate the head API."
+      }
+    }
+  ]
+}

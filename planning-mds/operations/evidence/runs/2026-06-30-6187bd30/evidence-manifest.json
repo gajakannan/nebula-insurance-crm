@@ -1,0 +1,319 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0019",
+  "feature_slug": "submission-quoting-proposal-and-approval",
+  "run_id": "2026-06-30-6187bd30",
+  "status": "approved",
+  "recorded_on": "2026-07-01",
+  "contract_effective_date": "2026-06-30",
+  "feature_path_at_run_start": "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval",
+  "feature_state": "Archived",
+  "rerun_of": "2026-06-03-7e8e0ddc",
+  "changed_paths": [
+    "engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs",
+    "engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs",
+    "engine/src/Nebula.Application/DTOs/SubmissionApprovalDecisionDto.cs",
+    "engine/src/Nebula.Application/DTOs/SubmissionArchiveRequestDto.cs",
+    "engine/src/Nebula.Application/DTOs/SubmissionBindRequestDto.cs",
+    "engine/src/Nebula.Application/DTOs/SubmissionDto.cs",
+    "engine/src/Nebula.Application/DTOs/SubmissionListItemDto.cs",
+    "engine/src/Nebula.Application/DTOs/SubmissionListQuery.cs",
+    "engine/src/Nebula.Application/DTOs/SubmissionQuotePacketDto.cs",
+    "engine/src/Nebula.Application/Interfaces/ISubmissionApprovalDecisionRepository.cs",
+    "engine/src/Nebula.Application/Interfaces/ISubmissionBindHandoffRepository.cs",
+    "engine/src/Nebula.Application/Interfaces/ISubmissionQuotePacketRepository.cs",
+    "engine/src/Nebula.Application/Interfaces/ISubmissionRepository.cs",
+    "engine/src/Nebula.Application/Services/SubmissionService.cs",
+    "engine/src/Nebula.Application/Validators/WorkflowTransitionRequestValidator.cs",
+    "engine/src/Nebula.Domain/Entities/Submission.cs",
+    "engine/src/Nebula.Domain/Entities/SubmissionApprovalDecision.cs",
+    "engine/src/Nebula.Domain/Entities/SubmissionBindHandoff.cs",
+    "engine/src/Nebula.Domain/Entities/SubmissionQuotePacket.cs",
+    "engine/src/Nebula.Infrastructure/DependencyInjection.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/AppDbContext.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionApprovalDecisionConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionBindHandoffConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionQuotePacketConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Migrations/20260603220000_F0019_SubmissionQuotingApproval.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/SubmissionApprovalDecisionRepository.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/SubmissionBindHandoffRepository.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/SubmissionQuotePacketRepository.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/SubmissionRepository.cs",
+    "engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs",
+    "engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs",
+    "experience/src/features/submissions/hooks/useArchiveSubmission.ts",
+    "experience/src/features/submissions/hooks/useBindSubmission.ts",
+    "experience/src/features/submissions/hooks/useSubmissionApproval.ts",
+    "experience/src/features/submissions/hooks/useSubmissionQuotePacket.ts",
+    "experience/src/features/submissions/hooks/useSubmissions.ts",
+    "experience/src/features/submissions/index.ts",
+    "experience/src/features/submissions/types.ts",
+    "experience/src/mocks/submissions.ts",
+    "experience/src/pages/SubmissionDetailPage.tsx",
+    "experience/src/pages/SubmissionsPage.tsx",
+    "planning-mds/api/nebula-api.yaml",
+    "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/STATUS.md",
+    "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/feature-assembly-plan.md",
+    "planning-mds/architecture/feature-assembly-plan.md",
+    "planning-mds/knowledge-graph/canonical-nodes.yaml",
+    "planning-mds/knowledge-graph/code-index.yaml",
+    "planning-mds/knowledge-graph/symbol-index.yaml",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/README.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/action-context.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifact-trace.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/gate-decisions.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/g0-assembly-plan-validation.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/g1-runtime-preflight.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/g2-self-review.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/test-plan.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/test-execution-report.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/coverage-report.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/deployability-check.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/code-review-report.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/security-review-report.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/signoff-ledger.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/feature-action-execution.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/kg-reconciliation.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/evidence-manifest.json",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/coverage/backend-workflow-tests-coverage.cobertura.xml",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/coverage/backend-workflow-tests-after-g3-fix-coverage.cobertura.xml",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/coverage/backend-workflow-tests-after-g3-filter-fix-coverage.cobertura.xml",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/diffs/changed-files.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/diffs/f0019-migration-idempotent.sql",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/diffs/f0019-migration-scoped.sql",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/security/dast-disposition.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/security/dependency-scan.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/security/sast-authz-review.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/security/secrets-scan.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/test-results/backend-build-after-g3-fix.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/test-results/backend-build-after-g3-filter-fix.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/test-results/backend-build-after-null-fix.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/test-results/backend-build.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/test-results/backend-workflow-tests.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/test-results/backend-workflow-tests-after-g3-fix.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/test-results/backend-workflow-tests-after-g3-filter-fix.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/test-results/dotnet-build-backend.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/test-results/dotnet-test-workflow-service.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/test-results/dotnet-test-workflow-state-machine.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/test-results/frontend-build.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/test-results/frontend-submissions-integration.txt",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/test-results/frontend-unit.txt",
+    "planning-mds/schemas/activity-event-payloads.schema.json",
+    "scripts/kg/validate.py",
+    "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0001-activate-downstream-submission-workflow.md",
+    "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md",
+    "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md",
+    "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md",
+    "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0005-decline-and-withdraw-terminal-decisions.md",
+    "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md",
+    "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0007-downstream-submission-pipeline-list-and-workflow-visibility.md",
+    "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0008-downstream-submission-workflow-timeline-and-audit-trail.md",
+    "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/GETTING-STARTED.md",
+    "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/PRD.md",
+    "planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/README.md",
+    "planning-mds/BLUEPRINT.md",
+    "planning-mds/features/REGISTRY.md",
+    "planning-mds/features/ROADMAP.md",
+    "planning-mds/features/STORY-INDEX.md",
+    "planning-mds/knowledge-graph/coverage-report.yaml",
+    "planning-mds/knowledge-graph/feature-mappings.yaml",
+    "planning-mds/operations/evidence/features/F0019-submission-quoting-proposal-and-approval/latest-run.json",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/commands.log",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/lifecycle-gates.log",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/pm-closeout.md",
+    "planning-mds/operations/evidence/runs/2026-06-03-7e8e0ddc/artifacts/feature-evidence-validation.json"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feature/F0019-remediation-revalidation",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": true,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer",
+    "Architect",
+    "DevOps"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g2-self-review.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "signoff-ledger.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "candidate_evidence_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "feature-action-execution.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED",
+      "artifact": "pm-closeout.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md",
+    "scm_diff": "artifacts/diffs/changed-files.txt",
+    "backend_build_result": "artifacts/test-results/backend-build.txt",
+    "backend_workflow_test_result": "artifacts/test-results/backend-workflow-tests.txt",
+    "backend_coverage": "artifacts/coverage/backend-workflow-coverage.cobertura.xml",
+    "frontend_build_result": "artifacts/test-results/frontend-build-direct-binaries.txt",
+    "frontend_submission_tests": "artifacts/test-results/frontend-submissions-tests-direct.txt",
+    "frontend_coverage_summary": "artifacts/coverage/frontend-submissions/coverage-summary.json",
+    "dotnet_dependency_scan": "artifacts/security/dependency-dotnet-vulnerable-escalated.txt",
+    "frontend_dependency_scan": "artifacts/security/dependency-pnpm-audit-escalated.txt",
+    "secrets_keyword_review": "artifacts/security/secrets-keyword-review.txt"
+  },
+  "role_results": {
+    "Architect": {
+      "required": true,
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md",
+        "kg-reconciliation.md"
+      ],
+      "result": "PASS",
+      "reviewer": "Architect Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "kg-reconciliation.md"
+    },
+    "Quality Engineer": {
+      "required": true,
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "result": "PASS",
+      "reviewer": "Quality Engineer Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "result": "PASS",
+      "reviewer": "Code Reviewer Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "result": "PASS",
+      "reviewer": "Security Reviewer Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "security-review-report.md"
+    },
+    "DevOps": {
+      "required": true,
+      "required_artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ],
+      "result": "PASS",
+      "reviewer": "DevOps Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "deployability-check.md"
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": true,
+      "result": "FINDINGS",
+      "artifact": "artifacts/security/dependency-pnpm-audit-escalated.txt"
+    },
+    "secrets": {
+      "ran": true,
+      "result": "REVIEWED",
+      "artifact": "artifacts/security/secrets-keyword-review.txt"
+    },
+    "sast": {
+      "ran": false,
+      "result": "NOT RUN",
+      "waiver": {
+        "reason": "Semgrep was not installed in the execution environment; evidence remediation did not change product code.",
+        "owner": "Security Reviewer Agent",
+        "approved_on": "2026-07-01"
+      }
+    },
+    "dast": {
+      "ran": false,
+      "result": "NOT RUN",
+      "waiver": {
+        "reason": "No deployed preview or live target was available for this evidence remediation run.",
+        "owner": "Security Reviewer Agent",
+        "approved_on": "2026-07-01"
+      }
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {}
+}

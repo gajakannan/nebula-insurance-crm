@@ -147,6 +147,18 @@ public static class ProblemDetailsHelper
             ["traceId"] = Activity.Current?.Id,
         });
 
+    public static IResult NeuronCompanionTelemetryValidationError(IDictionary<string, string[]> errors) => Results.Problem(
+        title: "Neuron companion telemetry validation error",
+        detail: "One or more telemetry events failed validation.",
+        statusCode: 400,
+        type: "https://nebula.local/problems/neuron-companion/telemetry-validation",
+        extensions: new Dictionary<string, object?>
+        {
+            ["code"] = "validation_error",
+            ["errors"] = errors,
+            ["traceId"] = Activity.Current?.Id,
+        });
+
     public static IResult LobValidationFailed(object errors) => Results.Problem(
         title: "LOB attribute validation failed",
         detail: "The submitted LOB attributes do not satisfy the active product schema bundle.",

@@ -33,7 +33,7 @@ const currentUser = {
 const sampleEvent: SessionContinuityEvent = {
   event_name: 'auth-classifier-fallback',
   event_version: 1,
-  timestamp: '2026-05-24T12:00:00.000Z',
+  timestamp: new Date().toISOString(),
   user_id: currentUser.profile.sub,
   session_id: currentUser.profile.sid,
   payload: {

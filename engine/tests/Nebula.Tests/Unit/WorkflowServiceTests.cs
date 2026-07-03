@@ -832,6 +832,14 @@ internal sealed class StubRenewalRepository : IRenewalRepository
         _renewals[renewal.Id] = renewal;
         return Task.CompletedTask;
     }
+
+    public Task<IReadOnlyList<RenewalNeedsAttentionRow>> ListNeedsAttentionAsync(
+        Guid callerUserId,
+        IReadOnlyList<string> callerRoles,
+        IReadOnlyList<string> callerRegions,
+        int withinDays,
+        CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<RenewalNeedsAttentionRow>>([]);
 }
 
 internal sealed class StubWorkflowTransitionRepository : IWorkflowTransitionRepository

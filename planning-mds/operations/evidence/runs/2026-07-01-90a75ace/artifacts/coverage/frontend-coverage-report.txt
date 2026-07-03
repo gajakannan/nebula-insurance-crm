@@ -1,0 +1,35 @@
+Frontend coverage — vitest 2.1.9 + @vitest/coverage-v8 — scope: src/features/neuron — run 2026-07-02
+Command: pnpm exec vitest run --coverage --coverage.include='src/features/neuron/**' src/features/neuron
+17 tests passed (2 files). Cobertura: frontend-coverage.cobertura.xml
+---
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   86.19 |    76.66 |   78.04 |   86.19 |                   
+ neuron            |       0 |       50 |      50 |       0 |                   
+  index.ts         |       0 |        0 |       0 |       0 | 1-5               
+  types.ts         |       0 |        0 |       0 |       0 |                   
+ neuron/components |    88.2 |     74.4 |   80.76 |    88.2 |                   
+  Composer.tsx     |   93.02 |    66.66 |     100 |   93.02 | 32-34             
+  ...ance.test.tsx |     100 |      100 |     100 |     100 |                   
+  DayAtAGlance.tsx |   88.88 |    85.29 |   71.42 |   88.88 | 66-77,116-117     
+  ...ePartView.tsx |   45.83 |    55.55 |     100 |   45.83 | 33-43,47-62,66    
+  NeuronPanel.tsx  |       0 |        0 |       0 |       0 | 1-48              
+  ...aftEditor.tsx |   88.52 |    54.54 |      50 |   88.52 | 43-49             
+  ...onContext.tsx |   98.14 |       60 |     100 |   98.14 | 45                
+  ...ntionList.tsx |   96.96 |       75 |     100 |   96.96 | 46-47             
+  ZoneSlot.tsx     |    98.3 |    68.42 |     100 |    98.3 | 42                
+ neuron/hooks      |   42.59 |       75 |   85.71 |   42.59 |                   
+  ...nionAction.ts |     100 |      100 |     100 |     100 |                   
+  useGlance.ts     |      90 |    66.66 |     100 |      90 | 13                
+  useNeuronChat.ts |       0 |        0 |       0 |       0 | 1-36              
+  ...endMessage.ts |     100 |      100 |     100 |     100 |                   
+ neuron/lib        |     100 |      100 |     100 |     100 |                   
+  constants.ts     |     100 |      100 |     100 |     100 |                   
+ neuron/registry   |   98.16 |      100 |   66.66 |   98.16 |                   
+  ...onContext.tsx |     100 |      100 |      50 |     100 |                   
+  ...onRegistry.ts |   77.77 |      100 |       0 |   77.77 | 16-17             
+  ...stry.test.tsx |     100 |      100 |     100 |     100 |                   
+  ...tRegistry.tsx |     100 |      100 |     100 |     100 |                   
+-------------------|---------|----------|---------|---------|-------------------

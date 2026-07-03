@@ -1,0 +1,79 @@
+[WARN] using --force I sure hope you know what you are doing
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +879
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 879, reused 785, downloaded 0, added 123
+Progress: resolved 879, reused 785, downloaded 0, added 465
+Progress: resolved 879, reused 785, downloaded 0, added 785, done
+.../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.21.5/node_modules/esbuild postinstall: node:internal/child_process:1143
+.../esbuild@0.21.5/node_modules/esbuild postinstall:     result.error = new ErrnoException(result.error, 'spawnSync ' + options.file);
+.../esbuild@0.21.5/node_modules/esbuild postinstall:                    ^
+.../esbuild@0.21.5/node_modules/esbuild postinstall: <ref *1> Error: spawnSync /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/experience/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/bin/esbuild EPERM
+.../esbuild@0.21.5/node_modules/esbuild postinstall:     at Object.spawnSync (node:internal/child_process:1143:20)
+.../esbuild@0.21.5/node_modules/esbuild postinstall:     at spawnSync (node:child_process:911:24)
+.../esbuild@0.21.5/node_modules/esbuild postinstall:     at Object.execFileSync (node:child_process:954:15)
+.../esbuild@0.21.5/node_modules/esbuild postinstall:     at validateBinaryVersion (/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/experience/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/install.js:99:28)
+.../esbuild@0.21.5/node_modules/esbuild postinstall:     at /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/experience/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/install.js:283:5 {
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   errno: -1,
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   code: 'EPERM',
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   syscall: 'spawnSync /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/experience/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/bin/esbuild',
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   path: '/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/experience/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/bin/esbuild',
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   spawnargs: [ '--version' ],
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   error: [Circular *1],
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   status: 0,
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   signal: null,
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   output: [
+.../esbuild@0.21.5/node_modules/esbuild postinstall:     null,
+.../esbuild@0.21.5/node_modules/esbuild postinstall:     Buffer(7) [Uint8Array] [
+.../esbuild@0.21.5/node_modules/esbuild postinstall:       48, 46, 50, 49,
+.../esbuild@0.21.5/node_modules/esbuild postinstall:       46, 53, 10
+.../esbuild@0.21.5/node_modules/esbuild postinstall:     ],
+.../esbuild@0.21.5/node_modules/esbuild postinstall:     Buffer(0) [Uint8Array] []
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   ],
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   pid: 39,
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   stdout: Buffer(7) [Uint8Array] [
+.../esbuild@0.21.5/node_modules/esbuild postinstall:     48, 46, 50, 49,
+.../esbuild@0.21.5/node_modules/esbuild postinstall:     46, 53, 10
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   ],
+.../esbuild@0.21.5/node_modules/esbuild postinstall:   stderr: Buffer(0) [Uint8Array] []
+.../esbuild@0.21.5/node_modules/esbuild postinstall: }
+.../esbuild@0.21.5/node_modules/esbuild postinstall: Node.js v24.16.0
+.../esbuild@0.25.12/node_modules/esbuild postinstall: node:internal/child_process:1143
+.../esbuild@0.25.12/node_modules/esbuild postinstall:     result.error = new ErrnoException(result.error, 'spawnSync ' + options.file);
+.../esbuild@0.25.12/node_modules/esbuild postinstall:                    ^
+.../esbuild@0.25.12/node_modules/esbuild postinstall: <ref *1> Error: spawnSync /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/experience/node_modules/.pnpm/esbuild@0.25.12/node_modules/esbuild/bin/esbuild EPERM
+.../esbuild@0.25.12/node_modules/esbuild postinstall:     at Object.spawnSync (node:internal/child_process:1143:20)
+.../esbuild@0.25.12/node_modules/esbuild postinstall:     at spawnSync (node:child_process:911:24)
+.../esbuild@0.25.12/node_modules/esbuild postinstall:     at Object.execFileSync (node:child_process:954:15)
+.../esbuild@0.25.12/node_modules/esbuild postinstall:     at validateBinaryVersion (/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/experience/node_modules/.pnpm/esbuild@0.25.12/node_modules/esbuild/install.js:102:28)
+.../esbuild@0.25.12/node_modules/esbuild postinstall:     at /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/experience/node_modules/.pnpm/esbuild@0.25.12/node_modules/esbuild/install.js:287:5 {
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   errno: -1,
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   code: 'EPERM',
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   syscall: 'spawnSync /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/experience/node_modules/.pnpm/esbuild@0.25.12/node_modules/esbuild/bin/esbuild',
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   path: '/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/experience/node_modules/.pnpm/esbuild@0.25.12/node_modules/esbuild/bin/esbuild',
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   spawnargs: [ '--version' ],
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   error: [Circular *1],
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   status: 0,
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   signal: null,
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   output: [
+.../esbuild@0.25.12/node_modules/esbuild postinstall:     null,
+.../esbuild@0.25.12/node_modules/esbuild postinstall:     Buffer(8) [Uint8Array] [
+.../esbuild@0.25.12/node_modules/esbuild postinstall:       48, 46, 50, 53,
+.../esbuild@0.25.12/node_modules/esbuild postinstall:       46, 49, 50, 10
+.../esbuild@0.25.12/node_modules/esbuild postinstall:     ],
+.../esbuild@0.25.12/node_modules/esbuild postinstall:     Buffer(0) [Uint8Array] []
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   ],
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   pid: 44,
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   stdout: Buffer(8) [Uint8Array] [
+.../esbuild@0.25.12/node_modules/esbuild postinstall:     48, 46, 50, 53,
+.../esbuild@0.25.12/node_modules/esbuild postinstall:     46, 49, 50, 10
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   ],
+.../esbuild@0.25.12/node_modules/esbuild postinstall:   stderr: Buffer(0) [Uint8Array] []
+.../esbuild@0.25.12/node_modules/esbuild postinstall: }
+.../esbuild@0.25.12/node_modules/esbuild postinstall: Node.js v24.16.0
+.../esbuild@0.21.5/node_modules/esbuild postinstall: Failed
+.../esbuild@0.25.12/node_modules/esbuild postinstall: Failed
+[ELIFECYCLE] Command failed with exit code 1.

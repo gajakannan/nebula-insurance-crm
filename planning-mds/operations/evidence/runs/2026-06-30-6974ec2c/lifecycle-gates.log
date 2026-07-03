@@ -1,0 +1,29 @@
+# F0036 Lifecycle Gates
+
+## Lifecycle Gate Run
+
+Run ID: 2026-06-30-6974ec2c
+
+## Command
+
+See `commands.log` for normalized command entries and artifact paths.
+
+## Stage
+
+G0 through G8 remediation/revalidation.
+
+## Exit Code
+
+Exit Code: see per-command entries in `commands.log`; final scoped validator artifacts are added after package validation.
+
+## Result
+
+G0 PASS, G1 PASS, G2 PASS, G3 PASS, G4 PASS, G5 PASS, G6 PASS, G7 PASS WITH RECOMMENDATIONS, G8 APPROVED.
+
+## Output References
+
+Primary outputs are `commands.log` and artifacts under `artifacts/test-results/`, `artifacts/coverage/`, and `artifacts/security/`.
+
+## Skipped Gates
+
+No lifecycle gate was skipped. SAST and DAST scan classes are waived in `evidence-manifest.json`.

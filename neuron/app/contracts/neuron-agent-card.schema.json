@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/neuron-agent-card.schema.json",
+  "title": "NeuronAgentCard",
+  "description": "Private/internal A2A-shaped capability manifest ('Agent Card') for a Neuron orchestrator, scope guard, intent classifier, specialist head, or goal agent (ADR-027 §4, F0038-S0001). F0038 stores these as versioned, code-reviewed source assets under neuron/crm_agents/; they are NOT database authoring rows (ADR-027 §9). agent_runs/provenance persist only a reference (id + version + content_hash). Public Agent Card discovery and external federation are deferred (no public surface in F0038).",
+  "type": "object",
+  "required": ["card_id", "card_version", "kind", "name", "accepted_output_modes"],
+  "additionalProperties": false,
+  "properties": {
+    "card_id": {
+      "type": "string",
+      "pattern": "^(neuron\\.orchestrator|crm\\.scope_guard|crm\\.intent_classifier|crm\\.[a-z_]+\\.head|crm\\.[a-z_]+\\.[a-z_]+)$",
+      "description": "Stable capability id, e.g. neuron.orchestrator, crm.scope_guard, crm.renewals.head, crm.renewals.outreach_drafter."
+    },
+    "card_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version of this manifest; referenced (with content_hash) from agent_runs for replay."
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["orchestrator", "scope_guard", "intent_classifier", "specialist_head", "goal_agent"],
+      "description": "Role of this agent in the A2A-aligned internal profile."
+    },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "false for a stub specialist head that returns an inactive zone payload (F0038-S0004)."
+    },
+    "capabilities": {
+      "type": "array",
+      "description": "Declared skills this agent can perform; referenced by YAML plan steps.",
+      "items": {
+        "type": "object",
+        "required": ["skill_id"],
+        "additionalProperties": false,
+        "properties": {
+          "skill_id": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "accepted_output_modes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "enum": ["text", "app", "status", "sources", "actions"] },
+      "description": "Envelope part types this agent may produce (aligns with neuron-message-envelope.schema.json)."
+    },
+    "tools": {
+      "type": "array",
+      "description": "Registered tool/MCP names this agent may invoke. Every name must resolve in the tool registry (F0038-S0001).",
+      "items": { "type": "string" }
+    },
+    "auth_mode": {
+      "type": "string",
+      "enum": ["user_token", "service_identity", "none"],
+      "default": "user_token",
+      "description": "user_token = forwards the caller's authentik token to the engine (default for CRM-data agents, ADR-027 §8); service_identity reserved for machine-owned ops; none for pure-LLM agents that touch no engine data."
+    },
+    "delegates_to": {
+      "type": "array",
+      "description": "card_ids this agent may delegate A2A tasks to (e.g. a head delegating to a goal agent).",
+      "items": { "type": "string" }
+    },
+    "public": {
+      "type": "boolean",
+      "default": false,
+      "description": "Must be false in F0038. Exposing a public Agent Card requires a later ADR amendment (ADR-027 §2)."
+    }
+  }
+}

@@ -135,6 +135,27 @@ services:
       authentik-server:
         condition: service_healthy
 
+  # Neuron Companion — stateless AI companion runtime (F0038, ADR-027).
+  # Calls the engine as the user (forwarded authentik token); the engine authorizes.
+  # LLM is mocked for this run (NEURON_MODEL_PROVIDER=mock) — no live provider key needed.
+  neuron:
+    build:
+      context: ./neuron
+      dockerfile: Dockerfile
+    container_name: nebula-neuron
+    restart: unless-stopped
+    environment:
+      NEURON_ENV: development
+      NEURON_ENGINE_BASE_URL: http://api:8080
+      NEURON_MODEL_PROVIDER: mock
+      NEURON_PERSISTENCE: memory
+      NEURON_REQUEST_TIMEOUT: "10"
+    ports:
+      - "8200:8200"
+    depends_on:
+      api:
+        condition: service_started
+
 volumes:
   nebula-db-data:
   nebula-document-data:

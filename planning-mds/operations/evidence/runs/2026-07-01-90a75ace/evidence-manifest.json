@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0038",
+  "feature_slug": "neuron-day-at-a-glance-shell",
+  "run_id": "2026-07-01-90a75ace",
+  "status": "approved",
+  "recorded_on": "2026-07-01",
+  "contract_effective_date": "2026-07-01",
+  "feature_path_at_run_start": "planning-mds/features/F0038-neuron-day-at-a-glance-shell",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell",
+  "feature_state": "Done",
+  "rerun_of": null,
+  "changed_paths": [
+    "neuron",
+    "experience/src/features/neuron",
+    "docker-compose.yml",
+    "engine/src/Nebula.Api/Endpoints/NeuronCompanionTelemetryEndpoints.cs",
+    "engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs",
+    "engine/src/Nebula.Api/Helpers/ProblemDetailsHelper.cs",
+    "engine/src/Nebula.Api/Models/NeuronCompanionTelemetryModels.cs",
+    "engine/src/Nebula.Api/Program.cs",
+    "engine/src/Nebula.Api/Services/NeuronCompanionTelemetryService.cs",
+    "engine/src/Nebula.Application/DTOs/RenewalCompanionContextDto.cs",
+    "engine/src/Nebula.Application/DTOs/RenewalNeedsAttentionDtos.cs",
+    "engine/src/Nebula.Application/DTOs/RenewalOutreachDtos.cs",
+    "engine/src/Nebula.Application/Interfaces/IRenewalRepository.cs",
+    "engine/src/Nebula.Application/Services/OutreachContentGuard.cs",
+    "engine/src/Nebula.Application/Services/RenewalService.cs",
+    "engine/src/Nebula.Application/Services/WorkflowStateMachine.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/RenewalRepository.cs",
+    "engine/tests/Nebula.Tests/Integration/NeuronCompanionTelemetryEndpointTests.cs",
+    "engine/tests/Nebula.Tests/Unit/Neuron",
+    "engine/tests/Nebula.Tests/Unit/Renewals",
+    "engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs",
+    "engine/tests/Nebula.Tests/Unit/WorkflowStateMachineOutreachTests.cs",
+    "planning-mds/features/F0038-neuron-day-at-a-glance-shell",
+    "planning-mds/architecture/feature-assembly-plan.md",
+    "planning-mds/knowledge-graph/coverage-report.yaml",
+    "planning-mds/operations/evidence/runs/2026-07-01-90a75ace"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feat/neuron-companion-foundation",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": true,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer",
+    "DevOps",
+    "Architect"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md",
+      "validated_at": "2026-07-01T12:13:00-04:00"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g2-self-review.md",
+      "validated_at": "2026-07-02T12:30:00-04:00"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md",
+      "validated_at": "2026-07-02T12:30:00-04:00"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "signoff-ledger.md",
+      "validated_at": "2026-07-02T13:30:00-04:00"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md",
+      "validated_at": "2026-07-02T14:00:00-04:00"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED",
+      "artifact": "pm-closeout.md",
+      "validated_at": "2026-07-02T14:30:00-04:00"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log",
+      "validated_at": "2026-07-02T14:30:00-04:00"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md"
+  },
+  "role_results": {
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "DevOps": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ],
+      "verdict_artifact": "deployability-check.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "verdict_artifact": "security-review-report.md"
+    },
+    "Architect": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md"
+      ],
+      "verdict_artifact": "g0-assembly-plan-validation.md"
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": true,
+      "artifact": "artifacts/security/dependency-sca-summary.md"
+    },
+    "secrets": {
+      "ran": true,
+      "artifact": "artifacts/security/secret-scan-gitleaks-history.txt"
+    },
+    "sast": {
+      "ran": true,
+      "artifact": "artifacts/security/semgrep-sast.txt"
+    },
+    "dast": {
+      "ran": false,
+      "waiver": {
+        "reason": "Neuron and the engine telemetry endpoint are internal, authenticated services; F0038 adds no new unauthenticated dynamic attack surface (/v1/* return 401 without a forwarded token; ingest requires authorization). DAST (OWASP ZAP) is a platform/CI concern run against a deployed environment. SAST, secret-scanning, and dependency SCA all ran clean this stage.",
+        "owner": "Quality Engineer (run 2026-07-01-90a75ace); Security Reviewer to ratify at G3",
+        "approved_on": "2026-07-02"
+      }
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {}
+}

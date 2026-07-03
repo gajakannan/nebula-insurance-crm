@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0023",
+  "feature_slug": "global-search-saved-views-and-operational-reporting",
+  "run_id": "2026-06-30-691ec6b8",
+  "status": "approved",
+  "recorded_on": "2026-07-01",
+  "contract_effective_date": "2026-06-30",
+  "feature_path_at_run_start": "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting",
+  "feature_state": "Archived",
+  "rerun_of": "2026-06-19-a4e3fdd6",
+  "changed_paths": [
+    "engine/src/Nebula.Api/Endpoints/OperationalReportEndpoints.cs",
+    "engine/src/Nebula.Api/Endpoints/SavedViewEndpoints.cs",
+    "engine/src/Nebula.Api/Endpoints/SearchEndpoints.cs",
+    "engine/src/Nebula.Api/Helpers/AuthzHelper.cs",
+    "engine/src/Nebula.Api/Helpers/ProblemDetailsHelper.cs",
+    "engine/src/Nebula.Api/Program.cs",
+    "engine/src/Nebula.Application/DTOs/OperationalReportDtos.cs",
+    "engine/src/Nebula.Application/DTOs/SavedViewDtos.cs",
+    "engine/src/Nebula.Application/DTOs/SearchDtos.cs",
+    "engine/src/Nebula.Application/Interfaces/IOperationalReportProjectionRepository.cs",
+    "engine/src/Nebula.Application/Interfaces/ISavedViewRepository.cs",
+    "engine/src/Nebula.Application/Interfaces/ISearchDocumentRepository.cs",
+    "engine/src/Nebula.Application/Interfaces/ISearchReportingServices.cs",
+    "engine/src/Nebula.Application/Services/OperationalReportService.cs",
+    "engine/src/Nebula.Application/Services/ProjectionVisibilityResolver.cs",
+    "engine/src/Nebula.Application/Services/SavedViewService.cs",
+    "engine/src/Nebula.Application/Services/SearchService.cs",
+    "engine/src/Nebula.Application/Validators/GlobalSearchQueryValidator.cs",
+    "engine/src/Nebula.Application/Validators/OperationalReportQueryValidator.cs",
+    "engine/src/Nebula.Application/Validators/SavedViewUpsertRequestValidator.cs",
+    "engine/src/Nebula.Domain/Entities/OperationalReportProjection.cs",
+    "engine/src/Nebula.Domain/Entities/SavedView.cs",
+    "engine/src/Nebula.Domain/Entities/SavedViewAuditEvent.cs",
+    "engine/src/Nebula.Domain/Entities/SearchDocument.cs",
+    "engine/src/Nebula.Infrastructure/DependencyInjection.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/AppDbContext.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/OperationalReportProjectionConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/SavedViewAuditEventConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/SavedViewConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/SearchDocumentConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Migrations/20260620023855_F0023_SearchSavedViewsOperationalReporting.Designer.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Migrations/20260620023855_F0023_SearchSavedViewsOperationalReporting.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/OperationalReportProjectionRepository.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/SavedViewRepository.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/SearchDocumentRepository.cs",
+    "engine/src/Nebula.Infrastructure/Services/SearchProjectionService.cs",
+    "engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs",
+    "engine/tests/Nebula.Tests/Unit/SearchReporting/SavedViewServiceTests.cs",
+    "engine/tests/Nebula.Tests/Unit/SearchReporting/SearchServiceTests.cs",
+    "experience/src/App.tsx",
+    "experience/src/components/layout/TopBar.tsx",
+    "experience/src/features/reports/components/ReportControls.tsx",
+    "experience/src/features/reports/components/ReportShared.tsx",
+    "experience/src/features/reports/components/WorkflowAgingReportView.tsx",
+    "experience/src/features/reports/components/WorkloadReportView.tsx",
+    "experience/src/features/reports/hooks.ts",
+    "experience/src/features/reports/index.ts",
+    "experience/src/features/reports/types.ts",
+    "experience/src/features/search/components/SavedViewsDrawer.tsx",
+    "experience/src/features/search/components/SearchFilters.tsx",
+    "experience/src/features/search/components/SearchOverlay.tsx",
+    "experience/src/features/search/components/SearchResultsList.tsx",
+    "experience/src/features/search/components/__tests__/SearchOverlay.test.tsx",
+    "experience/src/features/search/components/__tests__/SearchResultsList.test.tsx",
+    "experience/src/features/search/hooks.ts",
+    "experience/src/features/search/index.ts",
+    "experience/src/features/search/types.ts",
+    "experience/src/pages/OperationalReportsPage.tsx",
+    "experience/src/pages/SearchResultsPage.tsx",
+    "planning-mds/BLUEPRINT.md",
+    "planning-mds/features/F0023-global-search-saved-views-and-operational-reporting/STATUS.md",
+    "planning-mds/features/REGISTRY.md",
+    "planning-mds/features/ROADMAP.md",
+    "planning-mds/features/STORY-INDEX.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0001-global-search-results.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0002-filter-and-open-search-results.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0003-personal-saved-views.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0004-team-saved-views.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0005-daily-operational-workload-report.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0006-workflow-aging-and-backlog-report.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0007-permission-safe-search-and-reporting.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/GETTING-STARTED.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/PRD.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/README.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/STATUS.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/acceptance-criteria-checklist.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/persona-distribution-operations-manager.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/persona-relationship-manager.md",
+    "planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/persona-underwriter.md",
+    "planning-mds/knowledge-graph/canonical-nodes.yaml",
+    "planning-mds/knowledge-graph/code-index.yaml",
+    "planning-mds/knowledge-graph/coverage-report.yaml",
+    "planning-mds/knowledge-graph/feature-mappings.yaml"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feature/F0023-remediation-revalidation",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": true,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer",
+    "DevOps",
+    "Architect"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g2-self-review.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "signoff-ledger.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "candidate_evidence_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "feature-action-execution.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED",
+      "artifact": "pm-closeout.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md",
+    "scm_diff": "artifacts/diffs/changed-files.txt",
+    "backend_build_result": "artifacts/test-results/backend-build.txt",
+    "backend_test_result": "artifacts/test-results/backend-search-reporting-tests.txt",
+    "backend_coverage": "artifacts/coverage/backend-search-reporting-coverage.cobertura.xml",
+    "frontend_build_result": "artifacts/test-results/frontend-build-direct-binaries.txt",
+    "frontend_search_tests": "artifacts/test-results/frontend-search-tests-direct.txt",
+    "frontend_coverage_summary": "artifacts/coverage/frontend-search/coverage-summary.json",
+    "dotnet_dependency_scan": "artifacts/security/dependency-dotnet-vulnerable-escalated.txt",
+    "frontend_dependency_scan": "artifacts/security/dependency-pnpm-audit-escalated.txt",
+    "secrets_keyword_review": "artifacts/security/secrets-keyword-review.txt"
+  },
+  "role_results": {
+    "Architect": {
+      "required": true,
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md",
+        "kg-reconciliation.md"
+      ],
+      "result": "PASS",
+      "reviewer": "Architect Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "kg-reconciliation.md"
+    },
+    "Quality Engineer": {
+      "required": true,
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "result": "PASS",
+      "reviewer": "Quality Engineer Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "result": "PASS",
+      "reviewer": "Code Reviewer Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "result": "PASS",
+      "reviewer": "Security Reviewer Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "security-review-report.md"
+    },
+    "DevOps": {
+      "required": true,
+      "required_artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ],
+      "result": "PASS",
+      "reviewer": "DevOps Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "deployability-check.md"
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": true,
+      "result": "FINDINGS",
+      "artifact": "artifacts/security/dependency-pnpm-audit-escalated.txt"
+    },
+    "secrets": {
+      "ran": true,
+      "result": "REVIEWED",
+      "artifact": "artifacts/security/secrets-keyword-review.txt"
+    },
+    "sast": {
+      "ran": false,
+      "result": "NOT RUN",
+      "waiver": {
+        "reason": "Semgrep was not installed in the execution environment; evidence remediation did not change product code.",
+        "owner": "Security Reviewer Agent",
+        "approved_on": "2026-07-01"
+      }
+    },
+    "dast": {
+      "ran": false,
+      "result": "NOT RUN",
+      "waiver": {
+        "reason": "No deployed preview or live target was available for this evidence remediation run.",
+        "owner": "Security Reviewer Agent",
+        "approved_on": "2026-07-01"
+      }
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {}
+}

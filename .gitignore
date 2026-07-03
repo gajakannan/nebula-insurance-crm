@@ -104,5 +104,20 @@ planning-mds/operations/evidence/f0033/artifacts/
 **/test-results/
 **/coverage/
 
+# Durable evidence artifacts are committed even when general test/coverage outputs are ignored.
+!planning-mds/operations/evidence/runs/**/artifacts/
+!planning-mds/operations/evidence/runs/**/artifacts/test-results/
+!planning-mds/operations/evidence/runs/**/artifacts/coverage/
+!planning-mds/operations/evidence/runs/**/artifacts/security/
+!planning-mds/operations/evidence/runs/**/artifacts/diffs/
+!planning-mds/operations/evidence/runs/**/artifacts/screenshots/
+!planning-mds/operations/evidence/runs/**/artifacts/**/*.txt
+!planning-mds/operations/evidence/runs/**/artifacts/**/*.log
+!planning-mds/operations/evidence/runs/**/artifacts/**/*.json
+!planning-mds/operations/evidence/runs/**/artifacts/**/*.xml
+!planning-mds/operations/evidence/runs/**/artifacts/**/*.trx
+!planning-mds/operations/evidence/runs/**/artifacts/**/*.sarif
+!planning-mds/operations/evidence/runs/**/artifacts/**/*.png
+
 # private plans
 _private-plans/**

@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0036",
+  "feature_slug": "dynamic-product-attribute-form-engine",
+  "run_id": "2026-06-30-6974ec2c",
+  "status": "approved",
+  "recorded_on": "2026-07-01",
+  "contract_effective_date": "2026-06-30",
+  "feature_path_at_run_start": "planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine",
+  "feature_state": "Archived",
+  "rerun_of": "2026-05-28-077b7b30",
+  "changed_paths": [
+    "experience/src/features/lob-attributes",
+    "experience/src/features/forms",
+    "planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine/STATUS.md",
+    "planning-mds/operations/evidence/features/F0036-dynamic-product-attribute-form-engine/latest-run.json",
+    "planning-mds/operations/evidence/runs/2026-05-28-077b7b30/evidence-manifest.json",
+    "planning-mds/operations/evidence/runs/2026-06-30-6974ec2c"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feature/F0036-remediation-revalidation",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": false,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": false,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g2-self-review.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "signoff-ledger.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "candidate_evidence_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "feature-action-execution.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "kg-reconciliation.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED",
+      "artifact": "pm-closeout.md",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log",
+      "validated_at": "2026-07-01T00:00:00-04:00"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md",
+    "scm_diff": "artifacts/diffs/changed-files.txt",
+    "frontend_build_result": "artifacts/test-results/frontend-build-pnpm.txt",
+    "frontend_focused_tests": "artifacts/test-results/frontend-lob-attributes-tests-pnpm.txt",
+    "frontend_coverage_summary": "artifacts/coverage/frontend-lob-attributes/coverage-summary.json",
+    "frontend_lint": "artifacts/test-results/frontend-lint-pnpm.txt",
+    "frontend_lint_theme": "artifacts/test-results/frontend-lint-theme-pnpm.txt",
+    "frontend_lint_effects": "artifacts/test-results/frontend-lint-effects-pnpm.txt",
+    "frontend_dependency_scan": "artifacts/security/dependency-pnpm-audit-escalated.txt",
+    "secrets_keyword_review": "artifacts/security/secrets-sensitive-keyword-review.txt",
+    "kg_validate": "artifacts/test-results/kg-validate-correct-path.txt",
+    "kg_drift": "artifacts/test-results/kg-validate-check-drift-correct-path.txt"
+  },
+  "role_results": {
+    "Quality Engineer": {
+      "required": true,
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "result": "PASS",
+      "reviewer": "Quality Engineer Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "result": "APPROVED",
+      "reviewer": "Code Reviewer Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "result": "PASS WITH RECOMMENDATIONS",
+      "reviewer": "Security Reviewer Agent",
+      "reviewed_on": "2026-07-01",
+      "verdict_artifact": "security-review-report.md"
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": true,
+      "result": "FAIL_WITH_CURRENT_ADVISORIES",
+      "artifact": "artifacts/security/dependency-pnpm-audit-escalated.txt"
+    },
+    "secrets": {
+      "ran": true,
+      "result": "PASS_EXPECTED_TEST_REFERENCES_ONLY",
+      "artifact": "artifacts/security/secrets-sensitive-keyword-review.txt"
+    },
+    "sast": {
+      "ran": false,
+      "waiver": {
+        "reason": "No configured SAST command is present for this frontend-only evidence remediation lane.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-01"
+      }
+    },
+    "dast": {
+      "ran": false,
+      "waiver": {
+        "reason": "No running application target was required or started for this frontend-only evidence remediation.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-01"
+      }
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {}
+}

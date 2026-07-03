@@ -1,9 +1,22 @@
-# Placeholder model configuration for Nebula.
-# Keep credentials in environment variables.
+# Neuron model configuration (F0038).
+# The running default is env-driven: NEURON_MODEL_PROVIDER wins; otherwise
+# `default_provider` below is used (app/config.py). F0038 runs on the deterministic
+# `mock` provider — no live Anthropic calls, for deterministic feature evidence.
+default_provider: mock
+
 providers:
-  anthropic:
-    model: claude-3-5-sonnet
+  mock:
+    kind: deterministic-stub
+    description: >-
+      Deterministic mocked provider for F0038. Stable, replayable output; no external
+      call and no key. A real client swaps in behind the model-router seam.
+  # NOT wired in F0038 (build_model_router registers only `mock`). Listed as the
+  # forward-looking seam for a later live smoke test.
+  claude:
+    kind: anthropic
+    model: claude-sonnet-5
     api_key_env: ANTHROPIC_API_KEY
   ollama:
+    kind: ollama
     base_url: http://localhost:11434
     model: llama3.1

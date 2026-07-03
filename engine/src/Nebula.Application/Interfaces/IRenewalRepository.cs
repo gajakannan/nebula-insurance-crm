@@ -12,4 +12,11 @@ public interface IRenewalRepository
     Task<bool> HasActiveRenewalForPolicyAsync(Guid policyId, CancellationToken ct = default);
     Task<PaginatedResult<Renewal>> ListAsync(RenewalListQuery query, CancellationToken ct = default);
     Task UpdateAsync(Renewal renewal, CancellationToken ct = default);
+
+    Task<IReadOnlyList<RenewalNeedsAttentionRow>> ListNeedsAttentionAsync(
+        Guid callerUserId,
+        IReadOnlyList<string> callerRoles,
+        IReadOnlyList<string> callerRegions,
+        int withinDays,
+        CancellationToken ct = default);
 }

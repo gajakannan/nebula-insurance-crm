@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/neuron-orchestration-plan.schema.json",
+  "title": "NeuronOrchestrationPlan",
+  "description": "Schema for a versioned YAML orchestration asset (ADR-027 §3, F0038-S0001). Plans define intent routing, specialist-head dispatch, and goal-agent delegation. They reference A2A concepts (agent, task, message, artifact, accepted_output_modes, terminal_state) but do NOT require MS Agent Framework. The Neuron service validates every plan at startup and refuses to serve a plan that references an unregistered head/tool/agent or that lacks an explicit terminal state (fail-fast). The YAML is validated against this JSON Schema.",
+  "type": "object",
+  "required": ["plan_id", "plan_version", "entrypoint", "steps", "terminal_states"],
+  "additionalProperties": false,
+  "properties": {
+    "plan_id": { "type": "string", "description": "Stable plan identifier, e.g. day-at-a-glance or renewal-outreach-draft." },
+    "plan_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version; referenced from agent_runs for replay."
+    },
+    "description": { "type": "string" },
+    "entrypoint": { "type": "string", "description": "step id where execution begins." },
+    "terminal_states": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" },
+      "description": "Explicit terminal step ids. A plan with no terminal state fails validation."
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Ordered/graph steps. Each agent/head/tool name referenced must be registered.",
+      "items": {
+        "type": "object",
+        "required": ["step_id", "agent"],
+        "additionalProperties": false,
+        "properties": {
+          "step_id": { "type": "string" },
+          "agent": {
+            "type": "string",
+            "description": "card_id of the registered agent/head executing this step (neuron-agent-card.schema.json)."
+          },
+          "skill_id": { "type": "string", "description": "Optional declared skill on the agent's card." },
+          "accepted_output_modes": {
+            "type": "array",
+            "items": { "type": "string", "enum": ["text", "app", "status", "sources", "actions"] }
+          },
+          "tools": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Registered tool names this step may invoke."
+          },
+          "on_success": { "type": "string", "description": "Next step id or a terminal_state." },
+          "on_failure": {
+            "type": "string",
+            "description": "Next step id or terminal_state for the fallback path; required for any step that calls the engine or a model (no silent fallthrough, F0038-S0001)."
+          },
+          "is_terminal": { "type": "boolean", "default": false }
+        }
+      }
+    },
+    "trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Trace/provenance metadata recorded with each agent_run.",
+      "properties": {
+        "emit_provenance": { "type": "boolean", "default": true },
+        "redact": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Field names never written to provenance (raw prompts, raw LLM responses, PII) per ADR-027 security notes."
+        }
+      }
+    }
+  }
+}

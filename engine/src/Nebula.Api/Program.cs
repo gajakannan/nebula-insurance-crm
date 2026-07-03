@@ -193,6 +193,7 @@ builder.Services.AddScoped<DistributionNodeService>();
 builder.Services.AddScoped<ProducerOwnershipService>();
 builder.Services.AddScoped<TerritoryService>();
 builder.Services.AddScoped<SessionContinuityTelemetryService>();
+builder.Services.AddScoped<NeuronCompanionTelemetryService>();
 
 // Current user
 builder.Services.AddHttpContextAccessor();
@@ -351,6 +352,7 @@ app.MapTaskEndpoints();
 app.MapUserEndpoints();
 app.MapTimelineEndpoints();
 app.MapSessionTelemetryEndpoints();
+app.MapNeuronCompanionTelemetryEndpoints();
 app.MapSearchEndpoints();
 app.MapSavedViewEndpoints();
 app.MapOperationalReportEndpoints();
