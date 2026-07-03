@@ -1,0 +1,45 @@
+# Lifecycle Gates - Defect Run 2026-07-03-a772288d
+
+## D0 DEFECT SCOPE LOCK
+
+Result: PASS
+Notes: Defect is local runtime configuration: frontend started without local auth mode and Docker API proxy target.
+
+## D1 REPRODUCTION AND TRIAGE
+
+Result: REPRODUCED
+Notes: Screenshot/user report shows LoginPage auth configuration error. Code inspection confirms LoginPage requires `VITE_AUTH_MODE=dev` or complete OIDC env.
+
+## D2 ROOT CAUSE AND FIX PLAN
+
+Result: PASS
+Notes: Use local ignored env file rather than production/staging env changes. Configure `VITE_AUTH_MODE=dev` and proxy to Docker API on port 8080.
+
+## D3 IMPLEMENTATION
+
+Result: PASS
+Notes: Added `experience/.env.development.local`.
+
+## D4 VALIDATION
+
+Command: curl -I http://127.0.0.1:5173/
+Exit Code: 0
+Result: PASS
+
+Command: curl -fsS http://127.0.0.1:8080/healthz
+Exit Code: 0
+Result: PASS
+
+Command: corepack pnpm --dir experience exec vitest run src/features/auth/tests/LoginPage.test.tsx src/features/auth/tests/ProtectedRoute.test.tsx
+Exit Code: 0
+Result: PASS
+
+Command: corepack pnpm --dir experience exec node -e "<Playwright browser verification>"
+Exit Code: 0
+Result: PASS
+Notes: Browser body text no longer includes "Authentication is not configured" and shows the authenticated CRM dashboard shell.
+
+## D5 REVIEW AND CLOSEOUT
+
+Result: PASS
+Notes: `architect-analysis.md` and `frontend-fix-report.md` written. Defect fixed with local runtime config only.

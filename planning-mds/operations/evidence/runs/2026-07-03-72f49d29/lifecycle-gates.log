@@ -1,0 +1,99 @@
+# Lifecycle Gates Log — F0024-claims-and-service-case-tracking run 2026-07-03-72f49d29
+
+## Lifecycle Gate Run
+
+### G0-initialization
+Command: python3 scripts/kg/workstate.py --state-file .kg-state/F0024-feature.yaml init --role feature --scope F0024 --run-id 2026-07-03-72f49d29 --mode drift-reconcile
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: .kg-state/F0024-feature.yaml
+Skipped Gates: -
+
+### G0-assembly-plan
+Command: n/a
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: g0-assembly-plan-validation.md
+Skipped Gates: -
+
+### G0-evidence-validation
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --run-id 2026-07-03-72f49d29 --stage G0
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: evidence-manifest.json, g0-assembly-plan-validation.md
+Skipped Gates: -
+
+### G1-runtime-preflight
+Command: dotnet test engine/tests/Nebula.Tests/Nebula.Tests.csproj --filter ServiceCaseServiceTests --no-restore; npm run build
+Stage: G1
+Exit Code: 0
+Result: PASS
+Output References: g1-runtime-preflight.md
+Skipped Gates: browser smoke
+
+### G2-focused-validation
+Command: dotnet test engine/tests/Nebula.Tests/Nebula.Tests.csproj --filter ServiceCaseServiceTests --no-restore; npm run build; npm test -- ServiceCaseListPanel.test.tsx
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: g2-self-review.md, test-plan.md, test-execution-report.md, coverage-report.md, deployability-check.md
+Skipped Gates: full regression suite, browser workflow automation
+
+### G2-evidence-validation
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --run-id 2026-07-03-72f49d29 --stage G2
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: evidence-manifest.json, test-execution-report.md
+Skipped Gates: -
+
+### G2-smoke-test
+Command: npm exec playwright -- test tests/visual/f0024-smoke.spec.ts --config=playwright.f0024.config.ts
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: smoke-test-report.md, experience/playwright-report/index.html
+Skipped Gates: -
+
+### G2-lifecycle-tracker-reconciliation
+Command: manual tracker reconciliation via apply_patch; python3 scripts/kg/validate.py --write-coverage-report
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: lifecycle-tracker-reconciliation.md, planning-mds/knowledge-graph/coverage-report.yaml
+Skipped Gates: -
+
+### G2-post-reconciliation-evidence-validation
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --run-id 2026-07-03-72f49d29 --stage G2
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: evidence-manifest.json
+Skipped Gates: -
+
+### G2-tracker-kg-final-validation
+Command: python3 agents/product-manager/scripts/validate-trackers.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024; python3 scripts/kg/validate.py --write-coverage-report; python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --run-id 2026-07-03-72f49d29 --stage G2
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/BLUEPRINT.md, planning-mds/knowledge-graph/coverage-report.yaml, evidence-manifest.json
+Skipped Gates: -
+
+### G2-feature-smoke-validation
+Command: npm run build; npm test -- ServiceCaseListPanel.test.tsx; dotnet test engine/tests/Nebula.Tests/Nebula.Tests.csproj --filter ServiceCaseServiceTests --no-restore; npm exec playwright -- test tests/visual/f0024-smoke.spec.ts --config=playwright.f0024.config.ts
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: experience/dist, engine/tests/Nebula.Tests/TestResults/723e7d35-6d37-4bf2-aea3-b238d665e5d2/coverage.cobertura.xml, experience/playwright-report/index.html
+Skipped Gates: full regression suite, fresh G3+ closeout reviews
+
+### G2-reference-notes
+Command: manual reference notes creation via apply_patch
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: refernce_notes_F0024.md
+Skipped Gates: -

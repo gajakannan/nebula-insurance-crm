@@ -1,0 +1,136 @@
+# Lifecycle Gate Run
+
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --run-id 2026-07-03-ba011af8 --stage G0
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: console
+Skipped Gates: None
+
+## G1 RUNTIME PREFLIGHT
+
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --run-id 2026-07-03-ba011af8 --stage G1
+Stage: G1
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: g1-runtime-preflight.md
+Skipped Gates: None
+
+## G2 SELF REVIEW / QE / DEPLOYABILITY
+
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --run-id 2026-07-03-ba011af8 --stage G2
+Stage: G2
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: g2-self-review.md, test-plan.md, test-execution-report.md, coverage-report.md, deployability-check.md
+Skipped Gates: None
+
+## G3 CODE REVIEW / SECURITY REVIEW
+
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --run-id 2026-07-03-ba011af8 --stage G3
+Stage: G3
+Exit Code: 0
+Result: APPROVED WITH RECOMMENDATIONS
+Output References: code-review-report.md, security-review-report.md
+Skipped Gates: None
+
+## G4 OPERATOR APPROVAL / HARDENING
+
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --run-id 2026-07-03-ba011af8 --stage G4
+Stage: G4
+Exit Code: 0
+Result: APPROVED
+Output References: gate-decisions.md, test-execution-report.md, coverage-report.md, code-review-report.md
+Skipped Gates: None
+
+## G5 SIGNOFF GATE
+
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --run-id 2026-07-03-ba011af8 --stage G5
+Stage: G5
+Exit Code: 0
+Result: PASS
+Output References: signoff-ledger.md, STATUS.md, gate-decisions.md
+Skipped Gates: None
+
+## G6 CANDIDATE EVIDENCE VALIDATION
+
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --run-id 2026-07-03-ba011af8 --stage G6
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: feature-action-execution.md, gate-decisions.md
+Skipped Gates: None
+
+Command: python3 agents/product-manager/scripts/validate-trackers.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --run-id 2026-07-03-ba011af8
+Stage: G6 tracker validation
+Exit Code: 0
+Result: PASS
+Output References: console
+Skipped Gates: None
+
+## G7 ARCHITECT KG RECONCILIATION
+
+Command: python3 scripts/kg/validate.py --regenerate-symbols --check-symbols
+Stage: G7 symbol validation
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/knowledge-graph/symbol-index.yaml, planning-mds/knowledge-graph/unbound-but-referenced.yaml
+Skipped Gates: None
+
+Command: python3 scripts/kg/validate.py --check-drift
+Stage: G7 drift validation
+Exit Code: 0
+Result: PASS
+Output References: console
+Skipped Gates: None
+
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --run-id 2026-07-03-ba011af8 --stage G7
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: kg-reconciliation.md
+Skipped Gates: None
+
+## G8 PM CLOSEOUT
+
+Command: python3 agents/product-manager/scripts/patch-prior-manifest.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --new-run-id 2026-07-03-ba011af8
+Stage: G8 prior manifest patch
+Exit Code: 0
+Result: PASS
+Output References: console
+Skipped Gates: None
+
+Command: python3 agents/product-manager/scripts/generate-story-index.py /Users/msig2/Desktop/work_space/nebula-insurance-crm/planning-mds/features/
+Stage: G8 story index regeneration
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/features/STORY-INDEX.md
+Skipped Gates: None
+
+Command: python3 scripts/kg/validate.py --write-coverage-report
+Stage: G8 KG coverage regeneration
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/knowledge-graph/coverage-report.yaml
+Skipped Gates: None
+
+Command: python3 scripts/kg/validate.py --check-drift
+Stage: G8 KG drift validation
+Exit Code: 0
+Result: PASS
+Output References: console
+Skipped Gates: None
+
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024 --stage closeout
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: pm-closeout.md, latest-run.json, evidence-manifest.json
+Skipped Gates: None
+
+Command: python3 agents/product-manager/scripts/validate-trackers.py --product-root /Users/msig2/Desktop/work_space/nebula-insurance-crm --feature F0024
+Stage: G8 tracker validation final
+Exit Code: 0
+Result: PASS
+Output References: console
+Skipped Gates: None

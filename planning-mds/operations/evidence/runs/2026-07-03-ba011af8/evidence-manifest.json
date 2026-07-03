@@ -1,0 +1,250 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0024",
+  "feature_slug": "claims-and-service-case-tracking",
+  "run_id": "2026-07-03-ba011af8",
+  "status": "approved",
+  "recorded_on": "2026-07-03",
+  "contract_effective_date": "2026-05-25",
+  "feature_path_at_run_start": "planning-mds/features/F0024-claims-and-service-case-tracking",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0024-claims-and-service-case-tracking",
+  "feature_state": "Done",
+  "rerun_of": null,
+  "changed_paths": [
+    "planning-mds/BLUEPRINT.md",
+    "planning-mds/architecture/data-model.md",
+    "planning-mds/architecture/feature-assembly-plan.md",
+    "planning-mds/architecture/decisions/ADR-030-service-case-and-claim-reference-boundary.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/GETTING-STARTED.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/PRD.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/README.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/STATUS.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/F0024-S0001-create-service-case-from-context.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/F0024-S0002-view-service-cases-in-context.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/F0024-S0003-manage-service-case-ownership-and-follow-up.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/F0024-S0004-transition-service-case-status.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/F0024-S0005-capture-claim-reference-context.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/F0024-S0006-audit-and-permission-safe-service-case-history.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/api-schema-deltas.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/architecture-plan.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/authorization-deltas.md",
+    "planning-mds/features/archive/F0024-claims-and-service-case-tracking/feature-assembly-plan.md",
+    "planning-mds/features/ROADMAP.md",
+    "planning-mds/features/STORY-INDEX.md",
+    "planning-mds/knowledge-graph/canonical-nodes.yaml",
+    "planning-mds/knowledge-graph/code-index.yaml",
+    "planning-mds/knowledge-graph/coverage-report.yaml",
+    "planning-mds/knowledge-graph/feature-mappings.yaml",
+    "planning-mds/knowledge-graph/symbol-index.yaml",
+    "planning-mds/knowledge-graph/unbound-but-referenced.yaml",
+    "planning-mds/operations/evidence/runs/2026-07-01-9cee64f0/commands.log",
+    "planning-mds/schemas/activity-event-payloads.schema.json",
+    "planning-mds/schemas/paginated-service-case-list.schema.json",
+    "planning-mds/schemas/service-case-claim-reference-update-request.schema.json",
+    "planning-mds/schemas/service-case-communication-link-request.schema.json",
+    "planning-mds/schemas/service-case-create-request.schema.json",
+    "planning-mds/schemas/service-case-follow-up-task-request.schema.json",
+    "planning-mds/schemas/service-case-transition-request.schema.json",
+    "planning-mds/schemas/service-case-update-request.schema.json",
+    "planning-mds/schemas/service-case.schema.json",
+    "planning-mds/security/authorization-matrix.md",
+    "planning-mds/security/policies/policy.csv",
+    "engine/src/Nebula.Domain/Entities/ServiceCase.cs",
+    "engine/src/Nebula.Domain/Entities/ServiceCaseClaimReference.cs",
+    "engine/src/Nebula.Domain/Entities/ServiceCaseCommunicationLink.cs",
+    "engine/src/Nebula.Domain/Entities/ServiceCaseTaskLink.cs",
+    "engine/src/Nebula.Domain/Entities/ServiceCaseTransition.cs",
+    "engine/src/Nebula.Application/DTOs/ServiceCaseDtos.cs",
+    "engine/src/Nebula.Application/Interfaces/IServiceCaseRepository.cs",
+    "engine/src/Nebula.Application/Services/ServiceCaseService.cs",
+    "engine/src/Nebula.Application/Validators/ServiceCaseValidators.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/ServiceCaseRepository.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/ServiceCaseConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/ServiceCaseClaimReferenceConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/ServiceCaseCommunicationLinkConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/ServiceCaseTaskLinkConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/ServiceCaseTransitionConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Migrations/20260703171000_F0024_ServiceCases.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/AppDbContext.cs",
+    "engine/src/Nebula.Infrastructure/DependencyInjection.cs",
+    "engine/src/Nebula.Api/Endpoints/ServiceCaseEndpoints.cs",
+    "engine/src/Nebula.Api/Program.cs",
+    "engine/tests/Nebula.Tests/Unit/ServiceCaseServiceTests.cs",
+    "experience/src/features/service-cases",
+    "experience/src/pages/ServiceCasesPage.tsx",
+    "experience/src/pages/ServiceCaseDetailPage.tsx",
+    "experience/src/features/service-cases/components/__tests__/ServiceCaseListPanel.test.tsx",
+    "experience/src/App.tsx",
+    "experience/src/components/layout/Sidebar.tsx",
+    "experience/src/pages/AccountDetailPage.tsx",
+    "experience/src/pages/PolicyDetailPage.tsx",
+    "planning-mds/operations/evidence/runs/2026-07-03-ba011af8"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feature/F0024-claims-and-service-case-tracking",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": true,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer",
+    "DevOps",
+    "Architect"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "g1-runtime-preflight.md"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "g2-self-review.md"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "deployability-check.md"
+    },
+    "code_review": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "artifact": "code-review-report.md"
+    },
+    "security_review": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "security-review-report.md"
+    },
+    "approval": {
+      "required": true,
+      "result": "APPROVED",
+      "artifact": "gate-decisions.md"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "signoff-ledger.md"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "artifact": "pm-closeout.md"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md"
+  },
+  "role_results": {
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "DevOps": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ],
+      "verdict_artifact": "deployability-check.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "verdict_artifact": "security-review-report.md"
+    },
+    "Architect": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md"
+      ],
+      "verdict_artifact": "g0-assembly-plan-validation.md"
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": true,
+      "result": "findings_present_tool_incomplete",
+      "artifact": "artifacts/security/dependency-scan-summary.txt",
+      "waiver": null
+    },
+    "secrets": {
+      "ran": true,
+      "result": "wrapper_unavailable_fallback_test_tokens_only",
+      "artifact": "artifacts/security/secrets-scan.txt",
+      "waiver": null
+    },
+    "sast": {
+      "ran": true,
+      "result": "tool_unavailable",
+      "artifact": "artifacts/security/sast-scan.txt",
+      "waiver": null
+    },
+    "dast": {
+      "ran": true,
+      "result": "target_not_supplied",
+      "artifact": "artifacts/security/dast-scan.txt",
+      "waiver": null
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {}
+}

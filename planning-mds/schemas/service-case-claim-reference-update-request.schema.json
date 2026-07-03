@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/service-case-claim-reference-update-request.schema.json",
+  "title": "ServiceCaseClaimReferenceUpdateRequest",
+  "type": "object",
+  "properties": {
+    "carrierClaimNumber": { "type": ["string", "null"], "maxLength": 80 },
+    "dateOfLoss": { "type": ["string", "null"], "format": "date" },
+    "claimantDisplayName": { "type": ["string", "null"], "maxLength": 255 },
+    "lossSummary": { "type": ["string", "null"], "maxLength": 2000 },
+    "carrierContactReference": { "type": ["string", "null"], "maxLength": 255 },
+    "rowVersion": { "type": ["string", "null"] }
+  },
+  "additionalProperties": false
+}

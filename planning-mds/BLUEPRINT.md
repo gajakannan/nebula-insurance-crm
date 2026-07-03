@@ -195,7 +195,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 **CRM Release MVP+ (Planned):**
 - F0008: Broker Insights - Planned
 - F0017: Broker/MGA Hierarchy, Producer Ownership & Territory Management - Planned
-- F0024: Claims & Service Case Tracking - Planned
+- [F0024: Claims & Service Case Tracking](features/archive/F0024-claims-and-service-case-tracking/PRD.md) - Done (Archived 2026-07-03; 6 stories: service case intake, contextual visibility, ownership/follow-up, status transitions, claim-reference context, permission-safe audit history)
 - F0027: COI, ACORD & Outbound Document Generation - Planned
 - F0028: Carrier & Market Relationship Management - Planned
 
@@ -295,6 +295,14 @@ The first epic since the harness adopted the action/KG flow. A conversational co
 - [F0023-S0005: Daily operational workload report](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0005-daily-operational-workload-report.md) - Done
 - [F0023-S0006: Workflow aging and backlog drilldowns](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0006-workflow-aging-and-backlog-report.md) - Done
 - [F0023-S0007: Permission-safe search and reporting behavior](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0007-permission-safe-search-and-reporting.md) - Done
+
+**CRM Release MVP+ Stories (Feature F0024: Claims & Service Case Tracking):**
+- [F0024-S0001: Create a service case from account or policy context](features/archive/F0024-claims-and-service-case-tracking/F0024-S0001-create-service-case-from-context.md) - Done
+- [F0024-S0002: View service cases in workspace and 360 context](features/archive/F0024-claims-and-service-case-tracking/F0024-S0002-view-service-cases-in-context.md) - Done
+- [F0024-S0003: Manage service case ownership, priority, and follow-up](features/archive/F0024-claims-and-service-case-tracking/F0024-S0003-manage-service-case-ownership-and-follow-up.md) - Done
+- [F0024-S0004: Transition a service case through servicing statuses](features/archive/F0024-claims-and-service-case-tracking/F0024-S0004-transition-service-case-status.md) - Done
+- [F0024-S0005: Capture claim-reference context on a service case](features/archive/F0024-claims-and-service-case-tracking/F0024-S0005-capture-claim-reference-context.md) - Done
+- [F0024-S0006: Audit and permission-safe service case history](features/archive/F0024-claims-and-service-case-tracking/F0024-S0006-audit-and-permission-safe-service-case-history.md) - Done
 
 **MVP Stories (Feature F0010: Dashboard Opportunities Refactor):**
 - [F0010-S0001: Replace Sankey default with Pipeline Board](features/archive/F0010-dashboard-opportunities-refactor/F0010-S0001-replace-sankey-with-pipeline-board-default.md) - Done (Historical; superseded by F0013)

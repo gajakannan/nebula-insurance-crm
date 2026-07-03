@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/service-case-transition-request.schema.json",
+  "title": "ServiceCaseTransitionRequest",
+  "type": "object",
+  "required": ["toStatus"],
+  "properties": {
+    "toStatus": { "type": "string", "enum": ["InProgress", "Waiting", "Resolved", "Closed"] },
+    "reasonCode": { "type": ["string", "null"], "maxLength": 80 },
+    "note": { "type": ["string", "null"], "maxLength": 1000 },
+    "resolutionSummary": { "type": ["string", "null"], "maxLength": 1000 },
+    "rowVersion": { "type": ["string", "null"] }
+  },
+  "additionalProperties": false
+}

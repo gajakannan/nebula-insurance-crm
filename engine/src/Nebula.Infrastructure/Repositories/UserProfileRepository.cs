@@ -10,6 +10,16 @@ public class UserProfileRepository(AppDbContext db) : IUserProfileRepository
     public async Task<UserProfile?> GetByIdAsync(Guid userId, CancellationToken ct = default) =>
         await db.UserProfiles.FirstOrDefaultAsync(u => u.Id == userId, ct);
 
+    public async Task<IReadOnlyList<UserProfile>> GetByIdsAsync(IReadOnlyCollection<Guid> userIds, CancellationToken ct = default)
+    {
+        if (userIds.Count == 0)
+            return [];
+
+        return await db.UserProfiles
+            .Where(u => userIds.Contains(u.Id))
+            .ToListAsync(ct);
+    }
+
     /// <summary>
     /// Case-insensitive search on DisplayName and Email using PostgreSQL ILIKE.
     /// </summary>

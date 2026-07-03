@@ -435,6 +435,103 @@
       },
       "additionalProperties": false,
       "descriptionTemplate": "Follow-up task \"{taskTitle}\" created"
+    },
+
+    "ServiceCaseCreated": {
+      "description": "Emitted when a service case is created from account or policy context (F0024-S0001).",
+      "type": "object",
+      "required": ["serviceCaseId", "caseNumber", "accountId", "summary", "status", "priority"],
+      "properties": {
+        "serviceCaseId": { "type": "string", "format": "uuid" },
+        "caseNumber": { "type": "string" },
+        "accountId": { "type": "string", "format": "uuid" },
+        "policyId": { "type": ["string", "null"], "format": "uuid" },
+        "summary": { "type": "string" },
+        "status": { "type": "string" },
+        "priority": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Service case {caseNumber} created"
+    },
+
+    "ServiceCaseUpdated": {
+      "description": "Emitted when mutable service-case fields are updated (F0024-S0003).",
+      "type": "object",
+      "required": ["serviceCaseId", "caseNumber", "changedFields"],
+      "properties": {
+        "serviceCaseId": { "type": "string", "format": "uuid" },
+        "caseNumber": { "type": "string" },
+        "changedFields": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["from", "to"],
+            "properties": {
+              "from": {},
+              "to": {}
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Service case {caseNumber} updated ({changedFieldNames})"
+    },
+
+    "ServiceCaseTransitioned": {
+      "description": "Emitted when a service case transitions status (F0024-S0004).",
+      "type": "object",
+      "required": ["serviceCaseId", "caseNumber", "fromStatus", "toStatus"],
+      "properties": {
+        "serviceCaseId": { "type": "string", "format": "uuid" },
+        "caseNumber": { "type": "string" },
+        "fromStatus": { "type": ["string", "null"] },
+        "toStatus": { "type": "string" },
+        "reasonCode": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Service case {caseNumber} moved from {fromStatus} to {toStatus}"
+    },
+
+    "ServiceCaseClaimReferenceUpdated": {
+      "description": "Emitted when service-case claim-reference metadata is updated (F0024-S0005). Sensitive loss narrative text is not embedded in timeline payloads.",
+      "type": "object",
+      "required": ["serviceCaseId", "caseNumber"],
+      "properties": {
+        "serviceCaseId": { "type": "string", "format": "uuid" },
+        "caseNumber": { "type": "string" },
+        "carrierClaimNumber": { "type": ["string", "null"] },
+        "dateOfLoss": { "type": ["string", "null"], "format": "date" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Claim reference updated for service case {caseNumber}"
+    },
+
+    "ServiceCaseCommunicationLinked": {
+      "description": "Emitted when an existing communication is linked to a service case (F0024-S0006).",
+      "type": "object",
+      "required": ["serviceCaseId", "caseNumber", "communicationId"],
+      "properties": {
+        "serviceCaseId": { "type": "string", "format": "uuid" },
+        "caseNumber": { "type": "string" },
+        "communicationId": { "type": "string", "format": "uuid" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Communication linked to service case {caseNumber}"
+    },
+
+    "ServiceCaseFollowUpTaskCreated": {
+      "description": "Emitted when a follow-up task is created from a service case (F0024-S0003).",
+      "type": "object",
+      "required": ["serviceCaseId", "caseNumber", "taskId", "taskTitle"],
+      "properties": {
+        "serviceCaseId": { "type": "string", "format": "uuid" },
+        "caseNumber": { "type": "string" },
+        "taskId": { "type": "string", "format": "uuid" },
+        "taskTitle": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Follow-up task \"{taskTitle}\" created for service case {caseNumber}"
     }
   },
 
@@ -469,7 +566,13 @@
       { "eventType": "CommunicationCaptured",  "entityType": "Broker|Account|Submission|Policy|Renewal|Task", "emittedBy": "F0021-S0001" },
       { "eventType": "CommunicationCorrected", "entityType": "Broker|Account|Submission|Policy|Renewal|Task", "emittedBy": "F0021-S0005" },
       { "eventType": "CommunicationRedacted",  "entityType": "Broker|Account|Submission|Policy|Renewal|Task", "emittedBy": "F0021-S0005" },
-      { "eventType": "CommunicationFollowUpTaskCreated", "entityType": "Task", "emittedBy": "F0021-S0004" }
+      { "eventType": "CommunicationFollowUpTaskCreated", "entityType": "Task", "emittedBy": "F0021-S0004" },
+      { "eventType": "ServiceCaseCreated", "entityType": "Account|Policy", "emittedBy": "F0024-S0001" },
+      { "eventType": "ServiceCaseUpdated", "entityType": "Account|Policy", "emittedBy": "F0024-S0003" },
+      { "eventType": "ServiceCaseTransitioned", "entityType": "Account|Policy", "emittedBy": "F0024-S0004" },
+      { "eventType": "ServiceCaseClaimReferenceUpdated", "entityType": "Account|Policy", "emittedBy": "F0024-S0005" },
+      { "eventType": "ServiceCaseCommunicationLinked", "entityType": "Account|Policy", "emittedBy": "F0024-S0006" },
+      { "eventType": "ServiceCaseFollowUpTaskCreated", "entityType": "Task|Account|Policy", "emittedBy": "F0024-S0003" }
     ]
   },
 

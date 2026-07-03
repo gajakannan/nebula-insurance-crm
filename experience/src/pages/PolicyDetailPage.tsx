@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { TextInput } from '@/components/ui/TextInput';
 import { CommunicationPanel } from '@/features/communications';
 import { ParentDocumentsPanel } from '@/features/documents';
+import { ServiceCaseListPanel } from '@/features/service-cases';
 import {
   DynamicAttributePanel,
   buildCyberEnvelope,
@@ -347,6 +348,12 @@ export default function PolicyDetailPage() {
         />
 
         <ParentDocumentsPanel parent={{ type: 'policy', id: policy.id }} />
+
+        <ServiceCaseListPanel
+          accountId={policy.accountId}
+          policyId={policy.id}
+          title="Policy service cases"
+        />
 
         <CommunicationPanel
           entityType="Policy"

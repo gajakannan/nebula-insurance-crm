@@ -488,6 +488,46 @@ node_bindings:
           - planning-mds/security/policies/policy.csv
           - planning-mds/security/authorization-matrix.md
 
+  - id: entity:service-case
+    paths:
+      backend:
+        domain:
+          - engine/src/Nebula.Domain/Entities/ServiceCase*.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/ServiceCase*.cs
+          - engine/src/Nebula.Application/Interfaces/IServiceCaseRepository.cs
+          - engine/src/Nebula.Application/Services/ServiceCaseService.cs
+          - engine/src/Nebula.Application/Validators/ServiceCase*.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/ServiceCaseRepository.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ServiceCase*.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0024*ServiceCases*.cs
+        api:
+          - engine/src/Nebula.Api/Endpoints/ServiceCaseEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/**/ServiceCase*.cs
+      frontend:
+        feature:
+          - experience/src/features/service-cases/**
+        pages:
+          - experience/src/pages/ServiceCasesPage.tsx
+          - experience/src/pages/ServiceCaseDetailPage.tsx
+          - experience/src/pages/AccountDetailPage.tsx
+          - experience/src/pages/PolicyDetailPage.tsx
+      docs:
+        architecture:
+          - planning-mds/features/archive/F0024-claims-and-service-case-tracking/architecture-plan.md
+          - planning-mds/features/archive/F0024-claims-and-service-case-tracking/api-schema-deltas.md
+          - planning-mds/features/archive/F0024-claims-and-service-case-tracking/authorization-deltas.md
+          - planning-mds/architecture/decisions/ADR-030-service-case-and-claim-reference-boundary.md
+        schemas:
+          - planning-mds/schemas/service-case*.schema.json
+          - planning-mds/schemas/paginated-service-case-list.schema.json
+          - planning-mds/schemas/activity-event-payloads.schema.json
+        authz:
+          - planning-mds/security/policies/policy.csv
+          - planning-mds/security/authorization-matrix.md
+
   - id: entity:workflow-transition
     paths:
       backend:

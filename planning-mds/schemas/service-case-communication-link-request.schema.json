@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/service-case-communication-link-request.schema.json",
+  "title": "ServiceCaseCommunicationLinkRequest",
+  "type": "object",
+  "required": ["communicationEventId"],
+  "properties": {
+    "communicationEventId": { "type": "string", "format": "uuid" },
+    "linkType": { "type": "string", "enum": ["Context", "FollowUp", "Evidence"], "default": "Context" },
+    "rowVersion": { "type": ["string", "null"] }
+  },
+  "additionalProperties": false
+}

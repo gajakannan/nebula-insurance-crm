@@ -1,0 +1,12 @@
+=== Dependency Vulnerability Scan ===
+--- Frontend ---
+Running npm audit (level: high).
+npm error code ENOLOCK
+npm error audit This command requires an existing lockfile.
+npm error audit Try creating one first with: npm i --package-lock-only
+npm error audit Original error: loadVirtual requires existing shrinkwrap file
+npm error Log files were not written due to an error writing to the directory: /Users/msig2/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+FAIL (frontend): dependency scan failed (exit 1).
+--- Backend ---
+Running dotnet dependency vulnerability scan on engine/tests/Nebula.Tests/Nebula.Tests.csproj.

@@ -86,6 +86,39 @@ Define the build order, role handoffs, and integration checkpoints for implement
 | DevOps | No | No new runtime services expected; revisit if migrations/config require deployability evidence beyond normal runtime checks |
 | Architect | Yes | KG reconciliation and communication source/timeline boundary must be verified against as-built implementation |
 
+## F0024 - Claims & Service Case Tracking
+
+**Added:** 2026-07-03 - Feature action Step 0 authored the feature-local implementation execution plan after Phase A+B planning completed and was approved by the operator.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0024-claims-and-service-case-tracking/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, timeline events, service-case workflow, claim-reference boundary, task/communication links, and validation checkpoints.
+
+### Dependencies
+
+| Dependency | Source | What F0024 Needs | Status |
+|------------|--------|------------------|--------|
+| Account 360 | F0016 | Account context, account detail panel, account timeline projection | Done and archived |
+| Policy 360 | F0018 | Policy context, policy detail panel, policy timeline projection | Done and archived |
+| Task Center | F0004 | Follow-up task creation and assignee validation | Done and archived |
+| Communication Hub | F0021 | Link existing communication events to service cases | Done and archived |
+| Service-case boundary | ADR-030 | ServiceCase source record and claim-reference limits | Proposed in Phase B |
+
+### Assembly Slice Order
+
+1. Backend service-case aggregate, repository, EF configuration, migration, and policy sync.
+2. Service-case service, validators, endpoints, and backend tests.
+3. Frontend service-case workspace/detail, account/policy panels, API hooks, and UI tests.
+4. QE, DevOps, code/security review, signoff, KG reconciliation, and PM closeout.
+
+### Signoff Role Matrix
+
+| Role | Required | Rationale |
+|------|----------|-----------|
+| Quality Engineer | Yes | Service-case lifecycle, reload, permissions, timeline, and cross-feature task/communication links need acceptance evidence |
+| Code Reviewer | Yes | New backend aggregate, API surface, frontend workflow, migration, and timeline/task/communication integration need independent review |
+| Security Reviewer | Yes | Claim-reference context, external role denial, account/policy scope, and timeline payload safety are security-sensitive |
+| DevOps | Yes | New persisted entities, migration, indexes, and embedded Casbin policy sync need deployability evidence |
+| Architect | Yes | G0 plan validation and G7 as-built KG reconciliation are required |
+
 ## F0020 - Document Management & ACORD Intake
 
 **Added:** 2026-05-04 - Feature action Step 0 created the feature-local implementation execution plan after Phase B architecture completed during planning.

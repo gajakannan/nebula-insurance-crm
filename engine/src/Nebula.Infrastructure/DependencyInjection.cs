@@ -30,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<ILobSchemaRepository, LobSchemaRepository>();
         services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddScoped<ICommunicationRepository, CommunicationRepository>();
+        services.AddScoped<IServiceCaseRepository, ServiceCaseRepository>();
         services.AddScoped<IUserProfileRepository, UserProfileRepository>();
         services.AddScoped<ITimelineRepository, TimelineRepository>();
         services.AddScoped<IWorkflowTransitionRepository, WorkflowTransitionRepository>();
@@ -57,6 +58,7 @@ public static class DependencyInjection
         services.AddScoped<Nebula.Application.Services.DocumentTemplateService>();
         services.AddScoped<Nebula.Application.Services.DocumentRetentionService>();
         services.AddScoped<Nebula.Application.Services.CommunicationService>();
+        services.AddScoped<Nebula.Application.Services.ServiceCaseService>();
         services.AddSingleton<IQuarantineScanner, MockTimerScanner>();
         services.AddHostedService<PolicyExpirationHostedService>();
         services.AddHostedService<QuarantinePromotionWorker>();

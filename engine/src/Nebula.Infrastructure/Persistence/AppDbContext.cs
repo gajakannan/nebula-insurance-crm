@@ -44,6 +44,11 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<CommunicationParticipant> CommunicationParticipants => Set<CommunicationParticipant>();
     public DbSet<CommunicationCorrection> CommunicationCorrections => Set<CommunicationCorrection>();
     public DbSet<CommunicationFollowUpTaskLink> CommunicationFollowUpTaskLinks => Set<CommunicationFollowUpTaskLink>();
+    public DbSet<ServiceCase> ServiceCases => Set<ServiceCase>();
+    public DbSet<ServiceCaseClaimReference> ServiceCaseClaimReferences => Set<ServiceCaseClaimReference>();
+    public DbSet<ServiceCaseCommunicationLink> ServiceCaseCommunicationLinks => Set<ServiceCaseCommunicationLink>();
+    public DbSet<ServiceCaseTaskLink> ServiceCaseTaskLinks => Set<ServiceCaseTaskLink>();
+    public DbSet<ServiceCaseTransition> ServiceCaseTransitions => Set<ServiceCaseTransition>();
     public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
     public DbSet<ActivityTimelineEvent> ActivityTimelineEvents => Set<ActivityTimelineEvent>();
     public DbSet<WorkflowTransition> WorkflowTransitions => Set<WorkflowTransition>();

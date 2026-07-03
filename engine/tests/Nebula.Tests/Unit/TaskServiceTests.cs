@@ -971,6 +971,9 @@ internal class StubUserProfileRepository : IUserProfileRepository
     public Task<UserProfile?> GetByIdAsync(Guid userId, CancellationToken ct = default) =>
         Task.FromResult(_profiles.GetValueOrDefault(userId));
 
+    public Task<IReadOnlyList<UserProfile>> GetByIdsAsync(IReadOnlyCollection<Guid> userIds, CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<UserProfile>>(_profiles.Values.Where(p => userIds.Contains(p.Id)).ToList());
+
     public Task<IReadOnlyList<UserProfile>> SearchAsync(string query, bool activeOnly, int limit, CancellationToken ct = default) =>
         Task.FromResult<IReadOnlyList<UserProfile>>(_profiles.Values
             .Where(p => p.DisplayName.Contains(query, StringComparison.OrdinalIgnoreCase)

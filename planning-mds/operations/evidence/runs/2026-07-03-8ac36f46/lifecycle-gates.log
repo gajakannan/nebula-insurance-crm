@@ -1,0 +1,6 @@
+D0 DEFECT SCOPE LOCK PASS - 2026-07-03T17:59:00+05:30 - Scope initialized for Service Cases load failure.
+D1 REPRODUCTION AND TRIAGE PASS - 2026-07-03T18:06:59+05:30 - Backend endpoint works with dev token; frontend proxy path missing `/service-cases`.
+D2 ROOT CAUSE AND FIX PLAN PASS - 2026-07-03T18:07:12+05:30 - Plan selected Vite proxy fix with SPA navigation bypass.
+D3 IMPLEMENTATION PASS - 2026-07-03T18:08:46+05:30 - Updated `experience/vite.config.ts`.
+D4 VALIDATION PASS - 2026-07-03T18:10:00+05:30 - Route/API/browser/tests/lint/theme/build validation passed.
+D5 REVIEW AND CLOSEOUT PASS - 2026-07-03T18:11:00+05:30 - Reports and run summary completed.

@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/service-case-follow-up-task-request.schema.json",
+  "title": "ServiceCaseFollowUpTaskRequest",
+  "type": "object",
+  "required": ["title", "assignedToUserId"],
+  "properties": {
+    "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "description": { "type": ["string", "null"], "maxLength": 2000 },
+    "assignedToUserId": { "type": "string", "format": "uuid" },
+    "dueDate": { "type": ["string", "null"], "format": "date" },
+    "priority": { "type": ["string", "null"], "enum": ["Low", "Medium", "High", "Urgent", null] },
+    "rowVersion": { "type": ["string", "null"] }
+  },
+  "additionalProperties": false
+}

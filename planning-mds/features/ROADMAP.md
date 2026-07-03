@@ -1,6 +1,6 @@
 # Feature Roadmap (Now / Next / Later)
 
-**Last Reviewed:** 2026-07-02
+**Last Reviewed:** 2026-07-03
 
 This document is the working prioritization view for feature sequencing.
 
@@ -43,7 +43,6 @@ This document is the working prioritization view for feature sequencing.
 |---------|-------|-----------|
 | [F0008 — Broker Insights](./F0008-broker-insights/README.md) | CRM Release MVP+ | Higher-value after F0023 reporting substrate and F0017 hierarchy/producer dimensions are live; uses F0019 quote/bind outcomes for production metrics. |
 | [F0028 — Carrier & Market Relationship Management](./F0028-carrier-and-market-relationship-management/README.md) | CRM Release MVP+ | Supports appetite, appointments, market access, and carrier relationship strategy before carrier-aware economics and production analysis deepen. |
-| [F0024 — Claims & Service Case Tracking](./F0024-claims-and-service-case-tracking/README.md) | CRM Release MVP+ | Extends Nebula into post-bind servicing and improves account and policy context. |
 | [F0025 — Commission, Producer Splits & Revenue Tracking](./F0025-commission-producer-splits-and-revenue-tracking/README.md) | Brokerage Platform Expansion | Moves Nebula from CRM into brokerage economics and compensation operations. |
 | [F0026 — Billing, Invoicing & Reconciliation](./F0026-billing-invoicing-and-reconciliation/README.md) | Brokerage Platform Expansion | Pushes the product deeper into agency management and finance operations. |
 | [F0030 — Integration Hub & Data Exchange](./F0030-integration-hub-and-data-exchange/README.md) | Brokerage Platform Expansion | Needed for scalable connectivity across email, carriers, accounting, and document systems. |
@@ -60,6 +59,7 @@ This document is the working prioritization view for feature sequencing.
 
 | Feature | Phase | Completion State |
 |---------|-------|------------------|
+| [F0024 — Claims & Service Case Tracking](./archive/F0024-claims-and-service-case-tracking/README.md) | CRM Release MVP+ | Done and archived (2026-07-03; feature runs `2026-07-03-ba011af8`, `2026-07-03-72f49d29`) — 6 stories: service case intake, contextual visibility, ownership/follow-up, status transitions, claim-reference context, permission-safe audit history |
 | [F0021 — Communication Hub & Activity Capture](./archive/F0021-communication-hub-and-activity-capture/README.md) | CRM Release MVP | Done and archived (2026-07-02, feature run `2026-07-01-9cee64f0`) — 5 stories: structured communication capture, contextual history, related-record/participant links, follow-up task linkage, correction/redaction audit |
 | [F0023 — Global Search, Saved Views & Operational Reporting](./archive/F0023-global-search-saved-views-and-operational-reporting/README.md) | CRM Release MVP | Done and archived (2026-06-20, feature run `2026-06-19-a4e3fdd6`) — 7 stories: global search, filter/open, personal saved views, team saved views + defaults, daily workload report, workflow aging/backlog, permission-safe behavior |
 | [F0019 — Submission Quoting, Proposal & Approval Workflow](./archive/F0019-submission-quoting-proposal-and-approval/README.md) | CRM Release MVP | Done and archived (2026-06-03) — 8 stories: downstream workflow activation, quote/proposal packet, underwriting approval, bind handoff, decline/withdraw, archive/reactivate, pipeline visibility, timeline/audit |
@@ -87,6 +87,8 @@ This document is the working prioritization view for feature sequencing.
 
 - This roadmap is the authoritative Now/Next/Later view.
 - Boundary guardrails: F0019 delivered submission-bound quote/proposal workflow while F0027 owns reusable outbound generation; F0022 owns usable queue/routing foundations while F0032 later governs shared configuration; F0008 remains separate but must land after F0023 and F0017.
+- Reviewed 2026-07-03 after operator request to make F0024 archive-only; removed the active `F0024-claims-and-service-case-tracking/` folder and retained the canonical feature under `archive/F0024-claims-and-service-case-tracking/`.
+- Reviewed 2026-07-03 after F0024 closeout (feature run `2026-07-03-ba011af8`); moved F0024 from Now to Completed and archived it after G8 validation. Earlier the same day, operator approval promoted F0024 from Later to Now and approved continuing the harness feature action.
 - Reviewed 2026-07-01 (operator decision): promoted **F0021 — Communication Hub & Activity Capture** from `Next` to `Now` to pull the CRM communication system of record forward. F0021 is still a draft shell with no story breakdown, so it needs its own `plan` run before any `feature`/build action. ROADMAP-only resequencing — `REGISTRY.md` status (`Planned`) and `BLUEPRINT.md` baseline status remain unchanged.
 - Reviewed 2026-06-29 (operator decision): added the **Neuron Companion** epic — the first new epic since the harness adopted the action/KG flow. Intake brief signed off 2026-06-29 and distilled into BLUEPRINT §3 + three reserved skeletons. **F0038** (Day-at-a-Glance shell, Renewals live + draft outreach + mock-send) added to `Now` alongside F0017; **F0039** (multi-thread conversations) and **F0040** (second specialist head) added to `Next` as provisional skeletons (re-derived after F0038 lands). The Day-at-a-Glance **brain** (cross-zone composition), real outbound send via the Communication Hub, and MCP-UI external hosts are **Later (unreserved)**. F0038 needs its own `plan` run before build, and the **AI Engineer role buildout is a prerequisite** before any F0038 `plan`/`feature` action.
 - Reviewed 2026-06-19 (operator decision): promoted **F0023 — Global Search, Saved Views & Operational Reporting** from `Next` to `Now` to run in parallel with F0017 and pull the search/reporting substrate forward (F0008 insights and F0037 rollups depend on it). Resulting `Now`: **F0017 + F0023**. Resulting `Next` order: **F0037 → F0022 → F0021 → F0031 → F0027 → F0032**. Dependency note: F0023's core search/saved-views/reporting substrate can build in parallel with F0017, but its hierarchy/territory-aware report facets depend on F0017 landing. ROADMAP-only resequencing — `REGISTRY.md` status (`Planned`) and the `BLUEPRINT.md` status snapshot are unaffected (neither encodes Now/Next/Later sequence).

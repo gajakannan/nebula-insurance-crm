@@ -538,7 +538,60 @@ p, Admin,               communication_event, redact, true
 p, Admin,               communication_event, create_follow_up, true
 
 # ─────────────────────────────────────────────────────────────────────────────
-# §2.10 BrokerUser (Phase 1 Delta — F0009)
+# §2.10 Service Case (F0024)
+# Source service-case records are internal-only in MVP. Query/application layer
+# must also enforce account/policy read scope for every create/read/update/link
+# action. Communication links also require communication_event:read; follow-up
+# creation also requires task:create.
+# ─────────────────────────────────────────────────────────────────────────────
+
+p, DistributionUser,    service_case, create, true
+p, DistributionUser,    service_case, read, true
+p, DistributionUser,    service_case, update, true
+p, DistributionUser,    service_case, transition, true
+p, DistributionUser,    service_case, update_claim_reference, true
+p, DistributionUser,    service_case, link_communication, true
+p, DistributionUser,    service_case, create_follow_up, true
+p, DistributionManager, service_case, create, true
+p, DistributionManager, service_case, read, true
+p, DistributionManager, service_case, update, true
+p, DistributionManager, service_case, assign, true
+p, DistributionManager, service_case, transition, true
+p, DistributionManager, service_case, update_claim_reference, true
+p, DistributionManager, service_case, link_communication, true
+p, DistributionManager, service_case, create_follow_up, true
+p, Underwriter,         service_case, create, true
+p, Underwriter,         service_case, read, true
+p, Underwriter,         service_case, update, true
+p, Underwriter,         service_case, transition, true
+p, Underwriter,         service_case, update_claim_reference, true
+p, Underwriter,         service_case, link_communication, true
+p, Underwriter,         service_case, create_follow_up, true
+p, RelationshipManager, service_case, create, true
+p, RelationshipManager, service_case, read, true
+p, RelationshipManager, service_case, update, true
+p, RelationshipManager, service_case, transition, true
+p, RelationshipManager, service_case, update_claim_reference, true
+p, RelationshipManager, service_case, link_communication, true
+p, RelationshipManager, service_case, create_follow_up, true
+p, ProgramManager,      service_case, create, true
+p, ProgramManager,      service_case, read, true
+p, ProgramManager,      service_case, update, true
+p, ProgramManager,      service_case, transition, true
+p, ProgramManager,      service_case, update_claim_reference, true
+p, ProgramManager,      service_case, link_communication, true
+p, ProgramManager,      service_case, create_follow_up, true
+p, Admin,               service_case, create, true
+p, Admin,               service_case, read, true
+p, Admin,               service_case, update, true
+p, Admin,               service_case, assign, true
+p, Admin,               service_case, transition, true
+p, Admin,               service_case, update_claim_reference, true
+p, Admin,               service_case, link_communication, true
+p, Admin,               service_case, create_follow_up, true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# §2.11 BrokerUser (Phase 1 Delta — F0009)
 # BrokerUser is external and read-first in Phase 1.
 # Scope + field filtering constraints are enforced at query/response layer:
 #   - broker scope resolves from authenticated broker_tenant_id -> exactly one active tenant mapping

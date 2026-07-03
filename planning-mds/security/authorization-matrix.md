@@ -333,6 +333,34 @@ F0004 extends the self-assigned-only task model with creator-based access for Di
 
 ---
 
+### 2.7b Service Case — Create / Read / Update / Assign / Transition / Claim Reference / Links (F0024)
+
+| Role | Action | Decision | Business Scope / Constraints | Story / AC Reference |
+|------|--------|----------|------------------------------|----------------------|
+| DistributionUser | create / read / update / transition / update_claim_reference / link_communication / create_follow_up | **ALLOW** | Must pass account/policy read access; owner must be self or assigned queue in MVP. | F0024-S0001 through S0006 |
+| DistributionUser | assign | **DENY** | Cross-user assignment is manager/admin scope in MVP. | F0024-S0003 |
+| DistributionManager | create / read / update / assign / transition / update_claim_reference / link_communication / create_follow_up | **ALLOW** | Region scope applies through linked account/policy records. | F0024-S0001 through S0006 |
+| Underwriter | create / read / update / transition / update_claim_reference / link_communication / create_follow_up | **ALLOW** | Policy/account access scope applies through linked records. | F0024-S0001 through S0006 |
+| Underwriter | assign | **DENY** | Cross-user assignment is manager/admin scope in MVP. | F0024-S0003 |
+| RelationshipManager | create / read / update / transition / update_claim_reference / link_communication / create_follow_up | **ALLOW** | Broker/account relationship scope applies through linked records. | F0024-S0001 through S0006 |
+| RelationshipManager | assign | **DENY** | Cross-user assignment is manager/admin scope in MVP. | F0024-S0003 |
+| ProgramManager | create / read / update / transition / update_claim_reference / link_communication / create_follow_up | **ALLOW** | Program scope applies through linked account/policy records. | F0024-S0001 through S0006 |
+| ProgramManager | assign | **DENY** | Cross-user assignment is manager/admin scope in MVP. | F0024-S0003 |
+| Admin | create / read / update / assign / transition / update_claim_reference / link_communication / create_follow_up | **ALLOW** | Unscoped internal authority; all actions remain audited. | F0024-S0001 through S0006; ADR-030 |
+| BrokerUser | all | **DENY** | External service-case self-service is out of MVP scope. | F0024 PRD Out of Scope |
+| ExternalUser | all | **DENY** | No external self-service in MVP. | BLUEPRINT §3.1 non-goals |
+
+**Constraints applying to all ALLOW decisions on Service Case:**
+- Service-case records are InternalOnly for MVP.
+- Create/read/update/assign/transition/follow-up actions must also pass read access on the linked account and optional policy.
+- If a policy is supplied, it must belong to the supplied account.
+- Communication linking must also pass `communication_event:read` and linked communication record scope.
+- Follow-up creation must pass existing task assignee validation and `task:create`.
+- Claim-reference updates store reference context only and do not authorize adjudication, reserves, payments, carrier sync, or coverage decisions.
+- Closed service cases are immutable except for audit reads.
+
+---
+
 ### 2.8 Submission — Read / Create / Update / Transition / Assign / Approve / Archive
 
 | Role | Action | Decision | Business Scope / Constraints | Story / AC Reference |

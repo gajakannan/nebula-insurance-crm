@@ -10,9 +10,6 @@ coverage:
   - id: feature:F0008
     path: planning-mds/features/F0008-broker-insights
     reason: Planned feature folder exists but ontology mapping backfill has not started.
-  - id: feature:F0024
-    path: planning-mds/features/F0024-claims-and-service-case-tracking
-    reason: Planned feature folder exists but ontology mapping backfill has not started.
   - id: feature:F0025
     path: planning-mds/features/F0025-commission-producer-splits-and-revenue-tracking
     reason: Planned feature folder exists but ontology mapping backfill has not started.
@@ -1096,6 +1093,67 @@ features:
     visibility; no outbound send, connector ingestion, marketing automation, or AI summary scope.
   - Archived 2026-07-02 via feature run 2026-07-01-9cee64f0. G7 reconciled as-built communication-event code bindings; G8
     moved lifecycle paths to archive.
+- id: feature:F0024
+  path: planning-mds/features/archive/F0024-claims-and-service-case-tracking
+  status: archived-done
+  affects:
+  - entity:service-case
+  - entity:service-case-claim-reference
+  - entity:service-case-transition
+  - entity:account
+  - entity:policy
+  - entity:communication-event
+  - entity:task-item
+  - entity:activity-timeline-event
+  - workflow:service-case
+  - endpoint:service-case-create
+  - endpoint:service-case-list
+  - endpoint:service-case-detail
+  - endpoint:service-case-update
+  - endpoint:service-case-transition
+  - endpoint:service-case-claim-reference
+  - endpoint:service-case-communication-link
+  - endpoint:service-case-follow-up-task
+  - policy_rule:service-case-create
+  - policy_rule:service-case-read
+  - policy_rule:service-case-update
+  - policy_rule:service-case-assign
+  - policy_rule:service-case-transition
+  - policy_rule:service-case-update-claim-reference
+  - policy_rule:service-case-link-communication
+  - policy_rule:service-case-create-follow-up
+  governed_by:
+  - adr:030
+  uses_schema:
+  - schema:service-case
+  - schema:service-case-create-request
+  - schema:service-case-update-request
+  - schema:service-case-transition-request
+  - schema:service-case-claim-reference-update-request
+  - schema:service-case-communication-link-request
+  - schema:service-case-follow-up-task-request
+  - schema:paginated-service-case-list
+  - schema:timeline-event
+  - schema:activity-event-payloads
+  - schema:task
+  - schema:task-create-request
+  - schema:problem-details
+  uses_api_contract:
+  - api:nebula-rest
+  depends_on:
+  - feature:F0016
+  - feature:F0018
+  - feature:F0021
+  - feature:F0004
+  notes:
+  - Phase A PM mapping stub from F0024 plan action on 2026-07-03. MVP+ = CRM-side service cases, claim-reference context,
+    ownership/follow-up, contextual visibility, status workflow, and permission-safe audit history.
+  - Phase B architecture drafted on 2026-07-03 with ServiceCase canonical nodes, API/schema deltas, authorization deltas,
+    ADR-030, data-model updates, and security/KG bindings.
+  - Archived 2026-07-03 via feature run 2026-07-03-ba011af8. G7 reconciled as-built service-case code bindings; G8 moved
+    lifecycle paths to archive.
+  - Archive-only correction applied on 2026-07-03 after operator request; active F0024 feature folder was removed and this
+    archive path is the sole F0024 planning location.
 - id: feature:F0038
   path: planning-mds/features/F0038-neuron-day-at-a-glance-shell
   status: architecture-complete
@@ -3712,6 +3770,161 @@ stories:
   uses_api_contract:
   - api:nebula-rest
   depends_on:
+  - story:F0021-S0001
+- id: story:F0024-S0001
+  path: planning-mds/features/archive/F0024-claims-and-service-case-tracking/F0024-S0001-create-service-case-from-context.md
+  feature: feature:F0024
+  affects:
+  - entity:service-case
+  - entity:service-case-claim-reference
+  - entity:account
+  - entity:policy
+  - entity:activity-timeline-event
+  - endpoint:service-case-create
+  - policy_rule:service-case-create
+  governed_by:
+  - adr:030
+  enforced_by_policy:
+  - policy_rule:service-case-create
+  uses_schema:
+  - schema:service-case
+  - schema:service-case-create-request
+  - schema:timeline-event
+  - schema:activity-event-payloads
+  - schema:problem-details
+  uses_api_contract:
+  - api:nebula-rest
+- id: story:F0024-S0002
+  path: planning-mds/features/archive/F0024-claims-and-service-case-tracking/F0024-S0002-view-service-cases-in-context.md
+  feature: feature:F0024
+  affects:
+  - entity:service-case
+  - entity:account
+  - entity:policy
+  - entity:activity-timeline-event
+  - endpoint:service-case-list
+  - endpoint:service-case-detail
+  - policy_rule:service-case-read
+  governed_by:
+  - adr:030
+  enforced_by_policy:
+  - policy_rule:service-case-read
+  uses_schema:
+  - schema:service-case
+  - schema:paginated-service-case-list
+  - schema:problem-details
+  uses_api_contract:
+  - api:nebula-rest
+  depends_on:
+  - story:F0024-S0001
+- id: story:F0024-S0003
+  path: planning-mds/features/archive/F0024-claims-and-service-case-tracking/F0024-S0003-manage-service-case-ownership-and-follow-up.md
+  feature: feature:F0024
+  affects:
+  - entity:service-case
+  - entity:task-item
+  - entity:activity-timeline-event
+  - endpoint:service-case-update
+  - endpoint:service-case-follow-up-task
+  - policy_rule:service-case-update
+  - policy_rule:service-case-assign
+  - policy_rule:service-case-create-follow-up
+  - policy_rule:task-create
+  governed_by:
+  - adr:030
+  enforced_by_policy:
+  - policy_rule:service-case-update
+  - policy_rule:service-case-assign
+  - policy_rule:service-case-create-follow-up
+  uses_schema:
+  - schema:service-case
+  - schema:service-case-update-request
+  - schema:service-case-follow-up-task-request
+  - schema:task
+  - schema:task-create-request
+  - schema:timeline-event
+  - schema:problem-details
+  uses_api_contract:
+  - api:nebula-rest
+  depends_on:
+  - story:F0024-S0001
+- id: story:F0024-S0004
+  path: planning-mds/features/archive/F0024-claims-and-service-case-tracking/F0024-S0004-transition-service-case-status.md
+  feature: feature:F0024
+  affects:
+  - entity:service-case
+  - entity:service-case-transition
+  - entity:activity-timeline-event
+  - workflow:service-case
+  - endpoint:service-case-transition
+  - policy_rule:service-case-transition
+  governed_by:
+  - adr:030
+  enforced_by_policy:
+  - policy_rule:service-case-transition
+  uses_schema:
+  - schema:service-case
+  - schema:service-case-transition-request
+  - schema:timeline-event
+  - schema:activity-event-payloads
+  - schema:problem-details
+  uses_api_contract:
+  - api:nebula-rest
+  depends_on:
+  - story:F0024-S0001
+- id: story:F0024-S0005
+  path: planning-mds/features/archive/F0024-claims-and-service-case-tracking/F0024-S0005-capture-claim-reference-context.md
+  feature: feature:F0024
+  affects:
+  - entity:service-case
+  - entity:service-case-claim-reference
+  - entity:policy
+  - entity:activity-timeline-event
+  - endpoint:service-case-claim-reference
+  - policy_rule:service-case-update-claim-reference
+  governed_by:
+  - adr:030
+  enforced_by_policy:
+  - policy_rule:service-case-update-claim-reference
+  uses_schema:
+  - schema:service-case
+  - schema:service-case-claim-reference-update-request
+  - schema:timeline-event
+  - schema:activity-event-payloads
+  - schema:problem-details
+  uses_api_contract:
+  - api:nebula-rest
+  depends_on:
+  - story:F0024-S0001
+- id: story:F0024-S0006
+  path: planning-mds/features/archive/F0024-claims-and-service-case-tracking/F0024-S0006-audit-and-permission-safe-service-case-history.md
+  feature: feature:F0024
+  affects:
+  - entity:service-case
+  - entity:service-case-transition
+  - entity:activity-timeline-event
+  - entity:communication-event
+  - endpoint:service-case-detail
+  - endpoint:service-case-communication-link
+  - policy_rule:service-case-read
+  - policy_rule:service-case-link-communication
+  - policy_rule:timeline-event-read
+  governed_by:
+  - adr:030
+  enforced_by_policy:
+  - policy_rule:service-case-read
+  - policy_rule:service-case-link-communication
+  - policy_rule:timeline-event-read
+  uses_schema:
+  - schema:service-case
+  - schema:service-case-communication-link-request
+  - schema:timeline-event
+  - schema:activity-event-payloads
+  - schema:problem-details
+  uses_api_contract:
+  - api:nebula-rest
+  depends_on:
+  - story:F0024-S0001
   - story:F0021-S0001
 - id: story:F0038-S0001
   path: planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md

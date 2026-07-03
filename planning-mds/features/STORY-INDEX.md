@@ -2,7 +2,7 @@
 
 Auto-generated index of all user stories across feature folders.
 
-**Total Stories:** 166
+**Total Stories:** 172
 
 ---
 
@@ -286,6 +286,19 @@ Auto-generated index of all user stories across feature folders.
 
 ---
 
+## F0024 — Claims & Service Case Tracking
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0024-S0001](./archive/F0024-claims-and-service-case-tracking/F0024-S0001-create-service-case-from-context.md) | Create a service case from account or policy context | High | MVP+ | service, relationship, or underwriting user |
+| [F0024-S0002](./archive/F0024-claims-and-service-case-tracking/F0024-S0002-view-service-cases-in-context.md) | View service cases in workspace and 360 context | High | MVP+ | service, relationship, or underwriting user |
+| [F0024-S0003](./archive/F0024-claims-and-service-case-tracking/F0024-S0003-manage-service-case-ownership-and-follow-up.md) | Manage service case ownership, priority, and follow-up | High | MVP+ | service user or manager |
+| [F0024-S0004](./archive/F0024-claims-and-service-case-tracking/F0024-S0004-transition-service-case-status.md) | Transition a service case through servicing statuses | High | MVP+ | service user or manager |
+| [F0024-S0005](./archive/F0024-claims-and-service-case-tracking/F0024-S0005-capture-claim-reference-context.md) | Capture claim-reference context on a service case | Medium | MVP+ | service, relationship, or underwriting user |
+| [F0024-S0006](./archive/F0024-claims-and-service-case-tracking/F0024-S0006-audit-and-permission-safe-service-case-history.md) | Audit and permission-safe service case history | High | MVP+ | manager, underwriter, or authorized service user |
+
+---
+
 ## F0033 — Structured Logging and QE Toolchain Activation
 
 | Story ID | Title | Priority | Phase | Persona |
@@ -363,6 +376,7 @@ Auto-generated index of all user stories across feature folders.
 | Infrastructure | 11 |
 | MVP | 74 |
 | MVP Hardening | 1 |
+| MVP+ | 6 |
 | Phase 1 | 11 |
 | Platform Foundation | 7 |
 | Unspecified | 4 |
@@ -374,8 +388,8 @@ Auto-generated index of all user stories across feature folders.
 | Priority | Count |
 |----------|-------|
 | Critical | 69 |
-| High | 80 |
-| Medium | 13 |
+| High | 85 |
+| Medium | 14 |
 
 ---
 

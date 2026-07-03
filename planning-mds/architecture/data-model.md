@@ -1102,10 +1102,75 @@ erDiagram
 
 ---
 
+## 12. Service Case And Claim Reference Context (F0024)
+
+F0024 introduces a CRM-owned service-case aggregate for customer service requests and claim-support coordination. It is not a carrier claim system and does not store reserves, payments, coverage determinations, or adjudication state.
+
+### 12.1 ServiceCase
+
+| Field | Type | Notes |
+|-------|------|-------|
+| Id | uuid (PK) | Stable service-case id. |
+| CaseNumber | varchar(40), UNIQUE | Human-readable case number; never reused. |
+| AccountId | uuid (FK -> Account) | Required parent context. |
+| PolicyId | uuid (FK -> Policy), nullable | Optional policy context; when present it must belong to AccountId. |
+| Summary | varchar(255) | Required short display summary. |
+| Description | varchar(4000), nullable | Internal servicing notes. |
+| Type | varchar(40) | `ServiceRequest`, `ClaimSupport`, `DocumentationSupport`, `BillingInquiry`, `Other`. |
+| Status | varchar(30) | `Intake`, `InProgress`, `Waiting`, `Resolved`, `Closed`. |
+| Priority | varchar(20) | `Low`, `Medium`, `High`, `Urgent`. |
+| OwnerUserId | uuid | Required internal owner. |
+| DueDate | date, nullable | Follow-up target date. |
+| FollowUpSummary | varchar(1000), nullable | Latest internal follow-up note. |
+| ResolvedAt | datetime, nullable | Set when transitioning to `Resolved`. |
+| ClosedAt | datetime, nullable | Set when transitioning to `Closed`. |
+| ResolutionSummary | varchar(1000), nullable | Required before resolving when business rules require a disposition. |
+| CreatedByUserId | uuid | Audit actor. |
+| CreatedAt / UpdatedAt | datetime | Audit timestamps. |
+| RowVersion | rowversion | Optimistic concurrency. |
+
+### 12.2 ServiceCaseClaimReference
+
+Optional 1:1 child record for claim-reference context only.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| ServiceCaseId | uuid (PK/FK -> ServiceCase) | One claim-reference row per service case. |
+| CarrierClaimNumber | varchar(80), nullable | Carrier or TPA reference number. |
+| DateOfLoss | date, nullable | Date of loss when known. |
+| ClaimantDisplayName | varchar(255), nullable | Display-only claimant reference. |
+| LossSummary | varchar(2000), nullable | Internal summary; do not project full text into timeline payloads. |
+| CarrierContactReference | varchar(255), nullable | Carrier/adjuster reference text. |
+| UpdatedByUserId | uuid, nullable | Last updater. |
+| UpdatedAt | datetime, nullable | Last update timestamp. |
+
+### 12.3 ServiceCase Links And Transition History
+
+`ServiceCaseCommunicationLink`
+- Bridge to `CommunicationEvent`; fields: `ServiceCaseId`, `CommunicationEventId`, `LinkType`, `CreatedByUserId`, `CreatedAt`.
+- The communication source record remains owned by F0021.
+
+`ServiceCaseTaskLink`
+- Bridge to `TaskItem`; fields: `ServiceCaseId`, `TaskId`, `Relationship`, `CreatedByUserId`, `CreatedAt`.
+- The task source record remains owned by F0004.
+
+`ServiceCaseTransition`
+- Append-only status history; fields: `ServiceCaseId`, `FromStatus`, `ToStatus`, `ActorUserId`, `OccurredAt`, `ReasonCode`, `Note`.
+- Allowed transitions: `Intake -> InProgress/Waiting`, `InProgress -> Waiting/Resolved`, `Waiting -> InProgress/Resolved`, and `Resolved -> Closed`.
+- Closed service cases are read-only in MVP.
+
+### 12.4 Migration Order (F0024)
+
+1. Create `ServiceCases`, `ServiceCaseClaimReferences`, `ServiceCaseCommunicationLinks`, `ServiceCaseTaskLinks`, and `ServiceCaseTransitions`.
+2. Add indexes for account/policy context lists, owner workspace lists, due date, status, priority, and unique `CaseNumber`.
+3. Seed Casbin `service_case` policy rows and update schema/API contract artifacts.
+4. Add timeline payload definitions for service-case events.
+
 ## Related Documents
 
 - [ADR-027: Neuron Companion A2A Orchestration](decisions/ADR-027-neuron-companion-a2a-orchestration.md) — F0038 companion foundation
 - [ADR-028: Neuron Persistence, Cross-Store Consistency & Outreach Authorization](decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md) — F0038 `neuron.*` schema
+- [ADR-030: Service Case And Claim Reference Boundary](decisions/ADR-030-service-case-and-claim-reference-boundary.md) — F0024 service-case source record and claim-reference limits
 - [ADR-026: Broker/MGA Hierarchy, Producer Ownership & Territory](decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md) — F0017 structural model
 - [ADR-014: Search Index, Saved Views, and Operational Reporting Projections](decisions/ADR-014-search-index-and-saved-view-architecture.md) — F0023 read-side model
 - [BLUEPRINT.md Section 4.2](../BLUEPRINT.md) — Core entity definitions
