@@ -50,8 +50,8 @@ rules:
 
 features:
   - id: feature:F0028
-    path: planning-mds/features/F0028-carrier-and-market-relationship-management
-    status: planned
+    path: planning-mds/features/archive/F0028-carrier-and-market-relationship-management
+    status: archived-done
     affects:
       - entity:carrier-market
       - entity:carrier-market-contact
@@ -1120,7 +1120,7 @@ features:
 
 stories:
   - id: story:F0028-S0001
-    path: planning-mds/features/F0028-carrier-and-market-relationship-management/F0028-S0001-market-directory-search.md
+    path: planning-mds/features/archive/F0028-carrier-and-market-relationship-management/F0028-S0001-market-directory-search.md
     feature: feature:F0028
     affects:
       - entity:carrier-market
@@ -1136,7 +1136,7 @@ stories:
       - policy_rule:carrier-market-search
       - policy_rule:global-search-read
   - id: story:F0028-S0002
-    path: planning-mds/features/F0028-carrier-and-market-relationship-management/F0028-S0002-carrier-market-profile-management.md
+    path: planning-mds/features/archive/F0028-carrier-and-market-relationship-management/F0028-S0002-carrier-market-profile-management.md
     feature: feature:F0028
     affects:
       - entity:carrier-market
@@ -1156,7 +1156,7 @@ stories:
       - policy_rule:carrier-market-create
       - policy_rule:carrier-market-update
   - id: story:F0028-S0003
-    path: planning-mds/features/F0028-carrier-and-market-relationship-management/F0028-S0003-underwriter-contact-management.md
+    path: planning-mds/features/archive/F0028-carrier-and-market-relationship-management/F0028-S0003-underwriter-contact-management.md
     feature: feature:F0028
     affects:
       - entity:carrier-market-contact
@@ -1175,7 +1175,7 @@ stories:
       - policy_rule:carrier-market-read
       - policy_rule:carrier-market-manage-contact
   - id: story:F0028-S0004
-    path: planning-mds/features/F0028-carrier-and-market-relationship-management/F0028-S0004-appetite-note-capture.md
+    path: planning-mds/features/archive/F0028-carrier-and-market-relationship-management/F0028-S0004-appetite-note-capture.md
     feature: feature:F0028
     affects:
       - entity:carrier-appetite-note
@@ -1191,7 +1191,7 @@ stories:
       - policy_rule:carrier-market-read
       - policy_rule:carrier-market-manage-appetite
   - id: story:F0028-S0005
-    path: planning-mds/features/F0028-carrier-and-market-relationship-management/F0028-S0005-appointment-context-management.md
+    path: planning-mds/features/archive/F0028-carrier-and-market-relationship-management/F0028-S0005-appointment-context-management.md
     feature: feature:F0028
     affects:
       - entity:carrier-appointment
@@ -1207,7 +1207,7 @@ stories:
       - policy_rule:carrier-market-read
       - policy_rule:carrier-market-manage-appointment
   - id: story:F0028-S0006
-    path: planning-mds/features/F0028-carrier-and-market-relationship-management/F0028-S0006-market-activity-and-related-work.md
+    path: planning-mds/features/archive/F0028-carrier-and-market-relationship-management/F0028-S0006-market-activity-and-related-work.md
     feature: feature:F0028
     affects:
       - entity:carrier-market-activity-link

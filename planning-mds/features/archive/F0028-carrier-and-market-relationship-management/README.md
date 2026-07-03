@@ -1,6 +1,7 @@
 # F0028 — Carrier & Market Relationship Management
 
-**Status:** In Progress — feature action run 2026-07-02-736e7854
+**Status:** Done — archived 2026-07-03 after feature action run 2026-07-02-736e7854
+**Archived:** 2026-07-03
 **Priority:** Medium
 **Phase:** CRM Release MVP+
 
@@ -21,20 +22,20 @@ Track carrier and market relationship context, underwriter contacts, appetite no
 
 | ID | Title | Status |
 |----|-------|--------|
-| [F0028-S0001](./F0028-S0001-market-directory-search.md) | Market directory search and open | Not Started |
-| [F0028-S0002](./F0028-S0002-carrier-market-profile-management.md) | Carrier and market profile management | Not Started |
-| [F0028-S0003](./F0028-S0003-underwriter-contact-management.md) | Underwriter and market contact management | Not Started |
-| [F0028-S0004](./F0028-S0004-appetite-note-capture.md) | Appetite note capture and freshness | Not Started |
-| [F0028-S0005](./F0028-S0005-appointment-context-management.md) | Appointment context management | Not Started |
-| [F0028-S0006](./F0028-S0006-market-activity-and-related-work.md) | Market activity and related work visibility | Not Started |
+| [F0028-S0001](./F0028-S0001-market-directory-search.md) | Market directory search and open | Complete |
+| [F0028-S0002](./F0028-S0002-carrier-market-profile-management.md) | Carrier and market profile management | Complete |
+| [F0028-S0003](./F0028-S0003-underwriter-contact-management.md) | Underwriter and market contact management | Complete |
+| [F0028-S0004](./F0028-S0004-appetite-note-capture.md) | Appetite note capture and freshness | Complete |
+| [F0028-S0005](./F0028-S0005-appointment-context-management.md) | Appointment context management | Complete |
+| [F0028-S0006](./F0028-S0006-market-activity-and-related-work.md) | Market activity and related work visibility | Complete |
 
 **Total Stories:** 6
-**Completed:** 0 / 6
+**Completed:** 6 / 6
 
 ## Architecture Review
 
 **Phase B status:** Approved for feature action
-**Execution Plan:** Produced later by `agents/actions/feature.md`, not by the plan action.
+**Execution Plan:** Completed in feature action run `2026-07-02-736e7854`.
 
 ### Key Findings
 
@@ -54,4 +55,4 @@ Track carrier and market relationship context, underwriter contacts, appetite no
 | JSON schemas | Added under `planning-mds/schemas/carrier-*.schema.json` |
 | C4 diagrams | Covered by existing CRM/API container boundary; no new runtime container |
 | ADRs | Not required for this slice |
-| Assembly plan | Deferred to feature action G0 |
+| Assembly plan | Completed in feature action G0 |

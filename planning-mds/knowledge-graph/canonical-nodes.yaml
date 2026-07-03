@@ -152,7 +152,7 @@ entities:
   - id: entity:carrier-market
     label: CarrierMarket
     source_docs:
-      - planning-mds/features/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md
+      - planning-mds/features/archive/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md
       - planning-mds/api/nebula-api.yaml
       - planning-mds/schemas/carrier-market.schema.json
     related_nodes:
@@ -163,7 +163,7 @@ entities:
   - id: entity:carrier-market-contact
     label: CarrierMarketContact
     source_docs:
-      - planning-mds/features/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md
+      - planning-mds/features/archive/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md
       - planning-mds/schemas/carrier-market-contact.schema.json
     related_nodes:
       - entity:carrier-market
@@ -171,7 +171,7 @@ entities:
   - id: entity:carrier-appetite-note
     label: CarrierAppetiteNote
     source_docs:
-      - planning-mds/features/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md
+      - planning-mds/features/archive/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md
       - planning-mds/schemas/carrier-appetite-note.schema.json
     related_nodes:
       - entity:carrier-market
@@ -180,7 +180,7 @@ entities:
   - id: entity:carrier-appointment
     label: CarrierAppointment
     source_docs:
-      - planning-mds/features/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md
+      - planning-mds/features/archive/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md
       - planning-mds/schemas/carrier-appointment.schema.json
     related_nodes:
       - entity:carrier-market
@@ -188,7 +188,7 @@ entities:
   - id: entity:carrier-market-activity-link
     label: CarrierMarketActivityLink
     source_docs:
-      - planning-mds/features/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md
+      - planning-mds/features/archive/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md
       - planning-mds/schemas/carrier-market-activity-link.schema.json
     related_nodes:
       - entity:carrier-market
@@ -602,8 +602,8 @@ capabilities:
   - id: capability:carrier-market-relationship-management
     label: Carrier Market Relationship Management
     source_docs:
-      - planning-mds/features/F0028-carrier-and-market-relationship-management/PRD.md
-      - planning-mds/features/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md
+      - planning-mds/features/archive/F0028-carrier-and-market-relationship-management/PRD.md
+      - planning-mds/features/archive/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md
       - planning-mds/api/nebula-api.yaml
     related_nodes:
       - entity:carrier-market

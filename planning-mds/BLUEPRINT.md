@@ -197,7 +197,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 - F0017: Broker/MGA Hierarchy, Producer Ownership & Territory Management - Planned
 - F0024: Claims & Service Case Tracking - Planned
 - F0027: COI, ACORD & Outbound Document Generation - Planned
-- [F0028: Carrier & Market Relationship Management](features/F0028-carrier-and-market-relationship-management/PRD.md) - Planned (Now; Phase A refined 2026-07-02; 6 stories: market directory search, carrier/market profile management, underwriter contact management, appetite note capture, appointment context, market activity/related work)
+- [F0028: Carrier & Market Relationship Management](features/archive/F0028-carrier-and-market-relationship-management/PRD.md) - Done (Archived 2026-07-03; feature run 2026-07-02-736e7854; 6 stories: market directory search, carrier/market profile management, underwriter contact management, appetite note capture, appointment context, market activity/related work)
 
 **Brokerage Platform Expansion (Planned):**
 - F0025: Commission, Producer Splits & Revenue Tracking - Planned
@@ -297,12 +297,12 @@ The first epic since the harness adopted the action/KG flow. A conversational co
 - [F0023-S0007: Permission-safe search and reporting behavior](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0007-permission-safe-search-and-reporting.md) - Done
 
 **MVP+ Stories (Feature F0028: Carrier & Market Relationship Management):**
-- [F0028-S0001: Market directory search and open](features/F0028-carrier-and-market-relationship-management/F0028-S0001-market-directory-search.md) - Planned
-- [F0028-S0002: Carrier and market profile management](features/F0028-carrier-and-market-relationship-management/F0028-S0002-carrier-market-profile-management.md) - Planned
-- [F0028-S0003: Underwriter and market contact management](features/F0028-carrier-and-market-relationship-management/F0028-S0003-underwriter-contact-management.md) - Planned
-- [F0028-S0004: Appetite note capture and freshness](features/F0028-carrier-and-market-relationship-management/F0028-S0004-appetite-note-capture.md) - Planned
-- [F0028-S0005: Appointment context management](features/F0028-carrier-and-market-relationship-management/F0028-S0005-appointment-context-management.md) - Planned
-- [F0028-S0006: Market activity and related work visibility](features/F0028-carrier-and-market-relationship-management/F0028-S0006-market-activity-and-related-work.md) - Planned
+- [F0028-S0001: Market directory search and open](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0001-market-directory-search.md) - Done (Archived)
+- [F0028-S0002: Carrier and market profile management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0002-carrier-market-profile-management.md) - Done (Archived)
+- [F0028-S0003: Underwriter and market contact management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0003-underwriter-contact-management.md) - Done (Archived)
+- [F0028-S0004: Appetite note capture and freshness](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0004-appetite-note-capture.md) - Done (Archived)
+- [F0028-S0005: Appointment context management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0005-appointment-context-management.md) - Done (Archived)
+- [F0028-S0006: Market activity and related work visibility](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0006-market-activity-and-related-work.md) - Done (Archived)
 
 **MVP Stories (Feature F0010: Dashboard Opportunities Refactor):**
 - [F0010-S0001: Replace Sankey default with Pipeline Board](features/archive/F0010-dashboard-opportunities-refactor/F0010-S0001-replace-sankey-with-pipeline-board-default.md) - Done (Historical; superseded by F0013)

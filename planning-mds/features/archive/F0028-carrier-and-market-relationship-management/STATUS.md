@@ -1,7 +1,8 @@
 # F0028 — Carrier & Market Relationship Management — Status
 
-**Overall Status:** Completed — feature action run 2026-07-02-736e7854 approved with recommendations
-**Last Updated:** 2026-07-02
+**Overall Status:** Done (Archived) — feature action run 2026-07-02-736e7854 approved with recommendations
+**Last Updated:** 2026-07-03
+**Archived:** 2026-07-03
 
 ## Story Checklist
 
@@ -104,3 +105,14 @@
 - [x] `planning-mds/features/STORY-INDEX.md` regenerated
 - [x] `planning-mds/BLUEPRINT.md` feature/story status links aligned
 - [x] Every required signoff role has story-level `PASS` entries with reviewer, date, and evidence before closeout
+
+## Closeout Summary
+
+- Implementation date: 2026-07-02
+- Archive date: 2026-07-03
+- Feature action run: `2026-07-02-736e7854`
+- Delivered scope: carrier/market directory search, profile management, underwriter contact management, appetite note capture, appointment context, related work visibility, authorization, audit/timeline behavior, API/schema contracts, and UI workflows.
+- Validation: backend build PASS, focused backend tests PASS (111 tests), frontend build PASS, focused frontend tests PASS (15 tests), runtime health/auth smoke PASS, KG validation PASS with documented warnings.
+- Defects found/fixed: no blocking defects remained at closeout; non-blocking recommendations accepted as follow-ups.
+- Residual risks: inherited `Microsoft.OpenApi 2.0.0` advisory and full regression-suite execution remain release-readiness follow-ups.
+- Scope deferrals: carrier API synchronization, rating/pricing/quote comparison, reinsurance workflows, dependency upgrade, full regression suite, and CI scanner automation remain outside this F0028 archive.

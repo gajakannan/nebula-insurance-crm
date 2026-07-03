@@ -13,7 +13,7 @@
 
 ## Archive Decision
 
-Do not archive the feature folder yet. F0028 is implemented and approved, but remains in the active planning tree until tracker/archive movement is explicitly requested.
+Archived on 2026-07-03 as a PM closeout correction after the operator identified that the completed feature remained in the active planning tree. The feature folder was moved to `planning-mds/features/archive/F0028-carrier-and-market-relationship-management/`, and lifecycle trackers were updated to the archived path/state.
 
 ## Deferred Follow-ups
 
@@ -37,9 +37,11 @@ Do not archive the feature folder yet. F0028 is implemented and approved, but re
 
 ## Tracker Updates
 
-- F0028 feature status updated to completed in the feature status artifact.
-- Story index and KG coverage were refreshed during the run.
-- Roadmap movement to Now was completed during the planning phase; final archive movement is deferred.
+- F0028 feature status updated to completed and archived in the feature status artifact.
+- Story index and KG coverage were refreshed after the archive move.
+- Roadmap moved F0028 from Now to Completed and points to the archived folder.
+- Registry moved F0028 from Planned to Archived Features.
+- Blueprint and KG feature/story mappings now point to archived feature paths.
 
 ## Validator Results
 
@@ -50,3 +52,4 @@ Do not archive the feature folder yet. F0028 is implemented and approved, but re
 - Runtime health/auth smoke: PASS.
 - KG validation and drift check: PASS with documented warnings.
 - Feature evidence validation is run at G8 after closeout artifacts are complete.
+- Archive transition validation: PASS after 2026-07-03 closeout correction.

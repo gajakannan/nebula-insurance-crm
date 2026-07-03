@@ -2117,7 +2117,7 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 
 **Added:** 2026-07-02 - Feature action Step 0 (run `2026-07-02-736e7854`) created the feature-local implementation execution plan after Phase B approval.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0028-carrier-and-market-relationship-management/feature-assembly-plan.md) - backend/frontend slice order (S0001-S0006): carrier market aggregate, contacts, appetite notes, appointments, activity links, internal-only search projection, Casbin `carrier_market` policies, timeline events, directory/detail UI, and required QE/Code/Security/DevOps/Architect evidence.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0028-carrier-and-market-relationship-management/feature-assembly-plan.md) - backend/frontend slice order (S0001-S0006): carrier market aggregate, contacts, appetite notes, appointments, activity links, internal-only search projection, Casbin `carrier_market` policies, timeline events, directory/detail UI, and required QE/Code/Security/DevOps/Architect evidence.
 
 ### Dependencies
 

@@ -6,9 +6,9 @@
 - `agents/templates/feature-assembly-plan-template.md`
 - `agents/templates/*evidence*`
 - `planning-mds/operations/evidence/runs/2026-07-02-0e5b0cce/gate-decisions.md`
-- `planning-mds/features/F0028-carrier-and-market-relationship-management/PRD.md`
-- `planning-mds/features/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md`
-- `planning-mds/features/F0028-carrier-and-market-relationship-management/F0028-S*.md`
+- `planning-mds/features/archive/F0028-carrier-and-market-relationship-management/PRD.md`
+- `planning-mds/features/archive/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md`
+- `planning-mds/features/archive/F0028-carrier-and-market-relationship-management/F0028-S*.md`
 - `planning-mds/knowledge-graph/feature-mappings.yaml`
 - `planning-mds/api/nebula-api.yaml`
 - Existing backend endpoint/service/repository/EF patterns under `engine/src/**`
@@ -16,12 +16,12 @@
 
 ## Artifacts Created Or Updated
 
-- `planning-mds/features/F0028-carrier-and-market-relationship-management/feature-assembly-plan.md`
+- `planning-mds/features/archive/F0028-carrier-and-market-relationship-management/feature-assembly-plan.md`
 - `planning-mds/architecture/feature-assembly-plan.md`
-- `planning-mds/features/F0028-carrier-and-market-relationship-management/STATUS.md`
-- `planning-mds/features/F0028-carrier-and-market-relationship-management/README.md`
-- `planning-mds/features/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md`
-- `planning-mds/features/F0028-carrier-and-market-relationship-management/F0028-S*.md`
+- `planning-mds/features/archive/F0028-carrier-and-market-relationship-management/STATUS.md`
+- `planning-mds/features/archive/F0028-carrier-and-market-relationship-management/README.md`
+- `planning-mds/features/archive/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md`
+- `planning-mds/features/archive/F0028-carrier-and-market-relationship-management/F0028-S*.md`
 - `planning-mds/api/nebula-api.yaml`
 - `planning-mds/schemas/carrier-*.schema.json`
 - `planning-mds/security/authorization-matrix.md`
@@ -53,6 +53,7 @@
 - EF migration: `20260702151138_F0028_CarrierMarketRelationshipManagement`
 - Coverage attachment from focused backend test run under `engine/tests/Nebula.Tests/TestResults/**/coverage.cobertura.xml`
 - Refreshed KG coverage report at `planning-mds/knowledge-graph/coverage-report.yaml`
+- Archive correction moved feature planning artifacts to `planning-mds/features/archive/F0028-carrier-and-market-relationship-management/`.
 
 ## External Or Global Evidence References
 
