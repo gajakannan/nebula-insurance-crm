@@ -1,0 +1,18 @@
+# Commands - F0008 Feature Review Closeout Audit
+
+Review Run ID: 2026-07-03-173f7e84
+Feature Run ID: 2026-07-03-fd732693
+Date: 2026-07-03
+
+| Command | Result | Notes |
+| --- | --- | --- |
+| `python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root ../nebula-insurance-crm --feature F0008 --stage closeout` | PASS | Warning: `commands_log_absolute_cwd_warns`. |
+| `python3 agents/product-manager/scripts/validate-trackers.py --product-root ../nebula-insurance-crm` | FAIL / noisy global | Reported missing artifacts for older archived feature evidence outside F0008; F0008-scoped validation was run next. |
+| `python3 scripts/kg/validate.py --check-symbols` | PASS | Pre-existing symbol warnings only. |
+| `python3 scripts/kg/validate.py --check-drift` | PASS | Pre-existing symbol warnings only. |
+| `python3 agents/scripts/validate_templates.py` | PASS | Template validation passed. |
+| `python3 agents/product-manager/scripts/validate-trackers.py --product-root ../nebula-insurance-crm --feature F0008` | PASS | Warning: `commands_log_absolute_cwd_warns`. |
+| `test ! -e planning-mds/features/F0008-broker-insights` | PASS | Active feature folder absent. |
+| `test -d planning-mds/features/archive/F0008-broker-insights` | PASS | Archived feature folder present. |
+
+`generate-story-index.py` was not run during this feature-review action because `agents/actions/feature-review.md` says the action is read-only except for the review report and forbids tracker edits during review. F0008-scoped tracker validation passed without regeneration.

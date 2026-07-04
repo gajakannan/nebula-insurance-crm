@@ -7,7 +7,7 @@ import path from 'path'
 export default defineConfig(() => {
   const apiProxyTarget = process.env.NEBULA_API_PROXY_TARGET?.trim()
     || process.env.VITE_API_PROXY_TARGET?.trim()
-    || 'http://localhost:5113'
+    || 'http://localhost:8080'
   const spaNavigationBypass = (request: { method?: string; headers: Record<string, string | string[] | undefined> }) => {
     const accept = request.headers.accept
     const acceptsHtml = Array.isArray(accept)
@@ -39,6 +39,7 @@ export default defineConfig(() => {
     '/search-results',
     '/saved-views',
     '/operational-reports',
+    '/broker-insights',
     '/documents',
     '/document-templates',
     '/distribution-nodes',

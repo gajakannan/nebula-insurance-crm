@@ -8,9 +8,6 @@ coverage_note: >
 
 coverage:
   excluded_features:
-    - id: feature:F0008
-      path: planning-mds/features/F0008-broker-insights
-      reason: Planned feature folder exists but ontology mapping backfill has not started.
     - id: feature:F0021
       path: planning-mds/features/F0021-communication-hub-and-activity-capture
       reason: Planned feature folder exists but ontology mapping backfill has not started.
@@ -52,6 +49,61 @@ rules:
   - If a target feature or story is not mapped here, prompts must fall back to the current file-centric read pattern.
 
 features:
+  - id: feature:F0008
+    path: planning-mds/features/archive/F0008-broker-insights
+    status: archived-done
+    affects:
+      - entity:broker-insight-projection
+      - entity:broker
+      - entity:mga
+      - entity:producer
+      - entity:territory
+      - entity:producer-ownership
+      - entity:territory-assignment
+      - entity:submission
+      - entity:renewal
+      - entity:policy
+      - entity:activity-timeline-event
+      - entity:operational-report-projection
+      - entity:search-document
+      - capability:broker-insights
+      - capability:broker-relationship-management
+      - capability:broker-360
+      - capability:distribution-hierarchy-management
+      - capability:producer-ownership-management
+      - capability:territory-management
+      - capability:operational-reporting
+      - capability:authorization-enforcement
+      - workflow:submission
+      - workflow:renewal
+      - endpoint:broker-insight-scorecards
+      - endpoint:broker-insight-trends
+      - endpoint:broker-insight-benchmarks
+      - endpoint:broker-insight-snapshot
+      - policy_rule:broker-read
+      - policy_rule:operational-report-read
+      - policy_rule:broker-insight-read
+    governed_by:
+      - adr:014-search
+      - adr:026
+      - adr:029
+    uses_schema:
+      - schema:broker-insight-scorecard
+      - schema:broker-insight-trend
+      - schema:broker-insight-benchmark
+      - schema:broker-insight-snapshot
+    uses_api_contract:
+      - api:nebula-rest
+    depends_on:
+      - feature:F0006
+      - feature:F0007
+      - feature:F0017
+      - feature:F0019
+      - feature:F0023
+    notes:
+      - "Phase A refined in plan run 2026-07-03-4b9ca863. MVP is read-only broker scorecards, trend drilldowns, authorized benchmarks, review snapshots, and permission-safe behavior over existing operational data."
+      - "Phase B completed in plan run 2026-07-03-4b9ca863. ADR-029 introduces BrokerInsightProjection, BrokerInsights API surfaces, broker-insight schemas, and broker_insight:read."
+      - "F0037 remains owner of hierarchy-aware access enforcement and distribution rollups; F0008 consumes existing authorized data and F0017 dimensions but does not replace F0037."
   - id: feature:F0001
     path: planning-mds/features/archive/F0001-dashboard
     status: archived-done
@@ -1070,6 +1122,157 @@ features:
       - "code-index.yaml bindings intentionally deferred: no neuron/ implementation code exists at plan; the F0038 feature action binds the as-built neuron/ + engine/ paths."
 
 stories:
+  - id: story:F0008-S0001
+    path: planning-mds/features/archive/F0008-broker-insights/F0008-S0001-broker-scorecard-overview.md
+    feature: feature:F0008
+    affects:
+      - entity:broker-insight-projection
+      - entity:broker
+      - entity:submission
+      - entity:renewal
+      - entity:policy
+      - entity:activity-timeline-event
+      - entity:operational-report-projection
+      - capability:broker-insights
+      - capability:broker-relationship-management
+      - capability:operational-reporting
+      - capability:authorization-enforcement
+      - endpoint:broker-insight-scorecards
+      - policy_rule:broker-read
+      - policy_rule:operational-report-read
+      - policy_rule:broker-insight-read
+      - schema:broker-insight-scorecard
+    governed_by:
+      - adr:029
+    uses_api_contract:
+      - api:nebula-rest
+    depends_on:
+      - feature:F0017
+      - feature:F0019
+      - feature:F0023
+  - id: story:F0008-S0002
+    path: planning-mds/features/archive/F0008-broker-insights/F0008-S0002-trend-drilldown-source-records.md
+    feature: feature:F0008
+    affects:
+      - entity:broker-insight-projection
+      - entity:broker
+      - entity:submission
+      - entity:renewal
+      - entity:policy
+      - entity:activity-timeline-event
+      - entity:search-document
+      - capability:broker-insights
+      - capability:broker-360
+      - capability:operational-reporting
+      - capability:authorization-enforcement
+      - endpoint:broker-insight-trends
+      - policy_rule:broker-read
+      - policy_rule:operational-report-read
+      - policy_rule:broker-insight-read
+      - schema:broker-insight-trend
+    governed_by:
+      - adr:029
+    uses_api_contract:
+      - api:nebula-rest
+    depends_on:
+      - story:F0008-S0001
+      - feature:F0023
+  - id: story:F0008-S0003
+    path: planning-mds/features/archive/F0008-broker-insights/F0008-S0003-authorized-benchmark-comparison.md
+    feature: feature:F0008
+    affects:
+      - entity:broker-insight-projection
+      - entity:broker
+      - entity:mga
+      - entity:producer
+      - entity:territory
+      - entity:operational-report-projection
+      - capability:broker-insights
+      - capability:distribution-hierarchy-management
+      - capability:producer-ownership-management
+      - capability:territory-management
+      - capability:operational-reporting
+      - capability:authorization-enforcement
+      - endpoint:broker-insight-benchmarks
+      - policy_rule:operational-report-read
+      - policy_rule:broker-insight-read
+      - schema:broker-insight-benchmark
+    governed_by:
+      - adr:029
+    uses_api_contract:
+      - api:nebula-rest
+    depends_on:
+      - story:F0008-S0001
+      - story:F0008-S0002
+      - feature:F0017
+      - feature:F0023
+  - id: story:F0008-S0004
+    path: planning-mds/features/archive/F0008-broker-insights/F0008-S0004-review-snapshot.md
+    feature: feature:F0008
+    affects:
+      - entity:broker-insight-projection
+      - entity:broker
+      - entity:submission
+      - entity:renewal
+      - entity:policy
+      - entity:activity-timeline-event
+      - entity:search-document
+      - capability:broker-insights
+      - capability:broker-360
+      - capability:operational-reporting
+      - capability:authorization-enforcement
+      - endpoint:broker-insight-snapshot
+      - policy_rule:broker-read
+      - policy_rule:operational-report-read
+      - policy_rule:broker-insight-read
+      - schema:broker-insight-snapshot
+    governed_by:
+      - adr:029
+    uses_api_contract:
+      - api:nebula-rest
+    depends_on:
+      - story:F0008-S0001
+      - story:F0008-S0002
+      - story:F0008-S0003
+  - id: story:F0008-S0005
+    path: planning-mds/features/archive/F0008-broker-insights/F0008-S0005-permission-safe-insights.md
+    feature: feature:F0008
+    affects:
+      - entity:broker-insight-projection
+      - entity:broker
+      - entity:mga
+      - entity:producer
+      - entity:territory
+      - entity:submission
+      - entity:renewal
+      - entity:policy
+      - entity:activity-timeline-event
+      - entity:operational-report-projection
+      - capability:broker-insights
+      - capability:authorization-enforcement
+      - capability:operational-reporting
+      - endpoint:broker-insight-scorecards
+      - endpoint:broker-insight-trends
+      - endpoint:broker-insight-benchmarks
+      - endpoint:broker-insight-snapshot
+      - policy_rule:broker-read
+      - policy_rule:operational-report-read
+      - policy_rule:broker-insight-read
+      - schema:broker-insight-scorecard
+      - schema:broker-insight-trend
+      - schema:broker-insight-benchmark
+      - schema:broker-insight-snapshot
+    governed_by:
+      - adr:029
+    uses_api_contract:
+      - api:nebula-rest
+    depends_on:
+      - story:F0008-S0001
+      - story:F0008-S0002
+      - story:F0008-S0003
+      - story:F0008-S0004
+      - feature:F0017
+      - feature:F0023
   - id: story:F0023-S0001
     path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0001-global-search-results.md
     feature: feature:F0023

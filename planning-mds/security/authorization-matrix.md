@@ -519,6 +519,31 @@ criteria only and never grant source-record access.
 
 ---
 
+### 2.10c Broker Insights (F0008)
+
+F0008 is internal-only and read-only. Broker scorecards, trends, benchmarks,
+snapshots, source links, peer sets, ranks, and counts are computed after
+source-record authorization filtering. This feature does not introduce
+hierarchy-aware read enforcement or distribution rollups; F0037 owns that scope.
+
+| Role | Resource | Action | Decision | Business Scope / Constraints | Story / AC Reference |
+|------|----------|--------|----------|------------------------------|----------------------|
+| DistributionUser | broker_insight | read | **ALLOW** | Assigned/opportunity source scope applies at query layer. | F0008-S0001, S0002, S0005 |
+| DistributionManager | broker_insight | read | **ALLOW** | Region/team source scope applies at query layer. | F0008-S0001, S0003, S0005 |
+| Underwriter | broker_insight | read | **ALLOW** | Underwriting source-record scope applies at query layer. | F0008-S0002, S0005 |
+| RelationshipManager | broker_insight | read | **ALLOW** | Managed broker/account scope applies at query layer. | F0008-S0001, S0002, S0004, S0005 |
+| ProgramManager | broker_insight | read | **ALLOW** | Program source scope applies at query layer. | F0008-S0003, S0005 |
+| Admin | broker_insight | read | **ALLOW** | Unscoped internal read subject to source-record availability. | F0008-S0001 through S0005 |
+| BrokerUser / ExternalUser | broker_insight | all | **DENY** | External broker insights are out of scope. | F0008-S0005 |
+
+**Constraints applying to all F0008 ALLOW decisions:**
+- Hidden source records must not influence counts, denominators, trend points, peer counts, medians, ranks, percentiles, snapshots, or source links.
+- Unauthorized matches are indistinguishable from non-matches in user-facing result states.
+- Benchmark rank and percentile require at least five visible peers; otherwise suppress them.
+- F0008 surfaces are read-only. No timeline event is emitted by scorecard, trend, benchmark, or snapshot reads.
+
+---
+
 ### 2.11 Account (F0016)
 
 Resource: `account`. Actions: `read`, `create`, `update`, `deactivate`, `reactivate`, `delete`, `merge`, `contact:manage`, `relationship:change`. See [ADR-017](../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md) for merge and tombstone contract.

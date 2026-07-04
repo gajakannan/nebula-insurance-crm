@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/broker-insight-trend.schema.json",
+  "title": "BrokerInsightTrend",
+  "description": "F0008 broker insight trend response with permission-filtered source rows.",
+  "type": "object",
+  "required": ["brokerId", "metricKey", "bucket", "periodStart", "periodEnd", "points", "sourceRows", "generatedAt"],
+  "properties": {
+    "brokerId": { "type": "string", "format": "uuid" },
+    "metricKey": { "type": "string", "maxLength": 80 },
+    "bucket": { "type": "string", "enum": ["day", "week", "month", "quarter"] },
+    "periodStart": { "type": "string", "format": "date" },
+    "periodEnd": { "type": "string", "format": "date" },
+    "points": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/trendPoint" }
+    },
+    "sourceRows": {
+      "type": "array",
+      "items": { "$ref": "https://nebula.local/schemas/global-search-result.schema.json" }
+    },
+    "partialData": { "type": "boolean", "default": false },
+    "generatedAt": { "type": "string", "format": "date-time" }
+  },
+  "definitions": {
+    "trendPoint": {
+      "type": "object",
+      "required": ["bucketStart", "bucketEnd", "value", "denominator", "sourceRecordCount"],
+      "properties": {
+        "bucketStart": { "type": "string", "format": "date" },
+        "bucketEnd": { "type": "string", "format": "date" },
+        "value": { "type": ["number", "null"] },
+        "denominator": { "type": "integer", "minimum": 0 },
+        "sourceRecordCount": { "type": "integer", "minimum": 0 },
+        "status": { "type": "string", "enum": ["Available", "NoData", "Partial", "Unavailable"] }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/broker-insight-scorecard.schema.json",
+  "title": "BrokerInsightScorecard",
+  "description": "F0008 permission-filtered broker scorecard response.",
+  "type": "object",
+  "required": ["brokerId", "brokerName", "periodStart", "periodEnd", "metrics", "generatedAt"],
+  "properties": {
+    "brokerId": { "type": "string", "format": "uuid" },
+    "brokerName": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "periodStart": { "type": "string", "format": "date" },
+    "periodEnd": { "type": "string", "format": "date" },
+    "comparisonPeriodStart": { "type": ["string", "null"], "format": "date" },
+    "comparisonPeriodEnd": { "type": ["string", "null"], "format": "date" },
+    "filters": { "$ref": "#/definitions/filterContext" },
+    "metrics": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/metricCard" }
+    },
+    "partialData": { "type": "boolean", "default": false },
+    "generatedAt": { "type": "string", "format": "date-time" }
+  },
+  "definitions": {
+    "filterContext": {
+      "type": "object",
+      "properties": {
+        "producerId": { "type": ["string", "null"], "format": "uuid" },
+        "territoryId": { "type": ["string", "null"], "format": "uuid" },
+        "programId": { "type": ["string", "null"], "format": "uuid" },
+        "lineOfBusiness": { "type": ["string", "null"], "maxLength": 80 },
+        "region": { "type": ["string", "null"], "maxLength": 80 }
+      },
+      "additionalProperties": false
+    },
+    "metricCard": {
+      "type": "object",
+      "required": ["metricKey", "label", "value", "unit", "denominator", "sourceRecordCount", "status", "lastRefreshedAt"],
+      "properties": {
+        "metricKey": {
+          "type": "string",
+          "enum": ["quoteCount", "bindCount", "quoteToBindRate", "retentionRate", "openPipelineCount", "activityCount", "productionAmount"]
+        },
+        "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "value": { "type": ["number", "null"] },
+        "comparisonValue": { "type": ["number", "null"] },
+        "unit": { "type": "string", "enum": ["count", "percentage", "currency"] },
+        "denominator": { "type": "integer", "minimum": 0 },
+        "sourceRecordCount": { "type": "integer", "minimum": 0 },
+        "status": { "type": "string", "enum": ["Available", "NoData", "Partial", "Unavailable"] },
+        "drilldownAvailable": { "type": "boolean", "default": false },
+        "lastRefreshedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

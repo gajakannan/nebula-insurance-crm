@@ -1,9 +1,12 @@
 openapi: 3.0.3
 info:
   title: Nebula API
-  version: 0.7.0
+  version: 0.8.0
   description: |
     Public baseline API contract for the Nebula insurance CRM reference implementation.
+    Version 0.8.0 adds F0008 Broker Insights read-only endpoints:
+    broker scorecards, trends/source rows, authorized benchmark comparison,
+    and review snapshots. Governed by ADR-029.
     Version 0.7.0 adds F0038 Neuron Companion engine endpoints (NeuronCompanion tag):
     renewals needing attention, per-renewal companion context, persist outreach draft,
     mock-send (commits Identified→Outreach without dispatching email), and companion
@@ -60,6 +63,8 @@ tags:
     description: Personal and team saved criteria for search and operational reports (F0023)
   - name: OperationalReports
     description: ABAC-scoped workload and workflow aging report endpoints (F0023)
+  - name: BrokerInsights
+    description: Permission-filtered broker scorecards, trends, benchmarks, and review snapshots (F0008)
   - name: Timeline
     description: Activity timeline event queries
   - name: Documents
@@ -3306,6 +3311,189 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "403":
           $ref: "#/components/responses/Forbidden"
+
+  # ──────────────────────────────────────────────────────────────
+  # F0008 Broker Insights
+  # ──────────────────────────────────────────────────────────────
+  /broker-insights/scorecards:
+    get:
+      operationId: listBrokerInsightScorecards
+      summary: List broker insight scorecards
+      description: |
+        Returns permission-filtered broker scorecards for the selected broker
+        and time window. Metrics are computed after source-record authorization
+        filtering and include denominator and refresh provenance. External users
+        are out of scope.
+      tags: [BrokerInsights]
+      parameters:
+        - name: brokerId
+          in: query
+          required: false
+          schema: { type: string, format: uuid }
+        - name: periodStart
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: periodEnd
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: producerId
+          in: query
+          required: false
+          schema: { type: string, format: uuid }
+        - name: territoryId
+          in: query
+          required: false
+          schema: { type: string, format: uuid }
+        - name: programId
+          in: query
+          required: false
+          schema: { type: string, format: uuid }
+        - name: lineOfBusiness
+          in: query
+          required: false
+          schema: { type: string, maxLength: 80 }
+        - name: region
+          in: query
+          required: false
+          schema: { type: string, maxLength: 80 }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated broker insight scorecards
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, page, pageSize, totalCount, totalPages]
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: "#/components/schemas/BrokerInsightScorecard" }
+                  page: { type: integer, minimum: 1 }
+                  pageSize: { type: integer, minimum: 1 }
+                  totalCount: { type: integer, minimum: 0 }
+                  totalPages: { type: integer, minimum: 0 }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /broker-insights/{brokerId}/trends:
+    parameters:
+      - $ref: "#/components/parameters/BrokerId"
+    get:
+      operationId: getBrokerInsightTrend
+      summary: Get broker insight trend and source rows
+      description: |
+        Returns trend points and permission-filtered source rows for one broker
+        metric. Source rows reuse the GlobalSearchResult shape for navigation.
+      tags: [BrokerInsights]
+      parameters:
+        - name: metricKey
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [quoteCount, bindCount, quoteToBindRate, retentionRate, openPipelineCount, activityCount, productionAmount]
+        - name: periodStart
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: periodEnd
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: bucket
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [day, week, month, quarter]
+            default: month
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Broker insight trend
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrokerInsightTrend"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /broker-insights/{brokerId}/benchmarks:
+    parameters:
+      - $ref: "#/components/parameters/BrokerId"
+    get:
+      operationId: getBrokerInsightBenchmark
+      summary: Get authorized broker benchmark comparison
+      description: |
+        Compares the selected broker against an authorized peer set. Rank and
+        percentile are suppressed when fewer than five visible peers match.
+      tags: [BrokerInsights]
+      parameters:
+        - name: periodStart
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: periodEnd
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: peerSet
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [visibleBrokerGroup, producer, territory, program, region]
+            default: visibleBrokerGroup
+      responses:
+        "200":
+          description: Authorized benchmark comparison
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrokerInsightBenchmark"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /broker-insights/{brokerId}/snapshot:
+    parameters:
+      - $ref: "#/components/parameters/BrokerId"
+    get:
+      operationId: getBrokerInsightSnapshot
+      summary: Get broker review snapshot
+      description: |
+        Returns a read-only, review-ready broker insight snapshot. It does not
+        create a file, email, timeline event, or saved report.
+      tags: [BrokerInsights]
+      parameters:
+        - name: periodStart
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: periodEnd
+          in: query
+          required: true
+          schema: { type: string, format: date }
+      responses:
+        "200":
+          description: Broker insight review snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrokerInsightSnapshot"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
 
   # ──────────────────────────────────────────────────────────────
   # Dashboard endpoints (NEW — F0001)
@@ -8523,6 +8711,162 @@ components:
         ownerDisplayName: { type: string }
         openCount: { type: integer, minimum: 0 }
         overdueCount: { type: integer, minimum: 0 }
+
+    # ──────────────────────────────────────────────────────────────
+    # F0008 Broker Insights schemas
+    # Source-of-truth schemas live in planning-mds/schemas/broker-insight-*.json.
+    # ──────────────────────────────────────────────────────────────
+    BrokerInsightScorecard:
+      type: object
+      required: [brokerId, brokerName, periodStart, periodEnd, metrics, generatedAt]
+      properties:
+        brokerId: { type: string, format: uuid }
+        brokerName: { type: string, minLength: 1, maxLength: 200 }
+        periodStart: { type: string, format: date }
+        periodEnd: { type: string, format: date }
+        comparisonPeriodStart: { type: string, format: date, nullable: true }
+        comparisonPeriodEnd: { type: string, format: date, nullable: true }
+        filters: { $ref: "#/components/schemas/BrokerInsightFilterContext" }
+        metrics:
+          type: array
+          minItems: 1
+          items: { $ref: "#/components/schemas/BrokerInsightMetricCard" }
+        partialData: { type: boolean, default: false }
+        generatedAt: { type: string, format: date-time }
+
+    BrokerInsightFilterContext:
+      type: object
+      properties:
+        producerId: { type: string, format: uuid, nullable: true }
+        territoryId: { type: string, format: uuid, nullable: true }
+        programId: { type: string, format: uuid, nullable: true }
+        lineOfBusiness: { type: string, nullable: true, maxLength: 80 }
+        region: { type: string, nullable: true, maxLength: 80 }
+
+    BrokerInsightMetricCard:
+      type: object
+      required: [metricKey, label, value, unit, denominator, sourceRecordCount, status, lastRefreshedAt]
+      properties:
+        metricKey:
+          type: string
+          enum: [quoteCount, bindCount, quoteToBindRate, retentionRate, openPipelineCount, activityCount, productionAmount]
+        label: { type: string, minLength: 1, maxLength: 120 }
+        value: { type: number, nullable: true }
+        comparisonValue: { type: number, nullable: true }
+        unit:
+          type: string
+          enum: [count, percentage, currency]
+        denominator: { type: integer, minimum: 0 }
+        sourceRecordCount: { type: integer, minimum: 0 }
+        status:
+          type: string
+          enum: [Available, NoData, Partial, Unavailable]
+        drilldownAvailable: { type: boolean, default: false }
+        lastRefreshedAt: { type: string, format: date-time }
+
+    BrokerInsightTrend:
+      type: object
+      required: [brokerId, metricKey, bucket, periodStart, periodEnd, points, sourceRows, generatedAt]
+      properties:
+        brokerId: { type: string, format: uuid }
+        metricKey: { type: string, maxLength: 80 }
+        bucket:
+          type: string
+          enum: [day, week, month, quarter]
+        periodStart: { type: string, format: date }
+        periodEnd: { type: string, format: date }
+        points:
+          type: array
+          items: { $ref: "#/components/schemas/BrokerInsightTrendPoint" }
+        sourceRows:
+          type: array
+          items: { $ref: "#/components/schemas/GlobalSearchResult" }
+        partialData: { type: boolean, default: false }
+        generatedAt: { type: string, format: date-time }
+
+    BrokerInsightTrendPoint:
+      type: object
+      required: [bucketStart, bucketEnd, value, denominator, sourceRecordCount]
+      properties:
+        bucketStart: { type: string, format: date }
+        bucketEnd: { type: string, format: date }
+        value: { type: number, nullable: true }
+        denominator: { type: integer, minimum: 0 }
+        sourceRecordCount: { type: integer, minimum: 0 }
+        status:
+          type: string
+          enum: [Available, NoData, Partial, Unavailable]
+
+    BrokerInsightBenchmark:
+      type: object
+      required: [brokerId, periodStart, periodEnd, peerSet, metrics, generatedAt]
+      properties:
+        brokerId: { type: string, format: uuid }
+        periodStart: { type: string, format: date }
+        periodEnd: { type: string, format: date }
+        peerSet: { $ref: "#/components/schemas/BrokerInsightPeerSet" }
+        metrics:
+          type: array
+          items: { $ref: "#/components/schemas/BrokerInsightBenchmarkMetric" }
+        generatedAt: { type: string, format: date-time }
+
+    BrokerInsightPeerSet:
+      type: object
+      required: [type, visiblePeerCount, minimumPeerCount, status]
+      properties:
+        type:
+          type: string
+          enum: [visibleBrokerGroup, producer, territory, program, region]
+        visiblePeerCount: { type: integer, minimum: 0 }
+        minimumPeerCount: { type: integer, minimum: 1 }
+        status:
+          type: string
+          enum: [Available, InsufficientPeers, NoData]
+
+    BrokerInsightBenchmarkMetric:
+      type: object
+      required: [metricKey, brokerValue, denominator, peerMedian, rank, percentile, variance, status]
+      properties:
+        metricKey: { type: string, maxLength: 80 }
+        brokerValue: { type: number, nullable: true }
+        denominator: { type: integer, minimum: 0 }
+        peerMedian: { type: number, nullable: true }
+        rank: { type: integer, nullable: true, minimum: 1 }
+        percentile: { type: number, nullable: true, minimum: 0, maximum: 100 }
+        variance: { type: number, nullable: true }
+        status:
+          type: string
+          enum: [Available, Suppressed, NoData]
+
+    BrokerInsightSnapshot:
+      type: object
+      required: [brokerId, brokerName, periodStart, periodEnd, highlights, risks, sourceLinks, generatedAt]
+      properties:
+        brokerId: { type: string, format: uuid }
+        brokerName: { type: string, minLength: 1, maxLength: 200 }
+        periodStart: { type: string, format: date }
+        periodEnd: { type: string, format: date }
+        highlights:
+          type: array
+          items: { $ref: "#/components/schemas/BrokerInsightSnapshotItem" }
+        risks:
+          type: array
+          items: { $ref: "#/components/schemas/BrokerInsightSnapshotItem" }
+        activitySummary: { type: string, nullable: true, maxLength: 1000 }
+        opportunitySummary: { type: string, nullable: true, maxLength: 1000 }
+        sourceLinks:
+          type: array
+          items: { $ref: "#/components/schemas/GlobalSearchResult" }
+        partialData: { type: boolean, default: false }
+        generatedAt: { type: string, format: date-time }
+
+    BrokerInsightSnapshotItem:
+      type: object
+      required: [label, value, sourceRecordCount]
+      properties:
+        label: { type: string, minLength: 1, maxLength: 160 }
+        value: { type: string, minLength: 1, maxLength: 300 }
+        sourceRecordCount: { type: integer, minimum: 0 }
 
     # ──────────────────────────────────────────────────────────────
     # Document component schemas (F0020)

@@ -193,7 +193,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 - [F0023: Global Search, Saved Views & Operational Reporting](features/archive/F0023-global-search-saved-views-and-operational-reporting/PRD.md) - Done (archived 2026-06-20; Phase A refined 2026-06-19; 7 stories: global search, filter/open results, personal saved views, team saved views, daily workload report, workflow aging/backlog report, permission-safe behavior)
 
 **CRM Release MVP+ (Planned):**
-- F0008: Broker Insights - Planned
+- [F0008: Broker Insights](features/archive/F0008-broker-insights/PRD.md) - Done (Archived 2026-07-03; Phase A refined 2026-07-03; 5 stories: broker scorecard, trend drilldown, authorized benchmark comparison, review snapshot, permission-safe behavior)
 - [F0017: Broker/MGA Hierarchy, Producer Ownership & Territory Management](features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/PRD.md) - Done (Archived 2026-07-03; 5 stories: broker/MGA hierarchy, hierarchy traversal, producer ownership, territory assignment, audit/timeline)
 - F0024: Claims & Service Case Tracking - Planned
 - F0027: COI, ACORD & Outbound Document Generation - Planned
@@ -296,6 +296,13 @@ The first epic since the harness adopted the action/KG flow. A conversational co
 - [F0023-S0006: Workflow aging and backlog drilldowns](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0006-workflow-aging-and-backlog-report.md) - Done
 - [F0023-S0007: Permission-safe search and reporting behavior](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0007-permission-safe-search-and-reporting.md) - Done
 
+**CRM Release MVP+ Stories (Feature F0008: Broker Insights):**
+- [F0008-S0001: Broker scorecard overview](features/archive/F0008-broker-insights/F0008-S0001-broker-scorecard-overview.md) - Done (Archived)
+- [F0008-S0002: Trend drilldown and source record navigation](features/archive/F0008-broker-insights/F0008-S0002-trend-drilldown-source-records.md) - Done (Archived)
+- [F0008-S0003: Authorized benchmark comparison](features/archive/F0008-broker-insights/F0008-S0003-authorized-benchmark-comparison.md) - Done (Archived)
+- [F0008-S0004: Broker review snapshot](features/archive/F0008-broker-insights/F0008-S0004-review-snapshot.md) - Done (Archived)
+- [F0008-S0005: Permission-safe broker insight behavior](features/archive/F0008-broker-insights/F0008-S0005-permission-safe-insights.md) - Done (Archived)
+
 **MVP Stories (Feature F0010: Dashboard Opportunities Refactor):**
 - [F0010-S0001: Replace Sankey default with Pipeline Board](features/archive/F0010-dashboard-opportunities-refactor/F0010-S0001-replace-sankey-with-pipeline-board-default.md) - Done (Historical; superseded by F0013)
 - [F0010-S0002: Add Opportunities Aging Heatmap view](features/archive/F0010-dashboard-opportunities-refactor/F0010-S0002-add-opportunity-aging-heatmap-view.md) - Done (Historical; superseded by F0013)
@@ -365,6 +372,11 @@ Reference examples also live under `planning-mds/examples/stories/`.
 - Search Results Workspace (F0023)
 - Saved Views Drawer (F0023)
 - Operational Reports Workspace (F0023)
+- Broker Insights Workspace (F0008)
+- Broker Scorecard Panel (F0008)
+- Trend Drilldown Drawer (F0008)
+- Benchmark Comparison View (F0008)
+- Review Snapshot View (F0008)
 - Admin minimal (roles/policies optional MVP)
 
 Screen baseline details:

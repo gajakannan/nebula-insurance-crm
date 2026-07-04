@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/broker-insight-snapshot.schema.json",
+  "title": "BrokerInsightSnapshot",
+  "description": "F0008 review-ready broker insight snapshot response.",
+  "type": "object",
+  "required": ["brokerId", "brokerName", "periodStart", "periodEnd", "highlights", "risks", "sourceLinks", "generatedAt"],
+  "properties": {
+    "brokerId": { "type": "string", "format": "uuid" },
+    "brokerName": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "periodStart": { "type": "string", "format": "date" },
+    "periodEnd": { "type": "string", "format": "date" },
+    "highlights": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/snapshotItem" }
+    },
+    "risks": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/snapshotItem" }
+    },
+    "activitySummary": { "type": ["string", "null"], "maxLength": 1000 },
+    "opportunitySummary": { "type": ["string", "null"], "maxLength": 1000 },
+    "sourceLinks": {
+      "type": "array",
+      "items": { "$ref": "https://nebula.local/schemas/global-search-result.schema.json" }
+    },
+    "partialData": { "type": "boolean", "default": false },
+    "generatedAt": { "type": "string", "format": "date-time" }
+  },
+  "definitions": {
+    "snapshotItem": {
+      "type": "object",
+      "required": ["label", "value", "sourceRecordCount"],
+      "properties": {
+        "label": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "value": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "sourceRecordCount": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

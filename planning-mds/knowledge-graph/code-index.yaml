@@ -2796,6 +2796,23 @@ node_bindings:
           - engine/src/Nebula.Infrastructure/Repositories/OperationalReportProjectionRepository.cs
           - engine/src/Nebula.Infrastructure/Persistence/Configurations/OperationalReportProjectionConfiguration.cs
 
+  - id: entity:broker-insight-projection
+    paths:
+      planning:
+        architecture:
+          - planning-mds/architecture/data-model.md
+          - planning-mds/architecture/decisions/ADR-029-broker-insights-read-models.md
+        feature:
+          - planning-mds/features/archive/F0008-broker-insights/README.md
+          - planning-mds/features/archive/F0008-broker-insights/PRD.md
+        schemas:
+          - planning-mds/schemas/broker-insight-scorecard.schema.json
+          - planning-mds/schemas/broker-insight-trend.schema.json
+          - planning-mds/schemas/broker-insight-benchmark.schema.json
+          - planning-mds/schemas/broker-insight-snapshot.schema.json
+        api:
+          - planning-mds/api/nebula-api.yaml
+
   - id: capability:global-search
     paths:
       planning:
@@ -2878,6 +2895,26 @@ node_bindings:
         pages:
           - experience/src/pages/OperationalReportsPage.tsx
 
+  - id: capability:broker-insights
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0008-broker-insights/README.md
+          - planning-mds/features/archive/F0008-broker-insights/PRD.md
+        architecture:
+          - planning-mds/architecture/decisions/ADR-029-broker-insights-read-models.md
+          - planning-mds/architecture/data-model.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+        schemas:
+          - planning-mds/schemas/broker-insight-scorecard.schema.json
+          - planning-mds/schemas/broker-insight-trend.schema.json
+          - planning-mds/schemas/broker-insight-benchmark.schema.json
+          - planning-mds/schemas/broker-insight-snapshot.schema.json
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+
   - id: endpoint:global-search-results
     paths:
       planning:
@@ -2950,6 +2987,38 @@ node_bindings:
         feature:
           - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
 
+  - id: endpoint:broker-insight-scorecards
+    paths:
+      planning:
+        api:
+          - planning-mds/api/nebula-api.yaml
+        feature:
+          - planning-mds/features/archive/F0008-broker-insights/PRD.md
+
+  - id: endpoint:broker-insight-trends
+    paths:
+      planning:
+        api:
+          - planning-mds/api/nebula-api.yaml
+        feature:
+          - planning-mds/features/archive/F0008-broker-insights/PRD.md
+
+  - id: endpoint:broker-insight-benchmarks
+    paths:
+      planning:
+        api:
+          - planning-mds/api/nebula-api.yaml
+        feature:
+          - planning-mds/features/archive/F0008-broker-insights/PRD.md
+
+  - id: endpoint:broker-insight-snapshot
+    paths:
+      planning:
+        api:
+          - planning-mds/api/nebula-api.yaml
+        feature:
+          - planning-mds/features/archive/F0008-broker-insights/PRD.md
+
   - id: policy_rule:global-search-read
     paths:
       planning:
@@ -2979,6 +3048,13 @@ node_bindings:
           - planning-mds/security/policies/policy.csv
 
   - id: policy_rule:operational-report-read
+    paths:
+      planning:
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+
+  - id: policy_rule:broker-insight-read
     paths:
       planning:
         security:
@@ -3020,3 +3096,27 @@ node_bindings:
       planning:
         schemas:
           - planning-mds/schemas/workflow-aging-report.schema.json
+
+  - id: schema:broker-insight-scorecard
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/broker-insight-scorecard.schema.json
+
+  - id: schema:broker-insight-trend
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/broker-insight-trend.schema.json
+
+  - id: schema:broker-insight-benchmark
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/broker-insight-benchmark.schema.json
+
+  - id: schema:broker-insight-snapshot
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/broker-insight-snapshot.schema.json

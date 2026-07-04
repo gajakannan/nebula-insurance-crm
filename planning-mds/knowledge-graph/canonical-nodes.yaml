@@ -269,6 +269,24 @@ entities:
       - adr: adr:014-search
         section: "Operational Report Projection Design"
         summary: "Queryable report fact rows store source dimensions so workload and aging reports aggregate only after authorization filtering."
+  - id: entity:broker-insight-projection
+    label: BrokerInsightProjection
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-029-broker-insights-read-models.md
+      - planning-mds/features/archive/F0008-broker-insights/PRD.md
+    related_nodes:
+      - entity:broker
+      - entity:operational-report-projection
+      - entity:search-document
+      - entity:submission
+      - entity:renewal
+      - entity:policy
+      - entity:activity-timeline-event
+    rationale:
+      - adr: adr:029
+        section: "Decision §1"
+        summary: "Broker insight metrics are derived broker-period-metric facts with denominator, source, dimension, and freshness provenance; source modules remain authoritative."
   - id: entity:document-template
     label: DocumentTemplate
     source_docs:
@@ -584,6 +602,25 @@ capabilities:
       - adr: adr:014-search
         section: "Operational Report Projection Design"
         summary: "Operational workload and aging reports aggregate report fact rows only after query-layer authorization filters are applied."
+  - id: capability:broker-insights
+    label: Broker Insights
+    source_docs:
+      - planning-mds/features/archive/F0008-broker-insights/README.md
+      - planning-mds/features/archive/F0008-broker-insights/PRD.md
+      - planning-mds/architecture/decisions/ADR-029-broker-insights-read-models.md
+      - planning-mds/schemas/broker-insight-scorecard.schema.json
+      - planning-mds/schemas/broker-insight-trend.schema.json
+      - planning-mds/schemas/broker-insight-benchmark.schema.json
+      - planning-mds/schemas/broker-insight-snapshot.schema.json
+    related_nodes:
+      - entity:broker-insight-projection
+      - capability:operational-reporting
+      - capability:global-search
+      - capability:authorization-enforcement
+    rationale:
+      - adr: adr:029
+        section: "Decision"
+        summary: "Broker Insights exposes read-only scorecards, trends, authorized benchmarks, and review snapshots over permission-filtered source data."
   - id: capability:broker-relationship-management
     label: Broker Relationship Management
     source_docs:
@@ -1260,6 +1297,52 @@ endpoints:
       - workflow:submission
       - workflow:renewal
       - policy_rule:operational-report-read
+  - id: endpoint:broker-insight-scorecards
+    label: GET /broker-insights/scorecards
+    method: GET
+    route: /broker-insights/scorecards
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-029-broker-insights-read-models.md
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - policy_rule:broker-insight-read
+  - id: endpoint:broker-insight-trends
+    label: GET /broker-insights/{brokerId}/trends
+    method: GET
+    route: /broker-insights/{brokerId}/trends
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-029-broker-insights-read-models.md
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - entity:search-document
+      - policy_rule:broker-insight-read
+  - id: endpoint:broker-insight-benchmarks
+    label: GET /broker-insights/{brokerId}/benchmarks
+    method: GET
+    route: /broker-insights/{brokerId}/benchmarks
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-029-broker-insights-read-models.md
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - policy_rule:broker-insight-read
+  - id: endpoint:broker-insight-snapshot
+    label: GET /broker-insights/{brokerId}/snapshot
+    method: GET
+    route: /broker-insights/{brokerId}/snapshot
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-029-broker-insights-read-models.md
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - entity:search-document
+      - policy_rule:broker-insight-read
   - id: endpoint:broker-list
     label: GET /brokers
     method: GET
@@ -3449,6 +3532,30 @@ policy_rules:
       - entity:operational-report-projection
       - capability:authorization-enforcement
     notes: Report rows, counts, and drilldowns are computed after source-record authorization filtering; hidden records are not surfaced as hidden-source counts.
+  - id: policy_rule:broker-insight-read
+    label: broker_insight:read
+    resource: broker_insight
+    action: read
+    source_docs:
+      - planning-mds/security/policies/policy.csv
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/architecture/decisions/ADR-029-broker-insights-read-models.md
+    allowed_roles:
+      - role:distribution-user
+      - role:distribution-manager
+      - role:underwriter
+      - role:relationship-manager
+      - role:program-manager
+      - role:admin
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - capability:authorization-enforcement
+    rationale:
+      - adr: adr:029
+        section: "Decision §2"
+        summary: "A high-level broker_insight:read gate is followed by source-record query filtering before any aggregate counts, peer sets, ranks, trends, or links leave the server."
+    notes: External BrokerUser and ExternalUser receive no F0008 policy lines.
   - id: policy_rule:broker-create
     label: broker:create
     resource: broker
@@ -4252,6 +4359,9 @@ adrs:
   - id: adr:028
     label: Neuron Companion Persistence Schema, Cross-Store Write Consistency, and Outreach-Draft Authorization
     path: planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
+  - id: adr:029
+    label: Broker Insights Read Models and Permission-Safe Analytics
+    path: planning-mds/architecture/decisions/ADR-029-broker-insights-read-models.md
 
 api_contracts:
   - id: api:nebula-rest
@@ -4352,6 +4462,18 @@ schemas:
   - id: schema:workflow-aging-report
     path: planning-mds/schemas/workflow-aging-report.schema.json
     related_nodes: [entity:operational-report-projection, workflow:submission, workflow:renewal, capability:operational-reporting]
+  - id: schema:broker-insight-scorecard
+    path: planning-mds/schemas/broker-insight-scorecard.schema.json
+    related_nodes: [entity:broker-insight-projection, capability:broker-insights]
+  - id: schema:broker-insight-trend
+    path: planning-mds/schemas/broker-insight-trend.schema.json
+    related_nodes: [entity:broker-insight-projection, entity:search-document, capability:broker-insights]
+  - id: schema:broker-insight-benchmark
+    path: planning-mds/schemas/broker-insight-benchmark.schema.json
+    related_nodes: [entity:broker-insight-projection, capability:broker-insights]
+  - id: schema:broker-insight-snapshot
+    path: planning-mds/schemas/broker-insight-snapshot.schema.json
+    related_nodes: [entity:broker-insight-projection, entity:search-document, capability:broker-insights]
   - id: schema:line-of-business
     path: planning-mds/schemas/line-of-business.schema.json
     related_nodes: [entity:submission, entity:renewal, entity:policy]

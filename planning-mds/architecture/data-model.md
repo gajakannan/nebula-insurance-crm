@@ -1102,8 +1102,67 @@ erDiagram
 
 ---
 
+## 12. Broker Insights Read Model (F0008)
+
+Governed by [ADR-029](decisions/ADR-029-broker-insights-read-models.md).
+F0008 introduces a read-only broker analytics surface over existing source data.
+It does not replace broker, submission, renewal, policy, workflow, activity, or
+F0023 source records.
+
+### 12.1 BrokerInsightProjection
+
+One broker-period-metric fact row used by scorecards, trends, benchmarks, and
+review snapshots. The implementation may materialize this table or produce the
+same contract from a view over F0023 projections; either way, source modules
+remain authoritative.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid | projection row identity |
+| `BrokerId` | uuid | insight target broker |
+| `BrokerName` | varchar(200) | denormalized display name |
+| `MetricKey` | varchar(80) | quoteCount, bindCount, quoteToBindRate, retentionRate, openPipelineCount, activityCount, productionAmount |
+| `MetricFamily` | varchar(80) | Quote, Bind, Retention, Pipeline, Activity, Production |
+| `PeriodStart` / `PeriodEnd` | date | inclusive metric period |
+| `Bucket` | varchar(20)? | day, week, month, quarter for trends |
+| `Value` | numeric? | computed metric value; null when denominator is zero or data unavailable |
+| `Denominator` | integer | authorized denominator |
+| `Unit` | varchar(20) | count, percentage, currency |
+| `ComparisonValue` | numeric? | previous comparable period value |
+| `ComparisonPeriodStart` / `ComparisonPeriodEnd` | date? | comparison period |
+| `SourceObjectTypes` | jsonb | contributing source types |
+| `SourceRecordCount` | integer | authorized contributing row count |
+| `ProgramId` / `ProducerId` / `TerritoryId` | uuid? | F0017/F0023 dimensions |
+| `LineOfBusiness` / `Region` | varchar(80)? | report filters |
+| `LastSourceUpdatedAt` | timestamptz | newest source timestamp represented |
+| `ProjectedAt` | timestamptz | projection refresh timestamp |
+| `ProjectionStatus` | varchar(40) | Available, NoData, Partial, Unavailable |
+
+### 12.2 Indexes
+
+| Table | Index | Columns | Purpose |
+|-------|-------|---------|---------|
+| BrokerInsightProjection | `IX_BrokerInsight_Broker_Period` | `(BrokerId, PeriodStart, PeriodEnd)` | scorecard lookup |
+| BrokerInsightProjection | `IX_BrokerInsight_Metric_Period` | `(MetricKey, PeriodStart, PeriodEnd)` | trend/metric filtering |
+| BrokerInsightProjection | `IX_BrokerInsight_Dimensions` | `(ProgramId, ProducerId, TerritoryId, Region, LineOfBusiness)` | authorized benchmark filters |
+| BrokerInsightProjection | `IX_BrokerInsight_ProjectedAt` | `(ProjectedAt)` | freshness monitoring |
+
+### 12.3 Refresh and Authorization
+
+- Projection refresh can be synchronous-on-write or scheduled/backfilled, but API
+  responses must expose `generatedAt` / metric `lastRefreshedAt`.
+- Scorecards, trends, benchmarks, and snapshots aggregate only after the query
+  layer applies the current user's source-record authorization.
+- Benchmark rank and percentile are suppressed when fewer than five visible peers
+  match the selected peer set.
+- F0037 remains responsible for hierarchy-aware access enforcement and
+  distribution rollups.
+
+---
+
 ## Related Documents
 
+- [ADR-029: Broker Insights Read Models and Permission-Safe Analytics](decisions/ADR-029-broker-insights-read-models.md) — F0008 read-side model
 - [ADR-027: Neuron Companion A2A Orchestration](decisions/ADR-027-neuron-companion-a2a-orchestration.md) — F0038 companion foundation
 - [ADR-028: Neuron Persistence, Cross-Store Consistency & Outreach Authorization](decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md) — F0038 `neuron.*` schema
 - [ADR-026: Broker/MGA Hierarchy, Producer Ownership & Territory](decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md) — F0017 structural model
@@ -1118,6 +1177,8 @@ erDiagram
 - [ADR-023: JsonLogic Rules Governance](decisions/ADR-023-rules-governance-jsonlogic.md) — Rule envelope and op governance
 
 ---
+
+**Version:** 8.0 — 2026-07-03: Added §12 F0008 BrokerInsightProjection read model for permission-safe broker scorecards, trends, benchmarks, and review snapshots (ADR-029).
 
 **Version:** 7.0 — 2026-06-30: Added §11 F0038 Neuron Companion operation store (`neuron.*` schema, Neuron-owned, written directly) — threads, messages, message parts, agent runs, tool calls, provenance events — with cross-store reference edges to engine-owned ActivityTimelineEvent/WorkflowTransition (ADR-027, ADR-028).
 

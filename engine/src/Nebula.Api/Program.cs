@@ -354,6 +354,7 @@ app.MapSessionTelemetryEndpoints();
 app.MapSearchEndpoints();
 app.MapSavedViewEndpoints();
 app.MapOperationalReportEndpoints();
+app.MapBrokerInsightEndpoints();
 
 app.Run();
 
