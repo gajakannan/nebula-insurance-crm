@@ -654,3 +654,120 @@ def emit_telemetry(
 def main_exception(message: str) -> None:
     print(message, file=sys.stderr)
     raise SystemExit(1)
+
+
+# ──────────────────────────────────────────────────────────────
+# Canonical serialization (F0006-S0001)
+#
+# One serializer for the curated KG files so that two semantically
+# identical documents are byte-identical on disk. merge3.py compares and
+# emits canonical form; the Phase-B compiler reuses the same functions.
+# ──────────────────────────────────────────────────────────────
+
+# Keys emitted first, in this order, on every mapping; remaining keys follow
+# alphabetically. A single global list keeps ordering decidable without
+# per-file schemas.
+CANONICAL_KEY_PRIORITY: tuple[str, ...] = (
+    "version",
+    "status",
+    "coverage_note",
+    "id",
+    "label",
+    "name",
+    "title",
+    "feature",
+    "path",
+    "kind",
+    "reason",
+)
+
+# List fields whose element order is semantic. They are never sorted at
+# canonicalization, and merge3 refuses to auto-merge divergent reorders.
+# Every other list is set-like: canonicalization sorts (and de-duplicates
+# scalars); merge3 unions.
+ORDERED_LIST_FIELDS: frozenset[str] = frozenset({"states", "transitions_to", "rules"})
+
+# Generated projections — never merge inputs, never canonicalization targets.
+GENERATED_KG_BASENAMES: frozenset[str] = frozenset(
+    {
+        "symbol-index.yaml",
+        "coverage-report.yaml",
+        "unbound-but-referenced.yaml",
+        "decisions-index.yaml",
+    }
+)
+
+
+def is_record_list(value: Any) -> bool:
+    """A non-empty list whose every element is a mapping carrying an `id`."""
+    return (
+        isinstance(value, list)
+        and bool(value)
+        and all(isinstance(item, dict) and "id" in item for item in value)
+    )
+
+
+def _is_scalar_list(value: Any) -> bool:
+    return isinstance(value, list) and all(
+        item is None or isinstance(item, (str, int, float, bool)) for item in value
+    )
+
+
+def scalar_sort_key(value: Any) -> tuple[str, str]:
+    return (type(value).__name__, str(value))
+
+
+def _ordered_keys(mapping: Mapping[str, Any]) -> list[str]:
+    priority = [key for key in CANONICAL_KEY_PRIORITY if key in mapping]
+    rest = sorted(key for key in mapping if key not in CANONICAL_KEY_PRIORITY)
+    return [*priority, *rest]
+
+
+def canonicalize_document(value: Any, field: str | None = None) -> Any:
+    """Return a semantically equal copy in canonical structural form.
+
+    Canonical form: mapping keys priority-then-alphabetical; record lists
+    sorted by `id`; scalar lists de-duplicated and sorted — except fields in
+    ORDERED_LIST_FIELDS, which keep authored order. Idempotent:
+    canonicalize(canonicalize(x)) == canonicalize(x).
+    """
+    if isinstance(value, dict):
+        return {
+            key: canonicalize_document(value[key], field=key)
+            for key in _ordered_keys(value)
+        }
+    if isinstance(value, list):
+        items = [canonicalize_document(item, field=field) for item in value]
+        if field in ORDERED_LIST_FIELDS:
+            return items
+        if is_record_list(value):
+            return sorted(items, key=lambda item: str(item["id"]))
+        if _is_scalar_list(value):
+            deduped = list(dict.fromkeys(items))
+            return sorted(deduped, key=scalar_sort_key)
+        return items
+    return value
+
+
+class _CanonicalDumper(yaml.SafeDumper):
+    """SafeDumper with block-sequence indentation matching the curated files."""
+
+    def increase_indent(self, flow: bool = False, indentless: bool = False):  # noqa: FBT001, FBT002
+        return super().increase_indent(flow, False)
+
+
+def canonical_dump(data: Any) -> str:
+    """Serialize to the canonical YAML byte form (stable across machines)."""
+    return yaml.dump(
+        canonicalize_document(data),
+        Dumper=_CanonicalDumper,
+        sort_keys=False,
+        allow_unicode=True,
+        width=100,
+        default_flow_style=False,
+    )
+
+
+def canonical_equal(a: Any, b: Any) -> bool:
+    """Semantic equality: equal after canonicalization."""
+    return canonicalize_document(a) == canonicalize_document(b)
