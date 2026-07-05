@@ -1,0 +1,30 @@
+{
+  "target": "planning-mds/knowledge-graph/feature-mappings.yaml",
+  "inputs": {
+    "base": "103d59bfc208c0567045ed45a8499e84bd165cb6",
+    "ours": "chore/merge-PRs",
+    "theirs": "replay/pr-47"
+  },
+  "result": "conflicts",
+  "output": null,
+  "stats": {
+    "records_base": 177,
+    "records_ours": 177,
+    "records_theirs": 182,
+    "records_merged": 182,
+    "conflicts": 1
+  },
+  "warnings": [],
+  "conflicts": [
+    {
+      "kind": "UniqueViolation",
+      "record_id": "feature:F0038",
+      "field": null,
+      "base": null,
+      "ours": "coverage.excluded_features, features",
+      "theirs": "coverage.excluded_features, features",
+      "owning_role": "product-manager+architect",
+      "message": "id `feature:F0038` appears in more than one record list: coverage.excluded_features, features"
+    }
+  ]
+}

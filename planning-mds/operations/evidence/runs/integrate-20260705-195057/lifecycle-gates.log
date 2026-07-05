@@ -1,0 +1,60 @@
+Validating genericness of agents/
+------------------------------------------------------------
+[Scope]  Scanning only:       agents/
+[Scope]  Not scanned:          {PRODUCT_ROOT}/planning-mds/ (solution-specific content is allowed)
+
+[Info] Using embedded fallback denylist (9 terms); pass --glossary to override.
+[Terms]  9 blocked term(s): Broker, MGA, Underwriter, Underwriting, Premium, Claim, Insured, Submission, Renewal
+[Source] Term list from:      embedded fallback denylist (agents/scripts/validate-genericness.py)
+[Note]   Source file is used only to derive denylist terms for agents/ validation.
+
+[FAIL] Solution-specific terms found (8 hit(s)):
+
+  agents/docs/AGENT-OPS.md
+    25: must be backed by recorded evidence, not by prose claims. A validator reads
+  agents/docs/KNOWLEDGE-GRAPH.md
+    302: | Plan claims blast radius X | Architect | `diff-impact.py <feature-branch-range>` — surfaced nodes outside the stated scope mean widen the plan or narrow the change |
+  agents/product-manager/scripts/tests/test_validate_feature_evidence_security_scans.py
+    77: # Claims a scan ran but points at an artifact that does not exist.
+  agents/templates/prompts/evidence-contract/blog-automation-safe.md
+    83: - blog claim disagrees with REGISTRY.md/STATUS.md/pm-closeout.md → registry/closeout wins; fix the post
+    84: - blog claim disagrees with code → code wins; do not publish content that misleads
+  agents/templates/prompts/evidence-contract/blog-operator-friendly.md
+    28: Don't generate `{BLOG_RUN_ID}` with `uuid4`. Don't write into any feature evidence package (`####-*/`). Don't cite a blog post as evidence for a completed terminal feature. Don't draft before the EDITORIAL BRIEF gate. Don't publish or amplify before the EDITORIAL GATE. Don't misrepresent feature status, dates, or decisions — cross-check claims against `REGISTRY.md` and `pm-closeout.md` when `FEATURE_REF` is set.
+    49: - blog claim disagrees with `REGISTRY.md`/`STATUS.md`/`pm-closeout.md` → registry/closeout wins; fix the post
+    50: - blog claim disagrees with code → code wins; do not publish content that misleads
+[FAIL] Skill regression checks failed:
+  - agents/architect/SKILL.md: line count 530 exceeds max 500
+  - agents/blogger/SKILL.md: line count 503 exceeds max 500
+  - agents/devops/SKILL.md: line count 530 exceeds max 500
+  - agents/frontend-developer/SKILL.md: line count 508 exceeds max 500
+  - agents/integrator/SKILL.md: missing required H2 heading '## Degrees of Freedom'
+  - agents/integrator/SKILL.md: missing required H2 heading '## Definition of Done'
+  - agents/integrator/SKILL.md: missing required H2 heading '## Troubleshooting'
+  - agents/integrator/SKILL.md: missing explicit 'Feedback Loop' section
+  - agents/quality-engineer/SKILL.md: line count 534 exceeds max 500
+  - /home/gajap/uSandbox/repos/nebula/nebula-agents/agents/scripts/skill-regression-cases.yaml: regression cases missing coverage for skills: integrator
+  - /home/gajap/uSandbox/repos/nebula/nebula-agents/agents/scripts/skill-regression-cases.yaml: content_assertion 'architect_symbol_regen_bullet' missing in agents/architect/SKILL.md: expected substring not found: 'regenerate the symbol layer'
+  - /home/gajap/uSandbox/repos/nebula/nebula-agents/agents/scripts/skill-regression-cases.yaml: content_assertion 'architect_inline_decision_harvest' missing in agents/architect/SKILL.md: expected substring not found: 'harvest novel inline decision markers'
+  - /home/gajap/uSandbox/repos/nebula/nebula-agents/agents/scripts/skill-regression-cases.yaml: content_assertion 'architect_risk_release_readiness' missing in agents/architect/SKILL.md: expected substring not found: 'scripts/kg/risk.py'
+agent-map OK: 12 roles tiered, 12 actions checked.
+Running lifecycle gates for stage: framework-bootstrap
+------------------------------------------------------------
+[GATE] boundary_genericness
+  Prevent solution-specific leakage into generic framework agents. Embedded denylist is authoritative; --glossary override is optional.
+  command: python3 agents/scripts/validate-genericness.py
+[FAIL] boundary_genericness (exit code 1)
+
+[GATE] skill_regression
+  Validate skill metadata, structure quality, and routing regressions.
+  command: python3 agents/scripts/run-skill-regression.py
+[FAIL] skill_regression (exit code 1)
+
+[GATE] agent_map_schema
+  Validate agent-map.yaml model_tier/execution annotations (Phase 3a) — valid tiers, known execution values, a sequential fallback for parallel actions, and no vendor model ids.
+  command: python3 agents/scripts/validate_agent_map.py
+[PASS] agent_map_schema
+
+============================================================
+[SUMMARY] FAILED (2 gate(s)): boundary_genericness, skill_regression
+exit: 1
