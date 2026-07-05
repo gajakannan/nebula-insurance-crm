@@ -1,0 +1,6 @@
+F0023 frontend (experience/) verification — Vitest + RTL, host pnpm 11.7.0
+- pnpm build  -> tsc -b + vite build: PASS (2214 modules; pre-existing 500kB chunk warning)
+- pnpm lint   -> 0 errors (5 pre-existing warnings, none in F0023 files)
+- pnpm lint:theme -> "Theme guard passed: no raw palette classes found."
+- F0023 component tests: src/features/search/components/__tests__/{SearchResultsList(3),SearchOverlay(2)} -> 5/5 PASS
+- Full suite: 245 passed / 1 failed. The 1 failure (features/session-continuity/tests/sessionTelemetry.test.ts) is PRE-EXISTING (fails in isolation, untouched by F0023).

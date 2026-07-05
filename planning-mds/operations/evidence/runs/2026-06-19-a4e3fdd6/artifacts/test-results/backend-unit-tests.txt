@@ -1,0 +1,7 @@
+F0023 SearchReporting backend unit tests (xUnit, host SDK net10.0)
+Command: dotnet test Nebula.slnx --filter "FullyQualifiedName~SearchReporting"
+Result: Passed! - Failed: 0, Passed: 17, Skipped: 0, Total: 17
+Suites: SavedViewServiceTests (11), SearchServiceTests (3), OperationalReportServiceTests (3)
+Build: 0 errors, 6 pre-existing warnings.
+Container: docker compose build api -> Built; api /healthz 200; F0023 routes -> 401 (mapped+protected); /does-not-exist -> 404.
+Migration 20260620023855_F0023_SearchSavedViewsOperationalReporting applied (4 tables + trigram GIN index).
