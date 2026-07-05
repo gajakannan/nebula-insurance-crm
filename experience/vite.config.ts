@@ -11,6 +11,11 @@ export default defineConfig(({ mode }) => {
     || process.env.VITE_API_PROXY_TARGET?.trim()
     || env.VITE_API_PROXY_TARGET?.trim()
     || 'http://localhost:5113'
+  const neuronProxyTarget = process.env.NEBULA_NEURON_PROXY_TARGET?.trim()
+    || env.NEBULA_NEURON_PROXY_TARGET?.trim()
+    || process.env.VITE_NEURON_PROXY_TARGET?.trim()
+    || env.VITE_NEURON_PROXY_TARGET?.trim()
+    || 'http://localhost:8200'
   const apiProxyPaths = [
     // Keep OIDC callback (`/auth/callback`) on the frontend router.
     // Only logout should hit the API.
@@ -64,15 +69,22 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: 5173,
-      proxy: Object.fromEntries(
-        apiProxyPaths.map((pathPrefix) => [
-          pathPrefix,
-          {
-            target: apiProxyTarget,
-            changeOrigin: true,
-          },
-        ]),
-      ),
+      proxy: {
+        ...Object.fromEntries(
+          apiProxyPaths.map((pathPrefix) => [
+            pathPrefix,
+            {
+              target: apiProxyTarget,
+              changeOrigin: true,
+            },
+          ]),
+        ),
+        '/neuron': {
+          target: neuronProxyTarget,
+          changeOrigin: true,
+          rewrite: (proxyPath) => proxyPath.replace(/^\/neuron/, ''),
+        },
+      },
       headers: {
         // Development CSP — Vite/React HMR needs inline + eval script allowances.
         // connect-src includes http://localhost:9000 (authentik IdP) because oidc-client-ts
