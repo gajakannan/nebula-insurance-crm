@@ -74,11 +74,14 @@
       "exit_code": 0
     }
   ],
-  "prepared_merge_sha": "43f6e9e3446647c6e22c7ed4d6741b0fe3e9adac",
+  "prepared_merge_sha": "3f0b8fe6de6aa6d0cf89691f194ebb24514f4bb2",
   "gate2": {
-    "result": "pending (batch gate: #53 + #54)"
+    "result": "pass",
+    "exercised": "Batch validation: F0022 Work Queues (routing/assignment/coverage) + F0008 Broker Insights (scorecards/trends) + regression sweep; maintainer: 'everything landed well'.",
+    "recorded_by": "maintainer (gajakannan)",
+    "date": "2026-07-06"
   },
   "pushed": false,
   "supersedes_run": null,
-  "outcome": "merged-pending-gate2"
+  "outcome": "merged-gate2-passed"
 }
