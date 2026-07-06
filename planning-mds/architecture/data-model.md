@@ -2,13 +2,13 @@
 
 **Purpose:** Authoritative data model reference for Nebula CRM. Contains the domain ERD, entity specifications, reference data, query patterns, and migration strategy. Supplements BLUEPRINT.md Section 4.2.
 
-**Last Updated:** 2026-05-06
+**Last Updated:** 2026-07-03
 
 ---
 
 ## 0. Domain Entity Relationship Diagram
 
-Reflects all entities through F0007 (Renewal Pipeline) and F0006 (Submission Intake Workflow). Audit fields (`CreatedAt`, `CreatedByUserId`, `UpdatedAt`, `UpdatedByUserId`, `DeletedAt`, `DeletedByUserId`, `IsDeleted`, `RowVersion`) are present on all `BaseEntity` subclasses and omitted from the diagram for clarity.
+Reflects all entities through F0022 (Work Queues, Assignment Rules & Coverage Management). Audit fields (`CreatedAt`, `CreatedByUserId`, `UpdatedAt`, `UpdatedByUserId`, `DeletedAt`, `DeletedByUserId`, `IsDeleted`, `RowVersion`) are present on all `BaseEntity` subclasses and omitted from the diagram for clarity.
 
 ### Mermaid ERD
 
@@ -166,6 +166,59 @@ erDiagram
         int WarningDays
         int TargetDays
     }
+    WorkQueue {
+        uuid Id PK
+        string Name
+        string WorkType
+        string Status
+        bool IsFallback
+    }
+    WorkQueueMember {
+        uuid Id PK
+        uuid WorkQueueId FK
+        uuid UserProfileId FK
+        string Role
+        date EffectiveFrom
+        date EffectiveTo "nullable"
+    }
+    AssignmentRule {
+        uuid Id PK
+        uuid WorkQueueId FK
+        string RuleType
+        int Precedence
+        int Version
+        string Status
+        jsonb ConditionsJson
+    }
+    CoverageWindow {
+        uuid Id PK
+        uuid CoveredUserId FK
+        uuid BackupUserId FK
+        uuid WorkQueueId FK "nullable"
+        datetime StartsAt
+        datetime EndsAt
+        string Status
+    }
+    QueueWorkItem {
+        uuid Id PK
+        uuid WorkQueueId FK
+        string SourceType
+        uuid SourceId
+        uuid AssignedToUserId FK "nullable"
+        string QueueStatus
+        datetime RoutedAt
+        string RuleVersion "nullable"
+    }
+    RoutingDecisionLog {
+        uuid Id PK
+        uuid QueueWorkItemId FK "nullable"
+        string SourceType
+        uuid SourceId
+        string Outcome
+        string ReasonCode
+        uuid ActorUserId FK "nullable"
+        datetime OccurredAt
+    }
 
     MGA ||--o{ Program : "hosts"
     MGA |o--o{ Broker : "affiliates"
@@ -186,9 +239,17 @@ erDiagram
     UserProfile ||--o{ Submission : "assigned"
     UserProfile ||--o{ Renewal : "assigned"
     UserProfile ||--o{ TaskItem : "assigned"
+    UserProfile ||--o{ WorkQueueMember : "member"
+    UserProfile ||--o{ CoverageWindow : "covered/backup"
+    UserProfile |o--o{ QueueWorkItem : "assigned"
     ReferenceSubmissionStatus ||--o{ Submission : "status"
     ReferenceRenewalStatus ||--o{ Renewal : "status"
     ReferenceTaskStatus ||--o{ TaskItem : "status"
+    WorkQueue ||--o{ WorkQueueMember : "has members"
+    WorkQueue ||--o{ AssignmentRule : "evaluates rules"
+    WorkQueue ||--o{ CoverageWindow : "scopes coverage"
+    WorkQueue ||--o{ QueueWorkItem : "contains"
+    QueueWorkItem ||--o{ RoutingDecisionLog : "records decisions"
 ```
 
 ### ASCII Companion
@@ -196,7 +257,7 @@ erDiagram
 For terminals, PR review comments, and ADR inline use.
 
 ```
-NEBULA CRM — DOMAIN MODEL (as of F0007)
+NEBULA CRM — DOMAIN MODEL (as of F0022)
 Audit fields omitted (all BaseEntity subclasses carry: Id, CreatedAt/By, UpdatedAt/By, DeletedAt/By, IsDeleted, RowVersion).
 
 IDENTITY
@@ -251,6 +312,18 @@ TASKS
 CONFIGURATION
   WorkflowSlaThreshold(EntityType, Status, LineOfBusiness opt, WarningDays, TargetDays)
    └─UNIQUE (EntityType, Status, LineOfBusiness) — null LineOfBusiness = default
+
+OPERATIONS ROUTING / QUEUES (F0022)
+  WorkQueue(Name, WorkType, Status, IsFallback)
+   ├─has members────► WorkQueueMember(UserProfileId, Role, EffectiveFrom/To)
+   ├─has rules──────► AssignmentRule(RuleType, Precedence, Version, ConditionsJson, Status)
+   ├─has coverage───► CoverageWindow(CoveredUserId, BackupUserId, StartsAt/EndsAt, Status)
+   └─contains───────► QueueWorkItem(SourceType, SourceId, AssignedToUserId opt, QueueStatus, RoutedAt)
+                         └─audit────► RoutingDecisionLog(Outcome, ReasonCode, ActorUserId opt, OccurredAt)
+
+  QueueWorkItem.SourceType in Task | Submission | Renewal. One active item per source record.
+  AssignmentRule precedence: manual override -> coverage -> territory/ownership -> workload -> fallback.
+  The system fallback queue is named "Unassigned Operations Queue".
 
 AUDIT / APPEND-ONLY (no soft delete; polymorphic EntityId — no FK constraint)
   ActivityTimelineEvent(EntityType, EntityId, EventType, EventDescription, BrokerDescription opt, ActorUserId, OccurredAt)
@@ -439,6 +512,113 @@ F0006 adds two fields to the existing Submission entity:
 | `IX_Submissions_BrokerId` | (BrokerId) | B-tree | Broker-scoped submission lookups |
 | `IX_Submissions_EffectiveDate` | (EffectiveDate) | B-tree | Sort by effective date on pipeline list |
 | `IX_Submissions_CreatedAt_CurrentStatus` | (CreatedAt, CurrentStatus) WHERE IsDeleted = false | Partial B-tree | Pipeline list default sort + status filter |
+
+---
+
+## 1.8 Work Queues, Assignment Rules, and Coverage (F0022)
+
+F0022 introduces a durable operations-routing subsystem governed by [ADR-013](decisions/ADR-013-operational-routing-and-queue-engine.md). It routes tasks, submissions, and renewals without redefining their source workflow state machines.
+
+### Table: `WorkQueues`
+
+| Field | Type | Constraints | Default | Description |
+|-------|------|-------------|---------|-------------|
+| Id | uuid | PK, NOT NULL | gen_random_uuid() | Queue identifier |
+| Name | varchar(120) | NOT NULL, unique among active queues | - | Manager-facing queue name |
+| Description | varchar(1000) | NULL | - | Optional queue purpose |
+| WorkType | varchar(30) | NOT NULL, CHECK IN ('Task','Submission','Renewal','Mixed') | - | Work type accepted by the queue |
+| Status | varchar(20) | NOT NULL, CHECK IN ('Active','Inactive') | 'Active' | Queue availability |
+| IsFallback | boolean | NOT NULL | false | True only for the system fallback queue |
+
+### Table: `WorkQueueMembers`
+
+| Field | Type | Constraints | Default | Description |
+|-------|------|-------------|---------|-------------|
+| Id | uuid | PK, NOT NULL | gen_random_uuid() | Membership identifier |
+| WorkQueueId | uuid | FK -> WorkQueues.Id, NOT NULL | - | Queue |
+| UserProfileId | uuid | FK -> UserProfile.UserId, NOT NULL | - | Member |
+| Role | varchar(30) | NOT NULL, CHECK IN ('Member','Manager','Backup') | 'Member' | Queue role |
+| EffectiveFrom | date | NOT NULL | current_date | Start date |
+| EffectiveTo | date | NULL | - | End date |
+
+### Table: `AssignmentRules`
+
+| Field | Type | Constraints | Default | Description |
+|-------|------|-------------|---------|-------------|
+| Id | uuid | PK, NOT NULL | gen_random_uuid() | Rule identifier |
+| WorkQueueId | uuid | FK -> WorkQueues.Id, NOT NULL | - | Target queue |
+| RuleType | varchar(40) | NOT NULL | - | `ManualOverride`, `Coverage`, `TerritoryOwnership`, `WorkloadBalance`, or `Fallback` |
+| Precedence | int | NOT NULL | - | Lower value evaluates first |
+| Version | int | NOT NULL | 1 | Incremented on edit; prior active version becomes superseded |
+| Status | varchar(20) | NOT NULL | 'Active' | `Active`, `Draft`, `Superseded`, or `Disabled` |
+| ConditionsJson | jsonb | NOT NULL | '{}' | Deterministic match criteria |
+| MatchReasonTemplate | varchar(500) | NOT NULL | - | Explainable outcome text |
+
+### Table: `CoverageWindows`
+
+| Field | Type | Constraints | Default | Description |
+|-------|------|-------------|---------|-------------|
+| Id | uuid | PK, NOT NULL | gen_random_uuid() | Coverage identifier |
+| CoveredUserId | uuid | FK -> UserProfile.UserId, NOT NULL | - | Unavailable user |
+| BackupUserId | uuid | FK -> UserProfile.UserId, NOT NULL | - | Backup user |
+| WorkQueueId | uuid | FK -> WorkQueues.Id, NULL | - | Optional queue scope |
+| StartsAt | timestamptz | NOT NULL | - | Coverage start |
+| EndsAt | timestamptz | NOT NULL | - | Coverage end |
+| Status | varchar(20) | NOT NULL | 'Active' | `Active`, `Cancelled`, or `Expired` |
+| Reason | varchar(500) | NULL | - | Manager-entered reason |
+
+### Table: `QueueWorkItems`
+
+| Field | Type | Constraints | Default | Description |
+|-------|------|-------------|---------|-------------|
+| Id | uuid | PK, NOT NULL | gen_random_uuid() | Queue item identifier |
+| WorkQueueId | uuid | FK -> WorkQueues.Id, NOT NULL | - | Current queue |
+| SourceType | varchar(30) | NOT NULL, CHECK IN ('Task','Submission','Renewal') | - | Source work type |
+| SourceId | uuid | NOT NULL | - | Source record id |
+| AssignedToUserId | uuid | FK -> UserProfile.UserId, NULL | - | Current assignee, null for fallback |
+| QueueStatus | varchar(20) | NOT NULL | 'Open' | `Open`, `InProgress`, `Closed`, or `Skipped` |
+| RoutedAt | timestamptz | NOT NULL | now() | Last routing time |
+| RuleVersion | varchar(60) | NULL | - | Rule id/version used for the latest decision |
+| MatchReason | varchar(500) | NULL | - | Explainable latest match/fallback reason |
+
+### Table: `RoutingDecisionLogs`
+
+Append-only, no soft delete.
+
+| Field | Type | Constraints | Default | Description |
+|-------|------|-------------|---------|-------------|
+| Id | uuid | PK, NOT NULL | gen_random_uuid() | Decision identifier |
+| QueueWorkItemId | uuid | FK -> QueueWorkItems.Id, NULL | - | Queue item when created |
+| SourceType | varchar(30) | NOT NULL | - | Task, Submission, or Renewal |
+| SourceId | uuid | NOT NULL | - | Source record id |
+| Outcome | varchar(30) | NOT NULL | - | `Matched`, `Fallback`, `Skipped`, `Reassigned`, `Rebalanced`, or `Exception` |
+| ReasonCode | varchar(60) | NOT NULL | - | Stable machine-readable reason |
+| RuleVersion | varchar(60) | NULL | - | Matched rule id/version when available |
+| SelectedQueueId | uuid | FK -> WorkQueues.Id, NULL | - | Selected queue |
+| SelectedAssigneeId | uuid | FK -> UserProfile.UserId, NULL | - | Selected assignee |
+| ActorUserId | uuid | FK -> UserProfile.UserId, NULL | - | User for manual actions; null/system for automated routing |
+| OccurredAt | timestamptz | NOT NULL | now() | Decision time |
+
+### Constraints and Indexes
+
+| Name | Columns / Rule | Type | Purpose |
+|------|----------------|------|---------|
+| `UX_WorkQueues_Fallback` | IsFallback WHERE IsFallback = true AND Status = 'Active' | Filtered unique | Exactly one active fallback queue |
+| `UX_QueueWorkItems_Source_Active` | SourceType, SourceId WHERE QueueStatus IN ('Open','InProgress') | Filtered unique | One active queue item per source record |
+| `IX_QueueWorkItems_Queue_Status_RoutedAt` | WorkQueueId, QueueStatus, RoutedAt | B-tree | Queue worklist and aging |
+| `IX_QueueWorkItems_Assignee_Status` | AssignedToUserId, QueueStatus | B-tree | Owner workload counts |
+| `IX_AssignmentRules_Queue_Status_Precedence` | WorkQueueId, Status, Precedence | B-tree | Deterministic rule evaluation |
+| `IX_CoverageWindows_CoveredUser_Time` | CoveredUserId, StartsAt, EndsAt WHERE Status='Active' | B-tree | Active coverage lookup |
+| `IX_RoutingDecisionLogs_Source_OccurredAt` | SourceType, SourceId, OccurredAt DESC | B-tree | Routing audit trail |
+
+### Seed Data
+
+- Seed one active fallback queue: `Unassigned Operations Queue`, `WorkType='Mixed'`, `IsFallback=true`.
+- No production seed assignment rules beyond fallback. Manager/admin controls create explicit rules before automated assignment.
+
+### Audit Events
+
+Every successful queue, rule, membership, coverage, routing, reassignment, and rebalance mutation creates an `ActivityTimelineEvent` and a `RoutingDecisionLog` row where applicable. Rejected mutations create no audit event.
 
 ---
 

@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/assignment-rule-upsert-request.schema.json",
+  "title": "AssignmentRuleUpsertRequest",
+  "description": "Create a new assignment rule version or update a draft rule.",
+  "type": "object",
+  "required": ["workQueueId", "ruleType", "precedence", "status", "conditions", "matchReasonTemplate"],
+  "properties": {
+    "workQueueId": { "type": "string", "format": "uuid" },
+    "ruleType": { "type": "string", "enum": ["ManualOverride", "Coverage", "TerritoryOwnership", "WorkloadBalance", "Fallback"] },
+    "precedence": { "type": "integer", "minimum": 1, "maximum": 999 },
+    "status": { "type": "string", "enum": ["Draft", "Active", "Disabled"] },
+    "conditions": { "type": "object", "additionalProperties": true },
+    "matchReasonTemplate": { "type": "string", "minLength": 1, "maxLength": 500 }
+  },
+  "additionalProperties": false
+}

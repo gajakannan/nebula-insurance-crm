@@ -264,6 +264,23 @@ p, Admin,               submission, approve,    true
 p, Admin,               submission, archive,    true
 
 # ─────────────────────────────────────────────────────────────────────────────
+# §2.3a Work Queues and Operational Routing (F0022)
+# queue:read returns only queue items whose linked source record also passes ABAC.
+# queue:manage mutates queues, memberships, assignment rules, and coverage windows.
+# queue:assign reassigns or rebalances open queue work items; override reason required.
+# ─────────────────────────────────────────────────────────────────────────────
+p, DistributionUser,    queue, read,   true
+p, DistributionManager, queue, read,   true
+p, DistributionManager, queue, manage, true
+p, DistributionManager, queue, assign, true
+p, ProgramManager,      queue, read,   true
+p, Underwriter,         queue, read,   true
+p, RelationshipManager, queue, read,   true
+p, Admin,               queue, read,   true
+p, Admin,               queue, manage, true
+p, Admin,               queue, assign, true
+
+# ─────────────────────────────────────────────────────────────────────────────
 # §2.4 Renewal — Read / Create / Update / Transition / Assign (F0007 update + F0034 attributes)
 # Transitions must follow workflow rules — see F0007 README transition matrix.
 # Per-transition role authorization is enforced at the application layer (ADR-011).
@@ -877,3 +894,20 @@ p, ProgramManager,       lob_schema, resolve,    true
 
 p, Coordinator,          lob_schema, read,       true
 p, Coordinator,          lob_schema, resolve,    true
+
+# §5 Work queues and operational routing (F0022)
+p, Admin,                queue, read,             true
+p, Admin,                queue, manage,           true
+p, Admin,                queue, assign,           true
+
+p, DistributionManager,  queue, read,             true
+p, DistributionManager,  queue, manage,           true
+p, DistributionManager,  queue, assign,           true
+
+p, ProgramManager,       queue, read,             true
+
+p, Underwriter,          queue, read,             true
+
+p, DistributionUser,     queue, read,             true
+
+p, RelationshipManager,  queue, read,             true

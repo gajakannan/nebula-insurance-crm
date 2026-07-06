@@ -1,13 +1,13 @@
 version: 0
 summary:
-  canonical_nodes: 622
+  canonical_nodes: 651
   features_mapped: 32
   stories_mapped: 159
   features_excluded: 8
   features_uncovered: 0
-  code_bindings: 204
-  symbol_count: 4608
-  bound_symbol_count: 4608
+  code_bindings: 205
+  symbol_count: 4609
+  bound_symbol_count: 4609
   decision_count: 8
   why_count: 8
 coverage:
@@ -241,7 +241,7 @@ freshness:
       - planning-mds/domain/glossary.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 32a4bcf54e0cb2af
+      source_hash: 16291a46c45a8455
       hotspot_rank: 2
       hotspot_score: 0.98
       primary_owner: gajapathi.kannan@live.com
@@ -252,19 +252,27 @@ freshness:
       - planning-mds/architecture/data-model.md
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: e0c85bf2582e956e
-      hotspot_rank: 100
+      source_hash: 005fdcb91e2bfa07
+      hotspot_rank: 102
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
+    entity:assignment-rule:
+      source_paths:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      - planning-mds/schemas/assignment-rule.schema.json
+      source_count: 3
+      last_modified: '2026-07-06'
+      source_hash: 53726f28e5193ca4
     entity:broker:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/domain/glossary.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 32a4bcf54e0cb2af
+      source_hash: 16291a46c45a8455
       hotspot_rank: 6
       hotspot_score: 0.64
       primary_owner: gajapathi.kannan@live.com
@@ -275,7 +283,7 @@ freshness:
       - planning-mds/architecture/data-model.md
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: e0c85bf2582e956e
+      source_hash: 005fdcb91e2bfa07
     entity:carrier-appetite-note:
       source_paths:
       - planning-mds/features/archive/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md
@@ -297,11 +305,11 @@ freshness:
       - planning-mds/schemas/carrier-market.schema.json
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 489f2799456f528c
-      hotspot_rank: 27
-      hotspot_score: 0.09
+      source_hash: 69824346d6f09788
+      hotspot_rank: 29
+      hotspot_score: 0.1
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 89
+      primary_owner_pct: 87
       bus_factor_flag: true
     entity:carrier-market-activity-link:
       source_paths:
@@ -323,7 +331,7 @@ freshness:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: fe269006bd970cd0
+      source_hash: df0a46bc64b50803
     entity:communication-event:
       source_paths:
       - planning-mds/architecture/decisions/ADR-029-communication-activity-capture-and-redaction.md
@@ -332,7 +340,7 @@ freshness:
       last_modified: '2026-07-06'
       source_hash: 2c05957cae8ba146
       hotspot_rank: 9
-      hotspot_score: 0.47
+      hotspot_score: 0.49
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 62
       bus_factor_flag: false
@@ -354,7 +362,15 @@ freshness:
       - planning-mds/domain/glossary.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 32a4bcf54e0cb2af
+      source_hash: 16291a46c45a8455
+    entity:coverage-window:
+      source_paths:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      - planning-mds/schemas/coverage-window.schema.json
+      source_count: 3
+      last_modified: '2026-07-06'
+      source_hash: 036dc174babc7621
     entity:document:
       source_paths:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
@@ -362,10 +378,10 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 269edf7e84d94999
-      hotspot_rank: 4
-      hotspot_score: 0.77
+      hotspot_rank: 3
+      hotspot_score: 0.87
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 99
+      primary_owner_pct: 97
       bus_factor_flag: true
     entity:document-template:
       source_paths:
@@ -374,10 +390,10 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 0b240ddaa2c09f18
-      hotspot_rank: 92
-      hotspot_score: 0.02
+      hotspot_rank: 88
+      hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 99
+      primary_owner_pct: 97
       bus_factor_flag: true
     entity:generated-document-artifact:
       source_paths:
@@ -385,28 +401,28 @@ freshness:
       - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: bc929ad5d7489ea5
+      source_hash: a5e4ff3e299f5ddf
     entity:lob-bundle-activation-event:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 04b083f7f4821040
+      source_hash: 1b563b3114c42636
     entity:lob-product:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 04b083f7f4821040
+      source_hash: 1b563b3114c42636
     entity:lob-product-version:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 04b083f7f4821040
+      source_hash: 1b563b3114c42636
     entity:lob-schema-bundle:
       source_paths:
       - planning-mds/architecture/data-model.md
@@ -415,15 +431,15 @@ freshness:
       - planning-mds/schemas/lob-schema-bundle.schema.json
       source_count: 4
       last_modified: '2026-07-06'
-      source_hash: e06bee20f8229b1e
+      source_hash: 0f66e57e166829b2
     entity:mga:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/domain/glossary.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 32a4bcf54e0cb2af
-      hotspot_rank: 178
+      source_hash: 16291a46c45a8455
+      hotspot_rank: 179
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -435,11 +451,11 @@ freshness:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: b13bc67cde7fff5e
+      source_hash: 6cc0a36e34b44972
       hotspot_rank: 66
-      hotspot_score: 0.04
+      hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 93
       bus_factor_flag: true
     entity:policy:
       source_paths:
@@ -449,7 +465,7 @@ freshness:
       - planning-mds/domain/glossary.md
       source_count: 4
       last_modified: '2026-07-06'
-      source_hash: aa8fce07f9107829
+      source_hash: b69d50657b184baf
       hotspot_rank: 11
       hotspot_score: 0.38
       primary_owner: gajapathi.kannan@live.com
@@ -461,7 +477,7 @@ freshness:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: fe269006bd970cd0
+      source_hash: df0a46bc64b50803
     entity:policy-endorsement:
       source_paths:
       - planning-mds/architecture/data-model.md
@@ -469,7 +485,7 @@ freshness:
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 6604b88d96b02e80
+      source_hash: eae0c6b5c7a0b88b
     entity:policy-version:
       source_paths:
       - planning-mds/architecture/data-model.md
@@ -477,28 +493,36 @@ freshness:
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 6604b88d96b02e80
+      source_hash: eae0c6b5c7a0b88b
     entity:producer:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 12d55b2ece4f58f8
+      source_hash: 63bb0c56026bae26
     entity:producer-ownership:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 12d55b2ece4f58f8
+      source_hash: 63bb0c56026bae26
     entity:program:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/domain/glossary.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 32a4bcf54e0cb2af
+      source_hash: 16291a46c45a8455
+    entity:queue-work-item:
+      source_paths:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      - planning-mds/schemas/queue-work-item.schema.json
+      source_count: 3
+      last_modified: '2026-07-06'
+      source_hash: 040fe9e177786480
     entity:renewal:
       source_paths:
       - planning-mds/architecture/data-model.md
@@ -506,12 +530,20 @@ freshness:
       - planning-mds/domain/glossary.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 8a2ba07c1905f4da
-      hotspot_rank: 15
+      source_hash: a837b196775d6af2
+      hotspot_rank: 16
       hotspot_score: 0.26
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
+    entity:routing-decision-log:
+      source_paths:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      - planning-mds/schemas/routing-event.schema.json
+      source_count: 3
+      last_modified: '2026-07-06'
+      source_hash: b4b95296d668baaf
     entity:saved-view:
       source_paths:
       - planning-mds/architecture/data-model.md
@@ -520,11 +552,11 @@ freshness:
       - planning-mds/schemas/saved-view.schema.json
       source_count: 4
       last_modified: '2026-07-06'
-      source_hash: ab6cefb1e4dcb0f2
-      hotspot_rank: 24
-      hotspot_score: 0.1
+      source_hash: 67db69ff49b3514a
+      hotspot_rank: 25
+      hotspot_score: 0.11
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 92
       bus_factor_flag: true
     entity:saved-view-audit-event:
       source_paths:
@@ -533,8 +565,8 @@ freshness:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: b13bc67cde7fff5e
-      hotspot_rank: 127
+      source_hash: 6cc0a36e34b44972
+      hotspot_rank: 128
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 96
@@ -546,11 +578,11 @@ freshness:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: b13bc67cde7fff5e
-      hotspot_rank: 61
+      source_hash: 6cc0a36e34b44972
+      hotspot_rank: 63
       hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 93
       bus_factor_flag: true
     entity:service-case:
       source_paths:
@@ -559,11 +591,11 @@ freshness:
       - planning-mds/features/archive/F0024-claims-and-service-case-tracking/architecture-plan.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: f05207c1cb754196
+      source_hash: 5ed3b64c1ca298af
       hotspot_rank: 8
-      hotspot_score: 0.54
+      hotspot_score: 0.56
       primary_owner: sponnada@wscs.ai
-      primary_owner_pct: 52
+      primary_owner_pct: 51
       bus_factor_flag: false
     entity:service-case-claim-reference:
       source_paths:
@@ -572,14 +604,14 @@ freshness:
       - planning-mds/features/archive/F0024-claims-and-service-case-tracking/architecture-plan.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: f05207c1cb754196
+      source_hash: 5ed3b64c1ca298af
     entity:service-case-transition:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/features/archive/F0024-claims-and-service-case-tracking/architecture-plan.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: ecfbc65eedb78ab5
+      source_hash: 3e6352d6ce12a259
     entity:submission:
       source_paths:
       - planning-mds/architecture/data-model.md
@@ -587,7 +619,7 @@ freshness:
       - planning-mds/domain/glossary.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 8a2ba07c1905f4da
+      source_hash: a837b196775d6af2
       hotspot_rank: 1
       hotspot_score: 1.0
       primary_owner: gajapathi.kannan@live.com
@@ -601,7 +633,7 @@ freshness:
       source_count: 3
       last_modified: '2026-07-06'
       source_hash: 540676d5de4a86fe
-      hotspot_rank: 55
+      hotspot_rank: 61
       hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -614,7 +646,7 @@ freshness:
       source_count: 3
       last_modified: '2026-07-06'
       source_hash: 93b4774226a1b7e2
-      hotspot_rank: 44
+      hotspot_rank: 50
       hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -627,7 +659,7 @@ freshness:
       source_count: 3
       last_modified: '2026-07-06'
       source_hash: bd3b73c42d13dbfa
-      hotspot_rank: 56
+      hotspot_rank: 62
       hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -637,7 +669,7 @@ freshness:
       - planning-mds/architecture/data-model.md
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: e0c85bf2582e956e
+      source_hash: 005fdcb91e2bfa07
       hotspot_rank: 17
       hotspot_score: 0.23
       primary_owner: gajapathi.kannan@live.com
@@ -649,25 +681,40 @@ freshness:
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 12d55b2ece4f58f8
+      source_hash: 63bb0c56026bae26
     entity:territory-assignment:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 12d55b2ece4f58f8
+      source_hash: 63bb0c56026bae26
     entity:user-profile:
       source_paths:
       - planning-mds/architecture/data-model.md
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: e0c85bf2582e956e
-      hotspot_rank: 23
+      source_hash: 005fdcb91e2bfa07
+      hotspot_rank: 24
       hotspot_score: 0.13
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 98
       bus_factor_flag: true
+    entity:work-queue:
+      source_paths:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      - planning-mds/schemas/work-queue.schema.json
+      source_count: 3
+      last_modified: '2026-07-06'
+      source_hash: 7e57a1de00107b9e
+    entity:work-queue-member:
+      source_paths:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      source_count: 2
+      last_modified: '2026-07-06'
+      source_hash: b2da425f55f133c4
     entity:workflow-sla-threshold:
       source_paths:
       - planning-mds/architecture/data-model.md
@@ -675,15 +722,15 @@ freshness:
       - planning-mds/architecture/decisions/ADR-014-workflow-sla-threshold-per-lob-extension.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: b5d92e845235addf
+      source_hash: bb674ae4b2c5b5c6
     entity:workflow-transition:
       source_paths:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0808f4cb379e4cf9
-      hotspot_rank: 75
+      source_hash: 0b122623a016089d
+      hotspot_rank: 76
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -694,7 +741,7 @@ freshness:
       - planning-mds/security/authorization-matrix.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1414d7ba13df66c0
+      source_hash: 3821ab3f512a94c5
     capability:document-completeness-signal:
       source_paths:
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
@@ -708,10 +755,10 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: bee2743bb5ce8454
-      hotspot_rank: 16
-      hotspot_score: 0.24
+      hotspot_rank: 13
+      hotspot_score: 0.36
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 99
+      primary_owner_pct: 94
       bus_factor_flag: true
     capability:document-retention:
       source_paths:
@@ -733,11 +780,11 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 9114c9c319b4ff72
-      hotspot_rank: 63
-      hotspot_score: 0.05
+      hotspot_rank: 19
+      hotspot_score: 0.18
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 99
-      bus_factor_flag: true
+      primary_owner_pct: 69
+      bus_factor_flag: false
     glossary_term:acord-form:
       source_paths:
       - planning-mds/domain/glossary.md
@@ -845,8 +892,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/feature-assembly-plan.md
       source_count: 5
       last_modified: '2026-07-06'
-      source_hash: 3e8ffcfe6f125c7b
-      hotspot_rank: 121
+      source_hash: 7dfac0ba49695678
+      hotspot_rank: 123
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -859,10 +906,10 @@ freshness:
       source_count: 3
       last_modified: '2026-07-06'
       source_hash: 27257b51601ae5a0
-      hotspot_rank: 113
-      hotspot_score: 0.01
+      hotspot_rank: 101
+      hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 100
+      primary_owner_pct: 97
       bus_factor_flag: true
     workflow:policy:
       source_paths:
@@ -873,7 +920,7 @@ freshness:
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/README.md
       source_count: 5
       last_modified: '2026-07-06'
-      source_hash: 8c2289afc19631c8
+      source_hash: 591c278e013dde25
     workflow:renewal:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -883,8 +930,8 @@ freshness:
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       source_count: 5
       last_modified: '2026-07-06'
-      source_hash: b59c13aaefcf0e41
-      hotspot_rank: 94
+      source_hash: ef4592030c2fb18c
+      hotspot_rank: 98
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -895,7 +942,7 @@ freshness:
       - planning-mds/features/archive/F0024-claims-and-service-case-tracking/architecture-plan.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: ecfbc65eedb78ab5
+      source_hash: 3e6352d6ce12a259
     workflow:submission:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -905,8 +952,8 @@ freshness:
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 5
       last_modified: '2026-07-06'
-      source_hash: 25087a105f2ab8b6
-      hotspot_rank: 19
+      source_hash: 6127a977074b23bc
+      hotspot_rank: 20
       hotspot_score: 0.17
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -942,7 +989,7 @@ freshness:
       hotspot_rank: 86
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 90
+      primary_owner_pct: 89
       bus_factor_flag: true
     capability:broker-360:
       source_paths:
@@ -981,7 +1028,7 @@ freshness:
       - planning-mds/features/archive/F0028-carrier-and-market-relationship-management/PRD.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 2edc3a55fd3a8b14
+      source_hash: f57b056548d21534
     capability:claims-principal-normalization:
       source_paths:
       - planning-mds/architecture/SOLUTION-PATTERNS.md
@@ -1059,10 +1106,10 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 9e316a7f2b9b0ef2
-      hotspot_rank: 13
+      hotspot_rank: 14
       hotspot_score: 0.35
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 96
+      primary_owner_pct: 95
       bus_factor_flag: true
     capability:dynamic-lob-attributes:
       source_paths:
@@ -1072,7 +1119,7 @@ freshness:
       source_count: 3
       last_modified: '2026-07-06'
       source_hash: 03d10ba800481af1
-      hotspot_rank: 14
+      hotspot_rank: 15
       hotspot_score: 0.27
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1106,10 +1153,10 @@ freshness:
       source_count: 4
       last_modified: '2026-07-06'
       source_hash: 9062fea97766adb3
-      hotspot_rank: 25
-      hotspot_score: 0.1
+      hotspot_rank: 26
+      hotspot_score: 0.11
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 93
       bus_factor_flag: true
     capability:idle-warning:
       source_paths:
@@ -1144,7 +1191,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: f1b7ff615e46a708
-      hotspot_rank: 3
+      hotspot_rank: 4
       hotspot_score: 0.8
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1156,7 +1203,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: fc87949921aa4148
-      hotspot_rank: 129
+      hotspot_rank: 130
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1168,7 +1215,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: e62eb0b83d3afcf3
-      hotspot_rank: 136
+      hotspot_rank: 142
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1181,7 +1228,7 @@ freshness:
       source_count: 3
       last_modified: '2026-07-06'
       source_hash: 2d7cd3ff8522048b
-      hotspot_rank: 90
+      hotspot_rank: 92
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1193,8 +1240,8 @@ freshness:
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 984b384ea3634bc2
-      hotspot_rank: 149
+      source_hash: f472eaee86ae7c4c
+      hotspot_rank: 150
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1208,7 +1255,7 @@ freshness:
       source_count: 4
       last_modified: '2026-07-06'
       source_hash: 2463c254a21ce076
-      hotspot_rank: 26
+      hotspot_rank: 28
       hotspot_score: 0.1
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1222,7 +1269,7 @@ freshness:
       source_count: 4
       last_modified: '2026-07-06'
       source_hash: d9fe53f98fa9cd7b
-      hotspot_rank: 120
+      hotspot_rank: 122
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1234,7 +1281,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: ebcc8bad0c2dd975
-      hotspot_rank: 77
+      hotspot_rank: 78
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1246,7 +1293,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 9ada86351bd0d709
-      hotspot_rank: 161
+      hotspot_rank: 162
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1259,7 +1306,7 @@ freshness:
       source_count: 3
       last_modified: '2026-07-06'
       source_hash: b3efc269f77cfb87
-      hotspot_rank: 150
+      hotspot_rank: 151
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1281,10 +1328,24 @@ freshness:
       source_count: 5
       last_modified: '2026-07-06'
       source_hash: 007dfcc5173f694d
-      hotspot_rank: 21
-      hotspot_score: 0.14
+      hotspot_rank: 22
+      hotspot_score: 0.15
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 93
+      primary_owner_pct: 91
+      bus_factor_flag: true
+    capability:operations-routing:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/PRD.md
+      source_count: 4
+      last_modified: '2026-07-06'
+      source_hash: d534dafecc3759b1
+      hotspot_rank: 65
+      hotspot_score: 0.05
+      primary_owner: gajapathi.kannan@live.com
+      primary_owner_pct: 91
       bus_factor_flag: true
     capability:principal-key-normalization:
       source_paths:
@@ -1293,7 +1354,7 @@ freshness:
       - planning-mds/features/archive/F0005-idp-migration/STATUS.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: d38a952c0a14be2d
+      source_hash: 0c16d5ac783d74de
     capability:producer-ownership-management:
       source_paths:
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
@@ -1308,11 +1369,11 @@ freshness:
       - planning-mds/features/archive/F0034-product-schema-registry-and-dynamic-lob-attributes/README.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: d414c1b5431cfafd
+      source_hash: a622663fc6bfd425
       hotspot_rank: 18
-      hotspot_score: 0.19
+      hotspot_score: 0.2
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 92
       bus_factor_flag: true
     capability:qe-toolchain-activation:
       source_paths:
@@ -1335,10 +1396,10 @@ freshness:
       source_count: 4
       last_modified: '2026-07-06'
       source_hash: 394eff809b875d65
-      hotspot_rank: 20
-      hotspot_score: 0.15
+      hotspot_rank: 21
+      hotspot_score: 0.16
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 92
       bus_factor_flag: true
     capability:session-context-restore:
       source_paths:
@@ -1347,7 +1408,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: bd74eca65b0c6b5d
-      hotspot_rank: 111
+      hotspot_rank: 113
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1416,7 +1477,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: fd8bdfc6907edcb0
-      hotspot_rank: 22
+      hotspot_rank: 23
       hotspot_score: 0.14
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1442,7 +1503,7 @@ freshness:
       source_count: 3
       last_modified: '2026-07-06'
       source_hash: 152f7a7f92eab550
-      hotspot_rank: 152
+      hotspot_rank: 153
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1453,8 +1514,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1da0624e7255e11a
-      hotspot_rank: 87
+      source_hash: 63abe390e86c26dd
+      hotspot_rank: 89
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -1465,8 +1526,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1da0624e7255e11a
-      hotspot_rank: 93
+      source_hash: 63abe390e86c26dd
+      hotspot_rank: 97
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -1477,8 +1538,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1da0624e7255e11a
-      hotspot_rank: 88
+      source_hash: 63abe390e86c26dd
+      hotspot_rank: 90
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -1489,8 +1550,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1da0624e7255e11a
-      hotspot_rank: 89
+      source_hash: 63abe390e86c26dd
+      hotspot_rank: 91
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -1501,8 +1562,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1da0624e7255e11a
-      hotspot_rank: 76
+      source_hash: 63abe390e86c26dd
+      hotspot_rank: 77
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1514,8 +1575,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 9c66c91d586f9743
-      hotspot_rank: 68
+      source_hash: 9e3242beb5ebfefc
+      hotspot_rank: 75
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -1528,8 +1589,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/feature-assembly-plan.md
       source_count: 4
       last_modified: '2026-07-06'
-      source_hash: f424a509c6f3ec4b
-      hotspot_rank: 79
+      source_hash: 8e41fa6a5d58f4d3
+      hotspot_rank: 80
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1540,8 +1601,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1da0624e7255e11a
-      hotspot_rank: 65
+      source_hash: 63abe390e86c26dd
+      hotspot_rank: 67
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1553,8 +1614,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/feature-assembly-plan.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: dc052b9778b289f0
-      hotspot_rank: 81
+      source_hash: 4dd1aaec1b0746bc
+      hotspot_rank: 82
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1565,8 +1626,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1da0624e7255e11a
-      hotspot_rank: 82
+      source_hash: 63abe390e86c26dd
+      hotspot_rank: 83
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1577,8 +1638,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1da0624e7255e11a
-      hotspot_rank: 83
+      source_hash: 63abe390e86c26dd
+      hotspot_rank: 84
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1589,8 +1650,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1da0624e7255e11a
-      hotspot_rank: 35
+      source_hash: 63abe390e86c26dd
+      hotspot_rank: 38
       hotspot_score: 0.07
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1601,8 +1662,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1da0624e7255e11a
-      hotspot_rank: 34
+      source_hash: 63abe390e86c26dd
+      hotspot_rank: 36
       hotspot_score: 0.07
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1613,8 +1674,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1da0624e7255e11a
-      hotspot_rank: 67
+      source_hash: 63abe390e86c26dd
+      hotspot_rank: 68
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1625,8 +1686,8 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1da0624e7255e11a
-      hotspot_rank: 78
+      source_hash: 63abe390e86c26dd
+      hotspot_rank: 79
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1637,20 +1698,27 @@ freshness:
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1da0624e7255e11a
-      hotspot_rank: 84
+      source_hash: 63abe390e86c26dd
+      hotspot_rank: 85
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
+    endpoint:assignment-rule-upsert:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      source_count: 2
+      last_modified: '2026-07-06'
+      source_hash: 4339fa017ba16fb2
     endpoint:broker-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 4442565324a84d8f
-      hotspot_rank: 116
+      source_hash: 05b12cb17e2d9d7f
+      hotspot_rank: 117
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 82
@@ -1661,8 +1729,8 @@ freshness:
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 4442565324a84d8f
-      hotspot_rank: 117
+      source_hash: 05b12cb17e2d9d7f
+      hotspot_rank: 118
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 76
@@ -1673,8 +1741,8 @@ freshness:
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 4442565324a84d8f
-      hotspot_rank: 114
+      source_hash: 05b12cb17e2d9d7f
+      hotspot_rank: 115
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 82
@@ -1684,49 +1752,49 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: 00f9c8e17c8e949a
+      source_hash: 9a5ec44d9f1e35b8
     endpoint:carrier-market-appetite-notes:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: 00f9c8e17c8e949a
+      source_hash: 9a5ec44d9f1e35b8
     endpoint:carrier-market-appointments:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: 00f9c8e17c8e949a
+      source_hash: 9a5ec44d9f1e35b8
     endpoint:carrier-market-contacts:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: 00f9c8e17c8e949a
+      source_hash: 9a5ec44d9f1e35b8
     endpoint:carrier-market-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: 00f9c8e17c8e949a
+      source_hash: 9a5ec44d9f1e35b8
     endpoint:carrier-market-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: 00f9c8e17c8e949a
+      source_hash: 9a5ec44d9f1e35b8
     endpoint:carrier-market-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: 00f9c8e17c8e949a
+      source_hash: 9a5ec44d9f1e35b8
     endpoint:carrier-market-update:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: 00f9c8e17c8e949a
+      source_hash: 9a5ec44d9f1e35b8
     endpoint:communication-correction:
       source_paths:
       - planning-mds/features/archive/F0021-communication-hub-and-activity-capture/api-schema-deltas.md
@@ -1757,14 +1825,21 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 6892a62644245079
+    endpoint:coverage-window-upsert:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      source_count: 2
+      last_modified: '2026-07-06'
+      source_hash: 4339fa017ba16fb2
     endpoint:dashboard-kpis:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-002-dashboard-data-aggregation.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: c3cba25184d00e96
-      hotspot_rank: 85
+      source_hash: 377204714de0dfb2
+      hotspot_rank: 87
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1775,8 +1850,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-003-task-entity-nudge-engine.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 608fc93587b6205f
-      hotspot_rank: 95
+      source_hash: 80630056e7ea3b5b
+      hotspot_rank: 99
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1788,7 +1863,7 @@ freshness:
       - planning-mds/architecture/decisions/ADR-004-frontend-dashboard-widget-architecture.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 5827d6d3298ff411
+      source_hash: 3d62269b4bd23323
       hotspot_rank: 10
       hotspot_score: 0.38
       primary_owner: gajapathi.kannan@live.com
@@ -1801,7 +1876,7 @@ freshness:
       - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0002-navigate-hierarchy.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: a93a312a6e991d94
+      source_hash: eb79b12d4b1c838a
     endpoint:distribution-node-descendants:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -1809,7 +1884,7 @@ freshness:
       - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0002-navigate-hierarchy.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: a93a312a6e991d94
+      source_hash: eb79b12d4b1c838a
     endpoint:distribution-node-parent-update:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -1817,77 +1892,77 @@ freshness:
       - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0001-model-broker-mga-hierarchy.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 5c6bd88302e19b98
+      source_hash: 28df049ddb7fa902
     endpoint:document-templates-link:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: d02b2c73bcd0591a
+      source_hash: 55a3ab7fafbe94d4
     endpoint:document-templates-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: d02b2c73bcd0591a
+      source_hash: 55a3ab7fafbe94d4
     endpoint:document-templates-upload:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: d02b2c73bcd0591a
+      source_hash: 55a3ab7fafbe94d4
     endpoint:documents-completeness:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: d9c32e7744591d74
+      source_hash: a5995f87c656ec40
     endpoint:documents-detail:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 42934c85dc8a1ce8
+      source_hash: 3458d8da1e6eb043
     endpoint:documents-download:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: ebf075f9ca409f20
+      source_hash: c0f23119bc50a6bb
     endpoint:documents-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: bd8f0378ba0bc7b9
+      source_hash: 2becce4c0d80388f
     endpoint:documents-metadata-schemas:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: cc895b04b83630c0
+      source_hash: 9dd84eb9da0a9743
     endpoint:documents-metadata-update:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: c1693de302956c25
+      source_hash: 0b3a391dd47c1671
     endpoint:documents-replace:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 2f0d78714ba7a80a
+      source_hash: 3324c3194f2a8799
     endpoint:documents-upload:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -1895,18 +1970,18 @@ freshness:
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: baae4600fbd3121a
+      source_hash: ac9544fd8ba9576b
     endpoint:global-search-results:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 9064412f1a3cd4aa
-      hotspot_rank: 164
+      source_hash: a023d9057d6f7c24
+      hotspot_rank: 165
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 92
       bus_factor_flag: true
     endpoint:internal-telemetry-session-continuity:
       source_paths:
@@ -1915,11 +1990,11 @@ freshness:
       - planning-mds/features/archive/F0035-session-continuity-and-token-refresh/F0035-S0005-session-telemetry-events.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: b19068053d296913
+      source_hash: 6169366552a0ae1a
       hotspot_rank: 45
       hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 93
       bus_factor_flag: true
     endpoint:lob-schema-activate:
       source_paths:
@@ -1928,11 +2003,11 @@ freshness:
       - planning-mds/security/authorization-matrix.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: a3158a35866b1f08
-      hotspot_rank: 96
+      source_hash: dba45e7a30cf31c8
+      hotspot_rank: 94
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 93
+      primary_owner_pct: 91
       bus_factor_flag: true
     endpoint:lob-schema-bundle-detail:
       source_paths:
@@ -1940,11 +2015,11 @@ freshness:
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: e1ff8b87522cb425
-      hotspot_rank: 97
+      source_hash: 9e79be848cac12e2
+      hotspot_rank: 95
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 93
+      primary_owner_pct: 91
       bus_factor_flag: true
     endpoint:lob-schemas-active:
       source_paths:
@@ -1952,11 +2027,11 @@ freshness:
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: e1ff8b87522cb425
-      hotspot_rank: 98
+      source_hash: 9e79be848cac12e2
+      hotspot_rank: 96
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 93
+      primary_owner_pct: 91
       bus_factor_flag: true
     endpoint:neuron-action-callback:
       source_paths:
@@ -1965,7 +2040,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 9469773b6aecddcf
-      hotspot_rank: 189
+      hotspot_rank: 190
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1976,8 +2051,8 @@ freshness:
       - planning-mds/schemas/neuron-companion-telemetry-event.schema.json
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 8c79066336fbc10e
-      hotspot_rank: 190
+      source_hash: 3c431ce22f79d4f0
+      hotspot_rank: 191
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -1989,7 +2064,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 9469773b6aecddcf
-      hotspot_rank: 191
+      hotspot_rank: 192
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2001,7 +2076,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 9469773b6aecddcf
-      hotspot_rank: 192
+      hotspot_rank: 193
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2012,11 +2087,11 @@ freshness:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
-      hotspot_rank: 165
+      source_hash: 296dff6fb60400e2
+      hotspot_rank: 166
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 92
       bus_factor_flag: true
     endpoint:outbound-documents-issue:
       source_paths:
@@ -2024,28 +2099,28 @@ freshness:
       - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: bc929ad5d7489ea5
+      source_hash: a5e4ff3e299f5ddf
     endpoint:outbound-documents-preview:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: bc929ad5d7489ea5
+      source_hash: a5e4ff3e299f5ddf
     endpoint:outbound-documents-regenerate:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: bc929ad5d7489ea5
+      source_hash: a5e4ff3e299f5ddf
     endpoint:policy-timeline:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/F0018-S0010-policy-activity-timeline-and-audit.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: cb1f4b98c46ccbc4
+      source_hash: aef5dbf2c3654b44
     endpoint:producer-ownership-assign:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -2053,7 +2128,7 @@ freshness:
       - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 2fb070228b1ee67d
+      source_hash: d21f95ebb257b5a2
     endpoint:producer-ownership-read:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -2061,7 +2136,14 @@ freshness:
       - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 2fb070228b1ee67d
+      source_hash: d21f95ebb257b5a2
+    endpoint:queue-work-item-reassign:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      source_count: 2
+      last_modified: '2026-07-06'
+      source_hash: 4339fa017ba16fb2
     endpoint:renewal-assignment:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -2069,8 +2151,8 @@ freshness:
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 5d62ad0cebf3747b
-      hotspot_rank: 38
+      source_hash: ab4a60484949de13
+      hotspot_rank: 43
       hotspot_score: 0.07
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2080,7 +2162,7 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: 00f9c8e17c8e949a
+      source_hash: 9a5ec44d9f1e35b8
     endpoint:renewal-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -2088,8 +2170,8 @@ freshness:
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 5d62ad0cebf3747b
-      hotspot_rank: 39
+      source_hash: ab4a60484949de13
+      hotspot_rank: 44
       hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2100,8 +2182,8 @@ freshness:
       - planning-mds/features/archive/F0007-renewal-pipeline/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: ac074ca61af5f592
-      hotspot_rank: 144
+      source_hash: 6b17bcfad29cc96e
+      hotspot_rank: 145
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2113,8 +2195,8 @@ freshness:
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 5d62ad0cebf3747b
-      hotspot_rank: 47
+      source_hash: ab4a60484949de13
+      hotspot_rank: 52
       hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2125,14 +2207,14 @@ freshness:
       - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 9baf6fecdfa03e76
+      source_hash: 542afdfdd197bac1
     endpoint:renewal-outreach-mock-send:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 9baf6fecdfa03e76
+      source_hash: 542afdfdd197bac1
     endpoint:renewal-timeline:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -2140,8 +2222,8 @@ freshness:
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 5d62ad0cebf3747b
-      hotspot_rank: 162
+      source_hash: ab4a60484949de13
+      hotspot_rank: 163
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2153,8 +2235,8 @@ freshness:
       - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: e164d4f35e91e325
-      hotspot_rank: 91
+      source_hash: cbd62b9d06323b43
+      hotspot_rank: 93
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2165,18 +2247,25 @@ freshness:
       - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 9baf6fecdfa03e76
+      source_hash: 542afdfdd197bac1
+    endpoint:routing-events-list:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      source_count: 2
+      last_modified: '2026-07-06'
+      source_hash: 4339fa017ba16fb2
     endpoint:saved-view-archive:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
-      hotspot_rank: 166
+      source_hash: 296dff6fb60400e2
+      hotspot_rank: 167
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 92
       bus_factor_flag: true
     endpoint:saved-view-create:
       source_paths:
@@ -2184,11 +2273,11 @@ freshness:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
-      hotspot_rank: 167
+      source_hash: 296dff6fb60400e2
+      hotspot_rank: 168
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 92
       bus_factor_flag: true
     endpoint:saved-view-default:
       source_paths:
@@ -2196,11 +2285,11 @@ freshness:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
-      hotspot_rank: 168
+      source_hash: 296dff6fb60400e2
+      hotspot_rank: 169
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 92
       bus_factor_flag: true
     endpoint:saved-view-detail:
       source_paths:
@@ -2208,11 +2297,11 @@ freshness:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
-      hotspot_rank: 169
+      source_hash: 296dff6fb60400e2
+      hotspot_rank: 170
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 92
       bus_factor_flag: true
     endpoint:saved-view-list:
       source_paths:
@@ -2220,11 +2309,11 @@ freshness:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
-      hotspot_rank: 170
+      source_hash: 296dff6fb60400e2
+      hotspot_rank: 171
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 92
       bus_factor_flag: true
     endpoint:saved-view-update:
       source_paths:
@@ -2232,11 +2321,11 @@ freshness:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
-      hotspot_rank: 171
+      source_hash: 296dff6fb60400e2
+      hotspot_rank: 172
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 92
       bus_factor_flag: true
     endpoint:service-case-claim-reference:
       source_paths:
@@ -2292,8 +2381,8 @@ freshness:
       - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 49bfede7aa0a4aac
-      hotspot_rank: 101
+      source_hash: 04e034954ec34be3
+      hotspot_rank: 103
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2304,8 +2393,8 @@ freshness:
       - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 38f3eccef0711a87
-      hotspot_rank: 102
+      source_hash: e5b486305332f130
+      hotspot_rank: 104
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2316,8 +2405,8 @@ freshness:
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 8ed5f9d828dbd41f
-      hotspot_rank: 154
+      source_hash: 3897b34dc32bae90
+      hotspot_rank: 155
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2328,8 +2417,8 @@ freshness:
       - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 94884a188bb6001f
-      hotspot_rank: 103
+      source_hash: cbdb9d6e0abf34e2
+      hotspot_rank: 105
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2340,8 +2429,8 @@ freshness:
       - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 94884a188bb6001f
-      hotspot_rank: 104
+      source_hash: cbdb9d6e0abf34e2
+      hotspot_rank: 106
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2352,8 +2441,8 @@ freshness:
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 8ed5f9d828dbd41f
-      hotspot_rank: 119
+      source_hash: 3897b34dc32bae90
+      hotspot_rank: 121
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2364,8 +2453,8 @@ freshness:
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 8ed5f9d828dbd41f
-      hotspot_rank: 110
+      source_hash: 3897b34dc32bae90
+      hotspot_rank: 112
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2376,8 +2465,8 @@ freshness:
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 8ed5f9d828dbd41f
-      hotspot_rank: 112
+      source_hash: 3897b34dc32bae90
+      hotspot_rank: 114
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2388,8 +2477,8 @@ freshness:
       - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: e42bf3967801fcf7
-      hotspot_rank: 105
+      source_hash: 62914493771e6780
+      hotspot_rank: 107
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2400,8 +2489,8 @@ freshness:
       - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: e42bf3967801fcf7
-      hotspot_rank: 106
+      source_hash: 62914493771e6780
+      hotspot_rank: 108
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2412,8 +2501,8 @@ freshness:
       - planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 38f3eccef0711a87
-      hotspot_rank: 107
+      source_hash: e5b486305332f130
+      hotspot_rank: 109
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2424,8 +2513,8 @@ freshness:
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 8ed5f9d828dbd41f
-      hotspot_rank: 80
+      source_hash: 3897b34dc32bae90
+      hotspot_rank: 81
       hotspot_score: 0.03
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2436,8 +2525,8 @@ freshness:
       - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: a760e1dbeee899ca
-      hotspot_rank: 118
+      source_hash: 4aa7ae74c274c267
+      hotspot_rank: 120
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2448,8 +2537,8 @@ freshness:
       - planning-mds/features/archive/F0003-task-center/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 43fb8820a1271123
-      hotspot_rank: 177
+      source_hash: 6dcbfb0b659034db
+      hotspot_rank: 178
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2460,8 +2549,8 @@ freshness:
       - planning-mds/features/archive/F0004-task-center-ui-and-assignment/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 18eb3dd1b37e1240
-      hotspot_rank: 157
+      source_hash: bd0e4f81f545bf2f
+      hotspot_rank: 158
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2472,8 +2561,8 @@ freshness:
       - planning-mds/features/archive/F0004-task-center-ui-and-assignment/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 18eb3dd1b37e1240
-      hotspot_rank: 128
+      source_hash: bd0e4f81f545bf2f
+      hotspot_rank: 129
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2484,8 +2573,8 @@ freshness:
       - planning-mds/features/archive/F0003-task-center/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 43fb8820a1271123
-      hotspot_rank: 173
+      source_hash: 6dcbfb0b659034db
+      hotspot_rank: 174
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2497,7 +2586,7 @@ freshness:
       - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 1cd1050f40f8ac4a
+      source_hash: 926c9108e24cae68
     endpoint:territory-create:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -2505,7 +2594,7 @@ freshness:
       - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 1cd1050f40f8ac4a
+      source_hash: 926c9108e24cae68
     endpoint:territory-member-assign:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -2513,7 +2602,7 @@ freshness:
       - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 1cd1050f40f8ac4a
+      source_hash: 926c9108e24cae68
     endpoint:territory-members-list:
       source_paths:
       - planning-mds/api/nebula-api.yaml
@@ -2521,30 +2610,58 @@ freshness:
       - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 1cd1050f40f8ac4a
+      source_hash: 926c9108e24cae68
     endpoint:timeline-events:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0007-renewal-pipeline/F0007-S0007-renewal-activity-timeline-and-audit-trail.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: e389aea755844360
-      hotspot_rank: 108
+      source_hash: 15f18290b59efa8f
+      hotspot_rank: 110
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
       bus_factor_flag: true
+    endpoint:work-queue-create:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      source_count: 2
+      last_modified: '2026-07-06'
+      source_hash: 4339fa017ba16fb2
+    endpoint:work-queue-items-list:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      source_count: 2
+      last_modified: '2026-07-06'
+      source_hash: 4339fa017ba16fb2
+    endpoint:work-queue-list:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      source_count: 2
+      last_modified: '2026-07-06'
+      source_hash: 4339fa017ba16fb2
+    endpoint:work-queue-rebalance:
+      source_paths:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      source_count: 2
+      last_modified: '2026-07-06'
+      source_hash: 4339fa017ba16fb2
     endpoint:workflow-aging-report:
       source_paths:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
-      hotspot_rank: 172
+      source_hash: 296dff6fb60400e2
+      hotspot_rank: 173
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 92
       bus_factor_flag: true
     ui_route:account-create:
       source_paths:
@@ -2552,8 +2669,8 @@ freshness:
       - experience/src/pages/CreateAccountPage.tsx
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: b81808b331de2f2a
-      hotspot_rank: 115
+      source_hash: 0b25a23887f06f33
+      hotspot_rank: 116
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -2564,8 +2681,8 @@ freshness:
       - experience/src/pages/AccountDetailPage.tsx
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 158fb28e26750585
-      hotspot_rank: 109
+      source_hash: 0633a6f992d576c7
+      hotspot_rank: 111
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -2576,8 +2693,8 @@ freshness:
       - experience/src/pages/AccountsPage.tsx
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 70289462aba82932
-      hotspot_rank: 123
+      source_hash: 323479f895a71bd6
+      hotspot_rank: 124
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -2588,8 +2705,8 @@ freshness:
       - experience/src/pages/CreateBrokerPage.tsx
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 9628bbe3fc9c050c
-      hotspot_rank: 156
+      source_hash: 9c4abb7c0ad0af38
+      hotspot_rank: 157
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -2600,8 +2717,8 @@ freshness:
       - experience/src/pages/BrokerDetailPage.tsx
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 019803ac6ba61cd1
-      hotspot_rank: 151
+      source_hash: 49eadce80cacbe94
+      hotspot_rank: 152
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 80
@@ -2612,8 +2729,8 @@ freshness:
       - experience/src/pages/BrokerListPage.tsx
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: de78b931d9a04c6f
-      hotspot_rank: 153
+      source_hash: d4c59f935e3c2a91
+      hotspot_rank: 154
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -2624,8 +2741,8 @@ freshness:
       - experience/src/pages/DashboardPage.tsx
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 7ffbd6aae22291ae
-      hotspot_rank: 163
+      source_hash: 2c6f3da235303252
+      hotspot_rank: 164
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 98
@@ -2636,8 +2753,8 @@ freshness:
       - experience/src/pages/LoginPage.tsx
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: f2b7b92e348ffd9f
-      hotspot_rank: 31
+      source_hash: da29957529ebf07d
+      hotspot_rank: 33
       hotspot_score: 0.08
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 98
@@ -2648,8 +2765,8 @@ freshness:
       - experience/src/pages/CreateSubmissionPage.tsx
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 26817da70d45d706
-      hotspot_rank: 155
+      source_hash: b9686c38c9438588
+      hotspot_rank: 156
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -2660,8 +2777,8 @@ freshness:
       - experience/src/pages/SubmissionDetailPage.tsx
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: cdfb852ef3ef506f
-      hotspot_rank: 145
+      source_hash: 8fda002f7a87b13e
+      hotspot_rank: 146
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -2672,8 +2789,8 @@ freshness:
       - experience/src/pages/SubmissionsPage.tsx
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 1451090e9b5a4e6d
-      hotspot_rank: 159
+      source_hash: ab5386caa1c2671b
+      hotspot_rank: 160
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -2684,8 +2801,8 @@ freshness:
       - experience/src/pages/TaskCenterPage.tsx
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b5224a526b8a442
-      hotspot_rank: 176
+      source_hash: ef61150f23bbc0c4
+      hotspot_rank: 177
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 99
@@ -2710,8 +2827,8 @@ freshness:
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b3f7e81742f22fe
-      hotspot_rank: 142
+      source_hash: cd5c20a686d88ee8
+      hotspot_rank: 143
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 75
@@ -2722,8 +2839,8 @@ freshness:
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b3f7e81742f22fe
-      hotspot_rank: 143
+      source_hash: cd5c20a686d88ee8
+      hotspot_rank: 144
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 75
@@ -2734,8 +2851,8 @@ freshness:
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b3f7e81742f22fe
-      hotspot_rank: 174
+      source_hash: cd5c20a686d88ee8
+      hotspot_rank: 175
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2803,7 +2920,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: f1d173886e503e14
-      hotspot_rank: 124
+      hotspot_rank: 125
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2829,7 +2946,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 3806d4d820ab0db2
-      hotspot_rank: 146
+      hotspot_rank: 147
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2841,7 +2958,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 3806d4d820ab0db2
-      hotspot_rank: 147
+      hotspot_rank: 148
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2853,7 +2970,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: a9f8f84f35f31e3b
-      hotspot_rank: 130
+      hotspot_rank: 137
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2864,8 +2981,8 @@ freshness:
       - planning-mds/features/archive/F0006-submission-intake-workflow/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 8c7754c599c803a1
-      hotspot_rank: 160
+      source_hash: f83ca90ba81d1a92
+      hotspot_rank: 161
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2877,7 +2994,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: c791d7476474b8ec
-      hotspot_rank: 148
+      hotspot_rank: 149
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2889,7 +3006,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: a9f8f84f35f31e3b
-      hotspot_rank: 131
+      hotspot_rank: 138
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2901,7 +3018,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: b8782ebef5a4abcc
-      hotspot_rank: 126
+      hotspot_rank: 127
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2912,8 +3029,8 @@ freshness:
       - planning-mds/features/archive/F0003-task-center/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: be55138bd8cc17db
-      hotspot_rank: 183
+      source_hash: 9a6c0546d17394a4
+      hotspot_rank: 184
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2924,8 +3041,8 @@ freshness:
       - planning-mds/features/archive/F0004-task-center-ui-and-assignment/README.md
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 8ae9bab2a82f2933
-      hotspot_rank: 184
+      source_hash: 32ea023287c1124b
+      hotspot_rank: 185
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -2937,10 +3054,10 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: fac680ce39e1b345
-      hotspot_rank: 132
+      hotspot_rank: 131
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 97
+      primary_owner_pct: 96
       bus_factor_flag: true
     config_key:authentication-authority:
       source_paths:
@@ -2949,10 +3066,10 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: fac680ce39e1b345
-      hotspot_rank: 125
+      hotspot_rank: 126
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 98
+      primary_owner_pct: 97
       bus_factor_flag: true
     config_key:document-classification-policy:
       source_paths:
@@ -2961,7 +3078,7 @@ freshness:
       - planning-mds/security/authorization-matrix.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 3e3727eedc30b4d4
+      source_hash: 19a56897b45c37cf
     config_key:document-metadata-schema-registry:
       source_paths:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
@@ -2969,10 +3086,10 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 5645afaa98376b62
-      hotspot_rank: 30
-      hotspot_score: 0.09
+      hotspot_rank: 27
+      hotspot_score: 0.1
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 99
+      primary_owner_pct: 97
       bus_factor_flag: true
     config_key:document-retention-policies:
       source_paths:
@@ -2995,7 +3112,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 94fb139fc6d84780
-      hotspot_rank: 133
+      hotspot_rank: 139
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 98
@@ -3007,7 +3124,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 94fb139fc6d84780
-      hotspot_rank: 134
+      hotspot_rank: 140
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 98
@@ -3019,7 +3136,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 94fb139fc6d84780
-      hotspot_rank: 135
+      hotspot_rank: 141
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 98
@@ -3030,7 +3147,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 82473df2cd5d3a36
-      hotspot_rank: 158
+      hotspot_rank: 159
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -3042,7 +3159,7 @@ freshness:
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: 6ae203e185d84b12
-      hotspot_rank: 99
+      hotspot_rank: 100
       hotspot_score: 0.02
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -3053,7 +3170,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 042906a4ce385235
-      hotspot_rank: 185
+      hotspot_rank: 186
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 92
@@ -3064,7 +3181,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 7fd86607354980ce
-      hotspot_rank: 186
+      hotspot_rank: 187
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 92
@@ -3075,7 +3192,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: b1d26abf9c7fb691
-      hotspot_rank: 175
+      hotspot_rank: 176
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 92
@@ -3086,7 +3203,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: f5d5b28e423a667b
-      hotspot_rank: 179
+      hotspot_rank: 180
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 92
@@ -3097,7 +3214,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 1b1875066fb10af1
-      hotspot_rank: 181
+      hotspot_rank: 182
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 92
@@ -3108,7 +3225,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: c1d6259e878e8a55
-      hotspot_rank: 182
+      hotspot_rank: 183
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 92
@@ -3119,7 +3236,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: e6f01f1d3ea687f5
-      hotspot_rank: 188
+      hotspot_rank: 189
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -3130,7 +3247,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: bc6e8852aa475b29
-      hotspot_rank: 193
+      hotspot_rank: 194
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -3141,7 +3258,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: feabbd2e770f21ae
-      hotspot_rank: 180
+      hotspot_rank: 181
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -3152,7 +3269,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 127dee36ab27854d
-      hotspot_rank: 187
+      hotspot_rank: 188
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 93
@@ -3163,11 +3280,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
       hotspot_rank: 69
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 88
+      primary_owner_pct: 86
       bus_factor_flag: true
     role:broker-user:
       source_paths:
@@ -3176,11 +3293,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 800a8d714e0410f7
-      hotspot_rank: 41
-      hotspot_score: 0.06
+      source_hash: 1c0778fb25c42a0a
+      hotspot_rank: 40
+      hotspot_score: 0.07
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 91
+      primary_owner_pct: 89
       bus_factor_flag: true
     role:coordinator:
       source_paths:
@@ -3189,18 +3306,18 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 76df33166f3e957f
+      source_hash: 4203d20c85ffe430
     role:distribution-manager:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
       hotspot_rank: 70
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 88
+      primary_owner_pct: 86
       bus_factor_flag: true
     role:distribution-user:
       source_paths:
@@ -3208,22 +3325,22 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
       hotspot_rank: 71
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 88
+      primary_owner_pct: 86
       bus_factor_flag: true
     role:external-user:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: 73559bee10b7e134
-      hotspot_rank: 122
+      source_hash: 2803c39d67fa0044
+      hotspot_rank: 119
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 91
+      primary_owner_pct: 88
       bus_factor_flag: true
     role:mga-user:
       source_paths:
@@ -3232,18 +3349,18 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 76df33166f3e957f
+      source_hash: 4203d20c85ffe430
     role:program-manager:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
       hotspot_rank: 72
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 88
+      primary_owner_pct: 86
       bus_factor_flag: true
     role:relationship-manager:
       source_paths:
@@ -3251,11 +3368,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
       hotspot_rank: 73
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 88
+      primary_owner_pct: 86
       bus_factor_flag: true
     role:underwriter:
       source_paths:
@@ -3263,11 +3380,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
       hotspot_rank: 74
       hotspot_score: 0.04
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 88
+      primary_owner_pct: 86
       bus_factor_flag: true
     policy_rule:account-contact-manage:
       source_paths:
@@ -3275,11 +3392,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
-      hotspot_rank: 62
+      source_hash: 8edfc3d906b51e9f
+      hotspot_rank: 60
       hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 92
       bus_factor_flag: true
     policy_rule:account-create:
       source_paths:
@@ -3287,11 +3404,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
-      hotspot_rank: 57
-      hotspot_score: 0.05
+      source_hash: 8edfc3d906b51e9f
+      hotspot_rank: 56
+      hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 93
       bus_factor_flag: true
     policy_rule:account-deactivate:
       source_paths:
@@ -3299,11 +3416,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
-      hotspot_rank: 48
+      source_hash: 8edfc3d906b51e9f
+      hotspot_rank: 47
       hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 93
       bus_factor_flag: true
     policy_rule:account-delete:
       source_paths:
@@ -3311,11 +3428,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
-      hotspot_rank: 49
+      source_hash: 8edfc3d906b51e9f
+      hotspot_rank: 48
       hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 93
       bus_factor_flag: true
     policy_rule:account-merge:
       source_paths:
@@ -3324,11 +3441,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 47ce29b9a57c47d3
-      hotspot_rank: 58
-      hotspot_score: 0.05
+      source_hash: b4241f983203d16e
+      hotspot_rank: 57
+      hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 93
       bus_factor_flag: true
     policy_rule:account-reactivate:
       source_paths:
@@ -3336,11 +3453,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
-      hotspot_rank: 50
+      source_hash: 8edfc3d906b51e9f
+      hotspot_rank: 49
       hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 93
       bus_factor_flag: true
     policy_rule:account-read:
       source_paths:
@@ -3349,11 +3466,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 9fbe74bd5b9facf1
+      source_hash: 79124f68477f6ce2
       hotspot_rank: 46
       hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 94
       bus_factor_flag: true
     policy_rule:account-relationship-change:
       source_paths:
@@ -3361,11 +3478,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
-      hotspot_rank: 59
-      hotspot_score: 0.05
+      source_hash: 8edfc3d906b51e9f
+      hotspot_rank: 58
+      hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 93
       bus_factor_flag: true
     policy_rule:account-update:
       source_paths:
@@ -3373,11 +3490,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
-      hotspot_rank: 60
-      hotspot_score: 0.05
+      source_hash: 8edfc3d906b51e9f
+      hotspot_rank: 59
+      hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 93
       bus_factor_flag: true
     policy_rule:broker-create:
       source_paths:
@@ -3385,21 +3502,21 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:broker-delete:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:broker-reactivate:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:broker-read:
       source_paths:
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
@@ -3407,11 +3524,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 800a8d714e0410f7
+      source_hash: 1c0778fb25c42a0a
       hotspot_rank: 37
       hotspot_score: 0.07
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 85
+      primary_owner_pct: 83
       bus_factor_flag: true
     policy_rule:broker-search:
       source_paths:
@@ -3420,11 +3537,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 800a8d714e0410f7
+      source_hash: 1c0778fb25c42a0a
       hotspot_rank: 51
       hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 88
+      primary_owner_pct: 86
       bus_factor_flag: true
     policy_rule:broker-update:
       source_paths:
@@ -3432,119 +3549,119 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:carrier-market-create:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:carrier-market-link-activity:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:carrier-market-manage-appetite:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:carrier-market-manage-appointment:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:carrier-market-manage-contact:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:carrier-market-read:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:carrier-market-search:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:carrier-market-update:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:communication-event-correct:
       source_paths:
       - planning-mds/features/archive/F0021-communication-hub-and-activity-capture/authorization-deltas.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 9475833b28a9f8f3
+      source_hash: cd38bf3b5cd07a80
     policy_rule:communication-event-create:
       source_paths:
       - planning-mds/features/archive/F0021-communication-hub-and-activity-capture/authorization-deltas.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 9475833b28a9f8f3
+      source_hash: cd38bf3b5cd07a80
     policy_rule:communication-event-create-follow-up:
       source_paths:
       - planning-mds/features/archive/F0021-communication-hub-and-activity-capture/authorization-deltas.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 9475833b28a9f8f3
+      source_hash: cd38bf3b5cd07a80
     policy_rule:communication-event-link:
       source_paths:
       - planning-mds/features/archive/F0021-communication-hub-and-activity-capture/authorization-deltas.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 9475833b28a9f8f3
+      source_hash: cd38bf3b5cd07a80
     policy_rule:communication-event-read:
       source_paths:
       - planning-mds/features/archive/F0021-communication-hub-and-activity-capture/authorization-deltas.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 9475833b28a9f8f3
+      source_hash: cd38bf3b5cd07a80
     policy_rule:communication-event-redact:
       source_paths:
       - planning-mds/features/archive/F0021-communication-hub-and-activity-capture/authorization-deltas.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 9475833b28a9f8f3
+      source_hash: cd38bf3b5cd07a80
     policy_rule:contact-create:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:contact-delete:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:contact-read:
       source_paths:
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
@@ -3552,11 +3669,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 800a8d714e0410f7
-      hotspot_rank: 40
-      hotspot_score: 0.06
+      source_hash: 1c0778fb25c42a0a
+      hotspot_rank: 39
+      hotspot_score: 0.07
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 88
+      primary_owner_pct: 86
       bus_factor_flag: true
     policy_rule:contact-update:
       source_paths:
@@ -3564,14 +3681,14 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:dashboard-kpi-read:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:dashboard-nudge-read:
       source_paths:
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
@@ -3579,11 +3696,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 800a8d714e0410f7
-      hotspot_rank: 33
-      hotspot_score: 0.07
+      source_hash: 1c0778fb25c42a0a
+      hotspot_rank: 34
+      hotspot_score: 0.08
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 94
       bus_factor_flag: true
     policy_rule:dashboard-pipeline-read:
       source_paths:
@@ -3591,7 +3708,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:distribution-node-read:
       source_paths:
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
@@ -3599,7 +3716,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 2ddc5a85a2635f0d
+      source_hash: 904a978ae94fa6b5
     policy_rule:distribution-node-update:
       source_paths:
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
@@ -3607,84 +3724,84 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 2ddc5a85a2635f0d
+      source_hash: 904a978ae94fa6b5
     policy_rule:document-create:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:document-create-restricted:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:document-declassify:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:document-download:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:document-read:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:document-replace:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:document-template-create:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:document-template-link:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:document-template-read:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:document-template-replace:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:document-update-metadata:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:global-search-read:
       source_paths:
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
@@ -3692,11 +3809,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: aed666a5aee7812c
-      hotspot_rank: 137
+      source_hash: 87694678d4219d86
+      hotspot_rank: 132
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 86
+      primary_owner_pct: 83
       bus_factor_flag: true
     policy_rule:lob-schema-activate:
       source_paths:
@@ -3704,35 +3821,35 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:lob-schema-deprecate:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:lob-schema-read:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:lob-schema-resolve:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:lob-schema-retire:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:operational-report-read:
       source_paths:
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
@@ -3740,11 +3857,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: aed666a5aee7812c
-      hotspot_rank: 138
+      source_hash: 87694678d4219d86
+      hotspot_rank: 133
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 86
+      primary_owner_pct: 83
       bus_factor_flag: true
     policy_rule:outbound-document-issue:
       source_paths:
@@ -3753,7 +3870,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: f3e124da619393b3
+      source_hash: 101868906fd9ccb1
     policy_rule:outbound-document-preview:
       source_paths:
       - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
@@ -3761,7 +3878,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: f3e124da619393b3
+      source_hash: 101868906fd9ccb1
     policy_rule:outbound-document-regenerate:
       source_paths:
       - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
@@ -3769,7 +3886,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: f3e124da619393b3
+      source_hash: 101868906fd9ccb1
     policy_rule:outbound-template-manage:
       source_paths:
       - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
@@ -3777,7 +3894,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: f3e124da619393b3
+      source_hash: 101868906fd9ccb1
     policy_rule:policy-cancel:
       source_paths:
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
@@ -3847,7 +3964,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 2ddc5a85a2635f0d
+      source_hash: 904a978ae94fa6b5
     policy_rule:producer-ownership-read:
       source_paths:
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
@@ -3855,18 +3972,39 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 2ddc5a85a2635f0d
+      source_hash: 904a978ae94fa6b5
+    policy_rule:queue-assign:
+      source_paths:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+      source_count: 2
+      last_modified: '2026-07-06'
+      source_hash: 8edfc3d906b51e9f
+    policy_rule:queue-manage:
+      source_paths:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+      source_count: 2
+      last_modified: '2026-07-06'
+      source_hash: 8edfc3d906b51e9f
+    policy_rule:queue-read:
+      source_paths:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+      source_count: 2
+      last_modified: '2026-07-06'
+      source_hash: 8edfc3d906b51e9f
     policy_rule:renewal-assign:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
-      hotspot_rank: 36
+      source_hash: 8edfc3d906b51e9f
+      hotspot_rank: 35
       hotspot_score: 0.07
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 94
+      primary_owner_pct: 93
       bus_factor_flag: true
     policy_rule:renewal-create:
       source_paths:
@@ -3874,11 +4012,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
-      hotspot_rank: 29
+      source_hash: 8edfc3d906b51e9f
+      hotspot_rank: 31
       hotspot_score: 0.09
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 96
+      primary_owner_pct: 95
       bus_factor_flag: true
     policy_rule:renewal-draft-outreach:
       source_paths:
@@ -3887,18 +4025,18 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 629b6b0eb0c9c2be
+      source_hash: 1467bd0e30b3f27a
     policy_rule:renewal-read:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
       hotspot_rank: 32
-      hotspot_score: 0.08
+      hotspot_score: 0.09
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 96
+      primary_owner_pct: 95
       bus_factor_flag: true
     policy_rule:renewal-transition:
       source_paths:
@@ -3906,11 +4044,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
-      hotspot_rank: 28
+      source_hash: 8edfc3d906b51e9f
+      hotspot_rank: 30
       hotspot_score: 0.09
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 96
+      primary_owner_pct: 95
       bus_factor_flag: true
     policy_rule:renewal-update:
       source_paths:
@@ -3918,7 +4056,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:saved-view-default:
       source_paths:
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
@@ -3926,11 +4064,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: aed666a5aee7812c
-      hotspot_rank: 139
+      source_hash: 87694678d4219d86
+      hotspot_rank: 134
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 86
+      primary_owner_pct: 83
       bus_factor_flag: true
     policy_rule:saved-view-manage:
       source_paths:
@@ -3939,11 +4077,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: aed666a5aee7812c
-      hotspot_rank: 140
+      source_hash: 87694678d4219d86
+      hotspot_rank: 135
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 86
+      primary_owner_pct: 83
       bus_factor_flag: true
     policy_rule:saved-view-read:
       source_paths:
@@ -3952,11 +4090,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: aed666a5aee7812c
-      hotspot_rank: 141
+      source_hash: 87694678d4219d86
+      hotspot_rank: 136
       hotspot_score: 0.01
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 86
+      primary_owner_pct: 83
       bus_factor_flag: true
     policy_rule:service-case-assign:
       source_paths:
@@ -3964,116 +4102,116 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: fb215a31ac476c2f
+      source_hash: 214f5f95e3286399
     policy_rule:service-case-create:
       source_paths:
       - planning-mds/features/archive/F0024-claims-and-service-case-tracking/authorization-deltas.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: fb215a31ac476c2f
+      source_hash: 214f5f95e3286399
     policy_rule:service-case-create-follow-up:
       source_paths:
       - planning-mds/features/archive/F0024-claims-and-service-case-tracking/authorization-deltas.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: fb215a31ac476c2f
+      source_hash: 214f5f95e3286399
     policy_rule:service-case-link-communication:
       source_paths:
       - planning-mds/features/archive/F0024-claims-and-service-case-tracking/authorization-deltas.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: fb215a31ac476c2f
+      source_hash: 214f5f95e3286399
     policy_rule:service-case-read:
       source_paths:
       - planning-mds/features/archive/F0024-claims-and-service-case-tracking/authorization-deltas.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: fb215a31ac476c2f
+      source_hash: 214f5f95e3286399
     policy_rule:service-case-transition:
       source_paths:
       - planning-mds/features/archive/F0024-claims-and-service-case-tracking/authorization-deltas.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: fb215a31ac476c2f
+      source_hash: 214f5f95e3286399
     policy_rule:service-case-update:
       source_paths:
       - planning-mds/features/archive/F0024-claims-and-service-case-tracking/authorization-deltas.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: fb215a31ac476c2f
+      source_hash: 214f5f95e3286399
     policy_rule:service-case-update-claim-reference:
       source_paths:
       - planning-mds/features/archive/F0024-claims-and-service-case-tracking/authorization-deltas.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: fb215a31ac476c2f
+      source_hash: 214f5f95e3286399
     policy_rule:submission-approve:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:submission-archive:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:submission-assign:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:submission-create:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:submission-read:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:submission-transition:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:submission-update:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:task-create:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
-      hotspot_rank: 53
-      hotspot_score: 0.05
+      source_hash: 8edfc3d906b51e9f
+      hotspot_rank: 54
+      hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 94
       bus_factor_flag: true
     policy_rule:task-delete:
       source_paths:
@@ -4081,11 +4219,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
       hotspot_rank: 64
       hotspot_score: 0.05
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 94
       bus_factor_flag: true
     policy_rule:task-read:
       source_paths:
@@ -4094,11 +4232,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 800a8d714e0410f7
-      hotspot_rank: 42
-      hotspot_score: 0.06
+      source_hash: 1c0778fb25c42a0a
+      hotspot_rank: 41
+      hotspot_score: 0.07
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 93
       bus_factor_flag: true
     policy_rule:task-update:
       source_paths:
@@ -4106,11 +4244,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
-      hotspot_rank: 54
-      hotspot_score: 0.05
+      source_hash: 8edfc3d906b51e9f
+      hotspot_rank: 55
+      hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 95
+      primary_owner_pct: 94
       bus_factor_flag: true
     policy_rule:territory-assign:
       source_paths:
@@ -4119,7 +4257,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 2ddc5a85a2635f0d
+      source_hash: 904a978ae94fa6b5
     policy_rule:territory-create:
       source_paths:
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
@@ -4127,7 +4265,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 2ddc5a85a2635f0d
+      source_hash: 904a978ae94fa6b5
     policy_rule:territory-read:
       source_paths:
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
@@ -4135,7 +4273,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 2ddc5a85a2635f0d
+      source_hash: 904a978ae94fa6b5
     policy_rule:timeline-event-read:
       source_paths:
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
@@ -4143,11 +4281,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 800a8d714e0410f7
-      hotspot_rank: 43
-      hotspot_score: 0.06
+      source_hash: 1c0778fb25c42a0a
+      hotspot_rank: 42
+      hotspot_score: 0.07
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 90
+      primary_owner_pct: 88
       bus_factor_flag: true
     policy_rule:user-search:
       source_paths:
@@ -4155,11 +4293,11 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
-      hotspot_rank: 52
-      hotspot_score: 0.05
+      source_hash: 8edfc3d906b51e9f
+      hotspot_rank: 53
+      hotspot_score: 0.06
       primary_owner: gajapathi.kannan@live.com
-      primary_owner_pct: 88
+      primary_owner_pct: 86
       bus_factor_flag: true
     evidence:broker-access-integration-tests:
       source_paths:
@@ -4167,7 +4305,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: c31f15d4b874fd1f
-      hotspot_rank: 202
+      hotspot_rank: 203
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -4178,7 +4316,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 473f665cfabe11b3
-      hotspot_rank: 203
+      hotspot_rank: 204
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -4189,7 +4327,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: b0ca0f9a95e73bb5
-      hotspot_rank: 204
+      hotspot_rank: 205
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -4200,7 +4338,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 5b3e37f6c6aeb15a
-      hotspot_rank: 194
+      hotspot_rank: 195
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -4211,7 +4349,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 613900512579b630
-      hotspot_rank: 195
+      hotspot_rank: 196
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -4293,7 +4431,7 @@ freshness:
       - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: 753e181aa4a5e09c
+      source_hash: dd7d42f8f9635897
     adr:014-search:
       source_paths:
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
@@ -4480,6 +4618,18 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 267c97e6b95a4e59
+    schema:assignment-rule:
+      source_paths:
+      - planning-mds/schemas/assignment-rule.schema.json
+      source_count: 1
+      last_modified: '2026-07-06'
+      source_hash: c948eb94820c9bfb
+    schema:assignment-rule-upsert-request:
+      source_paths:
+      - planning-mds/schemas/assignment-rule-upsert-request.schema.json
+      source_count: 1
+      last_modified: '2026-07-06'
+      source_hash: 2b434cb7825f95f1
     schema:broker:
       source_paths:
       - planning-mds/schemas/broker.schema.json
@@ -4588,6 +4738,18 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 0a5da77bda7f9a64
+    schema:coverage-window:
+      source_paths:
+      - planning-mds/schemas/coverage-window.schema.json
+      source_count: 1
+      last_modified: '2026-07-06'
+      source_hash: 28d6ada64eb30cdf
+    schema:coverage-window-upsert-request:
+      source_paths:
+      - planning-mds/schemas/coverage-window-upsert-request.schema.json
+      source_count: 1
+      last_modified: '2026-07-06'
+      source_hash: 9d299bbc5e0990d9
     schema:dashboard-kpis:
       source_paths:
       - planning-mds/schemas/dashboard-kpis.schema.json
@@ -4690,7 +4852,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 310709bf62590d4a
-      hotspot_rank: 196
+      hotspot_rank: 197
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -4701,7 +4863,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 34f7c5d53002d436
-      hotspot_rank: 197
+      hotspot_rank: 198
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -4772,7 +4934,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 279c3e92695a80c7
-      hotspot_rank: 198
+      hotspot_rank: 199
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -4999,6 +5161,30 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: d3c8db4e4ab13116
+    schema:queue-member-upsert-request:
+      source_paths:
+      - planning-mds/schemas/queue-member-upsert-request.schema.json
+      source_count: 1
+      last_modified: '2026-07-06'
+      source_hash: 804f479d9e51bbcc
+    schema:queue-reassignment-request:
+      source_paths:
+      - planning-mds/schemas/queue-reassignment-request.schema.json
+      source_count: 1
+      last_modified: '2026-07-06'
+      source_hash: 131e966416ab839d
+    schema:queue-rebalance-request:
+      source_paths:
+      - planning-mds/schemas/queue-rebalance-request.schema.json
+      source_count: 1
+      last_modified: '2026-07-06'
+      source_hash: 204ede1c2ee41367
+    schema:queue-work-item:
+      source_paths:
+      - planning-mds/schemas/queue-work-item.schema.json
+      source_count: 1
+      last_modified: '2026-07-06'
+      source_hash: c642269fd4ab8fbb
     schema:renewal:
       source_paths:
       - planning-mds/schemas/renewal.schema.json
@@ -5053,13 +5239,19 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 1541be015739a028
+    schema:routing-event:
+      source_paths:
+      - planning-mds/schemas/routing-event.schema.json
+      source_count: 1
+      last_modified: '2026-07-06'
+      source_hash: 70ecb4242324d1c3
     schema:saved-view:
       source_paths:
       - planning-mds/schemas/saved-view.schema.json
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 30d3d69e8444855e
-      hotspot_rank: 199
+      hotspot_rank: 200
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -5070,7 +5262,7 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: c0f6ff7c2db0e614
-      hotspot_rank: 200
+      hotspot_rank: 201
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -5225,13 +5417,25 @@ freshness:
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: ce5bf22e05a8e6b9
+    schema:work-queue:
+      source_paths:
+      - planning-mds/schemas/work-queue.schema.json
+      source_count: 1
+      last_modified: '2026-07-06'
+      source_hash: 9b5a5eb2abc9501b
+    schema:work-queue-upsert-request:
+      source_paths:
+      - planning-mds/schemas/work-queue-upsert-request.schema.json
+      source_count: 1
+      last_modified: '2026-07-06'
+      source_hash: 1bf2cee3cf1b1943
     schema:workflow-aging-report:
       source_paths:
       - planning-mds/schemas/workflow-aging-report.schema.json
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: cba1f40f475cbb85
-      hotspot_rank: 201
+      hotspot_rank: 202
       hotspot_score: 0.0
       primary_owner: gajapathi.kannan@live.com
       primary_owner_pct: 100
@@ -5241,7 +5445,7 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       source_count: 1
       last_modified: '2026-07-06'
-      source_hash: 00f9c8e17c8e949a
+      source_hash: 9a5ec44d9f1e35b8
     api:neuron-rest:
       source_paths:
       - planning-mds/api/neuron-api.yaml
@@ -5598,13 +5802,21 @@ freshness:
       source_hash: d968bcf734b55156
     feature:F0022:
       source_paths:
-      - planning-mds/features/F0022-work-queues-assignment-rules-and-coverage-management/GETTING-STARTED.md
-      - planning-mds/features/F0022-work-queues-assignment-rules-and-coverage-management/PRD.md
-      - planning-mds/features/F0022-work-queues-assignment-rules-and-coverage-management/README.md
-      - planning-mds/features/F0022-work-queues-assignment-rules-and-coverage-management/STATUS.md
-      source_count: 4
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0001-manage-work-queues-and-memberships.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0002-define-assignment-rules-and-precedence.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0003-route-work-from-tasks-submissions-and-renewals.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0004-manage-backup-coverage-windows.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0005-queue-worklists-and-aging-visibility.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0006-reassign-and-rebalance-queued-work.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0007-routing-audit-permissions-and-exceptions.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/GETTING-STARTED.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/PRD.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/README.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/STATUS.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/feature-assembly-plan.md
+      source_count: 12
       last_modified: '2026-07-06'
-      source_hash: eec6ce8808e62bf5
+      source_hash: 92bbf0b5c7587a07
     feature:F0023:
       source_paths:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0001-global-search-results.md
@@ -6753,7 +6965,7 @@ freshness:
       - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
       source_count: 9
       last_modified: '2026-07-06'
-      source_hash: 39b971bb0724f4a2
+      source_hash: 832769aa470d2090
     capability:broker-relationship-management:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs
@@ -6965,7 +7177,7 @@ freshness:
       - experience/src/pages/SubmissionDetailPage.tsx
       source_count: 35
       last_modified: '2026-07-06'
-      source_hash: e9577a65aecdca0f
+      source_hash: be15b7e44ebeae32
     capability:dynamic-lob-attributes:
       source_paths:
       - engine/src/Nebula.Application/DTOs/LobAttributeDtos.cs
@@ -7036,7 +7248,7 @@ freshness:
       - planning-mds/schemas/global-search-response.schema.json
       source_count: 21
       last_modified: '2026-07-06'
-      source_hash: 1f031af7b7d8e776
+      source_hash: 1dbf30ae62664bd5
     capability:neuron-companion:
       source_paths:
       - docker-compose.yml
@@ -7264,7 +7476,42 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 19
       last_modified: '2026-07-06'
-      source_hash: d07170c8561717f1
+      source_hash: 5138db7670feacd2
+    capability:operations-routing:
+      source_paths:
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0001-manage-work-queues-and-memberships.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0002-define-assignment-rules-and-precedence.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0003-route-work-from-tasks-submissions-and-renewals.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0004-manage-backup-coverage-windows.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0005-queue-worklists-and-aging-visibility.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0006-reassign-and-rebalance-queued-work.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0007-routing-audit-permissions-and-exceptions.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/GETTING-STARTED.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/PRD.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/README.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/STATUS.md
+      - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/application-assembly-plan.md
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+      - planning-mds/architecture/feature-architecture-inventory-f0006-f0032.md
+      - planning-mds/schemas/assignment-rule-upsert-request.schema.json
+      - planning-mds/schemas/assignment-rule.schema.json
+      - planning-mds/schemas/coverage-window-upsert-request.schema.json
+      - planning-mds/schemas/coverage-window.schema.json
+      - planning-mds/schemas/queue-member-upsert-request.schema.json
+      - planning-mds/schemas/queue-reassignment-request.schema.json
+      - planning-mds/schemas/queue-rebalance-request.schema.json
+      - planning-mds/schemas/queue-work-item.schema.json
+      - planning-mds/schemas/routing-event.schema.json
+      - planning-mds/schemas/work-queue-upsert-request.schema.json
+      - planning-mds/schemas/work-queue.schema.json
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+      source_count: 30
+      last_modified: '2026-07-06'
+      source_hash: d051d5fe8a034360
     capability:outbound-document-generation:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/OutboundDocumentEndpoints.cs
@@ -7294,7 +7541,7 @@ freshness:
       - experience/src/features/documents/types.ts
       source_count: 25
       last_modified: '2026-07-06'
-      source_hash: ab2ac0c0a802cc4f
+      source_hash: aa0d2c7c548f3b06
     capability:product-schema-registry:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
@@ -7323,7 +7570,7 @@ freshness:
       - planning-mds/schemas/lob-validation-problem-details.schema.json
       source_count: 24
       last_modified: '2026-07-06'
-      source_hash: d2cd5f831b2adbe4
+      source_hash: 1058741f86820620
     capability:saved-views:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/SavedViewEndpoints.cs
@@ -7348,7 +7595,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 20
       last_modified: '2026-07-06'
-      source_hash: bf6fcdb51826df78
+      source_hash: 497f845a88e0d263
     capability:session-context-restore:
       source_paths:
       - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
@@ -7415,7 +7662,7 @@ freshness:
       - experience/src/services/api.test.ts
       source_count: 49
       last_modified: '2026-07-06'
-      source_hash: 9f326e706c854dc6
+      source_hash: 7e678f9b601e1ea3
     capability:task-center:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
@@ -7468,7 +7715,7 @@ freshness:
       - planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: bcdb7ca23b6e39b5
+      source_hash: 6da2ae94da8c9f95
     config_key:authentication-authority:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AuthEndpoints.cs
@@ -7477,7 +7724,7 @@ freshness:
       - planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
       source_count: 4
       last_modified: '2026-07-06'
-      source_hash: 105b48fef519e17c
+      source_hash: c943160b35e4f62b
     config_key:document-metadata-schema-registry:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
@@ -7629,7 +7876,7 @@ freshness:
       - experience/src/pages/CreateAccountPage.tsx
       source_count: 10
       last_modified: '2026-07-06'
-      source_hash: f8871e682a5afb45
+      source_hash: f950805548911d32
     endpoint:account-detail:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -7644,7 +7891,7 @@ freshness:
       - experience/src/pages/AccountDetailPage.tsx
       source_count: 10
       last_modified: '2026-07-06'
-      source_hash: b2189a652546a9aa
+      source_hash: c8ecb1c83c75745f
     endpoint:account-lifecycle:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -7676,7 +7923,7 @@ freshness:
       - experience/src/pages/AccountsPage.tsx
       source_count: 12
       last_modified: '2026-07-06'
-      source_hash: e683e8d5a0999ddd
+      source_hash: 461fa1d2ca038aae
     endpoint:account-merge:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -7941,7 +8188,7 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
+      source_hash: 296dff6fb60400e2
     endpoint:internal-telemetry-session-continuity:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/SessionTelemetryEndpoints.cs
@@ -7956,7 +8203,7 @@ freshness:
       - experience/src/features/session-continuity/tests/sessionTelemetry.test.ts
       source_count: 10
       last_modified: '2026-07-06'
-      source_hash: ec5f3ff252dec3ff
+      source_hash: 434af87beeebab28
     endpoint:lob-schema-activate:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
@@ -7965,7 +8212,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 4
       last_modified: '2026-07-06'
-      source_hash: f4eba9f3ab18c81d
+      source_hash: e06043bf6d15cc01
     endpoint:lob-schema-bundle-detail:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
@@ -7974,7 +8221,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 4
       last_modified: '2026-07-06'
-      source_hash: f4eba9f3ab18c81d
+      source_hash: e06043bf6d15cc01
     endpoint:lob-schemas-active:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
@@ -7983,7 +8230,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 4
       last_modified: '2026-07-06'
-      source_hash: f4eba9f3ab18c81d
+      source_hash: e06043bf6d15cc01
     endpoint:neuron-action-callback:
       source_paths:
       - neuron/app/actions.py
@@ -8018,7 +8265,7 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
+      source_hash: 296dff6fb60400e2
     endpoint:renewal-assignment:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
@@ -8119,42 +8366,42 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
+      source_hash: 296dff6fb60400e2
     endpoint:saved-view-create:
       source_paths:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       - planning-mds/api/nebula-api.yaml
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
+      source_hash: 296dff6fb60400e2
     endpoint:saved-view-default:
       source_paths:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       - planning-mds/api/nebula-api.yaml
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
+      source_hash: 296dff6fb60400e2
     endpoint:saved-view-detail:
       source_paths:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       - planning-mds/api/nebula-api.yaml
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
+      source_hash: 296dff6fb60400e2
     endpoint:saved-view-list:
       source_paths:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       - planning-mds/api/nebula-api.yaml
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
+      source_hash: 296dff6fb60400e2
     endpoint:saved-view-update:
       source_paths:
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
       - planning-mds/api/nebula-api.yaml
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
+      source_hash: 296dff6fb60400e2
     endpoint:submission-approval:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
@@ -8363,7 +8610,7 @@ freshness:
       - planning-mds/api/nebula-api.yaml
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 0a35db24fa74571d
+      source_hash: 296dff6fb60400e2
     entity:account:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -8430,7 +8677,7 @@ freshness:
       - experience/src/pages/SubmissionsPage.tsx
       source_count: 62
       last_modified: '2026-07-06'
-      source_hash: 874117d7ab245164
+      source_hash: 28c75451dec682f8
     entity:activity-timeline-event:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/TimelineEndpoints.cs
@@ -8540,7 +8787,7 @@ freshness:
       - planning-mds/schemas/carrier-market.schema.json
       source_count: 20
       last_modified: '2026-07-06'
-      source_hash: 6a74dd4ac59eaaea
+      source_hash: 333206190810c1eb
     entity:communication-event:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/CommunicationEndpoints.cs
@@ -8583,7 +8830,7 @@ freshness:
       - experience/src/pages/SubmissionDetailPage.tsx
       source_count: 38
       last_modified: '2026-07-06'
-      source_hash: af8034984b1b3647
+      source_hash: ba0db29fe2cca1ef
     entity:document:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
@@ -8637,7 +8884,7 @@ freshness:
       - experience/src/services/api.test.ts
       source_count: 49
       last_modified: '2026-07-06'
-      source_hash: 4e90f304fa9c521f
+      source_hash: c3e721590c064d66
     entity:document-template:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
@@ -8677,7 +8924,7 @@ freshness:
       - planning-mds/schemas/workflow-aging-report.schema.json
       source_count: 11
       last_modified: '2026-07-06'
-      source_hash: 0814737d96018936
+      source_hash: 1b1a132562a6c939
     entity:policy:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/PolicyEndpoints.cs
@@ -8777,7 +9024,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 14
       last_modified: '2026-07-06'
-      source_hash: bfa32458c677b5fe
+      source_hash: 28271dbca9019f3b
     entity:saved-view-audit-event:
       source_paths:
       - engine/src/Nebula.Domain/Entities/SavedViewAuditEvent.cs
@@ -8787,7 +9034,7 @@ freshness:
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
       source_count: 5
       last_modified: '2026-07-06'
-      source_hash: 8ac5b8820c2571e9
+      source_hash: 58dbd9d1245af80e
     entity:search-document:
       source_paths:
       - engine/src/Nebula.Application/DTOs/SearchDtos.cs
@@ -8804,7 +9051,7 @@ freshness:
       - planning-mds/schemas/global-search-result.schema.json
       source_count: 12
       last_modified: '2026-07-06'
-      source_hash: be01177a9d0c3717
+      source_hash: 80f9f733a89b0d4f
     entity:service-case:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/ServiceCaseEndpoints.cs
@@ -8853,7 +9100,7 @@ freshness:
       - experience/src/pages/ServiceCasesPage.tsx
       source_count: 44
       last_modified: '2026-07-06'
-      source_hash: 9a100612c501ca8b
+      source_hash: b47e376a9491dc5b
     entity:submission:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
@@ -9310,7 +9557,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 10
       last_modified: '2026-07-06'
-      source_hash: 9e08fa7188aca55e
+      source_hash: c9470661fcf4eb33
     policy_rule:account-create:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -9325,7 +9572,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 10
       last_modified: '2026-07-06'
-      source_hash: f65724cb76922243
+      source_hash: 22eb7a25e9fbd48a
     policy_rule:account-deactivate:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -9341,7 +9588,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 11
       last_modified: '2026-07-06'
-      source_hash: 119b0e5a6bb6158c
+      source_hash: 4245a28d24d73499
     policy_rule:account-delete:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -9357,7 +9604,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 11
       last_modified: '2026-07-06'
-      source_hash: 119b0e5a6bb6158c
+      source_hash: 4245a28d24d73499
     policy_rule:account-merge:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -9372,7 +9619,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 10
       last_modified: '2026-07-06'
-      source_hash: 9e4b83c36bfae1b5
+      source_hash: 003a16ae4f834b89
     policy_rule:account-reactivate:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -9388,7 +9635,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 11
       last_modified: '2026-07-06'
-      source_hash: 119b0e5a6bb6158c
+      source_hash: 4245a28d24d73499
     policy_rule:account-read:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -9404,7 +9651,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 11
       last_modified: '2026-07-06'
-      source_hash: 02aa3e5f26d3d2f0
+      source_hash: c90e502cce90bbd4
     policy_rule:account-relationship-change:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -9419,7 +9666,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 10
       last_modified: '2026-07-06'
-      source_hash: e5981c0e7f1a95c1
+      source_hash: c7a710d2e3f0269b
     policy_rule:account-update:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -9434,7 +9681,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 10
       last_modified: '2026-07-06'
-      source_hash: 5ecca20e5cb3f777
+      source_hash: e71caf8e0684e8b8
     policy_rule:broker-read:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs
@@ -9452,7 +9699,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 13
       last_modified: '2026-07-06'
-      source_hash: b549ed1f086cca66
+      source_hash: 8999cbc23157628b
     policy_rule:broker-search:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs
@@ -9469,7 +9716,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 12
       last_modified: '2026-07-06'
-      source_hash: 649565771c79083d
+      source_hash: d93f1732741d68b1
     policy_rule:contact-read:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs
@@ -9487,7 +9734,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 13
       last_modified: '2026-07-06'
-      source_hash: c6a3c0b94345ba38
+      source_hash: 5be15ed2ae9049bc
     policy_rule:dashboard-nudge-read:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/DashboardEndpoints.cs
@@ -9506,21 +9753,21 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 14
       last_modified: '2026-07-06'
-      source_hash: 07fbc1502d09605b
+      source_hash: d6e9f08f062e6712
     policy_rule:global-search-read:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:operational-report-read:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:renewal-assign:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
@@ -9537,7 +9784,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 12
       last_modified: '2026-07-06'
-      source_hash: 616777615b0fdba2
+      source_hash: 1d4a0e96f104cd29
     policy_rule:renewal-create:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
@@ -9555,7 +9802,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 13
       last_modified: '2026-07-06'
-      source_hash: 6ae23c5be92fd92d
+      source_hash: 29456deaac9bae8f
     policy_rule:renewal-read:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
@@ -9572,7 +9819,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 12
       last_modified: '2026-07-06'
-      source_hash: f8e4a2f0c120f5cf
+      source_hash: 3b52b730feb8aace
     policy_rule:renewal-transition:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
@@ -9590,28 +9837,28 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 13
       last_modified: '2026-07-06'
-      source_hash: 3548a7ce19491839
+      source_hash: 6e12db5b3ed375a2
     policy_rule:saved-view-default:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:saved-view-manage:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:saved-view-read:
       source_paths:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b757456ea8447ad
+      source_hash: 8edfc3d906b51e9f
     policy_rule:task-create:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
@@ -9627,7 +9874,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 11
       last_modified: '2026-07-06'
-      source_hash: f9ca9b313c01ee7c
+      source_hash: c55e30759190d64f
     policy_rule:task-delete:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
@@ -9642,7 +9889,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 10
       last_modified: '2026-07-06'
-      source_hash: d8d041b7705bc651
+      source_hash: c567e316372a9d3e
     policy_rule:task-read:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
@@ -9660,7 +9907,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 13
       last_modified: '2026-07-06'
-      source_hash: 3a3a2310d0bc0d1c
+      source_hash: 9d8bc9563976437b
     policy_rule:task-update:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
@@ -9676,7 +9923,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 11
       last_modified: '2026-07-06'
-      source_hash: 8b97168d1dbf2519
+      source_hash: 7dc91809411aaf2a
     policy_rule:timeline-event-read:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/TimelineEndpoints.cs
@@ -9694,7 +9941,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 13
       last_modified: '2026-07-06'
-      source_hash: 6e4bf0223964e910
+      source_hash: 4346011a278c17ab
     policy_rule:user-search:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/UserEndpoints.cs
@@ -9710,7 +9957,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 11
       last_modified: '2026-07-06'
-      source_hash: cd2a4c30594e8676
+      source_hash: 49d0de78492fd6ba
     role:admin:
       source_paths:
       - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
@@ -9724,7 +9971,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 9
       last_modified: '2026-07-06'
-      source_hash: 458e01947faaa397
+      source_hash: cd9aa373679a514b
     role:broker-user:
       source_paths:
       - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
@@ -9742,7 +9989,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 13
       last_modified: '2026-07-06'
-      source_hash: b5412556328caf73
+      source_hash: 2adcd1fea3d43908
     role:distribution-manager:
       source_paths:
       - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
@@ -9756,7 +10003,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 9
       last_modified: '2026-07-06'
-      source_hash: 458e01947faaa397
+      source_hash: cd9aa373679a514b
     role:distribution-user:
       source_paths:
       - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
@@ -9770,7 +10017,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 9
       last_modified: '2026-07-06'
-      source_hash: 458e01947faaa397
+      source_hash: cd9aa373679a514b
     role:external-user:
       source_paths:
       - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
@@ -9780,7 +10027,7 @@ freshness:
       - planning-mds/security/authorization-matrix.md
       source_count: 5
       last_modified: '2026-07-06'
-      source_hash: 846e8dd65d315e94
+      source_hash: 39e2a2c9a32dc442
     role:program-manager:
       source_paths:
       - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
@@ -9794,7 +10041,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 9
       last_modified: '2026-07-06'
-      source_hash: 458e01947faaa397
+      source_hash: cd9aa373679a514b
     role:relationship-manager:
       source_paths:
       - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
@@ -9808,7 +10055,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 9
       last_modified: '2026-07-06'
-      source_hash: 458e01947faaa397
+      source_hash: cd9aa373679a514b
     role:underwriter:
       source_paths:
       - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
@@ -9822,7 +10069,7 @@ freshness:
       - planning-mds/security/policies/policy.csv
       source_count: 9
       last_modified: '2026-07-06'
-      source_hash: 458e01947faaa397
+      source_hash: cd9aa373679a514b
     schema:global-search-response:
       source_paths:
       - planning-mds/schemas/global-search-response.schema.json
@@ -9869,7 +10116,7 @@ freshness:
       - experience/src/pages/CreateAccountPage.tsx
       source_count: 6
       last_modified: '2026-07-06'
-      source_hash: c44a0b06b548372b
+      source_hash: 9dad53dbb30715f3
     ui_route:account-detail:
       source_paths:
       - experience/src/App.tsx
@@ -9880,7 +10127,7 @@ freshness:
       - experience/src/pages/AccountDetailPage.tsx
       source_count: 6
       last_modified: '2026-07-06'
-      source_hash: dd179e403ac6b9d8
+      source_hash: 0cd55903c38a2950
     ui_route:accounts-list:
       source_paths:
       - experience/src/App.tsx
@@ -9891,7 +10138,7 @@ freshness:
       - experience/src/pages/AccountsPage.tsx
       source_count: 6
       last_modified: '2026-07-06'
-      source_hash: c5771707bded18a4
+      source_hash: ac1841a815c6764b
     ui_route:broker-create:
       source_paths:
       - experience/src/App.tsx
@@ -9899,7 +10146,7 @@ freshness:
       - experience/src/pages/tests/CreateBrokerPage.integration.test.tsx
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: b5dd823574440d05
+      source_hash: 92e6535a1e521c3d
     ui_route:broker-detail:
       source_paths:
       - experience/src/App.tsx
@@ -9907,7 +10154,7 @@ freshness:
       - experience/src/pages/tests/BrokerDetailPage.integration.test.tsx
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: b0db7ddd3c5d27a9
+      source_hash: 441fc95bbad519a0
     ui_route:brokers-list:
       source_paths:
       - experience/src/App.tsx
@@ -9916,7 +10163,7 @@ freshness:
       - experience/src/features/brokers/tests/BrokerListPage.integration.test.tsx
       source_count: 4
       last_modified: '2026-07-06'
-      source_hash: c255f2a4b435823d
+      source_hash: fbbb3ca082c9effe
     ui_route:dashboard-home:
       source_paths:
       - experience/src/App.tsx
@@ -9924,7 +10171,7 @@ freshness:
       - experience/src/pages/tests/DashboardPage.integration.test.tsx
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: b65882f6153fba63
+      source_hash: 7b231db8d3c748c8
     ui_route:login:
       source_paths:
       - experience/src/App.tsx
@@ -9945,7 +10192,7 @@ freshness:
       - experience/src/pages/LoginPage.tsx
       source_count: 16
       last_modified: '2026-07-06'
-      source_hash: 7b443d708073bb9b
+      source_hash: cce613182565e1e8
     ui_route:submission-create:
       source_paths:
       - experience/src/App.tsx
@@ -9953,7 +10200,7 @@ freshness:
       - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: e8bfc0b1b5ded97e
+      source_hash: aa12390bb9dc0275
     ui_route:submission-detail:
       source_paths:
       - experience/src/App.tsx
@@ -9961,7 +10208,7 @@ freshness:
       - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 02bb4ab35101a69e
+      source_hash: b3dec097992618db
     ui_route:submissions-list:
       source_paths:
       - experience/src/App.tsx
@@ -9969,14 +10216,14 @@ freshness:
       - experience/src/pages/tests/SubmissionsPage.integration.test.tsx
       source_count: 3
       last_modified: '2026-07-06'
-      source_hash: 73bc20b9dfcb5c49
+      source_hash: b9aaedd7f435c553
     ui_route:task-center:
       source_paths:
       - experience/src/App.tsx
       - experience/src/pages/TaskCenterPage.tsx
       source_count: 2
       last_modified: '2026-07-06'
-      source_hash: 6b5224a526b8a442
+      source_hash: ef61150f23bbc0c4
     workflow:account-lifecycle:
       source_paths:
       - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
@@ -10047,10 +10294,10 @@ freshness:
       last_modified: '2026-07-06'
       source_hash: 38f00f14fa7d17e1
 symbols:
-  symbol_count: 4608
-  bound_symbol_count: 4608
+  symbol_count: 4609
+  bound_symbol_count: 4609
   by_language:
-    csharp: 3151
+    csharp: 3152
     typescript: 1066
     python: 391
 decisions:

@@ -194,6 +194,7 @@ builder.Services.AddScoped<DistributionNodeService>();
 builder.Services.AddScoped<ProducerOwnershipService>();
 builder.Services.AddScoped<TerritoryService>();
 builder.Services.AddScoped<SessionContinuityTelemetryService>();
+builder.Services.AddScoped<OperationsRoutingService>();
 builder.Services.AddScoped<NeuronCompanionTelemetryService>();
 builder.Services.AddScoped<ServiceCaseService>();
 
@@ -352,6 +353,7 @@ app.MapLobSchemaEndpoints();
 app.MapDocumentEndpoints();
 app.MapOutboundDocumentEndpoints();
 app.MapDashboardEndpoints();
+app.MapWorkQueueEndpoints();
 app.MapTaskEndpoints();
 app.MapCommunicationEndpoints();
 app.MapServiceCaseEndpoints();

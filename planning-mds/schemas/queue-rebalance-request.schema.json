@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/queue-rebalance-request.schema.json",
+  "title": "QueueRebalanceRequest",
+  "description": "Bulk manager rebalance request for selected queue work items.",
+  "type": "object",
+  "required": ["queueWorkItemIds", "assignedToUserId", "overrideReason"],
+  "properties": {
+    "queueWorkItemIds": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": { "type": "string", "format": "uuid" }
+    },
+    "assignedToUserId": { "type": "string", "format": "uuid" },
+    "overrideReason": { "type": "string", "minLength": 3, "maxLength": 500 }
+  },
+  "additionalProperties": false
+}

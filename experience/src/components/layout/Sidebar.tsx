@@ -10,6 +10,7 @@ import {
   Handshake,
   ClipboardList,
   BadgeHelp,
+  ListChecks,
   PanelLeftClose,
   LogOut,
   ChevronRight,
@@ -27,6 +28,7 @@ const NAV_ITEMS = [
   { label: 'Markets', href: '/carrier-markets', icon: Handshake },
   { label: 'Tasks', href: '/tasks', icon: ClipboardList },
   { label: 'Service Cases', href: '/service-cases', icon: BadgeHelp },
+  { label: 'Work queues', href: '/work-queues', icon: ListChecks },
 ];
 
 function isActive(href: string, pathname: string) {

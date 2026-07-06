@@ -313,6 +313,42 @@ F0004 extends the self-assigned-only task model with creator-based access for Di
 
 ---
 
+### 2.6c Work Queues and Operational Routing (F0022)
+
+Applies to queue administration, assignment rules, coverage windows, queue worklists, reassignment, rebalance, and routing-audit reads.
+
+| Role | Action | Decision | Business Scope / Constraints | Story / AC Reference |
+|------|--------|----------|------------------------------|----------------------|
+| DistributionUser | read | **ALLOW** | Queue worklists where user is a member or assignee; source-record ABAC still applies before returning item details. | F0022-S0005 |
+| DistributionUser | manage | **DENY** | Cannot create queues, rules, memberships, or coverage windows. | F0022-S0001/S0002/S0004 |
+| DistributionUser | assign | **DENY** | Manual reassignment and rebalance are manager/admin only. | F0022-S0006 |
+| DistributionManager | read | **ALLOW** | Queues and queue items within managed region/territory/program scope; source-record ABAC still applies. | F0022-S0005/S0007 |
+| DistributionManager | manage | **ALLOW** | Create/update queues, memberships, rules, and coverage windows within operational scope. | F0022-S0001/S0002/S0004 |
+| DistributionManager | assign | **ALLOW** | Reassign/rebalance open queue items to active eligible users in scope; override reason required. | F0022-S0006 |
+| ProgramManager | read | **ALLOW** | Queue items linked to programs/accounts the user manages. | F0022-S0005 |
+| ProgramManager | manage | **DENY** | Program managers do not administer routing rules in MVP. | F0022-S0001/S0002 |
+| ProgramManager | assign | **DENY** | Assignment control remains DistributionManager/Admin. | F0022-S0006 |
+| Underwriter | read | **ALLOW** | Queue worklists where user is assignee/member and source-record ABAC permits access. | F0022-S0005 |
+| Underwriter | manage | **DENY** | No queue/rule/coverage administration in MVP. | F0022-S0001/S0002/S0004 |
+| Underwriter | assign | **DENY** | Cannot rebalance/reassign others' work. | F0022-S0006 |
+| RelationshipManager | read | **ALLOW** | Queue items linked to managed broker/account relationships. | F0022-S0005 |
+| RelationshipManager | manage | **DENY** | No queue/rule administration in MVP. | F0022-S0001/S0002 |
+| RelationshipManager | assign | **DENY** | No queue reassignment authority in MVP. | F0022-S0006 |
+| Admin | read | **ALLOW** | Unscoped internal read of queues, worklists, and routing audit. | F0022-S0005/S0007 |
+| Admin | manage | **ALLOW** | Full queue/rule/membership/coverage administration. | F0022-S0001/S0002/S0004 |
+| Admin | assign | **ALLOW** | Full reassignment/rebalance authority; override reason required. | F0022-S0006 |
+| BrokerUser | all | **DENY** | Queue/routing data is InternalOnly. | F0022-S0007 |
+| ExternalUser | all | **DENY** | Queue/routing data is InternalOnly. | F0022-S0007 |
+
+**Constraints applying to all ALLOW decisions on Work Queues:**
+- Queue item visibility is the intersection of queue authorization and source-record authorization. A user who can read a queue must still be authorized to read the linked Task, Submission, or Renewal before row details are returned.
+- Queue/rule/coverage mutations require `If-Match` and return HTTP 412 `precondition_failed` on stale rowVersion values.
+- Manual reassignment and rebalance require an override reason and emit `ActivityTimelineEvent` plus `RoutingDecisionLog`.
+- Coverage activates only from explicit `CoverageWindow` rows; inactivity is never a coverage trigger.
+- No-match routing places work in `Unassigned Operations Queue` with null assignee and a routing decision reason.
+
+---
+
 ### 2.7 Activity Timeline Event — Broker Events
 
 | Role | Action | Decision | Business Scope / Constraints | Story / AC Reference |

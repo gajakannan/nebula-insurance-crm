@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/work-queue.schema.json",
+  "title": "WorkQueue",
+  "description": "Work queue definition and operational counters for F0022.",
+  "type": "object",
+  "required": ["id", "name", "workType", "status", "isFallback", "openItemCount", "overdueItemCount", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "description": { "type": ["string", "null"], "maxLength": 1000 },
+    "workType": { "type": "string", "enum": ["Task", "Submission", "Renewal", "Mixed"] },
+    "status": { "type": "string", "enum": ["Active", "Inactive"] },
+    "isFallback": { "type": "boolean" },
+    "openItemCount": { "type": "integer", "minimum": 0 },
+    "overdueItemCount": { "type": "integer", "minimum": 0 },
+    "rowVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

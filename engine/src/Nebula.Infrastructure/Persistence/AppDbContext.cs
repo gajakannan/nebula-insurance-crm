@@ -62,6 +62,12 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<ReferenceSubmissionStatus> ReferenceSubmissionStatuses => Set<ReferenceSubmissionStatus>();
     public DbSet<ReferenceRenewalStatus> ReferenceRenewalStatuses => Set<ReferenceRenewalStatus>();
     public DbSet<IdempotencyRecord> IdempotencyRecords => Set<IdempotencyRecord>();
+    public DbSet<WorkQueue> WorkQueues => Set<WorkQueue>();
+    public DbSet<WorkQueueMember> WorkQueueMembers => Set<WorkQueueMember>();
+    public DbSet<AssignmentRule> AssignmentRules => Set<AssignmentRule>();
+    public DbSet<CoverageWindow> CoverageWindows => Set<CoverageWindow>();
+    public DbSet<QueueWorkItem> QueueWorkItems => Set<QueueWorkItem>();
+    public DbSet<RoutingDecisionLog> RoutingDecisionLogs => Set<RoutingDecisionLog>();
 
     // F0023 — SearchReporting read-side module
     public DbSet<SearchDocument> SearchDocuments => Set<SearchDocument>();

@@ -98,6 +98,11 @@ proxy: {
             createApiProxyOptions(apiProxyTarget),
           ]),
         ),
+        '/api': {
+          target: apiProxyTarget,
+          changeOrigin: true,
+          rewrite: (proxyPath) => proxyPath.replace(/^\/api/, ''),
+        },
         '/neuron': {
           target: neuronProxyTarget,
           changeOrigin: true,

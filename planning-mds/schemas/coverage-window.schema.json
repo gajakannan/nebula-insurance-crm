@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/coverage-window.schema.json",
+  "title": "CoverageWindow",
+  "description": "Explicit out-of-office or backup coverage window.",
+  "type": "object",
+  "required": ["id", "coveredUserId", "backupUserId", "startsAt", "endsAt", "status", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "coveredUserId": { "type": "string", "format": "uuid" },
+    "backupUserId": { "type": "string", "format": "uuid" },
+    "workQueueId": { "type": ["string", "null"], "format": "uuid" },
+    "startsAt": { "type": "string", "format": "date-time" },
+    "endsAt": { "type": "string", "format": "date-time" },
+    "status": { "type": "string", "enum": ["Active", "Cancelled", "Expired"] },
+    "reason": { "type": ["string", "null"], "maxLength": 500 },
+    "rowVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

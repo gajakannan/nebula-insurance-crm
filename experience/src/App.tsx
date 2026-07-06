@@ -22,6 +22,7 @@ import PolicyDetailPage from './pages/PolicyDetailPage'
 import TaskCenterPage from './pages/TaskCenterPage'
 import ServiceCasesPage from './pages/ServiceCasesPage'
 import ServiceCaseDetailPage from './pages/ServiceCaseDetailPage'
+import WorkQueuesPage from './pages/WorkQueuesPage'
 import SearchResultsPage from './pages/SearchResultsPage'
 import OperationalReportsPage from './pages/OperationalReportsPage'
 import NotFoundPage from './pages/NotFoundPage'
@@ -81,6 +82,7 @@ function AppInner() {
       <Route path="/tasks/:taskId" element={<ProtectedRoute><TaskCenterPage /></ProtectedRoute>} />
       <Route path="/service-cases" element={<ProtectedRoute><ServiceCasesPage /></ProtectedRoute>} />
       <Route path="/service-cases/:serviceCaseId" element={<ProtectedRoute><ServiceCaseDetailPage /></ProtectedRoute>} />
+      <Route path="/work-queues" element={<ProtectedRoute><WorkQueuesPage /></ProtectedRoute>} />
       <Route path="/search" element={<ProtectedRoute><SearchResultsPage /></ProtectedRoute>} />
       <Route path="/operational-reports" element={<ProtectedRoute><OperationalReportsPage /></ProtectedRoute>} />
 

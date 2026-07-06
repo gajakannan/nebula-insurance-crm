@@ -26,7 +26,6 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
 | F0008 | Broker Insights | Planned | MVP | `F0008-broker-insights/` |
-| F0022 | Work Queues, Assignment Rules & Coverage Management | Planned | CRM Release MVP | `F0022-work-queues-assignment-rules-and-coverage-management/` |
 | F0025 | Commission, Producer Splits & Revenue Tracking | Planned | Brokerage Platform Expansion | `F0025-commission-producer-splits-and-revenue-tracking/` |
 | F0026 | Billing, Invoicing & Reconciliation | Planned | Brokerage Platform Expansion | `F0026-billing-invoicing-and-reconciliation/` |
 | F0029 | External Broker Collaboration Portal | Planned | Brokerage Platform Expansion | `F0029-external-broker-collaboration-portal/` |
@@ -44,6 +43,7 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 | F0028 | Carrier & Market Relationship Management | 2026-07-03 | `archive/F0028-carrier-and-market-relationship-management/` |
 | F0027 | COI, ACORD & Outbound Document Generation | 2026-07-03 | `archive/F0027-coi-acord-and-outbound-document-generation/` |
 | F0024 | Claims & Service Case Tracking | 2026-07-03 | `archive/F0024-claims-and-service-case-tracking/` |
+| F0022 | Work Queues, Assignment Rules & Coverage Management | 2026-07-03 | `archive/F0022-work-queues-assignment-rules-and-coverage-management/` |
 | F0017 | Broker/MGA Hierarchy, Producer Ownership & Territory Management | 2026-07-03 | `archive/F0017-broker-mga-hierarchy-and-producer-ownership/` |
 | F0038 | Neuron Day-at-a-Glance Shell (Renewals live + draft outreach + mock-send) | 2026-07-02 | `archive/F0038-neuron-day-at-a-glance-shell/` |
 | F0021 | Communication Hub & Activity Capture | 2026-07-02 | `archive/F0021-communication-hub-and-activity-capture/` |

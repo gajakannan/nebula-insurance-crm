@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/queue-reassignment-request.schema.json",
+  "title": "QueueReassignmentRequest",
+  "description": "Manual override assignment for one queue work item.",
+  "type": "object",
+  "required": ["assignedToUserId", "overrideReason"],
+  "properties": {
+    "assignedToUserId": { "type": "string", "format": "uuid" },
+    "overrideReason": { "type": "string", "minLength": 3, "maxLength": 500 }
+  },
+  "additionalProperties": false
+}

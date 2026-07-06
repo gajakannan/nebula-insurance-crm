@@ -57,6 +57,8 @@ tags:
     description: Dashboard widget data endpoints (F0001)
   - name: Tasks
     description: Task CRUD for My Tasks widget and Task Center
+  - name: WorkQueues
+    description: Work queues, assignment rules, coverage windows, routing audit, and manager reassignment controls (F0022)
   - name: Users
     description: User search for assignee picker (F0004)
   - name: Search
@@ -79,6 +81,472 @@ tags:
     description: F0038 Neuron Companion engine endpoints — renewals needing attention, per-renewal companion context, persist outreach draft, mock-send (commit Identified→Outreach, fake SMTP), and companion telemetry ingest. Called by the Neuron service as the user. Governed by ADR-027 + ADR-028.
 
 paths:
+  # ──────────────────────────────────────────────────────────────
+  # F0022 Work queues, assignment rules, and coverage management
+  # ──────────────────────────────────────────────────────────────
+  /work-queues:
+    get:
+      operationId: listWorkQueues
+      summary: List work queues
+      description: Returns manager-visible queue definitions and backlog counters. Queue rows are scope-filtered and source item details remain source-ABAC filtered.
+      tags: [WorkQueues]
+      parameters:
+        - name: workType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Task, Submission, Renewal, Mixed]
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Active, Inactive]
+      responses:
+        "200":
+          description: Work queues
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/WorkQueue"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createWorkQueue
+      summary: Create work queue
+      description: Creates a queue definition. Requires queue:manage; emits ActivityTimelineEvent.
+      tags: [WorkQueues]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkQueueUpsertRequest"
+      responses:
+        "201":
+          description: Queue created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkQueue"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /work-queues/{queueId}:
+    parameters:
+      - $ref: "#/components/parameters/QueueId"
+    get:
+      operationId: getWorkQueueById
+      summary: Get work queue
+      tags: [WorkQueues]
+      responses:
+        "200":
+          description: Queue detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkQueue"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      operationId: updateWorkQueue
+      summary: Update work queue
+      description: Updates queue metadata/status. Requires queue:manage and If-Match; emits ActivityTimelineEvent.
+      tags: [WorkQueues]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkQueueUpsertRequest"
+      responses:
+        "200":
+          description: Queue updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkQueue"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /work-queues/{queueId}/members:
+    parameters:
+      - $ref: "#/components/parameters/QueueId"
+    put:
+      operationId: replaceWorkQueueMembers
+      summary: Replace queue membership
+      description: Replaces the effective membership set for a queue. Requires queue:manage and If-Match; emits ActivityTimelineEvent.
+      tags: [WorkQueues]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueueMemberUpsertRequest"
+      responses:
+        "200":
+          description: Queue updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkQueue"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /work-queues/{queueId}/items:
+    parameters:
+      - $ref: "#/components/parameters/QueueId"
+    get:
+      operationId: listQueueWorkItems
+      summary: List queue work items
+      description: Returns queue worklist rows. Each row is filtered by both queue scope and linked source-record ABAC.
+      tags: [WorkQueues]
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - name: sourceType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Task, Submission, Renewal]
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Open, InProgress, Closed, Skipped]
+      responses:
+        "200":
+          description: Paginated queue work items
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/QueueWorkItem"
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /assignment-rules:
+    get:
+      operationId: listAssignmentRules
+      summary: List assignment rules
+      tags: [WorkQueues]
+      parameters:
+        - name: queueId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Draft, Active, Superseded, Disabled]
+      responses:
+        "200":
+          description: Assignment rules
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/AssignmentRule"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createAssignmentRule
+      summary: Create assignment rule
+      description: Creates a rule version. Requires queue:manage; emits ActivityTimelineEvent.
+      tags: [WorkQueues]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssignmentRuleUpsertRequest"
+      responses:
+        "201":
+          description: Rule created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssignmentRule"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /assignment-rules/{ruleId}:
+    parameters:
+      - $ref: "#/components/parameters/RuleId"
+    put:
+      operationId: updateAssignmentRule
+      summary: Update assignment rule
+      description: Updates a draft rule or creates a new active version. Requires queue:manage and If-Match.
+      tags: [WorkQueues]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssignmentRuleUpsertRequest"
+      responses:
+        "200":
+          description: Rule updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssignmentRule"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /coverage-windows:
+    get:
+      operationId: listCoverageWindows
+      summary: List coverage windows
+      tags: [WorkQueues]
+      parameters:
+        - name: userId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: queueId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Coverage windows
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/CoverageWindow"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createCoverageWindow
+      summary: Create coverage window
+      description: Creates explicit backup coverage. Requires queue:manage; inactivity alone never creates coverage.
+      tags: [WorkQueues]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CoverageWindowUpsertRequest"
+      responses:
+        "201":
+          description: Coverage window created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoverageWindow"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /coverage-windows/{coverageWindowId}:
+    parameters:
+      - $ref: "#/components/parameters/CoverageWindowId"
+    put:
+      operationId: updateCoverageWindow
+      summary: Update coverage window
+      description: Updates or cancels explicit backup coverage. Requires queue:manage and If-Match.
+      tags: [WorkQueues]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CoverageWindowUpsertRequest"
+      responses:
+        "200":
+          description: Coverage window updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoverageWindow"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /queue-work-items/{queueItemId}/assignment:
+    parameters:
+      - $ref: "#/components/parameters/QueueItemId"
+    put:
+      operationId: reassignQueueWorkItem
+      summary: Reassign queue work item
+      description: Manual manager/admin reassignment. Requires queue:assign and If-Match; writes RoutingDecisionLog and ActivityTimelineEvent.
+      tags: [WorkQueues]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueueReassignmentRequest"
+      responses:
+        "200":
+          description: Queue item reassigned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueueWorkItem"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /work-queues/{queueId}/rebalance:
+    parameters:
+      - $ref: "#/components/parameters/QueueId"
+    post:
+      operationId: rebalanceWorkQueue
+      summary: Rebalance selected queue work items
+      description: Bulk manager/admin reassignment with item-level success/failure results.
+      tags: [WorkQueues]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueueRebalanceRequest"
+      responses:
+        "201":
+          description: Rebalance results
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [results]
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      required: [queueWorkItemId, status]
+                      properties:
+                        queueWorkItemId: { type: string, format: uuid }
+                        status: { type: string, enum: [Succeeded, Failed, Skipped] }
+                        reasonCode: { type: string, nullable: true }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /routing-events:
+    get:
+      operationId: listRoutingEvents
+      summary: List routing audit events
+      description: Returns append-only routing decision events for manager/admin diagnostics.
+      tags: [WorkQueues]
+      parameters:
+        - name: sourceType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Task, Submission, Renewal]
+        - name: sourceId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Routing events
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/RoutingEvent"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
   # ──────────────────────────────────────────────────────────────
   # F0017 Distribution hierarchy, producer ownership, and territory
   # ──────────────────────────────────────────────────────────────
@@ -5169,6 +5637,34 @@ components:
       schema:
         type: string
         format: uuid
+    QueueId:
+      name: queueId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    RuleId:
+      name: ruleId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    CoverageWindowId:
+      name: coverageWindowId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    QueueItemId:
+      name: queueItemId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
     SavedViewId:
       name: savedViewId
       in: path
@@ -5458,6 +5954,153 @@ components:
             type: array
             items:
               type: string
+
+    # ── Work Queue Schemas (F0022) ──────────────────────────────
+    WorkQueue:
+      type: object
+      required: [id, name, workType, status, isFallback, openItemCount, overdueItemCount, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string, minLength: 1, maxLength: 120 }
+        description: { type: string, nullable: true, maxLength: 1000 }
+        workType: { type: string, enum: [Task, Submission, Renewal, Mixed] }
+        status: { type: string, enum: [Active, Inactive] }
+        isFallback: { type: boolean }
+        openItemCount: { type: integer, minimum: 0 }
+        overdueItemCount: { type: integer, minimum: 0 }
+        rowVersion: { type: string }
+
+    WorkQueueUpsertRequest:
+      type: object
+      required: [name, workType, status]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 120 }
+        description: { type: string, nullable: true, maxLength: 1000 }
+        workType: { type: string, enum: [Task, Submission, Renewal, Mixed] }
+        status: { type: string, enum: [Active, Inactive] }
+
+    QueueMemberUpsertRequest:
+      type: object
+      required: [members]
+      properties:
+        members:
+          type: array
+          items:
+            type: object
+            required: [userProfileId, role, effectiveFrom]
+            properties:
+              userProfileId: { type: string, format: uuid }
+              role: { type: string, enum: [Member, Manager, Backup] }
+              effectiveFrom: { type: string, format: date }
+              effectiveTo: { type: string, format: date, nullable: true }
+
+    AssignmentRule:
+      type: object
+      required: [id, workQueueId, ruleType, precedence, version, status, conditions, matchReasonTemplate, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        workQueueId: { type: string, format: uuid }
+        ruleType: { type: string, enum: [ManualOverride, Coverage, TerritoryOwnership, WorkloadBalance, Fallback] }
+        precedence: { type: integer, minimum: 1, maximum: 999 }
+        version: { type: integer, minimum: 1 }
+        status: { type: string, enum: [Draft, Active, Superseded, Disabled] }
+        conditions:
+          type: object
+          additionalProperties: true
+        matchReasonTemplate: { type: string, minLength: 1, maxLength: 500 }
+        rowVersion: { type: string }
+
+    AssignmentRuleUpsertRequest:
+      type: object
+      required: [workQueueId, ruleType, precedence, status, conditions, matchReasonTemplate]
+      properties:
+        workQueueId: { type: string, format: uuid }
+        ruleType: { type: string, enum: [ManualOverride, Coverage, TerritoryOwnership, WorkloadBalance, Fallback] }
+        precedence: { type: integer, minimum: 1, maximum: 999 }
+        status: { type: string, enum: [Draft, Active, Disabled] }
+        conditions:
+          type: object
+          additionalProperties: true
+        matchReasonTemplate: { type: string, minLength: 1, maxLength: 500 }
+
+    CoverageWindow:
+      type: object
+      required: [id, coveredUserId, backupUserId, startsAt, endsAt, status, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        coveredUserId: { type: string, format: uuid }
+        backupUserId: { type: string, format: uuid }
+        workQueueId: { type: string, format: uuid, nullable: true }
+        startsAt: { type: string, format: date-time }
+        endsAt: { type: string, format: date-time }
+        status: { type: string, enum: [Active, Cancelled, Expired] }
+        reason: { type: string, nullable: true, maxLength: 500 }
+        rowVersion: { type: string }
+
+    CoverageWindowUpsertRequest:
+      type: object
+      required: [coveredUserId, backupUserId, startsAt, endsAt, status]
+      properties:
+        coveredUserId: { type: string, format: uuid }
+        backupUserId: { type: string, format: uuid }
+        workQueueId: { type: string, format: uuid, nullable: true }
+        startsAt: { type: string, format: date-time }
+        endsAt: { type: string, format: date-time }
+        status: { type: string, enum: [Active, Cancelled] }
+        reason: { type: string, nullable: true, maxLength: 500 }
+
+    QueueWorkItem:
+      type: object
+      required: [id, workQueueId, sourceType, sourceId, queueStatus, routedAt, ageHours, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        workQueueId: { type: string, format: uuid }
+        sourceType: { type: string, enum: [Task, Submission, Renewal] }
+        sourceId: { type: string, format: uuid }
+        sourceLabel: { type: string, maxLength: 200 }
+        assignedToUserId: { type: string, format: uuid, nullable: true }
+        assignedToDisplayName: { type: string, nullable: true }
+        queueStatus: { type: string, enum: [Open, InProgress, Closed, Skipped] }
+        routedAt: { type: string, format: date-time }
+        ageHours: { type: integer, minimum: 0 }
+        ruleVersion: { type: string, nullable: true }
+        matchReason: { type: string, nullable: true, maxLength: 500 }
+        rowVersion: { type: string }
+
+    QueueReassignmentRequest:
+      type: object
+      required: [assignedToUserId, overrideReason]
+      properties:
+        assignedToUserId: { type: string, format: uuid }
+        overrideReason: { type: string, minLength: 3, maxLength: 500 }
+
+    QueueRebalanceRequest:
+      type: object
+      required: [queueWorkItemIds, assignedToUserId, overrideReason]
+      properties:
+        queueWorkItemIds:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items: { type: string, format: uuid }
+        assignedToUserId: { type: string, format: uuid }
+        overrideReason: { type: string, minLength: 3, maxLength: 500 }
+
+    RoutingEvent:
+      type: object
+      required: [id, sourceType, sourceId, outcome, reasonCode, occurredAt]
+      properties:
+        id: { type: string, format: uuid }
+        queueWorkItemId: { type: string, format: uuid, nullable: true }
+        sourceType: { type: string, enum: [Task, Submission, Renewal] }
+        sourceId: { type: string, format: uuid }
+        outcome: { type: string, enum: [Matched, Fallback, Skipped, Reassigned, Rebalanced, Exception] }
+        reasonCode: { type: string, maxLength: 60 }
+        ruleVersion: { type: string, nullable: true, maxLength: 60 }
+        selectedQueueId: { type: string, format: uuid, nullable: true }
+        selectedAssigneeId: { type: string, format: uuid, nullable: true }
+        actorUserId: { type: string, format: uuid, nullable: true }
+        occurredAt: { type: string, format: date-time }
 
     # ── Broker Schemas ──────────────────────────────────────────
     Broker:

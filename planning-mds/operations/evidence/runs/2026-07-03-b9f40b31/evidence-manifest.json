@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0022",
+  "feature_slug": "work-queues-assignment-rules-and-coverage-management",
+  "run_id": "2026-07-03-b9f40b31",
+  "status": "approved",
+  "recorded_on": "2026-07-03",
+  "contract_effective_date": "2026-05-25",
+  "feature_path_at_run_start": "planning-mds/features/F0022-work-queues-assignment-rules-and-coverage-management",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management",
+  "feature_state": "Archived",
+  "rerun_of": null,
+  "changed_paths": [
+    "engine/src/Nebula.Api",
+    "engine/src/Nebula.Application",
+    "engine/src/Nebula.Domain",
+    "engine/src/Nebula.Infrastructure",
+    "engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs",
+    "experience/src",
+    "planning-mds/security/policies/policy.csv",
+    "planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management",
+    "planning-mds/operations/evidence/runs/2026-07-03-b9f40b31"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feature/F0022-work-queues-assignment-rules-and-coverage-management",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": true,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Architect",
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer",
+    "DevOps"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g2-self-review.md"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "signoff-ledger.md"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED",
+      "artifact": "pm-closeout.md"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md"
+  },
+  "role_results": {
+    "Architect": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md"
+      ],
+      "verdict_artifact": "g0-assembly-plan-validation.md"
+    },
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "DevOps": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ],
+      "verdict_artifact": "deployability-check.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "verdict_artifact": "security-review-report.md"
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": false,
+      "result": "not_run",
+      "artifact": null,
+      "waiver": {
+        "reason": "Not run at G0; dependency scan is scheduled for implementation evidence before G2/G3.",
+        "owner": "Quality Engineer",
+        "approved_on": "2026-07-03"
+      }
+    },
+    "secrets": {
+      "ran": true,
+      "result": "PASS",
+      "artifact": "artifacts/security/secrets-scan.txt",
+      "waiver": null
+    },
+    "sast": {
+      "ran": false,
+      "result": "not_run",
+      "artifact": null,
+      "waiver": {
+        "reason": "Not run at G0; SAST is scheduled for implementation evidence before G2/G3.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-03"
+      }
+    },
+    "dast": {
+      "ran": false,
+      "result": "not_run",
+      "artifact": null,
+      "waiver": {
+        "reason": "Not run at G0; DAST is scheduled after runtime preflight and implementation evidence.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-03"
+      }
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {}
+}

@@ -1,20 +1,20 @@
 version: 0
-generated_at: '2026-07-06T01:37:18+00:00'
+generated_at: '2026-07-06T04:51:46+00:00'
 summary:
-  total_symbols: 4608
+  total_symbols: 4609
   by_language:
     python:
       files: 52
-      parsed: 0
-      cached: 52
+      parsed: 52
+      cached: 0
     typescript:
       files: 295
-      parsed: 7
-      cached: 288
+      parsed: 295
+      cached: 0
     csharp:
       files: 381
-      parsed: 14
-      cached: 367
+      parsed: 381
+      cached: 0
   disambiguated_ids: 20
   compilation_roots_by_language:
     python: []
@@ -30,6 +30,7 @@ summary:
     csharp: f1e324c369f84d91c7fc9babd3fbb3df5352bd259db0a2d31fe5c8f61f74ce96
   sidecar_authoritative_languages:
   - csharp
+  - python
   - typescript
 symbols:
 - id: symbol:capability-authorization-enforcement:broker-authorization-tests.broker-authorization-tests
@@ -435,7 +436,7 @@ symbols:
   signature: public class CasbinAuthorizationServiceTests
   visibility: public
   language: csharp
-  end_line: 265
+  end_line: 291
   is_test: true
   callers: []
   callees: []
@@ -444,12 +445,12 @@ symbols:
   kind: method
   name: Constructor_LoadsSuccessfully
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 258
+  line: 284
   signature: public void Constructor_LoadsSuccessfully()
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 264
+  end_line: 290
   is_test: true
   callers: []
   callees: []
@@ -624,6 +625,22 @@ symbols:
   callers: []
   callees:
   - symbol:capability-authorization-enforcement:casbin-authorization-service.authorize-async
+- id: symbol:capability-authorization-enforcement:casbin-authorization-service-tests.work-queue-policy-matches-policy-csv
+  node: capability:authorization-enforcement
+  kind: method
+  name: WorkQueuePolicy_MatchesPolicyCsv
+  file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+  line: 258
+  signature: public async Task WorkQueuePolicy_MatchesPolicyCsv(string role, string
+    action, bool expected)
+  visibility: public
+  language: csharp
+  container: CasbinAuthorizationServiceTests
+  end_line: 278
+  is_test: true
+  callers: []
+  callees:
+  - symbol:capability-authorization-enforcement:casbin-authorization-service.authorize-async
 - id: symbol:capability-authorization-enforcement:casbin-authorization-service..ctor
   node: capability:authorization-enforcement
   kind: constructor
@@ -664,6 +681,7 @@ symbols:
   - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.unknown-action-denied-by-default
   - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.unknown-resource-denied-by-default
   - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.unknown-role-denied-by-default
+  - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.work-queue-policy-matches-policy-csv
   - symbol:capability-authorization-enforcement:i-authorization-service.authorize-async
   callees: []
   implements:
@@ -32142,11 +32160,11 @@ symbols:
   kind: class
   name: Program
   file: engine/src/Nebula.Api/Program.cs
-  line: 369
+  line: 371
   signature: public partial class Program
   visibility: public
   language: csharp
-  end_line: 369
+  end_line: 371
   callers: []
   callees: []
 - id: symbol:capability-outbound-document-generation:static-merge-data-assembler.assemble-async
@@ -35118,11 +35136,11 @@ symbols:
   kind: function
   name: App
   file: experience/src/App.tsx
-  line: 92
+  line: 94
   signature: function App()
   visibility: local
   language: typescript
-  end_line: 106
+  end_line: 108
   callers: []
   callees: []
 - id: symbol:capability-session-continuity:app.app-inner
@@ -35130,11 +35148,11 @@ symbols:
   kind: function
   name: AppInner
   file: experience/src/App.tsx
-  line: 50
+  line: 51
   signature: function AppInner()
   visibility: local
   language: typescript
-  end_line: 90
+  end_line: 92
   callers: []
   callees:
   - symbol:capability-session-continuity:use-auth-event-handler.use-auth-event-handler
@@ -58433,7 +58451,7 @@ symbols:
   visibility: public
   language: csharp
   container: DependencyInjection
-  end_line: 74
+  end_line: 80
   callers: []
   callees: []
 - id: symbol:entity-document:dependency-injection.dependency-injection
@@ -58445,7 +58463,7 @@ symbols:
   signature: public static class DependencyInjection
   visibility: public
   language: csharp
-  end_line: 75
+  end_line: 81
   callers: []
   callees: []
 - id: symbol:entity-document:document-constants.document-constants

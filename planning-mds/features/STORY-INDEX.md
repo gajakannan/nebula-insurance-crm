@@ -2,7 +2,7 @@
 
 Auto-generated index of all user stories across feature folders.
 
-**Total Stories:** 183
+**Total Stories:** 190
 
 ---
 
@@ -272,6 +272,20 @@ Auto-generated index of all user stories across feature folders.
 
 ---
 
+## F0022 — Work Queues, Assignment Rules & Coverage Management
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0022-S0001](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0001-manage-work-queues-and-memberships.md) | Manage work queues and memberships | Critical | MVP | Distribution Operations Manager |
+| [F0022-S0002](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0002-define-assignment-rules-and-precedence.md) | Define assignment rules and precedence | Critical | MVP | Distribution Operations Manager |
+| [F0022-S0003](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0003-route-work-from-tasks-submissions-and-renewals.md) | Route work from tasks, submissions, and renewals | Critical | MVP | Distribution Operations Manager |
+| [F0022-S0004](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0004-manage-backup-coverage-windows.md) | Manage backup coverage windows | High | MVP | Distribution Operations Manager |
+| [F0022-S0005](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0005-queue-worklists-and-aging-visibility.md) | Queue worklists and aging visibility | High | MVP | Distribution Operations Manager |
+| [F0022-S0006](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0006-reassign-and-rebalance-queued-work.md) | Reassign and rebalance queued work | High | MVP | Distribution Operations Manager |
+| [F0022-S0007](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0007-routing-audit-permissions-and-exceptions.md) | Routing audit, permissions, and exceptions | High | MVP | Compliance-aware Operations Manager |
+
+---
+
 ## F0023 - Global Search, Saved Views & Operational Reporting
 
 | Story ID | Title | Priority | Phase | Persona |
@@ -400,7 +414,7 @@ Auto-generated index of all user stories across feature folders.
 | CRM Release MVP+ | 11 |
 | Future | 1 |
 | Infrastructure | 11 |
-| MVP | 74 |
+| MVP | 81 |
 | MVP Hardening | 1 |
 | MVP+ | 6 |
 | Phase 1 | 11 |
@@ -413,8 +427,8 @@ Auto-generated index of all user stories across feature folders.
 
 | Priority | Count |
 |----------|-------|
-| Critical | 72 |
-| High | 91 |
+| Critical | 75 |
+| High | 95 |
 | Medium | 16 |
 
 ---

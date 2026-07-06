@@ -302,6 +302,33 @@ node_bindings:
         security:
           - planning-mds/security/authorization-matrix.md
           - planning-mds/security/policies/policy.csv
+  - id: capability:operations-routing
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/**
+        api:
+          - planning-mds/api/nebula-api.yaml
+        architecture:
+          - planning-mds/architecture/application-assembly-plan.md
+          - planning-mds/architecture/data-model.md
+          - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+          - planning-mds/architecture/feature-architecture-inventory-f0006-f0032.md
+        schemas:
+          - planning-mds/schemas/assignment-rule-upsert-request.schema.json
+          - planning-mds/schemas/assignment-rule.schema.json
+          - planning-mds/schemas/coverage-window-upsert-request.schema.json
+          - planning-mds/schemas/coverage-window.schema.json
+          - planning-mds/schemas/queue-member-upsert-request.schema.json
+          - planning-mds/schemas/queue-reassignment-request.schema.json
+          - planning-mds/schemas/queue-rebalance-request.schema.json
+          - planning-mds/schemas/queue-work-item.schema.json
+          - planning-mds/schemas/routing-event.schema.json
+          - planning-mds/schemas/work-queue-upsert-request.schema.json
+          - planning-mds/schemas/work-queue.schema.json
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
   - id: capability:outbound-document-generation
     paths:
       backend:

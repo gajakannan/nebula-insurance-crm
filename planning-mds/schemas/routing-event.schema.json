@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/routing-event.schema.json",
+  "title": "RoutingEvent",
+  "description": "Append-only routing decision log event.",
+  "type": "object",
+  "required": ["id", "sourceType", "sourceId", "outcome", "reasonCode", "occurredAt"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "queueWorkItemId": { "type": ["string", "null"], "format": "uuid" },
+    "sourceType": { "type": "string", "enum": ["Task", "Submission", "Renewal"] },
+    "sourceId": { "type": "string", "format": "uuid" },
+    "outcome": { "type": "string", "enum": ["Matched", "Fallback", "Skipped", "Reassigned", "Rebalanced", "Exception"] },
+    "reasonCode": { "type": "string", "maxLength": 60 },
+    "ruleVersion": { "type": ["string", "null"], "maxLength": 60 },
+    "selectedQueueId": { "type": ["string", "null"], "format": "uuid" },
+    "selectedAssigneeId": { "type": ["string", "null"], "format": "uuid" },
+    "actorUserId": { "type": ["string", "null"], "format": "uuid" },
+    "occurredAt": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}
