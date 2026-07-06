@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/work-queue-upsert-request.schema.json",
+  "title": "WorkQueueUpsertRequest",
+  "description": "Create or update a work queue.",
+  "type": "object",
+  "required": ["name", "workType", "status"],
+  "properties": {
+    "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "description": { "type": ["string", "null"], "maxLength": 1000 },
+    "workType": { "type": "string", "enum": ["Task", "Submission", "Renewal", "Mixed"] },
+    "status": { "type": "string", "enum": ["Active", "Inactive"] }
+  },
+  "additionalProperties": false
+}

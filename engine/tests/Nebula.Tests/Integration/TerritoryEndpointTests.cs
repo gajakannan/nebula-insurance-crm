@@ -94,6 +94,31 @@ public class TerritoryEndpointTests(CustomWebApplicationFactory factory) : IClas
     }
 
     [Fact]
+    public async Task AssignMember_ToDifferentTerritory_ClosesPriorOpenAssignment()
+    {
+        var (_, first) = await CreateTerritoryAsync($"ReassignFrom {Guid.NewGuid():N}");
+        var (_, second) = await CreateTerritoryAsync($"ReassignTo {Guid.NewGuid():N}");
+        var member = Guid.NewGuid();
+
+        (await AssignMemberAsync(first!.Id, "Producer", member, "2026-01-01")).StatusCode.ShouldBe(HttpStatusCode.Created);
+        (await AssignMemberAsync(second!.Id, "Producer", member, "2026-04-01")).StatusCode.ShouldBe(HttpStatusCode.Created);
+
+        var early = await _client.GetFromJsonAsync<LookupJson>(
+            $"/territory-assignments?memberType=Producer&memberId={member}&asOf=2026-02-01");
+        var late = await _client.GetFromJsonAsync<LookupJson>(
+            $"/territory-assignments?memberType=Producer&memberId={member}&asOf=2026-05-01");
+        var firstLateList = await _client.GetFromJsonAsync<PagedAssignmentsJson>(
+            $"/territories/{first.Id}/members?asOf=2026-05-01&page=1&pageSize=20");
+        var secondLateList = await _client.GetFromJsonAsync<PagedAssignmentsJson>(
+            $"/territories/{second.Id}/members?asOf=2026-05-01&page=1&pageSize=20");
+
+        early!.Assignment!.TerritoryId.ShouldBe(first.Id);
+        late!.Assignment!.TerritoryId.ShouldBe(second.Id);
+        firstLateList!.Data.Select(a => a.MemberId).ShouldNotContain(member);
+        secondLateList!.Data.Select(a => a.MemberId).ShouldContain(member);
+    }
+
+    [Fact]
     public async Task AssignMember_BackdateBeforeOpen_Returns422()
     {
         var (_, territory) = await CreateTerritoryAsync($"Backdate {Guid.NewGuid():N}");

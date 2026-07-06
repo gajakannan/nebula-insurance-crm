@@ -6,7 +6,9 @@ import { ErrorFallback } from '@/components/ui/ErrorFallback';
 import { Modal } from '@/components/ui/Modal';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { TextInput } from '@/components/ui/TextInput';
+import { CommunicationPanel } from '@/features/communications';
 import { ParentDocumentsPanel } from '@/features/documents';
+import { ServiceCaseListPanel } from '@/features/service-cases';
 import {
   DynamicAttributePanel,
   buildCyberEnvelope,
@@ -346,6 +348,18 @@ export default function PolicyDetailPage() {
         />
 
         <ParentDocumentsPanel parent={{ type: 'policy', id: policy.id }} />
+
+        <ServiceCaseListPanel
+          accountId={policy.accountId}
+          policyId={policy.id}
+          title="Policy service cases"
+        />
+
+        <CommunicationPanel
+          entityType="Policy"
+          entityId={policy.id}
+          entityLabel={policy.policyNumber}
+        />
 
         <ActionModal open={action === 'issue'} title="Issue policy" onClose={() => setAction(null)} onSave={runIssue} busy={issuePolicy.isPending} error={actionError}>
           <p className="text-sm text-text-secondary">

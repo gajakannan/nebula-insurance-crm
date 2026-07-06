@@ -28,6 +28,19 @@ Provide a sequenced, cross‑role plan to assemble the Nebula CRM implementation
 
 ## Assembly Order (High Level)
 
+### F0022 Addendum — Operations Routing
+
+F0022 adds the `OperationsRouting` module for work queues, assignment rules, explicit coverage windows, queue worklists, routing audit, and manager/admin reassignment. It remains in-process within the modular monolith and introduces no new infrastructure in Phase B.
+
+**Authoritative artifacts:**
+- Feature PRD: `planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/PRD.md`
+- Data model: `planning-mds/architecture/data-model.md#18-work-queues-assignment-rules-and-coverage-f0022`
+- API contract: `planning-mds/api/nebula-api.yaml` (`WorkQueues` tag)
+- Security: `planning-mds/security/authorization-matrix.md#26c-work-queues-and-operational-routing-f0022`
+- ADR: `planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md`
+
+**Sequencing:** implement after F0004, F0006, F0007, and F0017 foundations are available. F0032 is downstream governance over the durable F0022 queue/rule model, not a prerequisite.
+
 ### 1) Foundation (Shared Infrastructure)
 
 **Backend**

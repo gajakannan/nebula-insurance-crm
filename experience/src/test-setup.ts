@@ -57,8 +57,8 @@ afterEach(() => {
   resetSubmissionMockState()
   resetDocumentMockState()
   if (typeof window !== 'undefined') {
-    window.localStorage.clear()
-    window.sessionStorage.clear()
+    window.localStorage?.clear?.()
+    window.sessionStorage?.clear?.()
     window.history.replaceState({}, '', '/')
   }
   if (typeof document !== 'undefined') {

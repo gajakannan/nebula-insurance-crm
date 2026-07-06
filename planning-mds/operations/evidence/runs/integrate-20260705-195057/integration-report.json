@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "run_id": "integrate-20260705-195057",
+  "mode": "dry-run",
+  "source": "PR #47 (replay/pr-47, karthik-reddiee:feature-karthik/f0021-communication-hub)",
+  "source_head_sha": "f45da84aa1c6553e6989136ff90e94348c56242a",
+  "integration_branch": "chore/merge-PRs",
+  "merge_base_sha": "103d59bfc208c0567045ed45a8499e84bd165cb6",
+  "integration_head_sha": "3833beb0a02b85809d0e4851a19ea6e4ad95e4ff",
+  "gate1": {
+    "verdict_ref": null,
+    "waiver": {
+      "rationale": "SIMULATED (dry-run): no feature-review has been run for F0021; this waiver exists only to exercise the integration machinery and is NOT valid for a live run.",
+      "decided_by": "dry-run harness (not the maintainer)",
+      "date": "2026-07-05"
+    }
+  },
+  "branch_verification": {
+    "result": "deferred (dry-run)",
+    "details": "Known signals recorded without full regeneration: contributor tooling re-serialized symbol-index.yaml (44,715-line diff vs base) and canonical YAML; a live run must regenerate from the source branch's own content and bounce on mismatch."
+  },
+  "merges": [
+    {
+      "file": "planning-mds/knowledge-graph/canonical-nodes.yaml",
+      "result": "clean",
+      "records": "528 base -> 548 merged",
+      "report": "artifacts/merge3-canonical-nodes.yaml.json"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/code-index.yaml",
+      "result": "clean",
+      "records": "186 base -> 201 merged",
+      "report": "artifacts/merge3-code-index.yaml.json"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/feature-mappings.yaml",
+      "result": "conflicts",
+      "report": "artifacts/merge3-feature-mappings.yaml.json"
+    },
+    {
+      "file": "planning-mds/features/REGISTRY.md",
+      "result": "clean",
+      "report": "artifacts/merge3-REGISTRY.md.json"
+    },
+    {
+      "file": "planning-mds/features/ROADMAP.md",
+      "result": "clean",
+      "report": "artifacts/merge3-ROADMAP.md.json"
+    }
+  ],
+  "generated_conflicts_discarded": [
+    "planning-mds/knowledge-graph/symbol-index.yaml",
+    "planning-mds/knowledge-graph/coverage-report.yaml",
+    "planning-mds/knowledge-graph/unbound-but-referenced.yaml"
+  ],
+  "git_conflicts_for_maintainer": [
+    "planning-mds/operations/evidence/runs/2026-06-19-a4e3fdd6/artifacts/coverage/searchreporting.cobertura.xml",
+    "planning-mds/operations/evidence/runs/2026-06-19-a4e3fdd6/artifacts/test-results/backend-unit-tests.txt",
+    "planning-mds/operations/evidence/runs/2026-06-19-a4e3fdd6/artifacts/test-results/frontend-tests.txt"
+  ],
+  "poisoned_clean_merge_proof": {
+    "file": "planning-mds/knowledge-graph/code-index.yaml",
+    "git_result": "textually clean (add-union of ours +14 / theirs +1 bindings)",
+    "vs_semantic_merge": "semantically equal THIS TIME (lucky disjoint-region union) but 5,198 diff lines from canonical form",
+    "artifact": "artifacts/code-index.poisoned-vs-semantic.diff",
+    "conclusion": "git-clean output discarded per contract; luck is not a merge strategy \u2014 a clean textual merge of curated/generated files is never trusted"
+  },
+  "regeneration": [
+    "not reached (halted at I2)"
+  ],
+  "validation": [],
+  "conflicts_routed": [
+    {
+      "kind": "UniqueViolation",
+      "record_id": "feature:F0038",
+      "field": null,
+      "owning_role": "product-manager+architect",
+      "message": "PR #47 re-adds a stale coverage exclusion for feature:F0038 that the mainline removed at F0038 closeout; merged doc would carry F0038 in both coverage.excluded_features and features. Resolution: drop the exclusion on the contributor branch (or fixup), then re-run.",
+      "also_note": "PM data fix identified during replay: mainline F0038 features record has status architecture-complete with an archived path \u2014 fix before the live train."
+    }
+  ],
+  "prepared_merge_sha": null,
+  "gate2": {
+    "result": "not-reached",
+    "exercised": null,
+    "recorded_by": null,
+    "date": null
+  },
+  "pushed": false,
+  "supersedes_run": null,
+  "outcome": "halted-conflicts"
+}

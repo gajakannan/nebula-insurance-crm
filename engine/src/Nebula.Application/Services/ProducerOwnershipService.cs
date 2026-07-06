@@ -89,6 +89,32 @@ public class ProducerOwnershipService(
             }),
         }, ct);
 
+        if (req.ScopeType == "BrokerRelationship")
+        {
+            await timelineRepo.AddEventAsync(new ActivityTimelineEvent
+            {
+                EntityType = "Broker",
+                EntityId = req.ScopeId,
+                EventType = reassigned ? "ProducerOwnershipReassigned" : "ProducerOwnershipAssigned",
+                EventDescription = reassigned
+                    ? $"Producer ownership reassigned from {open!.ProducerNodeId} to {req.ProducerNodeId} effective {req.EffectiveFrom:yyyy-MM-dd}"
+                    : $"Producer ownership assigned to {req.ProducerNodeId} effective {req.EffectiveFrom:yyyy-MM-dd}",
+                ActorUserId = user.UserId,
+                ActorDisplayName = user.DisplayName,
+                OccurredAt = now,
+                EventPayloadJson = JsonSerializer.Serialize(new
+                {
+                    producerOwnershipId = period.Id,
+                    scopeType = req.ScopeType,
+                    scopeId = req.ScopeId,
+                    oldProducerNodeId = open?.ProducerNodeId,
+                    newProducerNodeId = req.ProducerNodeId,
+                    effectiveFrom = req.EffectiveFrom.ToString("O"),
+                    assignmentReason = req.AssignmentReason,
+                }),
+            }, ct);
+        }
+
         await unitOfWork.CommitAsync(ct);
 
         _logger.LogInformation(

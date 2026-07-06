@@ -9,6 +9,7 @@ namespace Nebula.Application.Services;
 
 public class BrokerService(
     IBrokerRepository brokerRepo,
+    IDistributionNodeRepository distributionNodeRepo,
     ITimelineRepository timelineRepo,
     IUnitOfWork unitOfWork,
     BrokerScopeResolver scopeResolver,
@@ -95,6 +96,7 @@ public class BrokerService(
         };
 
         await brokerRepo.AddAsync(broker, ct);
+        await SyncBrokerDistributionNodeAsync(broker, now, user.UserId, ct);
 
         await timelineRepo.AddEventAsync(new ActivityTimelineEvent
         {
@@ -140,6 +142,7 @@ public class BrokerService(
         broker.RowVersion = rowVersion;
 
         await brokerRepo.UpdateAsync(broker, ct);
+        await SyncBrokerDistributionNodeAsync(broker, now, user.UserId, ct);
 
         var eventType = oldStatus != dto.Status ? "BrokerStatusChanged" : "BrokerUpdated";
         var description = oldStatus != dto.Status
@@ -200,6 +203,7 @@ public class BrokerService(
         broker.UpdatedByUserId = user.UserId;
 
         await brokerRepo.UpdateAsync(broker, ct);
+        await SyncBrokerDistributionNodeAsync(broker, now, user.UserId, ct);
 
         await timelineRepo.AddEventAsync(new ActivityTimelineEvent
         {
@@ -239,6 +243,7 @@ public class BrokerService(
         broker.UpdatedByUserId = user.UserId;
 
         await brokerRepo.UpdateAsync(broker, ct);
+        await SyncBrokerDistributionNodeAsync(broker, now, user.UserId, ct);
 
         await timelineRepo.AddEventAsync(new ActivityTimelineEvent
         {
@@ -271,6 +276,76 @@ public class BrokerService(
 
     private static BrokerDto MaskPii(BrokerDto dto) =>
         dto.Status == "Inactive" ? dto with { Email = null, Phone = null } : dto;
+
+    private async Task SyncBrokerDistributionNodeAsync(
+        Broker broker,
+        DateTime now,
+        Guid actorUserId,
+        CancellationToken ct)
+    {
+        var node = await distributionNodeRepo.GetByIdAsync(broker.Id, ct);
+        var isActive = !broker.IsDeleted && broker.Status != "Inactive";
+        var parentId = broker.MgaId;
+        var ancestryPath = parentId is null ? "" : $"/{parentId}";
+        var depth = parentId is null ? 0 : 1;
+
+        if (node is null)
+        {
+            if (parentId is not null && await distributionNodeRepo.GetByIdAsync(parentId.Value, ct) is { } parent)
+            {
+                parent.ChildCount += 1;
+                parent.UpdatedAt = now;
+                parent.UpdatedByUserId = actorUserId;
+                await distributionNodeRepo.UpdateAsync(parent, ct);
+            }
+
+            await distributionNodeRepo.AddAsync(new DistributionNode
+            {
+                Id = broker.Id,
+                NodeType = "Broker",
+                DisplayName = broker.LegalName,
+                ParentId = parentId,
+                AncestryPath = ancestryPath,
+                Depth = depth,
+                ChildCount = 0,
+                IsActive = isActive,
+                CreatedAt = now,
+                UpdatedAt = now,
+                CreatedByUserId = actorUserId,
+                UpdatedByUserId = actorUserId,
+            }, ct);
+            return;
+        }
+
+        if (node.ParentId != parentId)
+        {
+            if (node.ParentId is not null && await distributionNodeRepo.GetByIdAsync(node.ParentId.Value, ct) is { } oldParent)
+            {
+                oldParent.ChildCount = Math.Max(0, oldParent.ChildCount - 1);
+                oldParent.UpdatedAt = now;
+                oldParent.UpdatedByUserId = actorUserId;
+                await distributionNodeRepo.UpdateAsync(oldParent, ct);
+            }
+
+            if (parentId is not null && await distributionNodeRepo.GetByIdAsync(parentId.Value, ct) is { } newParent)
+            {
+                newParent.ChildCount += 1;
+                newParent.UpdatedAt = now;
+                newParent.UpdatedByUserId = actorUserId;
+                await distributionNodeRepo.UpdateAsync(newParent, ct);
+            }
+        }
+
+        node.NodeType = "Broker";
+        node.DisplayName = broker.LegalName;
+        node.ParentId = parentId;
+        node.AncestryPath = ancestryPath;
+        node.Depth = depth;
+        node.IsActive = isActive;
+        node.UpdatedAt = now;
+        node.UpdatedByUserId = actorUserId;
+        await distributionNodeRepo.UpdateAsync(node, ct);
+    }
 
     private void AuditBrokerUserRead(ICurrentUserService user, string resource, Guid? entityId, Guid? resolvedBrokerId = null)
     {

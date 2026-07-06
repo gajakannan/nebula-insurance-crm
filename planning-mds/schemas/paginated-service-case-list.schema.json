@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/paginated-service-case-list.schema.json",
+  "title": "PaginatedServiceCaseList",
+  "description": "Paginated list of service cases.",
+  "type": "object",
+  "required": ["data", "page", "pageSize", "totalCount", "totalPages"],
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": { "$ref": "https://nebula.local/schemas/service-case.schema.json" }
+    },
+    "page": { "type": "integer", "minimum": 1 },
+    "pageSize": { "type": "integer", "minimum": 1 },
+    "totalCount": { "type": "integer", "minimum": 0 },
+    "totalPages": { "type": "integer", "minimum": 0 }
+  },
+  "additionalProperties": false
+}

@@ -10,6 +10,9 @@ import type {
   DocumentMetadataUpdateRequestDto,
   DocumentParentRefDto,
   DocumentUploadResponseDto,
+  GeneratedDocumentIssueResponseDto,
+  GeneratedDocumentPreviewResponseDto,
+  GeneratedDocumentRequestDto,
   PaginatedDocumentListDto,
   PaginatedDocumentTemplateListDto,
 } from './types'
@@ -210,6 +213,35 @@ export function useLinkDocumentTemplate(parent: DocumentParentRefDto) {
       return api.postMultipart(`/document-templates/${templateId}/link?${params.toString()}`, new FormData())
     },
     onSuccess: () => invalidateParent(queryClient, parent),
+  })
+}
+
+export function usePreviewGeneratedDocument() {
+  return useMutation({
+    mutationFn: (request: GeneratedDocumentRequestDto) =>
+      api.post<GeneratedDocumentPreviewResponseDto>('/outbound-documents/preview', request),
+  })
+}
+
+export function useIssueGeneratedDocument(parent: DocumentParentRefDto) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (request: GeneratedDocumentRequestDto) =>
+      api.post<GeneratedDocumentIssueResponseDto>('/outbound-documents/issue', request),
+    onSuccess: () => invalidateParent(queryClient, parent),
+  })
+}
+
+export function useRegenerateGeneratedDocument(documentId: string, parent: DocumentParentRefDto) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (request: GeneratedDocumentRequestDto) =>
+      api.post<GeneratedDocumentIssueResponseDto>(`/outbound-documents/${documentId}/regenerate`, request),
+    onSuccess: (result) => {
+      invalidateParent(queryClient, parent)
+      queryClient.invalidateQueries({ queryKey: ['documents', 'detail', documentId] })
+      queryClient.invalidateQueries({ queryKey: ['documents', 'detail', result.documentId] })
+    },
   })
 }
 

@@ -6,6 +6,7 @@ import DashboardPage from './pages/DashboardPage'
 import BrokerListPage from './pages/BrokerListPage'
 import CreateBrokerPage from './pages/CreateBrokerPage'
 import BrokerDetailPage from './pages/BrokerDetailPage'
+import CarrierMarketsPage from './pages/CarrierMarketsPage'
 import AccountsPage from './pages/AccountsPage'
 import CreateAccountPage from './pages/CreateAccountPage'
 import AccountDetailPage from './pages/AccountDetailPage'
@@ -19,8 +20,12 @@ import CreatePolicyPage from './pages/CreatePolicyPage'
 import PolicyImportPage from './pages/PolicyImportPage'
 import PolicyDetailPage from './pages/PolicyDetailPage'
 import TaskCenterPage from './pages/TaskCenterPage'
+import ServiceCasesPage from './pages/ServiceCasesPage'
+import ServiceCaseDetailPage from './pages/ServiceCaseDetailPage'
+import WorkQueuesPage from './pages/WorkQueuesPage'
 import SearchResultsPage from './pages/SearchResultsPage'
 import OperationalReportsPage from './pages/OperationalReportsPage'
+import BrokerInsightsPage from './pages/BrokerInsightsPage'
 import NotFoundPage from './pages/NotFoundPage'
 import { DocumentDetailView, DocumentTemplatesLibrary } from './features/documents'
 import { UnauthorizedPage } from './pages/UnauthorizedPage'
@@ -73,10 +78,15 @@ function AppInner() {
       <Route path="/brokers" element={<ProtectedRoute><BrokerListPage /></ProtectedRoute>} />
       <Route path="/brokers/new" element={<ProtectedRoute><CreateBrokerPage /></ProtectedRoute>} />
       <Route path="/brokers/:brokerId" element={<ProtectedRoute><BrokerDetailPage /></ProtectedRoute>} />
+      <Route path="/carrier-markets" element={<ProtectedRoute><CarrierMarketsPage /></ProtectedRoute>} />
       <Route path="/tasks" element={<ProtectedRoute><TaskCenterPage /></ProtectedRoute>} />
       <Route path="/tasks/:taskId" element={<ProtectedRoute><TaskCenterPage /></ProtectedRoute>} />
+      <Route path="/service-cases" element={<ProtectedRoute><ServiceCasesPage /></ProtectedRoute>} />
+      <Route path="/service-cases/:serviceCaseId" element={<ProtectedRoute><ServiceCaseDetailPage /></ProtectedRoute>} />
+      <Route path="/work-queues" element={<ProtectedRoute><WorkQueuesPage /></ProtectedRoute>} />
       <Route path="/search" element={<ProtectedRoute><SearchResultsPage /></ProtectedRoute>} />
       <Route path="/operational-reports" element={<ProtectedRoute><OperationalReportsPage /></ProtectedRoute>} />
+      <Route path="/broker-insights" element={<ProtectedRoute><BrokerInsightsPage /></ProtectedRoute>} />
 
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

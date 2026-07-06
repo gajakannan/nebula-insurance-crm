@@ -2,13 +2,13 @@
 
 **Purpose:** Authoritative data model reference for Nebula CRM. Contains the domain ERD, entity specifications, reference data, query patterns, and migration strategy. Supplements BLUEPRINT.md Section 4.2.
 
-**Last Updated:** 2026-05-06
+**Last Updated:** 2026-07-03
 
 ---
 
 ## 0. Domain Entity Relationship Diagram
 
-Reflects all entities through F0007 (Renewal Pipeline) and F0006 (Submission Intake Workflow). Audit fields (`CreatedAt`, `CreatedByUserId`, `UpdatedAt`, `UpdatedByUserId`, `DeletedAt`, `DeletedByUserId`, `IsDeleted`, `RowVersion`) are present on all `BaseEntity` subclasses and omitted from the diagram for clarity.
+Reflects all entities through F0022 (Work Queues, Assignment Rules & Coverage Management). Audit fields (`CreatedAt`, `CreatedByUserId`, `UpdatedAt`, `UpdatedByUserId`, `DeletedAt`, `DeletedByUserId`, `IsDeleted`, `RowVersion`) are present on all `BaseEntity` subclasses and omitted from the diagram for clarity.
 
 ### Mermaid ERD
 
@@ -166,6 +166,59 @@ erDiagram
         int WarningDays
         int TargetDays
     }
+    WorkQueue {
+        uuid Id PK
+        string Name
+        string WorkType
+        string Status
+        bool IsFallback
+    }
+    WorkQueueMember {
+        uuid Id PK
+        uuid WorkQueueId FK
+        uuid UserProfileId FK
+        string Role
+        date EffectiveFrom
+        date EffectiveTo "nullable"
+    }
+    AssignmentRule {
+        uuid Id PK
+        uuid WorkQueueId FK
+        string RuleType
+        int Precedence
+        int Version
+        string Status
+        jsonb ConditionsJson
+    }
+    CoverageWindow {
+        uuid Id PK
+        uuid CoveredUserId FK
+        uuid BackupUserId FK
+        uuid WorkQueueId FK "nullable"
+        datetime StartsAt
+        datetime EndsAt
+        string Status
+    }
+    QueueWorkItem {
+        uuid Id PK
+        uuid WorkQueueId FK
+        string SourceType
+        uuid SourceId
+        uuid AssignedToUserId FK "nullable"
+        string QueueStatus
+        datetime RoutedAt
+        string RuleVersion "nullable"
+    }
+    RoutingDecisionLog {
+        uuid Id PK
+        uuid QueueWorkItemId FK "nullable"
+        string SourceType
+        uuid SourceId
+        string Outcome
+        string ReasonCode
+        uuid ActorUserId FK "nullable"
+        datetime OccurredAt
+    }
 
     MGA ||--o{ Program : "hosts"
     MGA |o--o{ Broker : "affiliates"
@@ -186,9 +239,17 @@ erDiagram
     UserProfile ||--o{ Submission : "assigned"
     UserProfile ||--o{ Renewal : "assigned"
     UserProfile ||--o{ TaskItem : "assigned"
+    UserProfile ||--o{ WorkQueueMember : "member"
+    UserProfile ||--o{ CoverageWindow : "covered/backup"
+    UserProfile |o--o{ QueueWorkItem : "assigned"
     ReferenceSubmissionStatus ||--o{ Submission : "status"
     ReferenceRenewalStatus ||--o{ Renewal : "status"
     ReferenceTaskStatus ||--o{ TaskItem : "status"
+    WorkQueue ||--o{ WorkQueueMember : "has members"
+    WorkQueue ||--o{ AssignmentRule : "evaluates rules"
+    WorkQueue ||--o{ CoverageWindow : "scopes coverage"
+    WorkQueue ||--o{ QueueWorkItem : "contains"
+    QueueWorkItem ||--o{ RoutingDecisionLog : "records decisions"
 ```
 
 ### ASCII Companion
@@ -196,7 +257,7 @@ erDiagram
 For terminals, PR review comments, and ADR inline use.
 
 ```
-NEBULA CRM — DOMAIN MODEL (as of F0007)
+NEBULA CRM — DOMAIN MODEL (as of F0022)
 Audit fields omitted (all BaseEntity subclasses carry: Id, CreatedAt/By, UpdatedAt/By, DeletedAt/By, IsDeleted, RowVersion).
 
 IDENTITY
@@ -251,6 +312,18 @@ TASKS
 CONFIGURATION
   WorkflowSlaThreshold(EntityType, Status, LineOfBusiness opt, WarningDays, TargetDays)
    └─UNIQUE (EntityType, Status, LineOfBusiness) — null LineOfBusiness = default
+
+OPERATIONS ROUTING / QUEUES (F0022)
+  WorkQueue(Name, WorkType, Status, IsFallback)
+   ├─has members────► WorkQueueMember(UserProfileId, Role, EffectiveFrom/To)
+   ├─has rules──────► AssignmentRule(RuleType, Precedence, Version, ConditionsJson, Status)
+   ├─has coverage───► CoverageWindow(CoveredUserId, BackupUserId, StartsAt/EndsAt, Status)
+   └─contains───────► QueueWorkItem(SourceType, SourceId, AssignedToUserId opt, QueueStatus, RoutedAt)
+                         └─audit────► RoutingDecisionLog(Outcome, ReasonCode, ActorUserId opt, OccurredAt)
+
+  QueueWorkItem.SourceType in Task | Submission | Renewal. One active item per source record.
+  AssignmentRule precedence: manual override -> coverage -> territory/ownership -> workload -> fallback.
+  The system fallback queue is named "Unassigned Operations Queue".
 
 AUDIT / APPEND-ONLY (no soft delete; polymorphic EntityId — no FK constraint)
   ActivityTimelineEvent(EntityType, EntityId, EventType, EventDescription, BrokerDescription opt, ActorUserId, OccurredAt)
@@ -439,6 +512,113 @@ F0006 adds two fields to the existing Submission entity:
 | `IX_Submissions_BrokerId` | (BrokerId) | B-tree | Broker-scoped submission lookups |
 | `IX_Submissions_EffectiveDate` | (EffectiveDate) | B-tree | Sort by effective date on pipeline list |
 | `IX_Submissions_CreatedAt_CurrentStatus` | (CreatedAt, CurrentStatus) WHERE IsDeleted = false | Partial B-tree | Pipeline list default sort + status filter |
+
+---
+
+## 1.8 Work Queues, Assignment Rules, and Coverage (F0022)
+
+F0022 introduces a durable operations-routing subsystem governed by [ADR-013](decisions/ADR-013-operational-routing-and-queue-engine.md). It routes tasks, submissions, and renewals without redefining their source workflow state machines.
+
+### Table: `WorkQueues`
+
+| Field | Type | Constraints | Default | Description |
+|-------|------|-------------|---------|-------------|
+| Id | uuid | PK, NOT NULL | gen_random_uuid() | Queue identifier |
+| Name | varchar(120) | NOT NULL, unique among active queues | - | Manager-facing queue name |
+| Description | varchar(1000) | NULL | - | Optional queue purpose |
+| WorkType | varchar(30) | NOT NULL, CHECK IN ('Task','Submission','Renewal','Mixed') | - | Work type accepted by the queue |
+| Status | varchar(20) | NOT NULL, CHECK IN ('Active','Inactive') | 'Active' | Queue availability |
+| IsFallback | boolean | NOT NULL | false | True only for the system fallback queue |
+
+### Table: `WorkQueueMembers`
+
+| Field | Type | Constraints | Default | Description |
+|-------|------|-------------|---------|-------------|
+| Id | uuid | PK, NOT NULL | gen_random_uuid() | Membership identifier |
+| WorkQueueId | uuid | FK -> WorkQueues.Id, NOT NULL | - | Queue |
+| UserProfileId | uuid | FK -> UserProfile.UserId, NOT NULL | - | Member |
+| Role | varchar(30) | NOT NULL, CHECK IN ('Member','Manager','Backup') | 'Member' | Queue role |
+| EffectiveFrom | date | NOT NULL | current_date | Start date |
+| EffectiveTo | date | NULL | - | End date |
+
+### Table: `AssignmentRules`
+
+| Field | Type | Constraints | Default | Description |
+|-------|------|-------------|---------|-------------|
+| Id | uuid | PK, NOT NULL | gen_random_uuid() | Rule identifier |
+| WorkQueueId | uuid | FK -> WorkQueues.Id, NOT NULL | - | Target queue |
+| RuleType | varchar(40) | NOT NULL | - | `ManualOverride`, `Coverage`, `TerritoryOwnership`, `WorkloadBalance`, or `Fallback` |
+| Precedence | int | NOT NULL | - | Lower value evaluates first |
+| Version | int | NOT NULL | 1 | Incremented on edit; prior active version becomes superseded |
+| Status | varchar(20) | NOT NULL | 'Active' | `Active`, `Draft`, `Superseded`, or `Disabled` |
+| ConditionsJson | jsonb | NOT NULL | '{}' | Deterministic match criteria |
+| MatchReasonTemplate | varchar(500) | NOT NULL | - | Explainable outcome text |
+
+### Table: `CoverageWindows`
+
+| Field | Type | Constraints | Default | Description |
+|-------|------|-------------|---------|-------------|
+| Id | uuid | PK, NOT NULL | gen_random_uuid() | Coverage identifier |
+| CoveredUserId | uuid | FK -> UserProfile.UserId, NOT NULL | - | Unavailable user |
+| BackupUserId | uuid | FK -> UserProfile.UserId, NOT NULL | - | Backup user |
+| WorkQueueId | uuid | FK -> WorkQueues.Id, NULL | - | Optional queue scope |
+| StartsAt | timestamptz | NOT NULL | - | Coverage start |
+| EndsAt | timestamptz | NOT NULL | - | Coverage end |
+| Status | varchar(20) | NOT NULL | 'Active' | `Active`, `Cancelled`, or `Expired` |
+| Reason | varchar(500) | NULL | - | Manager-entered reason |
+
+### Table: `QueueWorkItems`
+
+| Field | Type | Constraints | Default | Description |
+|-------|------|-------------|---------|-------------|
+| Id | uuid | PK, NOT NULL | gen_random_uuid() | Queue item identifier |
+| WorkQueueId | uuid | FK -> WorkQueues.Id, NOT NULL | - | Current queue |
+| SourceType | varchar(30) | NOT NULL, CHECK IN ('Task','Submission','Renewal') | - | Source work type |
+| SourceId | uuid | NOT NULL | - | Source record id |
+| AssignedToUserId | uuid | FK -> UserProfile.UserId, NULL | - | Current assignee, null for fallback |
+| QueueStatus | varchar(20) | NOT NULL | 'Open' | `Open`, `InProgress`, `Closed`, or `Skipped` |
+| RoutedAt | timestamptz | NOT NULL | now() | Last routing time |
+| RuleVersion | varchar(60) | NULL | - | Rule id/version used for the latest decision |
+| MatchReason | varchar(500) | NULL | - | Explainable latest match/fallback reason |
+
+### Table: `RoutingDecisionLogs`
+
+Append-only, no soft delete.
+
+| Field | Type | Constraints | Default | Description |
+|-------|------|-------------|---------|-------------|
+| Id | uuid | PK, NOT NULL | gen_random_uuid() | Decision identifier |
+| QueueWorkItemId | uuid | FK -> QueueWorkItems.Id, NULL | - | Queue item when created |
+| SourceType | varchar(30) | NOT NULL | - | Task, Submission, or Renewal |
+| SourceId | uuid | NOT NULL | - | Source record id |
+| Outcome | varchar(30) | NOT NULL | - | `Matched`, `Fallback`, `Skipped`, `Reassigned`, `Rebalanced`, or `Exception` |
+| ReasonCode | varchar(60) | NOT NULL | - | Stable machine-readable reason |
+| RuleVersion | varchar(60) | NULL | - | Matched rule id/version when available |
+| SelectedQueueId | uuid | FK -> WorkQueues.Id, NULL | - | Selected queue |
+| SelectedAssigneeId | uuid | FK -> UserProfile.UserId, NULL | - | Selected assignee |
+| ActorUserId | uuid | FK -> UserProfile.UserId, NULL | - | User for manual actions; null/system for automated routing |
+| OccurredAt | timestamptz | NOT NULL | now() | Decision time |
+
+### Constraints and Indexes
+
+| Name | Columns / Rule | Type | Purpose |
+|------|----------------|------|---------|
+| `UX_WorkQueues_Fallback` | IsFallback WHERE IsFallback = true AND Status = 'Active' | Filtered unique | Exactly one active fallback queue |
+| `UX_QueueWorkItems_Source_Active` | SourceType, SourceId WHERE QueueStatus IN ('Open','InProgress') | Filtered unique | One active queue item per source record |
+| `IX_QueueWorkItems_Queue_Status_RoutedAt` | WorkQueueId, QueueStatus, RoutedAt | B-tree | Queue worklist and aging |
+| `IX_QueueWorkItems_Assignee_Status` | AssignedToUserId, QueueStatus | B-tree | Owner workload counts |
+| `IX_AssignmentRules_Queue_Status_Precedence` | WorkQueueId, Status, Precedence | B-tree | Deterministic rule evaluation |
+| `IX_CoverageWindows_CoveredUser_Time` | CoveredUserId, StartsAt, EndsAt WHERE Status='Active' | B-tree | Active coverage lookup |
+| `IX_RoutingDecisionLogs_Source_OccurredAt` | SourceType, SourceId, OccurredAt DESC | B-tree | Routing audit trail |
+
+### Seed Data
+
+- Seed one active fallback queue: `Unassigned Operations Queue`, `WorkType='Mixed'`, `IsFallback=true`.
+- No production seed assignment rules beyond fallback. Manager/admin controls create explicit rules before automated assignment.
+
+### Audit Events
+
+Every successful queue, rule, membership, coverage, routing, reassignment, and rebalance mutation creates an `ActivityTimelineEvent` and a `RoutingDecisionLog` row where applicable. Rejected mutations create no audit event.
 
 ---
 
@@ -1102,10 +1282,134 @@ erDiagram
 
 ---
 
+## 12. Service Case And Claim Reference Context (F0024)
+
+F0024 introduces a CRM-owned service-case aggregate for customer service requests and claim-support coordination. It is not a carrier claim system and does not store reserves, payments, coverage determinations, or adjudication state.
+
+### 12.1 ServiceCase
+
+| Field | Type | Notes |
+|-------|------|-------|
+| Id | uuid (PK) | Stable service-case id. |
+| CaseNumber | varchar(40), UNIQUE | Human-readable case number; never reused. |
+| AccountId | uuid (FK -> Account) | Required parent context. |
+| PolicyId | uuid (FK -> Policy), nullable | Optional policy context; when present it must belong to AccountId. |
+| Summary | varchar(255) | Required short display summary. |
+| Description | varchar(4000), nullable | Internal servicing notes. |
+| Type | varchar(40) | `ServiceRequest`, `ClaimSupport`, `DocumentationSupport`, `BillingInquiry`, `Other`. |
+| Status | varchar(30) | `Intake`, `InProgress`, `Waiting`, `Resolved`, `Closed`. |
+| Priority | varchar(20) | `Low`, `Medium`, `High`, `Urgent`. |
+| OwnerUserId | uuid | Required internal owner. |
+| DueDate | date, nullable | Follow-up target date. |
+| FollowUpSummary | varchar(1000), nullable | Latest internal follow-up note. |
+| ResolvedAt | datetime, nullable | Set when transitioning to `Resolved`. |
+| ClosedAt | datetime, nullable | Set when transitioning to `Closed`. |
+| ResolutionSummary | varchar(1000), nullable | Required before resolving when business rules require a disposition. |
+| CreatedByUserId | uuid | Audit actor. |
+| CreatedAt / UpdatedAt | datetime | Audit timestamps. |
+| RowVersion | rowversion | Optimistic concurrency. |
+
+### 12.2 ServiceCaseClaimReference
+
+Optional 1:1 child record for claim-reference context only.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| ServiceCaseId | uuid (PK/FK -> ServiceCase) | One claim-reference row per service case. |
+| CarrierClaimNumber | varchar(80), nullable | Carrier or TPA reference number. |
+| DateOfLoss | date, nullable | Date of loss when known. |
+| ClaimantDisplayName | varchar(255), nullable | Display-only claimant reference. |
+| LossSummary | varchar(2000), nullable | Internal summary; do not project full text into timeline payloads. |
+| CarrierContactReference | varchar(255), nullable | Carrier/adjuster reference text. |
+| UpdatedByUserId | uuid, nullable | Last updater. |
+| UpdatedAt | datetime, nullable | Last update timestamp. |
+
+### 12.3 ServiceCase Links And Transition History
+
+`ServiceCaseCommunicationLink`
+- Bridge to `CommunicationEvent`; fields: `ServiceCaseId`, `CommunicationEventId`, `LinkType`, `CreatedByUserId`, `CreatedAt`.
+- The communication source record remains owned by F0021.
+
+`ServiceCaseTaskLink`
+- Bridge to `TaskItem`; fields: `ServiceCaseId`, `TaskId`, `Relationship`, `CreatedByUserId`, `CreatedAt`.
+- The task source record remains owned by F0004.
+
+`ServiceCaseTransition`
+- Append-only status history; fields: `ServiceCaseId`, `FromStatus`, `ToStatus`, `ActorUserId`, `OccurredAt`, `ReasonCode`, `Note`.
+- Allowed transitions: `Intake -> InProgress/Waiting`, `InProgress -> Waiting/Resolved`, `Waiting -> InProgress/Resolved`, and `Resolved -> Closed`.
+- Closed service cases are read-only in MVP.
+
+### 12.4 Migration Order (F0024)
+
+1. Create `ServiceCases`, `ServiceCaseClaimReferences`, `ServiceCaseCommunicationLinks`, `ServiceCaseTaskLinks`, and `ServiceCaseTransitions`.
+2. Add indexes for account/policy context lists, owner workspace lists, due date, status, priority, and unique `CaseNumber`.
+3. Seed Casbin `service_case` policy rows and update schema/API contract artifacts.
+4. Add timeline payload definitions for service-case events.
+
+## 12. Broker Insights Read Model (F0008)
+
+Governed by [ADR-031](decisions/ADR-031-broker-insights-read-models.md).
+F0008 introduces a read-only broker analytics surface over existing source data.
+It does not replace broker, submission, renewal, policy, workflow, activity, or
+F0023 source records.
+
+### 12.1 BrokerInsightProjection
+
+One broker-period-metric fact row used by scorecards, trends, benchmarks, and
+review snapshots. The implementation may materialize this table or produce the
+same contract from a view over F0023 projections; either way, source modules
+remain authoritative.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid | projection row identity |
+| `BrokerId` | uuid | insight target broker |
+| `BrokerName` | varchar(200) | denormalized display name |
+| `MetricKey` | varchar(80) | quoteCount, bindCount, quoteToBindRate, retentionRate, openPipelineCount, activityCount, productionAmount |
+| `MetricFamily` | varchar(80) | Quote, Bind, Retention, Pipeline, Activity, Production |
+| `PeriodStart` / `PeriodEnd` | date | inclusive metric period |
+| `Bucket` | varchar(20)? | day, week, month, quarter for trends |
+| `Value` | numeric? | computed metric value; null when denominator is zero or data unavailable |
+| `Denominator` | integer | authorized denominator |
+| `Unit` | varchar(20) | count, percentage, currency |
+| `ComparisonValue` | numeric? | previous comparable period value |
+| `ComparisonPeriodStart` / `ComparisonPeriodEnd` | date? | comparison period |
+| `SourceObjectTypes` | jsonb | contributing source types |
+| `SourceRecordCount` | integer | authorized contributing row count |
+| `ProgramId` / `ProducerId` / `TerritoryId` | uuid? | F0017/F0023 dimensions |
+| `LineOfBusiness` / `Region` | varchar(80)? | report filters |
+| `LastSourceUpdatedAt` | timestamptz | newest source timestamp represented |
+| `ProjectedAt` | timestamptz | projection refresh timestamp |
+| `ProjectionStatus` | varchar(40) | Available, NoData, Partial, Unavailable |
+
+### 12.2 Indexes
+
+| Table | Index | Columns | Purpose |
+|-------|-------|---------|---------|
+| BrokerInsightProjection | `IX_BrokerInsight_Broker_Period` | `(BrokerId, PeriodStart, PeriodEnd)` | scorecard lookup |
+| BrokerInsightProjection | `IX_BrokerInsight_Metric_Period` | `(MetricKey, PeriodStart, PeriodEnd)` | trend/metric filtering |
+| BrokerInsightProjection | `IX_BrokerInsight_Dimensions` | `(ProgramId, ProducerId, TerritoryId, Region, LineOfBusiness)` | authorized benchmark filters |
+| BrokerInsightProjection | `IX_BrokerInsight_ProjectedAt` | `(ProjectedAt)` | freshness monitoring |
+
+### 12.3 Refresh and Authorization
+
+- Projection refresh can be synchronous-on-write or scheduled/backfilled, but API
+  responses must expose `generatedAt` / metric `lastRefreshedAt`.
+- Scorecards, trends, benchmarks, and snapshots aggregate only after the query
+  layer applies the current user's source-record authorization.
+- Benchmark rank and percentile are suppressed when fewer than five visible peers
+  match the selected peer set.
+- F0037 remains responsible for hierarchy-aware access enforcement and
+  distribution rollups.
+
+---
+
 ## Related Documents
 
+- [ADR-031: Broker Insights Read Models and Permission-Safe Analytics](decisions/ADR-031-broker-insights-read-models.md) — F0008 read-side model
 - [ADR-027: Neuron Companion A2A Orchestration](decisions/ADR-027-neuron-companion-a2a-orchestration.md) — F0038 companion foundation
 - [ADR-028: Neuron Persistence, Cross-Store Consistency & Outreach Authorization](decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md) — F0038 `neuron.*` schema
+- [ADR-030: Service Case And Claim Reference Boundary](decisions/ADR-030-service-case-and-claim-reference-boundary.md) — F0024 service-case source record and claim-reference limits
 - [ADR-026: Broker/MGA Hierarchy, Producer Ownership & Territory](decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md) — F0017 structural model
 - [ADR-014: Search Index, Saved Views, and Operational Reporting Projections](decisions/ADR-014-search-index-and-saved-view-architecture.md) — F0023 read-side model
 - [BLUEPRINT.md Section 4.2](../BLUEPRINT.md) — Core entity definitions
@@ -1118,6 +1422,8 @@ erDiagram
 - [ADR-023: JsonLogic Rules Governance](decisions/ADR-023-rules-governance-jsonlogic.md) — Rule envelope and op governance
 
 ---
+
+**Version:** 8.0 — 2026-07-03: Added §12 F0008 BrokerInsightProjection read model for permission-safe broker scorecards, trends, benchmarks, and review snapshots (ADR-031).
 
 **Version:** 7.0 — 2026-06-30: Added §11 F0038 Neuron Companion operation store (`neuron.*` schema, Neuron-owned, written directly) — threads, messages, message parts, agent runs, tool calls, provenance events — with cross-store reference edges to engine-owned ActivityTimelineEvent/WorkflowTransition (ADR-027, ADR-028).
 

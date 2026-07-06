@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/generated-document-request.schema.json",
+  "title": "GeneratedDocumentRequest",
+  "description": "Shared selector for F0027 outbound document preview, issue, and regeneration. Rendered output is always produced server-side.",
+  "type": "object",
+  "required": ["parent", "artifactFamily", "templateDocumentId"],
+  "additionalProperties": false,
+  "properties": {
+    "parent": {
+      "type": "object",
+      "required": ["type", "id"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string", "enum": ["account", "submission", "policy", "renewal"] },
+        "id": { "type": "string", "format": "uuid" }
+      }
+    },
+    "artifactFamily": {
+      "type": "string",
+      "enum": ["coi", "acord", "proposal"]
+    },
+    "templateDocumentId": {
+      "type": "string",
+      "pattern": "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "templateVersion": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "description": "Null selects the current published version; a value pins a specific published version."
+    },
+    "classification": {
+      "type": "string",
+      "enum": ["public", "confidential", "restricted"],
+      "default": "confidential"
+    },
+    "regeneratedFromDocumentId": {
+      "type": ["string", "null"],
+      "pattern": "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "regenerationReason": {
+      "type": ["string", "null"],
+      "maxLength": 500
+    }
+  }
+}

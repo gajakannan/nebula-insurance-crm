@@ -1,34 +1,67 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv, type ProxyOptions } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
-export default defineConfig(() => {
+function createApiProxyOptions(target: string): ProxyOptions {
+  return {
+    target,
+    changeOrigin: true,
+    bypass(req) {
+      const accept = req.headers.accept ?? ''
+      const authorization = req.headers.authorization
+      if (!authorization && accept.includes('text/html')) {
+        return '/index.html'
+      }
+      return undefined
+    },
+  }
+}
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
   const apiProxyTarget = process.env.NEBULA_API_PROXY_TARGET?.trim()
+    || env.NEBULA_API_PROXY_TARGET?.trim()
     || process.env.VITE_API_PROXY_TARGET?.trim()
+
+    || env.VITE_API_PROXY_TARGET?.trim()
     || 'http://localhost:5113'
+  const neuronProxyTarget = process.env.NEBULA_NEURON_PROXY_TARGET?.trim()
+    || env.NEBULA_NEURON_PROXY_TARGET?.trim()
+    || process.env.VITE_NEURON_PROXY_TARGET?.trim()
+    || env.VITE_NEURON_PROXY_TARGET?.trim()
+    || 'http://localhost:8200'
   const apiProxyPaths = [
     // Keep OIDC callback (`/auth/callback`) on the frontend router.
     // Only logout should hit the API.
     '/auth/logout',
     '/brokers',
     '/contacts',
+    '/communications',
     '/dashboard',
     '/my',
     '/tasks',
     '/timeline',
     '/accounts',
+    '/users',
     '/mgas',
     '/programs',
     '/policies',
     '/submissions',
     '/renewals',
+    '/carrier-markets',
     '/search-results',
+    '/service-cases',
     '/saved-views',
     '/operational-reports',
+    '/broker-insights',
     '/documents',
     '/document-templates',
+    '/distribution-nodes',
+    '/producer-ownership',
+    '/territories',
+    '/territory-assignments',
     '/internal',
     '/lob-schemas',
     '/healthz',
@@ -59,15 +92,24 @@ export default defineConfig(() => {
     },
     server: {
       port: 5173,
-      proxy: Object.fromEntries(
-        apiProxyPaths.map((pathPrefix) => [
-          pathPrefix,
-          {
-            target: apiProxyTarget,
-            changeOrigin: true,
-          },
-        ]),
-      ),
+proxy: {
+        ...Object.fromEntries(
+          apiProxyPaths.map((pathPrefix) => [
+            pathPrefix,
+            createApiProxyOptions(apiProxyTarget),
+          ]),
+        ),
+        '/api': {
+          target: apiProxyTarget,
+          changeOrigin: true,
+          rewrite: (proxyPath) => proxyPath.replace(/^\/api/, ''),
+        },
+        '/neuron': {
+          target: neuronProxyTarget,
+          changeOrigin: true,
+          rewrite: (proxyPath) => proxyPath.replace(/^\/neuron/, ''),
+        },
+      },
       headers: {
         // Development CSP — Vite/React HMR needs inline + eval script allowances.
         // connect-src includes http://localhost:9000 (authentik IdP) because oidc-client-ts

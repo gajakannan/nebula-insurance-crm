@@ -2,7 +2,7 @@
 
 Auto-generated index of all user stories across feature folders.
 
-**Total Stories:** 161
+**Total Stories:** 195
 
 ---
 
@@ -94,6 +94,18 @@ Auto-generated index of all user stories across feature folders.
 | [F0007-S0005](./archive/F0007-renewal-pipeline/F0007-S0005-overdue-renewal-visibility-and-escalation-flags.md) | Overdue renewal visibility and escalation flags | High | CRM Release MVP | distribution manager |
 | [F0007-S0006](./archive/F0007-renewal-pipeline/F0007-S0006-create-renewal-from-expiring-policy.md) | Create renewal from expiring policy | Critical | CRM Release MVP | distribution user |
 | [F0007-S0007](./archive/F0007-renewal-pipeline/F0007-S0007-renewal-activity-timeline-and-audit-trail.md) | Renewal activity timeline and audit trail | High | CRM Release MVP | distribution user, underwriter, or distribution manager |
+
+---
+
+## F0008 - Broker Insights
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0008-S0001](./archive/F0008-broker-insights/F0008-S0001-broker-scorecard-overview.md) | Broker scorecard overview | Critical | MVP | Distribution Manager |
+| [F0008-S0002](./archive/F0008-broker-insights/F0008-S0002-trend-drilldown-source-records.md) | Trend drilldown and source record navigation | High | MVP | Broker Relationship Manager |
+| [F0008-S0003](./archive/F0008-broker-insights/F0008-S0003-authorized-benchmark-comparison.md) | Authorized benchmark comparison | High | MVP | Program Manager |
+| [F0008-S0004](./archive/F0008-broker-insights/F0008-S0004-review-snapshot.md) | Broker review snapshot | Medium | MVP | Broker Relationship Manager |
+| [F0008-S0005](./archive/F0008-broker-insights/F0008-S0005-permission-safe-insights.md) | Permission-safe broker insight behavior | Critical | MVP | CRM user |
 
 ---
 
@@ -200,11 +212,11 @@ Auto-generated index of all user stories across feature folders.
 
 | Story ID | Title | Priority | Phase | Persona |
 |----------|-------|----------|-------|---------|
-| [F0017-S0001](./F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0001-model-broker-mga-hierarchy.md) | Model broker/MGA hierarchy (self-referencing, arbitrary depth) | High | MVP | Distribution & Marketing Manager |
-| [F0017-S0002](./F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0002-navigate-hierarchy.md) | Navigate and traverse the distribution hierarchy | High | MVP | Broker Relationship Coordinator |
-| [F0017-S0003](./F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md) | Assign and maintain producer ownership (effective-dated) | High | MVP | Distribution & Marketing Manager |
-| [F0017-S0004](./F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md) | Define and manage territories with effective-dated assignment | High | MVP | Distribution & Marketing Manager |
-| [F0017-S0005](./F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0005-hierarchy-ownership-territory-audit.md) | Audit and timeline for hierarchy, ownership, and territory changes | High | MVP | Distribution & Marketing Manager |
+| [F0017-S0001](./archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0001-model-broker-mga-hierarchy.md) | Model broker/MGA hierarchy (self-referencing, arbitrary depth) | High | MVP | Distribution & Marketing Manager |
+| [F0017-S0002](./archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0002-navigate-hierarchy.md) | Navigate and traverse the distribution hierarchy | High | MVP | Broker Relationship Coordinator |
+| [F0017-S0003](./archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md) | Assign and maintain producer ownership (effective-dated) | High | MVP | Distribution & Marketing Manager |
+| [F0017-S0004](./archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md) | Define and manage territories with effective-dated assignment | High | MVP | Distribution & Marketing Manager |
+| [F0017-S0005](./archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0005-hierarchy-ownership-territory-audit.md) | Audit and timeline for hierarchy, ownership, and territory changes | High | MVP | Distribution & Marketing Manager |
 
 ---
 
@@ -260,6 +272,32 @@ Auto-generated index of all user stories across feature folders.
 
 ---
 
+## F0021 — Communication Hub & Activity Capture
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0021-S0001](./archive/F0021-communication-hub-and-activity-capture/F0021-S0001-capture-communication-event.md) | Capture a structured communication event | High | MVP | distribution user, coordinator, underwriter, or relationship manager |
+| [F0021-S0002](./archive/F0021-communication-hub-and-activity-capture/F0021-S0002-view-contextual-communication-history.md) | View contextual communication history | High | MVP | distribution user, coordinator, underwriter, or relationship manager |
+| [F0021-S0003](./archive/F0021-communication-hub-and-activity-capture/F0021-S0003-link-communications-to-related-records-and-participants.md) | Link communications to related records and participants | High | MVP | relationship manager or underwriter |
+| [F0021-S0004](./archive/F0021-communication-hub-and-activity-capture/F0021-S0004-create-follow-up-task-from-communication.md) | Create a follow-up task from a communication | High | MVP | coordinator, underwriter, or relationship manager |
+| [F0021-S0005](./archive/F0021-communication-hub-and-activity-capture/F0021-S0005-correct-or-redact-communication-with-audit.md) | Correct or redact communication content with audit | High | MVP | distribution manager, compliance-aware operator, or authorized internal user |
+
+---
+
+## F0022 — Work Queues, Assignment Rules & Coverage Management
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0022-S0001](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0001-manage-work-queues-and-memberships.md) | Manage work queues and memberships | Critical | MVP | Distribution Operations Manager |
+| [F0022-S0002](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0002-define-assignment-rules-and-precedence.md) | Define assignment rules and precedence | Critical | MVP | Distribution Operations Manager |
+| [F0022-S0003](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0003-route-work-from-tasks-submissions-and-renewals.md) | Route work from tasks, submissions, and renewals | Critical | MVP | Distribution Operations Manager |
+| [F0022-S0004](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0004-manage-backup-coverage-windows.md) | Manage backup coverage windows | High | MVP | Distribution Operations Manager |
+| [F0022-S0005](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0005-queue-worklists-and-aging-visibility.md) | Queue worklists and aging visibility | High | MVP | Distribution Operations Manager |
+| [F0022-S0006](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0006-reassign-and-rebalance-queued-work.md) | Reassign and rebalance queued work | High | MVP | Distribution Operations Manager |
+| [F0022-S0007](./archive/F0022-work-queues-assignment-rules-and-coverage-management/F0022-S0007-routing-audit-permissions-and-exceptions.md) | Routing audit, permissions, and exceptions | High | MVP | Compliance-aware Operations Manager |
+
+---
+
 ## F0023 - Global Search, Saved Views & Operational Reporting
 
 | Story ID | Title | Priority | Phase | Persona |
@@ -271,6 +309,44 @@ Auto-generated index of all user stories across feature folders.
 | [F0023-S0005](./archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0005-daily-operational-workload-report.md) | Daily operational workload report | High | MVP | Distribution Operations Manager |
 | [F0023-S0006](./archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0006-workflow-aging-and-backlog-report.md) | Workflow aging and backlog drilldowns | High | MVP | Distribution Operations Manager |
 | [F0023-S0007](./archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0007-permission-safe-search-and-reporting.md) | Permission-safe search and reporting behavior | Critical | MVP | CRM user |
+
+---
+
+## F0024 — Claims & Service Case Tracking
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0024-S0001](./archive/F0024-claims-and-service-case-tracking/F0024-S0001-create-service-case-from-context.md) | Create a service case from account or policy context | High | MVP+ | service, relationship, or underwriting user |
+| [F0024-S0002](./archive/F0024-claims-and-service-case-tracking/F0024-S0002-view-service-cases-in-context.md) | View service cases in workspace and 360 context | High | MVP+ | service, relationship, or underwriting user |
+| [F0024-S0003](./archive/F0024-claims-and-service-case-tracking/F0024-S0003-manage-service-case-ownership-and-follow-up.md) | Manage service case ownership, priority, and follow-up | High | MVP+ | service user or manager |
+| [F0024-S0004](./archive/F0024-claims-and-service-case-tracking/F0024-S0004-transition-service-case-status.md) | Transition a service case through servicing statuses | High | MVP+ | service user or manager |
+| [F0024-S0005](./archive/F0024-claims-and-service-case-tracking/F0024-S0005-capture-claim-reference-context.md) | Capture claim-reference context on a service case | Medium | MVP+ | service, relationship, or underwriting user |
+| [F0024-S0006](./archive/F0024-claims-and-service-case-tracking/F0024-S0006-audit-and-permission-safe-service-case-history.md) | Audit and permission-safe service case history | High | MVP+ | manager, underwriter, or authorized service user |
+
+---
+
+## F0027 — COI, ACORD & Outbound Document Generation
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0027-S0001](./archive/F0027-coi-acord-and-outbound-document-generation/F0027-S0001-template-library-governance.md) | Template library governance for outbound artifacts | High | CRM Release MVP+ | admin |
+| [F0027-S0002](./archive/F0027-coi-acord-and-outbound-document-generation/F0027-S0002-preview-generated-document.md) | Preview generated document before issue | High | CRM Release MVP+ | service or distribution user |
+| [F0027-S0003](./archive/F0027-coi-acord-and-outbound-document-generation/F0027-S0003-issue-generated-artifact.md) | Issue final generated artifact with audit | High | CRM Release MVP+ | service or distribution user |
+| [F0027-S0004](./archive/F0027-coi-acord-and-outbound-document-generation/F0027-S0004-regenerate-and-retrieve-artifacts.md) | Regenerate and retrieve generated artifacts | Medium | CRM Release MVP+ | service or distribution user |
+| [F0027-S0005](./archive/F0027-coi-acord-and-outbound-document-generation/F0027-S0005-render-proposal-from-submission-packet.md) | Render proposal from submission packet context | Medium | CRM Release MVP+ | distribution user |
+
+---
+
+## F0028 — Carrier & Market Relationship Management
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0028-S0001](./archive/F0028-carrier-and-market-relationship-management/F0028-S0001-market-directory-search.md) | Market directory search and open | Critical | CRM Release MVP+ | distribution leader |
+| [F0028-S0002](./archive/F0028-carrier-and-market-relationship-management/F0028-S0002-carrier-market-profile-management.md) | Carrier and market profile management | Critical | CRM Release MVP+ | relationship manager |
+| [F0028-S0003](./archive/F0028-carrier-and-market-relationship-management/F0028-S0003-underwriter-contact-management.md) | Underwriter and market contact management | High | CRM Release MVP+ | relationship manager |
+| [F0028-S0004](./archive/F0028-carrier-and-market-relationship-management/F0028-S0004-appetite-note-capture.md) | Appetite note capture and freshness | Critical | CRM Release MVP+ | underwriter |
+| [F0028-S0005](./archive/F0028-carrier-and-market-relationship-management/F0028-S0005-appointment-context-management.md) | Appointment context management | High | CRM Release MVP+ | distribution leader |
+| [F0028-S0006](./archive/F0028-carrier-and-market-relationship-management/F0028-S0006-market-activity-and-related-work.md) | Market activity and related work visibility | High | CRM Release MVP+ | underwriter |
 
 ---
 
@@ -347,10 +423,12 @@ Auto-generated index of all user stories across feature folders.
 | Phase | Count |
 |-------|-------|
 | CRM Release MVP | 57 |
+| CRM Release MVP+ | 11 |
 | Future | 1 |
 | Infrastructure | 11 |
-| MVP | 69 |
+| MVP | 86 |
 | MVP Hardening | 1 |
+| MVP+ | 6 |
 | Phase 1 | 11 |
 | Platform Foundation | 7 |
 | Unspecified | 4 |
@@ -361,9 +439,9 @@ Auto-generated index of all user stories across feature folders.
 
 | Priority | Count |
 |----------|-------|
-| Critical | 69 |
-| High | 75 |
-| Medium | 13 |
+| Critical | 77 |
+| High | 97 |
+| Medium | 17 |
 
 ---
 

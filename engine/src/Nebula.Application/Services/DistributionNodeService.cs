@@ -63,6 +63,7 @@ public class DistributionNodeService(
 
         // Relocate descendants (replace the prefix up to and including this node) before mutating the node.
         var subtree = await nodeRepo.ListSubtreeAsync(oldSelfPrefix, ct);
+        var descendantOldDepths = subtree.ToDictionary(d => d.Id, d => d.Depth);
         foreach (var d in subtree)
         {
             d.AncestryPath = newSelfPrefix + d.AncestryPath[oldSelfPrefix.Length..];
@@ -90,7 +91,7 @@ public class DistributionNodeService(
 
         await EmitReparentEventAsync(node, oldParentId, parentId, oldDepth, newDepth, note, correlationId, user, now, ct);
         foreach (var d in subtree)
-            await EmitReparentEventAsync(d, d.ParentId, d.ParentId, oldDepth, newDepth, null, correlationId, user, now, ct);
+            await EmitReparentEventAsync(d, d.ParentId, d.ParentId, descendantOldDepths[d.Id], d.Depth, null, correlationId, user, now, ct);
 
         await unitOfWork.CommitAsync(ct);
 
@@ -175,5 +176,32 @@ public class DistributionNodeService(
                 correlationId,
             }),
         }, ct);
+
+        if (node.NodeType == "Broker")
+        {
+            await timelineRepo.AddEventAsync(new ActivityTimelineEvent
+            {
+                EntityType = "Broker",
+                EntityId = node.Id,
+                EventType = "DistributionNodeReparented",
+                EventDescription = newParentId is null
+                    ? $"Distribution hierarchy changed: {node.DisplayName} moved from {oldParentId?.ToString() ?? "(root)"} to (root)"
+                    : $"Distribution hierarchy changed: {node.DisplayName} moved from {oldParentId?.ToString() ?? "(root)"} to {newParentId}",
+                ActorUserId = user.UserId,
+                ActorDisplayName = user.DisplayName,
+                OccurredAt = now,
+                EventPayloadJson = JsonSerializer.Serialize(new
+                {
+                    distributionNodeId = node.Id,
+                    nodeType = node.NodeType,
+                    oldParentId,
+                    newParentId,
+                    oldDepth,
+                    newDepth = node.Depth,
+                    note,
+                    correlationId,
+                }),
+            }, ct);
+        }
     }
 }

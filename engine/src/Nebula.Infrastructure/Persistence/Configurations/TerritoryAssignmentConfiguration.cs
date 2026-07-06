@@ -35,6 +35,6 @@ public class TerritoryAssignmentConfiguration : IEntityTypeConfiguration<Territo
         builder.HasIndex(e => e.TerritoryId).HasDatabaseName("IX_TerritoryAssignments_TerritoryId");
         builder.HasIndex(e => new { e.MemberType, e.MemberId, e.EffectiveFrom })
             .HasDatabaseName("IX_TerritoryAssignments_Member_AsOf");
-        // Single-open-assignment filtered unique index added via raw SQL in the F0017 migration.
+        // Single-open-member-assignment filtered unique index added via raw SQL in the F0017 migration.
     }
 }

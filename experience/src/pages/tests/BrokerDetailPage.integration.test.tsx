@@ -1,5 +1,5 @@
 import type React from 'react'
-import { screen, waitFor, within } from '@testing-library/react'
+import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { HttpResponse, http } from 'msw'
 import { Route } from 'react-router-dom'
@@ -130,6 +130,7 @@ function installBrokerHandlers(initialBroker: Partial<BrokerDto> = {}) {
     ...initialBroker,
   }
   let contacts: ContactDto[] = contactSeeds.map((contact) => ({ ...contact }))
+  let contactUpdateCalls: Array<{ contactId: string; body: Partial<ContactDto> }> = []
 
   server.use(
     http.get(`${API_ORIGIN}/brokers/:brokerId`, ({ params }) => {
@@ -203,8 +204,10 @@ function installBrokerHandlers(initialBroker: Partial<BrokerDto> = {}) {
     }),
     http.put(`${API_ORIGIN}/contacts/:contactId`, async ({ params, request }) => {
       const body = (await request.json()) as Partial<ContactDto>
+      const contactId = String(params.contactId)
+      contactUpdateCalls = [...contactUpdateCalls, { contactId, body }]
       contacts = contacts.map((contact) =>
-        contact.id === params.contactId
+        contact.id === contactId
           ? {
               ...contact,
               ...body,
@@ -213,7 +216,7 @@ function installBrokerHandlers(initialBroker: Partial<BrokerDto> = {}) {
             }
           : contact,
       )
-      return HttpResponse.json(contacts.find((contact) => contact.id === params.contactId))
+      return HttpResponse.json(contacts.find((contact) => contact.id === contactId))
     }),
     http.delete(`${API_ORIGIN}/contacts/:contactId`, ({ params }) => {
       contacts = contacts.filter((contact) => contact.id !== params.contactId)
@@ -233,6 +236,106 @@ function installBrokerHandlers(initialBroker: Partial<BrokerDto> = {}) {
       )
     }),
   )
+
+  return {
+    getContact: (contactId: string) => contacts.find((contact) => contact.id === contactId),
+    getContactUpdateCalls: () => contactUpdateCalls,
+  }
+}
+
+function installDistributionHandlers() {
+  server.use(
+    http.get(`${API_ORIGIN}/distribution-nodes/:nodeId/ancestors`, ({ params }) =>
+      HttpResponse.json({
+        node: {
+          id: params.nodeId,
+          nodeType: 'Broker',
+          displayName: 'Blue Horizon Risk Partners',
+          parentId: 'mga-1',
+          ancestryPath: ['mga-1'],
+          depth: 1,
+          childCount: 1,
+          isActive: true,
+          rowVersion: '41',
+        },
+        ancestors: [
+          {
+            id: 'mga-1',
+            nodeType: 'MGA',
+            displayName: 'Pacific MGA',
+            parentId: null,
+            ancestryPath: [],
+            depth: 0,
+            childCount: 1,
+            isActive: true,
+            rowVersion: '40',
+          },
+        ],
+      }),
+    ),
+    http.get(`${API_ORIGIN}/distribution-nodes/:nodeId/descendants`, () =>
+      HttpResponse.json({
+        data: [
+          {
+            id: 'producer-1',
+            nodeType: 'Producer',
+            displayName: 'Avery Producer',
+            parentId: 'broker-1',
+            ancestryPath: ['mga-1', 'broker-1'],
+            depth: 2,
+            childCount: 0,
+            isActive: true,
+            rowVersion: '42',
+          },
+        ],
+        page: 1,
+        pageSize: 20,
+        totalCount: 1,
+        totalPages: 1,
+      }),
+    ),
+    http.get(`${API_ORIGIN}/producer-ownership`, () =>
+      HttpResponse.json({
+        scopeType: 'BrokerRelationship',
+        scopeId: 'broker-1',
+        asOf: '2026-07-03',
+        ownership: {
+          id: 'ownership-1',
+          scopeType: 'BrokerRelationship',
+          scopeId: 'broker-1',
+          producerNodeId: 'producer-1',
+          producerDisplayName: 'Avery Producer',
+          effectiveFrom: '2026-01-01',
+          effectiveTo: null,
+          assignmentReason: 'primary relationship owner',
+          rowVersion: '43',
+          changedBy: 'user-1',
+          changedAt: '2026-07-03T00:00:00Z',
+        },
+      }),
+    ),
+    http.get(`${API_ORIGIN}/territory-assignments`, () =>
+      HttpResponse.json({
+        memberType: 'Broker',
+        memberId: 'broker-1',
+        asOf: '2026-07-03',
+        assignment: {
+          id: 'territory-assignment-1',
+          territoryId: 'territory-1',
+          territoryName: 'Pacific Northwest',
+          memberType: 'Broker',
+          memberId: 'broker-1',
+          memberDisplayName: 'Blue Horizon Risk Partners',
+          effectiveFrom: '2026-02-01',
+          effectiveTo: null,
+          assignmentReason: 'regional alignment',
+          rowVersion: '44',
+          changedBy: 'user-1',
+          changedAt: '2026-07-03T00:00:00Z',
+        },
+      }),
+    ),
+  )
 }
 
 function renderBrokerDetailPage(additionalRoutes: React.ReactElement[] = []) {
@@ -251,6 +354,17 @@ describe('BrokerDetailPage integration', () => {
       access_token: 'test-token',
       profile: {},
     })
+    server.use(
+      http.get(`${API_ORIGIN}/contacts`, () =>
+        HttpResponse.json({
+          data: [],
+          page: 1,
+          pageSize: 50,
+          totalCount: 0,
+          totalPages: 1,
+        }),
+      ),
+    )
   })
 
   it('renders the not-found state for missing brokers', async () => {
@@ -318,7 +432,7 @@ describe('BrokerDetailPage integration', () => {
 
   it('adds, edits, and deletes contacts from the contacts tab', async () => {
     const user = userEvent.setup()
-    installBrokerHandlers()
+    const brokerHandlers = installBrokerHandlers()
 
     renderBrokerDetailPage()
 
@@ -352,9 +466,27 @@ describe('BrokerDetailPage integration', () => {
     await user.click(within(nadiaRow!).getByTitle('Edit contact'))
     const editContactDialog = await screen.findByRole('dialog', { name: 'Edit Contact' })
     const roleInput = within(editContactDialog).getByLabelText('Role')
-    await user.clear(roleInput)
-    await user.type(roleInput, 'Lead Underwriter')
-    await user.click(within(editContactDialog).getByRole('button', { name: 'Save Changes' }))
+    fireEvent.change(roleInput, { target: { value: 'Lead Underwriter' } })
+    const editContactForm = roleInput.closest('form')
+    expect(editContactForm).not.toBeNull()
+    fireEvent.submit(editContactForm!)
+
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog', { name: 'Edit Contact' })).not.toBeInTheDocument()
+    })
+    await waitFor(() => {
+      expect(brokerHandlers.getContactUpdateCalls()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            contactId: 'contact-1',
+            body: expect.objectContaining({ role: 'Lead Underwriter' }),
+          }),
+        ]),
+      )
+      expect(brokerHandlers.getContact('contact-1')?.role).toBe('Lead Underwriter')
+    })
+    await user.click(screen.getByRole('tab', { name: 'Profile' }))
+    await user.click(screen.getByRole('tab', { name: 'Contacts' }))
     expect(await screen.findByText('Lead Underwriter')).toBeInTheDocument()
 
     const alexRow = screen.getByText('Alex Kim').closest('div.flex.items-center.justify-between.rounded-lg.border')
@@ -395,6 +527,25 @@ describe('BrokerDetailPage integration', () => {
     await user.click(screen.getByRole('button', { name: 'Next →' }))
     expect(await screen.findByText('A new contact was added.')).toBeInTheDocument()
     expect(screen.getByText('Page 2 of 2')).toBeInTheDocument()
+  })
+
+  it('renders F0017 distribution hierarchy, ownership, and territory panels from broker detail', async () => {
+    const user = userEvent.setup()
+    installBrokerHandlers()
+    installDistributionHandlers()
+
+    renderBrokerDetailPage()
+
+    expect(await screen.findByRole('heading', { name: 'Blue Horizon Risk Partners' })).toBeInTheDocument()
+    await user.click(screen.getByRole('tab', { name: 'Distribution' }))
+
+    expect(await screen.findByRole('heading', { name: 'Hierarchy' })).toBeInTheDocument()
+    expect(screen.getByText('Pacific MGA')).toBeInTheDocument()
+    expect(screen.getAllByText('Avery Producer').length).toBeGreaterThan(0)
+    expect(screen.getByRole('heading', { name: 'Ownership' })).toBeInTheDocument()
+    expect(screen.getByText(/Owner:/)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Territories' })).toBeInTheDocument()
+    expect(screen.getByText('Pacific Northwest')).toBeInTheDocument()
   })
 
   it('navigates back to the broker list after deleting the broker', async () => {

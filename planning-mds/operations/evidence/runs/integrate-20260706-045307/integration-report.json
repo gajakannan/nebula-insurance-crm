@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "run_id": "integrate-20260706-045307",
+  "mode": "live",
+  "source": "PR #54 (replay/pr-54, Vaishnavi-7144:F0008-Broker-Insights) \u2014 stacked on PR #50's head",
+  "source_head_sha": "fcdc04993e7002dc470e0397f93e76c736d932c0",
+  "integration_branch": "chore/merge-PRs (batch branch integrate/batch-53-54)",
+  "merge_base_sha": "3e4e581485f6de569d947cca5556cbcf68927fe4",
+  "gate1": {
+    "verdict_ref": null,
+    "waiver": {
+      "rationale": "Train-wide maintainer waiver (2026-07-05); per-run record.",
+      "decided_by": "maintainer (gajakannan)",
+      "date": "2026-07-06"
+    }
+  },
+  "merges": [
+    {
+      "file": "planning-mds/knowledge-graph/canonical-nodes.yaml",
+      "result": "clean after architect-delegate ADR renumber (see conflicts_routed)"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/code-index.yaml",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/feature-mappings.yaml",
+      "result": "clean after ADR renumber (6 refs)"
+    },
+    {
+      "file": "planning-mds/features/REGISTRY.md",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/features/ROADMAP.md",
+      "result": "clean after PM-delegate prose union (2 F0008 review bullets)"
+    }
+  ],
+  "conflicts_routed": [
+    {
+      "kind": "DivergentInsert",
+      "record_id": "adr:029",
+      "owning_role": "architect",
+      "detail": "REAL sequential-ID collision (PRD F0006 section 4 predicted class): F0021 (landed) and F0008 both allocated ADR-029 independently.",
+      "resolution": "architect-delegate renumber of F0008's ADR to ADR-031 (next free): file renamed, 14 qualified refs + 6 F0008-doc bare refs + 4 display refs + 10 KG refs (4 canonical, 6 mappings) updated; re-merge clean"
+    }
+  ],
+  "merge_decisions": [
+    "Program.cs: ours + MapBrokerInsightEndpoints; DependencyInjection.cs: ours + BrokerInsight repository/service registrations",
+    "Sidebar.tsx: nav union (Broker Insights + ChartNoAxesCombined); App.tsx auto-merged",
+    "vite.config.ts: ours + /broker-insights path; their :8080 apiProxyTarget default DECLINED (kept :5113, matches dev topology; env overrides available)",
+    "BLUEPRINT/data-model/assembly-plan: additive section unions; generated files --ours then regenerated"
+  ],
+  "regeneration": [
+    "4656 symbols (cs 3199, py 391, ts 1066)",
+    "coverage-report",
+    "story-index"
+  ],
+  "validation": [
+    {
+      "command": "validate.py",
+      "exit_code": 0
+    },
+    {
+      "command": "validate.py --check-drift",
+      "exit_code": 0
+    },
+    {
+      "command": "validate-trackers.py",
+      "exit_code": 0
+    },
+    {
+      "command": "dotnet build Nebula.Api",
+      "exit_code": 0
+    }
+  ],
+  "prepared_merge_sha": "3f0b8fe6de6aa6d0cf89691f194ebb24514f4bb2",
+  "gate2": {
+    "result": "pass",
+    "exercised": "Batch validation: F0022 Work Queues (routing/assignment/coverage) + F0008 Broker Insights (scorecards/trends) + regression sweep; maintainer: 'everything landed well'.",
+    "recorded_by": "maintainer (gajakannan)",
+    "date": "2026-07-06"
+  },
+  "pushed": false,
+  "supersedes_run": null,
+  "outcome": "merged-gate2-passed"
+}

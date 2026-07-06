@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/carrier-appointment.schema.json",
+  "title": "CarrierAppointment",
+  "description": "Carrier appointment and access context.",
+  "type": "object",
+  "required": ["id", "carrierMarketId", "appointmentStatus", "states", "createdAt", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "carrierMarketId": { "type": "string", "format": "uuid" },
+    "appointmentStatus": { "type": "string", "enum": ["NotAppointed", "InProgress", "Appointed", "Suspended", "Terminated"] },
+    "states": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[A-Z]{2}$" },
+      "uniqueItems": true
+    },
+    "lineOfBusiness": { "type": ["string", "null"], "maxLength": 120 },
+    "appointmentNumber": { "type": ["string", "null"], "maxLength": 80 },
+    "effectiveDate": { "type": ["string", "null"], "format": "date" },
+    "expirationDate": { "type": ["string", "null"], "format": "date" },
+    "notes": { "type": ["string", "null"], "maxLength": 2000 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "createdByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "updatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "updatedByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "rowVersion": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

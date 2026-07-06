@@ -188,15 +188,23 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 - [F0036: Form Engine and Form-State Preservation (RHF + AJV + Widget Registry)](features/archive/F0036-dynamic-product-attribute-form-engine/PRD.md) - Done (Archived 2026-05-30; Platform Foundation / CRM Release MVP Enabler; 8 stories: engine skeleton + deps, MVP widget vocabulary, schema render + AJV parity, pin-during-edit, replace Cyber panel, attr-form preservation, controlled-form dirty-tracker + shared helper, CRUD preservation/restore)
 - [F0019: Submission Quoting, Proposal & Approval Workflow](features/archive/F0019-submission-quoting-proposal-and-approval/PRD.md) - Done (Archived 2026-06-03; 8 stories: downstream workflow activation, quote/proposal packet, underwriting approval, bind handoff, decline/withdraw, archive/reactivate, pipeline visibility, timeline/audit)
 - [F0020: Document Management & ACORD Intake](features/archive/F0020-document-management-and-acord-intake/PRD.md) - Done (Archived 2026-05-05; 12 stories: single upload, bulk upload, quarantine promote, classification-filtered list, detail/provenance, downloads, immutable replace, metadata update, classification ABAC, completeness signal, retention cleanup, templates library)
-- F0021: Communication Hub & Activity Capture - Planned
+- [F0021: Communication Hub & Activity Capture](features/archive/F0021-communication-hub-and-activity-capture/PRD.md) - Done (Archived 2026-07-02; 5 stories: structured communication capture, contextual history, related-record/participant links, follow-up task linkage, correction/redaction audit)
 - F0022: Work Queues, Assignment Rules & Coverage Management - Planned
+
+- F0021: Communication Hub & Activity Capture - Planned
+- [F0022: Work Queues, Assignment Rules & Coverage Management](features/archive/F0022-work-queues-assignment-rules-and-coverage-management/PRD.md) - Done (Archived 2026-07-03; 7 stories: queues/memberships, assignment rules, task/submission/renewal routing, coverage windows, queue worklists/aging, reassignment/rebalance, routing audit/permissions)
 - [F0023: Global Search, Saved Views & Operational Reporting](features/archive/F0023-global-search-saved-views-and-operational-reporting/PRD.md) - Done (archived 2026-06-20; Phase A refined 2026-06-19; 7 stories: global search, filter/open results, personal saved views, team saved views, daily workload report, workflow aging/backlog report, permission-safe behavior)
 
 **CRM Release MVP+ (Planned):**
-- F0008: Broker Insights - Planned
+- [F0008: Broker Insights](features/archive/F0008-broker-insights/PRD.md) - Done (Archived 2026-07-03; Phase A refined 2026-07-03; 5 stories: broker scorecard, trend drilldown, authorized benchmark comparison, review snapshot, permission-safe behavior)
+- [F0017: Broker/MGA Hierarchy, Producer Ownership & Territory Management](features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/PRD.md) - Done (Archived 2026-07-03; 5 stories: broker/MGA hierarchy, hierarchy traversal, producer ownership, territory assignment, audit/timeline)
+- [F0024: Claims & Service Case Tracking](features/archive/F0024-claims-and-service-case-tracking/PRD.md) - Done (Archived 2026-07-03; 6 stories: service case intake, contextual visibility, ownership/follow-up, status transitions, claim-reference context, permission-safe audit history)
+- F0027: COI, ACORD & Outbound Document Generation - Planned
+- [F0028: Carrier & Market Relationship Management](features/archive/F0028-carrier-and-market-relationship-management/PRD.md) - Done (Archived 2026-07-03; feature run 2026-07-02-736e7854; 6 stories: market directory search, carrier/market profile management, underwriter contact management, appetite note capture, appointment context, market activity/related work)
+
 - F0017: Broker/MGA Hierarchy, Producer Ownership & Territory Management - Planned
 - F0024: Claims & Service Case Tracking - Planned
-- F0027: COI, ACORD & Outbound Document Generation - Planned
+- [F0027: COI, ACORD & Outbound Document Generation](features/archive/F0027-coi-acord-and-outbound-document-generation/PRD.md) - Done (Archived 2026-07-03; feature run `2026-07-02-b9316621`; 5 stories: template library governance, preview generated document, issue generated artifact, regenerate/retrieve artifacts, render proposal from submission packet context)
 - F0028: Carrier & Market Relationship Management - Planned
 
 **Brokerage Platform Expansion (Planned):**
@@ -296,6 +304,29 @@ The first epic since the harness adopted the action/KG flow. A conversational co
 - [F0023-S0006: Workflow aging and backlog drilldowns](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0006-workflow-aging-and-backlog-report.md) - Done
 - [F0023-S0007: Permission-safe search and reporting behavior](features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0007-permission-safe-search-and-reporting.md) - Done
 
+**CRM Release MVP+ Stories (Feature F0024: Claims & Service Case Tracking):**
+- [F0024-S0001: Create a service case from account or policy context](features/archive/F0024-claims-and-service-case-tracking/F0024-S0001-create-service-case-from-context.md) - Done
+- [F0024-S0002: View service cases in workspace and 360 context](features/archive/F0024-claims-and-service-case-tracking/F0024-S0002-view-service-cases-in-context.md) - Done
+- [F0024-S0003: Manage service case ownership, priority, and follow-up](features/archive/F0024-claims-and-service-case-tracking/F0024-S0003-manage-service-case-ownership-and-follow-up.md) - Done
+- [F0024-S0004: Transition a service case through servicing statuses](features/archive/F0024-claims-and-service-case-tracking/F0024-S0004-transition-service-case-status.md) - Done
+- [F0024-S0005: Capture claim-reference context on a service case](features/archive/F0024-claims-and-service-case-tracking/F0024-S0005-capture-claim-reference-context.md) - Done
+- [F0024-S0006: Audit and permission-safe service case history](features/archive/F0024-claims-and-service-case-tracking/F0024-S0006-audit-and-permission-safe-service-case-history.md) - Done
+
+**MVP+ Stories (Feature F0028: Carrier & Market Relationship Management):**
+- [F0028-S0001: Market directory search and open](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0001-market-directory-search.md) - Done (Archived)
+- [F0028-S0002: Carrier and market profile management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0002-carrier-market-profile-management.md) - Done (Archived)
+- [F0028-S0003: Underwriter and market contact management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0003-underwriter-contact-management.md) - Done (Archived)
+- [F0028-S0004: Appetite note capture and freshness](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0004-appetite-note-capture.md) - Done (Archived)
+- [F0028-S0005: Appointment context management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0005-appointment-context-management.md) - Done (Archived)
+- [F0028-S0006: Market activity and related work visibility](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0006-market-activity-and-related-work.md) - Done (Archived)
+
+**CRM Release MVP+ Stories (Feature F0008: Broker Insights):**
+- [F0008-S0001: Broker scorecard overview](features/archive/F0008-broker-insights/F0008-S0001-broker-scorecard-overview.md) - Done (Archived)
+- [F0008-S0002: Trend drilldown and source record navigation](features/archive/F0008-broker-insights/F0008-S0002-trend-drilldown-source-records.md) - Done (Archived)
+- [F0008-S0003: Authorized benchmark comparison](features/archive/F0008-broker-insights/F0008-S0003-authorized-benchmark-comparison.md) - Done (Archived)
+- [F0008-S0004: Broker review snapshot](features/archive/F0008-broker-insights/F0008-S0004-review-snapshot.md) - Done (Archived)
+- [F0008-S0005: Permission-safe broker insight behavior](features/archive/F0008-broker-insights/F0008-S0005-permission-safe-insights.md) - Done (Archived)
+
 **MVP Stories (Feature F0010: Dashboard Opportunities Refactor):**
 - [F0010-S0001: Replace Sankey default with Pipeline Board](features/archive/F0010-dashboard-opportunities-refactor/F0010-S0001-replace-sankey-with-pipeline-board-default.md) - Done (Historical; superseded by F0013)
 - [F0010-S0002: Add Opportunities Aging Heatmap view](features/archive/F0010-dashboard-opportunities-refactor/F0010-S0002-add-opportunity-aging-heatmap-view.md) - Done (Historical; superseded by F0013)
@@ -365,6 +396,11 @@ Reference examples also live under `planning-mds/examples/stories/`.
 - Search Results Workspace (F0023)
 - Saved Views Drawer (F0023)
 - Operational Reports Workspace (F0023)
+- Broker Insights Workspace (F0008)
+- Broker Scorecard Panel (F0008)
+- Trend Drilldown Drawer (F0008)
+- Benchmark Comparison View (F0008)
+- Review Snapshot View (F0008)
 - Admin minimal (roles/policies optional MVP)
 
 Screen baseline details:
@@ -447,6 +483,12 @@ This section defines the build-ready technical baseline for the reference implem
   - Provides global search, saved-view CRUD/defaults, and operational-report endpoints.
   - Enforces high-level Casbin feature actions and mandatory query-layer source-record authorization before returning rows, snippets, facets, counts, or drilldowns.
   - Uses PostgreSQL full-text search and read-side projections for MVP; no external search engine is introduced.
+- OperationsRouting module (F0022):
+  - Owns WorkQueue, WorkQueueMember, AssignmentRule, CoverageWindow, QueueWorkItem, and RoutingDecisionLog.
+  - Routes tasks, submissions, and renewals through deterministic rule precedence: manual override, coverage, territory/ownership, workload, fallback.
+  - Reads source work through narrow adapters and updates source assignment only through existing source assignment ports.
+  - Provides WorkQueues API endpoints for manager/admin queue operations before F0032 centralizes governance.
+  - Enforces queue-level Casbin actions plus source-record ABAC before exposing queue work item details.
 - IdentityAuthorization module:
   - Validates authentik JWT tokens (JWKS from `Authentication__Authority/.well-known/openid-configuration`).
   - Normalizes `(iss, sub)` claims to internal `NebulaPrincipal { UserId, Roles, Regions }` via `IClaimsPrincipalNormalizer`.
@@ -457,6 +499,7 @@ This section defines the build-ready technical baseline for the reference implem
 Define tables/fields for:
 
 - Broker, Contact, UserProfile, UserPreference, ActivityTimelineEvent, WorkflowTransition
+- F0022 OperationsRouting entities: WorkQueue, WorkQueueMember, AssignmentRule, CoverageWindow, QueueWorkItem, RoutingDecisionLog
 - Reference tables + seed strategy
 
 Core entities (minimum baseline):
@@ -608,6 +651,7 @@ Primary OpenAPI contract:
 
 Entity coverage in API surface:
 - Account, Broker, MGA, Program, Contact, Submission, Renewal, ActivityTimelineEvent, WorkflowTransition
+- WorkQueue, AssignmentRule, CoverageWindow, QueueWorkItem, RoutingEvent
 
 MVP endpoint pattern examples:
 - GET `/brokers`

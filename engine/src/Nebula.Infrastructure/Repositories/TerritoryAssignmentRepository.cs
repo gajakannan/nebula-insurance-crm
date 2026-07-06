@@ -7,9 +7,9 @@ namespace Nebula.Infrastructure.Repositories;
 
 public class TerritoryAssignmentRepository(AppDbContext db) : ITerritoryAssignmentRepository
 {
-    public async Task<TerritoryAssignment?> GetOpenAsync(Guid territoryId, string memberType, Guid memberId, CancellationToken ct = default) =>
+    public async Task<TerritoryAssignment?> GetOpenForMemberAsync(string memberType, Guid memberId, CancellationToken ct = default) =>
         await db.TerritoryAssignments.FirstOrDefaultAsync(
-            a => a.TerritoryId == territoryId && a.MemberType == memberType && a.MemberId == memberId && a.EffectiveTo == null, ct);
+            a => a.MemberType == memberType && a.MemberId == memberId && a.EffectiveTo == null, ct);
 
     public async Task<(IReadOnlyList<TerritoryAssignment> Data, int TotalCount)> ListMembersAsOfAsync(
         Guid territoryId, DateOnly asOf, int page, int pageSize, CancellationToken ct = default)

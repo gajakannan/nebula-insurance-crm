@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0027",
+  "feature_slug": "coi-acord-and-outbound-document-generation",
+  "run_id": "2026-07-02-b9316621",
+  "status": "approved",
+  "recorded_on": "2026-07-02",
+  "contract_effective_date": "2026-05-25",
+  "feature_path_at_run_start": "planning-mds/features/F0027-coi-acord-and-outbound-document-generation",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation",
+  "feature_state": "Archived",
+  "rerun_of": null,
+  "changed_paths": [
+    "engine/src/Nebula.Api",
+    "engine/src/Nebula.Application",
+    "engine/src/Nebula.Infrastructure",
+    "engine/tests/Nebula.Tests/Unit",
+    "experience/src/features/documents",
+    "experience/src/test-setup.ts",
+    "planning-mds/features/F0027-coi-acord-and-outbound-document-generation",
+    "planning-mds/architecture/feature-assembly-plan.md",
+    "planning-mds/operations/evidence/runs/2026-07-02-b9316621"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feature/F0027-coi-acord-and-outbound-document-generation",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": false,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer",
+    "DevOps",
+    "Architect"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "g2-self-review.md"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "deployability-check.md"
+    },
+    "code_review": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "artifact": "code-review-report.md"
+    },
+    "security_review": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "security-review-report.md"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "signoff-ledger.md"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "artifact": "pm-closeout.md"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "feature_action_execution": "feature-action-execution.md",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md"
+  },
+  "role_results": {
+    "Backend Developer": {
+      "required": false,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "g2-self-review.md",
+      "required_artifacts": ["g2-self-review.md"]
+    },
+    "Frontend Developer": {
+      "required": false,
+      "result": "PASS",
+      "artifact": "g2-self-review.md",
+      "required_artifacts": ["g2-self-review.md"]
+    },
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "test-execution-report.md",
+      "required_artifacts": ["test-plan.md", "test-execution-report.md", "coverage-report.md"]
+    },
+    "DevOps": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "deployability-check.md",
+      "required_artifacts": ["g1-runtime-preflight.md", "deployability-check.md"]
+    },
+    "Code Reviewer": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "artifact": "code-review-report.md",
+      "required_artifacts": ["code-review-report.md"]
+    },
+    "Security Reviewer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "security-review-report.md",
+      "required_artifacts": ["security-review-report.md"]
+    },
+    "Architect": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md",
+      "required_artifacts": ["g0-assembly-plan-validation.md", "kg-reconciliation.md", "signoff-ledger.md"]
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": true,
+      "result": "pass_with_waiver",
+      "artifact": "artifacts/security/dependency-scan-summary.md",
+      "waiver": {
+        "reason": "Frontend high/critical dependency findings were remediated. Microsoft.OpenApi remains suppressed because the patched 3.x line breaks the current ASP.NET OpenAPI source generator.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-03"
+      }
+    },
+    "secrets": {
+      "ran": false,
+      "result": "not_run",
+      "artifact": "artifacts/security/secrets-scan-summary.md",
+      "waiver": {
+        "reason": "gitleaks is not installed in PATH and no SECRET_SCAN_CMD override is configured.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-02"
+      }
+    },
+    "sast": {
+      "ran": false,
+      "result": "not_run",
+      "artifact": "artifacts/security/sast-scan-summary.md",
+      "waiver": {
+        "reason": "semgrep is not installed in PATH and no SAST_SCAN_CMD override is configured.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-02"
+      }
+    },
+    "dast": {
+      "ran": false,
+      "result": "not_run",
+      "artifact": "artifacts/security/dast-scan-summary.md",
+      "waiver": {
+        "reason": "OWASP ZAP docker image could not be run/pulled in this environment after Docker escalation.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-02"
+      }
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {
+    "plan_run": "planning-mds/operations/evidence/runs/2026-07-02-e8a31f35"
+  }
+}

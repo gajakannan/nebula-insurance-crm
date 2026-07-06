@@ -1,0 +1,415 @@
+# Lifecycle Gates Log — F0027-coi-acord-and-outbound-document-generation run 2026-07-02-b9316621
+
+## Lifecycle Gate Run
+
+### Feature Start
+Command: user approval response
+Stage: feature-start
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G0
+Command: architect assembly plan validation
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: g0-assembly-plan-validation.md
+Skipped Gates: -
+
+### G0 Evidence Validation Attempt 1
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G0
+Stage: G0
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+### G0 Evidence Validation Attempt 2
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G0
+Stage: G0
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+### G0 Evidence Validation Attempt 3
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G0
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: g0-assembly-plan-validation.md
+Skipped Gates: -
+
+### G1 Runtime Preflight
+Command: docker compose ps
+Stage: G1
+Exit Code: 0
+Result: PASS
+Output References: g1-runtime-preflight.md
+Skipped Gates: -
+
+### G1 Evidence Validation Attempt 1
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G1
+Stage: G1
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+### G1 Evidence Validation Attempt 2
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G1
+Stage: G1
+Exit Code: 0
+Result: PASS
+Output References: g1-runtime-preflight.md
+Skipped Gates: -
+
+### G2 Implementation Self Review
+Command: backend/frontend implementation plus developer validations
+Stage: G2
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: g2-self-review.md; test-plan.md; test-execution-report.md; coverage-report.md; deployability-check.md
+Skipped Gates: -
+
+### G2 Evidence Validation Attempt 1
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G2
+Stage: G2
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+### G2 Evidence Validation Attempt 2
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G2
+Stage: G2
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+### G2 Evidence Validation Attempt 3
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G2
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: g2-self-review.md; test-plan.md; test-execution-report.md; coverage-report.md; deployability-check.md
+Skipped Gates: -
+
+### G3 Code And Security Review
+Command: code review plus security scan wrappers
+Stage: G3
+Exit Code: 1
+Result: FAIL
+Output References: code-review-report.md; security-review-report.md; artifacts/security/dependency-scan-summary.md; artifacts/security/secrets-scan-summary.md; artifacts/security/sast-scan-summary.md; artifacts/security/dast-scan-summary.md
+Skipped Gates: -
+
+### G3 Evidence Validation Attempt 1
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G3
+Stage: G3
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+### G3 Evidence Validation Attempt 2
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G3
+Stage: G3
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+### G3 Evidence Validation Attempt 3
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G3
+Stage: G3
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+### G3 Evidence Validation Attempt 4
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G3
+Stage: G3
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+### G3 Repair Validation
+Command: dependency remediation, build/test validation, and security waiver update
+Stage: G3
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: security-review-report.md; artifacts/security/dependency-scan-summary.md
+Skipped Gates: -
+
+### G3 Evidence Validation Attempt 5
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G3
+Stage: G3
+Exit Code: 0
+Result: PASS
+Output References: code-review-report.md; security-review-report.md
+Skipped Gates: -
+
+## Command
+
+See per-gate blocks above and `commands.log` for shell command JSONL.
+
+### G4 User Approval
+Command: user approval response: approved . use the nandini-nebula-agents harness strictly
+Stage: G4
+Exit Code: 0
+Result: PASS
+Output References: gate-decisions.md
+Skipped Gates: -
+
+### G5 Required Signoff
+Command: create signoff-ledger.md and update story-level STATUS.md signoff provenance
+Stage: G5
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: signoff-ledger.md; STATUS.md
+Skipped Gates: -
+
+### G4 Evidence Validation
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G4
+Stage: G4
+Exit Code: 0
+Result: PASS
+Output References: gate-decisions.md
+Skipped Gates: -
+
+### G5 Evidence Validation
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G5
+Stage: G5
+Exit Code: 0
+Result: PASS
+Output References: signoff-ledger.md
+Skipped Gates: -
+
+### G6 Candidate Preparation
+Command: complete feature-action-execution.md candidate timeline and set manifest status to in-progress
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: feature-action-execution.md; evidence-manifest.json
+Skipped Gates: -
+
+### G6 Candidate Evidence Validation
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G6
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: feature-action-execution.md; evidence-manifest.json
+Skipped Gates: -
+
+### G6 Tracker Validation
+Command: python3 agents/product-manager/scripts/validate-trackers.py --feature F0027 --run-id 2026-07-02-b9316621
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: tracker validation output
+Skipped Gates: -
+
+### G7 KG Symbol Validation
+Command: python3 scripts/kg/validate.py --regenerate-symbols --check-symbols
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/knowledge-graph/symbol-index.yaml
+Skipped Gates: -
+
+### G7 KG Drift Validation
+Command: python3 scripts/kg/validate.py --check-drift
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: kg-reconciliation.md
+Skipped Gates: -
+
+### G7 Architect KG Reconciliation
+Command: write G7 Architect KG reconciliation evidence
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: kg-reconciliation.md; code-index.yaml
+Skipped Gates: -
+
+### G7 Evidence Validation
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --run-id 2026-07-02-b9316621 --stage G7
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: kg-reconciliation.md
+Skipped Gates: -
+
+### G8 Archive Transition
+Command: mv planning-mds/features/F0027-coi-acord-and-outbound-document-generation planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation
+Skipped Gates: -
+
+### G8 KG Coverage Regeneration
+Command: python3 scripts/kg/validate.py --write-coverage-report
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/knowledge-graph/coverage-report.yaml
+Skipped Gates: -
+
+### G8 KG Drift Validation
+Command: python3 scripts/kg/validate.py --check-drift
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: post-archive KG drift output
+Skipped Gates: -
+
+### G8 Story Index Regeneration
+Command: python3 agents/product-manager/scripts/generate-story-index.py /Users/wallstreet288/Nebula_pr/nebula-insurance-crm/planning-mds/features/
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/features/STORY-INDEX.md
+Skipped Gates: -
+
+### G8 Supersession Patch
+Command: python3 agents/product-manager/scripts/patch-prior-manifest.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --new-run-id 2026-07-02-b9316621
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: no prior approved manifests to patch
+Skipped Gates: -
+
+### G8 Latest Run Publication
+Command: write planning-mds/operations/evidence/features/F0027-coi-acord-and-outbound-document-generation/latest-run.json
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/operations/evidence/features/F0027-coi-acord-and-outbound-document-generation/latest-run.json
+Skipped Gates: -
+
+### G8 PM Closeout
+Command: write pm-closeout.md and finalize evidence-manifest.json
+Stage: G8
+Exit Code: 0
+Result: APPROVED WITH RECOMMENDATIONS
+Output References: pm-closeout.md; evidence-manifest.json
+Skipped Gates: -
+
+### G8 Closeout Evidence Validation Attempt 1
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --stage closeout
+Stage: closeout
+Exit Code: 1
+Result: FAIL
+Output References: pm-closeout.md; commands.log
+Skipped Gates: -
+
+### G8 Tracker Validation Attempt 1
+Command: python3 agents/product-manager/scripts/validate-trackers.py
+Stage: closeout
+Exit Code: 1
+Result: FAIL
+Output References: tracker validation output
+Skipped Gates: -
+
+### G8 Template Validation
+Command: python3 agents/scripts/validate_templates.py
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: template validation output
+Skipped Gates: -
+
+### G8 Evidence Repair
+Command: repair pm-closeout.md story acceptance lines and archived command artifact paths
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: pm-closeout.md; commands.log
+Skipped Gates: -
+
+### G8 Closeout Evidence Validation Attempt 2
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --stage closeout
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: pm-closeout.md; latest-run.json
+Skipped Gates: -
+
+### G8 Scoped Tracker Validation Attempt 2
+Command: python3 agents/product-manager/scripts/validate-trackers.py --feature F0027 --run-id 2026-07-02-b9316621
+Stage: closeout
+Exit Code: 1
+Result: FAIL
+Output References: STATUS.md
+Skipped Gates: -
+
+### G8 Tracker Signoff Repair
+Command: append PM-accepted final PASS/APPROVED STATUS.md signoff rows for tracker contract
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: STATUS.md
+Skipped Gates: -
+
+### G8 Closeout Evidence Validation Attempt 3
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --stage closeout
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: pm-closeout.md; latest-run.json
+Skipped Gates: -
+
+### G8 Scoped Tracker Validation Attempt 3
+Command: python3 agents/product-manager/scripts/validate-trackers.py --feature F0027 --run-id 2026-07-02-b9316621
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: STATUS.md; REGISTRY.md; ROADMAP.md; STORY-INDEX.md; BLUEPRINT.md
+Skipped Gates: -
+
+### G8 Closeout Evidence Validation Final
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet288/Nebula_pr/nebula-insurance-crm --feature F0027 --stage closeout
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: pm-closeout.md; latest-run.json
+Skipped Gates: -
+
+### G8 Scoped Tracker Validation Final
+Command: python3 agents/product-manager/scripts/validate-trackers.py --feature F0027 --run-id 2026-07-02-b9316621
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: STATUS.md; REGISTRY.md; ROADMAP.md; STORY-INDEX.md; BLUEPRINT.md
+Skipped Gates: -
+
+## Stage
+
+Current stage: closeout.
+
+## Exit Code
+
+Latest recorded validator/preflight exit code: 0.
+
+## Result
+
+G0 assembly plan validation passed; G1 runtime preflight and evidence validation passed; G2 evidence validation passed; G3 evidence validation passed. G4 user approval recorded and validated. G5 required signoff validated. G6 candidate and tracker validation passed. G7 KG reconciliation passed. G8 archive, coverage regeneration, supersession, latest-run publication, PM closeout, closeout evidence validation, and scoped tracker validation passed.
+
+## Output References
+
+- `g0-assembly-plan-validation.md`
+- `g1-runtime-preflight.md`
+- `signoff-ledger.md`
+- `kg-reconciliation.md`
+- `pm-closeout.md`
+
+## Skipped Gates
+
+- No skipped gates.

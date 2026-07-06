@@ -1,0 +1,14 @@
+Dependency Scan Summary — F0024
+
+Result: findings_present
+
+Observed findings:
+- `Microsoft.OpenApi 2.0.0` high severity advisory `GHSA-v5pm-xwqc-g5wc` was reported by `dotnet build` and `dotnet test`.
+
+Tool limitations:
+- `dotnet list package --vulnerable --include-transitive` hung in the local environment and was terminated after repeated polling.
+- `scan-dependencies.sh` reported frontend `npm audit` failure because the project uses `pnpm-lock.yaml` rather than `package-lock.json`, then hung on backend `dotnet list` and was terminated.
+
+Required follow-up:
+- Resolve or formally accept the `Microsoft.OpenApi` advisory before final security signoff.
+- Re-run dependency scanning in CI or with a working package audit runner before closeout.

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nebula.local/schemas/generated-document.v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifactFamily",
+    "templateDocumentId",
+    "templateVersion",
+    "sourceSnapshotHash"
+  ],
+  "properties": {
+    "artifactFamily": {
+      "type": "string",
+      "enum": ["coi", "acord", "proposal"]
+    },
+    "templateDocumentId": {
+      "type": "string",
+      "pattern": "^doc_[A-Za-z0-9_\\-]+$"
+    },
+    "templateVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "sourceSnapshotHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "regeneratedFromDocumentId": {
+      "type": ["string", "null"]
+    },
+    "regenerationReason": {
+      "type": ["string", "null"],
+      "maxLength": 500
+    }
+  }
+}

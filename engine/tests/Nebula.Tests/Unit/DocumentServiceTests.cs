@@ -176,6 +176,9 @@ public class DocumentServiceTests
             return Task.FromResult(new DocumentWriteResult("doc_test_document", 1, null, null));
         }
 
+        public Task<DocumentWriteResult> CreateGeneratedAvailableAsync(DocumentGeneratedWriteCommand command, Stream binary, CancellationToken ct = default) =>
+            Task.FromResult(new DocumentWriteResult("doc_test_generated", 1, null, null));
+
         public Task<IReadOnlyList<DocumentSidecarDto>> ListParentSidecarsAsync(DocumentParentRefDto parent, CancellationToken ct = default) =>
             Task.FromResult<IReadOnlyList<DocumentSidecarDto>>([]);
 

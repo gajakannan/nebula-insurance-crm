@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "run_id": "integrate-20260705-203038",
+  "mode": "live",
+  "source": "PR #47 via fixup/pr-47-drop-stale-f0038-exclusion (PM+architect resolution of the dry-run UniqueViolation)",
+  "source_head_sha": "500ab1760fffc7afc8d35f0d8a4f3d125ea4a19b",
+  "integration_branch": "chore/merge-PRs (prepared on worktree branch integrate/pr-47; fast-forwarded after gate 2)",
+  "merge_base_sha": "103d59bfc208c0567045ed45a8499e84bd165cb6",
+  "integration_head_sha": "8826ca3be284dcf4fc862be4bde7c656fbc3619f",
+  "gate1": {
+    "verdict_ref": null,
+    "waiver": {
+      "rationale": "Maintainer decision (2026-07-05): waive feature-review for all merge-train PRs (#47-#54 queue); recorded per run. Gate 2 human test validation remains in force.",
+      "decided_by": "maintainer (gajakannan)",
+      "date": "2026-07-05"
+    }
+  },
+  "branch_verification": {
+    "result": "proceed-with-findings (maintainer-sanctioned)",
+    "details": "Source branch's committed generated files are not reproducible in this environment (contributor tooling re-serialized symbol-index et al.; extractor state unknown). Merge inputs (curated trio + trackers) validated by merge3 input checks. Generated files are never merge inputs and were discarded and regenerated at I3 per contract, so no stale generated content can survive into the merged result. A strict bounce was not raised: contributor is external, maintainer runs the train."
+  },
+  "merges": [
+    {
+      "file": "planning-mds/knowledge-graph/canonical-nodes.yaml",
+      "result": "clean",
+      "records": "528 -> 548",
+      "report": "artifacts/merge3-canonical-nodes.yaml.json"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/code-index.yaml",
+      "result": "clean",
+      "records": "186 -> 201",
+      "report": "artifacts/merge3-code-index.yaml.json"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/feature-mappings.yaml",
+      "result": "clean (fixup dissolved the F0038-exclusion UniqueViolation)",
+      "records": "177 -> 182",
+      "report": "artifacts/merge3-feature-mappings.yaml.json"
+    },
+    {
+      "file": "planning-mds/features/REGISTRY.md",
+      "result": "clean",
+      "report": "artifacts/merge3-REGISTRY.md.json"
+    },
+    {
+      "file": "planning-mds/features/ROADMAP.md",
+      "result": "clean",
+      "report": "artifacts/merge3-ROADMAP.md.json"
+    }
+  ],
+  "merge_decisions": [
+    "3 generated KG files (symbol-index, coverage-report, unbound-but-referenced): git conflicts discarded via --ours placeholder, regenerated at I3 (never merge inputs)",
+    "3 F0023 evidence artifacts (add/add): resolved --ours \u2014 mainline-published evidence is authoritative; evidence runs are append-only"
+  ],
+  "regeneration": [
+    "validate.py --regenerate-symbols --check-symbols --regenerate-decisions --check-decisions (4225 symbols: cs 2838, py 391, ts 996)",
+    "validate.py --write-coverage-report",
+    "generate-story-index.py (166 stories)"
+  ],
+  "validation": [
+    {
+      "command": "validate.py",
+      "exit_code": 0
+    },
+    {
+      "command": "validate.py --check-drift",
+      "exit_code": 0
+    },
+    {
+      "command": "validate-trackers.py --skip-feature-evidence",
+      "exit_code": 0
+    },
+    {
+      "command": "generate-story-index.py re-run zero-diff",
+      "exit_code": 0
+    }
+  ],
+  "conflicts_routed": [],
+  "prepared_merge_sha": "b0bcee11fdf3238a048c6ebfbe690e594d86a417",
+  "gate2": {
+    "result": "pass",
+    "exercised": "F0021 Communication panel in Accounts exercised on the prepared merge (integrate/pr-47 incl. 6185480)",
+    "recorded_by": "maintainer (gajakannan)",
+    "date": "2026-07-05"
+  },
+  "pushed": false,
+  "supersedes_run": "integrate-20260705-195057 (dry run)",
+  "outcome": "merged-gate2-passed"
+}

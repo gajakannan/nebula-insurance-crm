@@ -4,8 +4,8 @@ namespace Nebula.Application.Interfaces;
 
 public interface ITerritoryAssignmentRepository
 {
-    /// <summary>The current open (EffectiveTo == null) assignment for a (territory, member), tracked for update.</summary>
-    Task<TerritoryAssignment?> GetOpenAsync(Guid territoryId, string memberType, Guid memberId, CancellationToken ct = default);
+    /// <summary>The current open (EffectiveTo == null) assignment for a member, tracked for update.</summary>
+    Task<TerritoryAssignment?> GetOpenForMemberAsync(string memberType, Guid memberId, CancellationToken ct = default);
 
     /// <summary>Assignments for a territory covering <paramref name="asOf"/>, paginated.</summary>
     Task<(IReadOnlyList<TerritoryAssignment> Data, int TotalCount)> ListMembersAsOfAsync(

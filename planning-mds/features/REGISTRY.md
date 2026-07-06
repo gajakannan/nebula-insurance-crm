@@ -12,30 +12,21 @@
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
 
-_No active features — F0036 archived 2026-05-30; see Archived Features._
-
 ## Retired Features
 
 Per §19 of the feature-evidence package contract. Replaces the legacy `Abandoned Features` section. Retired features are registry records that were not delivered as completed scope.
 
 | Feature ID | Name | Terminal Status | Superseded By | Retired Date | Folder | Reason |
 |------------|------|-----------------|---------------|--------------|--------|--------|
-| F0010 | Dashboard Opportunities Refactor (Pipeline Board + Insight Views) | Superseded | F0013 | 2026-03-14 | `archive/F0010-dashboard-opportunities-refactor/` | Superseded by F0013 framed storytelling canvas approach |
 | F0011 | Dashboard Opportunities Flow-First Modernization (Connected Pipeline + Terminal Outcomes) | Superseded | F0013 | 2026-03-14 | `archive/F0011-dashboard-opportunities-flow-modernization/` | Superseded by F0013 framed storytelling canvas approach |
+| F0010 | Dashboard Opportunities Refactor (Pipeline Board + Insight Views) | Superseded | F0013 | 2026-03-14 | `archive/F0010-dashboard-opportunities-refactor/` | Superseded by F0013 framed storytelling canvas approach |
 
 ## Planned (Reserved IDs)
 
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
-| F0008 | Broker Insights | Planned | MVP | `F0008-broker-insights/` |
-| F0017 | Broker/MGA Hierarchy, Producer Ownership & Territory Management | Planned | CRM Release MVP+ | `F0017-broker-mga-hierarchy-and-producer-ownership/` |
-| F0021 | Communication Hub & Activity Capture | Planned | CRM Release MVP | `F0021-communication-hub-and-activity-capture/` |
-| F0022 | Work Queues, Assignment Rules & Coverage Management | Planned | CRM Release MVP | `F0022-work-queues-assignment-rules-and-coverage-management/` |
-| F0024 | Claims & Service Case Tracking | Planned | CRM Release MVP+ | `F0024-claims-and-service-case-tracking/` |
 | F0025 | Commission, Producer Splits & Revenue Tracking | Planned | Brokerage Platform Expansion | `F0025-commission-producer-splits-and-revenue-tracking/` |
 | F0026 | Billing, Invoicing & Reconciliation | Planned | Brokerage Platform Expansion | `F0026-billing-invoicing-and-reconciliation/` |
-| F0027 | COI, ACORD & Outbound Document Generation | Planned | CRM Release MVP+ | `F0027-coi-acord-and-outbound-document-generation/` |
-| F0028 | Carrier & Market Relationship Management | Planned | CRM Release MVP+ | `F0028-carrier-and-market-relationship-management/` |
 | F0029 | External Broker Collaboration Portal | Planned | Brokerage Platform Expansion | `F0029-external-broker-collaboration-portal/` |
 | F0030 | Integration Hub & Data Exchange | Planned | Brokerage Platform Expansion | `F0030-integration-hub-and-data-exchange/` |
 | F0031 | Data Import, Deduplication & Go-Live Migration | Planned | Release Enablement | `F0031-data-import-deduplication-and-go-live-migration/` |
@@ -48,7 +39,14 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 
 | Feature ID | Name | Archived Date | Folder |
 |------------|------|---------------|--------|
+| F0028 | Carrier & Market Relationship Management | 2026-07-03 | `archive/F0028-carrier-and-market-relationship-management/` |
+| F0027 | COI, ACORD & Outbound Document Generation | 2026-07-03 | `archive/F0027-coi-acord-and-outbound-document-generation/` |
+| F0024 | Claims & Service Case Tracking | 2026-07-03 | `archive/F0024-claims-and-service-case-tracking/` |
+| F0022 | Work Queues, Assignment Rules & Coverage Management | 2026-07-03 | `archive/F0022-work-queues-assignment-rules-and-coverage-management/` |
+| F0017 | Broker/MGA Hierarchy, Producer Ownership & Territory Management | 2026-07-03 | `archive/F0017-broker-mga-hierarchy-and-producer-ownership/` |
+| F0008 | Broker Insights | 2026-07-03 | `archive/F0008-broker-insights/` |
 | F0038 | Neuron Day-at-a-Glance Shell (Renewals live + draft outreach + mock-send) | 2026-07-02 | `archive/F0038-neuron-day-at-a-glance-shell/` |
+| F0021 | Communication Hub & Activity Capture | 2026-07-02 | `archive/F0021-communication-hub-and-activity-capture/` |
 | F0023 | Global Search, Saved Views & Operational Reporting | 2026-06-20 | `archive/F0023-global-search-saved-views-and-operational-reporting/` |
 | F0019 | Submission Quoting, Proposal & Approval Workflow | 2026-06-03 | `archive/F0019-submission-quoting-proposal-and-approval/` |
 | F0036 | Form Engine and Form-State Preservation (RHF + AJV + Widget Registry) | 2026-05-30 | `archive/F0036-dynamic-product-attribute-form-engine/` |
@@ -59,17 +57,17 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 | F0016 | Account 360 & Insured Management | 2026-04-14 | `archive/F0016-account-360-and-insured-management/` |
 | F0007 | Renewal Pipeline | 2026-04-12 | `archive/F0007-renewal-pipeline/` |
 | F0006 | Submission Intake Workflow | 2026-04-04 | `archive/F0006-submission-intake-workflow/` |
-| F0001 | Dashboard | 2026-03-07 | `archive/F0001-dashboard/` |
-| F0002 | Broker & MGA Relationship Management | 2026-03-10 | `archive/F0002-broker-relationship-management/` |
-| F0005 | IdP Migration: Keycloak → authentik | 2026-03-07 | `archive/F0005-idp-migration/` |
-| F0009 | Authentication + Role-Based Login | 2026-03-07 | `archive/F0009-authentication-and-role-based-login/` |
-| F0012 | Dashboard Storytelling Infographic Canvas (Flat Canvas + Collapsible Rails) | 2026-03-14 | `archive/F0012-dashboard-storytelling-infographic-canvas/` |
+| F0033 | Structured Logging and QE Toolchain Activation | 2026-03-30 | `archive/F0033-structured-logging-and-qe-toolchain-activation/` |
+| F0014 | DevOps Smoke Test Automation | 2026-03-28 | `archive/F0014-devops-smoke-test-automation/` |
+| F0004 | Task Center UI + Manager Assignment | 2026-03-23 | `archive/F0004-task-center-ui-and-assignment/` |
+| F0015 | Frontend Quality Gates + Test Infrastructure | 2026-03-21 | `archive/F0015-frontend-quality-gates-and-test-infrastructure/` |
 | F0003 | Task Center + Reminders (API-only MVP) | 2026-03-20 | `archive/F0003-task-center/` |
 | F0013 | Dashboard Framed Storytelling Canvas | 2026-03-19 | `archive/F0013-dashboard-framed-storytelling-canvas/` |
-| F0015 | Frontend Quality Gates + Test Infrastructure | 2026-03-21 | `archive/F0015-frontend-quality-gates-and-test-infrastructure/` |
-| F0004 | Task Center UI + Manager Assignment | 2026-03-23 | `archive/F0004-task-center-ui-and-assignment/` |
-| F0014 | DevOps Smoke Test Automation | 2026-03-28 | `archive/F0014-devops-smoke-test-automation/` |
-| F0033 | Structured Logging and QE Toolchain Activation | 2026-03-30 | `archive/F0033-structured-logging-and-qe-toolchain-activation/` |
+| F0012 | Dashboard Storytelling Infographic Canvas (Flat Canvas + Collapsible Rails) | 2026-03-14 | `archive/F0012-dashboard-storytelling-infographic-canvas/` |
+| F0002 | Broker & MGA Relationship Management | 2026-03-10 | `archive/F0002-broker-relationship-management/` |
+| F0009 | Authentication + Role-Based Login | 2026-03-07 | `archive/F0009-authentication-and-role-based-login/` |
+| F0005 | IdP Migration: Keycloak → authentik | 2026-03-07 | `archive/F0005-idp-migration/` |
+| F0001 | Dashboard | 2026-03-07 | `archive/F0001-dashboard/` |
 
 ## Numbering Rules
 

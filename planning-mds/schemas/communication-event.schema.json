@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/communication-event.schema.json",
+  "title": "CommunicationEvent",
+  "type": "object",
+  "required": ["id", "type", "summary", "occurredAt", "visibility", "createdByUserId", "createdAt", "links"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "type": { "type": "string", "enum": ["Note", "Call", "Meeting", "EmailReference"] },
+    "direction": { "type": ["string", "null"], "enum": ["Inbound", "Outbound", "Internal", null] },
+    "summary": { "type": "string", "maxLength": 255 },
+    "body": { "type": ["string", "null"], "maxLength": 8000 },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "visibility": { "type": "string", "enum": ["InternalOnly"] },
+    "emailReference": {
+      "type": ["object", "null"],
+      "properties": {
+        "provider": { "type": ["string", "null"], "maxLength": 80 },
+        "messageId": { "type": ["string", "null"], "maxLength": 255 },
+        "subject": { "type": ["string", "null"], "maxLength": 255 },
+        "sentAt": { "type": ["string", "null"], "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "participants": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/participant" },
+      "default": []
+    },
+    "links": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/link" }
+    },
+    "followUpTaskIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "default": []
+    },
+    "redactedAt": { "type": ["string", "null"], "format": "date-time" },
+    "redactedByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "redactionReason": { "type": ["string", "null"], "maxLength": 1000 },
+    "createdByUserId": { "type": "string", "format": "uuid" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "rowVersion": { "type": ["string", "null"] }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "participant": {
+      "type": "object",
+      "required": ["displayName", "participantType"],
+      "properties": {
+        "displayName": { "type": "string", "maxLength": 255 },
+        "email": { "type": ["string", "null"], "format": "email" },
+        "participantType": { "type": "string", "enum": ["InternalUser", "BrokerContact", "ExternalContact", "Other"] },
+        "role": { "type": ["string", "null"], "maxLength": 80 },
+        "linkedEntityType": { "type": ["string", "null"], "enum": ["User", "Broker", "Contact", null] },
+        "linkedEntityId": { "type": ["string", "null"], "format": "uuid" }
+      },
+      "additionalProperties": false
+    },
+    "link": {
+      "type": "object",
+      "required": ["entityType", "entityId", "isPrimary"],
+      "properties": {
+        "entityType": { "type": "string", "enum": ["Broker", "Account", "Submission", "Policy", "Renewal", "Task"] },
+        "entityId": { "type": "string", "format": "uuid" },
+        "isPrimary": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -13,9 +13,9 @@
  */
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { IS_DEV_AUTH_MODE } from '@/features/auth/authMode';
 import { oidcUserManager } from '@/features/auth/oidcUserManager';
 
-const AUTH_MODE = import.meta.env.VITE_AUTH_MODE as string | undefined;
 const OIDC_AUTHORITY = import.meta.env.VITE_OIDC_AUTHORITY as string | undefined;
 const OIDC_CLIENT_ID = import.meta.env.VITE_OIDC_CLIENT_ID as string | undefined;
 const OIDC_REDIRECT_URI = import.meta.env.VITE_OIDC_REDIRECT_URI as string | undefined;
@@ -37,12 +37,12 @@ export function LoginPage() {
 
   // Dev mode: skip login UI entirely — navigate to home immediately.
   useEffect(() => {
-    if (AUTH_MODE === 'dev') {
+    if (IS_DEV_AUTH_MODE) {
       navigate('/', { replace: true });
     }
   }, [navigate]);
 
-  if (AUTH_MODE === 'dev') {
+  if (IS_DEV_AUTH_MODE) {
     return null;
   }
 

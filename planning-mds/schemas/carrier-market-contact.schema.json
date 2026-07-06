@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/carrier-market-contact.schema.json",
+  "title": "CarrierMarketContact",
+  "description": "Underwriter or market contact linked to a carrier market.",
+  "type": "object",
+  "required": ["id", "carrierMarketId", "fullName", "roles", "isPrimary", "createdAt", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "carrierMarketId": { "type": "string", "format": "uuid" },
+    "fullName": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "title": { "type": ["string", "null"], "maxLength": 120 },
+    "email": { "type": ["string", "null"], "format": "email", "maxLength": 320 },
+    "phone": { "type": ["string", "null"], "pattern": "^\\+?[1-9]\\d{7,14}$" },
+    "roles": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["Underwriter", "Marketing", "Claims", "LossControl", "Executive", "Operations", "Other"] },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "isPrimary": { "type": "boolean" },
+    "notes": { "type": ["string", "null"], "maxLength": 1000 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "createdByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "updatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "updatedByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "rowVersion": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

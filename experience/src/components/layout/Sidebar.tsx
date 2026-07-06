@@ -5,9 +5,13 @@ import {
   BriefcaseBusiness,
   RotateCwSquare,
   Building2,
+  ChartNoAxesCombined,
   ShieldCheck,
   Users,
+  Handshake,
   ClipboardList,
+  BadgeHelp,
+  ListChecks,
   PanelLeftClose,
   LogOut,
   ChevronRight,
@@ -22,7 +26,11 @@ const NAV_ITEMS = [
   { label: 'Renewals', href: '/renewals', icon: RotateCwSquare },
   { label: 'Policies', href: '/policies', icon: ShieldCheck },
   { label: 'Brokers', href: '/brokers', icon: Users },
+  { label: 'Markets', href: '/carrier-markets', icon: Handshake },
+  { label: 'Broker Insights', href: '/broker-insights', icon: ChartNoAxesCombined },
   { label: 'Tasks', href: '/tasks', icon: ClipboardList },
+  { label: 'Service Cases', href: '/service-cases', icon: BadgeHelp },
+  { label: 'Work queues', href: '/work-queues', icon: ListChecks },
 ];
 
 function isActive(href: string, pathname: string) {

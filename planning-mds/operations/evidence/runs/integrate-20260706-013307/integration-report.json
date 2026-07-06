@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "run_id": "integrate-20260706-013307",
+  "mode": "live",
+  "source": "PR #49 (replay/pr-49, nandini1828:feature/F0027-coi-acord-outbound-document-generation)",
+  "source_head_sha": "9f8109bd60763a363f8d7a2eadf589893a749960",
+  "integration_branch": "chore/merge-PRs (batch branch integrate/batch-50-48-49; batch gate 2)",
+  "merge_base_sha": "103d59bfc208c0567045ed45a8499e84bd165cb6",
+  "gate1": {
+    "verdict_ref": null,
+    "waiver": {
+      "rationale": "Train-wide maintainer waiver (2026-07-05); per-run record.",
+      "decided_by": "maintainer (gajakannan)",
+      "date": "2026-07-06"
+    }
+  },
+  "merges": [
+    {
+      "file": "planning-mds/knowledge-graph/canonical-nodes.yaml",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/code-index.yaml",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/feature-mappings.yaml",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/features/REGISTRY.md",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/features/ROADMAP.md",
+      "result": "clean after PM-delegate prose union (F0027 promotion bullet; Last Reviewed kept at ours' newer 2026-07-03)"
+    }
+  ],
+  "merge_decisions": [
+    "Program.cs: ours + MapOutboundDocumentEndpoints graft (their exact base-delta)",
+    "Nebula.Api.csproj: monotonic max versions \u2014 AspNetCore.OpenApi 10.0.5->10.0.9; ours' Microsoft.OpenApi 2.9.0 kept (> their 2.3.12)",
+    "experience/package.json + pnpm-lock.yaml: OURS kept wholesale \u2014 their delta was pure toolchain version bumps (zero new packages, verified key-set diff); declined as contributor churn",
+    "pnpm-workspace.yaml: ours + their tmp>=0.2.6 override; scarf already handled via allowBuilds",
+    "test-setup.ts: ours (equivalent optional-chaining fix)",
+    "BLUEPRINT.md: additive section union",
+    "generated files --ours then regenerated"
+  ],
+  "regeneration": [
+    "4608 symbols (cs 3151, py 391, ts 1066)",
+    "coverage-report",
+    "story-index"
+  ],
+  "validation": [
+    {
+      "command": "validate.py",
+      "exit_code": 0
+    },
+    {
+      "command": "validate.py --check-drift",
+      "exit_code": 0
+    },
+    {
+      "command": "validate-trackers.py",
+      "exit_code": 0
+    },
+    {
+      "command": "dotnet build Nebula.Api",
+      "exit_code": 0
+    }
+  ],
+  "conflicts_routed": [],
+  "prepared_merge_sha": "e17d79d32a6a8d90d22580db45232f8e4d57a3af",
+  "gate2": {
+    "result": "pass",
+    "exercised": "Batch validation: F0017 Distribution tab, F0028 carrier/market directory, F0027 template-governance flow (upload->publish->preview->issue; empty fresh-env library confirmed as correct behavior), F0021/F0024/Neuron regressions. Includes authentik blueprint fix (akadmin name) surfaced by fresh-volume restart.",
+    "recorded_by": "maintainer (gajakannan)",
+    "date": "2026-07-06"
+  },
+  "pushed": false,
+  "supersedes_run": null,
+  "outcome": "merged-gate2-passed"
+}

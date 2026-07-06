@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "run_id": "integrate-20260706-012853",
+  "mode": "live",
+  "source": "PR #48 (replay/pr-48, SagarNunugonda12:feature/F0028-carrier-and-market-relationship-management)",
+  "source_head_sha": "8bda18b0a06bb0d9e0f5c55de1170e5de5d3e62c",
+  "integration_branch": "chore/merge-PRs (batch branch integrate/batch-50-48-49; single gate 2 after #49)",
+  "merge_base_sha": "103d59bfc208c0567045ed45a8499e84bd165cb6",
+  "gate1": {
+    "verdict_ref": null,
+    "waiver": {
+      "rationale": "Train-wide maintainer waiver (2026-07-05); per-run record.",
+      "decided_by": "maintainer (gajakannan)",
+      "date": "2026-07-06"
+    }
+  },
+  "merges": [
+    {
+      "file": "planning-mds/knowledge-graph/canonical-nodes.yaml",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/code-index.yaml",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/feature-mappings.yaml",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/features/REGISTRY.md",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/features/ROADMAP.md",
+      "result": "clean after PM-delegate prose union (Last Reviewed max-date + 2 F0028 review bullets)"
+    }
+  ],
+  "merge_decisions": [
+    "Program.cs whole-file git hunk: ours + grafted CarrierMarketService registration + MapCarrierMarketEndpoints (their exact base-delta)",
+    "vite.config.ts: ours + /carrier-markets proxy path (their only addition; their loadEnv rework already present via #47/#51)",
+    "BLUEPRINT.md + feature-assembly-plan.md: additive section unions (F0024/F0038 ours + F0028 theirs)",
+    "coverage-report/STORY-INDEX --ours then regenerated"
+  ],
+  "regeneration": [
+    "4504 symbols (cs 3059, py 391, ts 1054)",
+    "coverage-report",
+    "story-index"
+  ],
+  "validation": [
+    {
+      "command": "validate.py",
+      "exit_code": 0
+    },
+    {
+      "command": "validate.py --check-drift",
+      "exit_code": 0
+    },
+    {
+      "command": "validate-trackers.py",
+      "exit_code": 0
+    },
+    {
+      "command": "dotnet build Nebula.Api",
+      "exit_code": 0
+    }
+  ],
+  "conflicts_routed": [],
+  "prepared_merge_sha": "e17d79d32a6a8d90d22580db45232f8e4d57a3af",
+  "gate2": {
+    "result": "pass",
+    "exercised": "Batch validation: F0017 Distribution tab, F0028 carrier/market directory, F0027 template-governance flow (upload->publish->preview->issue; empty fresh-env library confirmed as correct behavior), F0021/F0024/Neuron regressions. Includes authentik blueprint fix (akadmin name) surfaced by fresh-volume restart.",
+    "recorded_by": "maintainer (gajakannan)",
+    "date": "2026-07-06"
+  },
+  "pushed": false,
+  "supersedes_run": null,
+  "outcome": "merged-gate2-passed"
+}

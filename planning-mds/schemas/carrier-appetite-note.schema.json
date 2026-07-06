@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/carrier-appetite-note.schema.json",
+  "title": "CarrierAppetiteNote",
+  "description": "Commercial appetite note scoped to a carrier market.",
+  "type": "object",
+  "required": ["id", "carrierMarketId", "appetiteLevel", "summary", "createdAt", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "carrierMarketId": { "type": "string", "format": "uuid" },
+    "lineOfBusiness": { "type": ["string", "null"], "maxLength": 120 },
+    "region": { "type": ["string", "null"], "maxLength": 120 },
+    "appetiteLevel": { "type": "string", "enum": ["Preferred", "Open", "Selective", "Restricted", "Closed"] },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 240 },
+    "detail": { "type": ["string", "null"], "maxLength": 4000 },
+    "effectiveFrom": { "type": ["string", "null"], "format": "date" },
+    "effectiveTo": { "type": ["string", "null"], "format": "date" },
+    "source": { "type": ["string", "null"], "maxLength": 200 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "createdByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "updatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "updatedByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "rowVersion": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

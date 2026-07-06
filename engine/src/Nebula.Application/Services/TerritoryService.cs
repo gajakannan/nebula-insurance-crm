@@ -71,7 +71,7 @@ public class TerritoryService(
         if (territory is null) return (null, "not_found");
 
         var now = DateTime.UtcNow;
-        var open = await assignmentRepo.GetOpenAsync(territoryId, req.MemberType, req.MemberId, ct);
+        var open = await assignmentRepo.GetOpenForMemberAsync(req.MemberType, req.MemberId, ct);
         if (open is not null && req.EffectiveFrom <= open.EffectiveFrom)
             return (null, "invalid_period");
 
@@ -117,9 +117,36 @@ public class TerritoryService(
                 territoryId,
                 memberType = req.MemberType,
                 memberId = req.MemberId,
+                previousTerritoryId = open?.TerritoryId,
                 effectiveFrom = req.EffectiveFrom.ToString("O"),
             }),
         }, ct);
+
+        if (req.MemberType == "Broker")
+        {
+            await timelineRepo.AddEventAsync(new ActivityTimelineEvent
+            {
+                EntityType = "Broker",
+                EntityId = req.MemberId,
+                EventType = open is null ? "TerritoryMemberAssigned" : "TerritoryMemberReassigned",
+                EventDescription = open is null
+                    ? $"Territory assigned to \"{territory.Name}\" effective {req.EffectiveFrom:yyyy-MM-dd}"
+                    : $"Territory reassigned from {open.TerritoryId} to \"{territory.Name}\" effective {req.EffectiveFrom:yyyy-MM-dd}",
+                ActorUserId = user.UserId,
+                ActorDisplayName = user.DisplayName,
+                OccurredAt = now,
+                EventPayloadJson = JsonSerializer.Serialize(new
+                {
+                    territoryAssignmentId = assignment.Id,
+                    memberType = req.MemberType,
+                    memberId = req.MemberId,
+                    oldTerritoryId = open?.TerritoryId,
+                    newTerritoryId = territoryId,
+                    effectiveFrom = req.EffectiveFrom.ToString("O"),
+                    assignmentReason = req.AssignmentReason,
+                }),
+            }, ct);
+        }
 
         await unitOfWork.CommitAsync(ct);
 

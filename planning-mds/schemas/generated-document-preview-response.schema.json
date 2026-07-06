@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/generated-document-preview-response.schema.json",
+  "title": "GeneratedDocumentPreviewResponse",
+  "description": "Ephemeral preview response for F0027 outbound document generation. Preview does not create a document sidecar.",
+  "type": "object",
+  "required": ["artifactFamily", "templateDocumentId", "sourceSnapshotHash", "status", "mergeDiagnostics"],
+  "additionalProperties": false,
+  "properties": {
+    "artifactFamily": { "type": "string", "enum": ["coi", "acord", "proposal"] },
+    "templateDocumentId": { "type": "string", "pattern": "^doc_[0-9A-HJKMNP-TV-Z]{26}$" },
+    "templateVersion": { "type": "integer", "minimum": 1 },
+    "sourceSnapshotHash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "status": { "type": "string", "enum": ["ready", "missing_merge_data", "render_failed"] },
+    "previewUrl": { "type": ["string", "null"], "format": "uri" },
+    "expiresAtUtc": { "type": ["string", "null"], "format": "date-time" },
+    "mergeDiagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "field": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "enum": ["ok", "missing", "invalid"] },
+          "detail": { "type": ["string", "null"], "maxLength": 500 }
+        }
+      }
+    }
+  }
+}

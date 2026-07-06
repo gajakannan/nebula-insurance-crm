@@ -64,6 +64,35 @@ No requirements invented. Gaps are marked "Not yet specified" with a reference t
 
 ---
 
+### 2.1b Carrier Market Relationship Management (F0028)
+
+F0028 introduces CRM-side carrier and market relationship intelligence. It is InternalOnly and commercially sensitive; external broker/MGA users receive no access.
+
+| Role | Resource | Action | Decision | Business Scope / Constraints | Story / AC Reference |
+|------|----------|--------|----------|------------------------------|----------------------|
+| DistributionUser | carrier_market | read / search | **ALLOW** | Internal market directory rows scoped to authorized submissions, policies, and assigned opportunities. | F0028-S0001; F0028 PRD |
+| DistributionUser | carrier_market | link_activity | **ALLOW** | May link carrier context only to submissions/policies the actor can read. No profile/contact/appetite/appointment mutation. | F0028-S0006 |
+| DistributionUser | carrier_market | create / update / manage_contact / manage_appetite / manage_appointment | **DENY** | Relationship intelligence stewardship is manager/relationship-owned. | F0028-S0002 through S0005 |
+| DistributionManager | carrier_market | read / search / create / update / manage_contact / manage_appetite / manage_appointment / link_activity | **ALLOW** | Region-scoped operational ownership; all mutations require `If-Match` when updating and emit timeline events. | F0028-S0001 through S0006 |
+| Underwriter | carrier_market | read / search | **ALLOW** | Read-only market context for placement and submission review. | F0028-S0001, S0003, S0006 |
+| Underwriter | carrier_market | link_activity | **ALLOW** | May link carrier context to submissions/policies visible to the underwriter; no relationship intelligence edits. | F0028-S0006 |
+| Underwriter | carrier_market | create / update / manage_contact / manage_appetite / manage_appointment | **DENY** | Underwriter is read-only for relationship intelligence. | F0028 PRD |
+| RelationshipManager | carrier_market | read / search / create / update / manage_contact / manage_appetite / manage_appointment / link_activity | **ALLOW** | Primary steward for carrier profile, contacts, appetite, appointments, and related activity links. | F0028-S0001 through S0006 |
+| ProgramManager | carrier_market | read / search | **ALLOW** | Program-scoped market context only. No mutation. | F0028-S0001, S0005 |
+| ProgramManager | carrier_market | create / update / manage_contact / manage_appetite / manage_appointment / link_activity | **DENY** | Program managers are read-only for F0028. | F0028 PRD |
+| Admin | carrier_market | all | **ALLOW** | Full internal access; validation, concurrency, and audit rules still apply. | F0028-S0001 through S0006 |
+| BrokerUser | carrier_market | all | **DENY** | F0028 is InternalOnly. | F0028 PRD non-goals |
+| ExternalUser | carrier_market | all | **DENY** | No external carrier market visibility in MVP. | BLUEPRINT §3.1 non-goals |
+
+**Constraints applying to all F0028 ALLOW decisions:**
+- Every successful mutation emits an immutable `ActivityTimelineEvent` on `CarrierMarket`; rejected mutations emit no event.
+- Update operations require `If-Match`; stale versions return `precondition_failed` (412).
+- Duplicate carrier market codes return 409; semantic validation failures return 422.
+- Activity links require read access to both the carrier market and the related submission or policy.
+- Search rows, snippets, facets, and counts are filtered before response materialization.
+
+---
+
 ### 2.1a Distribution Hierarchy, Producer Ownership, and Territory (F0017)
 
 F0017 introduces structural distribution data and effective-dated ownership/territory records. Per ADR-026, hierarchy-aware read scoping is deferred to F0037; F0017 reads are authenticated internal-only, while mutations are limited to DistributionManager and Admin.
@@ -284,6 +313,42 @@ F0004 extends the self-assigned-only task model with creator-based access for Di
 
 ---
 
+### 2.6c Work Queues and Operational Routing (F0022)
+
+Applies to queue administration, assignment rules, coverage windows, queue worklists, reassignment, rebalance, and routing-audit reads.
+
+| Role | Action | Decision | Business Scope / Constraints | Story / AC Reference |
+|------|--------|----------|------------------------------|----------------------|
+| DistributionUser | read | **ALLOW** | Queue worklists where user is a member or assignee; source-record ABAC still applies before returning item details. | F0022-S0005 |
+| DistributionUser | manage | **DENY** | Cannot create queues, rules, memberships, or coverage windows. | F0022-S0001/S0002/S0004 |
+| DistributionUser | assign | **DENY** | Manual reassignment and rebalance are manager/admin only. | F0022-S0006 |
+| DistributionManager | read | **ALLOW** | Queues and queue items within managed region/territory/program scope; source-record ABAC still applies. | F0022-S0005/S0007 |
+| DistributionManager | manage | **ALLOW** | Create/update queues, memberships, rules, and coverage windows within operational scope. | F0022-S0001/S0002/S0004 |
+| DistributionManager | assign | **ALLOW** | Reassign/rebalance open queue items to active eligible users in scope; override reason required. | F0022-S0006 |
+| ProgramManager | read | **ALLOW** | Queue items linked to programs/accounts the user manages. | F0022-S0005 |
+| ProgramManager | manage | **DENY** | Program managers do not administer routing rules in MVP. | F0022-S0001/S0002 |
+| ProgramManager | assign | **DENY** | Assignment control remains DistributionManager/Admin. | F0022-S0006 |
+| Underwriter | read | **ALLOW** | Queue worklists where user is assignee/member and source-record ABAC permits access. | F0022-S0005 |
+| Underwriter | manage | **DENY** | No queue/rule/coverage administration in MVP. | F0022-S0001/S0002/S0004 |
+| Underwriter | assign | **DENY** | Cannot rebalance/reassign others' work. | F0022-S0006 |
+| RelationshipManager | read | **ALLOW** | Queue items linked to managed broker/account relationships. | F0022-S0005 |
+| RelationshipManager | manage | **DENY** | No queue/rule administration in MVP. | F0022-S0001/S0002 |
+| RelationshipManager | assign | **DENY** | No queue reassignment authority in MVP. | F0022-S0006 |
+| Admin | read | **ALLOW** | Unscoped internal read of queues, worklists, and routing audit. | F0022-S0005/S0007 |
+| Admin | manage | **ALLOW** | Full queue/rule/membership/coverage administration. | F0022-S0001/S0002/S0004 |
+| Admin | assign | **ALLOW** | Full reassignment/rebalance authority; override reason required. | F0022-S0006 |
+| BrokerUser | all | **DENY** | Queue/routing data is InternalOnly. | F0022-S0007 |
+| ExternalUser | all | **DENY** | Queue/routing data is InternalOnly. | F0022-S0007 |
+
+**Constraints applying to all ALLOW decisions on Work Queues:**
+- Queue item visibility is the intersection of queue authorization and source-record authorization. A user who can read a queue must still be authorized to read the linked Task, Submission, or Renewal before row details are returned.
+- Queue/rule/coverage mutations require `If-Match` and return HTTP 412 `precondition_failed` on stale rowVersion values.
+- Manual reassignment and rebalance require an override reason and emit `ActivityTimelineEvent` plus `RoutingDecisionLog`.
+- Coverage activates only from explicit `CoverageWindow` rows; inactivity is never a coverage trigger.
+- No-match routing places work in `Unassigned Operations Queue` with null assignee and a routing decision reason.
+
+---
+
 ### 2.7 Activity Timeline Event — Broker Events
 
 | Role | Action | Decision | Business Scope / Constraints | Story / AC Reference |
@@ -302,6 +367,62 @@ F0004 extends the self-assigned-only task model with creator-based access for Di
 - If the actor account has been deactivated, the actor display name must show as "Unknown User" (not an error). (F0001-S0004 edge cases)
 - Timeline event records are append-only and must never be modified or deleted by any role. (BLUEPRINT §1.4 non-negotiables)
 - Read-only view. No mutations permitted from the dashboard feed. (F0001-S0004 AC Checklist)
+
+---
+
+### 2.7a Communication Event — Capture / Read / Link / Correct / Redact / Follow-Up (F0021)
+
+| Role | Action | Decision | Business Scope / Constraints | Story / AC Reference |
+|------|--------|----------|------------------------------|----------------------|
+| DistributionUser | create / read / link / correct / create_follow_up | **ALLOW** | Must pass linked entity read access; task follow-up also requires `task:create`. | F0021-S0001 through S0005 |
+| DistributionUser | redact | **DENY** | Redaction is Admin-only in MVP. | F0021-S0005; ADR-029 |
+| DistributionManager | create / read / link / correct / create_follow_up | **ALLOW** | Region scope applies through linked broker/account/submission/policy/renewal/task records. | F0021-S0001 through S0005 |
+| DistributionManager | redact | **DENY** | Redaction is Admin-only in MVP. | F0021-S0005; ADR-029 |
+| Underwriter | create / read / link / correct / create_follow_up | **ALLOW** | Submission/policy access scope applies through linked records. | F0021-S0001 through S0005 |
+| Underwriter | redact | **DENY** | Redaction is Admin-only in MVP. | F0021-S0005; ADR-029 |
+| RelationshipManager | create / read / link / correct / create_follow_up | **ALLOW** | Broker/account relationship scope applies through linked records. | F0021-S0001 through S0005 |
+| RelationshipManager | redact | **DENY** | Redaction is Admin-only in MVP. | F0021-S0005; ADR-029 |
+| ProgramManager | create / read / link / correct / create_follow_up | **ALLOW** | Program scope applies through linked records. | F0021-S0001 through S0005 |
+| ProgramManager | redact | **DENY** | Redaction is Admin-only in MVP. | F0021-S0005; ADR-029 |
+| Admin | create / read / link / correct / redact / create_follow_up | **ALLOW** | Unscoped internal authority; redaction remains audit-preserving. | F0021-S0001 through S0005; ADR-029 |
+| BrokerUser | all | **DENY** | External communication capture/history is out of MVP scope. | F0021 PRD Out of Scope |
+| ExternalUser | all | **DENY** | No external self-service in MVP. | BLUEPRINT §3.1 non-goals |
+
+**Constraints applying to all ALLOW decisions on Communication Event:**
+- Communication source records are InternalOnly for MVP.
+- Create/read/link/follow-up actions must also pass read access on the primary linked CRM record.
+- Additional linked records must pass read access before persistence.
+- Follow-up creation must pass existing task assignee validation and `task:create`.
+- Corrections and redactions are append-only audit actions; no communication record is hard-deleted.
+- Email-linked activity stores metadata/reference only and does not authorize outbound send, mailbox read, or connector ingestion.
+
+---
+
+### 2.7b Service Case — Create / Read / Update / Assign / Transition / Claim Reference / Links (F0024)
+
+| Role | Action | Decision | Business Scope / Constraints | Story / AC Reference |
+|------|--------|----------|------------------------------|----------------------|
+| DistributionUser | create / read / update / transition / update_claim_reference / link_communication / create_follow_up | **ALLOW** | Must pass account/policy read access; owner must be self or assigned queue in MVP. | F0024-S0001 through S0006 |
+| DistributionUser | assign | **DENY** | Cross-user assignment is manager/admin scope in MVP. | F0024-S0003 |
+| DistributionManager | create / read / update / assign / transition / update_claim_reference / link_communication / create_follow_up | **ALLOW** | Region scope applies through linked account/policy records. | F0024-S0001 through S0006 |
+| Underwriter | create / read / update / transition / update_claim_reference / link_communication / create_follow_up | **ALLOW** | Policy/account access scope applies through linked records. | F0024-S0001 through S0006 |
+| Underwriter | assign | **DENY** | Cross-user assignment is manager/admin scope in MVP. | F0024-S0003 |
+| RelationshipManager | create / read / update / transition / update_claim_reference / link_communication / create_follow_up | **ALLOW** | Broker/account relationship scope applies through linked records. | F0024-S0001 through S0006 |
+| RelationshipManager | assign | **DENY** | Cross-user assignment is manager/admin scope in MVP. | F0024-S0003 |
+| ProgramManager | create / read / update / transition / update_claim_reference / link_communication / create_follow_up | **ALLOW** | Program scope applies through linked account/policy records. | F0024-S0001 through S0006 |
+| ProgramManager | assign | **DENY** | Cross-user assignment is manager/admin scope in MVP. | F0024-S0003 |
+| Admin | create / read / update / assign / transition / update_claim_reference / link_communication / create_follow_up | **ALLOW** | Unscoped internal authority; all actions remain audited. | F0024-S0001 through S0006; ADR-030 |
+| BrokerUser | all | **DENY** | External service-case self-service is out of MVP scope. | F0024 PRD Out of Scope |
+| ExternalUser | all | **DENY** | No external self-service in MVP. | BLUEPRINT §3.1 non-goals |
+
+**Constraints applying to all ALLOW decisions on Service Case:**
+- Service-case records are InternalOnly for MVP.
+- Create/read/update/assign/transition/follow-up actions must also pass read access on the linked account and optional policy.
+- If a policy is supplied, it must belong to the supplied account.
+- Communication linking must also pass `communication_event:read` and linked communication record scope.
+- Follow-up creation must pass existing task assignee validation and `task:create`.
+- Claim-reference updates store reference context only and do not authorize adjudication, reserves, payments, carrier sync, or coverage decisions.
+- Closed service cases are immutable except for audit reads.
 
 ---
 
@@ -519,6 +640,31 @@ criteria only and never grant source-record access.
 
 ---
 
+### 2.10c Broker Insights (F0008)
+
+F0008 is internal-only and read-only. Broker scorecards, trends, benchmarks,
+snapshots, source links, peer sets, ranks, and counts are computed after
+source-record authorization filtering. This feature does not introduce
+hierarchy-aware read enforcement or distribution rollups; F0037 owns that scope.
+
+| Role | Resource | Action | Decision | Business Scope / Constraints | Story / AC Reference |
+|------|----------|--------|----------|------------------------------|----------------------|
+| DistributionUser | broker_insight | read | **ALLOW** | Assigned/opportunity source scope applies at query layer. | F0008-S0001, S0002, S0005 |
+| DistributionManager | broker_insight | read | **ALLOW** | Region/team source scope applies at query layer. | F0008-S0001, S0003, S0005 |
+| Underwriter | broker_insight | read | **ALLOW** | Underwriting source-record scope applies at query layer. | F0008-S0002, S0005 |
+| RelationshipManager | broker_insight | read | **ALLOW** | Managed broker/account scope applies at query layer. | F0008-S0001, S0002, S0004, S0005 |
+| ProgramManager | broker_insight | read | **ALLOW** | Program source scope applies at query layer. | F0008-S0003, S0005 |
+| Admin | broker_insight | read | **ALLOW** | Unscoped internal read subject to source-record availability. | F0008-S0001 through S0005 |
+| BrokerUser / ExternalUser | broker_insight | all | **DENY** | External broker insights are out of scope. | F0008-S0005 |
+
+**Constraints applying to all F0008 ALLOW decisions:**
+- Hidden source records must not influence counts, denominators, trend points, peer counts, medians, ranks, percentiles, snapshots, or source links.
+- Unauthorized matches are indistinguishable from non-matches in user-facing result states.
+- Benchmark rank and percentile require at least five visible peers; otherwise suppress them.
+- F0008 surfaces are read-only. No timeline event is emitted by scorecard, trend, benchmark, or snapshot reads.
+
+---
+
 ### 2.11 Account (F0016)
 
 Resource: `account`. Actions: `read`, `create`, `update`, `deactivate`, `reactivate`, `delete`, `merge`, `contact:manage`, `relationship:change`. See [ADR-017](../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md) for merge and tombstone contract.
@@ -642,6 +788,41 @@ The runtime YAML (`<docroot>/configuration/casbin-document-roles.yaml`) is close
 ## 5. Product Schema Registry (F0034)
 
 Product schema bundles are internal platform configuration. Runtime screens may read active bundles only after the same ABAC and tenant availability filters that govern the parent lifecycle record. Activation, deprecation, retirement, and rollback are steward/admin actions in MVP and must write activation audit rows.
+
+---
+
+## 6. Outbound Document Generation (F0027)
+
+F0027 layers feature-specific actions over the F0020 document/template gates. This preserves the generic template-library behavior while enforcing the F0027 product decision that outbound COI, ACORD, and proposal templates are Admin-governed and operating users issue artifacts from published versions only.
+
+Effective issue/regenerate access:
+
+```text
+allow ⇔ parent_abac(user, parent, read/create)
+     ∧ document_template:read(template)
+     ∧ outbound_document:{issue|regenerate}
+     ∧ classification_policy(role, generatedClassification, create/download)
+```
+
+| Role | outbound_template:manage | outbound_document:preview | outbound_document:issue | outbound_document:regenerate |
+|------|--------------------------|---------------------------|-------------------------|-------------------------------|
+| Admin | ✅ | ✅ | ✅ | ✅ |
+| Underwriter | ❌ | ✅ | ✅ | ✅ |
+| DistributionUser | ❌ | ✅ | ✅ | ✅ |
+| DistributionManager | ❌ | ✅ | ✅ | ✅ |
+| Coordinator | ❌ | ✅ | ✅ | ✅ |
+| RelationshipManager | ❌ | ❌ | ❌ | ❌ |
+| ProgramManager | ❌ | ❌ | ❌ | ❌ |
+| BrokerUser | ❌ | ❌ | ❌ | ❌ |
+| MgaUser | ❌ | ❌ | ❌ | ❌ |
+| ExternalUser | ❌ | ❌ | ❌ | ❌ |
+
+Constraints:
+
+- Preview never stores a document sidecar and never authorizes final issue by itself.
+- Issue and regenerate reassemble source data server-side and must not trust rendered preview output from the client.
+- Generated artifacts inherit ADR-012 classification policy, path safety, sidecar events, and timeline expectations.
+- F0027 proposal rendering may read F0019 quote/proposal packet facts but must not approve packets, transition submissions, compute pricing, or alter bind readiness.
 
 | Role | read active bundles | resolve direct bundle by id | activate / deprecate / retire |
 |------|---------------------|-----------------------------|-------------------------------|

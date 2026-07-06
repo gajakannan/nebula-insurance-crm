@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/service-case-create-request.schema.json",
+  "title": "ServiceCaseCreateRequest",
+  "type": "object",
+  "required": ["accountId", "summary", "type", "priority", "ownerUserId"],
+  "properties": {
+    "accountId": { "type": "string", "format": "uuid" },
+    "policyId": { "type": ["string", "null"], "format": "uuid" },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 255 },
+    "description": { "type": ["string", "null"], "maxLength": 4000 },
+    "type": { "type": "string", "enum": ["ServiceRequest", "ClaimSupport", "DocumentationSupport", "BillingInquiry", "Other"] },
+    "priority": { "type": "string", "enum": ["Low", "Medium", "High", "Urgent"] },
+    "ownerUserId": { "type": "string", "format": "uuid" },
+    "dueDate": { "type": ["string", "null"], "format": "date" },
+    "followUpSummary": { "type": ["string", "null"], "maxLength": 1000 },
+    "claimReference": { "$ref": "service-case.schema.json#/definitions/claimReference" }
+  },
+  "additionalProperties": false
+}

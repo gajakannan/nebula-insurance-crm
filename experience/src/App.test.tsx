@@ -28,6 +28,10 @@ vi.mock('./pages/BrokerDetailPage', () => ({
   default: () => <div>broker-detail-page</div>,
 }))
 
+vi.mock('./pages/CarrierMarketsPage', () => ({
+  default: () => <div>carrier-markets-page</div>,
+}))
+
 vi.mock('./pages/SubmissionsPage', () => ({
   default: () => <div>submissions-page</div>,
 }))
@@ -83,6 +87,7 @@ describe('App routing', () => {
     ['/brokers', 'broker-list-page'],
     ['/brokers/new', 'create-broker-page'],
     ['/brokers/broker-1', 'broker-detail-page'],
+    ['/carrier-markets', 'carrier-markets-page'],
     ['/tasks', 'task-center-page'],
     ['/login', 'login-page'],
     ['/auth/callback', 'auth-callback-page'],

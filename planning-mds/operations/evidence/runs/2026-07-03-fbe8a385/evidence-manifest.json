@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "action": "test",
+  "mode": "standalone",
+  "test_scope": "all",
+  "feature_id": "F0008",
+  "feature_slug": "broker-insights",
+  "run_id": "2026-07-03-fbe8a385",
+  "status": "approved-with-repair",
+  "recorded_on": "2026-07-03",
+  "parent_feature_run_id": "2026-07-03-fd732693",
+  "parent_feature_manifest": "planning-mds/operations/evidence/runs/2026-07-03-fd732693/evidence-manifest.json",
+  "product_root": "/Users/wallstreet48/nebula-feature-26/nebula-insurance-crm",
+  "agents_root": "/Users/wallstreet48/nebula-feature-26/nebula-agents",
+  "runtime_bearing": true,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "container_execution": {
+    "backend_api_runtime": "docker compose API image plus isolated Docker smoke containers",
+    "frontend_runtime": "host Node runtime; no frontend Dockerfile or Compose service exists",
+    "exception_owner": "Quality Engineer",
+    "exception_reason": "Product repository defines only API/runtime Docker service; frontend tests use existing product Node toolchain and are recorded as non-container layer evidence."
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md"
+  },
+  "gate_results": {
+    "T0": {
+      "result": "PASS",
+      "decider": "Quality Engineer",
+      "artifact": "test-plan.md"
+    },
+    "T1": {
+      "result": "PASS_AFTER_REPAIR",
+      "decider": "Quality Engineer",
+      "artifact": "test-execution-report.md"
+    },
+    "T2": {
+      "result": "PASS_WITH_WAIVER",
+      "decider": "Quality Engineer",
+      "artifact": "coverage-report.md"
+    },
+    "T3": {
+      "result": "PASS",
+      "decider": "Quality Engineer",
+      "artifact": "artifact-trace.md"
+    },
+    "T4": {
+      "result": "PASS",
+      "decider": "Quality Engineer",
+      "artifact": "test-execution-report.md"
+    },
+    "T5": {
+      "result": "PASS",
+      "decider": "Quality Engineer",
+      "artifact": "README.md"
+    }
+  },
+  "role_results": {
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS_AFTER_REPAIR",
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "verdict_artifact": "test-execution-report.md"
+    }
+  },
+  "artifacts": {
+    "test_results": "artifacts/test-results",
+    "coverage": "artifacts/test-results/*/coverage.cobertura.xml",
+    "screenshots": "artifacts/screenshots",
+    "runtime": "artifacts/runtime"
+  },
+  "waivers": {
+    "frontend_container_execution": {
+      "owner": "Quality Engineer",
+      "reason": "No frontend Dockerfile or Compose service exists in the product repository; existing host Node toolchain was used for component tests and production build.",
+      "expires": "when frontend container runtime is introduced"
+    },
+    "frontend_coverage": {
+      "owner": "Quality Engineer",
+      "reason": "Focused post-closeout run captured frontend component pass/fail and production build, but did not collect Istanbul/V8 coverage for the React layer.",
+      "expires": "next full regression or when frontend coverage command is standardized"
+    }
+  },
+  "omissions": [
+    "No browser E2E screenshots captured because this standalone test run did not start a frontend dev server and no frontend container target exists."
+  ]
+}

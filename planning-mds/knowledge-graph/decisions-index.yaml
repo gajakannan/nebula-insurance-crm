@@ -1,13 +1,70 @@
 version: 0
-generated_at: '2026-06-30T01:50:06+00:00'
+generated_at: '2026-07-06T04:57:16+00:00'
 summary:
-  total_decisions: 0
+  total_decisions: 8
   by_kind:
     DECISION: 0
     SUPERSEDES: 0
     TRADEOFF: 0
-    WHY: 0
-  resolved_node_count: 0
-  resolved_symbol_count: 0
+    WHY: 8
+  resolved_node_count: 2
+  resolved_symbol_count: 8
   ambiguous_count: 0
-decisions: []
+decisions:
+- id: decision:experience-src-features-neuron-registry-componentregistry-l52-why
+  file: experience/src/features/neuron/registry/componentRegistry.tsx
+  line: 52
+  kind: WHY
+  text: "renders a static note only \u2014 never echoes the untrusted component id/props\
+    \ into"
+  resolved_node: capability:neuron-message-envelope
+  resolved_symbol: symbol:capability-neuron-message-envelope:component-registry.safe-fallback
+- id: decision:neuron-app-bootstrap-l65-why
+  file: neuron/app/bootstrap.py
+  line: 65
+  kind: WHY
+  text: "F0038 ships only the in-memory store behind the interface (ADR-028 \xA71);"
+  resolved_node: capability:neuron-companion
+  resolved_symbol: symbol:capability-neuron-companion:bootstrap.build-repository
+- id: decision:neuron-app-engine-client-l66-why
+  file: neuron/app/engine_client.py
+  line: 66
+  kind: WHY
+  text: "forwarded end-user token is the ONLY authorization \u2014 the engine decides."
+  resolved_node: capability:neuron-companion
+  resolved_symbol: symbol:capability-neuron-companion:engine-client.call
+- id: decision:neuron-app-orchestration-agent-card-l55-why
+  file: neuron/app/orchestration/agent_card.py
+  line: 55
+  kind: WHY
+  text: "F0038 exposes no public Agent Card \u2014 a public:true card must not load,"
+  resolved_node: capability:neuron-companion
+  resolved_symbol: symbol:capability-neuron-companion:agent-card.from-dict
+- id: decision:neuron-app-orchestration-glance-l106-why
+  file: neuron/app/orchestration/glance.py
+  line: 106
+  kind: WHY
+  text: "per-zone error isolation \u2014 a failing head is contained to its own slot;"
+  resolved_node: capability:neuron-companion
+  resolved_symbol: symbol:capability-neuron-companion:glance-assembler.dispatch
+- id: decision:neuron-app-orchestration-task-manager-l96-why
+  file: neuron/app/orchestration/task_manager.py
+  line: 96
+  kind: WHY
+  text: "ProvenanceEvent structurally cannot hold raw prompts/responses/PII \u2014"
+  resolved_node: capability:neuron-companion
+  resolved_symbol: symbol:capability-neuron-companion:a2-a-task-manager.emit-provenance
+- id: decision:neuron-app-persistence-in-memory-l70-why
+  file: neuron/app/persistence/in_memory.py
+  line: 70
+  kind: WHY
+  text: "owner-scope is a store invariant \u2014 a non-owner gets None, never data."
+  resolved_node: capability:neuron-companion
+  resolved_symbol: symbol:capability-neuron-companion:in-memory-neuron-repository.get-thread
+- id: decision:neuron-app-persistence-in-memory-l140-why
+  file: neuron/app/persistence/in_memory.py
+  line: 140
+  kind: WHY
+  text: "idempotency key is the run id (ADR-028 \xA72). A repeat with the"
+  resolved_node: capability:neuron-companion
+  resolved_symbol: symbol:capability-neuron-companion:in-memory-neuron-repository.attach-engine-ref

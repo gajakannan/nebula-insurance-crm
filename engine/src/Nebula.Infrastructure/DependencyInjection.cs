@@ -26,9 +26,12 @@ public static class DependencyInjection
         services.AddScoped<ISubmissionApprovalDecisionRepository, SubmissionApprovalDecisionRepository>();
         services.AddScoped<ISubmissionBindHandoffRepository, SubmissionBindHandoffRepository>();
         services.AddScoped<IPolicyRepository, PolicyRepository>();
+        services.AddScoped<ICarrierMarketRepository, CarrierMarketRepository>();
         services.AddScoped<IRenewalRepository, RenewalRepository>();
         services.AddScoped<ILobSchemaRepository, LobSchemaRepository>();
         services.AddScoped<ITaskRepository, TaskRepository>();
+        services.AddScoped<ICommunicationRepository, CommunicationRepository>();
+        services.AddScoped<IServiceCaseRepository, ServiceCaseRepository>();
         services.AddScoped<IUserProfileRepository, UserProfileRepository>();
         services.AddScoped<ITimelineRepository, TimelineRepository>();
         services.AddScoped<IWorkflowTransitionRepository, WorkflowTransitionRepository>();
@@ -41,20 +44,34 @@ public static class DependencyInjection
         services.AddScoped<IDocumentParentAccessResolver, DocumentParentAccessResolver>();
         services.AddScoped<IDocumentClassificationGate, DocumentClassificationGate>();
         services.AddScoped<IDocumentRepository, LocalFileSystemDocumentRepository>();
+        services.AddScoped<IDocumentRenderer, SimplePdfDocumentRenderer>();
+        services.AddScoped<IOutboundMergeDataAssembler, OutboundMergeDataAssembler>();
         // F0023 — SearchReporting read-side module
         services.AddScoped<ISearchDocumentRepository, SearchDocumentRepository>();
         services.AddScoped<ISavedViewRepository, SavedViewRepository>();
         services.AddScoped<IOperationalReportProjectionRepository, OperationalReportProjectionRepository>();
+        services.AddScoped<IBrokerInsightProjectionRepository, BrokerInsightProjectionRepository>();
+        services.AddScoped<IBrokerInsightService, Nebula.Application.Services.BrokerInsightService>();
+        services.AddScoped<IQueueAssignmentRepository, QueueAssignmentRepository>();
+        services.AddScoped<ITaskRoutingSource, TaskRoutingSource>();
+        services.AddScoped<ISubmissionRoutingSource, SubmissionRoutingSource>();
+        services.AddScoped<IRenewalRoutingSource, RenewalRoutingSource>();
+        services.AddScoped<IDistributionOwnershipResolver, DistributionOwnershipResolver>();
         services.AddScoped<ISearchService, Nebula.Application.Services.SearchService>();
         services.AddScoped<ISavedViewService, Nebula.Application.Services.SavedViewService>();
         services.AddScoped<IOperationalReportService, Nebula.Application.Services.OperationalReportService>();
+        services.AddScoped<Nebula.Application.Services.OperationsRoutingService>();
         services.AddScoped<ISearchProjectionService, Nebula.Infrastructure.Services.SearchProjectionService>();
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddSingleton<IAuthorizationService, CasbinAuthorizationService>();
         services.AddScoped<Nebula.Application.Services.DocumentService>();
         services.AddScoped<Nebula.Application.Services.DocumentTemplateService>();
+        services.AddScoped<Nebula.Application.Services.OutboundTemplateGovernanceService>();
+        services.AddScoped<Nebula.Application.Services.OutboundDocumentGenerationService>();
         services.AddScoped<Nebula.Application.Services.DocumentRetentionService>();
+        services.AddScoped<Nebula.Application.Services.CommunicationService>();
+        services.AddScoped<Nebula.Application.Services.ServiceCaseService>();
         services.AddSingleton<IQuarantineScanner, MockTimerScanner>();
         services.AddHostedService<PolicyExpirationHostedService>();
         services.AddHostedService<QuarantinePromotionWorker>();

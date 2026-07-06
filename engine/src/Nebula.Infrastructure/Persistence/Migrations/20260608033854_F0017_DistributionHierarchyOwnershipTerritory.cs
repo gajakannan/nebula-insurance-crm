@@ -10,7 +10,7 @@ namespace Nebula.Infrastructure.Persistence.Migrations
     {
         // F0017 (ADR-026): distribution hierarchy + effective-dated producer ownership and territory.
         // Scoped to the four F0017 tables only. Filtered unique indexes (single-open-period, active
-        // territory name, single-open-assignment) are added via raw SQL — not expressible via the fluent API.
+        // territory name, single-open-member-assignment) are added via raw SQL — not expressible via the fluent API.
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -184,7 +184,7 @@ namespace Nebula.Infrastructure.Persistence.Migrations
 
             migrationBuilder.Sql(
                 "CREATE UNIQUE INDEX \"IX_TerritoryAssignments_OpenPeriod\" " +
-                "ON \"TerritoryAssignments\" (\"TerritoryId\", \"MemberType\", \"MemberId\") " +
+                "ON \"TerritoryAssignments\" (\"MemberType\", \"MemberId\") " +
                 "WHERE \"EffectiveTo\" IS NULL AND \"IsDeleted\" = false;");
         }
 

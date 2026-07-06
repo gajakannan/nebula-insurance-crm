@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/generated-document-issue-response.schema.json",
+  "title": "GeneratedDocumentIssueResponse",
+  "description": "Response returned when F0027 issues or regenerates a final generated artifact stored through the document subsystem.",
+  "type": "object",
+  "required": ["documentId", "artifactFamily", "templateDocumentId", "templateVersion", "issuedAtUtc", "issuedByUserId", "sourceSnapshotHash"],
+  "additionalProperties": false,
+  "properties": {
+    "documentId": { "type": "string", "pattern": "^doc_[0-9A-HJKMNP-TV-Z]{26}$" },
+    "artifactFamily": { "type": "string", "enum": ["coi", "acord", "proposal"] },
+    "templateDocumentId": { "type": "string", "pattern": "^doc_[0-9A-HJKMNP-TV-Z]{26}$" },
+    "templateVersion": { "type": "integer", "minimum": 1 },
+    "issuedAtUtc": { "type": "string", "format": "date-time" },
+    "issuedByUserId": { "type": "string", "format": "uuid" },
+    "sourceSnapshotHash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "regeneratedFromDocumentId": {
+      "type": ["string", "null"],
+      "pattern": "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "downloadUrl": { "type": ["string", "null"], "format": "uri" }
+  }
+}

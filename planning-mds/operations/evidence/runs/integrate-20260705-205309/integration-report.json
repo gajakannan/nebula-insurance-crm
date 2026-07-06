@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "run_id": "integrate-20260705-205309",
+  "mode": "live",
+  "source": "PR #51 (replay/pr-51, shreyaa2604:F0024)",
+  "integration_branch": "chore/merge-PRs (worktree integrate/pr-51)",
+  "gate1": {
+    "verdict_ref": null,
+    "waiver": {
+      "rationale": "Maintainer decision (2026-07-05): waive feature-review for all merge-train PRs; per-run record.",
+      "decided_by": "maintainer (gajakannan)",
+      "date": "2026-07-05"
+    }
+  },
+  "merges": [
+    {
+      "file": "planning-mds/knowledge-graph/canonical-nodes.yaml",
+      "result": "conflicts (13)",
+      "report": "artifacts/merge3-canonical-nodes.yaml.json"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/code-index.yaml",
+      "result": "clean",
+      "report": "artifacts/merge3-code-index.yaml.json"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/feature-mappings.yaml",
+      "result": "conflicts (9)",
+      "report": "artifacts/merge3-feature-mappings.yaml.json"
+    },
+    {
+      "file": "planning-mds/features/REGISTRY.md",
+      "result": "clean",
+      "report": "artifacts/merge3-REGISTRY.md.json"
+    },
+    {
+      "file": "planning-mds/features/ROADMAP.md",
+      "result": "clean",
+      "report": "artifacts/merge3-ROADMAP.md.json"
+    }
+  ],
+  "conflicts_routed": [
+    {
+      "kind": "DivergentInsert",
+      "records": "10 capability:neuron-* + 3 event:* (canonical-nodes)",
+      "owning_role": "architect"
+    },
+    {
+      "kind": "DivergentInsert",
+      "records": "feature:F0038 + story:F0038-S0001..S0008 (feature-mappings)",
+      "owning_role": "product-manager"
+    }
+  ],
+  "resolution": "22 stale pre-archive F0038/Neuron records on the source branch; PM+architect resolution = fixup/pr-51-drop-stale-f0038-records (6f7c7ff) with semantic-diff proof; re-run supersedes this run",
+  "code_conflicts_resolved_by_maintainer_delegate": [
+    "engine/src/Nebula.Api/Program.cs (union of service registrations)",
+    "experience/vite.config.ts (their createApiProxyOptions structure + /neuron proxy)"
+  ],
+  "prepared_merge_sha": null,
+  "gate2": {
+    "result": "not-reached"
+  },
+  "pushed": false,
+  "outcome": "halted-conflicts"
+}

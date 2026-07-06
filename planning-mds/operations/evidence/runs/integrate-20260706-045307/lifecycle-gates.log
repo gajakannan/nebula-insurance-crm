@@ -1,0 +1,23 @@
+python3: can't open file '/home/gajap/uSandbox/repos/nebula/nebula-agents/scripts/kg/validate.py': [Errno 2] No such file or directory
+python3: can't open file '/home/gajap/uSandbox/repos/nebula/nebula-agents/planning-mds/testing/validate-nebula-api-contract.py': [Errno 2] No such file or directory
+python3: can't open file '/home/gajap/uSandbox/repos/nebula/nebula-agents/planning-mds/testing/validate-frontend-quality-gate.py': [Errno 2] No such file or directory
+Running lifecycle gates for stage: implementation
+------------------------------------------------------------
+[GATE] knowledge_graph_sync
+  Validate knowledge-graph integrity (IDs, references, paths, feature coverage, code-index bindings, coverage-report freshness).
+  command: python3 scripts/kg/validate.py
+[FAIL] knowledge_graph_sync (exit code 2)
+
+[GATE] solution_contract
+  Validate solution-specific story/API contract alignment against the product OpenAPI spec.
+  command: python3 planning-mds/testing/validate-nebula-api-contract.py planning-mds/api/nebula-api.yaml
+[FAIL] solution_contract (exit code 2)
+
+[GATE] frontend_quality
+  Enforce product-owned frontend validation evidence and coverage artifacts.
+  command: python3 planning-mds/testing/validate-frontend-quality-gate.py planning-mds/operations/evidence/frontend-quality/latest-run.json
+[FAIL] frontend_quality (exit code 2)
+
+============================================================
+[SUMMARY] FAILED (3 gate(s)): knowledge_graph_sync, solution_contract, frontend_quality
+exit: 1

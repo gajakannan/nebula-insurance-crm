@@ -11,6 +11,7 @@ import { useDocumentDetail, useDocumentMetadataSchemas, useDocumentPreviewUrl, u
 import type { DocumentClassification, DocumentMetadata, DocumentVersionDto } from '../types'
 import { DocumentMetadataFields } from './DocumentMetadataFields'
 import { describeDocumentError } from './DocumentUploadDialog'
+import { GeneratedArtifactProvenance } from './GeneratedArtifactProvenance'
 
 const CLASSIFICATION_OPTIONS = [
   { value: 'public', label: 'Public' },
@@ -148,6 +149,8 @@ export function DocumentDetailView() {
             <DocumentPreview documentId={documentId} version={previewVersion} />
           </Card>
         )}
+
+        <GeneratedArtifactProvenance sidecar={detail.sidecar} />
 
         <div className="grid gap-6 xl:grid-cols-[1fr_0.8fr]">
           <Card>

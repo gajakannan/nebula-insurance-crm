@@ -1,0 +1,15 @@
+2026-07-02T00:00:00+05:30 G1 CLARIFICATION PASS
+- F0017 Phase A scope remains the existing PRD/story set.
+- No new product clarification blocker found.
+- F0037 remains the deferred boundary for hierarchy-aware read enforcement and distribution rollups.
+
+2026-07-02T00:00:00+05:30 G2 TRACKER SYNC BLOCKED
+- validate-stories.py: PASS for F0017-S0001 through F0017-S0005.
+- generate-story-index.py: PASS; generated STORY-INDEX.md with no tracked diff.
+- validate-trackers.py: FAIL/exit 1. Reported failures reference legacy/archived evidence runs and missing artifacts outside the F0017 plan artifacts. Strict harness closeout remains blocked until repaired or explicitly excepted.
+
+2026-07-02T00:00:00+05:30 G4 PRECHECK
+- KG validate: PASS.
+- KG drift check: PASS.
+- Template validate: PASS.
+- G4 remains pending because G3 Phase A approval has not been reached.

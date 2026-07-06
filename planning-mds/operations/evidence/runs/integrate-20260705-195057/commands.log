@@ -1,0 +1,9 @@
+{"ts": "2026-07-05T19:51:00Z", "command": "git worktree add <scratch>/integr-worktree chore/merge-PRs", "exit_code": 0}
+{"ts": "2026-07-05T19:51:00Z", "command": "git merge --no-commit --no-ff replay/pr-47  # in worktree", "exit_code": 1}
+{"ts": "2026-07-05T19:51:00Z", "command": "python3 scripts/kg/merge3.py planning-mds/knowledge-graph/canonical-nodes.yaml --base 103d59b --ours chore/merge-PRs --theirs replay/pr-47 --output <worktree> --json artifacts/merge3-canonical-nodes.yaml.json", "exit_code": 0}
+{"ts": "2026-07-05T19:51:00Z", "command": "python3 scripts/kg/merge3.py planning-mds/knowledge-graph/code-index.yaml --base 103d59b --ours chore/merge-PRs --theirs replay/pr-47 --output <worktree> --json artifacts/merge3-code-index.yaml.json", "exit_code": 0}
+{"ts": "2026-07-05T19:51:00Z", "command": "python3 scripts/kg/merge3.py planning-mds/knowledge-graph/feature-mappings.yaml --base 103d59b --ours chore/merge-PRs --theirs replay/pr-47 --json artifacts/merge3-feature-mappings.yaml.json", "exit_code": 1}
+{"ts": "2026-07-05T19:51:00Z", "command": "python3 scripts/kg/merge3.py planning-mds/features/REGISTRY.md --base 103d59b --ours chore/merge-PRs --theirs replay/pr-47 --output <worktree> --json artifacts/merge3-REGISTRY.md.json", "exit_code": 0}
+{"ts": "2026-07-05T19:51:00Z", "command": "python3 scripts/kg/merge3.py planning-mds/features/ROADMAP.md --base 103d59b --ours chore/merge-PRs --theirs replay/pr-47 --output <worktree> --json artifacts/merge3-ROADMAP.md.json", "exit_code": 0}
+{"ts": "2026-07-05T19:51:00Z", "command": "diff artifacts/code-index.git-clean-merge.yaml <worktree>/planning-mds/knowledge-graph/code-index.yaml > artifacts/code-index.poisoned-vs-semantic.diff", "exit_code": 1}
+{"ts": "2026-07-05T19:51:00Z", "command": "git merge --abort && git worktree remove  # dry-run cleanup", "exit_code": 0}

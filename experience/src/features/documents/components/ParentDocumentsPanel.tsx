@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { useDocumentCompleteness, useDocuments } from '../hooks'
 import type { DocumentListItemDto, DocumentParentRefDto } from '../types'
 import { DocumentUploadDialog } from './DocumentUploadDialog'
+import { GenerateDocumentPanel } from './GenerateDocumentPanel'
 
 interface ParentDocumentsPanelProps {
   parent: DocumentParentRefDto
@@ -42,6 +43,8 @@ export function ParentDocumentsPanel({ parent, variant = 'card', className }: Pa
           Upload
         </button>
       </div>
+
+      <GenerateDocumentPanel parent={parent} />
 
       {documentsQuery.isLoading ? (
         <div className="space-y-2">

@@ -14,6 +14,69 @@ Define the build order, role handoffs, and integration checkpoints for implement
 
 ---
 
+## F0027 - COI, ACORD & Outbound Document Generation
+
+**Added:** 2026-07-02 - Feature action Step 0 authored the feature-local implementation execution plan after Phase B architecture approval.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0027-coi-acord-and-outbound-document-generation/feature-assembly-plan.md) - detailed slice order, backend/frontend paths, generated-document DTOs, renderer/repository boundaries, preview/issue/regenerate service flows, F0027 authorization gates, and validation checkpoints for outbound document generation.
+
+### Dependencies
+
+| Dependency | Source | What F0027 Needs | Status |
+|------------|--------|------------------|--------|
+| Document subsystem | F0020 / ADR-012 | Templates-as-documents, sidecar JSON, document repository, classification gate, parent-linked document panels | Done and archived |
+| Submission quote/proposal packet | F0019 / ADR-025 | Recorded packet facts for proposal rendering; no workflow/status mutation | Done and archived |
+| Policy/account/submission records | F0016/F0018/F0006 | Source data and parent document surfaces for generated artifacts | Done or archived |
+| Authorization policy | policy.csv + authorization matrix | F0027-specific outbound template/document gates layered over F0020 document gates | Planned in F0027 |
+
+### Assembly Slice Order
+
+1. Backend generated-document DTOs, renderer boundary, and repository generated-write method.
+2. Template governance for outbound families and Admin-only metadata/publish controls.
+3. Outbound generation service and endpoints for preview, issue, regenerate.
+4. Frontend Generate Document Panel, template library metadata controls, and artifact provenance UI.
+5. QE/security/devops evidence and G1-G8 feature closeout.
+
+## F0008 - Broker Insights
+
+**Added:** 2026-07-03 - Feature action Step 0 authored the feature-local implementation execution plan after Phase B planning approval.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0008-broker-insights/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, read-only mutation traceability, permission-safe aggregate behavior, benchmark guardrails, and validation checkpoints for broker insights.
+
+### Dependencies
+
+| Dependency | Source | What F0008 Needs | Status |
+|------------|--------|------------------|--------|
+| Submission and renewal operational data | F0006/F0007 | Source counts, statuses, activity, and lifecycle dates | Available dependency |
+| Broker hierarchy and dimensions | F0017 | Broker/MGA/producer/territory filters and dimensions | Implemented dependency |
+| Quote/bind outcomes | F0019 | Quote-to-bind and production outcome metrics | Implemented dependency |
+| Reporting/search substrate | F0023 | Projection, source-row drilldown, and permission-safe reporting pattern | Implemented dependency |
+| Broker Insights architecture | ADR-031 | Read model, API, benchmark threshold, `broker_insight:read` policy | Accepted |
+
+### Assembly Slice Order
+
+1. Backend projection, DTOs, repository, and query validation.
+2. Backend service and Minimal API endpoints for scorecards, trends, benchmarks, and snapshots.
+3. Frontend broker insights workspace, route, query hooks, scorecards, drilldown, benchmark, and snapshot panels.
+4. Quality/security/deployability evidence focused on permission-safe aggregate behavior.
+5. G7 KG reconciliation and G8 PM closeout.
+
+### Signoff Role Matrix
+
+| Role | Required | Rationale |
+|------|----------|-----------|
+| Quality Engineer | Yes | Preview/issue/regenerate, merge validation, provenance, and immutable history need lifecycle validation |
+| Code Reviewer | Yes | Repository writes, renderer boundary, service orchestration, and UI mutation paths need independent review |
+| Security Reviewer | Yes | Generated artifacts may contain sensitive account/policy/submission data and require layered authorization |
+| DevOps | Yes | Renderer dependency, document storage configuration, and generated binary handling require deployability evidence |
+| Architect | Yes | F0027 must preserve F0019/F0020 boundaries and reconcile as-built KG bindings |
+
+| Quality Engineer | Yes | Metric correctness, benchmark threshold, and read-only UI behavior require validation. |
+| Code Reviewer | Yes | Aggregation logic, repository visibility-first filtering, and API/UI integration need independent review. |
+| Security Reviewer | Yes | Aggregate analytics can leak hidden-record existence if implemented incorrectly. |
+| DevOps | Yes | Projection table/migration and runtime smoke/deployability evidence are required. |
+| Architect | Yes | ADR-029 implementation and KG binding reconciliation are required. |
+
 ## F0019 - Submission Quoting, Proposal & Approval Workflow
 
 **Added:** 2026-06-03 - Feature action Step 0 authored the feature-local implementation execution plan after Phase B architecture completed during planning.
@@ -50,6 +113,74 @@ Define the build order, role handoffs, and integration checkpoints for implement
 | Security Reviewer | Yes | Approval and archive authorization deltas plus audit-bearing decisions are security-sensitive |
 | DevOps | No | No new infrastructure expected; revisit if EF migration/runtime deployment changes require operational validation |
 | Architect | Yes | ADR-025 implementation and KG binding reconciliation are required |
+
+## F0021 - Communication Hub & Activity Capture
+
+**Added:** 2026-07-01 - Feature action Step 0 authored the feature-local implementation execution plan after Phase A+B planning completed and was approved in plan run `2026-07-01-c1726908`.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0021-communication-hub-and-activity-capture/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, timeline events, communication source record handling, follow-up linkage, correction/redaction, and validation checkpoints.
+
+### Dependencies
+
+| Dependency | Source | What F0021 Needs | Status |
+|------------|--------|------------------|--------|
+| Broker detail and timeline | F0002 | Broker context and timeline projection | Done and archived |
+| Task creation and assignment | F0004 | Follow-up task behavior and assignee validation | Done and archived |
+| Submission detail and timeline | F0006 | Submission context and linked timeline | Done and archived |
+| Account 360 | F0016 | Account context and timeline surface | Done and archived |
+| Policy 360 | F0018 | Policy context and timeline surface | Done and archived |
+| Communication architecture | ADR-029 | Source communication records, redaction, and timeline projection boundary | Proposed in Phase B |
+
+### Assembly Slice Order
+
+1. Backend communication source model and EF configuration.
+2. Communication service, repository, authorization, timeline, and task integration.
+3. API endpoints and OpenAPI/schema alignment.
+4. Frontend communication slice and contextual panels.
+5. QE, code/security review, signoff, KG reconciliation, and PM closeout.
+
+### Signoff Role Matrix
+
+| Role | Required | Rationale |
+|------|----------|-----------|
+| Quality Engineer | Yes | Capture, contextual history, follow-up, correction/redaction, reload, and regression behavior require acceptance evidence |
+| Code Reviewer | Yes | New backend source records, API contracts, frontend panels, task integration, and timeline projection need independent review |
+| Security Reviewer | Yes | Notes, participant metadata, visibility, external role denial, and redaction are security-sensitive |
+| DevOps | No | No new runtime services expected; revisit if migrations/config require deployability evidence beyond normal runtime checks |
+| Architect | Yes | KG reconciliation and communication source/timeline boundary must be verified against as-built implementation |
+
+## F0024 - Claims & Service Case Tracking
+
+**Added:** 2026-07-03 - Feature action Step 0 authored the feature-local implementation execution plan after Phase A+B planning completed and was approved by the operator.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0024-claims-and-service-case-tracking/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, timeline events, service-case workflow, claim-reference boundary, task/communication links, and validation checkpoints.
+
+### Dependencies
+
+| Dependency | Source | What F0024 Needs | Status |
+|------------|--------|------------------|--------|
+| Account 360 | F0016 | Account context, account detail panel, account timeline projection | Done and archived |
+| Policy 360 | F0018 | Policy context, policy detail panel, policy timeline projection | Done and archived |
+| Task Center | F0004 | Follow-up task creation and assignee validation | Done and archived |
+| Communication Hub | F0021 | Link existing communication events to service cases | Done and archived |
+| Service-case boundary | ADR-030 | ServiceCase source record and claim-reference limits | Proposed in Phase B |
+
+### Assembly Slice Order
+
+1. Backend service-case aggregate, repository, EF configuration, migration, and policy sync.
+2. Service-case service, validators, endpoints, and backend tests.
+3. Frontend service-case workspace/detail, account/policy panels, API hooks, and UI tests.
+4. QE, DevOps, code/security review, signoff, KG reconciliation, and PM closeout.
+
+### Signoff Role Matrix
+
+| Role | Required | Rationale |
+|------|----------|-----------|
+| Quality Engineer | Yes | Service-case lifecycle, reload, permissions, timeline, and cross-feature task/communication links need acceptance evidence |
+| Code Reviewer | Yes | New backend aggregate, API surface, frontend workflow, migration, and timeline/task/communication integration need independent review |
+| Security Reviewer | Yes | Claim-reference context, external role denial, account/policy scope, and timeline payload safety are security-sensitive |
+| DevOps | Yes | New persisted entities, migration, indexes, and embedded Casbin policy sync need deployability evidence |
+| Architect | Yes | G0 plan validation and G7 as-built KG reconciliation are required |
 
 ## F0020 - Document Management & ACORD Intake
 
@@ -2070,7 +2201,7 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 
 **Added:** 2026-06-07 - Feature action Step 0 (run `2026-06-07-771a5ef6`) created the feature-local implementation execution plan after Phase B architecture (ADR-026) completed during planning.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0017-broker-mga-hierarchy-and-producer-ownership/feature-assembly-plan.md) - backend-led slice order (S0001-S0005): 4 new entities (`DistributionNode`, `ProducerOwnership`, `Territory`, `TerritoryAssignment`), self-referencing hierarchy with materialized ancestry + cycle/orphan guards, shared effective-dating period logic, territory overlap rule, 9 endpoints with Casbin role-based mutation guards, and immutable timeline emission. Frontend distribution panels validated in CI (WSL `/mnt/c` toolchain constraint).
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/feature-assembly-plan.md) - backend-led slice order (S0001-S0005): 4 new entities (`DistributionNode`, `ProducerOwnership`, `Territory`, `TerritoryAssignment`), self-referencing hierarchy with materialized ancestry + cycle/orphan guards, shared effective-dating period logic, territory overlap rule, 9 endpoints with Casbin role-based mutation guards, and immutable timeline emission. Frontend distribution panels validated in CI (WSL `/mnt/c` toolchain constraint).
 
 ### Dependencies
 
@@ -2135,3 +2266,23 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 3. Neuron Renewals head + stub heads + outreach drafter + glance assembly + envelope + provenance/telemetry.
 4. Frontend Day-at-a-Glance shell + zone slots + registry renderer + draft editor + mock-send.
 5. QE cross-tier E2E + coverage + security scans; DevOps new `neuron` service runtime + deployability.
+
+## F0028 - Carrier & Market Relationship Management
+
+**Added:** 2026-07-02 - Feature action Step 0 (run `2026-07-02-736e7854`) created the feature-local implementation execution plan after Phase B approval.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0028-carrier-and-market-relationship-management/feature-assembly-plan.md) - backend/frontend slice order (S0001-S0006): carrier market aggregate, contacts, appetite notes, appointments, activity links, internal-only search projection, Casbin `carrier_market` policies, timeline events, directory/detail UI, and required QE/Code/Security/DevOps/Architect evidence.
+
+### Dependencies
+
+| Dependency | Source | What F0028 Needs | Status |
+|------------|--------|------------------|--------|
+| Submission quoting and policy context | F0019 | Related submission/policy linking and recorded carrier context | Done dependency |
+| Search/reporting substrate | F0023 | CarrierMarket search projection and permission filtering | Done dependency |
+| Timeline/audit pattern | Existing CRM architecture | Immutable mutation evidence | Existing |
+
+### Architecture Notes
+
+- Backend-bearing (`engine/**`) + UI-bearing (`experience/**`); DevOps evidence required for runtime/migration deployability.
+- F0028 is manual CRM-side market intelligence only. Carrier API sync, rating/pricing, quote comparison, recommendations, reinsurance, and external carrier synchronization remain out of scope.
+- Security review is required because appetite, appointment, and underwriter relationship intelligence are internal commercially sensitive data.

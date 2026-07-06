@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/queue-member-upsert-request.schema.json",
+  "title": "QueueMemberUpsertRequest",
+  "description": "Replace the effective membership set for a queue.",
+  "type": "object",
+  "required": ["members"],
+  "properties": {
+    "members": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["userProfileId", "role", "effectiveFrom"],
+        "properties": {
+          "userProfileId": { "type": "string", "format": "uuid" },
+          "role": { "type": "string", "enum": ["Member", "Manager", "Backup"] },
+          "effectiveFrom": { "type": "string", "format": "date" },
+          "effectiveTo": { "type": ["string", "null"], "format": "date" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

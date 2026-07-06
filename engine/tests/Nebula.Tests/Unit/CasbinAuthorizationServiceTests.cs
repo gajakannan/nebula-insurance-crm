@@ -94,6 +94,22 @@ public class CasbinAuthorizationServiceTests
         result.ShouldBe(expected, $"{role} should {(expected ? "be allowed" : "be denied")} {resource}:{action}");
     }
 
+    [Theory]
+    [InlineData("DistributionUser", "carrier_market", "read", true)]
+    [InlineData("DistributionUser", "carrier_market", "create", false)]
+    [InlineData("DistributionManager", "carrier_market", "manage_contact", true)]
+    [InlineData("Underwriter", "carrier_market", "link_activity", true)]
+    [InlineData("RelationshipManager", "carrier_market", "manage_appetite", true)]
+    [InlineData("ProgramManager", "carrier_market", "update", false)]
+    [InlineData("Admin", "carrier_market", "manage_appointment", true)]
+    [InlineData("BrokerUser", "carrier_market", "read", false)]
+    [InlineData("ExternalUser", "carrier_market", "search", false)]
+    public async Task CarrierMarketPolicy_MatchesPolicyCsv(string role, string resource, string action, bool expected)
+    {
+        var result = await _sut.AuthorizeAsync(role, resource, action);
+        result.ShouldBe(expected, $"{role} should {(expected ? "be allowed" : "be denied")} {resource}:{action}");
+    }
+
     // ═══════════════════════════════════════════════════════════════════════
     // §3 — Timeline event policy matrix
     // ═══════════════════════════════════════════════════════════════════════
@@ -236,7 +252,33 @@ public class CasbinAuthorizationServiceTests
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    // §8 — Startup validation
+    // §8 — Work queue policy matrix (F0022 spot checks)
+    // ═══════════════════════════════════════════════════════════════════════
+
+    [Theory]
+    [InlineData("Admin",               "read",   true)]
+    [InlineData("Admin",               "manage", true)]
+    [InlineData("Admin",               "assign", true)]
+    [InlineData("DistributionManager", "read",   true)]
+    [InlineData("DistributionManager", "manage", true)]
+    [InlineData("DistributionManager", "assign", true)]
+    [InlineData("ProgramManager",      "read",   true)]
+    [InlineData("ProgramManager",      "manage", false)]
+    [InlineData("ProgramManager",      "assign", false)]
+    [InlineData("Coordinator",         "read",   false)]
+    [InlineData("Coordinator",         "assign", false)]
+    [InlineData("Coordinator",         "manage", false)]
+    [InlineData("Underwriter",         "read",   true)]
+    [InlineData("Underwriter",         "assign", false)]
+    [InlineData("BrokerUser",          "read",   false)]
+    public async Task WorkQueuePolicy_MatchesPolicyCsv(string role, string action, bool expected)
+    {
+        var result = await _sut.AuthorizeAsync(role, "queue", action);
+        result.ShouldBe(expected, $"{role} should {(expected ? "be allowed" : "be denied")} queue:{action}");
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // §9 — Startup validation
     // ═══════════════════════════════════════════════════════════════════════
 
     [Fact]

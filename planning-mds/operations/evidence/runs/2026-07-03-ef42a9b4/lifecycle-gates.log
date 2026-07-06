@@ -1,0 +1,123 @@
+# Lifecycle Gates Log — defect-bugfix run 2026-07-03-ef42a9b4
+
+## Lifecycle Gate Run
+
+### D0
+Command: harness scope initialization
+Stage: D0
+Exit Code: 0
+Result: PASS
+Output References: `action-context.md`, `gate-decisions.md`
+Skipped Gates: -
+
+### D1
+Command: git merge-tree --write-tree upstream/main upstream/pr/47
+Stage: D1
+Exit Code: 1
+Result: PASS
+Output References: `artifacts/merge/merge-tree-pr47-vs-main.txt`
+Skipped Gates: -
+
+### D3
+Command: git merge --no-ff upstream/main
+Stage: D3
+Exit Code: 1
+Result: PASS
+Output References: `artifact-trace.md`, `architect-analysis.md`
+Skipped Gates: -
+
+### D4
+Command: python3 scripts/kg/validate.py --write-coverage-report
+Stage: D4
+Exit Code: 0
+Result: PASS
+Output References: `artifacts/validation/kg-write-coverage-report-rerun.log`
+Skipped Gates: -
+
+### D4
+Command: python3 scripts/kg/validate.py
+Stage: D4
+Exit Code: 0
+Result: PASS
+Output References: `artifacts/validation/kg-validate.log`
+Skipped Gates: -
+
+### D4
+Command: python3 scripts/kg/validate.py --check-drift
+Stage: D4
+Exit Code: 0
+Result: PASS
+Output References: `artifacts/validation/kg-check-drift.log`
+Skipped Gates: -
+
+### D4
+Command: python3 ../nebula-agents/agents/product-manager/scripts/validate-stories.py planning-mds/features/archive/F0021-communication-hub-and-activity-capture
+Stage: D4
+Exit Code: 0
+Result: PASS
+Output References: `artifacts/validation/validate-stories-f0021.log`
+Skipped Gates: -
+
+### D4
+Command: python3 ../nebula-agents/agents/product-manager/scripts/generate-story-index.py planning-mds/features/
+Stage: D4
+Exit Code: 0
+Result: PASS
+Output References: `artifacts/validation/generate-story-index-rerun.log`
+Skipped Gates: -
+
+### D4
+Command: python3 ../nebula-agents/agents/product-manager/scripts/validate-trackers.py
+Stage: D4
+Exit Code: 0
+Result: PASS
+Output References: `artifacts/validation/validate-trackers.log`
+Skipped Gates: -
+
+### D4
+Command: python3 agents/scripts/validate_templates.py
+Stage: D4
+Exit Code: 0
+Result: PASS
+Output References: `artifacts/validation/validate-templates.log`
+Skipped Gates: -
+
+### D4
+Command: pnpm --dir experience test src/features/communications/components/__tests__/CommunicationPanel.test.tsx
+Stage: D4
+Exit Code: 0
+Result: PASS
+Output References: `artifacts/test-results/communication-panel-vitest.log`
+Skipped Gates: -
+
+### D4
+Command: pnpm --dir experience lint && pnpm --dir experience lint:theme && pnpm --dir experience build
+Stage: D4
+Exit Code: 0
+Result: PASS
+Output References: `artifacts/validation/frontend-lint.log`, `artifacts/validation/frontend-lint-theme.log`, `artifacts/validation/frontend-build.log`
+Skipped Gates: -
+
+### D4
+Command: F0021 browser E2E
+Stage: D4
+Exit Code: 7
+Result: WARN
+Output References: `artifacts/validation/api-healthz.log`, `artifacts/validation/frontend-healthz.log`, `artifacts/validation/docker-compose-ps.log`
+Skipped Gates: Browser E2E skipped because local API/frontend health checks failed and compose status was unavailable.
+
+### D5
+Command: curl -fsS https://api.github.com/repos/gajakannan/nebula-insurance-crm/pulls/47
+Stage: D5
+Exit Code: 0
+Result: PASS
+Output References: PR metadata confirmed actual head branch.
+Skipped Gates: -
+
+### D5
+Command: git push origin HEAD:feature-karthik/f0021-communication-hub
+Stage: D5
+Exit Code: 0
+Result: PASS
+Output References: Remote PR head updated.
+Skipped Gates: -

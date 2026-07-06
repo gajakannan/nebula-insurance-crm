@@ -10,6 +10,11 @@ public interface IDocumentRepository
         Stream binary,
         CancellationToken ct = default);
 
+    Task<DocumentWriteResult> CreateGeneratedAvailableAsync(
+        DocumentGeneratedWriteCommand command,
+        Stream binary,
+        CancellationToken ct = default);
+
     Task<IReadOnlyList<DocumentSidecarDto>> ListParentSidecarsAsync(
         DocumentParentRefDto parent,
         CancellationToken ct = default);
@@ -74,6 +79,21 @@ public sealed record DocumentUploadCommand(
     string OriginalFileName,
     string? ProvenanceSource,
     bool IsTemplate);
+
+public sealed record DocumentGeneratedWriteCommand(
+    DocumentParentRefDto Parent,
+    string LogicalName,
+    string Classification,
+    string Type,
+    IReadOnlyList<string> Tags,
+    DocumentMetadataSchemaRefDto MetadataSchema,
+    JsonElement Metadata,
+    Guid IssuedByUserId,
+    string ContentType,
+    long SizeBytes,
+    string OriginalFileName,
+    string TemplateDocumentId,
+    int TemplateVersion);
 
 public sealed record DocumentReplaceCommand(
     Guid UploadedByUserId,

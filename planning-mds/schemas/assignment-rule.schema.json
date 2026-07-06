@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/assignment-rule.schema.json",
+  "title": "AssignmentRule",
+  "description": "Versioned queue assignment rule.",
+  "type": "object",
+  "required": ["id", "workQueueId", "ruleType", "precedence", "version", "status", "conditions", "matchReasonTemplate", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "workQueueId": { "type": "string", "format": "uuid" },
+    "ruleType": { "type": "string", "enum": ["ManualOverride", "Coverage", "TerritoryOwnership", "WorkloadBalance", "Fallback"] },
+    "precedence": { "type": "integer", "minimum": 1, "maximum": 999 },
+    "version": { "type": "integer", "minimum": 1 },
+    "status": { "type": "string", "enum": ["Draft", "Active", "Superseded", "Disabled"] },
+    "conditions": { "type": "object", "additionalProperties": true },
+    "matchReasonTemplate": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "rowVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

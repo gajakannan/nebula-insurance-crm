@@ -1,0 +1,8 @@
+Running DAST scan with OWASP ZAP baseline (docker)
+Target: http://127.0.0.1:8080
+Report: /Users/wallstreet62/Desktop/nebula3/nebula-insurance-crm/planning-mds/operations/evidence/runs/2026-07-01-9cee64f0/artifacts/security/dast-zap-baseline-20260701-202643.html
+Unable to find image 'owasp/zap2docker-stable:latest' locally
+docker: Error response from daemon: pull access denied for owasp/zap2docker-stable, repository does not exist or may require 'docker login'
+
+Run 'docker run --help' for more information
+DAST scan failed (exit 125).

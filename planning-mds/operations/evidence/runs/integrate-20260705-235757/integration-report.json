@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "run_id": "integrate-20260705-235757",
+  "mode": "live",
+  "source": "PR #51 via fixup/pr-51-drop-stale-f0038-records (PM+architect resolution of attempt-1's 22 DivergentInserts)",
+  "source_head_sha": "6f7c7ff179eebfc70c5542f5059327a54129dc13",
+  "integration_branch": "chore/merge-PRs (prepared on integrate/pr-51; fast-forwarded after gate 2)",
+  "merge_base_sha": "e70beccfa5f73aa329476b3069cf9bc24370cf58",
+  "integration_head_sha": "c6ccaa05a6b018415a084a33e099178e2a50a235",
+  "gate1": {
+    "verdict_ref": null,
+    "waiver": {
+      "rationale": "Maintainer decision (2026-07-05): waive feature-review for all merge-train PRs; per-run record. Gate 2 remains in force.",
+      "decided_by": "maintainer (gajakannan)",
+      "date": "2026-07-05"
+    }
+  },
+  "branch_verification": {
+    "result": "proceed-with-findings (maintainer-sanctioned)",
+    "details": "Same posture as the PR #47 run: contributor generated files not reproducible here; discarded and regenerated at I3 per contract."
+  },
+  "merges": [
+    {
+      "file": "planning-mds/knowledge-graph/canonical-nodes.yaml",
+      "result": "clean (fixup dissolved 13 DivergentInserts)",
+      "report": "artifacts/merge3-canonical-nodes.yaml.json"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/code-index.yaml",
+      "result": "clean",
+      "report": "artifacts/merge3-code-index.yaml.json"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/feature-mappings.yaml",
+      "result": "clean (fixup dissolved 9 DivergentInserts; base's F0038 exclusion deletion won three-way)",
+      "report": "artifacts/merge3-feature-mappings.yaml.json"
+    },
+    {
+      "file": "planning-mds/features/REGISTRY.md",
+      "result": "clean",
+      "report": "artifacts/merge3-REGISTRY.md.json"
+    },
+    {
+      "file": "planning-mds/features/ROADMAP.md",
+      "result": "clean",
+      "report": "artifacts/merge3-ROADMAP.md.json"
+    }
+  ],
+  "merge_decisions": [
+    "Code conflicts resolved by maintainer delegate: Program.cs (union of service registrations: NeuronCompanionTelemetryService + ServiceCaseService), vite.config.ts (F0024's createApiProxyOptions structure + maintainer /neuron proxy); dotnet build green",
+    "Generated files (symbol-index, coverage-report, unbound-but-referenced, STORY-INDEX) discarded and regenerated",
+    "4 files under evidence run 2026-07-03-ef42a9b4 resolved --ours (append-only mainline evidence wins)"
+  ],
+  "regeneration": [
+    "--regenerate-symbols --check-symbols --regenerate-decisions --check-decisions (4479 symbols: cs 3040, py 391, ts 1048)",
+    "--write-coverage-report",
+    "generate-story-index.py"
+  ],
+  "validation": [
+    {
+      "command": "validate.py",
+      "exit_code": 0
+    },
+    {
+      "command": "validate.py --check-drift",
+      "exit_code": 0
+    },
+    {
+      "command": "validate-trackers.py --skip-feature-evidence",
+      "exit_code": 0
+    },
+    {
+      "command": "dotnet build engine/src/Nebula.Api",
+      "exit_code": 0
+    }
+  ],
+  "conflicts_routed": [],
+  "prepared_merge_sha": "727ca354962f9a5c2f0bee20bebe329bd83ac636",
+  "gate2": {
+    "result": "pass",
+    "exercised": "F0024 Claims & Service Cases + F0021 regression exercised on integrate/pr-51; Neuron Renewals zone verified after NEURON_ENGINE_BASE_URL corrected to :5113 (env issue, not a merge regression)",
+    "recorded_by": "maintainer (gajakannan)",
+    "date": "2026-07-06"
+  },
+  "pushed": false,
+  "supersedes_run": "integrate-20260705-205309",
+  "outcome": "merged-gate2-passed"
+}

@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "run_id": "integrate-20260706-030136",
+  "mode": "live",
+  "source": "PR #53 (replay/pr-53, venkateshDUDDUKURI:feature/F0022-work-queues) \u2014 stacked on PR #50's head",
+  "source_head_sha": "861a9e5c3e6e3252fd4fcd8e24a9b454383b5d74",
+  "integration_branch": "chore/merge-PRs (batch branch integrate/batch-53-54; single gate 2 after #54)",
+  "merge_base_sha": "3e4e581485f6de569d947cca5556cbcf68927fe4",
+  "gate1": {
+    "verdict_ref": null,
+    "waiver": {
+      "rationale": "Train-wide maintainer waiver (2026-07-05); per-run record.",
+      "decided_by": "maintainer (gajakannan)",
+      "date": "2026-07-06"
+    }
+  },
+  "merges": [
+    {
+      "file": "planning-mds/knowledge-graph/canonical-nodes.yaml",
+      "result": "clean (528->651 records; theirs +29)"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/code-index.yaml",
+      "result": "clean (205 records)"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/feature-mappings.yaml",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/features/REGISTRY.md",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/features/ROADMAP.md",
+      "result": "clean after PM-delegate prose union (2 F0022 review bullets)"
+    }
+  ],
+  "merge_decisions": [
+    "Program.cs: ours + OperationsRoutingService + MapWorkQueueEndpoints grafts (their exact base-delta)",
+    "App.tsx/Sidebar.tsx: line unions (WorkQueuesPage route + Work queues nav)",
+    "vite.config.ts: ours + their /api prefix proxy entry (rewrite strips /api)",
+    "BLUEPRINT.md: additive section union; generated files --ours then regenerated"
+  ],
+  "regeneration": [
+    "4609 symbols (cs 3152, py 391, ts 1066)",
+    "coverage-report",
+    "story-index"
+  ],
+  "validation": [
+    {
+      "command": "validate.py",
+      "exit_code": 0
+    },
+    {
+      "command": "validate.py --check-drift",
+      "exit_code": 0
+    },
+    {
+      "command": "validate-trackers.py",
+      "exit_code": 0
+    },
+    {
+      "command": "dotnet build Nebula.Api",
+      "exit_code": 0
+    }
+  ],
+  "conflicts_routed": [],
+  "prepared_merge_sha": "3f0b8fe6de6aa6d0cf89691f194ebb24514f4bb2",
+  "gate2": {
+    "result": "pass",
+    "exercised": "Batch validation: F0022 Work Queues (routing/assignment/coverage) + F0008 Broker Insights (scorecards/trends) + regression sweep; maintainer: 'everything landed well'.",
+    "recorded_by": "maintainer (gajakannan)",
+    "date": "2026-07-06"
+  },
+  "pushed": false,
+  "supersedes_run": null,
+  "outcome": "merged-gate2-passed"
+}

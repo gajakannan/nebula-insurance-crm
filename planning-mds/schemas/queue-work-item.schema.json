@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/queue-work-item.schema.json",
+  "title": "QueueWorkItem",
+  "description": "Manager worklist row for routed work.",
+  "type": "object",
+  "required": ["id", "workQueueId", "sourceType", "sourceId", "queueStatus", "routedAt", "ageHours", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "workQueueId": { "type": "string", "format": "uuid" },
+    "sourceType": { "type": "string", "enum": ["Task", "Submission", "Renewal"] },
+    "sourceId": { "type": "string", "format": "uuid" },
+    "sourceLabel": { "type": "string", "maxLength": 200 },
+    "assignedToUserId": { "type": ["string", "null"], "format": "uuid" },
+    "assignedToDisplayName": { "type": ["string", "null"] },
+    "queueStatus": { "type": "string", "enum": ["Open", "InProgress", "Closed", "Skipped"] },
+    "routedAt": { "type": "string", "format": "date-time" },
+    "ageHours": { "type": "integer", "minimum": 0 },
+    "ruleVersion": { "type": ["string", "null"] },
+    "matchReason": { "type": ["string", "null"], "maxLength": 500 },
+    "rowVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

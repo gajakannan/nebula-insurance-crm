@@ -3,16 +3,37 @@
   "feature_id": "F0017",
   "feature_slug": "broker-mga-hierarchy-and-producer-ownership",
   "run_id": "2026-06-07-771a5ef6",
-  "status": "in-progress",
+  "status": "approved",
   "recorded_on": "2026-06-07",
   "contract_effective_date": "2026-06-07",
   "feature_path_at_run_start": "planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership",
-  "feature_path_at_closeout": null,
-  "feature_state": "In Progress",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership",
+  "feature_state": "Archived",
   "rerun_of": null,
   "changed_paths": [
-    "planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership",
+    "planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/feature-assembly-plan.md",
+    "planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership",
     "planning-mds/architecture/feature-assembly-plan.md",
+    "planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md",
+    "engine/src/Nebula.Domain/Entities",
+    "engine/src/Nebula.Application/DTOs",
+    "engine/src/Nebula.Application/Interfaces",
+    "engine/src/Nebula.Application/Services",
+    "engine/src/Nebula.Application/Validators",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations",
+    "engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Migrations",
+    "engine/src/Nebula.Infrastructure/Repositories",
+    "engine/src/Nebula.Infrastructure/DependencyInjection.cs",
+    "engine/src/Nebula.Api/Endpoints",
+    "engine/src/Nebula.Api/Nebula.Api.csproj",
+    "engine/src/Nebula.Api/Helpers/ProblemDetailsHelper.cs",
+    "engine/src/Nebula.Api/Program.cs",
+    "engine/tests/Nebula.Tests/Integration",
+    "experience/src/features/distribution",
+    "experience/src/pages/BrokerDetailPage.tsx",
+    "experience/src/pages/tests/BrokerDetailPage.integration.test.tsx",
+    "experience/vite.config.ts",
     "planning-mds/operations/evidence/runs/2026-06-07-771a5ef6"
   ],
   "scm": {
@@ -21,13 +42,14 @@
     "diff_artifact": "artifacts/diffs/changed-files.txt"
   },
   "runtime_bearing": true,
-  "deployment_config_changed": false,
-  "frontend_in_scope": false,
+  "deployment_config_changed": true,
+  "frontend_in_scope": true,
   "security_sensitive_scope": false,
   "required_roles": [
     "Quality Engineer",
     "Code Reviewer",
-    "Architect"
+    "Architect",
+    "DevOps"
   ],
   "gate_results": {
     "assembly_plan_validation": {
@@ -39,21 +61,115 @@
       "required": true,
       "result": "PASS",
       "artifact": "g1-runtime-preflight.md"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "g2-self-review.md"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "deployability-check.md"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "signoff-ledger.md"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "kg-reconciliation.md"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "artifact": "pm-closeout.md"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log"
     }
   },
   "files": {
     "readme": "README.md",
     "action_context": "action-context.md",
     "artifact_trace": "artifact-trace.md",
+    "sample_example_F0017": "sample_example_F0017.md",
+    "reference_notes_F0017": "reference_notes_F0017.md",
     "gate_decisions": "gate-decisions.md",
     "commands_log": "commands.log",
     "lifecycle_gates_log": "lifecycle-gates.log",
     "assembly_plan_validation": "g0-assembly-plan-validation.md",
-    "runtime_preflight": "g1-runtime-preflight.md"
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "g2_self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md",
+    "backend_test_trx": "artifacts/test-results/f0017-backend.trx",
+    "backend_test_after_g3_trx": "artifacts/test-results/f0017-backend-after-g3.trx",
+    "backend_coverage": "artifacts/coverage/f0017-backend-cobertura.xml",
+    "backend_coverage_after_g3": "artifacts/coverage/f0017-backend-after-g3-cobertura.xml",
+    "frontend_vitest": "artifacts/test-results/f0017-frontend-vitest.txt",
+    "frontend_broker_detail_distribution_vitest": "artifacts/test-results/f0017-broker-detail-distribution-vitest.txt",
+    "frontend_vite_proxy_smoke": "artifacts/test-results/f0017-vite-proxy-smoke.txt",
+    "frontend_runtime_fix_smoke": "artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt",
+    "hierarchy_load_fix_smoke": "artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt",
+    "demo_visibility_smoke": "artifacts/test-results/f0017-demo-visibility-smoke.txt",
+    "frontend_lint": "artifacts/test-results/frontend-lint.txt",
+    "frontend_build": "artifacts/test-results/frontend-build.txt"
   },
-  "role_results": {},
+  "role_results": {
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "DevOps": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ],
+      "verdict_artifact": "deployability-check.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Architect": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md"
+      ],
+      "verdict_artifact": "g0-assembly-plan-validation.md"
+    }
+  },
   "security_scans": {
-    "dependency": {},
+    "dependency": {
+      "result": "PASS",
+      "artifact": "deployability-check.md",
+      "summary": "Microsoft.OpenApi pinned to 2.9.0; dotnet restore no longer reports the prior Microsoft.OpenApi 2.0.0 advisory"
+    },
     "secrets": {},
     "sast": {},
     "dast": {}

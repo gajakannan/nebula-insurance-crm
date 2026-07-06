@@ -31,7 +31,8 @@ function assignErrorMessage(error: unknown): string {
 }
 
 export function TerritoriesPanel({ memberType, memberId }: TerritoriesPanelProps) {
-  const lookup = useTerritoryAssignmentForMember(memberType, memberId);
+  const [asOf, setAsOf] = useState('');
+  const lookup = useTerritoryAssignmentForMember(memberType, memberId, asOf || undefined);
   const createTerritory = useCreateTerritory();
   const assignMember = useAssignTerritoryMember();
   const [name, setName] = useState('');
@@ -65,7 +66,18 @@ export function TerritoriesPanel({ memberType, memberId }: TerritoriesPanelProps
 
   return (
     <section className="space-y-3" aria-label="Territories">
-      <h4 className="text-xs font-medium uppercase tracking-wide text-text-muted">Territory</h4>
+      <div className="flex flex-wrap items-end justify-between gap-2">
+        <h4 className="text-xs font-medium uppercase tracking-wide text-text-muted">Territory</h4>
+        <label className="flex items-center gap-2 text-xs text-text-muted">
+          As of
+          <input
+            type="date"
+            value={asOf}
+            onChange={(event) => setAsOf(event.target.value)}
+            className="rounded-md border border-surface-border bg-surface px-2 py-1 text-sm text-text-primary"
+          />
+        </label>
+      </div>
 
       {lookup.isLoading ? (
         <Skeleton className="h-10 w-full" />
@@ -80,9 +92,16 @@ export function TerritoriesPanel({ memberType, memberId }: TerritoriesPanelProps
           <p className="text-xs text-text-muted">
             Effective {assignment.effectiveFrom} → {assignment.effectiveTo ?? 'open'}
           </p>
+          {asOf && (
+            <p className="text-xs text-text-muted">
+              Showing assignment as of {asOf}
+            </p>
+          )}
         </div>
       ) : (
-        <p className="py-3 text-center text-sm text-text-muted">Not assigned to a territory.</p>
+        <p className="py-3 text-center text-sm text-text-muted">
+          {asOf ? `No territory assignment as of ${asOf}.` : 'Not assigned to a territory.'}
+        </p>
       )}
 
       <form onSubmit={onCreate} className="flex flex-wrap items-end gap-2 border-t border-surface-border pt-3">

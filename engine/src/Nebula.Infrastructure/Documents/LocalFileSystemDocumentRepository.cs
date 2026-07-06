@@ -77,6 +77,62 @@ public sealed class LocalFileSystemDocumentRepository : IDocumentRepository
         return new DocumentWriteResult(documentId, 1, null, null);
     }
 
+    public async Task<DocumentWriteResult> CreateGeneratedAvailableAsync(
+        DocumentGeneratedWriteCommand command,
+        Stream binary,
+        CancellationToken ct = default)
+    {
+        if (!DocumentConstants.ParentTypes.Contains(command.Parent.Type))
+            return new DocumentWriteResult(null, null, "invalid_parent", $"Unsupported parent type '{command.Parent.Type}'.");
+
+        var documentId = DocumentIds.NewDocumentId();
+        var logicalName = MakeSafeLogicalName(command.LogicalName);
+        var parentDir = ParentDirectory(command.Parent);
+        Directory.CreateDirectory(parentDir);
+        logicalName = DisambiguateLogicalName(parentDir, logicalName);
+
+        var extension = Path.GetExtension(command.OriginalFileName);
+        if (string.IsNullOrWhiteSpace(extension))
+            extension = ".pdf";
+        extension = extension.ToLowerInvariant();
+
+        var fileName = $"{logicalName}-v1{extension}";
+        var versionPath = Path.Combine(parentDir, fileName);
+        var hash = await CopyAndHashAsync(binary, versionPath, ct);
+        var now = DateTime.UtcNow;
+        var sidecar = new DocumentSidecarDto(
+            documentId,
+            logicalName,
+            command.Parent,
+            command.Classification,
+            command.Type,
+            command.Tags,
+            command.MetadataSchema,
+            NormalizeMetadata(command.Metadata),
+            command.IssuedByUserId,
+            new DocumentAuditTimestampsDto(now, now),
+            new DocumentProvenanceDto($"template:{command.TemplateDocumentId}", now, command.IssuedByUserId),
+            [
+                new DocumentVersionDto(
+                    1,
+                    fileName,
+                    command.SizeBytes,
+                    hash,
+                    "available",
+                    now,
+                    command.IssuedByUserId,
+                    null)
+            ],
+            null,
+            null,
+            [
+                new DocumentEventDto("generated_issued", now, command.IssuedByUserId.ToString(), Version: 1)
+            ]);
+
+        await WriteSidecarAsync(SidecarPath(sidecar), sidecar, ct);
+        return new DocumentWriteResult(documentId, 1, null, null);
+    }
+
     public async Task<IReadOnlyList<DocumentSidecarDto>> ListParentSidecarsAsync(
         DocumentParentRefDto parent,
         CancellationToken ct = default)

@@ -1,13 +1,19 @@
 openapi: 3.0.3
 info:
   title: Nebula API
-  version: 0.7.0
+  version: 0.8.0
   description: |
     Public baseline API contract for the Nebula insurance CRM reference implementation.
+    Version 0.8.0 adds F0008 Broker Insights read-only endpoints:
+    broker scorecards, trends/source rows, authorized benchmark comparison,
+    and review snapshots. Governed by ADR-029.
     Version 0.7.0 adds F0038 Neuron Companion engine endpoints (NeuronCompanion tag):
     renewals needing attention, per-renewal companion context, persist outreach draft,
     mock-send (commits Identified→Outreach without dispatching email), and companion
     telemetry ingest. Called by the Neuron service as the user; governed by ADR-027/ADR-028.
+    F0028 adds CRM-side carrier and market relationship management under the
+    CarrierMarkets tag: market directory/profile management, underwriter contacts,
+    appetite notes, appointment context, and links to submissions/policies.
     Version 0.6.0 adds F0023 Global Search, Saved Views, and Operational Reporting:
     permission-filtered cross-object search, personal/team saved-view management,
     and workload / workflow-aging operational report endpoints.
@@ -34,6 +40,8 @@ tags:
     description: Territory definition and effective-dated membership (F0017)
   - name: Contacts
     description: Contact CRUD operations
+  - name: CarrierMarkets
+    description: CRM-side carrier and market relationship management (F0028)
   - name: Accounts
     description: Account operations
   - name: MGAs
@@ -52,6 +60,8 @@ tags:
     description: Dashboard widget data endpoints (F0001)
   - name: Tasks
     description: Task CRUD for My Tasks widget and Task Center
+  - name: WorkQueues
+    description: Work queues, assignment rules, coverage windows, routing audit, and manager reassignment controls (F0022)
   - name: Users
     description: User search for assignee picker (F0004)
   - name: Search
@@ -60,18 +70,488 @@ tags:
     description: Personal and team saved criteria for search and operational reports (F0023)
   - name: OperationalReports
     description: ABAC-scoped workload and workflow aging report endpoints (F0023)
+  - name: BrokerInsights
+    description: Permission-filtered broker scorecards, trends, benchmarks, and review snapshots (F0008)
   - name: Timeline
     description: Activity timeline event queries
   - name: Documents
     description: Document storage, classification, versioning, and parent linkage (F0020). See ADR-012 + ADR-019.
   - name: DocumentTemplates
     description: Reusable document templates (F0020-S0012). Materialise into a parent record to start from a boilerplate.
+  - name: OutboundDocumentGeneration
+    description: F0027 preview, issue, and regenerate flows for COI, ACORD, and reusable proposal artifacts.
   - name: SessionTelemetry
     description: Internal telemetry ingest for F0035 session-continuity events (silent renewal, idle warning, forced redirect, auth-error classification, form-snapshot skip). Governed by ADR-024.
   - name: NeuronCompanion
     description: F0038 Neuron Companion engine endpoints — renewals needing attention, per-renewal companion context, persist outreach draft, mock-send (commit Identified→Outreach, fake SMTP), and companion telemetry ingest. Called by the Neuron service as the user. Governed by ADR-027 + ADR-028.
 
 paths:
+  # ──────────────────────────────────────────────────────────────
+  # F0022 Work queues, assignment rules, and coverage management
+  # ──────────────────────────────────────────────────────────────
+  /work-queues:
+    get:
+      operationId: listWorkQueues
+      summary: List work queues
+      description: Returns manager-visible queue definitions and backlog counters. Queue rows are scope-filtered and source item details remain source-ABAC filtered.
+      tags: [WorkQueues]
+      parameters:
+        - name: workType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Task, Submission, Renewal, Mixed]
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Active, Inactive]
+      responses:
+        "200":
+          description: Work queues
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/WorkQueue"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createWorkQueue
+      summary: Create work queue
+      description: Creates a queue definition. Requires queue:manage; emits ActivityTimelineEvent.
+      tags: [WorkQueues]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkQueueUpsertRequest"
+      responses:
+        "201":
+          description: Queue created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkQueue"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /work-queues/{queueId}:
+    parameters:
+      - $ref: "#/components/parameters/QueueId"
+    get:
+      operationId: getWorkQueueById
+      summary: Get work queue
+      tags: [WorkQueues]
+      responses:
+        "200":
+          description: Queue detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkQueue"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      operationId: updateWorkQueue
+      summary: Update work queue
+      description: Updates queue metadata/status. Requires queue:manage and If-Match; emits ActivityTimelineEvent.
+      tags: [WorkQueues]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkQueueUpsertRequest"
+      responses:
+        "200":
+          description: Queue updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkQueue"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /work-queues/{queueId}/members:
+    parameters:
+      - $ref: "#/components/parameters/QueueId"
+    put:
+      operationId: replaceWorkQueueMembers
+      summary: Replace queue membership
+      description: Replaces the effective membership set for a queue. Requires queue:manage and If-Match; emits ActivityTimelineEvent.
+      tags: [WorkQueues]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueueMemberUpsertRequest"
+      responses:
+        "200":
+          description: Queue updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkQueue"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /work-queues/{queueId}/items:
+    parameters:
+      - $ref: "#/components/parameters/QueueId"
+    get:
+      operationId: listQueueWorkItems
+      summary: List queue work items
+      description: Returns queue worklist rows. Each row is filtered by both queue scope and linked source-record ABAC.
+      tags: [WorkQueues]
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - name: sourceType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Task, Submission, Renewal]
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Open, InProgress, Closed, Skipped]
+      responses:
+        "200":
+          description: Paginated queue work items
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/QueueWorkItem"
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /assignment-rules:
+    get:
+      operationId: listAssignmentRules
+      summary: List assignment rules
+      tags: [WorkQueues]
+      parameters:
+        - name: queueId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Draft, Active, Superseded, Disabled]
+      responses:
+        "200":
+          description: Assignment rules
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/AssignmentRule"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createAssignmentRule
+      summary: Create assignment rule
+      description: Creates a rule version. Requires queue:manage; emits ActivityTimelineEvent.
+      tags: [WorkQueues]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssignmentRuleUpsertRequest"
+      responses:
+        "201":
+          description: Rule created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssignmentRule"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /assignment-rules/{ruleId}:
+    parameters:
+      - $ref: "#/components/parameters/RuleId"
+    put:
+      operationId: updateAssignmentRule
+      summary: Update assignment rule
+      description: Updates a draft rule or creates a new active version. Requires queue:manage and If-Match.
+      tags: [WorkQueues]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssignmentRuleUpsertRequest"
+      responses:
+        "200":
+          description: Rule updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssignmentRule"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /coverage-windows:
+    get:
+      operationId: listCoverageWindows
+      summary: List coverage windows
+      tags: [WorkQueues]
+      parameters:
+        - name: userId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: queueId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Coverage windows
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/CoverageWindow"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createCoverageWindow
+      summary: Create coverage window
+      description: Creates explicit backup coverage. Requires queue:manage; inactivity alone never creates coverage.
+      tags: [WorkQueues]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CoverageWindowUpsertRequest"
+      responses:
+        "201":
+          description: Coverage window created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoverageWindow"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /coverage-windows/{coverageWindowId}:
+    parameters:
+      - $ref: "#/components/parameters/CoverageWindowId"
+    put:
+      operationId: updateCoverageWindow
+      summary: Update coverage window
+      description: Updates or cancels explicit backup coverage. Requires queue:manage and If-Match.
+      tags: [WorkQueues]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CoverageWindowUpsertRequest"
+      responses:
+        "200":
+          description: Coverage window updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoverageWindow"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /queue-work-items/{queueItemId}/assignment:
+    parameters:
+      - $ref: "#/components/parameters/QueueItemId"
+    put:
+      operationId: reassignQueueWorkItem
+      summary: Reassign queue work item
+      description: Manual manager/admin reassignment. Requires queue:assign and If-Match; writes RoutingDecisionLog and ActivityTimelineEvent.
+      tags: [WorkQueues]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueueReassignmentRequest"
+      responses:
+        "200":
+          description: Queue item reassigned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueueWorkItem"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /work-queues/{queueId}/rebalance:
+    parameters:
+      - $ref: "#/components/parameters/QueueId"
+    post:
+      operationId: rebalanceWorkQueue
+      summary: Rebalance selected queue work items
+      description: Bulk manager/admin reassignment with item-level success/failure results.
+      tags: [WorkQueues]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueueRebalanceRequest"
+      responses:
+        "201":
+          description: Rebalance results
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [results]
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      required: [queueWorkItemId, status]
+                      properties:
+                        queueWorkItemId: { type: string, format: uuid }
+                        status: { type: string, enum: [Succeeded, Failed, Skipped] }
+                        reasonCode: { type: string, nullable: true }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /routing-events:
+    get:
+      operationId: listRoutingEvents
+      summary: List routing audit events
+      description: Returns append-only routing decision events for manager/admin diagnostics.
+      tags: [WorkQueues]
+      parameters:
+        - name: sourceType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Task, Submission, Renewal]
+        - name: sourceId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Routing events
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/RoutingEvent"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
   # ──────────────────────────────────────────────────────────────
   # F0017 Distribution hierarchy, producer ownership, and territory
   # ──────────────────────────────────────────────────────────────
@@ -682,6 +1162,351 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "404":
           $ref: "#/components/responses/NotFound"
+
+  # ──────────────────────────────────────────────────────────────
+  # F0028 Carrier and market relationship management
+  # ──────────────────────────────────────────────────────────────
+  /carrier-markets:
+    get:
+      operationId: listCarrierMarkets
+      summary: List carrier markets
+      description: Returns ABAC-scoped carrier market profiles for the market directory.
+      tags: [CarrierMarkets]
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema: { type: string, minLength: 2, maxLength: 200 }
+        - name: status
+          in: query
+          required: false
+          schema: { type: string, enum: [Active, Inactive, Prospect] }
+        - name: marketType
+          in: query
+          required: false
+          schema: { type: string, enum: [Admitted, NonAdmitted, MGA, Wholesaler, Other] }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated carrier market list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedCarrierMarketList"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createCarrierMarket
+      summary: Create carrier market
+      description: Creates a carrier market profile and emits `CarrierMarketCreated`.
+      tags: [CarrierMarkets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierMarketUpsertRequest" }
+      responses:
+        "201":
+          description: Carrier market created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierMarket" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+    get:
+      operationId: getCarrierMarketById
+      summary: Get carrier market
+      tags: [CarrierMarkets]
+      responses:
+        "200":
+          description: Carrier market detail
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierMarket" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      operationId: updateCarrierMarket
+      summary: Update carrier market
+      description: Requires `If-Match`; emits `CarrierMarketUpdated`.
+      tags: [CarrierMarkets]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierMarketUpsertRequest" }
+      responses:
+        "200":
+          description: Carrier market updated
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierMarket" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/contacts:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+    get:
+      operationId: listCarrierMarketContacts
+      summary: List carrier market contacts
+      tags: [CarrierMarkets]
+      responses:
+        "200":
+          description: Carrier contacts
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/CarrierMarketContact" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: createCarrierMarketContact
+      summary: Create carrier market contact
+      description: Emits `CarrierMarketContactCreated`.
+      tags: [CarrierMarkets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierMarketContactUpsertRequest" }
+      responses:
+        "201":
+          description: Carrier contact created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierMarketContact" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/contacts/{contactId}:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+      - $ref: "#/components/parameters/ContactId"
+    put:
+      operationId: updateCarrierMarketContact
+      summary: Update carrier market contact
+      description: Requires `If-Match`; emits `CarrierMarketContactUpdated`.
+      tags: [CarrierMarkets]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierMarketContactUpsertRequest" }
+      responses:
+        "200":
+          description: Carrier contact updated
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierMarketContact" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/appetite-notes:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+    get:
+      operationId: listCarrierAppetiteNotes
+      summary: List carrier appetite notes
+      tags: [CarrierMarkets]
+      responses:
+        "200":
+          description: Appetite notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/CarrierAppetiteNote" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: createCarrierAppetiteNote
+      summary: Create carrier appetite note
+      description: Emits `CarrierAppetiteNoteCreated`.
+      tags: [CarrierMarkets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierAppetiteNoteUpsertRequest" }
+      responses:
+        "201":
+          description: Appetite note created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierAppetiteNote" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/appetite-notes/{appetiteNoteId}:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+      - $ref: "#/components/parameters/AppetiteNoteId"
+    put:
+      operationId: updateCarrierAppetiteNote
+      summary: Update carrier appetite note
+      description: Requires `If-Match`; emits `CarrierAppetiteNoteUpdated`.
+      tags: [CarrierMarkets]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierAppetiteNoteUpsertRequest" }
+      responses:
+        "200":
+          description: Appetite note updated
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierAppetiteNote" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/appointments:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+    get:
+      operationId: listCarrierAppointments
+      summary: List carrier appointments
+      tags: [CarrierMarkets]
+      responses:
+        "200":
+          description: Carrier appointments
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/CarrierAppointment" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: createCarrierAppointment
+      summary: Create carrier appointment
+      description: Emits `CarrierAppointmentCreated`.
+      tags: [CarrierMarkets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierAppointmentUpsertRequest" }
+      responses:
+        "201":
+          description: Carrier appointment created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierAppointment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/appointments/{appointmentId}:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+      - $ref: "#/components/parameters/AppointmentId"
+    put:
+      operationId: updateCarrierAppointment
+      summary: Update carrier appointment
+      description: Requires `If-Match`; emits `CarrierAppointmentUpdated`.
+      tags: [CarrierMarkets]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierAppointmentUpsertRequest" }
+      responses:
+        "200":
+          description: Carrier appointment updated
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierAppointment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/activity-links:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+    get:
+      operationId: listCarrierMarketActivityLinks
+      summary: List carrier market activity links
+      tags: [CarrierMarkets]
+      responses:
+        "200":
+          description: Carrier market links to submissions and policies
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/CarrierMarketActivityLink" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: createCarrierMarketActivityLink
+      summary: Link carrier market to related work
+      description: Creates a carrier market activity link and emits `CarrierMarketActivityLinked`.
+      tags: [CarrierMarkets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierMarketActivityLinkCreateRequest" }
+      responses:
+        "201":
+          description: Activity link created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierMarketActivityLink" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
 
   # ──────────────────────────────────────────────────────────────
   # Account, MGA, Program endpoints (existing)
@@ -3308,6 +4133,189 @@ paths:
           $ref: "#/components/responses/Forbidden"
 
   # ──────────────────────────────────────────────────────────────
+  # F0008 Broker Insights
+  # ──────────────────────────────────────────────────────────────
+  /broker-insights/scorecards:
+    get:
+      operationId: listBrokerInsightScorecards
+      summary: List broker insight scorecards
+      description: |
+        Returns permission-filtered broker scorecards for the selected broker
+        and time window. Metrics are computed after source-record authorization
+        filtering and include denominator and refresh provenance. External users
+        are out of scope.
+      tags: [BrokerInsights]
+      parameters:
+        - name: brokerId
+          in: query
+          required: false
+          schema: { type: string, format: uuid }
+        - name: periodStart
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: periodEnd
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: producerId
+          in: query
+          required: false
+          schema: { type: string, format: uuid }
+        - name: territoryId
+          in: query
+          required: false
+          schema: { type: string, format: uuid }
+        - name: programId
+          in: query
+          required: false
+          schema: { type: string, format: uuid }
+        - name: lineOfBusiness
+          in: query
+          required: false
+          schema: { type: string, maxLength: 80 }
+        - name: region
+          in: query
+          required: false
+          schema: { type: string, maxLength: 80 }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated broker insight scorecards
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, page, pageSize, totalCount, totalPages]
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: "#/components/schemas/BrokerInsightScorecard" }
+                  page: { type: integer, minimum: 1 }
+                  pageSize: { type: integer, minimum: 1 }
+                  totalCount: { type: integer, minimum: 0 }
+                  totalPages: { type: integer, minimum: 0 }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /broker-insights/{brokerId}/trends:
+    parameters:
+      - $ref: "#/components/parameters/BrokerId"
+    get:
+      operationId: getBrokerInsightTrend
+      summary: Get broker insight trend and source rows
+      description: |
+        Returns trend points and permission-filtered source rows for one broker
+        metric. Source rows reuse the GlobalSearchResult shape for navigation.
+      tags: [BrokerInsights]
+      parameters:
+        - name: metricKey
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [quoteCount, bindCount, quoteToBindRate, retentionRate, openPipelineCount, activityCount, productionAmount]
+        - name: periodStart
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: periodEnd
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: bucket
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [day, week, month, quarter]
+            default: month
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Broker insight trend
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrokerInsightTrend"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /broker-insights/{brokerId}/benchmarks:
+    parameters:
+      - $ref: "#/components/parameters/BrokerId"
+    get:
+      operationId: getBrokerInsightBenchmark
+      summary: Get authorized broker benchmark comparison
+      description: |
+        Compares the selected broker against an authorized peer set. Rank and
+        percentile are suppressed when fewer than five visible peers match.
+      tags: [BrokerInsights]
+      parameters:
+        - name: periodStart
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: periodEnd
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: peerSet
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [visibleBrokerGroup, producer, territory, program, region]
+            default: visibleBrokerGroup
+      responses:
+        "200":
+          description: Authorized benchmark comparison
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrokerInsightBenchmark"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /broker-insights/{brokerId}/snapshot:
+    parameters:
+      - $ref: "#/components/parameters/BrokerId"
+    get:
+      operationId: getBrokerInsightSnapshot
+      summary: Get broker review snapshot
+      description: |
+        Returns a read-only, review-ready broker insight snapshot. It does not
+        create a file, email, timeline event, or saved report.
+      tags: [BrokerInsights]
+      parameters:
+        - name: periodStart
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: periodEnd
+          in: query
+          required: true
+          schema: { type: string, format: date }
+      responses:
+        "200":
+          description: Broker insight review snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrokerInsightSnapshot"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  # ──────────────────────────────────────────────────────────────
   # Dashboard endpoints (NEW — F0001)
   # ──────────────────────────────────────────────────────────────
   /dashboard/kpis:
@@ -4510,6 +5518,113 @@ paths:
           $ref: "#/components/responses/NotFound"
 
   # ──────────────────────────────────────────────────────────────
+  # Outbound document generation (F0027)
+  # ──────────────────────────────────────────────────────────────
+  /outbound-documents/preview:
+    post:
+      operationId: previewOutboundDocument
+      summary: Preview an outbound generated document
+      description: >
+        Validates merge data and returns an ephemeral preview for COI, ACORD, or reusable proposal output.
+        Preview never creates a document sidecar and cannot be used as final issue input.
+      tags: [OutboundDocumentGeneration]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/GeneratedDocumentRequest" }
+      responses:
+        "200":
+          description: Preview status, diagnostics, and optional short-lived preview URL.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/GeneratedDocumentPreviewResponse" }
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          description: Source record or template is not eligible for preview.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ProblemDetails" }
+
+  /outbound-documents/issue:
+    post:
+      operationId: issueOutboundDocument
+      summary: Issue a final outbound generated document
+      description: >
+        Reassembles source data server-side, renders a final PDF, and stores the generated artifact
+        through the ADR-012 document repository. Issue is explicit and auditable.
+      tags: [OutboundDocumentGeneration]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/GeneratedDocumentRequest" }
+      responses:
+        "201":
+          description: Generated artifact issued and stored as a parent-linked document.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/GeneratedDocumentIssueResponse" }
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          description: Source record or template is not eligible for issue.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ProblemDetails" }
+
+  /outbound-documents/{documentId}/regenerate:
+    post:
+      operationId: regenerateOutboundDocument
+      summary: Regenerate a previously issued outbound generated document
+      description: >
+        Creates a new generated artifact linked to a prior issued generated document. The prior issued
+        artifact remains immutable and downloadable.
+      tags: [OutboundDocumentGeneration]
+      parameters:
+        - in: path
+          name: documentId
+          required: true
+          schema: { type: string, pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$" }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/GeneratedDocumentRequest" }
+      responses:
+        "201":
+          description: Replacement generated artifact issued as a new document.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/GeneratedDocumentIssueResponse" }
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          description: Prior artifact, source record, or template is not eligible for regeneration.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ProblemDetails" }
+
+  # ──────────────────────────────────────────────────────────────
   # F0035 Session Continuity telemetry ingest (ADR-024)
   # ──────────────────────────────────────────────────────────────
   /internal/telemetry/session-continuity:
@@ -4661,6 +5776,27 @@ components:
       schema:
         type: string
         format: uuid
+    CarrierMarketId:
+      name: carrierMarketId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    AppetiteNoteId:
+      name: appetiteNoteId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    AppointmentId:
+      name: appointmentId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
     SubmissionId:
       name: submissionId
       in: path
@@ -4684,6 +5820,34 @@ components:
         format: uuid
     TaskId:
       name: taskId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    QueueId:
+      name: queueId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    RuleId:
+      name: ruleId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    CoverageWindowId:
+      name: coverageWindowId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    QueueItemId:
+      name: queueItemId
       in: path
       required: true
       schema:
@@ -4979,6 +6143,153 @@ components:
             items:
               type: string
 
+    # ── Work Queue Schemas (F0022) ──────────────────────────────
+    WorkQueue:
+      type: object
+      required: [id, name, workType, status, isFallback, openItemCount, overdueItemCount, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string, minLength: 1, maxLength: 120 }
+        description: { type: string, nullable: true, maxLength: 1000 }
+        workType: { type: string, enum: [Task, Submission, Renewal, Mixed] }
+        status: { type: string, enum: [Active, Inactive] }
+        isFallback: { type: boolean }
+        openItemCount: { type: integer, minimum: 0 }
+        overdueItemCount: { type: integer, minimum: 0 }
+        rowVersion: { type: string }
+
+    WorkQueueUpsertRequest:
+      type: object
+      required: [name, workType, status]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 120 }
+        description: { type: string, nullable: true, maxLength: 1000 }
+        workType: { type: string, enum: [Task, Submission, Renewal, Mixed] }
+        status: { type: string, enum: [Active, Inactive] }
+
+    QueueMemberUpsertRequest:
+      type: object
+      required: [members]
+      properties:
+        members:
+          type: array
+          items:
+            type: object
+            required: [userProfileId, role, effectiveFrom]
+            properties:
+              userProfileId: { type: string, format: uuid }
+              role: { type: string, enum: [Member, Manager, Backup] }
+              effectiveFrom: { type: string, format: date }
+              effectiveTo: { type: string, format: date, nullable: true }
+
+    AssignmentRule:
+      type: object
+      required: [id, workQueueId, ruleType, precedence, version, status, conditions, matchReasonTemplate, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        workQueueId: { type: string, format: uuid }
+        ruleType: { type: string, enum: [ManualOverride, Coverage, TerritoryOwnership, WorkloadBalance, Fallback] }
+        precedence: { type: integer, minimum: 1, maximum: 999 }
+        version: { type: integer, minimum: 1 }
+        status: { type: string, enum: [Draft, Active, Superseded, Disabled] }
+        conditions:
+          type: object
+          additionalProperties: true
+        matchReasonTemplate: { type: string, minLength: 1, maxLength: 500 }
+        rowVersion: { type: string }
+
+    AssignmentRuleUpsertRequest:
+      type: object
+      required: [workQueueId, ruleType, precedence, status, conditions, matchReasonTemplate]
+      properties:
+        workQueueId: { type: string, format: uuid }
+        ruleType: { type: string, enum: [ManualOverride, Coverage, TerritoryOwnership, WorkloadBalance, Fallback] }
+        precedence: { type: integer, minimum: 1, maximum: 999 }
+        status: { type: string, enum: [Draft, Active, Disabled] }
+        conditions:
+          type: object
+          additionalProperties: true
+        matchReasonTemplate: { type: string, minLength: 1, maxLength: 500 }
+
+    CoverageWindow:
+      type: object
+      required: [id, coveredUserId, backupUserId, startsAt, endsAt, status, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        coveredUserId: { type: string, format: uuid }
+        backupUserId: { type: string, format: uuid }
+        workQueueId: { type: string, format: uuid, nullable: true }
+        startsAt: { type: string, format: date-time }
+        endsAt: { type: string, format: date-time }
+        status: { type: string, enum: [Active, Cancelled, Expired] }
+        reason: { type: string, nullable: true, maxLength: 500 }
+        rowVersion: { type: string }
+
+    CoverageWindowUpsertRequest:
+      type: object
+      required: [coveredUserId, backupUserId, startsAt, endsAt, status]
+      properties:
+        coveredUserId: { type: string, format: uuid }
+        backupUserId: { type: string, format: uuid }
+        workQueueId: { type: string, format: uuid, nullable: true }
+        startsAt: { type: string, format: date-time }
+        endsAt: { type: string, format: date-time }
+        status: { type: string, enum: [Active, Cancelled] }
+        reason: { type: string, nullable: true, maxLength: 500 }
+
+    QueueWorkItem:
+      type: object
+      required: [id, workQueueId, sourceType, sourceId, queueStatus, routedAt, ageHours, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        workQueueId: { type: string, format: uuid }
+        sourceType: { type: string, enum: [Task, Submission, Renewal] }
+        sourceId: { type: string, format: uuid }
+        sourceLabel: { type: string, maxLength: 200 }
+        assignedToUserId: { type: string, format: uuid, nullable: true }
+        assignedToDisplayName: { type: string, nullable: true }
+        queueStatus: { type: string, enum: [Open, InProgress, Closed, Skipped] }
+        routedAt: { type: string, format: date-time }
+        ageHours: { type: integer, minimum: 0 }
+        ruleVersion: { type: string, nullable: true }
+        matchReason: { type: string, nullable: true, maxLength: 500 }
+        rowVersion: { type: string }
+
+    QueueReassignmentRequest:
+      type: object
+      required: [assignedToUserId, overrideReason]
+      properties:
+        assignedToUserId: { type: string, format: uuid }
+        overrideReason: { type: string, minLength: 3, maxLength: 500 }
+
+    QueueRebalanceRequest:
+      type: object
+      required: [queueWorkItemIds, assignedToUserId, overrideReason]
+      properties:
+        queueWorkItemIds:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items: { type: string, format: uuid }
+        assignedToUserId: { type: string, format: uuid }
+        overrideReason: { type: string, minLength: 3, maxLength: 500 }
+
+    RoutingEvent:
+      type: object
+      required: [id, sourceType, sourceId, outcome, reasonCode, occurredAt]
+      properties:
+        id: { type: string, format: uuid }
+        queueWorkItemId: { type: string, format: uuid, nullable: true }
+        sourceType: { type: string, enum: [Task, Submission, Renewal] }
+        sourceId: { type: string, format: uuid }
+        outcome: { type: string, enum: [Matched, Fallback, Skipped, Reassigned, Rebalanced, Exception] }
+        reasonCode: { type: string, maxLength: 60 }
+        ruleVersion: { type: string, nullable: true, maxLength: 60 }
+        selectedQueueId: { type: string, format: uuid, nullable: true }
+        selectedAssigneeId: { type: string, format: uuid, nullable: true }
+        actorUserId: { type: string, format: uuid, nullable: true }
+        occurredAt: { type: string, format: date-time }
+
     # ── Broker Schemas ──────────────────────────────────────────
     Broker:
       type: object
@@ -5225,6 +6536,188 @@ components:
           type: integer
         totalPages:
           type: integer
+
+    # ── Carrier Market Schemas (F0028) ─────────────────────────
+    CarrierMarket:
+      type: object
+      required: [id, code, name, status, marketType, createdAt, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        code: { type: string, minLength: 1, maxLength: 40 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        naicCode: { type: string, nullable: true, maxLength: 10 }
+        amBestRating: { type: string, nullable: true, maxLength: 10 }
+        status: { type: string, enum: [Active, Inactive, Prospect] }
+        marketType: { type: string, enum: [Admitted, NonAdmitted, MGA, Wholesaler, Other] }
+        relationshipOwnerUserId: { type: string, format: uuid, nullable: true }
+        websiteUrl: { type: string, format: uri, nullable: true, maxLength: 500 }
+        generalEmail: { type: string, format: email, nullable: true, maxLength: 320 }
+        mainPhone: { type: string, nullable: true, pattern: "^\\+?[1-9]\\d{7,14}$" }
+        notes: { type: string, nullable: true, maxLength: 2000 }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+        rowVersion: { type: string }
+
+    CarrierMarketUpsertRequest:
+      type: object
+      required: [code, name, status, marketType]
+      properties:
+        code: { type: string, minLength: 1, maxLength: 40 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        naicCode: { type: string, nullable: true, maxLength: 10 }
+        amBestRating: { type: string, nullable: true, maxLength: 10 }
+        status: { type: string, enum: [Active, Inactive, Prospect] }
+        marketType: { type: string, enum: [Admitted, NonAdmitted, MGA, Wholesaler, Other] }
+        relationshipOwnerUserId: { type: string, format: uuid, nullable: true }
+        websiteUrl: { type: string, format: uri, nullable: true, maxLength: 500 }
+        generalEmail: { type: string, format: email, nullable: true, maxLength: 320 }
+        mainPhone: { type: string, nullable: true, pattern: "^\\+?[1-9]\\d{7,14}$" }
+        notes: { type: string, nullable: true, maxLength: 2000 }
+
+    PaginatedCarrierMarketList:
+      type: object
+      required: [data, page, pageSize, totalCount, totalPages]
+      properties:
+        data:
+          type: array
+          items: { $ref: "#/components/schemas/CarrierMarket" }
+        page: { type: integer }
+        pageSize: { type: integer }
+        totalCount: { type: integer }
+        totalPages: { type: integer }
+
+    CarrierMarketContact:
+      type: object
+      required: [id, carrierMarketId, fullName, roles, isPrimary, createdAt, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        carrierMarketId: { type: string, format: uuid }
+        fullName: { type: string, minLength: 1, maxLength: 200 }
+        title: { type: string, nullable: true, maxLength: 120 }
+        email: { type: string, format: email, nullable: true, maxLength: 320 }
+        phone: { type: string, nullable: true, pattern: "^\\+?[1-9]\\d{7,14}$" }
+        roles:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items: { type: string, enum: [Underwriter, Marketing, Claims, LossControl, Executive, Operations, Other] }
+        isPrimary: { type: boolean }
+        notes: { type: string, nullable: true, maxLength: 1000 }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+        rowVersion: { type: string }
+
+    CarrierMarketContactUpsertRequest:
+      type: object
+      required: [fullName, roles, isPrimary]
+      properties:
+        fullName: { type: string, minLength: 1, maxLength: 200 }
+        title: { type: string, nullable: true, maxLength: 120 }
+        email: { type: string, format: email, nullable: true, maxLength: 320 }
+        phone: { type: string, nullable: true, pattern: "^\\+?[1-9]\\d{7,14}$" }
+        roles:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items: { type: string, enum: [Underwriter, Marketing, Claims, LossControl, Executive, Operations, Other] }
+        isPrimary: { type: boolean }
+        notes: { type: string, nullable: true, maxLength: 1000 }
+
+    CarrierAppetiteNote:
+      type: object
+      required: [id, carrierMarketId, appetiteLevel, summary, createdAt, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        carrierMarketId: { type: string, format: uuid }
+        lineOfBusiness: { type: string, nullable: true, maxLength: 120 }
+        region: { type: string, nullable: true, maxLength: 120 }
+        appetiteLevel: { type: string, enum: [Preferred, Open, Selective, Restricted, Closed] }
+        summary: { type: string, minLength: 1, maxLength: 240 }
+        detail: { type: string, nullable: true, maxLength: 4000 }
+        effectiveFrom: { type: string, format: date, nullable: true }
+        effectiveTo: { type: string, format: date, nullable: true }
+        source: { type: string, nullable: true, maxLength: 200 }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+        rowVersion: { type: string }
+
+    CarrierAppetiteNoteUpsertRequest:
+      type: object
+      required: [appetiteLevel, summary]
+      properties:
+        lineOfBusiness: { type: string, nullable: true, maxLength: 120 }
+        region: { type: string, nullable: true, maxLength: 120 }
+        appetiteLevel: { type: string, enum: [Preferred, Open, Selective, Restricted, Closed] }
+        summary: { type: string, minLength: 1, maxLength: 240 }
+        detail: { type: string, nullable: true, maxLength: 4000 }
+        effectiveFrom: { type: string, format: date, nullable: true }
+        effectiveTo: { type: string, format: date, nullable: true }
+        source: { type: string, nullable: true, maxLength: 200 }
+
+    CarrierAppointment:
+      type: object
+      required: [id, carrierMarketId, appointmentStatus, states, createdAt, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        carrierMarketId: { type: string, format: uuid }
+        appointmentStatus: { type: string, enum: [NotAppointed, InProgress, Appointed, Suspended, Terminated] }
+        states:
+          type: array
+          uniqueItems: true
+          items: { type: string, pattern: "^[A-Z]{2}$" }
+        lineOfBusiness: { type: string, nullable: true, maxLength: 120 }
+        appointmentNumber: { type: string, nullable: true, maxLength: 80 }
+        effectiveDate: { type: string, format: date, nullable: true }
+        expirationDate: { type: string, format: date, nullable: true }
+        notes: { type: string, nullable: true, maxLength: 2000 }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+        rowVersion: { type: string }
+
+    CarrierAppointmentUpsertRequest:
+      type: object
+      required: [appointmentStatus, states]
+      properties:
+        appointmentStatus: { type: string, enum: [NotAppointed, InProgress, Appointed, Suspended, Terminated] }
+        states:
+          type: array
+          uniqueItems: true
+          items: { type: string, pattern: "^[A-Z]{2}$" }
+        lineOfBusiness: { type: string, nullable: true, maxLength: 120 }
+        appointmentNumber: { type: string, nullable: true, maxLength: 80 }
+        effectiveDate: { type: string, format: date, nullable: true }
+        expirationDate: { type: string, format: date, nullable: true }
+        notes: { type: string, nullable: true, maxLength: 2000 }
+
+    CarrierMarketActivityLink:
+      type: object
+      required: [id, carrierMarketId, relatedEntityType, relatedEntityId, relationshipKind, createdAt]
+      properties:
+        id: { type: string, format: uuid }
+        carrierMarketId: { type: string, format: uuid }
+        relatedEntityType: { type: string, enum: [Submission, Policy] }
+        relatedEntityId: { type: string, format: uuid }
+        relationshipKind: { type: string, enum: [Marketed, Quoted, Bound, Declined, AppointedContext, GeneralReference] }
+        note: { type: string, nullable: true, maxLength: 1000 }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+
+    CarrierMarketActivityLinkCreateRequest:
+      type: object
+      required: [relatedEntityType, relatedEntityId, relationshipKind]
+      properties:
+        relatedEntityType: { type: string, enum: [Submission, Policy] }
+        relatedEntityId: { type: string, format: uuid }
+        relationshipKind: { type: string, enum: [Marketed, Quoted, Bound, Declined, AppointedContext, GeneralReference] }
+        note: { type: string, nullable: true, maxLength: 1000 }
 
     ProducerOwnershipScopeType:
       type: string
@@ -8525,6 +10018,162 @@ components:
         overdueCount: { type: integer, minimum: 0 }
 
     # ──────────────────────────────────────────────────────────────
+    # F0008 Broker Insights schemas
+    # Source-of-truth schemas live in planning-mds/schemas/broker-insight-*.json.
+    # ──────────────────────────────────────────────────────────────
+    BrokerInsightScorecard:
+      type: object
+      required: [brokerId, brokerName, periodStart, periodEnd, metrics, generatedAt]
+      properties:
+        brokerId: { type: string, format: uuid }
+        brokerName: { type: string, minLength: 1, maxLength: 200 }
+        periodStart: { type: string, format: date }
+        periodEnd: { type: string, format: date }
+        comparisonPeriodStart: { type: string, format: date, nullable: true }
+        comparisonPeriodEnd: { type: string, format: date, nullable: true }
+        filters: { $ref: "#/components/schemas/BrokerInsightFilterContext" }
+        metrics:
+          type: array
+          minItems: 1
+          items: { $ref: "#/components/schemas/BrokerInsightMetricCard" }
+        partialData: { type: boolean, default: false }
+        generatedAt: { type: string, format: date-time }
+
+    BrokerInsightFilterContext:
+      type: object
+      properties:
+        producerId: { type: string, format: uuid, nullable: true }
+        territoryId: { type: string, format: uuid, nullable: true }
+        programId: { type: string, format: uuid, nullable: true }
+        lineOfBusiness: { type: string, nullable: true, maxLength: 80 }
+        region: { type: string, nullable: true, maxLength: 80 }
+
+    BrokerInsightMetricCard:
+      type: object
+      required: [metricKey, label, value, unit, denominator, sourceRecordCount, status, lastRefreshedAt]
+      properties:
+        metricKey:
+          type: string
+          enum: [quoteCount, bindCount, quoteToBindRate, retentionRate, openPipelineCount, activityCount, productionAmount]
+        label: { type: string, minLength: 1, maxLength: 120 }
+        value: { type: number, nullable: true }
+        comparisonValue: { type: number, nullable: true }
+        unit:
+          type: string
+          enum: [count, percentage, currency]
+        denominator: { type: integer, minimum: 0 }
+        sourceRecordCount: { type: integer, minimum: 0 }
+        status:
+          type: string
+          enum: [Available, NoData, Partial, Unavailable]
+        drilldownAvailable: { type: boolean, default: false }
+        lastRefreshedAt: { type: string, format: date-time }
+
+    BrokerInsightTrend:
+      type: object
+      required: [brokerId, metricKey, bucket, periodStart, periodEnd, points, sourceRows, generatedAt]
+      properties:
+        brokerId: { type: string, format: uuid }
+        metricKey: { type: string, maxLength: 80 }
+        bucket:
+          type: string
+          enum: [day, week, month, quarter]
+        periodStart: { type: string, format: date }
+        periodEnd: { type: string, format: date }
+        points:
+          type: array
+          items: { $ref: "#/components/schemas/BrokerInsightTrendPoint" }
+        sourceRows:
+          type: array
+          items: { $ref: "#/components/schemas/GlobalSearchResult" }
+        partialData: { type: boolean, default: false }
+        generatedAt: { type: string, format: date-time }
+
+    BrokerInsightTrendPoint:
+      type: object
+      required: [bucketStart, bucketEnd, value, denominator, sourceRecordCount]
+      properties:
+        bucketStart: { type: string, format: date }
+        bucketEnd: { type: string, format: date }
+        value: { type: number, nullable: true }
+        denominator: { type: integer, minimum: 0 }
+        sourceRecordCount: { type: integer, minimum: 0 }
+        status:
+          type: string
+          enum: [Available, NoData, Partial, Unavailable]
+
+    BrokerInsightBenchmark:
+      type: object
+      required: [brokerId, periodStart, periodEnd, peerSet, metrics, generatedAt]
+      properties:
+        brokerId: { type: string, format: uuid }
+        periodStart: { type: string, format: date }
+        periodEnd: { type: string, format: date }
+        peerSet: { $ref: "#/components/schemas/BrokerInsightPeerSet" }
+        metrics:
+          type: array
+          items: { $ref: "#/components/schemas/BrokerInsightBenchmarkMetric" }
+        generatedAt: { type: string, format: date-time }
+
+    BrokerInsightPeerSet:
+      type: object
+      required: [type, visiblePeerCount, minimumPeerCount, status]
+      properties:
+        type:
+          type: string
+          enum: [visibleBrokerGroup, producer, territory, program, region]
+        visiblePeerCount: { type: integer, minimum: 0 }
+        minimumPeerCount: { type: integer, minimum: 1 }
+        status:
+          type: string
+          enum: [Available, InsufficientPeers, NoData]
+
+    BrokerInsightBenchmarkMetric:
+      type: object
+      required: [metricKey, brokerValue, denominator, peerMedian, rank, percentile, variance, status]
+      properties:
+        metricKey: { type: string, maxLength: 80 }
+        brokerValue: { type: number, nullable: true }
+        denominator: { type: integer, minimum: 0 }
+        peerMedian: { type: number, nullable: true }
+        rank: { type: integer, nullable: true, minimum: 1 }
+        percentile: { type: number, nullable: true, minimum: 0, maximum: 100 }
+        variance: { type: number, nullable: true }
+        status:
+          type: string
+          enum: [Available, Suppressed, NoData]
+
+    BrokerInsightSnapshot:
+      type: object
+      required: [brokerId, brokerName, periodStart, periodEnd, highlights, risks, sourceLinks, generatedAt]
+      properties:
+        brokerId: { type: string, format: uuid }
+        brokerName: { type: string, minLength: 1, maxLength: 200 }
+        periodStart: { type: string, format: date }
+        periodEnd: { type: string, format: date }
+        highlights:
+          type: array
+          items: { $ref: "#/components/schemas/BrokerInsightSnapshotItem" }
+        risks:
+          type: array
+          items: { $ref: "#/components/schemas/BrokerInsightSnapshotItem" }
+        activitySummary: { type: string, nullable: true, maxLength: 1000 }
+        opportunitySummary: { type: string, nullable: true, maxLength: 1000 }
+        sourceLinks:
+          type: array
+          items: { $ref: "#/components/schemas/GlobalSearchResult" }
+        partialData: { type: boolean, default: false }
+        generatedAt: { type: string, format: date-time }
+
+    BrokerInsightSnapshotItem:
+      type: object
+      required: [label, value, sourceRecordCount]
+      properties:
+        label: { type: string, minLength: 1, maxLength: 160 }
+        value: { type: string, minLength: 1, maxLength: 300 }
+        sourceRecordCount: { type: integer, minimum: 0 }
+
+    # ──────────────────────────────────────────────────────────────
     # Document component schemas (F0020)
     # Source-of-truth schemas live in planning-mds/schemas/document-*.json.
     # The OpenAPI shapes below mirror those schemas using OpenAPI 3.0.3
@@ -8845,6 +10494,106 @@ components:
                 type: string
                 enum: [public, confidential, restricted]
               count: { type: integer, minimum: 0 }
+
+    GeneratedDocumentRequest:
+      type: object
+      required: [parent, artifactFamily, templateDocumentId]
+      properties:
+        parent:
+          $ref: "#/components/schemas/DocumentParentRef"
+        artifactFamily:
+          type: string
+          enum: [coi, acord, proposal]
+        templateDocumentId:
+          type: string
+          pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+        templateVersion:
+          type: integer
+          nullable: true
+          minimum: 1
+        classification:
+          type: string
+          enum: [public, confidential, restricted]
+          default: confidential
+        regeneratedFromDocumentId:
+          type: string
+          nullable: true
+          pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+        regenerationReason:
+          type: string
+          nullable: true
+          maxLength: 500
+
+    GeneratedDocumentPreviewResponse:
+      type: object
+      required: [artifactFamily, templateDocumentId, sourceSnapshotHash, status, mergeDiagnostics]
+      properties:
+        artifactFamily:
+          type: string
+          enum: [coi, acord, proposal]
+        templateDocumentId:
+          type: string
+          pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+        templateVersion:
+          type: integer
+          minimum: 1
+        sourceSnapshotHash:
+          type: string
+          pattern: "^sha256:[0-9a-f]{64}$"
+        status:
+          type: string
+          enum: [ready, missing_merge_data, render_failed]
+        previewUrl:
+          type: string
+          format: uri
+          nullable: true
+        expiresAtUtc:
+          type: string
+          format: date-time
+          nullable: true
+        mergeDiagnostics:
+          type: array
+          items:
+            type: object
+            required: [field, status]
+            properties:
+              field: { type: string }
+              status: { type: string, enum: [ok, missing, invalid] }
+              detail: { type: string, nullable: true, maxLength: 500 }
+
+    GeneratedDocumentIssueResponse:
+      type: object
+      required: [documentId, artifactFamily, templateDocumentId, templateVersion, issuedAtUtc, issuedByUserId, sourceSnapshotHash]
+      properties:
+        documentId:
+          type: string
+          pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+        artifactFamily:
+          type: string
+          enum: [coi, acord, proposal]
+        templateDocumentId:
+          type: string
+          pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+        templateVersion:
+          type: integer
+          minimum: 1
+        issuedAtUtc:
+          type: string
+          format: date-time
+        issuedByUserId:
+          type: string
+          format: uuid
+        sourceSnapshotHash:
+          type: string
+          pattern: "^sha256:[0-9a-f]{64}$"
+        regeneratedFromDocumentId:
+          type: string
+          nullable: true
+          pattern: "^doc_[0-9A-HJKMNP-TV-Z]{26}$"
+        downloadUrl:
+          type: string
+          format: uri
+          nullable: true
 
     DocumentTemplate:
       type: object

@@ -1,5 +1,6 @@
 import { getDevToken } from './dev-auth'
 import { emitAuthEvent } from '@/features/auth/authEvents'
+import { IS_DEV_AUTH_MODE } from '@/features/auth/authMode'
 import { oidcUserManager } from '@/features/auth/oidcUserManager'
 import {
   classifyAuthResponse,
@@ -57,13 +58,11 @@ export class MutationRetryRequiredError extends ApiError {
   }
 }
 
-const AUTH_MODE = import.meta.env.VITE_AUTH_MODE as string | undefined
-
 async function resolveToken(
   method: string,
   endpointRoute: string,
 ): Promise<AccessTokenResolution> {
-  if (AUTH_MODE !== 'dev') {
+  if (!IS_DEV_AUTH_MODE) {
     const user = await oidcUserManager.getUser()
     if (user?.access_token && !user.expired) {
       return { token: user.access_token, user }
@@ -145,6 +144,7 @@ async function requestApi(path: string, options?: RequestInit, jsonContent = tru
     method,
     endpointRoute,
     allowRenewalRetry: true,
+    allowLocalDevTokenRetry: true,
   })
 }
 
@@ -176,6 +176,7 @@ interface ProblemResponseContext {
   method: string
   endpointRoute: string
   allowRenewalRetry: boolean
+  allowLocalDevTokenRetry: boolean
 }
 
 async function handleProblemResponse(
@@ -212,6 +213,10 @@ async function handleProblemResponse(
     classification.kind === 'auth_token_invalid' ||
     classification.kind === 'auth_session_revoked'
   ) {
+    if (classification.kind === 'auth_token_invalid' && shouldRetryWithLocalDevToken(context)) {
+      return retryWithLocalDevToken(context)
+    }
+
     beginForcedReauth(classification.kind, method, endpointRoute, auth.user)
     return navigationInFlight()
   }
@@ -272,6 +277,33 @@ async function handleExpiredToken(
     )
     return navigationInFlight()
   }
+}
+
+function shouldRetryWithLocalDevToken(context: ProblemResponseContext): boolean {
+  return import.meta.env.DEV &&
+    context.allowLocalDevTokenRetry &&
+    context.endpointRoute.startsWith('/carrier-markets')
+}
+
+async function retryWithLocalDevToken(
+  context: ProblemResponseContext,
+): Promise<Response> {
+  const retry = await sendRequest(
+    context.path,
+    context.options,
+    context.jsonContent,
+    await getDevToken(),
+  )
+
+  if (retry.ok) {
+    return retry
+  }
+
+  return handleProblemResponse({
+    ...context,
+    response: retry,
+    allowLocalDevTokenRetry: false,
+  })
 }
 
 function beginForcedReauth(

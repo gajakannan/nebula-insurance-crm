@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/service-case.schema.json",
+  "title": "ServiceCase",
+  "type": "object",
+  "required": ["id", "caseNumber", "accountId", "summary", "type", "status", "priority", "ownerUserId", "createdByUserId", "createdAt"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "caseNumber": { "type": "string", "maxLength": 40 },
+    "accountId": { "type": "string", "format": "uuid" },
+    "policyId": { "type": ["string", "null"], "format": "uuid" },
+    "summary": { "type": "string", "maxLength": 255 },
+    "description": { "type": ["string", "null"], "maxLength": 4000 },
+    "type": { "type": "string", "enum": ["ServiceRequest", "ClaimSupport", "DocumentationSupport", "BillingInquiry", "Other"] },
+    "status": { "type": "string", "enum": ["Intake", "InProgress", "Waiting", "Resolved", "Closed"] },
+    "priority": { "type": "string", "enum": ["Low", "Medium", "High", "Urgent"] },
+    "ownerUserId": { "type": "string", "format": "uuid" },
+    "dueDate": { "type": ["string", "null"], "format": "date" },
+    "followUpSummary": { "type": ["string", "null"], "maxLength": 1000 },
+    "claimReference": { "$ref": "#/definitions/claimReference" },
+    "communicationLinks": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/communicationLink" },
+      "default": []
+    },
+    "taskLinks": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/taskLink" },
+      "default": []
+    },
+    "transitions": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/transition" },
+      "default": []
+    },
+    "resolvedAt": { "type": ["string", "null"], "format": "date-time" },
+    "closedAt": { "type": ["string", "null"], "format": "date-time" },
+    "resolutionSummary": { "type": ["string", "null"], "maxLength": 1000 },
+    "createdByUserId": { "type": "string", "format": "uuid" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "rowVersion": { "type": ["string", "null"] }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "claimReference": {
+      "type": ["object", "null"],
+      "properties": {
+        "carrierClaimNumber": { "type": ["string", "null"], "maxLength": 80 },
+        "dateOfLoss": { "type": ["string", "null"], "format": "date" },
+        "claimantDisplayName": { "type": ["string", "null"], "maxLength": 255 },
+        "lossSummary": { "type": ["string", "null"], "maxLength": 2000 },
+        "carrierContactReference": { "type": ["string", "null"], "maxLength": 255 },
+        "updatedByUserId": { "type": ["string", "null"], "format": "uuid" },
+        "updatedAt": { "type": ["string", "null"], "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "communicationLink": {
+      "type": "object",
+      "required": ["communicationEventId", "linkType", "createdByUserId", "createdAt"],
+      "properties": {
+        "communicationEventId": { "type": "string", "format": "uuid" },
+        "linkType": { "type": "string", "enum": ["Context", "FollowUp", "Evidence"] },
+        "createdByUserId": { "type": "string", "format": "uuid" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "taskLink": {
+      "type": "object",
+      "required": ["taskId", "relationship", "createdByUserId", "createdAt"],
+      "properties": {
+        "taskId": { "type": "string", "format": "uuid" },
+        "relationship": { "type": "string", "enum": ["FollowUp"] },
+        "createdByUserId": { "type": "string", "format": "uuid" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "transition": {
+      "type": "object",
+      "required": ["fromStatus", "toStatus", "actorUserId", "occurredAt"],
+      "properties": {
+        "fromStatus": { "type": ["string", "null"], "enum": ["Intake", "InProgress", "Waiting", "Resolved", "Closed", null] },
+        "toStatus": { "type": "string", "enum": ["Intake", "InProgress", "Waiting", "Resolved", "Closed"] },
+        "actorUserId": { "type": "string", "format": "uuid" },
+        "occurredAt": { "type": "string", "format": "date-time" },
+        "reasonCode": { "type": ["string", "null"], "maxLength": 80 },
+        "note": { "type": ["string", "null"], "maxLength": 1000 }
+      },
+      "additionalProperties": false
+    }
+  }
+}

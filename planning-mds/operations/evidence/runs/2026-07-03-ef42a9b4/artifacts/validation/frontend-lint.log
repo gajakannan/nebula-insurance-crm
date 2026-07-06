@@ -1,0 +1,23 @@
+
+> nebula-insurance-crm@0.1.0 lint /Users/wallstreet62/Desktop/nebula3/nebula-insurance-crm/experience
+> eslint .
+
+
+/Users/wallstreet62/Desktop/nebula3/nebula-insurance-crm/experience/src/features/communications/components/CommunicationPanel.tsx
+  72:9  warning  The 'communications' logical expression could make the dependencies of useMemo Hook (at line 77) change on every render. To fix this, wrap the initialization of 'communications' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/Users/wallstreet62/Desktop/nebula3/nebula-insurance-crm/experience/src/features/documents/components/DocumentUploadDialog.tsx
+  231:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/Users/wallstreet62/Desktop/nebula3/nebula-insurance-crm/experience/src/features/lob-attributes/engine/widgets/index.tsx
+  316:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/Users/wallstreet62/Desktop/nebula3/nebula-insurance-crm/experience/src/pages/PolicyDetailPage.tsx
+  77:9  warning  The 'currentCoverages' logical expression could make the dependencies of useMemo Hook (at line 97) change on every render. To fix this, wrap the initialization of 'currentCoverages' in its own useMemo() Hook   react-hooks/exhaustive-deps
+  77:9  warning  The 'currentCoverages' logical expression could make the dependencies of useMemo Hook (at line 118) change on every render. To fix this, wrap the initialization of 'currentCoverages' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/Users/wallstreet62/Desktop/nebula3/nebula-insurance-crm/experience/src/pages/SubmissionDetailPage.tsx
+  646:6  warning  React Hook useEffect has a missing dependency: 'submission'. Either include it or remove the dependency array. If 'setPacketForm' needs the current value of 'submission', you can also switch to useReducer instead of useState and read 'submission' in the reducer  react-hooks/exhaustive-deps
+
+✖ 6 problems (0 errors, 6 warnings)
+

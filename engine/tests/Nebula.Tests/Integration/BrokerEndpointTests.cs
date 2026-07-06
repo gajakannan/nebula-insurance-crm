@@ -25,6 +25,28 @@ public class BrokerEndpointTests(CustomWebApplicationFactory factory) : IClassFi
     }
 
     [Fact]
+    public async Task CreateBroker_CreatesMatchingDistributionNode()
+    {
+        var dto = new BrokerCreateDto($"Hierarchy Broker {Guid.NewGuid():N}"[..28], $"HIER-{Guid.NewGuid():N}"[..16], "CA", null, null);
+
+        var response = await _client.PostAsJsonAsync("/brokers", dto);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Created);
+        var result = await response.Content.ReadFromJsonAsync<BrokerDto>();
+        result.ShouldNotBeNull();
+
+        var hierarchy = await _client.GetAsync($"/distribution-nodes/{result!.Id}/ancestors");
+        hierarchy.StatusCode.ShouldBe(HttpStatusCode.OK);
+        var body = await hierarchy.Content.ReadFromJsonAsync<AncestorsJson>();
+        body!.Node.Id.ShouldBe(result.Id);
+        body.Node.NodeType.ShouldBe("Broker");
+        body.Node.DisplayName.ShouldBe(result.LegalName);
+        body.Node.ParentId.ShouldBeNull();
+        body.Node.Depth.ShouldBe(0);
+        body.Node.IsActive.ShouldBeTrue();
+    }
+
+    [Fact]
     public async Task CreateBroker_DuplicateLicense_Returns409()
     {
         var dto = new BrokerCreateDto("First Broker", "DUP-LIC-001", "NY", null, null);
@@ -89,6 +111,30 @@ public class BrokerEndpointTests(CustomWebApplicationFactory factory) : IClassFi
     }
 
     [Fact]
+    public async Task UpdateBroker_SyncsDistributionNodeDisplayNameAndActiveState()
+    {
+        var create = await _client.PostAsJsonAsync("/brokers",
+            new BrokerCreateDto($"Sync Broker {Guid.NewGuid():N}"[..24], $"SYNC-{Guid.NewGuid():N}"[..16], "OR", null, null));
+        var created = await create.Content.ReadFromJsonAsync<BrokerDto>();
+
+        var updateDto = new BrokerUpdateDto("Updated Distribution Broker", "WA", "Inactive", null, null);
+        var request = new HttpRequestMessage(HttpMethod.Put, $"/brokers/{created!.Id}")
+        {
+            Content = JsonContent.Create(updateDto),
+        };
+        request.Headers.IfMatch.Add(new System.Net.Http.Headers.EntityTagHeaderValue($"\"{created.RowVersion}\""));
+
+        var response = await _client.SendAsync(request);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        var hierarchy = await _client.GetAsync($"/distribution-nodes/{created.Id}/ancestors");
+        hierarchy.StatusCode.ShouldBe(HttpStatusCode.OK);
+        var body = await hierarchy.Content.ReadFromJsonAsync<AncestorsJson>();
+        body!.Node.DisplayName.ShouldBe("Updated Distribution Broker");
+        body.Node.IsActive.ShouldBeFalse();
+    }
+
+    [Fact]
     public async Task DeleteBroker_ExistingBroker_Returns204()
     {
         var create = await _client.PostAsJsonAsync("/brokers",
@@ -125,6 +171,22 @@ public class BrokerEndpointTests(CustomWebApplicationFactory factory) : IClassFi
         broker.IsDeactivated.ShouldBeTrue();
     }
 
+    [Fact]
+    public async Task DeleteBroker_MarksDistributionNodeInactive()
+    {
+        var create = await _client.PostAsJsonAsync("/brokers",
+            new BrokerCreateDto($"Delete Sync {Guid.NewGuid():N}"[..24], $"DSYNC-{Guid.NewGuid():N}"[..16], "CA", null, null));
+        var created = await create.Content.ReadFromJsonAsync<BrokerDto>();
+
+        var response = await _client.DeleteAsync($"/brokers/{created!.Id}");
+
+        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
+        var hierarchy = await _client.GetAsync($"/distribution-nodes/{created.Id}/ancestors");
+        hierarchy.StatusCode.ShouldBe(HttpStatusCode.OK);
+        var body = await hierarchy.Content.ReadFromJsonAsync<AncestorsJson>();
+        body!.Node.IsActive.ShouldBeFalse();
+    }
+
     // ── F0002-S0008: reactivation endpoint ─────────────────────────────────
     [Fact]
     public async Task ReactivateBroker_AfterDeactivation_Returns200WithActiveStatus()
@@ -141,6 +203,23 @@ public class BrokerEndpointTests(CustomWebApplicationFactory factory) : IClassFi
         var result = await response.Content.ReadFromJsonAsync<BrokerDto>();
         result!.Status.ShouldBe("Active");
         result.IsDeactivated.ShouldBeFalse();
+    }
+
+    [Fact]
+    public async Task ReactivateBroker_MarksDistributionNodeActive()
+    {
+        var create = await _client.PostAsJsonAsync("/brokers",
+            new BrokerCreateDto($"Reactivate Sync {Guid.NewGuid():N}"[..28], $"RSYNC-{Guid.NewGuid():N}"[..16], "TX", null, null));
+        var created = await create.Content.ReadFromJsonAsync<BrokerDto>();
+        await _client.DeleteAsync($"/brokers/{created!.Id}");
+
+        var response = await _client.PostAsync($"/brokers/{created.Id}/reactivate", null);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        var hierarchy = await _client.GetAsync($"/distribution-nodes/{created.Id}/ancestors");
+        hierarchy.StatusCode.ShouldBe(HttpStatusCode.OK);
+        var body = await hierarchy.Content.ReadFromJsonAsync<AncestorsJson>();
+        body!.Node.IsActive.ShouldBeTrue();
     }
 
     [Fact]
@@ -164,4 +243,10 @@ public class BrokerEndpointTests(CustomWebApplicationFactory factory) : IClassFi
 
     private record JsonPaginatedBrokerList(
         IReadOnlyList<BrokerDto> Data, int Page, int PageSize, int TotalCount, int TotalPages);
+
+    private record NodeJson(
+        Guid Id, string NodeType, string DisplayName, Guid? ParentId,
+        IReadOnlyList<Guid> AncestryPath, int Depth, int ChildCount, bool IsActive, string RowVersion);
+
+    private record AncestorsJson(NodeJson Node, IReadOnlyList<NodeJson> Ancestors);
 }

@@ -99,6 +99,47 @@ export interface DocumentMetadataSchemaRegistryDto {
   schemas: DocumentMetadataSchemaDto[]
 }
 
+export type GeneratedArtifactFamily = 'coi' | 'acord' | 'proposal'
+
+export interface GeneratedDocumentRequestDto {
+  parent: DocumentParentRefDto
+  artifactFamily: GeneratedArtifactFamily
+  templateDocumentId: string
+  templateVersion?: number | null
+  classification: DocumentClassification
+  regeneratedFromDocumentId?: string | null
+  regenerationReason?: string | null
+}
+
+export interface GeneratedDocumentMergeDiagnosticDto {
+  field: string
+  status: string
+  detail: string | null
+}
+
+export interface GeneratedDocumentPreviewResponseDto {
+  artifactFamily: GeneratedArtifactFamily
+  templateDocumentId: string
+  templateVersion: number
+  sourceSnapshotHash: string
+  status: string
+  previewUrl: string | null
+  expiresAtUtc: string | null
+  mergeDiagnostics: GeneratedDocumentMergeDiagnosticDto[]
+}
+
+export interface GeneratedDocumentIssueResponseDto {
+  documentId: string
+  artifactFamily: GeneratedArtifactFamily
+  templateDocumentId: string
+  templateVersion: number
+  issuedAtUtc: string
+  issuedByUserId: string
+  sourceSnapshotHash: string
+  regeneratedFromDocumentId: string | null
+  downloadUrl: string | null
+}
+
 export interface DocumentSidecarDto {
   documentId: string
   logicalName: string

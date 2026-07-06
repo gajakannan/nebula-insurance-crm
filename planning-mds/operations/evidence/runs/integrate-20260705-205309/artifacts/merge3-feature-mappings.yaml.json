@@ -1,0 +1,664 @@
+{
+  "target": "planning-mds/knowledge-graph/feature-mappings.yaml",
+  "inputs": {
+    "base": "e70beccfa5f73aa329476b3069cf9bc24370cf58",
+    "ours": "chore/merge-PRs",
+    "theirs": "replay/pr-51"
+  },
+  "result": "conflicts",
+  "output": null,
+  "stats": {
+    "records_base": 174,
+    "records_ours": 182,
+    "records_theirs": 188,
+    "records_merged": 188,
+    "conflicts": 9
+  },
+  "warnings": [],
+  "conflicts": [
+    {
+      "kind": "DivergentInsert",
+      "record_id": "feature:F0038",
+      "field": "features[feature:F0038]",
+      "base": "<absent>",
+      "ours": {
+        "status": "archived-done",
+        "id": "feature:F0038",
+        "path": "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell",
+        "affects": [
+          "capability:authorization-enforcement",
+          "capability:neuron-companion",
+          "capability:neuron-companion-telemetry",
+          "capability:neuron-day-at-a-glance-shell",
+          "capability:neuron-message-envelope",
+          "capability:neuron-operation-persistence",
+          "capability:neuron-orchestration-runtime",
+          "capability:neuron-outreach-drafter",
+          "capability:neuron-renewals-head",
+          "capability:neuron-scope-guard",
+          "capability:neuron-zone-dispatch",
+          "endpoint:neuron-action-callback",
+          "endpoint:neuron-companion-telemetry",
+          "endpoint:neuron-glance",
+          "endpoint:neuron-message-send",
+          "endpoint:renewal-companion-context",
+          "endpoint:renewal-outreach-draft",
+          "endpoint:renewal-outreach-mock-send",
+          "endpoint:renewals-needs-attention",
+          "entity:account",
+          "entity:activity-timeline-event",
+          "entity:broker",
+          "entity:renewal",
+          "entity:workflow-transition",
+          "event:neuron-companion-telemetry",
+          "event:renewal-outreach-drafted",
+          "event:renewal-outreach-mock-sent",
+          "event:renewal-transitioned",
+          "state:renewal:identified",
+          "state:renewal:outreach",
+          "workflow:renewal"
+        ],
+        "depends_on": [
+          "feature:F0007"
+        ],
+        "enforced_by_policy": [
+          "policy_rule:renewal-draft-outreach",
+          "policy_rule:renewal-read",
+          "policy_rule:renewal-transition"
+        ],
+        "governed_by": [
+          "adr:027",
+          "adr:028"
+        ],
+        "notes": [
+          "F0038↔F0007 reconciliation (ADR-028 §3): mock-send commits the real Identified→Outreach transition, but this is Distribution-owned in F0007. Resolved by a dedicated least-privilege renewal:draft_outreach (Underwriter only) gating draft+mock-send; the engine WorkflowStateMachine permits Identified→Outreach for an Underwriter only on the mock-send path. General renewal:transition ownership unchanged. #1 operator ratification item at G5.",
+          "Neuron owns its neuron.* operation store directly (threads/messages/message_parts/agent_runs/tool_calls/provenance_events; data-model §11), NOT via an engine pass-through. Cross-store writes are engine-first authoritative + idempotent Neuron record referencing the engine id (ADR-028 §2).",
+          "Phase B Architect bindings (plan run 2026-06-30-d1dd91f7), governed by ADR-027 (A2A-aligned orchestration foundation) + ADR-028 (persistence schema, cross-store write consistency, outreach authorization). Neuron is a stateless secondary interface; the .NET engine is the CRM source of truth and authorization boundary.",
+          "code-index.yaml bindings intentionally deferred: no neuron/ implementation code exists at plan; the F0038 feature action binds the as-built neuron/ + engine/ paths."
+        ],
+        "restricted_to_role": [
+          "role:underwriter"
+        ],
+        "uses_api_contract": [
+          "api:nebula-rest",
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:neuron-agent-card",
+          "schema:neuron-companion-telemetry-event",
+          "schema:neuron-message-envelope",
+          "schema:neuron-orchestration-plan",
+          "schema:neuron-zone-payload",
+          "schema:problem-details",
+          "schema:renewal-needs-attention-item",
+          "schema:renewal-outreach-draft-request",
+          "schema:renewal-outreach-mock-send-request"
+        ]
+      },
+      "theirs": {
+        "status": "architecture-complete",
+        "id": "feature:F0038",
+        "path": "planning-mds/features/F0038-neuron-day-at-a-glance-shell",
+        "affects": [
+          "capability:authorization-enforcement",
+          "capability:neuron-companion",
+          "capability:neuron-companion-telemetry",
+          "capability:neuron-day-at-a-glance-shell",
+          "capability:neuron-message-envelope",
+          "capability:neuron-operation-persistence",
+          "capability:neuron-orchestration-runtime",
+          "capability:neuron-outreach-drafter",
+          "capability:neuron-renewals-head",
+          "capability:neuron-scope-guard",
+          "capability:neuron-zone-dispatch",
+          "endpoint:neuron-action-callback",
+          "endpoint:neuron-companion-telemetry",
+          "endpoint:neuron-glance",
+          "endpoint:neuron-message-send",
+          "endpoint:renewal-companion-context",
+          "endpoint:renewal-outreach-draft",
+          "endpoint:renewal-outreach-mock-send",
+          "endpoint:renewals-needs-attention",
+          "entity:account",
+          "entity:activity-timeline-event",
+          "entity:broker",
+          "entity:renewal",
+          "entity:workflow-transition",
+          "event:neuron-companion-telemetry",
+          "event:renewal-outreach-drafted",
+          "event:renewal-outreach-mock-sent",
+          "event:renewal-transitioned",
+          "state:renewal:identified",
+          "state:renewal:outreach",
+          "workflow:renewal"
+        ],
+        "depends_on": [
+          "feature:F0007"
+        ],
+        "enforced_by_policy": [
+          "policy_rule:renewal-draft-outreach",
+          "policy_rule:renewal-read",
+          "policy_rule:renewal-transition"
+        ],
+        "governed_by": [
+          "adr:027",
+          "adr:028"
+        ],
+        "notes": [
+          "F0038↔F0007 reconciliation (ADR-028 §3): mock-send commits the real Identified→Outreach transition, but this is Distribution-owned in F0007. Resolved by a dedicated least-privilege renewal:draft_outreach (Underwriter only) gating draft+mock-send; the engine WorkflowStateMachine permits Identified→Outreach for an Underwriter only on the mock-send path. General renewal:transition ownership unchanged. #1 operator ratification item at G5.",
+          "Neuron owns its neuron.* operation store directly (threads/messages/message_parts/agent_runs/tool_calls/provenance_events; data-model §11), NOT via an engine pass-through. Cross-store writes are engine-first authoritative + idempotent Neuron record referencing the engine id (ADR-028 §2).",
+          "Phase B Architect bindings (plan run 2026-06-30-d1dd91f7), governed by ADR-027 (A2A-aligned orchestration foundation) + ADR-028 (persistence schema, cross-store write consistency, outreach authorization). Neuron is a stateless secondary interface; the .NET engine is the CRM source of truth and authorization boundary.",
+          "code-index.yaml bindings intentionally deferred: no neuron/ implementation code exists at plan; the F0038 feature action binds the as-built neuron/ + engine/ paths."
+        ],
+        "restricted_to_role": [
+          "role:underwriter"
+        ],
+        "uses_api_contract": [
+          "api:nebula-rest",
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:neuron-agent-card",
+          "schema:neuron-companion-telemetry-event",
+          "schema:neuron-message-envelope",
+          "schema:neuron-orchestration-plan",
+          "schema:neuron-zone-payload",
+          "schema:problem-details",
+          "schema:renewal-needs-attention-item",
+          "schema:renewal-outreach-draft-request",
+          "schema:renewal-outreach-mock-send-request"
+        ]
+      },
+      "owning_role": "product-manager",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "story:F0038-S0001",
+      "field": "stories[story:F0038-S0001]",
+      "base": "<absent>",
+      "ours": {
+        "id": "story:F0038-S0001",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md",
+        "affects": [
+          "capability:neuron-operation-persistence",
+          "capability:neuron-orchestration-runtime"
+        ],
+        "governed_by": [
+          "adr:027",
+          "adr:028"
+        ],
+        "uses_api_contract": [
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:neuron-agent-card",
+          "schema:neuron-orchestration-plan"
+        ]
+      },
+      "theirs": {
+        "id": "story:F0038-S0001",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md",
+        "affects": [
+          "capability:neuron-operation-persistence",
+          "capability:neuron-orchestration-runtime"
+        ],
+        "governed_by": [
+          "adr:027",
+          "adr:028"
+        ],
+        "uses_api_contract": [
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:neuron-agent-card",
+          "schema:neuron-orchestration-plan"
+        ]
+      },
+      "owning_role": "product-manager",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "story:F0038-S0002",
+      "field": "stories[story:F0038-S0002]",
+      "base": "<absent>",
+      "ours": {
+        "id": "story:F0038-S0002",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md",
+        "affects": [
+          "capability:neuron-day-at-a-glance-shell",
+          "capability:neuron-message-envelope",
+          "capability:neuron-zone-dispatch",
+          "endpoint:neuron-glance",
+          "endpoint:neuron-message-send"
+        ],
+        "depends_on": [
+          "story:F0038-S0001"
+        ],
+        "governed_by": [
+          "adr:027"
+        ],
+        "uses_api_contract": [
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:neuron-message-envelope",
+          "schema:neuron-zone-payload"
+        ]
+      },
+      "theirs": {
+        "id": "story:F0038-S0002",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md",
+        "affects": [
+          "capability:neuron-day-at-a-glance-shell",
+          "capability:neuron-message-envelope",
+          "capability:neuron-zone-dispatch",
+          "endpoint:neuron-glance",
+          "endpoint:neuron-message-send"
+        ],
+        "depends_on": [
+          "story:F0038-S0001"
+        ],
+        "governed_by": [
+          "adr:027"
+        ],
+        "uses_api_contract": [
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:neuron-message-envelope",
+          "schema:neuron-zone-payload"
+        ]
+      },
+      "owning_role": "product-manager",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "story:F0038-S0003",
+      "field": "stories[story:F0038-S0003]",
+      "base": "<absent>",
+      "ours": {
+        "id": "story:F0038-S0003",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0003-live-renewals-zone-read.md",
+        "affects": [
+          "capability:neuron-renewals-head",
+          "endpoint:renewal-companion-context",
+          "endpoint:renewals-needs-attention",
+          "entity:account",
+          "entity:broker",
+          "entity:renewal",
+          "workflow:renewal"
+        ],
+        "depends_on": [
+          "feature:F0007",
+          "story:F0038-S0001",
+          "story:F0038-S0002"
+        ],
+        "enforced_by_policy": [
+          "policy_rule:renewal-read"
+        ],
+        "governed_by": [
+          "adr:027"
+        ],
+        "uses_api_contract": [
+          "api:nebula-rest",
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:renewal-needs-attention-item"
+        ]
+      },
+      "theirs": {
+        "id": "story:F0038-S0003",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0003-live-renewals-zone-read.md",
+        "affects": [
+          "capability:neuron-renewals-head",
+          "endpoint:renewal-companion-context",
+          "endpoint:renewals-needs-attention",
+          "entity:account",
+          "entity:broker",
+          "entity:renewal",
+          "workflow:renewal"
+        ],
+        "depends_on": [
+          "feature:F0007",
+          "story:F0038-S0001",
+          "story:F0038-S0002"
+        ],
+        "enforced_by_policy": [
+          "policy_rule:renewal-read"
+        ],
+        "governed_by": [
+          "adr:027"
+        ],
+        "uses_api_contract": [
+          "api:nebula-rest",
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:renewal-needs-attention-item"
+        ]
+      },
+      "owning_role": "product-manager",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "story:F0038-S0004",
+      "field": "stories[story:F0038-S0004]",
+      "base": "<absent>",
+      "ours": {
+        "id": "story:F0038-S0004",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0004-stub-zones-inactive-payload.md",
+        "affects": [
+          "capability:neuron-zone-dispatch"
+        ],
+        "depends_on": [
+          "story:F0038-S0001",
+          "story:F0038-S0002"
+        ],
+        "governed_by": [
+          "adr:027"
+        ],
+        "uses_api_contract": [
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:neuron-zone-payload"
+        ]
+      },
+      "theirs": {
+        "id": "story:F0038-S0004",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0004-stub-zones-inactive-payload.md",
+        "affects": [
+          "capability:neuron-zone-dispatch"
+        ],
+        "depends_on": [
+          "story:F0038-S0001",
+          "story:F0038-S0002"
+        ],
+        "governed_by": [
+          "adr:027"
+        ],
+        "uses_api_contract": [
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:neuron-zone-payload"
+        ]
+      },
+      "owning_role": "product-manager",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "story:F0038-S0005",
+      "field": "stories[story:F0038-S0005]",
+      "base": "<absent>",
+      "ours": {
+        "id": "story:F0038-S0005",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0005-renewal-outreach-draft.md",
+        "affects": [
+          "capability:neuron-outreach-drafter",
+          "endpoint:neuron-action-callback",
+          "endpoint:renewal-outreach-draft",
+          "entity:activity-timeline-event",
+          "entity:renewal",
+          "event:renewal-outreach-drafted"
+        ],
+        "depends_on": [
+          "story:F0038-S0003"
+        ],
+        "enforced_by_policy": [
+          "policy_rule:renewal-draft-outreach"
+        ],
+        "governed_by": [
+          "adr:028"
+        ],
+        "restricted_to_role": [
+          "role:underwriter"
+        ],
+        "uses_api_contract": [
+          "api:nebula-rest",
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:renewal-outreach-draft-request"
+        ]
+      },
+      "theirs": {
+        "id": "story:F0038-S0005",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0005-renewal-outreach-draft.md",
+        "affects": [
+          "capability:neuron-outreach-drafter",
+          "endpoint:neuron-action-callback",
+          "endpoint:renewal-outreach-draft",
+          "entity:activity-timeline-event",
+          "entity:renewal",
+          "event:renewal-outreach-drafted"
+        ],
+        "depends_on": [
+          "story:F0038-S0003"
+        ],
+        "enforced_by_policy": [
+          "policy_rule:renewal-draft-outreach"
+        ],
+        "governed_by": [
+          "adr:028"
+        ],
+        "restricted_to_role": [
+          "role:underwriter"
+        ],
+        "uses_api_contract": [
+          "api:nebula-rest",
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:renewal-outreach-draft-request"
+        ]
+      },
+      "owning_role": "product-manager",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "story:F0038-S0006",
+      "field": "stories[story:F0038-S0006]",
+      "base": "<absent>",
+      "ours": {
+        "id": "story:F0038-S0006",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0006-mock-send-and-workflow-transition.md",
+        "affects": [
+          "capability:neuron-outreach-drafter",
+          "endpoint:renewal-outreach-mock-send",
+          "entity:activity-timeline-event",
+          "entity:renewal",
+          "entity:workflow-transition",
+          "event:renewal-outreach-mock-sent",
+          "event:renewal-transitioned",
+          "state:renewal:identified",
+          "state:renewal:outreach",
+          "workflow:renewal"
+        ],
+        "depends_on": [
+          "feature:F0007",
+          "story:F0038-S0005"
+        ],
+        "enforced_by_policy": [
+          "policy_rule:renewal-draft-outreach"
+        ],
+        "governed_by": [
+          "adr:028"
+        ],
+        "restricted_to_role": [
+          "role:underwriter"
+        ],
+        "uses_api_contract": [
+          "api:nebula-rest"
+        ],
+        "uses_schema": [
+          "schema:renewal-outreach-mock-send-request"
+        ]
+      },
+      "theirs": {
+        "id": "story:F0038-S0006",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0006-mock-send-and-workflow-transition.md",
+        "affects": [
+          "capability:neuron-outreach-drafter",
+          "endpoint:renewal-outreach-mock-send",
+          "entity:activity-timeline-event",
+          "entity:renewal",
+          "entity:workflow-transition",
+          "event:renewal-outreach-mock-sent",
+          "event:renewal-transitioned",
+          "state:renewal:identified",
+          "state:renewal:outreach",
+          "workflow:renewal"
+        ],
+        "depends_on": [
+          "feature:F0007",
+          "story:F0038-S0005"
+        ],
+        "enforced_by_policy": [
+          "policy_rule:renewal-draft-outreach"
+        ],
+        "governed_by": [
+          "adr:028"
+        ],
+        "restricted_to_role": [
+          "role:underwriter"
+        ],
+        "uses_api_contract": [
+          "api:nebula-rest"
+        ],
+        "uses_schema": [
+          "schema:renewal-outreach-mock-send-request"
+        ]
+      },
+      "owning_role": "product-manager",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "story:F0038-S0007",
+      "field": "stories[story:F0038-S0007]",
+      "base": "<absent>",
+      "ours": {
+        "id": "story:F0038-S0007",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0007-crm-scope-guard.md",
+        "affects": [
+          "capability:neuron-message-envelope",
+          "capability:neuron-scope-guard"
+        ],
+        "depends_on": [
+          "story:F0038-S0001",
+          "story:F0038-S0002"
+        ],
+        "governed_by": [
+          "adr:027"
+        ],
+        "uses_api_contract": [
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:neuron-message-envelope"
+        ]
+      },
+      "theirs": {
+        "id": "story:F0038-S0007",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0007-crm-scope-guard.md",
+        "affects": [
+          "capability:neuron-message-envelope",
+          "capability:neuron-scope-guard"
+        ],
+        "depends_on": [
+          "story:F0038-S0001",
+          "story:F0038-S0002"
+        ],
+        "governed_by": [
+          "adr:027"
+        ],
+        "uses_api_contract": [
+          "api:neuron-rest"
+        ],
+        "uses_schema": [
+          "schema:neuron-message-envelope"
+        ]
+      },
+      "owning_role": "product-manager",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "story:F0038-S0008",
+      "field": "stories[story:F0038-S0008]",
+      "base": "<absent>",
+      "ours": {
+        "id": "story:F0038-S0008",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md",
+        "affects": [
+          "capability:neuron-companion-telemetry",
+          "endpoint:neuron-companion-telemetry",
+          "event:neuron-companion-telemetry"
+        ],
+        "depends_on": [
+          "story:F0038-S0003",
+          "story:F0038-S0005",
+          "story:F0038-S0006"
+        ],
+        "governed_by": [
+          "adr:028"
+        ],
+        "uses_api_contract": [
+          "api:nebula-rest"
+        ],
+        "uses_schema": [
+          "schema:neuron-companion-telemetry-event"
+        ]
+      },
+      "theirs": {
+        "id": "story:F0038-S0008",
+        "feature": "feature:F0038",
+        "path": "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md",
+        "affects": [
+          "capability:neuron-companion-telemetry",
+          "endpoint:neuron-companion-telemetry",
+          "event:neuron-companion-telemetry"
+        ],
+        "depends_on": [
+          "story:F0038-S0003",
+          "story:F0038-S0005",
+          "story:F0038-S0006"
+        ],
+        "governed_by": [
+          "adr:028"
+        ],
+        "uses_api_contract": [
+          "api:nebula-rest"
+        ],
+        "uses_schema": [
+          "schema:neuron-companion-telemetry-event"
+        ]
+      },
+      "owning_role": "product-manager",
+      "message": "added on both sides with different content"
+    }
+  ]
+}

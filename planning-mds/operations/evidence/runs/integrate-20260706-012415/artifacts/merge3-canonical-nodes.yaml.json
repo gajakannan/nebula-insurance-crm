@@ -1,0 +1,60 @@
+{
+  "target": "planning-mds/knowledge-graph/canonical-nodes.yaml",
+  "inputs": {
+    "base": "103d59b",
+    "ours": "chore/merge-PRs",
+    "theirs": "replay/pr-50"
+  },
+  "result": "clean",
+  "output": "/tmp/claude-1000/-home-gajap-uSandbox-repos-nebula-nebula-agents/8d226372-8775-42f6-b7a4-a0ce4e31e898/scratchpad/integr-batch/planning-mds/knowledge-graph/canonical-nodes.yaml",
+  "stats": {
+    "records_base": 528,
+    "records_ours": 582,
+    "records_theirs": 528,
+    "records_merged": 582,
+    "conflicts": 0
+  },
+  "warnings": [
+    {
+      "kind": "SemanticDuplicateWarning",
+      "ids": [
+        "state:renewal:in-review",
+        "state:submission:in-review"
+      ],
+      "message": "records ['state:renewal:in-review', 'state:submission:in-review'] share the normalized name `inreview`"
+    },
+    {
+      "kind": "SemanticDuplicateWarning",
+      "ids": [
+        "capability:neuron-companion-telemetry",
+        "event:neuron-companion-telemetry"
+      ],
+      "message": "records ['capability:neuron-companion-telemetry', 'event:neuron-companion-telemetry'] share the normalized name `neuroncompaniontelemetry`"
+    },
+    {
+      "kind": "SemanticDuplicateWarning",
+      "ids": [
+        "state:renewal:quoted",
+        "state:submission:quoted"
+      ],
+      "message": "records ['state:renewal:quoted', 'state:submission:quoted'] share the normalized name `quoted`"
+    },
+    {
+      "kind": "SemanticDuplicateWarning",
+      "ids": [
+        "entity:service-case-transition",
+        "policy_rule:service-case-transition"
+      ],
+      "message": "records ['entity:service-case-transition', 'policy_rule:service-case-transition'] share the normalized name `servicecasetransition`"
+    },
+    {
+      "kind": "SemanticDuplicateWarning",
+      "ids": [
+        "glossary_term:triaging",
+        "state:submission:triaging"
+      ],
+      "message": "records ['glossary_term:triaging', 'state:submission:triaging'] share the normalized name `triaging`"
+    }
+  ],
+  "conflicts": []
+}

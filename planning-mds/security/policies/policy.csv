@@ -27,6 +27,7 @@
 #   global_search   read
 #   saved_view      read, manage, default
 #   operational_report read
+#   broker_insight read
 #
 #   Note on broker "read" vs "search":
 #     read   — fetch a single broker by ID (e.g. GET /brokers/{id})
@@ -88,6 +89,51 @@ p, Admin,            broker, reactivate, true
 # broker:reactivate — reverse of deactivate (F0002-S0008). Manager authority required.
 # DistributionUser and RelationshipManager explicitly excluded: structural record change requires manager authority.
 p, DistributionManager, broker, reactivate, true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# §2.1b Carrier Market Relationship Management (F0028)
+# Scope constraint: carrier market data is InternalOnly. Search/read/list rows
+# are permission-filtered at the query layer; related submission/policy links
+# require read access to the related record before materialization or mutation.
+# ─────────────────────────────────────────────────────────────────────────────
+
+p, DistributionUser,    carrier_market, read,          true
+p, DistributionUser,    carrier_market, search,        true
+p, DistributionUser,    carrier_market, link_activity, true
+
+p, DistributionManager, carrier_market, read,               true
+p, DistributionManager, carrier_market, search,             true
+p, DistributionManager, carrier_market, create,             true
+p, DistributionManager, carrier_market, update,             true
+p, DistributionManager, carrier_market, manage_contact,     true
+p, DistributionManager, carrier_market, manage_appetite,    true
+p, DistributionManager, carrier_market, manage_appointment, true
+p, DistributionManager, carrier_market, link_activity,      true
+
+p, Underwriter,         carrier_market, read,          true
+p, Underwriter,         carrier_market, search,        true
+p, Underwriter,         carrier_market, link_activity, true
+
+p, RelationshipManager, carrier_market, read,               true
+p, RelationshipManager, carrier_market, search,             true
+p, RelationshipManager, carrier_market, create,             true
+p, RelationshipManager, carrier_market, update,             true
+p, RelationshipManager, carrier_market, manage_contact,     true
+p, RelationshipManager, carrier_market, manage_appetite,    true
+p, RelationshipManager, carrier_market, manage_appointment, true
+p, RelationshipManager, carrier_market, link_activity,      true
+
+p, ProgramManager,      carrier_market, read,   true
+p, ProgramManager,      carrier_market, search, true
+
+p, Admin,               carrier_market, read,               true
+p, Admin,               carrier_market, search,             true
+p, Admin,               carrier_market, create,             true
+p, Admin,               carrier_market, update,             true
+p, Admin,               carrier_market, manage_contact,     true
+p, Admin,               carrier_market, manage_appetite,    true
+p, Admin,               carrier_market, manage_appointment, true
+p, Admin,               carrier_market, link_activity,      true
 
 # ─────────────────────────────────────────────────────────────────────────────
 # §2.1a Distribution Hierarchy, Producer Ownership, and Territory (F0017)
@@ -217,6 +263,23 @@ p, Admin,               submission, transition, true
 p, Admin,               submission, assign,     true
 p, Admin,               submission, approve,    true
 p, Admin,               submission, archive,    true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# §2.3a Work Queues and Operational Routing (F0022)
+# queue:read returns only queue items whose linked source record also passes ABAC.
+# queue:manage mutates queues, memberships, assignment rules, and coverage windows.
+# queue:assign reassigns or rebalances open queue work items; override reason required.
+# ─────────────────────────────────────────────────────────────────────────────
+p, DistributionUser,    queue, read,   true
+p, DistributionManager, queue, read,   true
+p, DistributionManager, queue, manage, true
+p, DistributionManager, queue, assign, true
+p, ProgramManager,      queue, read,   true
+p, Underwriter,         queue, read,   true
+p, RelationshipManager, queue, read,   true
+p, Admin,               queue, read,   true
+p, Admin,               queue, manage, true
+p, Admin,               queue, assign, true
 
 # ─────────────────────────────────────────────────────────────────────────────
 # §2.4 Renewal — Read / Create / Update / Transition / Assign (F0007 update + F0034 attributes)
@@ -500,7 +563,98 @@ p, ProgramManager,      timeline_event, read, true
 p, Admin,               timeline_event, read, true
 
 # ─────────────────────────────────────────────────────────────────────────────
-# §2.10 BrokerUser (Phase 1 Delta — F0009)
+# §2.9 Communication Event (F0021)
+# Source communication records are internal-only in MVP. Query/application layer
+# must also enforce linked-entity read access for every create/read/link action.
+# ─────────────────────────────────────────────────────────────────────────────
+
+p, DistributionUser,    communication_event, create, true
+p, DistributionUser,    communication_event, read, true
+p, DistributionUser,    communication_event, link, true
+p, DistributionUser,    communication_event, correct, true
+p, DistributionUser,    communication_event, create_follow_up, true
+p, DistributionManager, communication_event, create, true
+p, DistributionManager, communication_event, read, true
+p, DistributionManager, communication_event, link, true
+p, DistributionManager, communication_event, correct, true
+p, DistributionManager, communication_event, create_follow_up, true
+p, Underwriter,         communication_event, create, true
+p, Underwriter,         communication_event, read, true
+p, Underwriter,         communication_event, link, true
+p, Underwriter,         communication_event, correct, true
+p, Underwriter,         communication_event, create_follow_up, true
+p, RelationshipManager, communication_event, create, true
+p, RelationshipManager, communication_event, read, true
+p, RelationshipManager, communication_event, link, true
+p, RelationshipManager, communication_event, correct, true
+p, RelationshipManager, communication_event, create_follow_up, true
+p, ProgramManager,      communication_event, create, true
+p, ProgramManager,      communication_event, read, true
+p, ProgramManager,      communication_event, link, true
+p, ProgramManager,      communication_event, correct, true
+p, ProgramManager,      communication_event, create_follow_up, true
+p, Admin,               communication_event, create, true
+p, Admin,               communication_event, read, true
+p, Admin,               communication_event, link, true
+p, Admin,               communication_event, correct, true
+p, Admin,               communication_event, redact, true
+p, Admin,               communication_event, create_follow_up, true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# §2.10 Service Case (F0024)
+# Source service-case records are internal-only in MVP. Query/application layer
+# must also enforce account/policy read scope for every create/read/update/link
+# action. Communication links also require communication_event:read; follow-up
+# creation also requires task:create.
+# ─────────────────────────────────────────────────────────────────────────────
+
+p, DistributionUser,    service_case, create, true
+p, DistributionUser,    service_case, read, true
+p, DistributionUser,    service_case, update, true
+p, DistributionUser,    service_case, transition, true
+p, DistributionUser,    service_case, update_claim_reference, true
+p, DistributionUser,    service_case, link_communication, true
+p, DistributionUser,    service_case, create_follow_up, true
+p, DistributionManager, service_case, create, true
+p, DistributionManager, service_case, read, true
+p, DistributionManager, service_case, update, true
+p, DistributionManager, service_case, assign, true
+p, DistributionManager, service_case, transition, true
+p, DistributionManager, service_case, update_claim_reference, true
+p, DistributionManager, service_case, link_communication, true
+p, DistributionManager, service_case, create_follow_up, true
+p, Underwriter,         service_case, create, true
+p, Underwriter,         service_case, read, true
+p, Underwriter,         service_case, update, true
+p, Underwriter,         service_case, transition, true
+p, Underwriter,         service_case, update_claim_reference, true
+p, Underwriter,         service_case, link_communication, true
+p, Underwriter,         service_case, create_follow_up, true
+p, RelationshipManager, service_case, create, true
+p, RelationshipManager, service_case, read, true
+p, RelationshipManager, service_case, update, true
+p, RelationshipManager, service_case, transition, true
+p, RelationshipManager, service_case, update_claim_reference, true
+p, RelationshipManager, service_case, link_communication, true
+p, RelationshipManager, service_case, create_follow_up, true
+p, ProgramManager,      service_case, create, true
+p, ProgramManager,      service_case, read, true
+p, ProgramManager,      service_case, update, true
+p, ProgramManager,      service_case, transition, true
+p, ProgramManager,      service_case, update_claim_reference, true
+p, ProgramManager,      service_case, link_communication, true
+p, ProgramManager,      service_case, create_follow_up, true
+p, Admin,               service_case, create, true
+p, Admin,               service_case, read, true
+p, Admin,               service_case, update, true
+p, Admin,               service_case, assign, true
+p, Admin,               service_case, transition, true
+p, Admin,               service_case, update_claim_reference, true
+p, Admin,               service_case, link_communication, true
+p, Admin,               service_case, create_follow_up, true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# §2.11 BrokerUser (Phase 1 Delta — F0009)
 # BrokerUser is external and read-first in Phase 1.
 # Scope + field filtering constraints are enforced at query/response layer:
 #   - broker scope resolves from authenticated broker_tenant_id -> exactly one active tenant mapping
@@ -572,6 +726,15 @@ p, Underwriter,         operational_report, read, true
 p, RelationshipManager, operational_report, read, true
 p, ProgramManager,      operational_report, read, true
 p, Admin,               operational_report, read, true
+
+# F0008 Broker Insights — read-only internal analytics.
+# Query layer must filter source records before counts, trends, peer sets, ranks, and links are returned.
+p, DistributionUser,    broker_insight, read, true
+p, DistributionManager, broker_insight, read, true
+p, Underwriter,         broker_insight, read, true
+p, RelationshipManager, broker_insight, read, true
+p, ProgramManager,      broker_insight, read, true
+p, Admin,               broker_insight, read, true
 
 # ─────────────────────────────────────────────────────────────────────────────
 # §3 Documents (F0020 — ADR-012 + ADR-019)
@@ -690,6 +853,30 @@ p, MgaUser,              document_template, link,    true
 p, ExternalUser,         document_template, read,    true
 p, ExternalUser,         document_template, link,    true
 
+# §3.3 Outbound document generation (F0027)
+# Feature-specific gates layered over ADR-012 document/template parent ABAC and classification policy.
+p, Admin,                outbound_template, manage,  true
+
+p, Admin,                outbound_document, preview, true
+p, Admin,                outbound_document, issue,   true
+p, Admin,                outbound_document, regenerate,true
+
+p, Underwriter,          outbound_document, preview, true
+p, Underwriter,          outbound_document, issue,   true
+p, Underwriter,          outbound_document, regenerate,true
+
+p, DistributionUser,     outbound_document, preview, true
+p, DistributionUser,     outbound_document, issue,   true
+p, DistributionUser,     outbound_document, regenerate,true
+
+p, DistributionManager,  outbound_document, preview, true
+p, DistributionManager,  outbound_document, issue,   true
+p, DistributionManager,  outbound_document, regenerate,true
+
+p, Coordinator,          outbound_document, preview, true
+p, Coordinator,          outbound_document, issue,   true
+p, Coordinator,          outbound_document, regenerate,true
+
 # §4 Product schema registry (F0034)
 # Active bootstrap reads are internal-only and tenant-filtered at query layer.
 # Direct resolve allows historical rows to render when pinned to Deprecated,
@@ -717,3 +904,20 @@ p, ProgramManager,       lob_schema, resolve,    true
 
 p, Coordinator,          lob_schema, read,       true
 p, Coordinator,          lob_schema, resolve,    true
+
+# §5 Work queues and operational routing (F0022)
+p, Admin,                queue, read,             true
+p, Admin,                queue, manage,           true
+p, Admin,                queue, assign,           true
+
+p, DistributionManager,  queue, read,             true
+p, DistributionManager,  queue, manage,           true
+p, DistributionManager,  queue, assign,           true
+
+p, ProgramManager,       queue, read,             true
+
+p, Underwriter,          queue, read,             true
+
+p, DistributionUser,     queue, read,             true
+
+p, RelationshipManager,  queue, read,             true

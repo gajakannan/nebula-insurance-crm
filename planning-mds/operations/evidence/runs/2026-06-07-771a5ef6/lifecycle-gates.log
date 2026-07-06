@@ -19,3 +19,269 @@ Exit Code: 0
 Result: PASS
 Output References: g1-runtime-preflight.md, artifacts/test-results/g1-docker-ps.txt
 Skipped Gates: -
+
+### G2 Evidence Assembly
+Command: dotnet test Nebula.slnx --filter "DistributionEndpointTests|ProducerOwnershipEndpointTests|TerritoryEndpointTests" --logger "trx;LogFileName=f0017-backend.trx"
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: artifacts/test-results/f0017-backend.trx, artifacts/coverage/f0017-backend-cobertura.xml
+Skipped Gates: -
+
+Command: pnpm exec vitest run src/features/distribution/tests/HierarchyPanel.test.tsx --reporter=verbose
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: artifacts/test-results/f0017-frontend-vitest.txt
+Skipped Gates: -
+
+Command: pnpm lint
+Stage: G2
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: artifacts/test-results/frontend-lint.txt
+Skipped Gates: -
+
+Command: pnpm build
+Stage: G2
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: artifacts/test-results/frontend-build.txt
+Skipped Gates: -
+
+### G2
+Command: python agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0017 --run-id 2026-06-07-771a5ef6 --stage G2
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: g2-self-review.md, test-plan.md, test-execution-report.md, coverage-report.md, deployability-check.md
+Skipped Gates: completion evidence validation skipped because registry still marks F0017 as Planned
+
+### G3 Evidence Assembly
+Command: dotnet test Nebula.slnx --filter "DistributionEndpointTests|ProducerOwnershipEndpointTests|TerritoryEndpointTests" --logger "trx;LogFileName=f0017-backend-after-g3.trx"
+Stage: G3
+Exit Code: 0
+Result: PASS
+Output References: artifacts/test-results/f0017-backend-after-g3.trx, artifacts/coverage/f0017-backend-after-g3-cobertura.xml
+Skipped Gates: -
+
+### G3
+Command: python agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0017 --run-id 2026-06-07-771a5ef6 --stage G3
+Stage: G3
+Exit Code: 0
+Result: PASS
+Output References: code-review-report.md
+Skipped Gates: completion evidence validation skipped because registry still marks F0017 as Planned
+
+### G4 Approval
+Command: operator approval in chat: "approve"
+Stage: G4
+Exit Code: 0
+Result: APPROVED WITH RECOMMENDATIONS
+Output References: gate-decisions.md
+Skipped Gates: -
+
+### G4
+Command: python agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0017 --run-id 2026-06-07-771a5ef6 --stage G4
+Stage: G4
+Exit Code: 0
+Result: PASS
+Output References: gate-decisions.md
+Skipped Gates: completion evidence validation skipped because registry still marks F0017 as Planned
+
+### G5 Evidence Assembly
+Command: create signoff-ledger.md from G2/G3/G4 role outcomes
+Stage: G5
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: signoff-ledger.md
+Skipped Gates: -
+
+### G5
+Command: python agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0017 --run-id 2026-06-07-771a5ef6 --stage G5
+Stage: G5
+Exit Code: 0
+Result: PASS
+Output References: signoff-ledger.md
+Skipped Gates: completion evidence validation skipped because registry still marks F0017 as Planned
+
+### Tracker Promotion
+Command: update REGISTRY.md, F0017 STATUS.md, F0017 README.md, latest-run.json for Active/Done candidate validation
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/features/REGISTRY.md, planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/STATUS.md, planning-mds/operations/evidence/features/F0017-broker-mga-hierarchy-and-producer-ownership/latest-run.json
+Skipped Gates: -
+
+### G6 Evidence Assembly
+Command: create feature-action-execution.md from completed G2-G5 evidence
+Stage: G6
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: feature-action-execution.md
+Skipped Gates: -
+
+### Tracker Validation
+Command: python agents/product-manager/scripts/validate-trackers.py --product-root {PRODUCT_ROOT} --feature F0017
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: REGISTRY.md, STATUS.md, feature-action-execution.md
+Skipped Gates: -
+
+### G6
+Command: python agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0017 --run-id 2026-06-07-771a5ef6 --stage G6
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: feature-action-execution.md
+Skipped Gates: -
+
+### G7 Evidence Assembly
+Command: python scripts/kg/validate.py
+Stage: G7
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+Command: python scripts/kg/validate.py --write-coverage-report
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/knowledge-graph/coverage-report.yaml
+Skipped Gates: -
+
+Command: python scripts/kg/validate.py
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/knowledge-graph/coverage-report.yaml
+Skipped Gates: -
+
+Command: python scripts/kg/cochange.py --coverage-gaps
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: kg-reconciliation.md
+Skipped Gates: -
+
+### G7
+Command: python agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0017 --run-id 2026-06-07-771a5ef6 --stage G7
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: kg-reconciliation.md
+Skipped Gates: -
+
+### G8 Evidence Assembly
+Command: create pm-closeout.md and approve evidence-manifest.json for F0017 closeout
+Stage: G8
+Exit Code: 0
+Result: APPROVED WITH RECOMMENDATIONS
+Output References: pm-closeout.md, evidence-manifest.json
+Skipped Gates: -
+
+### G8
+Command: python agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0017 --run-id 2026-06-07-771a5ef6 --stage G8
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: pm-closeout.md
+Skipped Gates: -
+
+### Final Tracker Validation
+Command: python agents/product-manager/scripts/validate-trackers.py --product-root {PRODUCT_ROOT} --feature F0017
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: REGISTRY.md, STATUS.md, latest-run.json
+Skipped Gates: -
+
+### G8 Archive Correction
+Command: move F0017 feature folder to planning-mds/features/archive/ and reconcile trackers/KG/evidence paths
+Stage: closeout
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: REGISTRY.md, ROADMAP.md, BLUEPRINT.md, STORY-INDEX.md, feature-mappings.yaml, canonical-nodes.yaml, coverage-report.yaml, evidence-manifest.json, pm-closeout.md, latest-run.json
+Skipped Gates: -
+
+### G8 Archive Correction KG Coverage
+Command: .venv/bin/python scripts/kg/validate.py --write-coverage-report
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/knowledge-graph/coverage-report.yaml
+Skipped Gates: -
+
+### G8 Archive Correction KG Drift
+Command: .venv/bin/python scripts/kg/validate.py --check-drift
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: planning-mds/knowledge-graph/coverage-report.yaml
+Skipped Gates: -
+
+### G8 Archive Correction Prior Manifest Patch
+Command: .venv/bin/python agents/product-manager/scripts/patch-prior-manifest.py --product-root {PRODUCT_ROOT} --feature F0017 --new-run-id 2026-06-07-771a5ef6
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: no prior approved manifests to patch
+Skipped Gates: -
+
+### G8 Archive Correction Tracker Validation
+Command: .venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root {PRODUCT_ROOT} --feature F0017
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: REGISTRY.md, archived STATUS.md, latest-run.json
+Skipped Gates: -
+
+### Final Closeout Validation
+Command: .venv/bin/python agents/product-manager/scripts/validate-feature-evidence.py --product-root {PRODUCT_ROOT} --feature F0017 --stage closeout
+Stage: closeout
+Exit Code: 0
+Result: PASS
+Output References: evidence-manifest.json, pm-closeout.md, latest-run.json
+Skipped Gates: -
+
+### Post-Closeout Testing Validation
+Command: run harness closeout validators, KG drift check, F0017 frontend feature test, frontend lint/build, and F0017 backend integration test filter
+Stage: post-closeout-test
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: console output; existing evidence package remains canonical
+Skipped Gates: -
+
+### Post-Closeout Backend Sandbox Note
+Command: dotnet test Nebula.slnx --filter "DistributionEndpointTests|ProducerOwnershipEndpointTests|TerritoryEndpointTests" (sandbox attempt)
+Stage: post-closeout-test
+Exit Code: 1
+Result: ENVIRONMENT RETRY
+Output References: MSBuild named-pipe SocketException permission denied in sandbox; rerun with approved elevated execution
+Skipped Gates: -
+
+### Post-Closeout Backend Elevated Validation
+Command: dotnet test Nebula.slnx --filter "DistributionEndpointTests|ProducerOwnershipEndpointTests|TerritoryEndpointTests" (approved elevated execution)
+Stage: post-closeout-test
+Exit Code: 0
+Result: PASS
+Output References: 24 passed, 0 failed, 0 skipped
+Skipped Gates: -
+
+### Same-Run UI Integration Continuation
+Command: wire existing F0017 DistributionPanels into BrokerDetailPage and add Vite proxy prefixes for F0017 API routes
+Stage: post-closeout-continuation
+Exit Code: 0
+Result: PASS
+Output References: experience/src/pages/BrokerDetailPage.tsx, experience/vite.config.ts, experience/src/pages/tests/BrokerDetailPage.integration.test.tsx
+Skipped Gates: -
+
+### Same-Run UI And Proxy Validation
+Command: F0017-filtered Broker Detail Vitest, Vite proxy smoke, backend endpoint tests, lint/build, KG drift, tracker/evidence closeout validators
+Stage: post-closeout-continuation
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: artifacts/test-results/f0017-broker-detail-distribution-vitest.txt, artifacts/test-results/f0017-vite-proxy-smoke.txt, test-execution-report.md, deployability-check.md
+Skipped Gates: -

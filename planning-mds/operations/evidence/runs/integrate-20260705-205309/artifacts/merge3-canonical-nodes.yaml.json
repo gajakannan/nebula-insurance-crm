@@ -1,0 +1,553 @@
+{
+  "target": "planning-mds/knowledge-graph/canonical-nodes.yaml",
+  "inputs": {
+    "base": "e70beccfa5f73aa329476b3069cf9bc24370cf58",
+    "ours": "chore/merge-PRs",
+    "theirs": "replay/pr-51"
+  },
+  "result": "conflicts",
+  "output": null,
+  "stats": {
+    "records_base": 515,
+    "records_ours": 548,
+    "records_theirs": 582,
+    "records_merged": 582,
+    "conflicts": 13
+  },
+  "warnings": [
+    {
+      "kind": "SemanticDuplicateWarning",
+      "ids": [
+        "state:renewal:in-review",
+        "state:submission:in-review"
+      ],
+      "message": "records ['state:renewal:in-review', 'state:submission:in-review'] share the normalized name `inreview`"
+    },
+    {
+      "kind": "SemanticDuplicateWarning",
+      "ids": [
+        "capability:neuron-companion-telemetry",
+        "event:neuron-companion-telemetry"
+      ],
+      "message": "records ['capability:neuron-companion-telemetry', 'event:neuron-companion-telemetry'] share the normalized name `neuroncompaniontelemetry`"
+    },
+    {
+      "kind": "SemanticDuplicateWarning",
+      "ids": [
+        "state:renewal:quoted",
+        "state:submission:quoted"
+      ],
+      "message": "records ['state:renewal:quoted', 'state:submission:quoted'] share the normalized name `quoted`"
+    },
+    {
+      "kind": "SemanticDuplicateWarning",
+      "ids": [
+        "entity:service-case-transition",
+        "policy_rule:service-case-transition"
+      ],
+      "message": "records ['entity:service-case-transition', 'policy_rule:service-case-transition'] share the normalized name `servicecasetransition`"
+    },
+    {
+      "kind": "SemanticDuplicateWarning",
+      "ids": [
+        "glossary_term:triaging",
+        "state:submission:triaging"
+      ],
+      "message": "records ['glossary_term:triaging', 'state:submission:triaging'] share the normalized name `triaging`"
+    }
+  ],
+  "conflicts": [
+    {
+      "kind": "DivergentInsert",
+      "record_id": "capability:neuron-companion",
+      "field": "capabilities[capability:neuron-companion]",
+      "base": "<absent>",
+      "ours": {
+        "id": "capability:neuron-companion",
+        "label": "Neuron Companion",
+        "notes": "In-CRM conversational companion (stateless Python/FastAPI, secondary interface). Umbrella capability for the F0038 epic first slice. Engine remains source of truth; Neuron calls it as the user (forwarded token).\n",
+        "rationale": [
+          {
+            "adr": "adr:027",
+            "section": "Decision §1",
+            "summary": "A2A-aligned internal profile (not ad hoc Python delegation, not a public federation) avoids a migration cliff when heads/agents later move across process boundaries, while keeping F0038 shippable."
+          }
+        ],
+        "source_docs": [
+          "planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md",
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/README.md"
+        ]
+      },
+      "theirs": {
+        "id": "capability:neuron-companion",
+        "label": "Neuron Companion",
+        "notes": "In-CRM conversational companion (stateless Python/FastAPI, secondary interface). Umbrella capability for the F0038 epic first slice. Engine remains source of truth; Neuron calls it as the user (forwarded token).\n",
+        "rationale": [
+          {
+            "adr": "adr:027",
+            "section": "Decision §1",
+            "summary": "A2A-aligned internal profile (not ad hoc Python delegation, not a public federation) avoids a migration cliff when heads/agents later move across process boundaries, while keeping F0038 shippable."
+          }
+        ],
+        "source_docs": [
+          "planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md",
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/README.md"
+        ]
+      },
+      "owning_role": "architect",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "capability:neuron-companion-telemetry",
+      "field": "capabilities[capability:neuron-companion-telemetry]",
+      "base": "<absent>",
+      "ours": {
+        "id": "capability:neuron-companion-telemetry",
+        "label": "Neuron Companion Telemetry",
+        "notes": "Establishes the baseline needs-attention→draft-ready duration plus a minimal secondary v1 set (DAU, %-actioned, drafts/mock-sent). Fire-and-forget to Serilog; PII-minimized (correlation ids + metric fields only).\n",
+        "source_docs": [
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md",
+          "planning-mds/schemas/neuron-companion-telemetry-event.schema.json"
+        ]
+      },
+      "theirs": {
+        "id": "capability:neuron-companion-telemetry",
+        "label": "Neuron Companion Telemetry",
+        "notes": "Establishes the baseline needs-attention→draft-ready duration plus a minimal secondary v1 set (DAU, %-actioned, drafts/mock-sent). Fire-and-forget to Serilog; PII-minimized (correlation ids + metric fields only).\n",
+        "source_docs": [
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md",
+          "planning-mds/schemas/neuron-companion-telemetry-event.schema.json"
+        ]
+      },
+      "owning_role": "architect",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "capability:neuron-day-at-a-glance-shell",
+      "field": "capabilities[capability:neuron-day-at-a-glance-shell]",
+      "base": "<absent>",
+      "ours": {
+        "id": "capability:neuron-day-at-a-glance-shell",
+        "label": "Day-at-a-Glance Multi-Zone Shell",
+        "notes": "Multi-zone frame; assembly, not composition (no cross-zone ranking — that is the deferred Day-at-a-Glance brain). Renewals live, three inert stubs.\n",
+        "source_docs": [
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md",
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/README.md"
+        ]
+      },
+      "theirs": {
+        "id": "capability:neuron-day-at-a-glance-shell",
+        "label": "Day-at-a-Glance Multi-Zone Shell",
+        "notes": "Multi-zone frame; assembly, not composition (no cross-zone ranking — that is the deferred Day-at-a-Glance brain). Renewals live, three inert stubs.\n",
+        "source_docs": [
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md",
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/README.md"
+        ]
+      },
+      "owning_role": "architect",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "capability:neuron-message-envelope",
+      "field": "capabilities[capability:neuron-message-envelope]",
+      "base": "<absent>",
+      "ours": {
+        "id": "capability:neuron-message-envelope",
+        "label": "Versioned Multi-Part Message/Component Envelope",
+        "notes": "Versioned envelope (text|app|status|sources|actions) keyed by thread_id so persisted threads replay correctly. Component-registry rendering only.\n",
+        "rationale": [
+          {
+            "adr": "adr:027",
+            "section": "Decision §6",
+            "summary": "A2A messages/parts/artifacts map onto the envelope part types; the frontend renders only registered components from validated props — Neuron never returns executable markup or model-emitted numbers."
+          }
+        ],
+        "source_docs": [
+          "planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md",
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md",
+          "planning-mds/schemas/neuron-message-envelope.schema.json"
+        ]
+      },
+      "theirs": {
+        "id": "capability:neuron-message-envelope",
+        "label": "Versioned Multi-Part Message/Component Envelope",
+        "notes": "Versioned envelope (text|app|status|sources|actions) keyed by thread_id so persisted threads replay correctly. Component-registry rendering only.\n",
+        "rationale": [
+          {
+            "adr": "adr:027",
+            "section": "Decision §6",
+            "summary": "A2A messages/parts/artifacts map onto the envelope part types; the frontend renders only registered components from validated props — Neuron never returns executable markup or model-emitted numbers."
+          }
+        ],
+        "source_docs": [
+          "planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md",
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md",
+          "planning-mds/schemas/neuron-message-envelope.schema.json"
+        ]
+      },
+      "owning_role": "architect",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "capability:neuron-operation-persistence",
+      "field": "capabilities[capability:neuron-operation-persistence]",
+      "base": "<absent>",
+      "ours": {
+        "id": "capability:neuron-operation-persistence",
+        "label": "Neuron-Owned Operation Persistence (neuron.* schema)",
+        "notes": "Neuron owns and writes its own neuron.* schema directly (threads, messages, message_parts, agent_runs, tool_calls, provenance_events) — not via an engine pass-through. Service stays stateless; threads owner-scoped.\n",
+        "rationale": [
+          {
+            "adr": "adr:028",
+            "section": "Decision §1,§2",
+            "summary": "Six neuron.* tables; definitions (Agent Cards/prompts) stay checked-in assets referenced by id+version+hash; cross-store writes are engine-first authoritative with an idempotent Neuron record referencing the engine id (no cross-runtime transaction; outbox deferred)."
+          }
+        ],
+        "source_docs": [
+          "planning-mds/architecture/data-model.md",
+          "planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md",
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md"
+        ]
+      },
+      "theirs": {
+        "id": "capability:neuron-operation-persistence",
+        "label": "Neuron-Owned Operation Persistence (neuron.* schema)",
+        "notes": "Neuron owns and writes its own neuron.* schema directly (threads, messages, message_parts, agent_runs, tool_calls, provenance_events) — not via an engine pass-through. Service stays stateless; threads owner-scoped.\n",
+        "rationale": [
+          {
+            "adr": "adr:028",
+            "section": "Decision §1,§2",
+            "summary": "Six neuron.* tables; definitions (Agent Cards/prompts) stay checked-in assets referenced by id+version+hash; cross-store writes are engine-first authoritative with an idempotent Neuron record referencing the engine id (no cross-runtime transaction; outbox deferred)."
+          }
+        ],
+        "source_docs": [
+          "planning-mds/architecture/data-model.md",
+          "planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md",
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md"
+        ]
+      },
+      "owning_role": "architect",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "capability:neuron-orchestration-runtime",
+      "field": "capabilities[capability:neuron-orchestration-runtime]",
+      "base": "<absent>",
+      "ours": {
+        "id": "capability:neuron-orchestration-runtime",
+        "label": "Neuron Orchestration Runtime (bootstrap, registries, YAML plans, A2A profile)",
+        "notes": "First runnable stateless runtime: specialist-head registry, tool registry, versioned YAML orchestration assets (schema-validated, fail-fast on unknown head/tool or missing terminal state), private Agent Card registry, A2A task trace. Heads live under neuron/crm_agents/.\n",
+        "rationale": [
+          {
+            "adr": "adr:027",
+            "section": "Decision §3,§4,§10",
+            "summary": "Simple versioned YAML + registered Agent Cards is enough for F0038; MS Agent Framework is an unnecessary runtime dependency. Every referenced head/tool/terminal state must resolve or the asset is refused."
+          }
+        ],
+        "source_docs": [
+          "planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md",
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md",
+          "planning-mds/schemas/neuron-agent-card.schema.json",
+          "planning-mds/schemas/neuron-orchestration-plan.schema.json"
+        ]
+      },
+      "theirs": {
+        "id": "capability:neuron-orchestration-runtime",
+        "label": "Neuron Orchestration Runtime (bootstrap, registries, YAML plans, A2A profile)",
+        "notes": "First runnable stateless runtime: specialist-head registry, tool registry, versioned YAML orchestration assets (schema-validated, fail-fast on unknown head/tool or missing terminal state), private Agent Card registry, A2A task trace. Heads live under neuron/crm_agents/.\n",
+        "rationale": [
+          {
+            "adr": "adr:027",
+            "section": "Decision §3,§4,§10",
+            "summary": "Simple versioned YAML + registered Agent Cards is enough for F0038; MS Agent Framework is an unnecessary runtime dependency. Every referenced head/tool/terminal state must resolve or the asset is refused."
+          }
+        ],
+        "source_docs": [
+          "planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md",
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md",
+          "planning-mds/schemas/neuron-agent-card.schema.json",
+          "planning-mds/schemas/neuron-orchestration-plan.schema.json"
+        ]
+      },
+      "owning_role": "architect",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "capability:neuron-outreach-drafter",
+      "field": "capabilities[capability:neuron-outreach-drafter]",
+      "base": "<absent>",
+      "ours": {
+        "id": "capability:neuron-outreach-drafter",
+        "label": "Renewal Outreach Drafter (goal agent + persist + mock-send)",
+        "notes": "The one write. Proactive CTA → generate-on-click → persist InternalOnly AI-generated ActivityTimelineEvent → edit in-chat → mock-send (commits Identified→Outreach, fakes SMTP). Underwriter only.\n",
+        "rationale": [
+          {
+            "adr": "adr:028",
+            "section": "Decision §3",
+            "summary": "Dedicated least-privilege renewal:draft_outreach gates draft+mock-send; the engine state machine permits Identified→Outreach for an Underwriter only on the mock-send path, leaving the F0007 Distribution-owned transition model intact."
+          }
+        ],
+        "source_docs": [
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0005-renewal-outreach-draft.md",
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0006-mock-send-and-workflow-transition.md",
+          "planning-mds/schemas/renewal-outreach-draft-request.schema.json",
+          "planning-mds/schemas/renewal-outreach-mock-send-request.schema.json"
+        ]
+      },
+      "theirs": {
+        "id": "capability:neuron-outreach-drafter",
+        "label": "Renewal Outreach Drafter (goal agent + persist + mock-send)",
+        "notes": "The one write. Proactive CTA → generate-on-click → persist InternalOnly AI-generated ActivityTimelineEvent → edit in-chat → mock-send (commits Identified→Outreach, fakes SMTP). Underwriter only.\n",
+        "rationale": [
+          {
+            "adr": "adr:028",
+            "section": "Decision §3",
+            "summary": "Dedicated least-privilege renewal:draft_outreach gates draft+mock-send; the engine state machine permits Identified→Outreach for an Underwriter only on the mock-send path, leaving the F0007 Distribution-owned transition model intact."
+          }
+        ],
+        "source_docs": [
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0005-renewal-outreach-draft.md",
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0006-mock-send-and-workflow-transition.md",
+          "planning-mds/schemas/renewal-outreach-draft-request.schema.json",
+          "planning-mds/schemas/renewal-outreach-mock-send-request.schema.json"
+        ]
+      },
+      "owning_role": "architect",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "capability:neuron-renewals-head",
+      "field": "capabilities[capability:neuron-renewals-head]",
+      "base": "<absent>",
+      "ours": {
+        "id": "capability:neuron-renewals-head",
+        "label": "Live Renewals Specialist Head",
+        "notes": "The one live zone in F0038. Reads renewals needing attention (Identified/ Outreach within 90d of expiry, urgency-ordered, no-contact-30d flag) and per-renewal drill context, permission-respecting via the engine.\n",
+        "source_docs": [
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0003-live-renewals-zone-read.md",
+          "planning-mds/schemas/renewal-needs-attention-item.schema.json"
+        ]
+      },
+      "theirs": {
+        "id": "capability:neuron-renewals-head",
+        "label": "Live Renewals Specialist Head",
+        "notes": "The one live zone in F0038. Reads renewals needing attention (Identified/ Outreach within 90d of expiry, urgency-ordered, no-contact-30d flag) and per-renewal drill context, permission-respecting via the engine.\n",
+        "source_docs": [
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0003-live-renewals-zone-read.md",
+          "planning-mds/schemas/renewal-needs-attention-item.schema.json"
+        ]
+      },
+      "owning_role": "architect",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "capability:neuron-scope-guard",
+      "field": "capabilities[capability:neuron-scope-guard]",
+      "base": "<absent>",
+      "ours": {
+        "id": "capability:neuron-scope-guard",
+        "label": "CRM Scope Guard (out_of_scope redirect)",
+        "notes": "CRM-scoped assistant (intake L8), not a general chatbot. Non-CRM intents route to a polite CRM redirect; resistant to prompt-injection; fails safe to the bounded CRM path. Guard decisions recorded in the operation store.\n",
+        "source_docs": [
+          "planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md",
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0007-crm-scope-guard.md"
+        ]
+      },
+      "theirs": {
+        "id": "capability:neuron-scope-guard",
+        "label": "CRM Scope Guard (out_of_scope redirect)",
+        "notes": "CRM-scoped assistant (intake L8), not a general chatbot. Non-CRM intents route to a polite CRM redirect; resistant to prompt-injection; fails safe to the bounded CRM path. Guard decisions recorded in the operation store.\n",
+        "source_docs": [
+          "planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md",
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0007-crm-scope-guard.md"
+        ]
+      },
+      "owning_role": "architect",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "capability:neuron-zone-dispatch",
+      "field": "capabilities[capability:neuron-zone-dispatch]",
+      "base": "<absent>",
+      "ours": {
+        "id": "capability:neuron-zone-dispatch",
+        "label": "Zone-Dispatch (multi-head extension point)",
+        "notes": "Orchestrator enumerates registered specialist heads and dispatches per zone; live heads return content, stubs return a typed inactive payload. This is the F0040 extension point (\"flip a stub to live\"). Head contract is thin and provisional — do not gold-plate (a stub agrees with anything).\n",
+        "source_docs": [
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md",
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0004-stub-zones-inactive-payload.md",
+          "planning-mds/schemas/neuron-zone-payload.schema.json"
+        ]
+      },
+      "theirs": {
+        "id": "capability:neuron-zone-dispatch",
+        "label": "Zone-Dispatch (multi-head extension point)",
+        "notes": "Orchestrator enumerates registered specialist heads and dispatches per zone; live heads return content, stubs return a typed inactive payload. This is the F0040 extension point (\"flip a stub to live\"). Head contract is thin and provisional — do not gold-plate (a stub agrees with anything).\n",
+        "source_docs": [
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md",
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0004-stub-zones-inactive-payload.md",
+          "planning-mds/schemas/neuron-zone-payload.schema.json"
+        ]
+      },
+      "owning_role": "architect",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "event:neuron-companion-telemetry",
+      "field": "events[event:neuron-companion-telemetry]",
+      "base": "<absent>",
+      "ours": {
+        "id": "event:neuron-companion-telemetry",
+        "label": "NeuronCompanionTelemetry",
+        "event_type": "NeuronCompanionTelemetry",
+        "rationale": [
+          {
+            "adr": "adr:024",
+            "section": "Decision §6",
+            "summary": "Reuses the F0035 SessionTelemetry fire-and-forget-to-Serilog ingest pattern; needs-attention-surfaced/draft-ready bracket the baseline metric, plus the minimal secondary set. PII boundary: correlation ids + metric fields only."
+          }
+        ],
+        "related_nodes": [
+          "capability:neuron-companion-telemetry"
+        ],
+        "source_docs": [
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md",
+          "planning-mds/schemas/neuron-companion-telemetry-event.schema.json"
+        ]
+      },
+      "theirs": {
+        "id": "event:neuron-companion-telemetry",
+        "label": "NeuronCompanionTelemetry",
+        "event_type": "NeuronCompanionTelemetry",
+        "rationale": [
+          {
+            "adr": "adr:024",
+            "section": "Decision §6",
+            "summary": "Reuses the F0035 SessionTelemetry fire-and-forget-to-Serilog ingest pattern; needs-attention-surfaced/draft-ready bracket the baseline metric, plus the minimal secondary set. PII boundary: correlation ids + metric fields only."
+          }
+        ],
+        "related_nodes": [
+          "capability:neuron-companion-telemetry"
+        ],
+        "source_docs": [
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md",
+          "planning-mds/schemas/neuron-companion-telemetry-event.schema.json"
+        ]
+      },
+      "owning_role": "architect",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "event:renewal-outreach-drafted",
+      "field": "events[event:renewal-outreach-drafted]",
+      "base": "<absent>",
+      "ours": {
+        "id": "event:renewal-outreach-drafted",
+        "label": "RenewalOutreachDrafted",
+        "event_type": "RenewalOutreachDrafted",
+        "rationale": [
+          {
+            "adr": "adr:028",
+            "section": "Decision §3",
+            "summary": "Draft persists as an InternalOnly AI-generated renewal ActivityTimelineEvent with provenance (actor/model/prompt id+version/content hash); generation does NOT transition the renewal."
+          }
+        ],
+        "related_nodes": [
+          "capability:neuron-outreach-drafter",
+          "entity:activity-timeline-event",
+          "entity:renewal"
+        ],
+        "source_docs": [
+          "planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md",
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0005-renewal-outreach-draft.md"
+        ]
+      },
+      "theirs": {
+        "id": "event:renewal-outreach-drafted",
+        "label": "RenewalOutreachDrafted",
+        "event_type": "RenewalOutreachDrafted",
+        "rationale": [
+          {
+            "adr": "adr:028",
+            "section": "Decision §3",
+            "summary": "Draft persists as an InternalOnly AI-generated renewal ActivityTimelineEvent with provenance (actor/model/prompt id+version/content hash); generation does NOT transition the renewal."
+          }
+        ],
+        "related_nodes": [
+          "capability:neuron-outreach-drafter",
+          "entity:activity-timeline-event",
+          "entity:renewal"
+        ],
+        "source_docs": [
+          "planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md",
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0005-renewal-outreach-draft.md"
+        ]
+      },
+      "owning_role": "architect",
+      "message": "added on both sides with different content"
+    },
+    {
+      "kind": "DivergentInsert",
+      "record_id": "event:renewal-outreach-mock-sent",
+      "field": "events[event:renewal-outreach-mock-sent]",
+      "base": "<absent>",
+      "ours": {
+        "id": "event:renewal-outreach-mock-sent",
+        "label": "RenewalOutreachMockSent",
+        "event_type": "RenewalOutreachMockSent",
+        "rationale": [
+          {
+            "adr": "adr:028",
+            "section": "Decision §3",
+            "summary": "Mock-send commits the real Identified→Outreach WorkflowTransition + a 'sent (simulated)' ActivityTimelineEvent atomically, but fakes SMTP — no real email. Reuses event:renewal-transitioned for the transition itself."
+          }
+        ],
+        "related_nodes": [
+          "capability:neuron-outreach-drafter",
+          "entity:activity-timeline-event",
+          "entity:renewal",
+          "entity:workflow-transition"
+        ],
+        "source_docs": [
+          "planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md",
+          "planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0006-mock-send-and-workflow-transition.md"
+        ]
+      },
+      "theirs": {
+        "id": "event:renewal-outreach-mock-sent",
+        "label": "RenewalOutreachMockSent",
+        "event_type": "RenewalOutreachMockSent",
+        "rationale": [
+          {
+            "adr": "adr:028",
+            "section": "Decision §3",
+            "summary": "Mock-send commits the real Identified→Outreach WorkflowTransition + a 'sent (simulated)' ActivityTimelineEvent atomically, but fakes SMTP — no real email. Reuses event:renewal-transitioned for the transition itself."
+          }
+        ],
+        "related_nodes": [
+          "capability:neuron-outreach-drafter",
+          "entity:activity-timeline-event",
+          "entity:renewal",
+          "entity:workflow-transition"
+        ],
+        "source_docs": [
+          "planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md",
+          "planning-mds/features/F0038-neuron-day-at-a-glance-shell/F0038-S0006-mock-send-and-workflow-transition.md"
+        ]
+      },
+      "owning_role": "architect",
+      "message": "added on both sides with different content"
+    }
+  ]
+}

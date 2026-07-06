@@ -131,6 +131,7 @@ entries:
     identifiers:
       username: akadmin
     attrs:
+      name: authentik Default Admin
       groups:
         - !Find [authentik_core.group, [name, Admin]]
 

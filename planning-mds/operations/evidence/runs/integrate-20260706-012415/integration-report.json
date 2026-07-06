@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "run_id": "integrate-20260706-012415",
+  "mode": "live",
+  "source": "PR #50 (replay/pr-50, GaneshWallstreet:feature/F0017-broker-mga-hierarchy-and-producer-ownership) \u2014 F0017 completion + archive",
+  "source_head_sha": "3e4e581485f6de569d947cca5556cbcf68927fe4",
+  "integration_branch": "chore/merge-PRs (batch branch integrate/batch-50-48-49; single gate 2 after #49 per maintainer decision)",
+  "merge_base_sha": "103d59bfc208c0567045ed45a8499e84bd165cb6",
+  "gate1": {
+    "verdict_ref": null,
+    "waiver": {
+      "rationale": "Train-wide maintainer waiver (2026-07-05); per-run record.",
+      "decided_by": "maintainer (gajakannan)",
+      "date": "2026-07-06"
+    }
+  },
+  "merges": [
+    {
+      "file": "planning-mds/knowledge-graph/canonical-nodes.yaml",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/code-index.yaml",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/knowledge-graph/feature-mappings.yaml",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/features/REGISTRY.md",
+      "result": "clean"
+    },
+    {
+      "file": "planning-mds/features/ROADMAP.md",
+      "result": "clean after PM-delegate prose union (Notes bullet insert on both sides; union verified, re-merge clean)"
+    }
+  ],
+  "merge_decisions": [
+    "Code: BrokerDetailPage.tsx tab/panel union (Distribution + Communications); vite.config.ts + pyproject.toml kept ours (createApiProxyOptions supersedes spaNavigationBypass; packages=[] equivalent); BLUEPRINT.md both F0017+F0024 Done/archived",
+    "coverage-report --ours then regenerated; symbol-index/decisions/story-index regenerated"
+  ],
+  "regeneration": [
+    "4492 symbols (cs 3052, py 391, ts 1049)",
+    "coverage-report",
+    "story-index"
+  ],
+  "validation": [
+    {
+      "command": "validate.py",
+      "exit_code": 0
+    },
+    {
+      "command": "validate.py --check-drift",
+      "exit_code": 0
+    },
+    {
+      "command": "validate-trackers.py",
+      "exit_code": 0
+    },
+    {
+      "command": "dotnet build Nebula.Api",
+      "exit_code": 0
+    }
+  ],
+  "conflicts_routed": [],
+  "prepared_merge_sha": "e17d79d32a6a8d90d22580db45232f8e4d57a3af",
+  "gate2": {
+    "result": "pass",
+    "exercised": "Batch validation: F0017 Distribution tab, F0028 carrier/market directory, F0027 template-governance flow (upload->publish->preview->issue; empty fresh-env library confirmed as correct behavior), F0021/F0024/Neuron regressions. Includes authentik blueprint fix (akadmin name) surfaced by fresh-volume restart.",
+    "recorded_by": "maintainer (gajakannan)",
+    "date": "2026-07-06"
+  },
+  "pushed": false,
+  "supersedes_run": null,
+  "outcome": "merged-gate2-passed"
+}

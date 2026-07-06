@@ -73,6 +73,14 @@
 | `saved_view_scope_denied` | 403 | Caller lacks authority for the requested team saved-view scope. | F0023-S0004, F0023-S0007 |
 | `saved_view_criteria_invalid` | 422 | Saved criteria failed structural validation or references unsupported/obsolete filters. | F0023-S0003, F0023-S0004 |
 | `search_query_too_short` | 400 | Global search query is shorter than the 2-character minimum after trimming. | F0023-S0001 |
+| `queue_not_found` | 404 | Work queue or queue item does not exist or is hidden by authorization scope. | F0022 |
+| `queue_inactive` | 409 | Routing or reassignment targeted an inactive queue. | F0022 |
+| `assignment_rule_invalid` | 422 | Assignment rule conditions, precedence, or target queue are invalid. | F0022 |
+| `assignment_rule_conflict` | 409 | Assignment rule version or precedence conflicts with an active rule set. | F0022 |
+| `coverage_window_overlap` | 409 | Coverage window overlaps an existing active window for the same covered user and queue scope. | F0022 |
+| `coverage_window_invalid` | 422 | Coverage window dates, covered user, backup user, or queue scope are invalid. | F0022 |
+| `routing_no_match` | 409 | Route evaluation produced no assignable target and must use fallback queue. | F0022 |
+| `queue_item_closed` | 409 | Reassignment or rebalance attempted to mutate a closed/skipped queue item. | F0022 |
 
 ## Notes
 

@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0024",
+  "feature_slug": "claims-and-service-case-tracking",
+  "run_id": "2026-07-03-72f49d29",
+  "status": "in-progress",
+  "recorded_on": "2026-07-03",
+  "contract_effective_date": "2026-05-25",
+  "feature_path_at_run_start": "planning-mds/features/F0024-claims-and-service-case-tracking",
+  "feature_path_at_closeout": null,
+  "feature_state": "In Progress",
+  "rerun_of": null,
+  "changed_paths": [
+    "planning-mds/features/F0024-claims-and-service-case-tracking",
+    "experience/src/features/service-cases",
+    "experience/src/pages/ServiceCasesPage.tsx",
+    "experience/src/pages/ServiceCaseDetailPage.tsx",
+    "engine/src/Nebula.Application/Services/ServiceCaseService.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/ServiceCaseRepository.cs",
+    "engine/src/Nebula.Api/Endpoints/ServiceCaseEndpoints.cs"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feature/F0024-claims-and-service-case-tracking-prd-completion",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": true,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": false,
+  "required_roles": [
+    "Architect",
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer",
+    "DevOps"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md"
+  },
+  "role_results": {
+    "Architect": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md",
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md"
+      ]
+    },
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "test-execution-report.md",
+      "verdict_artifact": "test-execution-report.md",
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ]
+    },
+    "DevOps": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md",
+      "verdict_artifact": "deployability-check.md",
+      "required_artifacts": [
+        "deployability-check.md"
+      ]
+    }
+  },
+  "security_scans": {
+    "dependency": {},
+    "secrets": {},
+    "sast": {},
+    "dast": {}
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {
+    "prior_approved_run": "planning-mds/operations/evidence/runs/2026-07-03-ba011af8"
+  }
+}

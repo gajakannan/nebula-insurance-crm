@@ -1,0 +1,14 @@
+{"ts": "2026-07-05T20:30:00Z", "command": "git worktree add -b integrate/pr-47 <wt> chore/merge-PRs", "exit_code": 0}
+{"ts": "2026-07-05T20:30:00Z", "command": "git merge --no-commit --no-ff fixup/pr-47-drop-stale-f0038-exclusion", "exit_code": 1}
+{"ts": "2026-07-05T20:30:00Z", "command": "merge3.py canonical-nodes.yaml --base 103d59b --ours chore/merge-PRs --theirs fixup/... --output <wt>", "exit_code": 0}
+{"ts": "2026-07-05T20:30:00Z", "command": "merge3.py code-index.yaml ...", "exit_code": 0}
+{"ts": "2026-07-05T20:30:00Z", "command": "merge3.py feature-mappings.yaml ...", "exit_code": 0}
+{"ts": "2026-07-05T20:30:00Z", "command": "merge3.py REGISTRY.md ...", "exit_code": 0}
+{"ts": "2026-07-05T20:30:00Z", "command": "merge3.py ROADMAP.md ...", "exit_code": 0}
+{"ts": "2026-07-05T20:30:00Z", "command": "git checkout --ours <3 generated KG + 3 F0023 evidence artifacts>", "exit_code": 0}
+{"ts": "2026-07-05T20:30:00Z", "command": "validate.py --regenerate-symbols --check-symbols --regenerate-decisions --check-decisions", "exit_code": 0}
+{"ts": "2026-07-05T20:30:00Z", "command": "validate.py --write-coverage-report", "exit_code": 0}
+{"ts": "2026-07-05T20:30:00Z", "command": "generate-story-index.py planning-mds/features/", "exit_code": 0}
+{"ts": "2026-07-05T20:30:00Z", "command": "validate.py", "exit_code": 0}
+{"ts": "2026-07-05T20:30:00Z", "command": "validate.py --check-drift", "exit_code": 0}
+{"ts": "2026-07-05T20:30:00Z", "command": "validate-trackers.py --product-root <wt> --skip-feature-evidence", "exit_code": 0}
