@@ -51,6 +51,7 @@ vi.mock('@/features/session-continuity/deferredTelemetryBuffer', () => ({
 }))
 
 import { ApiError, MutationRetryRequiredError, api } from './api'
+import { getDevToken } from './dev-auth'
 
 const activeUser = {
   access_token: 'stale-token',
@@ -123,6 +124,7 @@ describe('api session continuity handling', () => {
     telemetryMocks.persistFailureClassEvent.mockClear()
     authMocks.getUser.mockResolvedValue(activeUser)
     authMocks.signinSilent.mockResolvedValue(renewedUser)
+    vi.mocked(getDevToken).mockResolvedValue('dev-token')
   })
 
   afterEach(() => {
@@ -263,6 +265,36 @@ describe('api session continuity handling', () => {
         endpointRoute: '/tasks/task-123',
         method: 'GET',
       }),
+    )
+  })
+
+  it('retries carrier market invalid-token responses with the local dev token', async () => {
+    const fetchMock = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      const headers = init?.headers as Headers
+      if (headers.get('Authorization') === 'Bearer stale-token') {
+        return jsonResponse(
+          {
+            type: 'https://nebula.local/problems/auth/invalid-token',
+            code: 'invalid_token',
+          },
+          401,
+        )
+      }
+
+      return jsonResponse({ data: [{ code: 'NEB-DEMO-ATLANTIC' }] }, 200)
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    const result = await api.get<{ data: Array<{ code: string }> }>('/carrier-markets')
+
+    expect(result.data[0].code).toBe('NEB-DEMO-ATLANTIC')
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+    expect((fetchMock.mock.calls[1][1]?.headers as Headers).get('Authorization')).toBe(
+      'Bearer dev-token',
+    )
+    expect(authMocks.emitAuthEvent).not.toHaveBeenCalledWith(
+      'forced_reauth',
+      expect.anything(),
     )
   })
 

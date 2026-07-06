@@ -52,7 +52,11 @@ public static class DevSeedData
         await EnsureF0017BrokerDistributionNodesAsync(db);
         await EnsureF0017DemoExamplesAsync(db);
 
-        if (await db.Submissions.AnyAsync()) return; // app data already seeded
+        if (await db.Submissions.AnyAsync())
+        {
+            await EnsureCarrierMarketFixturesAsync(db);
+            return; // app data already seeded
+        }
 
         var rng = new Random(20260226);
         var now = DateTime.UtcNow;
@@ -62,6 +66,9 @@ public static class DevSeedData
 
         var userIds = userProfiles.Select(u => u.Id).ToArray();
         var userNameById = userProfiles.ToDictionary(u => u.Id, u => u.DisplayName);
+        await db.SaveChangesAsync();
+
+        await EnsureCarrierMarketFixturesAsync(db);
 
         var mgas = new[]
         {
@@ -1305,6 +1312,181 @@ public static class DevSeedData
         await db.SaveChangesAsync();
     }
 
+    private static async Task EnsureCarrierMarketFixturesAsync(AppDbContext db)
+    {
+        var fixtures = CarrierMarketFixtures;
+        var fixtureCodes = fixtures.Select(fixture => fixture.Code).ToArray();
+        var existingByCode = await db.CarrierMarkets
+            .IgnoreQueryFilters()
+            .Include(market => market.Contacts)
+            .Include(market => market.AppetiteNotes)
+            .Include(market => market.Appointments)
+            .Where(market => fixtureCodes.Contains(market.Code))
+            .ToDictionaryAsync(market => market.Code);
+
+        var actorUserId = await ResolveDevSeedActorUserIdAsync(db);
+        var now = DateTime.UtcNow;
+
+        foreach (var fixture in fixtures)
+        {
+            if (!existingByCode.TryGetValue(fixture.Code, out var market))
+            {
+                market = new CarrierMarket();
+                db.CarrierMarkets.Add(market);
+            }
+
+            market.Code = fixture.Code;
+            market.Name = fixture.Name;
+            market.NaicCode = fixture.NaicCode;
+            market.AmBestRating = fixture.AmBestRating;
+            market.Status = fixture.Status;
+            market.MarketType = fixture.MarketType;
+            market.RelationshipOwnerUserId = actorUserId == Guid.Empty ? null : actorUserId;
+            market.WebsiteUrl = fixture.WebsiteUrl;
+            market.GeneralEmail = fixture.GeneralEmail;
+            market.MainPhone = fixture.MainPhone;
+            market.Notes = fixture.Notes;
+            market.IsDeleted = false;
+            market.DeletedAt = null;
+            market.DeletedByUserId = null;
+
+            if (market.CreatedAt == default)
+            {
+                market.CreatedAt = now.AddDays(-fixture.AgeDays);
+                market.CreatedByUserId = actorUserId;
+            }
+
+            market.UpdatedAt = now.AddDays(-fixture.UpdatedDaysAgo);
+            market.UpdatedByUserId = actorUserId;
+
+            EnsureCarrierMarketContact(market, fixture, actorUserId, now);
+            EnsureCarrierAppetiteNote(market, fixture, actorUserId, now);
+            EnsureCarrierAppointment(market, fixture, actorUserId, now);
+        }
+
+        await db.SaveChangesAsync();
+    }
+
+    private static async Task<Guid> ResolveDevSeedActorUserIdAsync(AppDbContext db)
+    {
+        var devUserId = await db.UserProfiles
+            .Where(user => user.IdpIssuer == DevIdpIssuer && user.IdpSubject == "dev-user-001")
+            .Select(user => user.Id)
+            .FirstOrDefaultAsync();
+
+        if (devUserId != Guid.Empty)
+            return devUserId;
+
+        return await db.UserProfiles
+            .Select(user => user.Id)
+            .FirstOrDefaultAsync();
+    }
+
+    private static void EnsureCarrierMarketContact(
+        CarrierMarket market,
+        CarrierMarketFixture fixture,
+        Guid actorUserId,
+        DateTime now)
+    {
+        var contact = market.Contacts
+            .FirstOrDefault(existing => string.Equals(existing.Email, fixture.ContactEmail, StringComparison.OrdinalIgnoreCase));
+
+        if (contact is null)
+        {
+            contact = new CarrierMarketContact
+            {
+                CarrierMarket = market,
+                CreatedAt = now.AddDays(-fixture.AgeDays + 2),
+                CreatedByUserId = actorUserId,
+            };
+            market.Contacts.Add(contact);
+        }
+
+        contact.FullName = fixture.ContactName;
+        contact.Title = fixture.ContactTitle;
+        contact.Email = fixture.ContactEmail;
+        contact.Phone = fixture.ContactPhone;
+        contact.Roles = fixture.ContactRoles;
+        contact.IsPrimary = true;
+        contact.Notes = fixture.ContactNotes;
+        contact.IsDeleted = false;
+        contact.DeletedAt = null;
+        contact.DeletedByUserId = null;
+        contact.UpdatedAt = now.AddDays(-fixture.UpdatedDaysAgo);
+        contact.UpdatedByUserId = actorUserId;
+    }
+
+    private static void EnsureCarrierAppetiteNote(
+        CarrierMarket market,
+        CarrierMarketFixture fixture,
+        Guid actorUserId,
+        DateTime now)
+    {
+        var note = market.AppetiteNotes
+            .FirstOrDefault(existing =>
+                string.Equals(existing.LineOfBusiness, fixture.AppetiteLineOfBusiness, StringComparison.Ordinal)
+                && string.Equals(existing.Region, fixture.AppetiteRegion, StringComparison.Ordinal));
+
+        if (note is null)
+        {
+            note = new CarrierAppetiteNote
+            {
+                CarrierMarket = market,
+                CreatedAt = now.AddDays(-fixture.AgeDays + 3),
+                CreatedByUserId = actorUserId,
+            };
+            market.AppetiteNotes.Add(note);
+        }
+
+        note.LineOfBusiness = fixture.AppetiteLineOfBusiness;
+        note.Region = fixture.AppetiteRegion;
+        note.AppetiteLevel = fixture.AppetiteLevel;
+        note.Summary = fixture.AppetiteSummary;
+        note.Detail = fixture.AppetiteDetail;
+        note.EffectiveFrom = DateOnly.FromDateTime(now.AddDays(-30));
+        note.EffectiveTo = DateOnly.FromDateTime(now.AddDays(150));
+        note.Source = "Dev seed - F0028";
+        note.IsDeleted = false;
+        note.DeletedAt = null;
+        note.DeletedByUserId = null;
+        note.UpdatedAt = now.AddDays(-fixture.UpdatedDaysAgo);
+        note.UpdatedByUserId = actorUserId;
+    }
+
+    private static void EnsureCarrierAppointment(
+        CarrierMarket market,
+        CarrierMarketFixture fixture,
+        Guid actorUserId,
+        DateTime now)
+    {
+        var appointment = market.Appointments
+            .FirstOrDefault(existing => string.Equals(existing.AppointmentNumber, fixture.AppointmentNumber, StringComparison.OrdinalIgnoreCase));
+
+        if (appointment is null)
+        {
+            appointment = new CarrierAppointment
+            {
+                CarrierMarket = market,
+                CreatedAt = now.AddDays(-fixture.AgeDays + 4),
+                CreatedByUserId = actorUserId,
+            };
+            market.Appointments.Add(appointment);
+        }
+
+        appointment.AppointmentStatus = fixture.AppointmentStatus;
+        appointment.States = fixture.AppointmentStates;
+        appointment.LineOfBusiness = fixture.AppointmentLineOfBusiness;
+        appointment.AppointmentNumber = fixture.AppointmentNumber;
+        appointment.EffectiveDate = DateOnly.FromDateTime(now.AddDays(-20));
+        appointment.ExpirationDate = DateOnly.FromDateTime(now.AddDays(345));
+        appointment.Notes = fixture.AppointmentNotes;
+        appointment.IsDeleted = false;
+        appointment.DeletedAt = null;
+        appointment.DeletedByUserId = null;
+        appointment.UpdatedAt = now.AddDays(-fixture.UpdatedDaysAgo);
+        appointment.UpdatedByUserId = actorUserId;
+    }
+
     private static async Task UpsertSubmissionReferenceStatusesAsync(AppDbContext db)
     {
         var existing = await db.ReferenceSubmissionStatuses.ToDictionaryAsync(s => s.Code);
@@ -1430,6 +1612,97 @@ public static class DevSeedData
         "Compass Mutual", "Harbor Re", "Northstar Indemnity", "Sterling Insurance Co."
     ];
 
+    private static readonly CarrierMarketFixture[] CarrierMarketFixtures =
+    [
+        new(
+            Code: "NEB-DEMO-ATLANTIC",
+            Name: "Atlantic Specialty Markets",
+            NaicCode: "14231",
+            AmBestRating: "A",
+            Status: "Active",
+            MarketType: "Admitted",
+            WebsiteUrl: "https://example.com/atlantic-specialty",
+            GeneralEmail: "placements@atlantic-specialty.example",
+            MainPhone: "+12125550101",
+            Notes: "Demo carrier for F0028 testing: strong E&S appetite for coastal property and middle-market package placements.",
+            ContactName: "Maya Rodriguez",
+            ContactTitle: "Regional Underwriting Director",
+            ContactEmail: "maya.rodriguez@atlantic-specialty.example.local",
+            ContactPhone: "+1-212-555-0198",
+            ContactRoles: ["Underwriter", "RelationshipOwner"],
+            ContactNotes: "Escalate Northeast excess casualty referrals directly to Maya.",
+            AppetiteLineOfBusiness: "ExcessLiability",
+            AppetiteRegion: "East",
+            AppetiteLevel: "High",
+            AppetiteSummary: "High appetite for excess casualty on well-controlled manufacturing risks.",
+            AppetiteDetail: "Prefers accounts with five-year loss runs, documented fleet controls, and premium above $75k.",
+            AppointmentStatus: "Appointed",
+            AppointmentStates: ["NY", "NJ", "PA"],
+            AppointmentLineOfBusiness: "ExcessLiability",
+            AppointmentNumber: "ATL-XS-2026-001",
+            AppointmentNotes: "Appointment renewed for Northeast excess placements through the next treaty year.",
+            AgeDays: 42,
+            UpdatedDaysAgo: 2),
+        new(
+            Code: "NEB-DEMO-SUMMIT",
+            Name: "Summit Mutual Programs",
+            NaicCode: "23890",
+            AmBestRating: "A-",
+            Status: "Prospect",
+            MarketType: "MGA",
+            WebsiteUrl: "https://example.com/summit-mutual",
+            GeneralEmail: "programs@summit-mutual.example",
+            MainPhone: "+13125550122",
+            Notes: "Demo MGA for F0028 testing: program appetite for contractor GL and small fleet auto.",
+            ContactName: "Ethan Brooks",
+            ContactTitle: "Program Relationship Manager",
+            ContactEmail: "ethan.brooks@summit-mutual.example.local",
+            ContactPhone: "+1-312-555-0166",
+            ContactRoles: ["RelationshipManager", "ProgramContact"],
+            ContactNotes: "Best first call for construction program capacity and appointment questions.",
+            AppetiteLineOfBusiness: "GeneralLiability",
+            AppetiteRegion: "Central",
+            AppetiteLevel: "Medium",
+            AppetiteSummary: "Selective GL appetite for contractors with clean subcontractor controls.",
+            AppetiteDetail: "Avoids residential wrap-up work; strong fit for trade contractors under $20M revenue.",
+            AppointmentStatus: "Pending",
+            AppointmentStates: ["IL", "IN", "OH"],
+            AppointmentLineOfBusiness: "GeneralLiability",
+            AppointmentNumber: "SUM-GL-2026-014",
+            AppointmentNotes: "Pending updated E&O confirmation before final appointment approval.",
+            AgeDays: 31,
+            UpdatedDaysAgo: 4),
+        new(
+            Code: "NEB-DEMO-PACIFIC",
+            Name: "Pacific Inland Underwriters",
+            NaicCode: "77420",
+            AmBestRating: "B++",
+            Status: "Active",
+            MarketType: "NonAdmitted",
+            WebsiteUrl: "https://example.com/pacific-inland",
+            GeneralEmail: "uw@pacific-inland.example",
+            MainPhone: "+14155550133",
+            Notes: "Demo non-admitted market for F0028 testing: selective appetite for wildfire-exposed inland property.",
+            ContactName: "Priya Nair",
+            ContactTitle: "Wholesale Market Lead",
+            ContactEmail: "priya.nair@pacific-inland.example.local",
+            ContactPhone: "+1-415-555-0135",
+            ContactRoles: ["WholesaleBroker", "AppetiteContact"],
+            ContactNotes: "Prefers concise submission narratives with valuation support attached.",
+            AppetiteLineOfBusiness: "Property",
+            AppetiteRegion: "West",
+            AppetiteLevel: "Medium",
+            AppetiteSummary: "Open to non-CAT property schedules with updated valuations.",
+            AppetiteDetail: "Will review light manufacturing and logistics schedules outside wildfire Tier 1 zones.",
+            AppointmentStatus: "NotAppointed",
+            AppointmentStates: ["CA", "OR", "WA"],
+            AppointmentLineOfBusiness: "Property",
+            AppointmentNumber: "PAC-PROP-PROSPECT",
+            AppointmentNotes: "Relationship discovery in progress; appointment not yet requested.",
+            AgeDays: 18,
+            UpdatedDaysAgo: 1)
+    ];
+
     private static readonly string[] FirstNames =
     [
         "Alex", "Jamie", "Taylor", "Jordan", "Morgan", "Casey", "Riley", "Avery", "Cameron", "Drew",
@@ -1441,4 +1714,34 @@ public static class DevSeedData
         "Anderson", "Brooks", "Carter", "Diaz", "Edwards", "Foster", "Garcia", "Hayes", "Iverson", "Jenkins",
         "Kim", "Lopez", "Mitchell", "Nguyen", "Owens", "Patel", "Reed", "Sanchez", "Turner", "Young"
     ];
+
+    private sealed record CarrierMarketFixture(
+        string Code,
+        string Name,
+        string NaicCode,
+        string AmBestRating,
+        string Status,
+        string MarketType,
+        string WebsiteUrl,
+        string GeneralEmail,
+        string MainPhone,
+        string Notes,
+        string ContactName,
+        string ContactTitle,
+        string ContactEmail,
+        string ContactPhone,
+        string[] ContactRoles,
+        string ContactNotes,
+        string AppetiteLineOfBusiness,
+        string AppetiteRegion,
+        string AppetiteLevel,
+        string AppetiteSummary,
+        string AppetiteDetail,
+        string AppointmentStatus,
+        string[] AppointmentStates,
+        string AppointmentLineOfBusiness,
+        string AppointmentNumber,
+        string AppointmentNotes,
+        int AgeDays,
+        int UpdatedDaysAgo);
 }

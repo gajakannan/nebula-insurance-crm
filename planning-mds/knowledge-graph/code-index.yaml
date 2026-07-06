@@ -1473,6 +1473,17 @@ node_bindings:
           - experience/src/features/brokers/tests/BrokerListPage*.tsx
           - experience/src/pages/tests/BrokerDetailPage.integration.test.tsx
           - experience/src/pages/tests/CreateBrokerPage.integration.test.tsx
+  - id: entity:carrier-market
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0028-carrier-and-market-relationship-management/**
+        api:
+          - planning-mds/api/nebula-api.yaml
+        schemas:
+          - planning-mds/schemas/carrier-appetite-note.schema.json
+          - planning-mds/schemas/carrier-appointment.schema.json
+          - planning-mds/schemas/carrier-market*.schema.json
   - id: entity:communication-event
     paths:
       backend:

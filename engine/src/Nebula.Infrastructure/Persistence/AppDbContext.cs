@@ -29,6 +29,11 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<SubmissionApprovalDecision> SubmissionApprovalDecisions => Set<SubmissionApprovalDecision>();
     public DbSet<SubmissionBindHandoff> SubmissionBindHandoffs => Set<SubmissionBindHandoff>();
     public DbSet<Policy> Policies => Set<Policy>();
+    public DbSet<CarrierMarket> CarrierMarkets => Set<CarrierMarket>();
+    public DbSet<CarrierMarketContact> CarrierMarketContacts => Set<CarrierMarketContact>();
+    public DbSet<CarrierAppetiteNote> CarrierAppetiteNotes => Set<CarrierAppetiteNote>();
+    public DbSet<CarrierAppointment> CarrierAppointments => Set<CarrierAppointment>();
+    public DbSet<CarrierMarketActivityLink> CarrierMarketActivityLinks => Set<CarrierMarketActivityLink>();
     public DbSet<CarrierRef> CarrierRefs => Set<CarrierRef>();
     public DbSet<LobProduct> LobProducts => Set<LobProduct>();
     public DbSet<LobProductVersion> LobProductVersions => Set<LobProductVersion>();

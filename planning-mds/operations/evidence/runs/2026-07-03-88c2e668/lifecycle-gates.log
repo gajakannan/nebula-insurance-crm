@@ -1,0 +1,36 @@
+# Lifecycle Gate Run
+
+## Command
+
+`agents/actions/validate.md` and `agents/actions/review.md` applied to F0028 release readiness.
+
+## Stage
+
+Validate + Review
+
+## Exit Code
+
+0
+
+## Result
+
+PASS WITH RECOMMENDATIONS.
+
+## Output References
+
+- `pm-validation-report.md`
+- `architect-validation-report.md`
+- `implementation-validation-report.md`
+- `code-review-report.md`
+- `security-review-report.md`
+- `artifacts/feature-evidence.json`
+
+## Skipped Gates
+
+- Archive movement skipped by design because F0028 PM closeout says not to archive until explicitly requested.
+
+## Notes
+
+- `validate-feature-evidence.py`, `validate-trackers.py`, stories, KG validation, KG drift, and template validation passed.
+- Runtime/build/test checks passed.
+- `git diff --check` initially found trailing whitespace in F0028 `PRD.md`; it was repaired and the check now passes.

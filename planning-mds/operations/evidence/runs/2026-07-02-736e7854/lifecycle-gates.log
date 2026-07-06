@@ -1,0 +1,110 @@
+# Lifecycle Gate Run
+
+## Command
+
+`agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet289/Documents/workspace/nebula-insurance-crm-sagar --feature F0028 --run-id 2026-07-02-736e7854 --stage G0`
+
+## Stage
+
+G0
+
+## Exit Code
+
+0
+
+## Result
+
+G0 PASS. Assembly plan and G0 evidence package validated.
+
+## Output References
+
+- `g0-assembly-plan-validation.md`
+- `feature-assembly-plan.md`
+
+## Skipped Gates
+
+- None after final closeout; this entry records original G0 validation.
+
+## Notes
+
+- G5 Phase B approval recorded in plan run `2026-07-02-0e5b0cce`.
+- Feature action run `2026-07-02-736e7854` initialized.
+- Required roles initialized: Quality Engineer, Code Reviewer, Security Reviewer, DevOps, Architect.
+
+---
+
+# Lifecycle Gate Run
+
+## Command
+
+`agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet289/Documents/workspace/nebula-insurance-crm-sagar --feature F0028 --run-id 2026-07-02-736e7854 --stage G1`
+
+## Stage
+
+G1
+
+## Exit Code
+
+0
+
+## Result
+
+G1 PASS. Runtime preflight evidence validated.
+
+## Output References
+
+- `g1-runtime-preflight.md`
+
+## Skipped Gates
+
+- None after final closeout; this entry records original G1 validation.
+
+## Notes
+
+- Local `.env` was restored with development-only values.
+- Missing `authentik` database was created inside the reused local Postgres volume.
+- Runtime status: `db`, `authentik-server`, `authentik-worker`, and `api` are up; API `/healthz` returned `200 Healthy`.
+
+---
+
+# Lifecycle Gate Run
+
+## Command
+
+`agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/wallstreet289/Documents/workspace/nebula-insurance-crm-sagar --feature F0028 --run-id 2026-07-02-736e7854 --stage G8`
+
+## Stage
+
+G8
+
+## Exit Code
+
+0
+
+## Result
+
+G8 PASS. Tracker sync and feature evidence validation completed successfully.
+
+## Output References
+
+- `g2-self-review.md`
+- `test-plan.md`
+- `test-execution-report.md`
+- `coverage-report.md`
+- `deployability-check.md`
+- `code-review-report.md`
+- `security-review-report.md`
+- `signoff-ledger.md`
+- `feature-action-execution.md`
+- `kg-reconciliation.md`
+- `pm-closeout.md`
+
+## Skipped Gates
+
+- None.
+
+## Notes
+
+- Tracker sync command: `.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root /Users/wallstreet289/Documents/workspace/nebula-insurance-crm-sagar --feature F0028 --run-id 2026-07-02-736e7854`
+- Tracker sync result: PASS.
+- Final G8 feature-evidence validation passed after tracker sync was recorded.

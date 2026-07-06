@@ -8,6 +8,9 @@ info:
     renewals needing attention, per-renewal companion context, persist outreach draft,
     mock-send (commits Identified→Outreach without dispatching email), and companion
     telemetry ingest. Called by the Neuron service as the user; governed by ADR-027/ADR-028.
+    F0028 adds CRM-side carrier and market relationship management under the
+    CarrierMarkets tag: market directory/profile management, underwriter contacts,
+    appetite notes, appointment context, and links to submissions/policies.
     Version 0.6.0 adds F0023 Global Search, Saved Views, and Operational Reporting:
     permission-filtered cross-object search, personal/team saved-view management,
     and workload / workflow-aging operational report endpoints.
@@ -34,6 +37,8 @@ tags:
     description: Territory definition and effective-dated membership (F0017)
   - name: Contacts
     description: Contact CRUD operations
+  - name: CarrierMarkets
+    description: CRM-side carrier and market relationship management (F0028)
   - name: Accounts
     description: Account operations
   - name: MGAs
@@ -682,6 +687,351 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "404":
           $ref: "#/components/responses/NotFound"
+
+  # ──────────────────────────────────────────────────────────────
+  # F0028 Carrier and market relationship management
+  # ──────────────────────────────────────────────────────────────
+  /carrier-markets:
+    get:
+      operationId: listCarrierMarkets
+      summary: List carrier markets
+      description: Returns ABAC-scoped carrier market profiles for the market directory.
+      tags: [CarrierMarkets]
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema: { type: string, minLength: 2, maxLength: 200 }
+        - name: status
+          in: query
+          required: false
+          schema: { type: string, enum: [Active, Inactive, Prospect] }
+        - name: marketType
+          in: query
+          required: false
+          schema: { type: string, enum: [Admitted, NonAdmitted, MGA, Wholesaler, Other] }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Paginated carrier market list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedCarrierMarketList"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createCarrierMarket
+      summary: Create carrier market
+      description: Creates a carrier market profile and emits `CarrierMarketCreated`.
+      tags: [CarrierMarkets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierMarketUpsertRequest" }
+      responses:
+        "201":
+          description: Carrier market created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierMarket" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+    get:
+      operationId: getCarrierMarketById
+      summary: Get carrier market
+      tags: [CarrierMarkets]
+      responses:
+        "200":
+          description: Carrier market detail
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierMarket" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      operationId: updateCarrierMarket
+      summary: Update carrier market
+      description: Requires `If-Match`; emits `CarrierMarketUpdated`.
+      tags: [CarrierMarkets]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierMarketUpsertRequest" }
+      responses:
+        "200":
+          description: Carrier market updated
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierMarket" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/contacts:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+    get:
+      operationId: listCarrierMarketContacts
+      summary: List carrier market contacts
+      tags: [CarrierMarkets]
+      responses:
+        "200":
+          description: Carrier contacts
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/CarrierMarketContact" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: createCarrierMarketContact
+      summary: Create carrier market contact
+      description: Emits `CarrierMarketContactCreated`.
+      tags: [CarrierMarkets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierMarketContactUpsertRequest" }
+      responses:
+        "201":
+          description: Carrier contact created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierMarketContact" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/contacts/{contactId}:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+      - $ref: "#/components/parameters/ContactId"
+    put:
+      operationId: updateCarrierMarketContact
+      summary: Update carrier market contact
+      description: Requires `If-Match`; emits `CarrierMarketContactUpdated`.
+      tags: [CarrierMarkets]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierMarketContactUpsertRequest" }
+      responses:
+        "200":
+          description: Carrier contact updated
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierMarketContact" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/appetite-notes:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+    get:
+      operationId: listCarrierAppetiteNotes
+      summary: List carrier appetite notes
+      tags: [CarrierMarkets]
+      responses:
+        "200":
+          description: Appetite notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/CarrierAppetiteNote" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: createCarrierAppetiteNote
+      summary: Create carrier appetite note
+      description: Emits `CarrierAppetiteNoteCreated`.
+      tags: [CarrierMarkets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierAppetiteNoteUpsertRequest" }
+      responses:
+        "201":
+          description: Appetite note created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierAppetiteNote" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/appetite-notes/{appetiteNoteId}:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+      - $ref: "#/components/parameters/AppetiteNoteId"
+    put:
+      operationId: updateCarrierAppetiteNote
+      summary: Update carrier appetite note
+      description: Requires `If-Match`; emits `CarrierAppetiteNoteUpdated`.
+      tags: [CarrierMarkets]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierAppetiteNoteUpsertRequest" }
+      responses:
+        "200":
+          description: Appetite note updated
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierAppetiteNote" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/appointments:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+    get:
+      operationId: listCarrierAppointments
+      summary: List carrier appointments
+      tags: [CarrierMarkets]
+      responses:
+        "200":
+          description: Carrier appointments
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/CarrierAppointment" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: createCarrierAppointment
+      summary: Create carrier appointment
+      description: Emits `CarrierAppointmentCreated`.
+      tags: [CarrierMarkets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierAppointmentUpsertRequest" }
+      responses:
+        "201":
+          description: Carrier appointment created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierAppointment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/appointments/{appointmentId}:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+      - $ref: "#/components/parameters/AppointmentId"
+    put:
+      operationId: updateCarrierAppointment
+      summary: Update carrier appointment
+      description: Requires `If-Match`; emits `CarrierAppointmentUpdated`.
+      tags: [CarrierMarkets]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierAppointmentUpsertRequest" }
+      responses:
+        "200":
+          description: Carrier appointment updated
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierAppointment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /carrier-markets/{carrierMarketId}/activity-links:
+    parameters:
+      - $ref: "#/components/parameters/CarrierMarketId"
+    get:
+      operationId: listCarrierMarketActivityLinks
+      summary: List carrier market activity links
+      tags: [CarrierMarkets]
+      responses:
+        "200":
+          description: Carrier market links to submissions and policies
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/CarrierMarketActivityLink" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: createCarrierMarketActivityLink
+      summary: Link carrier market to related work
+      description: Creates a carrier market activity link and emits `CarrierMarketActivityLinked`.
+      tags: [CarrierMarkets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CarrierMarketActivityLinkCreateRequest" }
+      responses:
+        "201":
+          description: Activity link created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CarrierMarketActivityLink" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
 
   # ──────────────────────────────────────────────────────────────
   # Account, MGA, Program endpoints (existing)
@@ -4661,6 +5011,27 @@ components:
       schema:
         type: string
         format: uuid
+    CarrierMarketId:
+      name: carrierMarketId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    AppetiteNoteId:
+      name: appetiteNoteId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    AppointmentId:
+      name: appointmentId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
     SubmissionId:
       name: submissionId
       in: path
@@ -5225,6 +5596,188 @@ components:
           type: integer
         totalPages:
           type: integer
+
+    # ── Carrier Market Schemas (F0028) ─────────────────────────
+    CarrierMarket:
+      type: object
+      required: [id, code, name, status, marketType, createdAt, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        code: { type: string, minLength: 1, maxLength: 40 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        naicCode: { type: string, nullable: true, maxLength: 10 }
+        amBestRating: { type: string, nullable: true, maxLength: 10 }
+        status: { type: string, enum: [Active, Inactive, Prospect] }
+        marketType: { type: string, enum: [Admitted, NonAdmitted, MGA, Wholesaler, Other] }
+        relationshipOwnerUserId: { type: string, format: uuid, nullable: true }
+        websiteUrl: { type: string, format: uri, nullable: true, maxLength: 500 }
+        generalEmail: { type: string, format: email, nullable: true, maxLength: 320 }
+        mainPhone: { type: string, nullable: true, pattern: "^\\+?[1-9]\\d{7,14}$" }
+        notes: { type: string, nullable: true, maxLength: 2000 }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+        rowVersion: { type: string }
+
+    CarrierMarketUpsertRequest:
+      type: object
+      required: [code, name, status, marketType]
+      properties:
+        code: { type: string, minLength: 1, maxLength: 40 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        naicCode: { type: string, nullable: true, maxLength: 10 }
+        amBestRating: { type: string, nullable: true, maxLength: 10 }
+        status: { type: string, enum: [Active, Inactive, Prospect] }
+        marketType: { type: string, enum: [Admitted, NonAdmitted, MGA, Wholesaler, Other] }
+        relationshipOwnerUserId: { type: string, format: uuid, nullable: true }
+        websiteUrl: { type: string, format: uri, nullable: true, maxLength: 500 }
+        generalEmail: { type: string, format: email, nullable: true, maxLength: 320 }
+        mainPhone: { type: string, nullable: true, pattern: "^\\+?[1-9]\\d{7,14}$" }
+        notes: { type: string, nullable: true, maxLength: 2000 }
+
+    PaginatedCarrierMarketList:
+      type: object
+      required: [data, page, pageSize, totalCount, totalPages]
+      properties:
+        data:
+          type: array
+          items: { $ref: "#/components/schemas/CarrierMarket" }
+        page: { type: integer }
+        pageSize: { type: integer }
+        totalCount: { type: integer }
+        totalPages: { type: integer }
+
+    CarrierMarketContact:
+      type: object
+      required: [id, carrierMarketId, fullName, roles, isPrimary, createdAt, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        carrierMarketId: { type: string, format: uuid }
+        fullName: { type: string, minLength: 1, maxLength: 200 }
+        title: { type: string, nullable: true, maxLength: 120 }
+        email: { type: string, format: email, nullable: true, maxLength: 320 }
+        phone: { type: string, nullable: true, pattern: "^\\+?[1-9]\\d{7,14}$" }
+        roles:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items: { type: string, enum: [Underwriter, Marketing, Claims, LossControl, Executive, Operations, Other] }
+        isPrimary: { type: boolean }
+        notes: { type: string, nullable: true, maxLength: 1000 }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+        rowVersion: { type: string }
+
+    CarrierMarketContactUpsertRequest:
+      type: object
+      required: [fullName, roles, isPrimary]
+      properties:
+        fullName: { type: string, minLength: 1, maxLength: 200 }
+        title: { type: string, nullable: true, maxLength: 120 }
+        email: { type: string, format: email, nullable: true, maxLength: 320 }
+        phone: { type: string, nullable: true, pattern: "^\\+?[1-9]\\d{7,14}$" }
+        roles:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items: { type: string, enum: [Underwriter, Marketing, Claims, LossControl, Executive, Operations, Other] }
+        isPrimary: { type: boolean }
+        notes: { type: string, nullable: true, maxLength: 1000 }
+
+    CarrierAppetiteNote:
+      type: object
+      required: [id, carrierMarketId, appetiteLevel, summary, createdAt, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        carrierMarketId: { type: string, format: uuid }
+        lineOfBusiness: { type: string, nullable: true, maxLength: 120 }
+        region: { type: string, nullable: true, maxLength: 120 }
+        appetiteLevel: { type: string, enum: [Preferred, Open, Selective, Restricted, Closed] }
+        summary: { type: string, minLength: 1, maxLength: 240 }
+        detail: { type: string, nullable: true, maxLength: 4000 }
+        effectiveFrom: { type: string, format: date, nullable: true }
+        effectiveTo: { type: string, format: date, nullable: true }
+        source: { type: string, nullable: true, maxLength: 200 }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+        rowVersion: { type: string }
+
+    CarrierAppetiteNoteUpsertRequest:
+      type: object
+      required: [appetiteLevel, summary]
+      properties:
+        lineOfBusiness: { type: string, nullable: true, maxLength: 120 }
+        region: { type: string, nullable: true, maxLength: 120 }
+        appetiteLevel: { type: string, enum: [Preferred, Open, Selective, Restricted, Closed] }
+        summary: { type: string, minLength: 1, maxLength: 240 }
+        detail: { type: string, nullable: true, maxLength: 4000 }
+        effectiveFrom: { type: string, format: date, nullable: true }
+        effectiveTo: { type: string, format: date, nullable: true }
+        source: { type: string, nullable: true, maxLength: 200 }
+
+    CarrierAppointment:
+      type: object
+      required: [id, carrierMarketId, appointmentStatus, states, createdAt, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        carrierMarketId: { type: string, format: uuid }
+        appointmentStatus: { type: string, enum: [NotAppointed, InProgress, Appointed, Suspended, Terminated] }
+        states:
+          type: array
+          uniqueItems: true
+          items: { type: string, pattern: "^[A-Z]{2}$" }
+        lineOfBusiness: { type: string, nullable: true, maxLength: 120 }
+        appointmentNumber: { type: string, nullable: true, maxLength: 80 }
+        effectiveDate: { type: string, format: date, nullable: true }
+        expirationDate: { type: string, format: date, nullable: true }
+        notes: { type: string, nullable: true, maxLength: 2000 }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+        rowVersion: { type: string }
+
+    CarrierAppointmentUpsertRequest:
+      type: object
+      required: [appointmentStatus, states]
+      properties:
+        appointmentStatus: { type: string, enum: [NotAppointed, InProgress, Appointed, Suspended, Terminated] }
+        states:
+          type: array
+          uniqueItems: true
+          items: { type: string, pattern: "^[A-Z]{2}$" }
+        lineOfBusiness: { type: string, nullable: true, maxLength: 120 }
+        appointmentNumber: { type: string, nullable: true, maxLength: 80 }
+        effectiveDate: { type: string, format: date, nullable: true }
+        expirationDate: { type: string, format: date, nullable: true }
+        notes: { type: string, nullable: true, maxLength: 2000 }
+
+    CarrierMarketActivityLink:
+      type: object
+      required: [id, carrierMarketId, relatedEntityType, relatedEntityId, relationshipKind, createdAt]
+      properties:
+        id: { type: string, format: uuid }
+        carrierMarketId: { type: string, format: uuid }
+        relatedEntityType: { type: string, enum: [Submission, Policy] }
+        relatedEntityId: { type: string, format: uuid }
+        relationshipKind: { type: string, enum: [Marketed, Quoted, Bound, Declined, AppointedContext, GeneralReference] }
+        note: { type: string, nullable: true, maxLength: 1000 }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+
+    CarrierMarketActivityLinkCreateRequest:
+      type: object
+      required: [relatedEntityType, relatedEntityId, relationshipKind]
+      properties:
+        relatedEntityType: { type: string, enum: [Submission, Policy] }
+        relatedEntityId: { type: string, format: uuid }
+        relationshipKind: { type: string, enum: [Marketed, Quoted, Bound, Declined, AppointedContext, GeneralReference] }
+        note: { type: string, nullable: true, maxLength: 1000 }
 
     ProducerOwnershipScopeType:
       type: string

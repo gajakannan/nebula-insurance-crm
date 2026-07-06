@@ -55,6 +55,11 @@ public class SearchProjectionService : ISearchProjectionService
                 searchDocs.Add(NewDoc("Program", p.Id, $"/programs/{p.Id}", p.Name, p.ProgramCode, null,
                     p.ManagedByUserId, null, null, null, startedAt, p.UpdatedAt, Text(p.Name, p.ProgramCode), programId: p.Id));
 
+            await foreach (var c in _db.CarrierMarkets.AsNoTracking().AsAsyncEnumerable().WithCancellation(ct))
+                searchDocs.Add(NewDoc("CarrierMarket", c.Id, $"/carrier-markets/{c.Id}", c.Name, c.Code, c.Status,
+                    c.RelationshipOwnerUserId, null, null, null, startedAt, c.UpdatedAt,
+                    Text(c.Name, c.Code, c.NaicCode, c.AmBestRating, c.MarketType)));
+
             await foreach (var p in _db.Policies
                 .AsNoTracking()
                 .Include(p => p.Account)

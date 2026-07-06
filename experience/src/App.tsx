@@ -6,6 +6,7 @@ import DashboardPage from './pages/DashboardPage'
 import BrokerListPage from './pages/BrokerListPage'
 import CreateBrokerPage from './pages/CreateBrokerPage'
 import BrokerDetailPage from './pages/BrokerDetailPage'
+import CarrierMarketsPage from './pages/CarrierMarketsPage'
 import AccountsPage from './pages/AccountsPage'
 import CreateAccountPage from './pages/CreateAccountPage'
 import AccountDetailPage from './pages/AccountDetailPage'
@@ -75,6 +76,7 @@ function AppInner() {
       <Route path="/brokers" element={<ProtectedRoute><BrokerListPage /></ProtectedRoute>} />
       <Route path="/brokers/new" element={<ProtectedRoute><CreateBrokerPage /></ProtectedRoute>} />
       <Route path="/brokers/:brokerId" element={<ProtectedRoute><BrokerDetailPage /></ProtectedRoute>} />
+      <Route path="/carrier-markets" element={<ProtectedRoute><CarrierMarketsPage /></ProtectedRoute>} />
       <Route path="/tasks" element={<ProtectedRoute><TaskCenterPage /></ProtectedRoute>} />
       <Route path="/tasks/:taskId" element={<ProtectedRoute><TaskCenterPage /></ProtectedRoute>} />
       <Route path="/service-cases" element={<ProtectedRoute><ServiceCasesPage /></ProtectedRoute>} />

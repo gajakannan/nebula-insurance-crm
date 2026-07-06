@@ -90,6 +90,51 @@ p, Admin,            broker, reactivate, true
 p, DistributionManager, broker, reactivate, true
 
 # ─────────────────────────────────────────────────────────────────────────────
+# §2.1b Carrier Market Relationship Management (F0028)
+# Scope constraint: carrier market data is InternalOnly. Search/read/list rows
+# are permission-filtered at the query layer; related submission/policy links
+# require read access to the related record before materialization or mutation.
+# ─────────────────────────────────────────────────────────────────────────────
+
+p, DistributionUser,    carrier_market, read,          true
+p, DistributionUser,    carrier_market, search,        true
+p, DistributionUser,    carrier_market, link_activity, true
+
+p, DistributionManager, carrier_market, read,               true
+p, DistributionManager, carrier_market, search,             true
+p, DistributionManager, carrier_market, create,             true
+p, DistributionManager, carrier_market, update,             true
+p, DistributionManager, carrier_market, manage_contact,     true
+p, DistributionManager, carrier_market, manage_appetite,    true
+p, DistributionManager, carrier_market, manage_appointment, true
+p, DistributionManager, carrier_market, link_activity,      true
+
+p, Underwriter,         carrier_market, read,          true
+p, Underwriter,         carrier_market, search,        true
+p, Underwriter,         carrier_market, link_activity, true
+
+p, RelationshipManager, carrier_market, read,               true
+p, RelationshipManager, carrier_market, search,             true
+p, RelationshipManager, carrier_market, create,             true
+p, RelationshipManager, carrier_market, update,             true
+p, RelationshipManager, carrier_market, manage_contact,     true
+p, RelationshipManager, carrier_market, manage_appetite,    true
+p, RelationshipManager, carrier_market, manage_appointment, true
+p, RelationshipManager, carrier_market, link_activity,      true
+
+p, ProgramManager,      carrier_market, read,   true
+p, ProgramManager,      carrier_market, search, true
+
+p, Admin,               carrier_market, read,               true
+p, Admin,               carrier_market, search,             true
+p, Admin,               carrier_market, create,             true
+p, Admin,               carrier_market, update,             true
+p, Admin,               carrier_market, manage_contact,     true
+p, Admin,               carrier_market, manage_appetite,    true
+p, Admin,               carrier_market, manage_appointment, true
+p, Admin,               carrier_market, link_activity,      true
+
+# ─────────────────────────────────────────────────────────────────────────────
 # §2.1a Distribution Hierarchy, Producer Ownership, and Territory (F0017)
 # Read scope: authenticated internal users only. Hierarchy-aware read scoping,
 # territory scoping, and recursive visibility predicates are deferred to F0037.

@@ -30,7 +30,6 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 | F0025 | Commission, Producer Splits & Revenue Tracking | Planned | Brokerage Platform Expansion | `F0025-commission-producer-splits-and-revenue-tracking/` |
 | F0026 | Billing, Invoicing & Reconciliation | Planned | Brokerage Platform Expansion | `F0026-billing-invoicing-and-reconciliation/` |
 | F0027 | COI, ACORD & Outbound Document Generation | Planned | CRM Release MVP+ | `F0027-coi-acord-and-outbound-document-generation/` |
-| F0028 | Carrier & Market Relationship Management | Planned | CRM Release MVP+ | `F0028-carrier-and-market-relationship-management/` |
 | F0029 | External Broker Collaboration Portal | Planned | Brokerage Platform Expansion | `F0029-external-broker-collaboration-portal/` |
 | F0030 | Integration Hub & Data Exchange | Planned | Brokerage Platform Expansion | `F0030-integration-hub-and-data-exchange/` |
 | F0031 | Data Import, Deduplication & Go-Live Migration | Planned | Release Enablement | `F0031-data-import-deduplication-and-go-live-migration/` |
@@ -43,6 +42,7 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 
 | Feature ID | Name | Archived Date | Folder |
 |------------|------|---------------|--------|
+| F0028 | Carrier & Market Relationship Management | 2026-07-03 | `archive/F0028-carrier-and-market-relationship-management/` |
 | F0024 | Claims & Service Case Tracking | 2026-07-03 | `archive/F0024-claims-and-service-case-tracking/` |
 | F0017 | Broker/MGA Hierarchy, Producer Ownership & Territory Management | 2026-07-03 | `archive/F0017-broker-mga-hierarchy-and-producer-ownership/` |
 | F0038 | Neuron Day-at-a-Glance Shell (Renewals live + draft outreach + mock-send) | 2026-07-02 | `archive/F0038-neuron-day-at-a-glance-shell/` |

@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/carrier-market-upsert-request.schema.json",
+  "title": "CarrierMarketUpsertRequest",
+  "description": "Payload to create or update a carrier market profile.",
+  "type": "object",
+  "required": ["code", "name", "status", "marketType"],
+  "properties": {
+    "code": { "type": "string", "minLength": 1, "maxLength": 40 },
+    "name": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "naicCode": { "type": ["string", "null"], "maxLength": 10 },
+    "amBestRating": { "type": ["string", "null"], "maxLength": 10 },
+    "status": { "type": "string", "enum": ["Active", "Inactive", "Prospect"] },
+    "marketType": { "type": "string", "enum": ["Admitted", "NonAdmitted", "MGA", "Wholesaler", "Other"] },
+    "relationshipOwnerUserId": { "type": ["string", "null"], "format": "uuid" },
+    "websiteUrl": { "type": ["string", "null"], "format": "uri", "maxLength": 500 },
+    "generalEmail": { "type": ["string", "null"], "format": "email", "maxLength": 320 },
+    "mainPhone": { "type": ["string", "null"], "pattern": "^\\+?[1-9]\\d{7,14}$" },
+    "notes": { "type": ["string", "null"], "maxLength": 2000 }
+  },
+  "additionalProperties": false
+}

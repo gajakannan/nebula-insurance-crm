@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/carrier-market-activity-link.schema.json",
+  "title": "CarrierMarketActivityLink",
+  "description": "Link from carrier market context to an existing submission or policy.",
+  "type": "object",
+  "required": ["id", "carrierMarketId", "relatedEntityType", "relatedEntityId", "relationshipKind", "createdAt"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "carrierMarketId": { "type": "string", "format": "uuid" },
+    "relatedEntityType": { "type": "string", "enum": ["Submission", "Policy"] },
+    "relatedEntityId": { "type": "string", "format": "uuid" },
+    "relationshipKind": { "type": "string", "enum": ["Marketed", "Quoted", "Bound", "Declined", "AppointedContext", "GeneralReference"] },
+    "note": { "type": ["string", "null"], "maxLength": 1000 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "createdByUserId": { "type": ["string", "null"], "format": "uuid" }
+  },
+  "additionalProperties": false
+}

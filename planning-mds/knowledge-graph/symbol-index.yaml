@@ -1,20 +1,20 @@
 version: 0
-generated_at: '2026-07-06T01:27:40+00:00'
+generated_at: '2026-07-06T01:32:00+00:00'
 summary:
-  total_symbols: 4492
+  total_symbols: 4504
   by_language:
     python:
       files: 52
-      parsed: 52
-      cached: 0
+      parsed: 0
+      cached: 52
     typescript:
-      files: 292
-      parsed: 292
-      cached: 0
+      files: 293
+      parsed: 8
+      cached: 285
     csharp:
       files: 372
-      parsed: 372
-      cached: 0
+      parsed: 6
+      cached: 366
   disambiguated_ids: 20
   compilation_roots_by_language:
     python: []
@@ -30,7 +30,6 @@ summary:
     csharp: f1e324c369f84d91c7fc9babd3fbb3df5352bd259db0a2d31fe5c8f61f74ce96
   sidecar_authoritative_languages:
   - csharp
-  - python
   - typescript
 symbols:
 - id: symbol:capability-authorization-enforcement:broker-authorization-tests.broker-authorization-tests
@@ -411,6 +410,22 @@ symbols:
   callers: []
   callees:
   - symbol:capability-authorization-enforcement:casbin-authorization-service.authorize-async
+- id: symbol:capability-authorization-enforcement:casbin-authorization-service-tests.carrier-market-policy-matches-policy-csv
+  node: capability:authorization-enforcement
+  kind: method
+  name: CarrierMarketPolicy_MatchesPolicyCsv
+  file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+  line: 97
+  signature: public async Task CarrierMarketPolicy_MatchesPolicyCsv(string role, string
+    resource, string action, bool expected)
+  visibility: public
+  language: csharp
+  container: CasbinAuthorizationServiceTests
+  end_line: 111
+  is_test: true
+  callers: []
+  callees:
+  - symbol:capability-authorization-enforcement:casbin-authorization-service.authorize-async
 - id: symbol:capability-authorization-enforcement:casbin-authorization-service-tests.casbin-authorization-service-tests
   node: capability:authorization-enforcement
   kind: class
@@ -420,7 +435,7 @@ symbols:
   signature: public class CasbinAuthorizationServiceTests
   visibility: public
   language: csharp
-  end_line: 249
+  end_line: 265
   is_test: true
   callers: []
   callees: []
@@ -429,12 +444,12 @@ symbols:
   kind: method
   name: Constructor_LoadsSuccessfully
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 242
+  line: 258
   signature: public void Constructor_LoadsSuccessfully()
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 248
+  end_line: 264
   is_test: true
   callers: []
   callees: []
@@ -461,13 +476,13 @@ symbols:
   kind: method
   name: DashboardPolicy_MatchesPolicyCsv
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 223
+  line: 239
   signature: public async Task DashboardPolicy_MatchesPolicyCsv(string role, string
     resource, bool expected)
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 236
+  end_line: 252
   is_test: true
   callers: []
   callees:
@@ -477,13 +492,13 @@ symbols:
   kind: method
   name: ExternalUser_AllResources_Denied
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 181
+  line: 197
   signature: public async Task ExternalUser_AllResources_Denied(string resource, string
     action)
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 192
+  end_line: 208
   is_test: true
   callers: []
   callees:
@@ -493,12 +508,12 @@ symbols:
   kind: method
   name: TaskCreate_MatchingAssignee_ReturnsTrue
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 162
+  line: 178
   signature: public async Task TaskCreate_MatchingAssignee_ReturnsTrue(string role)
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 175
+  end_line: 191
   is_test: true
   callers: []
   callees:
@@ -508,12 +523,12 @@ symbols:
   kind: method
   name: TaskRead_MatchingAssignee_ReturnsTrue
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 120
+  line: 136
   signature: public async Task TaskRead_MatchingAssignee_ReturnsTrue(string role)
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 137
+  end_line: 153
   is_test: true
   callers: []
   callees:
@@ -523,12 +538,12 @@ symbols:
   kind: method
   name: TaskRead_MismatchedAssignee_ReturnsFalse
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 139
+  line: 155
   signature: public async Task TaskRead_MismatchedAssignee_ReturnsFalse(string role)
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 151
+  end_line: 167
   is_test: true
   callers: []
   callees:
@@ -538,12 +553,12 @@ symbols:
   kind: method
   name: TaskRead_NoAttributes_ReturnsFalse
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 153
+  line: 169
   signature: public async Task TaskRead_NoAttributes_ReturnsFalse()
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 160
+  end_line: 176
   is_test: true
   callers: []
   callees:
@@ -553,13 +568,13 @@ symbols:
   kind: method
   name: TimelineEventRead_MatchesPolicyCsv
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 101
+  line: 117
   signature: public async Task TimelineEventRead_MatchesPolicyCsv(string role, bool
     expected)
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 114
+  end_line: 130
   is_test: true
   callers: []
   callees:
@@ -569,12 +584,12 @@ symbols:
   kind: method
   name: UnknownAction_DeniedByDefault
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 205
+  line: 221
   signature: public async Task UnknownAction_DeniedByDefault()
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 210
+  end_line: 226
   is_test: true
   callers: []
   callees:
@@ -584,12 +599,12 @@ symbols:
   kind: method
   name: UnknownResource_DeniedByDefault
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 212
+  line: 228
   signature: public async Task UnknownResource_DeniedByDefault()
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 217
+  end_line: 233
   is_test: true
   callers: []
   callees:
@@ -599,12 +614,12 @@ symbols:
   kind: method
   name: UnknownRole_DeniedByDefault
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 198
+  line: 214
   signature: public async Task UnknownRole_DeniedByDefault()
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 203
+  end_line: 219
   is_test: true
   callers: []
   callees:
@@ -637,6 +652,7 @@ symbols:
   end_line: 71
   callers:
   - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.broker-policy-matches-policy-csv
+  - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.carrier-market-policy-matches-policy-csv
   - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.contact-policy-matches-policy-csv
   - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.dashboard-policy-matches-policy-csv
   - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.external-user-all-resources-denied
@@ -8927,11 +8943,11 @@ symbols:
   kind: interface
   name: AccessTokenResolution
   file: experience/src/services/api.ts
-  line: 24
+  line: 25
   signature: interface AccessTokenResolution
   visibility: local
   language: typescript
-  end_line: 27
+  end_line: 28
   callers: []
   callees: []
 - id: symbol:capability-document-management:api.api-error
@@ -8939,11 +8955,11 @@ symbols:
   kind: class
   name: ApiError
   file: experience/src/services/api.ts
-  line: 29
+  line: 30
   signature: export class ApiError extends Error
   visibility: export
   language: typescript
-  end_line: 45
+  end_line: 46
   callers: []
   callees: []
 - id: symbol:capability-document-management:api.begin-forced-reauth
@@ -8951,11 +8967,11 @@ symbols:
   kind: function
   name: beginForcedReauth
   file: experience/src/services/api.ts
-  line: 277
+  line: 309
   signature: function beginForcedReauth(
   visibility: local
   language: typescript
-  end_line: 297
+  end_line: 329
   callers:
   - symbol:capability-document-management:api.handle-expired-token
   - symbol:capability-document-management:api.handle-problem-response
@@ -8969,11 +8985,11 @@ symbols:
   kind: function
   name: currentRouteWithQuery
   file: experience/src/services/api.ts
-  line: 362
+  line: 394
   signature: 'function currentRouteWithQuery(): string'
   visibility: local
   language: typescript
-  end_line: 366
+  end_line: 398
   callers:
   - symbol:capability-document-management:api.begin-forced-reauth
   callees: []
@@ -8982,11 +8998,11 @@ symbols:
   kind: function
   name: currentRouteWithoutQuery
   file: experience/src/services/api.ts
-  line: 368
+  line: 400
   signature: 'function currentRouteWithoutQuery(): string'
   visibility: local
   language: typescript
-  end_line: 370
+  end_line: 402
   callers:
   - symbol:capability-document-management:api.begin-forced-reauth
   callees: []
@@ -8995,11 +9011,11 @@ symbols:
   kind: function
   name: endpointRouteFromPath
   file: experience/src/services/api.ts
-  line: 351
+  line: 383
   signature: 'function endpointRouteFromPath(path: string): string'
   visibility: local
   language: typescript
-  end_line: 360
+  end_line: 392
   callers:
   - symbol:capability-document-management:api.request-api
   callees: []
@@ -9008,11 +9024,11 @@ symbols:
   kind: function
   name: fetchApi
   file: experience/src/services/api.ts
-  line: 115
+  line: 114
   signature: 'async function fetchApi<T>(path: string, options?: RequestInit): Promise<T>'
   visibility: local
   language: typescript
-  end_line: 118
+  end_line: 117
   callers: []
   callees:
   - symbol:capability-document-management:api.request-api
@@ -9021,12 +9037,12 @@ symbols:
   kind: function
   name: fetchApiNoBody
   file: experience/src/services/api.ts
-  line: 120
+  line: 119
   signature: 'async function fetchApiNoBody(path: string, options?: RequestInit):
     Promise<void>'
   visibility: local
   language: typescript
-  end_line: 122
+  end_line: 121
   callers: []
   callees:
   - symbol:capability-document-management:api.request-api
@@ -9035,11 +9051,11 @@ symbols:
   kind: function
   name: fetchBlob
   file: experience/src/services/api.ts
-  line: 124
+  line: 123
   signature: 'async function fetchBlob(path: string, options?: RequestInit): Promise<Blob>'
   visibility: local
   language: typescript
-  end_line: 127
+  end_line: 126
   callers: []
   callees:
   - symbol:capability-document-management:api.request-api
@@ -9048,11 +9064,11 @@ symbols:
   kind: function
   name: handleExpiredToken
   file: experience/src/services/api.ts
-  line: 223
+  line: 228
   signature: async function handleExpiredToken(
   visibility: local
   language: typescript
-  end_line: 275
+  end_line: 280
   callers:
   - symbol:capability-document-management:api.handle-problem-response
   callees:
@@ -9073,19 +9089,22 @@ symbols:
   kind: function
   name: handleProblemResponse
   file: experience/src/services/api.ts
-  line: 181
+  line: 182
   signature: async function handleProblemResponse(
   visibility: local
   language: typescript
-  end_line: 221
+  end_line: 226
   callers:
   - symbol:capability-document-management:api.handle-expired-token
   - symbol:capability-document-management:api.request-api
+  - symbol:capability-document-management:api.retry-with-local-dev-token
   callees:
   - symbol:capability-document-management:api.begin-forced-reauth
   - symbol:capability-document-management:api.handle-expired-token
   - symbol:capability-document-management:api.navigation-in-flight
   - symbol:capability-document-management:api.record-classification-telemetry
+  - symbol:capability-document-management:api.retry-with-local-dev-token
+  - symbol:capability-document-management:api.should-retry-with-local-dev-token
   instantiates:
   - symbol:capability-document-management:api.api-error
   type_refs:
@@ -9095,11 +9114,11 @@ symbols:
   kind: function
   name: isReadMethod
   file: experience/src/services/api.ts
-  line: 347
+  line: 379
   signature: 'function isReadMethod(method: string): boolean'
   visibility: local
   language: typescript
-  end_line: 349
+  end_line: 381
   callers:
   - symbol:capability-document-management:api.handle-expired-token
   - symbol:capability-document-management:api.resolve-token
@@ -9109,11 +9128,11 @@ symbols:
   kind: class
   name: MutationRetryRequiredError
   file: experience/src/services/api.ts
-  line: 47
+  line: 48
   signature: export class MutationRetryRequiredError extends ApiError
   visibility: export
   language: typescript
-  end_line: 58
+  end_line: 59
   callers: []
   callees: []
 - id: symbol:capability-document-management:api.navigation-in-flight
@@ -9121,11 +9140,11 @@ symbols:
   kind: function
   name: navigationInFlight
   file: experience/src/services/api.ts
-  line: 339
+  line: 371
   signature: 'function navigationInFlight(): Promise<Response>'
   visibility: local
   language: typescript
-  end_line: 341
+  end_line: 373
   callers:
   - symbol:capability-document-management:api.handle-expired-token
   - symbol:capability-document-management:api.handle-problem-response
@@ -9139,7 +9158,7 @@ symbols:
   signature: interface ProblemResponseContext
   visibility: local
   language: typescript
-  end_line: 179
+  end_line: 180
   callers: []
   callees: []
 - id: symbol:capability-document-management:api.record-classification-telemetry
@@ -9147,11 +9166,11 @@ symbols:
   kind: function
   name: recordClassificationTelemetry
   file: experience/src/services/api.ts
-  line: 303
+  line: 335
   signature: function recordClassificationTelemetry(
   visibility: local
   language: typescript
-  end_line: 323
+  end_line: 355
   callers:
   - symbol:capability-document-management:api.handle-problem-response
   callees:
@@ -9161,11 +9180,11 @@ symbols:
   kind: function
   name: recordFailureClassEvent
   file: experience/src/services/api.ts
-  line: 325
+  line: 357
   signature: function recordFailureClassEvent(
   visibility: local
   language: typescript
-  end_line: 337
+  end_line: 369
   callers:
   - symbol:capability-document-management:api.begin-forced-reauth
   - symbol:capability-document-management:api.handle-expired-token
@@ -9177,11 +9196,11 @@ symbols:
   kind: function
   name: renewalFailureCause
   file: experience/src/services/api.ts
-  line: 299
+  line: 331
   signature: 'function renewalFailureCause(error: unknown): RenewalFailureCause'
   visibility: local
   language: typescript
-  end_line: 301
+  end_line: 333
   callers:
   - symbol:capability-document-management:api.handle-expired-token
   - symbol:capability-document-management:api.resolve-token
@@ -9191,7 +9210,7 @@ symbols:
   kind: function
   name: requestApi
   file: experience/src/services/api.ts
-  line: 129
+  line: 128
   signature: 'async function requestApi(path: string, options?: RequestInit, jsonContent
     = true): Promise<Response>'
   visibility: local
@@ -9212,11 +9231,11 @@ symbols:
   kind: function
   name: resolveApiUrl
   file: experience/src/services/api.ts
-  line: 103
+  line: 102
   signature: 'function resolveApiUrl(path: string): string'
   visibility: local
   language: typescript
-  end_line: 113
+  end_line: 112
   callers:
   - symbol:capability-document-management:api.send-request
   callees: []
@@ -9225,11 +9244,11 @@ symbols:
   kind: function
   name: resolveMethod
   file: experience/src/services/api.ts
-  line: 343
+  line: 375
   signature: 'function resolveMethod(options?: RequestInit): string'
   visibility: local
   language: typescript
-  end_line: 345
+  end_line: 377
   callers:
   - symbol:capability-document-management:api.request-api
   callees: []
@@ -9238,11 +9257,11 @@ symbols:
   kind: function
   name: resolveToken
   file: experience/src/services/api.ts
-  line: 62
+  line: 61
   signature: async function resolveToken(
   visibility: local
   language: typescript
-  end_line: 101
+  end_line: 100
   callers:
   - symbol:capability-document-management:api.request-api
   callees:
@@ -9254,6 +9273,23 @@ symbols:
   - symbol:capability-document-management:api.mutation-retry-required-error
   type_refs:
   - symbol:capability-document-management:api.access-token-resolution
+- id: symbol:capability-document-management:api.retry-with-local-dev-token
+  node: capability:document-management
+  kind: function
+  name: retryWithLocalDevToken
+  file: experience/src/services/api.ts
+  line: 288
+  signature: async function retryWithLocalDevToken(
+  visibility: local
+  language: typescript
+  end_line: 307
+  callers:
+  - symbol:capability-document-management:api.handle-problem-response
+  callees:
+  - symbol:capability-document-management:api.handle-problem-response
+  - symbol:capability-document-management:api.send-request
+  type_refs:
+  - symbol:capability-document-management:api.problem-response-context
 - id: symbol:capability-document-management:api.send-request
   node: capability:document-management
   kind: function
@@ -9267,8 +9303,25 @@ symbols:
   callers:
   - symbol:capability-document-management:api.handle-expired-token
   - symbol:capability-document-management:api.request-api
+  - symbol:capability-document-management:api.retry-with-local-dev-token
   callees:
   - symbol:capability-document-management:api.resolve-api-url
+- id: symbol:capability-document-management:api.should-retry-with-local-dev-token
+  node: capability:document-management
+  kind: function
+  name: shouldRetryWithLocalDevToken
+  file: experience/src/services/api.ts
+  line: 282
+  signature: 'function shouldRetryWithLocalDevToken(context: ProblemResponseContext):
+    boolean'
+  visibility: local
+  language: typescript
+  end_line: 286
+  callers:
+  - symbol:capability-document-management:api.handle-problem-response
+  callees: []
+  type_refs:
+  - symbol:capability-document-management:api.problem-response-context
 - id: symbol:capability-document-management:document-classification-gate.authorize-classification-async
   node: capability:document-management
   kind: method
@@ -18333,7 +18386,7 @@ symbols:
   visibility: public
   language: csharp
   container: SearchProjectionService
-  end_line: 143
+  end_line: 148
   callers:
   - symbol:capability-global-search:i-search-projection-service.backfill-async
   callees:
@@ -18353,12 +18406,12 @@ symbols:
   kind: method
   name: NewDoc
   file: engine/src/Nebula.Infrastructure/Services/SearchProjectionService.cs
-  line: 145
+  line: 150
   signature: private static SearchDocument NewDoc(
   visibility: private
   language: csharp
   container: SearchProjectionService
-  end_line: 177
+  end_line: 182
   callers:
   - symbol:capability-global-search:search-projection-service.backfill-async
   callees:
@@ -18372,12 +18425,12 @@ symbols:
   kind: method
   name: NewReport
   file: engine/src/Nebula.Infrastructure/Services/SearchProjectionService.cs
-  line: 179
+  line: 184
   signature: private static OperationalReportProjection NewReport(
   visibility: private
   language: csharp
   container: SearchProjectionService
-  end_line: 220
+  end_line: 225
   callers:
   - symbol:capability-global-search:search-projection-service.backfill-async
   callees:
@@ -18395,7 +18448,7 @@ symbols:
   signature: 'public class SearchProjectionService : ISearchProjectionService'
   visibility: public
   language: csharp
-  end_line: 226
+  end_line: 231
   callers: []
   callees: []
 - id: symbol:capability-global-search:search-projection-service.text
@@ -18403,12 +18456,12 @@ symbols:
   kind: method
   name: Text
   file: engine/src/Nebula.Infrastructure/Services/SearchProjectionService.cs
-  line: 222
+  line: 227
   signature: private static string Text(params string?[] parts)
   visibility: private
   language: csharp
   container: SearchProjectionService
-  end_line: 223
+  end_line: 228
   callers:
   - symbol:capability-global-search:search-projection-service.backfill-async
   callees: []
@@ -18417,12 +18470,12 @@ symbols:
   kind: method
   name: ToOffset
   file: engine/src/Nebula.Infrastructure/Services/SearchProjectionService.cs
-  line: 225
+  line: 230
   signature: private static DateTimeOffset ToOffset(DateTime dt)
   visibility: private
   language: csharp
   container: SearchProjectionService
-  end_line: 225
+  end_line: 230
   callers:
   - symbol:capability-global-search:search-projection-service.new-doc
   - symbol:capability-global-search:search-projection-service.new-report
@@ -33083,11 +33136,11 @@ symbols:
   kind: function
   name: jsonResponse
   file: experience/src/services/api.test.ts
-  line: 82
+  line: 83
   signature: function jsonResponse(
   visibility: local
   language: typescript
-  end_line: 91
+  end_line: 92
   is_test: true
   callers:
   - symbol:capability-session-continuity:api.test.token-expired-response
@@ -33098,11 +33151,11 @@ symbols:
   kind: function
   name: pendingOutcome
   file: experience/src/services/api.test.ts
-  line: 105
+  line: 106
   signature: 'async function pendingOutcome<T>(promise: Promise<T>): Promise<string>'
   visibility: local
   language: typescript
-  end_line: 113
+  end_line: 114
   is_test: true
   callers: []
   callees: []
@@ -33111,11 +33164,11 @@ symbols:
   kind: function
   name: tokenExpiredResponse
   file: experience/src/services/api.test.ts
-  line: 93
+  line: 94
   signature: 'function tokenExpiredResponse(): Response'
   visibility: local
   language: typescript
-  end_line: 103
+  end_line: 104
   is_test: true
   callers: []
   callees:
@@ -33126,11 +33179,11 @@ symbols:
   kind: function
   name: App
   file: experience/src/App.tsx
-  line: 90
+  line: 92
   signature: function App()
   visibility: local
   language: typescript
-  end_line: 104
+  end_line: 106
   callers: []
   callees: []
 - id: symbol:capability-session-continuity:app.app-inner
@@ -33138,11 +33191,11 @@ symbols:
   kind: function
   name: AppInner
   file: experience/src/App.tsx
-  line: 49
+  line: 50
   signature: function AppInner()
   visibility: local
   language: typescript
-  end_line: 88
+  end_line: 90
   callers: []
   callees:
   - symbol:capability-session-continuity:use-auth-event-handler.use-auth-event-handler
@@ -35005,11 +35058,11 @@ symbols:
   kind: class
   name: Program
   file: engine/src/Nebula.Api/Program.cs
-  line: 366
+  line: 368
   signature: public partial class Program
   visibility: public
   language: csharp
-  end_line: 366
+  end_line: 368
   callers: []
   callees: []
 - id: symbol:capability-session-continuity:session-continuity-provider.session-continuity-provider
@@ -51562,12 +51615,12 @@ symbols:
   kind: method
   name: ApplyFallbackState
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 908
+  line: 915
   signature: private static void ApplyFallbackState(
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 934
+  end_line: 941
   callers:
   - symbol:entity-account:dev-seed-data.apply-seeded-account-lifecycle-fixtures
   callees: []
@@ -51581,12 +51634,12 @@ symbols:
   kind: method
   name: ApplySeededAccountLifecycleFixtures
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 867
+  line: 874
   signature: private static void ApplySeededAccountLifecycleFixtures(
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 906
+  end_line: 913
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees:
@@ -51601,12 +51654,12 @@ symbols:
   kind: method
   name: AssignAccountRelationships
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 699
+  line: 706
   signature: private static void AssignAccountRelationships(
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 716
+  end_line: 723
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees: []
@@ -51618,12 +51671,12 @@ symbols:
   kind: method
   name: BuildAccountContacts
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 718
+  line: 725
   signature: private static IEnumerable<AccountContact> BuildAccountContacts(
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 754
+  end_line: 761
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees:
@@ -51638,13 +51691,13 @@ symbols:
   kind: method
   name: BuildAccounts
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 663
+  line: 670
   signature: private static List<Account> BuildAccounts(int count, DateTime now, Random
     rng, Guid[] userIds)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 697
+  end_line: 704
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees:
@@ -51658,13 +51711,13 @@ symbols:
   kind: method
   name: BuildBrokerRegions
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 975
+  line: 982
   signature: private static IEnumerable<BrokerRegion> BuildBrokerRegions(IReadOnlyList<Broker>
     brokers, Random rng)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 988
+  end_line: 995
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees: []
@@ -51678,12 +51731,12 @@ symbols:
   kind: method
   name: BuildBrokerTimelineEvents
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1081
+  line: 1088
   signature: private static IEnumerable<ActivityTimelineEvent> BuildBrokerTimelineEvents(
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1118
+  end_line: 1125
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees: []
@@ -51697,12 +51750,12 @@ symbols:
   kind: method
   name: BuildBrokers
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 936
+  line: 943
   signature: private static List<Broker> BuildBrokers(
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 973
+  end_line: 980
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees:
@@ -51718,13 +51771,13 @@ symbols:
   kind: method
   name: BuildContacts
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 990
+  line: 997
   signature: private static IEnumerable<Contact> BuildContacts(IReadOnlyList<Broker>
     brokers, DateTime now, Random rng, Guid[] userIds)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1018
+  end_line: 1025
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees:
@@ -51736,12 +51789,12 @@ symbols:
   kind: method
   name: BuildPolicies
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 756
+  line: 763
   signature: private static List<Policy> BuildPolicies(
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 814
+  end_line: 821
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees:
@@ -51758,13 +51811,13 @@ symbols:
   kind: method
   name: BuildPolicyCoverageLines
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 849
+  line: 856
   signature: private static List<PolicyCoverageLine> BuildPolicyCoverageLines(IReadOnlyList<Policy>
     policies, DateTime now, Guid userId)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 865
+  end_line: 872
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees: []
@@ -51778,13 +51831,13 @@ symbols:
   kind: method
   name: BuildPolicyVersions
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 816
+  line: 823
   signature: private static List<PolicyVersion> BuildPolicyVersions(IReadOnlyList<Policy>
     policies, DateTime now, Guid userId)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 847
+  end_line: 854
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees:
@@ -51799,12 +51852,12 @@ symbols:
   kind: method
   name: BuildTasks
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1020
+  line: 1027
   signature: private static List<TaskItem> BuildTasks(
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1079
+  end_line: 1086
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees:
@@ -51821,13 +51874,13 @@ symbols:
   kind: method
   name: BuildTransitionReason
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1228
+  line: 1235
   signature: private static string? BuildTransitionReason(Random rng, string workflowType,
     string fromState, string toState)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1249
+  end_line: 1256
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees:
@@ -51837,12 +51890,12 @@ symbols:
   kind: method
   name: BuildTransitionTimelineEvents
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1120
+  line: 1127
   signature: private static IEnumerable<ActivityTimelineEvent> BuildTransitionTimelineEvents(
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1140
+  end_line: 1147
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees: []
@@ -51856,12 +51909,12 @@ symbols:
   kind: method
   name: BuildUserProfiles
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 653
+  line: 660
   signature: private static List<UserProfile> BuildUserProfiles(DateTime now)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 661
+  end_line: 668
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees: []
@@ -51874,26 +51927,39 @@ symbols:
   kind: method
   name: CanTerminateRenewalFromState
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1209
+  line: 1216
   signature: private static bool CanTerminateRenewalFromState(string current)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1210
+  end_line: 1217
   callers:
   - symbol:entity-account:dev-seed-data.generate-workflow-path
+  callees: []
+- id: symbol:entity-account:dev-seed-data.carrier-market-fixture
+  node: entity:account
+  kind: record
+  name: CarrierMarketFixture
+  file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
+  line: 1718
+  signature: private sealed record CarrierMarketFixture(
+  visibility: private
+  language: csharp
+  container: DevSeedData
+  end_line: 1746
+  callers: []
   callees: []
 - id: symbol:entity-account:dev-seed-data.derive-f0017-demo-producer-id
   node: entity:account
   kind: method
   name: DeriveF0017DemoProducerId
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 510
+  line: 517
   signature: private static Guid DeriveF0017DemoProducerId(Guid brokerId, byte suffix)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 516
+  end_line: 523
   callers:
   - symbol:entity-account:dev-seed-data.ensure-f0017-demo-examples-for-broker-async
   callees: []
@@ -51906,20 +51972,87 @@ symbols:
   signature: public static class DevSeedData
   visibility: public
   language: csharp
-  end_line: 1444
+  end_line: 1747
   callers: []
   callees: []
+- id: symbol:entity-account:dev-seed-data.ensure-carrier-appetite-note
+  node: entity:account
+  kind: method
+  name: EnsureCarrierAppetiteNote
+  file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
+  line: 1419
+  signature: private static void EnsureCarrierAppetiteNote(
+  visibility: private
+  language: csharp
+  container: DevSeedData
+  end_line: 1454
+  callers:
+  - symbol:entity-account:dev-seed-data.ensure-carrier-market-fixtures-async
+  callees: []
+  type_refs:
+  - symbol:entity-account:dev-seed-data.carrier-market-fixture
+- id: symbol:entity-account:dev-seed-data.ensure-carrier-appointment
+  node: entity:account
+  kind: method
+  name: EnsureCarrierAppointment
+  file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
+  line: 1456
+  signature: private static void EnsureCarrierAppointment(
+  visibility: private
+  language: csharp
+  container: DevSeedData
+  end_line: 1488
+  callers:
+  - symbol:entity-account:dev-seed-data.ensure-carrier-market-fixtures-async
+  callees: []
+  type_refs:
+  - symbol:entity-account:dev-seed-data.carrier-market-fixture
+- id: symbol:entity-account:dev-seed-data.ensure-carrier-market-contact
+  node: entity:account
+  kind: method
+  name: EnsureCarrierMarketContact
+  file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
+  line: 1385
+  signature: private static void EnsureCarrierMarketContact(
+  visibility: private
+  language: csharp
+  container: DevSeedData
+  end_line: 1417
+  callers:
+  - symbol:entity-account:dev-seed-data.ensure-carrier-market-fixtures-async
+  callees: []
+  type_refs:
+  - symbol:entity-account:dev-seed-data.carrier-market-fixture
+- id: symbol:entity-account:dev-seed-data.ensure-carrier-market-fixtures-async
+  node: entity:account
+  kind: method
+  name: EnsureCarrierMarketFixturesAsync
+  file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
+  line: 1315
+  signature: private static async Task EnsureCarrierMarketFixturesAsync(AppDbContext
+    db)
+  visibility: private
+  language: csharp
+  container: DevSeedData
+  end_line: 1368
+  callers:
+  - symbol:entity-account:dev-seed-data.seed-dev-data-async
+  callees:
+  - symbol:entity-account:dev-seed-data.ensure-carrier-appetite-note
+  - symbol:entity-account:dev-seed-data.ensure-carrier-appointment
+  - symbol:entity-account:dev-seed-data.ensure-carrier-market-contact
+  - symbol:entity-account:dev-seed-data.resolve-dev-seed-actor-user-id-async
 - id: symbol:entity-account:dev-seed-data.ensure-carrier-refs-async
   node: entity:account
   kind: method
   name: EnsureCarrierRefsAsync
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1283
+  line: 1290
   signature: private static async Task EnsureCarrierRefsAsync(AppDbContext db)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1306
+  end_line: 1313
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees: []
@@ -51930,12 +52063,12 @@ symbols:
   kind: method
   name: EnsureDemoTerritoryAsync
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 518
+  line: 525
   signature: private static async Task<Territory> EnsureDemoTerritoryAsync(
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 543
+  end_line: 550
   callers:
   - symbol:entity-account:dev-seed-data.ensure-f0017-demo-examples-for-broker-async
   callees: []
@@ -51944,12 +52077,12 @@ symbols:
   kind: method
   name: EnsureDevBrokerTenantIdAsync
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1269
+  line: 1276
   signature: private static async Task EnsureDevBrokerTenantIdAsync(AppDbContext db)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1281
+  end_line: 1288
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees: []
@@ -51958,13 +52091,13 @@ symbols:
   kind: method
   name: EnsureF0017BrokerDistributionNodesAsync
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 545
+  line: 552
   signature: private static async Task EnsureF0017BrokerDistributionNodesAsync(AppDbContext
     db)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 642
+  end_line: 649
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees: []
@@ -51973,12 +52106,12 @@ symbols:
   kind: method
   name: EnsureF0017DemoExamplesAsync
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 326
+  line: 333
   signature: private static async Task EnsureF0017DemoExamplesAsync(AppDbContext db)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 345
+  end_line: 352
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees:
@@ -51988,13 +52121,13 @@ symbols:
   kind: method
   name: EnsureF0017DemoExamplesForBrokerAsync
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 347
+  line: 354
   signature: private static async Task EnsureF0017DemoExamplesForBrokerAsync(AppDbContext
     db, Broker broker)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 508
+  end_line: 515
   callers:
   - symbol:entity-account:dev-seed-data.ensure-f0017-demo-examples-async
   callees:
@@ -52009,12 +52142,12 @@ symbols:
   kind: method
   name: EnsureReferenceStatusesAsync
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1258
+  line: 1265
   signature: private static async Task EnsureReferenceStatusesAsync(AppDbContext db)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1262
+  end_line: 1269
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees:
@@ -52025,12 +52158,12 @@ symbols:
   kind: method
   name: GenerateWorkflowPath
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1150
+  line: 1157
   signature: private static List<string> GenerateWorkflowPath(
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1193
+  end_line: 1200
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees:
@@ -52042,12 +52175,12 @@ symbols:
   kind: method
   name: GetRenewalTargetDays
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1251
+  line: 1258
   signature: private static int GetRenewalTargetDays(string? lineOfBusiness)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1256
+  end_line: 1263
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees: []
@@ -52056,13 +52189,13 @@ symbols:
   kind: method
   name: PatchRecentTransitionsEntityId
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1142
+  line: 1149
   signature: private static void PatchRecentTransitionsEntityId(List<WorkflowTransition>
     transitions, Guid entityId)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1148
+  end_line: 1155
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
   callees: []
@@ -52073,12 +52206,12 @@ symbols:
   kind: method
   name: Pick
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1402
+  line: 1584
   signature: private static T Pick<T>(Random rng, IReadOnlyList<T> values)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1402
+  end_line: 1584
   callers:
   - symbol:entity-account:dev-seed-data.build-account-contacts
   - symbol:entity-account:dev-seed-data.build-accounts
@@ -52090,12 +52223,12 @@ symbols:
   kind: method
   name: PickRenewalTerminal
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1212
+  line: 1219
   signature: private static string PickRenewalTerminal(Random rng, string current)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1217
+  end_line: 1224
   callers:
   - symbol:entity-account:dev-seed-data.generate-workflow-path
   callees:
@@ -52105,12 +52238,12 @@ symbols:
   kind: method
   name: PickSubmissionTerminal
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1195
+  line: 1202
   signature: private static string PickSubmissionTerminal(Random rng, string current)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1207
+  end_line: 1214
   callers:
   - symbol:entity-account:dev-seed-data.generate-workflow-path
   callees:
@@ -52120,15 +52253,30 @@ symbols:
   kind: method
   name: RandomStepDays
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1219
+  line: 1226
   signature: private static double RandomStepDays(Random rng, string fromState, string
     toState)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1226
+  end_line: 1233
   callers:
   - symbol:entity-account:dev-seed-data.seed-dev-data-async
+  callees: []
+- id: symbol:entity-account:dev-seed-data.resolve-dev-seed-actor-user-id-async
+  node: entity:account
+  kind: method
+  name: ResolveDevSeedActorUserIdAsync
+  file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
+  line: 1370
+  signature: private static async Task<Guid> ResolveDevSeedActorUserIdAsync(AppDbContext
+    db)
+  visibility: private
+  language: csharp
+  container: DevSeedData
+  end_line: 1383
+  callers:
+  - symbol:entity-account:dev-seed-data.ensure-carrier-market-fixtures-async
   callees: []
 - id: symbol:entity-account:dev-seed-data.seed-dev-data-async
   node: entity:account
@@ -52140,7 +52288,7 @@ symbols:
   visibility: public
   language: csharp
   container: DevSeedData
-  end_line: 324
+  end_line: 331
   callers: []
   callees:
   - symbol:capability-dynamic-lob-attributes:lob-schema-defaults.resolve-default-product-version-id
@@ -52159,6 +52307,7 @@ symbols:
   - symbol:entity-account:dev-seed-data.build-transition-reason
   - symbol:entity-account:dev-seed-data.build-transition-timeline-events
   - symbol:entity-account:dev-seed-data.build-user-profiles
+  - symbol:entity-account:dev-seed-data.ensure-carrier-market-fixtures-async
   - symbol:entity-account:dev-seed-data.ensure-carrier-refs-async
   - symbol:entity-account:dev-seed-data.ensure-dev-broker-tenant-id-async
   - symbol:entity-account:dev-seed-data.ensure-f0017-broker-distribution-nodes-async
@@ -52179,13 +52328,13 @@ symbols:
   kind: method
   name: UpsertRenewalReferenceStatusesAsync
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1348
+  line: 1530
   signature: private static async Task UpsertRenewalReferenceStatusesAsync(AppDbContext
     db)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1386
+  end_line: 1568
   callers:
   - symbol:entity-account:dev-seed-data.ensure-reference-statuses-async
   callees: []
@@ -52196,13 +52345,13 @@ symbols:
   kind: method
   name: UpsertSubmissionReferenceStatusesAsync
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1308
+  line: 1490
   signature: private static async Task UpsertSubmissionReferenceStatusesAsync(AppDbContext
     db)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1346
+  end_line: 1528
   callers:
   - symbol:entity-account:dev-seed-data.ensure-reference-statuses-async
   callees: []
@@ -52211,13 +52360,13 @@ symbols:
   kind: method
   name: WeightedPick
   file: engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
-  line: 1388
+  line: 1570
   signature: private static T WeightedPick<T>(Random rng, params (T Item, int Weight)[]
     choices)
   visibility: private
   language: csharp
   container: DevSeedData
-  end_line: 1400
+  end_line: 1582
   callers:
   - symbol:entity-account:dev-seed-data.build-brokers
   - symbol:entity-account:dev-seed-data.build-policies
@@ -56353,7 +56502,7 @@ symbols:
   visibility: public
   language: csharp
   container: DependencyInjection
-  end_line: 69
+  end_line: 70
   callers: []
   callees: []
 - id: symbol:entity-document:dependency-injection.dependency-injection
@@ -56365,7 +56514,7 @@ symbols:
   signature: public static class DependencyInjection
   visibility: public
   language: csharp
-  end_line: 70
+  end_line: 71
   callers: []
   callees: []
 - id: symbol:entity-document:document-constants.document-constants
@@ -72378,6 +72527,45 @@ symbols:
   end_line: 36
   callers: []
   callees: []
+- id: symbol:entity-user-profile:auth-mode.auth-mode
+  node: entity:user-profile
+  kind: type
+  name: AuthMode
+  file: experience/src/features/auth/authMode.ts
+  line: 1
+  signature: export type AuthMode = 'dev' | 'oidc';
+  visibility: export
+  language: typescript
+  end_line: 1
+  callers: []
+  callees: []
+- id: symbol:entity-user-profile:auth-mode.auth-mode-env
+  node: entity:user-profile
+  kind: interface
+  name: AuthModeEnv
+  file: experience/src/features/auth/authMode.ts
+  line: 3
+  signature: interface AuthModeEnv
+  visibility: local
+  language: typescript
+  end_line: 6
+  callers: []
+  callees: []
+- id: symbol:entity-user-profile:auth-mode.resolve-auth-mode
+  node: entity:user-profile
+  kind: function
+  name: resolveAuthMode
+  file: experience/src/features/auth/authMode.ts
+  line: 8
+  signature: export function resolveAuthMode(
+  visibility: export
+  language: typescript
+  end_line: 18
+  callers: []
+  callees: []
+  type_refs:
+  - symbol:entity-user-profile:auth-mode.auth-mode
+  - symbol:entity-user-profile:auth-mode.auth-mode-env
 - id: symbol:entity-user-profile:http-current-user-service.broker-tenant-id
   node: entity:user-profile
   kind: property
@@ -72652,11 +72840,11 @@ symbols:
   kind: interface
   name: Props
   file: experience/src/features/auth/ProtectedRoute.tsx
-  line: 36
+  line: 35
   signature: interface Props
   visibility: local
   language: typescript
-  end_line: 38
+  end_line: 37
   callers: []
   callees: []
 - id: symbol:entity-user-profile:protected-route.protected-route
@@ -72664,11 +72852,11 @@ symbols:
   kind: function
   name: ProtectedRoute
   file: experience/src/features/auth/ProtectedRoute.tsx
-  line: 40
+  line: 39
   signature: export function ProtectedRoute(
   visibility: export
   language: typescript
-  end_line: 91
+  end_line: 90
   callers: []
   callees:
   - symbol:entity-user-profile:protected-route.record-failure-class-event
@@ -72682,11 +72870,11 @@ symbols:
   kind: function
   name: recordFailureClassEvent
   file: experience/src/features/auth/ProtectedRoute.tsx
-  line: 93
+  line: 92
   signature: function recordFailureClassEvent(
   visibility: local
   language: typescript
-  end_line: 105
+  end_line: 104
   callers:
   - symbol:entity-user-profile:protected-route.protected-route
   callees: []
@@ -72695,11 +72883,11 @@ symbols:
   kind: type
   name: SessionState
   file: experience/src/features/auth/ProtectedRoute.tsx
-  line: 34
+  line: 33
   signature: type SessionState = 'loading' | 'authenticated' | 'unauthenticated';
   visibility: local
   language: typescript
-  end_line: 34
+  end_line: 33
   callers: []
   callees: []
 - id: symbol:entity-user-profile:protected-route.test.render-with-router
@@ -72719,11 +72907,11 @@ symbols:
   kind: interface
   name: CurrentUser
   file: experience/src/features/auth/useCurrentUser.ts
-  line: 17
+  line: 18
   signature: export interface CurrentUser
   visibility: export
   language: typescript
-  end_line: 23
+  end_line: 24
   callers: []
   callees: []
 - id: symbol:entity-user-profile:use-current-user.use-current-user
@@ -72731,11 +72919,11 @@ symbols:
   kind: function
   name: useCurrentUser
   file: experience/src/features/auth/useCurrentUser.ts
-  line: 47
+  line: 46
   signature: 'export function useCurrentUser(): CurrentUser | null'
   visibility: export
   language: typescript
-  end_line: 88
+  end_line: 87
   callers: []
   callees:
   - symbol:entity-user-profile:use-current-user.user-from-oidc-profile
@@ -72746,11 +72934,11 @@ symbols:
   kind: function
   name: userFromOidcProfile
   file: experience/src/features/auth/useCurrentUser.ts
-  line: 27
+  line: 26
   signature: 'function userFromOidcProfile(profile: Record<string, unknown>): CurrentUser'
   visibility: local
   language: typescript
-  end_line: 41
+  end_line: 40
   callers:
   - symbol:entity-user-profile:use-current-user.use-current-user
   callees: []
@@ -74095,7 +74283,7 @@ symbols:
   signature: 'partial class AppDbContextModelSnapshot : ModelSnapshot'
   visibility: internal
   language: csharp
-  end_line: 3850
+  end_line: 4264
   callers: []
   callees: []
 - id: symbol:migration-f0004-task-and-user-profile-indexes:app-db-context-model-snapshot.build-model
@@ -74108,7 +74296,7 @@ symbols:
   visibility: protected
   language: csharp
   container: AppDbContextModelSnapshot
-  end_line: 3849
+  end_line: 4263
   callers: []
   callees: []
 - id: symbol:migration-f0005-idp-principal-refactor:20260301000000-f0005-idp-principal-refactor.f0005-idp-principal-refactor

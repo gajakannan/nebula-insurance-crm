@@ -1,0 +1,54 @@
+# Lifecycle Gates — F0028 Plan Run 2026-07-02-0e5b0cce
+
+Run started: 2026-07-02T19:33:09+05:30
+
+## Pre-plan KG freshness
+
+- `.venv/bin/python scripts/kg/validate.py --write-coverage-report` — PASS
+- `.venv/bin/python scripts/kg/validate.py` — PASS
+
+## Phase A / G2 tracker sync
+
+- `.venv/bin/python agents/product-manager/scripts/validate-stories.py .../planning-mds/features/F0028-carrier-and-market-relationship-management` — PASS after correcting story format issues in F0028-S0004 and F0028-S0006
+- `.venv/bin/python agents/product-manager/scripts/generate-story-index.py .../planning-mds/features` — PASS
+- `.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root ... --skip-feature-evidence` — PASS (`--skip-feature-evidence` used because plan action has no feature evidence package)
+- `.venv/bin/python scripts/kg/validate.py --write-coverage-report` — PASS
+- `.venv/bin/python scripts/kg/validate.py` — PASS
+- `.venv/bin/python scripts/kg/validate.py --check-drift` — PASS
+- `.venv/bin/python agents/scripts/validate_templates.py` — PASS
+- `.venv/bin/python planning-mds/testing/validate-nebula-api-contract.py` — PASS
+
+## Known Warnings
+
+- KG validation still reports existing symbol-reference warnings unrelated to F0028 Phase A.
+- KG validation still reports the pre-existing low-confidence inferred edge from F0018 to future F0028 replacement of lightweight `CarrierRef`.
+
+## G3 Phase A approval
+
+- User explicitly approved Phase A with message: `G3 Phase A approved`.
+
+## Phase B / G4 ontology sync
+
+- Architect role activated by reading `agents/architect/SKILL.md`.
+- `ARCHITECTURE.md` created for F0028 with service boundaries, data model, API contract summary, authorization model, audit/timeline behavior, search binding, and implementation handoff notes.
+- OpenAPI updated with the `CarrierMarkets` tag, carrier market endpoints, parameters, and component schemas.
+- JSON Schemas added for carrier market, contact, appetite note, appointment, activity link, and upsert request contracts.
+- Authorization matrix and Casbin policy CSV updated for `carrier_market` resource actions.
+- Canonical KG nodes added for F0028 entities, capability, endpoints, schemas, and policy rules.
+- Feature/story mappings updated from Phase A `CarrierRef` placeholder to Phase B canonical F0028 bindings.
+- `code-index.yaml` updated only with existing planning/API/schema paths; future implementation code bindings deferred until code exists.
+
+Validation:
+
+- `.venv/bin/python -c "import yaml,json, pathlib; ..."` — PASS
+- `.venv/bin/python agents/product-manager/scripts/validate-stories.py .../F0028-carrier-and-market-relationship-management` — PASS
+- `.venv/bin/python agents/product-manager/scripts/generate-story-index.py .../planning-mds/features` — PASS
+- `.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root ... --skip-feature-evidence` — PASS
+- `.venv/bin/python scripts/kg/validate.py --write-coverage-report` — PASS
+- `.venv/bin/python scripts/kg/validate.py` — PASS
+- `.venv/bin/python scripts/kg/validate.py --check-drift` — PASS
+- `.venv/bin/python agents/scripts/validate_templates.py` — PASS
+
+Phase B ADR decision:
+
+- No new ADR required for F0028. The feature applies existing clean architecture, Casbin ABAC, timeline/audit, search projection, ProblemDetails, and optimistic concurrency patterns.

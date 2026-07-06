@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0028",
+  "feature_slug": "carrier-and-market-relationship-management",
+  "run_id": "2026-07-02-736e7854",
+  "status": "approved",
+  "recorded_on": "2026-07-02",
+  "contract_effective_date": "2026-06-01",
+  "feature_path_at_run_start": "planning-mds/features/F0028-carrier-and-market-relationship-management",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0028-carrier-and-market-relationship-management",
+  "feature_state": "Completed",
+  "rerun_of": null,
+  "changed_paths": [
+    "planning-mds/features/F0028-carrier-and-market-relationship-management/feature-assembly-plan.md",
+    "planning-mds/features/F0028-carrier-and-market-relationship-management/STATUS.md",
+    "planning-mds/features/F0028-carrier-and-market-relationship-management/README.md",
+    "planning-mds/features/F0028-carrier-and-market-relationship-management/ARCHITECTURE.md",
+    "planning-mds/features/archive/F0028-carrier-and-market-relationship-management",
+    "planning-mds/architecture/feature-assembly-plan.md",
+    "engine",
+    "experience",
+    "planning-mds/security",
+    "planning-mds/api/nebula-api.yaml",
+    "planning-mds/schemas",
+    "planning-mds/knowledge-graph",
+    "planning-mds/operations/evidence/runs/2026-07-02-736e7854"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feature/F0028-carrier-and-market-relationship-management",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": true,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer",
+    "DevOps",
+    "Architect"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g2-self-review.md"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "signoff-ledger.md"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "artifact": "pm-closeout.md"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md"
+  },
+  "role_results": {
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "verdict_artifact": "test-execution-report.md",
+      "artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ]
+    },
+    "Code Reviewer": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "verdict_artifact": "code-review-report.md",
+      "artifacts": [
+        "code-review-report.md"
+      ]
+    },
+    "Security Reviewer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "verdict_artifact": "security-review-report.md",
+      "artifacts": [
+        "security-review-report.md"
+      ]
+    },
+    "DevOps": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ],
+      "verdict_artifact": "deployability-check.md",
+      "artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ]
+    },
+    "Architect": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md"
+      ],
+      "verdict_artifact": "g0-assembly-plan-validation.md",
+      "artifacts": [
+        "g0-assembly-plan-validation.md",
+        "kg-reconciliation.md"
+      ]
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "security-review-report.md",
+      "waiver": {
+        "reason": "dotnet build surfaced an existing NU1903 Microsoft.OpenApi 2.0.0 advisory that is not introduced by F0028; upgrade is deferred as a dependency-maintenance follow-up.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-02"
+      }
+    },
+    "secrets": {
+      "ran": true,
+      "result": "PASS",
+      "artifact": "security-review-report.md",
+      "waiver": null
+    },
+    "sast": {
+      "ran": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "security-review-report.md",
+      "waiver": {
+        "reason": "Static analysis was limited to compiler, test, authorization, and reviewer inspection signals; no dedicated commercial SAST tool is configured in the local harness.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-02"
+      }
+    },
+    "dast": {
+      "ran": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "security-review-report.md",
+      "waiver": {
+        "reason": "Runtime DAST was limited to local health and unauthenticated endpoint authorization checks; no dedicated DAST scanner is configured in the local harness.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-02"
+      }
+    }
+  },
+  "omissions": [],
+  "waivers": {
+    "coverage": {
+      "reason": "Focused test execution covered F0028 and authorization behavior; full-suite coverage was not required for this local feature action closeout.",
+      "owner": "Quality Engineer",
+      "approved_on": "2026-07-02"
+    }
+  },
+  "global_evidence_refs": {}
+}

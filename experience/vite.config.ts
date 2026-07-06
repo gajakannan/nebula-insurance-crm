@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
   const apiProxyTarget = process.env.NEBULA_API_PROXY_TARGET?.trim()
     || env.NEBULA_API_PROXY_TARGET?.trim()
     || process.env.VITE_API_PROXY_TARGET?.trim()
+
     || env.VITE_API_PROXY_TARGET?.trim()
     || 'http://localhost:5113'
   const neuronProxyTarget = process.env.NEBULA_NEURON_PROXY_TARGET?.trim()
@@ -49,6 +50,7 @@ export default defineConfig(({ mode }) => {
     '/policies',
     '/submissions',
     '/renewals',
+    '/carrier-markets',
     '/search-results',
     '/service-cases',
     '/saved-views',

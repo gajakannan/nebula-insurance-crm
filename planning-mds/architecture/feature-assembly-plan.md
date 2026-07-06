@@ -2203,3 +2203,23 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 3. Neuron Renewals head + stub heads + outreach drafter + glance assembly + envelope + provenance/telemetry.
 4. Frontend Day-at-a-Glance shell + zone slots + registry renderer + draft editor + mock-send.
 5. QE cross-tier E2E + coverage + security scans; DevOps new `neuron` service runtime + deployability.
+
+## F0028 - Carrier & Market Relationship Management
+
+**Added:** 2026-07-02 - Feature action Step 0 (run `2026-07-02-736e7854`) created the feature-local implementation execution plan after Phase B approval.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0028-carrier-and-market-relationship-management/feature-assembly-plan.md) - backend/frontend slice order (S0001-S0006): carrier market aggregate, contacts, appetite notes, appointments, activity links, internal-only search projection, Casbin `carrier_market` policies, timeline events, directory/detail UI, and required QE/Code/Security/DevOps/Architect evidence.
+
+### Dependencies
+
+| Dependency | Source | What F0028 Needs | Status |
+|------------|--------|------------------|--------|
+| Submission quoting and policy context | F0019 | Related submission/policy linking and recorded carrier context | Done dependency |
+| Search/reporting substrate | F0023 | CarrierMarket search projection and permission filtering | Done dependency |
+| Timeline/audit pattern | Existing CRM architecture | Immutable mutation evidence | Existing |
+
+### Architecture Notes
+
+- Backend-bearing (`engine/**`) + UI-bearing (`experience/**`); DevOps evidence required for runtime/migration deployability.
+- F0028 is manual CRM-side market intelligence only. Carrier API sync, rating/pricing, quote comparison, recommendations, reinsurance, and external carrier synchronization remain out of scope.
+- Security review is required because appetite, appointment, and underwriter relationship intelligence are internal commercially sensitive data.

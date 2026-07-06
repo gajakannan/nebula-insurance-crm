@@ -15,6 +15,7 @@
  */
 import { ReactNode, useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import { IS_DEV_AUTH_MODE } from './authMode';
 import { oidcUserManager } from './oidcUserManager';
 import { emitAuthEvent } from './authEvents';
 import {
@@ -29,8 +30,6 @@ import {
   type SessionContinuityIdentity,
 } from '@/features/session-continuity/sessionTelemetry';
 
-const AUTH_MODE = import.meta.env.VITE_AUTH_MODE as string | undefined;
-
 type SessionState = 'loading' | 'authenticated' | 'unauthenticated';
 
 interface Props {
@@ -42,7 +41,7 @@ export function ProtectedRoute({ children }: Props) {
   const [sessionState, setSessionState] = useState<SessionState>('loading');
 
   useEffect(() => {
-    if (AUTH_MODE === 'dev') {
+    if (IS_DEV_AUTH_MODE) {
       setSessionState('authenticated');
       return;
     }
@@ -77,7 +76,7 @@ export function ProtectedRoute({ children }: Props) {
     });
   }, [location.pathname, location.search]);
 
-  if (AUTH_MODE === 'dev' || sessionState === 'authenticated') {
+  if (IS_DEV_AUTH_MODE || sessionState === 'authenticated') {
     return <>{children}</>;
   }
 

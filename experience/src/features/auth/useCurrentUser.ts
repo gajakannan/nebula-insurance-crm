@@ -12,6 +12,7 @@
  *   - sub                      -> sub
  */
 import { useEffect, useState } from 'react';
+import { IS_DEV_AUTH_MODE } from './authMode';
 import { oidcUserManager } from './oidcUserManager';
 
 export interface CurrentUser {
@@ -21,8 +22,6 @@ export interface CurrentUser {
   roles: string[];
   brokerTenantId: string | null;
 }
-
-const AUTH_MODE = import.meta.env.VITE_AUTH_MODE as string | undefined;
 
 function userFromOidcProfile(profile: Record<string, unknown>): CurrentUser {
   const roles: string[] = Array.isArray(profile['nebula_roles'])
@@ -48,7 +47,7 @@ export function useCurrentUser(): CurrentUser | null {
   const [user, setUser] = useState<CurrentUser | null>(null);
 
   useEffect(() => {
-    if (AUTH_MODE === 'dev') {
+    if (IS_DEV_AUTH_MODE) {
       // In dev mode there is no real OIDC session — return a synthetic user
       // matching the seeded DistributionManager identity for UI rendering.
       setUser({

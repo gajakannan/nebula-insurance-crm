@@ -64,6 +64,35 @@ No requirements invented. Gaps are marked "Not yet specified" with a reference t
 
 ---
 
+### 2.1b Carrier Market Relationship Management (F0028)
+
+F0028 introduces CRM-side carrier and market relationship intelligence. It is InternalOnly and commercially sensitive; external broker/MGA users receive no access.
+
+| Role | Resource | Action | Decision | Business Scope / Constraints | Story / AC Reference |
+|------|----------|--------|----------|------------------------------|----------------------|
+| DistributionUser | carrier_market | read / search | **ALLOW** | Internal market directory rows scoped to authorized submissions, policies, and assigned opportunities. | F0028-S0001; F0028 PRD |
+| DistributionUser | carrier_market | link_activity | **ALLOW** | May link carrier context only to submissions/policies the actor can read. No profile/contact/appetite/appointment mutation. | F0028-S0006 |
+| DistributionUser | carrier_market | create / update / manage_contact / manage_appetite / manage_appointment | **DENY** | Relationship intelligence stewardship is manager/relationship-owned. | F0028-S0002 through S0005 |
+| DistributionManager | carrier_market | read / search / create / update / manage_contact / manage_appetite / manage_appointment / link_activity | **ALLOW** | Region-scoped operational ownership; all mutations require `If-Match` when updating and emit timeline events. | F0028-S0001 through S0006 |
+| Underwriter | carrier_market | read / search | **ALLOW** | Read-only market context for placement and submission review. | F0028-S0001, S0003, S0006 |
+| Underwriter | carrier_market | link_activity | **ALLOW** | May link carrier context to submissions/policies visible to the underwriter; no relationship intelligence edits. | F0028-S0006 |
+| Underwriter | carrier_market | create / update / manage_contact / manage_appetite / manage_appointment | **DENY** | Underwriter is read-only for relationship intelligence. | F0028 PRD |
+| RelationshipManager | carrier_market | read / search / create / update / manage_contact / manage_appetite / manage_appointment / link_activity | **ALLOW** | Primary steward for carrier profile, contacts, appetite, appointments, and related activity links. | F0028-S0001 through S0006 |
+| ProgramManager | carrier_market | read / search | **ALLOW** | Program-scoped market context only. No mutation. | F0028-S0001, S0005 |
+| ProgramManager | carrier_market | create / update / manage_contact / manage_appetite / manage_appointment / link_activity | **DENY** | Program managers are read-only for F0028. | F0028 PRD |
+| Admin | carrier_market | all | **ALLOW** | Full internal access; validation, concurrency, and audit rules still apply. | F0028-S0001 through S0006 |
+| BrokerUser | carrier_market | all | **DENY** | F0028 is InternalOnly. | F0028 PRD non-goals |
+| ExternalUser | carrier_market | all | **DENY** | No external carrier market visibility in MVP. | BLUEPRINT §3.1 non-goals |
+
+**Constraints applying to all F0028 ALLOW decisions:**
+- Every successful mutation emits an immutable `ActivityTimelineEvent` on `CarrierMarket`; rejected mutations emit no event.
+- Update operations require `If-Match`; stale versions return `precondition_failed` (412).
+- Duplicate carrier market codes return 409; semantic validation failures return 422.
+- Activity links require read access to both the carrier market and the related submission or policy.
+- Search rows, snippets, facets, and counts are filtered before response materialization.
+
+---
+
 ### 2.1a Distribution Hierarchy, Producer Ownership, and Territory (F0017)
 
 F0017 introduces structural distribution data and effective-dated ownership/territory records. Per ADR-026, hierarchy-aware read scoping is deferred to F0037; F0017 reads are authenticated internal-only, while mutations are limited to DistributionManager and Admin.

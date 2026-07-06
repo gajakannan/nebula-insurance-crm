@@ -94,6 +94,22 @@ public class CasbinAuthorizationServiceTests
         result.ShouldBe(expected, $"{role} should {(expected ? "be allowed" : "be denied")} {resource}:{action}");
     }
 
+    [Theory]
+    [InlineData("DistributionUser", "carrier_market", "read", true)]
+    [InlineData("DistributionUser", "carrier_market", "create", false)]
+    [InlineData("DistributionManager", "carrier_market", "manage_contact", true)]
+    [InlineData("Underwriter", "carrier_market", "link_activity", true)]
+    [InlineData("RelationshipManager", "carrier_market", "manage_appetite", true)]
+    [InlineData("ProgramManager", "carrier_market", "update", false)]
+    [InlineData("Admin", "carrier_market", "manage_appointment", true)]
+    [InlineData("BrokerUser", "carrier_market", "read", false)]
+    [InlineData("ExternalUser", "carrier_market", "search", false)]
+    public async Task CarrierMarketPolicy_MatchesPolicyCsv(string role, string resource, string action, bool expected)
+    {
+        var result = await _sut.AuthorizeAsync(role, resource, action);
+        result.ShouldBe(expected, $"{role} should {(expected ? "be allowed" : "be denied")} {resource}:{action}");
+    }
+
     // ═══════════════════════════════════════════════════════════════════════
     // §3 — Timeline event policy matrix
     // ═══════════════════════════════════════════════════════════════════════

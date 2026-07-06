@@ -2,7 +2,7 @@
 
 Auto-generated index of all user stories across feature folders.
 
-**Total Stories:** 172
+**Total Stories:** 178
 
 ---
 
@@ -299,6 +299,19 @@ Auto-generated index of all user stories across feature folders.
 
 ---
 
+## F0028 — Carrier & Market Relationship Management
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0028-S0001](./archive/F0028-carrier-and-market-relationship-management/F0028-S0001-market-directory-search.md) | Market directory search and open | Critical | CRM Release MVP+ | distribution leader |
+| [F0028-S0002](./archive/F0028-carrier-and-market-relationship-management/F0028-S0002-carrier-market-profile-management.md) | Carrier and market profile management | Critical | CRM Release MVP+ | relationship manager |
+| [F0028-S0003](./archive/F0028-carrier-and-market-relationship-management/F0028-S0003-underwriter-contact-management.md) | Underwriter and market contact management | High | CRM Release MVP+ | relationship manager |
+| [F0028-S0004](./archive/F0028-carrier-and-market-relationship-management/F0028-S0004-appetite-note-capture.md) | Appetite note capture and freshness | Critical | CRM Release MVP+ | underwriter |
+| [F0028-S0005](./archive/F0028-carrier-and-market-relationship-management/F0028-S0005-appointment-context-management.md) | Appointment context management | High | CRM Release MVP+ | distribution leader |
+| [F0028-S0006](./archive/F0028-carrier-and-market-relationship-management/F0028-S0006-market-activity-and-related-work.md) | Market activity and related work visibility | High | CRM Release MVP+ | underwriter |
+
+---
+
 ## F0033 — Structured Logging and QE Toolchain Activation
 
 | Story ID | Title | Priority | Phase | Persona |
@@ -372,6 +385,7 @@ Auto-generated index of all user stories across feature folders.
 | Phase | Count |
 |-------|-------|
 | CRM Release MVP | 57 |
+| CRM Release MVP+ | 6 |
 | Future | 1 |
 | Infrastructure | 11 |
 | MVP | 74 |
@@ -387,8 +401,8 @@ Auto-generated index of all user stories across feature folders.
 
 | Priority | Count |
 |----------|-------|
-| Critical | 69 |
-| High | 85 |
+| Critical | 72 |
+| High | 88 |
 | Medium | 14 |
 
 ---

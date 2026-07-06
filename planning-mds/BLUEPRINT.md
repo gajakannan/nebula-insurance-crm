@@ -197,7 +197,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 - [F0017: Broker/MGA Hierarchy, Producer Ownership & Territory Management](features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/PRD.md) - Done (Archived 2026-07-03; 5 stories: broker/MGA hierarchy, hierarchy traversal, producer ownership, territory assignment, audit/timeline)
 - [F0024: Claims & Service Case Tracking](features/archive/F0024-claims-and-service-case-tracking/PRD.md) - Done (Archived 2026-07-03; 6 stories: service case intake, contextual visibility, ownership/follow-up, status transitions, claim-reference context, permission-safe audit history)
 - F0027: COI, ACORD & Outbound Document Generation - Planned
-- F0028: Carrier & Market Relationship Management - Planned
+- [F0028: Carrier & Market Relationship Management](features/archive/F0028-carrier-and-market-relationship-management/PRD.md) - Done (Archived 2026-07-03; feature run 2026-07-02-736e7854; 6 stories: market directory search, carrier/market profile management, underwriter contact management, appetite note capture, appointment context, market activity/related work)
 
 **Brokerage Platform Expansion (Planned):**
 - F0025: Commission, Producer Splits & Revenue Tracking - Planned
@@ -303,6 +303,14 @@ The first epic since the harness adopted the action/KG flow. A conversational co
 - [F0024-S0004: Transition a service case through servicing statuses](features/archive/F0024-claims-and-service-case-tracking/F0024-S0004-transition-service-case-status.md) - Done
 - [F0024-S0005: Capture claim-reference context on a service case](features/archive/F0024-claims-and-service-case-tracking/F0024-S0005-capture-claim-reference-context.md) - Done
 - [F0024-S0006: Audit and permission-safe service case history](features/archive/F0024-claims-and-service-case-tracking/F0024-S0006-audit-and-permission-safe-service-case-history.md) - Done
+
+**MVP+ Stories (Feature F0028: Carrier & Market Relationship Management):**
+- [F0028-S0001: Market directory search and open](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0001-market-directory-search.md) - Done (Archived)
+- [F0028-S0002: Carrier and market profile management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0002-carrier-market-profile-management.md) - Done (Archived)
+- [F0028-S0003: Underwriter and market contact management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0003-underwriter-contact-management.md) - Done (Archived)
+- [F0028-S0004: Appetite note capture and freshness](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0004-appetite-note-capture.md) - Done (Archived)
+- [F0028-S0005: Appointment context management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0005-appointment-context-management.md) - Done (Archived)
+- [F0028-S0006: Market activity and related work visibility](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0006-market-activity-and-related-work.md) - Done (Archived)
 
 **MVP Stories (Feature F0010: Dashboard Opportunities Refactor):**
 - [F0010-S0001: Replace Sankey default with Pipeline Board](features/archive/F0010-dashboard-opportunities-refactor/F0010-S0001-replace-sankey-with-pipeline-board-default.md) - Done (Historical; superseded by F0013)
