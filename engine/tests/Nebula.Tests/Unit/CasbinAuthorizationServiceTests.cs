@@ -207,6 +207,21 @@ public class CasbinAuthorizationServiceTests
         result.ShouldBeFalse("ExternalUser has no policy lines — implicit deny");
     }
 
+    [Theory]
+    [InlineData("DistributionUser", false)]
+    [InlineData("DistributionManager", true)]
+    [InlineData("Underwriter", false)]
+    [InlineData("RelationshipManager", true)]
+    [InlineData("ProgramManager", true)]
+    [InlineData("Admin", true)]
+    [InlineData("BrokerUser", false)]
+    [InlineData("ExternalUser", false)]
+    public async Task DistributionRollupRead_MatchesF0037PolicyCsv(string role, bool expected)
+    {
+        var result = await _sut.AuthorizeAsync(role, "distribution_rollup", "read");
+        result.ShouldBe(expected, $"{role} should {(expected ? "be allowed" : "be denied")} distribution_rollup:read");
+    }
+
     // ═══════════════════════════════════════════════════════════════════════
     // §6 — Unknown role deny-by-default
     // ═══════════════════════════════════════════════════════════════════════

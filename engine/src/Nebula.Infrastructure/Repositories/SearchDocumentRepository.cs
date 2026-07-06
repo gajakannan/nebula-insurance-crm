@@ -133,9 +133,28 @@ public class SearchDocumentRepository : ISearchDocumentRepository
 
     private static IQueryable<SearchDocument> ApplyVisibility(IQueryable<SearchDocument> q, ProjectionVisibility v)
     {
-        if (v.SeeAll) return q;
-        var regions = v.Regions.ToList();
-        var uid = v.UserId;
-        return q.Where(d => d.OwnerUserId == uid || (d.Region != null && regions.Contains(d.Region)));
+        if (!v.HasScope) return q.Where(d => false);
+
+        var brokerIds = v.BrokerIds.ToList();
+        var territoryIds = v.TerritoryIds.ToList();
+        var producerIds = v.ProducerUserIds.ToList();
+
+        if (!v.SeeAll)
+        {
+            var regions = v.Regions.ToList();
+            var uid = v.UserId;
+            q = q.Where(d =>
+                d.OwnerUserId == uid
+                || (d.Region != null && regions.Contains(d.Region)));
+        }
+
+        if (brokerIds.Count > 0)
+            q = q.Where(d => d.BrokerId != null && brokerIds.Contains(d.BrokerId.Value));
+        if (territoryIds.Count > 0)
+            q = q.Where(d => d.TerritoryId != null && territoryIds.Contains(d.TerritoryId.Value));
+        if (producerIds.Count > 0)
+            q = q.Where(d => d.OwnerUserId != null && producerIds.Contains(d.OwnerUserId.Value));
+
+        return q;
     }
 }

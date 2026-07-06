@@ -28,6 +28,24 @@ export function ReportControls({ params, onChange }: ReportControlsProps) {
         onChange={(e) => onChange('workflowType', e.target.value)}
       />
       <TextInput
+        label="Root node"
+        value={params.rootNodeId ?? ''}
+        placeholder="Hierarchy node ID"
+        onChange={(e) => onChange('rootNodeId', e.target.value)}
+      />
+      <TextInput
+        label="Territory"
+        value={params.territoryId ?? ''}
+        placeholder="Territory ID"
+        onChange={(e) => onChange('territoryId', e.target.value)}
+      />
+      <TextInput
+        label="Producer"
+        value={params.producerUserId ?? ''}
+        placeholder="Producer user ID"
+        onChange={(e) => onChange('producerUserId', e.target.value)}
+      />
+      <TextInput
         label="As of"
         type="date"
         value={params.asOf ?? ''}

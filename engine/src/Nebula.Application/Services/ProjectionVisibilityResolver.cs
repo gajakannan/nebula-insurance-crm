@@ -16,6 +16,17 @@ public static class ProjectionVisibilityResolver
     public static ProjectionVisibility For(ICurrentUserService user)
     {
         var seeAll = user.Roles.Any(r => SeeAllRoles.Contains(r));
-        return new ProjectionVisibility(seeAll, user.Regions, user.UserId);
+        return new ProjectionVisibility(
+            seeAll,
+            user.UserId,
+            user.Roles,
+            user.Regions,
+            new HashSet<Guid>(),
+            new HashSet<Guid>(),
+            new HashSet<Guid>(),
+            new HashSet<Guid>(),
+            DateOnly.FromDateTime(DateTime.UtcNow),
+            true,
+            seeAll ? ["legacy_see_all"] : ["legacy_owner_region_scope"]);
     }
 }

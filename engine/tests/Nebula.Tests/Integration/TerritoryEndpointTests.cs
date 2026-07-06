@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using Shouldly;
+using Nebula.Application.DTOs;
 
 namespace Nebula.Tests.Integration;
 
@@ -149,10 +150,22 @@ public class TerritoryEndpointTests(CustomWebApplicationFactory factory) : IClas
     }
 
     [Fact]
-    public async Task GetAssignmentForMember_NoAssignment_ReturnsNull()
+    public async Task GetAssignmentForMember_UnknownMember_ReturnsNoLeak404()
     {
-        var result = await _client.GetFromJsonAsync<LookupJson>(
+        var response = await _client.GetAsync(
             $"/territory-assignments?memberType=Broker&memberId={Guid.NewGuid()}");
+        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task GetAssignmentForMember_VisibleMemberWithoutAssignment_ReturnsNull()
+    {
+        var create = await _client.PostAsJsonAsync("/brokers",
+            new BrokerCreateDto($"No Assignment {Guid.NewGuid():N}"[..24], $"NOASN-{Guid.NewGuid():N}"[..16], "CA", null, null));
+        var created = await create.Content.ReadFromJsonAsync<BrokerDto>();
+
+        var result = await _client.GetFromJsonAsync<LookupJson>(
+            $"/territory-assignments?memberType=Broker&memberId={created!.Id}");
         result!.Assignment.ShouldBeNull();
     }
 

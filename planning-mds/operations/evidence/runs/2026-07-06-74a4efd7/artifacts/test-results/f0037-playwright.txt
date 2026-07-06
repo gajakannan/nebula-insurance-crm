@@ -1,0 +1,20 @@
+Command:
+F0037_API_BASE=http://127.0.0.1:5114 F0037_E2E_BASE_URL=http://127.0.0.1:4173 F0037_E2E_SCREENSHOTS_DIR=/Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm/planning-mds/operations/evidence/runs/2026-07-06-74a4efd7/artifacts/screenshots VITE_AUTH_MODE=dev VITE_API_PROXY_TARGET=http://127.0.0.1:5114 corepack pnpm -C experience exec playwright test f0037-distribution-rollups.spec.ts --config=playwright.f0037.config.ts --reporter=list
+
+Result:
+PASS
+
+Summary:
+Running 4 tests using 1 worker
+
+  PASS tests/e2e/f0037-distribution-rollups.spec.ts: loads rollups from the sidebar and preserves the F0037 tab/filter surface
+  PASS tests/e2e/f0037-distribution-rollups.spec.ts: supports rollup grouping, metric-family switching, filter query params, and drilldown links
+  PASS tests/e2e/f0037-distribution-rollups.spec.ts: enforces no-leak API behavior for external users and scoped-away filters
+  PASS tests/e2e/f0037-distribution-rollups.spec.ts: keeps search and broker insights scoped with F0037 query filters
+
+4 passed (4.3s)
+
+Screenshots:
+- artifacts/screenshots/f0037-sidebar-rollups.png
+- artifacts/screenshots/f0037-scoped-empty.png
+- artifacts/screenshots/f0037-rollups-default.png

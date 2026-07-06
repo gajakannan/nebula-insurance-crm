@@ -65,10 +65,17 @@ public static class DistributionEndpoints
     }
 
     private static async Task<IResult> GetAncestors(
-        Guid nodeId, DistributionNodeService svc, ICurrentUserService user, IAuthorizationService authz, CancellationToken ct)
+        Guid nodeId,
+        DistributionNodeService svc,
+        IDistributionScopeService scope,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        CancellationToken ct)
     {
         if (!await HasAccessAsync(user, authz, "distribution_node", "read"))
             return ProblemDetailsHelper.Forbidden();
+        if (!await scope.CanReadDistributionNodeAsync(nodeId, user, null, ct))
+            return ProblemDetailsHelper.NotFound("DistributionNode", nodeId);
 
         var result = await svc.GetAncestorsAsync(nodeId, ct);
         return result is null ? ProblemDetailsHelper.NotFound("DistributionNode", nodeId) : Results.Ok(result);
@@ -76,10 +83,16 @@ public static class DistributionEndpoints
 
     private static async Task<IResult> ListDescendants(
         Guid nodeId, int? depth, int? page, int? pageSize,
-        DistributionNodeService svc, ICurrentUserService user, IAuthorizationService authz, CancellationToken ct)
+        DistributionNodeService svc,
+        IDistributionScopeService scope,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        CancellationToken ct)
     {
         if (!await HasAccessAsync(user, authz, "distribution_node", "read"))
             return ProblemDetailsHelper.Forbidden();
+        if (!await scope.CanReadDistributionNodeAsync(nodeId, user, null, ct))
+            return ProblemDetailsHelper.NotFound("DistributionNode", nodeId);
 
         var (result, error) = await svc.ListDescendantsAsync(nodeId, depth, page ?? 1, Math.Min(pageSize ?? 20, 100), ct);
         return error switch

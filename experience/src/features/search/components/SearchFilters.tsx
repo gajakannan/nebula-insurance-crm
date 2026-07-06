@@ -1,4 +1,5 @@
 import { Select } from '@/components/ui/Select';
+import { TextInput } from '@/components/ui/TextInput';
 import type { GlobalSearchFacets } from '../types';
 
 export interface SearchFilterState {
@@ -6,6 +7,10 @@ export interface SearchFilterState {
   status: string;
   region: string;
   lineOfBusiness: string;
+  rootNodeId: string;
+  territoryId: string;
+  producerUserId: string;
+  asOf: string;
   sort: string;
 }
 
@@ -28,7 +33,7 @@ function toOptions(buckets: { key: string; label: string | null; count: number }
 
 export function SearchFilters({ filters, facets, onChange }: SearchFiltersProps) {
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
       <Select
         label="Object type"
         value={filters.objectType}
@@ -52,6 +57,30 @@ export function SearchFilters({ filters, facets, onChange }: SearchFiltersProps)
         value={filters.lineOfBusiness}
         onChange={(e) => onChange('lineOfBusiness', e.target.value)}
         options={toOptions(facets?.linesOfBusiness, 'Any LOB')}
+      />
+      <TextInput
+        label="Root node"
+        value={filters.rootNodeId}
+        placeholder="Hierarchy node ID"
+        onChange={(e) => onChange('rootNodeId', e.target.value)}
+      />
+      <TextInput
+        label="Territory"
+        value={filters.territoryId}
+        placeholder="Territory ID"
+        onChange={(e) => onChange('territoryId', e.target.value)}
+      />
+      <TextInput
+        label="Producer"
+        value={filters.producerUserId}
+        placeholder="Producer user ID"
+        onChange={(e) => onChange('producerUserId', e.target.value)}
+      />
+      <TextInput
+        label="As of"
+        type="date"
+        value={filters.asOf}
+        onChange={(e) => onChange('asOf', e.target.value)}
       />
       <Select
         label="Sort"

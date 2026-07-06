@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0037",
+  "feature_slug": "hierarchy-aware-access-scoping-and-distribution-rollups",
+  "run_id": "2026-07-06-38152f5c",
+  "status": "superseded",
+  "recorded_on": "2026-07-06",
+  "contract_effective_date": "2026-05-25",
+  "feature_path_at_run_start": "planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups",
+  "feature_state": "Done",
+  "rerun_of": null,
+  "changed_paths": [
+    "experience/src/components/layout/Sidebar.tsx",
+    "experience/src/components/layout/Sidebar.test.tsx",
+    "planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/STATUS.md",
+    "planning-mds/operations/evidence/runs/2026-07-06-38152f5c"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feature/F0037-sidebar-discoverability-follow-up",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": false,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Architect",
+    "Security Reviewer"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g2-self-review.md"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md"
+    },
+    "code_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "code-review-report.md"
+    },
+    "security_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "security-review-report.md"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "signoff-ledger.md"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED",
+      "artifact": "pm-closeout.md"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md"
+  },
+  "role_results": {
+    "Architect": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md"
+      ],
+      "verdict_artifact": "g0-assembly-plan-validation.md"
+    },
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "verdict_artifact": "security-review-report.md"
+    },
+    "DevOps": {
+      "required": false,
+      "result": "PENDING",
+      "artifact": null
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": false,
+      "waiver": {
+        "reason": "No dependency changes in this sidebar-only follow-up.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-06"
+      }
+    },
+    "secrets": {
+      "ran": false,
+      "waiver": {
+        "reason": "No secret-bearing code paths changed; focused review confirms the link is static.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-06"
+      }
+    },
+    "sast": {
+      "ran": false,
+      "waiver": {
+        "reason": "Static sidebar route addition does not alter data access, auth, or input handling.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-06"
+      }
+    },
+    "dast": {
+      "ran": false,
+      "waiver": {
+        "reason": "Browser DAST is not required for a static navigation entry; functional route validation covers the change.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-06"
+      }
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {}
+}

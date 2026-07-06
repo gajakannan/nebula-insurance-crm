@@ -6,6 +6,10 @@ public sealed record GlobalSearchQuery(
     IReadOnlyList<string> ObjectTypes,
     string? Status,
     Guid? OwnerUserId,
+    Guid? RootNodeId,
+    Guid? TerritoryId,
+    Guid? ProducerUserId,
+    DateOnly? AsOf,
     string? Region,
     string? LineOfBusiness,
     string Sort,
@@ -50,9 +54,24 @@ public sealed record GlobalSearchResponseDto(
 
 /// <summary>
 /// Computed source-visibility spec for a user, applied at the query layer BEFORE
-/// rows/counts/facets are materialized (F0023 Critical risk mitigation). When
-/// <see cref="SeeAll"/> is false, only owner-matched or in-region projection rows
-/// are visible. Mirrors the projection's denormalized scope columns
-/// (OwnerUserId, Region).
+/// rows/counts/facets are materialized. F0037 extends the earlier owner/region
+/// shape with distribution hierarchy, broker, territory, producer, and as-of scope.
 /// </summary>
-public sealed record ProjectionVisibility(bool SeeAll, IReadOnlyList<string> Regions, Guid UserId);
+public sealed record ProjectionVisibility(
+    bool SeeAll,
+    Guid UserId,
+    IReadOnlyList<string> Roles,
+    IReadOnlyList<string> Regions,
+    IReadOnlySet<Guid> DistributionNodeIds,
+    IReadOnlySet<Guid> BrokerIds,
+    IReadOnlySet<Guid> TerritoryIds,
+    IReadOnlySet<Guid> ProducerUserIds,
+    DateOnly AsOf,
+    bool HasScope,
+    IReadOnlyList<string> ExplanationCodes);
+
+public sealed record DistributionScopeRequest(
+    Guid? RootNodeId,
+    Guid? TerritoryId,
+    Guid? ProducerUserId,
+    DateOnly? AsOf);

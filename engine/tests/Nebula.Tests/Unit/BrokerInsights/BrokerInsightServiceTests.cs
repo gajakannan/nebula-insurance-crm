@@ -27,7 +27,7 @@ public class BrokerInsightServiceTests
                 Projection(BrokerB, "Hidden Brokerage", "quoteCount", 7, region: "East"),
             ],
         };
-        var svc = new BrokerInsightService(repo);
+        var svc = new BrokerInsightService(repo, new BrokerInsightScope());
 
         var result = await svc.GetScorecardsAsync(
             new BrokerInsightScorecardQuery(null, Start, End, null, null, null, null, null, 1, 25),
@@ -53,7 +53,7 @@ public class BrokerInsightServiceTests
                 Projection(BrokerA, "Acme Brokerage", "quoteCount", 2, status: "Partial", bucketStart: new DateOnly(2026, 2, 1), bucketEnd: new DateOnly(2026, 2, 28)),
             ],
         };
-        var svc = new BrokerInsightService(repo);
+        var svc = new BrokerInsightService(repo, new BrokerInsightScope());
 
         var trend = await svc.GetTrendAsync(
             new BrokerInsightTrendQuery(BrokerA, "quoteCount", Start, End, "month", 1, 50),
@@ -78,7 +78,7 @@ public class BrokerInsightServiceTests
                 Projection(BrokerC, "Cedar Brokerage", "quoteCount", 12),
             ],
         };
-        var svc = new BrokerInsightService(repo);
+        var svc = new BrokerInsightService(repo, new BrokerInsightScope());
 
         var benchmark = await svc.GetBenchmarkAsync(
             new BrokerInsightBenchmarkQuery(BrokerA, Start, End, "visibleBrokerGroup"),
@@ -168,4 +168,29 @@ file class BrokerInsightRepo : IBrokerInsightProjectionRepository
 
     public Task UpsertManyAsync(IReadOnlyList<BrokerInsightProjection> rows, CancellationToken ct) => Task.CompletedTask;
     public Task<int> CountAsync(CancellationToken ct) => Task.FromResult(Rows.Count);
+}
+
+file class BrokerInsightScope : IDistributionScopeService
+{
+    public Task<ProjectionVisibility> ResolveAsync(DistributionScopeRequest request, ICurrentUserService user, CancellationToken ct)
+    {
+        var externalDenied = user.Roles.Any(r => r is "ExternalUser" or "BrokerUser");
+        return Task.FromResult(new ProjectionVisibility(
+            SeeAll: user.Roles.Contains("Admin"),
+            UserId: user.UserId,
+            Roles: user.Roles,
+            Regions: user.Regions,
+            DistributionNodeIds: new HashSet<Guid>(),
+            BrokerIds: request.RootNodeId is { } rootId ? new HashSet<Guid> { rootId } : [],
+            TerritoryIds: request.TerritoryId is { } territoryId ? new HashSet<Guid> { territoryId } : [],
+            ProducerUserIds: request.ProducerUserId is { } producerId ? new HashSet<Guid> { producerId } : [],
+            AsOf: request.AsOf ?? DateOnly.Parse("2026-07-06"),
+            HasScope: !externalDenied,
+            ExplanationCodes: externalDenied ? ["external_denied"] : ["test_scope"]));
+    }
+
+    public Task<bool> CanReadDistributionNodeAsync(Guid nodeId, ICurrentUserService user, DateOnly? asOf, CancellationToken ct) => Task.FromResult(true);
+    public Task<bool> CanReadTerritoryAsync(Guid territoryId, ICurrentUserService user, DateOnly? asOf, CancellationToken ct) => Task.FromResult(true);
+    public Task<bool> CanReadBrokerAsync(Guid brokerId, ICurrentUserService user, DateOnly? asOf, CancellationToken ct) => Task.FromResult(true);
+    public Task<bool> CanReadProducerAsync(Guid producerUserId, ICurrentUserService user, DateOnly? asOf, CancellationToken ct) => Task.FromResult(true);
 }

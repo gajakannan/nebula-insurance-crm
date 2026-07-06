@@ -18,12 +18,28 @@ public class OperationalReportProjectionRepository : IOperationalReportProjectio
         // Source-visibility predicate FIRST — all report counts derive from this filtered set.
         var q = _db.OperationalReportProjections.AsNoTracking().AsQueryable();
 
+        if (!visibility.HasScope)
+            q = q.Where(p => false);
+
+        var brokerIds = visibility.BrokerIds.ToList();
+        var territoryIds = visibility.TerritoryIds.ToList();
+        var producerIds = visibility.ProducerUserIds.ToList();
+
         if (!visibility.SeeAll)
         {
             var regions = visibility.Regions.ToList();
             var uid = visibility.UserId;
-            q = q.Where(p => p.OwnerUserId == uid || (p.Region != null && regions.Contains(p.Region)));
+            q = q.Where(p =>
+                p.OwnerUserId == uid
+                || (p.Region != null && regions.Contains(p.Region)));
         }
+
+        if (brokerIds.Count > 0)
+            q = q.Where(p => p.BrokerId != null && brokerIds.Contains(p.BrokerId.Value));
+        if (territoryIds.Count > 0)
+            q = q.Where(p => p.TerritoryId != null && territoryIds.Contains(p.TerritoryId.Value));
+        if (producerIds.Count > 0)
+            q = q.Where(p => p.OwnerUserId != null && producerIds.Contains(p.OwnerUserId.Value));
 
         if (!string.IsNullOrWhiteSpace(query.Region))
             q = q.Where(p => p.Region == query.Region);
@@ -31,6 +47,10 @@ public class OperationalReportProjectionRepository : IOperationalReportProjectio
             q = q.Where(p => p.LineOfBusiness == query.LineOfBusiness);
         if (query.OwnerUserId.HasValue)
             q = q.Where(p => p.OwnerUserId == query.OwnerUserId);
+        if (query.TerritoryId.HasValue)
+            q = q.Where(p => p.TerritoryId == query.TerritoryId);
+        if (query.ProducerUserId.HasValue)
+            q = q.Where(p => p.OwnerUserId == query.ProducerUserId);
         if (!string.IsNullOrWhiteSpace(query.WorkflowType))
             q = q.Where(p => p.WorkflowType == query.WorkflowType);
 

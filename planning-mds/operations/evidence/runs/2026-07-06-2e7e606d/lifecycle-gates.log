@@ -1,0 +1,9 @@
+2026-07-06T19:44:00+05:30 G0 PASS PRD screenshot review identified a frontend-only F0037 rollup filter mismatch. Exit Code: 0
+2026-07-06T19:45:00+05:30 G1 PASS local runtime and frontend build validation. Exit Code: 0
+2026-07-06T19:47:00+05:30 G2 PASS Playwright E2E validates required filters and absence of generic filters on rollups tab. Exit Code: 0
+2026-07-06T19:48:00+05:30 G3 PASS code/security review for frontend-only PRD alignment. Exit Code: 0
+2026-07-06T19:49:00+05:30 G6 PASS validate-feature-evidence.py --feature F0037 --run-id 2026-07-06-2e7e606d --stage G6. Exit Code: 0
+2026-07-06T19:49:30+05:30 G6 PASS validate-trackers.py --feature F0037 --run-id 2026-07-06-2e7e606d. Exit Code: 0
+2026-07-06T19:50:00+05:30 G7 PASS KG symbol and drift validation. Exit Code: 0
+2026-07-06T19:51:00+05:30 G7 PASS validate-feature-evidence.py --feature F0037 --run-id 2026-07-06-2e7e606d --stage G7. Exit Code: 0
+2026-07-06T19:51:30+05:30 G8 APPROVED validate-feature-evidence.py --feature F0037 --stage closeout. Exit Code: 0

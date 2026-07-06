@@ -20,11 +20,25 @@ public class BrokerInsightProjectionRepository : IBrokerInsightProjectionReposit
         // Source visibility is deliberately applied before all metric aggregation.
         var q = _db.BrokerInsightProjections.AsNoTracking().AsQueryable();
 
+        if (!visibility.HasScope)
+            q = q.Where(p => false);
+
+        var brokerIds = visibility.BrokerIds.ToList();
+        var territoryIds = visibility.TerritoryIds.ToList();
+        var producerIds = visibility.ProducerUserIds.ToList();
+
         if (!visibility.SeeAll)
         {
             var regions = visibility.Regions.ToList();
             q = q.Where(p => p.Region != null && regions.Contains(p.Region));
         }
+
+        if (brokerIds.Count > 0)
+            q = q.Where(p => brokerIds.Contains(p.BrokerId));
+        if (territoryIds.Count > 0)
+            q = q.Where(p => p.TerritoryId != null && territoryIds.Contains(p.TerritoryId.Value));
+        if (producerIds.Count > 0)
+            q = q.Where(p => p.ProducerId != null && producerIds.Contains(p.ProducerId.Value));
 
         if (query.BrokerId.HasValue)
             q = q.Where(p => p.BrokerId == query.BrokerId.Value);

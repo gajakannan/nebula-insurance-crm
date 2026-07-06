@@ -1,0 +1,127 @@
+# Lifecycle Gates Log - F0037 feature run 2026-07-06-76799554
+
+## Lifecycle Gate Run
+
+### G0: Architect assembly plan validation
+Command: Architect artifact review
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: `g0-assembly-plan-validation.md`
+
+### G0: Feature evidence validation
+Command: `.venv/bin/python agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037 --run-id 2026-07-06-76799554 --stage G0`
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: `evidence-manifest.json`
+
+### G1: Runtime preflight
+Command: Runtime/toolchain checks
+Stage: G1
+Exit Code: 0
+Result: PASS
+Output References: `g1-runtime-preflight.md`
+
+### G2: Implementation self-review and QE evidence
+Command: focused backend/frontend tests, builds, security scan review, story/tracker/KG validation
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: `g2-self-review.md`, `test-plan.md`, `test-execution-report.md`, `coverage-report.md`, `deployability-check.md`, `artifacts/security/secrets-scan.md`, `artifacts/security/sast-scan.md`
+
+### G3: Code review
+Command: Code Reviewer review against F0037 stories and feature assembly plan
+Stage: G3
+Exit Code: 1
+Result: BLOCKED
+Output References: `code-review-report.md`
+
+### G3: Code review remediation
+Command: authoritative scope, no-leak direct-read, metric-family rollup, and test remediation
+Stage: G3
+Exit Code: 0
+Result: PASS
+Output References: `code-review-report.md`, `security-review-report.md`, `test-execution-report.md`
+
+### G3: Feature evidence validation
+Command: `.venv/bin/python agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037 --run-id 2026-07-06-76799554 --stage G3`
+Stage: G3
+Exit Code: 0
+Result: PASS
+Output References: `evidence-manifest.json`, `code-review-report.md`, `security-review-report.md`
+
+### G4: Ontology / KG sync
+Command: `python3 scripts/kg/validate.py --write-coverage-report` and `python3 scripts/kg/validate.py --check-drift`
+Stage: G4
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/knowledge-graph/coverage-report.yaml`
+
+### G5: Signoff
+Command: Operator approval, STATUS.md signoff provenance update, and signoff ledger creation
+Stage: G5
+Exit Code: 0
+Result: PASS
+Output References: `signoff-ledger.md`, `STATUS.md`, `evidence-manifest.json`
+
+### G5: Feature evidence validation
+Command: `.venv/bin/python agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037 --run-id 2026-07-06-76799554 --stage G5`
+Stage: G5
+Exit Code: 0
+Result: PASS
+Output References: `evidence-manifest.json`, `signoff-ledger.md`
+
+### G6: Candidate evidence validation
+Command: `.venv/bin/python agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037 --run-id 2026-07-06-76799554 --stage G6`
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: `feature-action-execution.md`, `evidence-manifest.json`
+
+### G6: Tracker validation
+Command: `.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037 --run-id 2026-07-06-76799554`
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/features/ROADMAP.md`, `planning-mds/features/STORY-INDEX.md`, `planning-mds/BLUEPRINT.md`
+
+### G7: Architect KG reconciliation
+Command: `python3 scripts/kg/validate.py --regenerate-symbols --check-symbols`; `python3 scripts/kg/validate.py --check-drift`
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: `kg-reconciliation.md`, `planning-mds/knowledge-graph/code-index.yaml`
+
+### G8: PM closeout and archive
+Command: Archive feature folder, update REGISTRY/ROADMAP/BLUEPRINT/KG paths, publish latest-run, regenerate STORY-INDEX and KG coverage
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: `pm-closeout.md`, `latest-run.json`, `planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups`
+
+### G8: Closeout feature evidence validation
+Command: `.venv/bin/python agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037 --stage closeout`
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: `evidence-manifest.json`, `pm-closeout.md`, `latest-run.json`
+
+### G8: Broad tracker validation
+Command: `.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm`
+Stage: G8
+Exit Code: 1
+Result: WARN
+Output References: historical archived feature evidence
+Notes: Broad scan reported historical archived evidence artifact noise from older runs, while its final summary reported errors=0, warnings=0, result=PASS. F0037-specific tracker validation was run next and passed.
+
+### G8: F0037 tracker validation
+Command: `.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037 --run-id 2026-07-06-76799554`
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/features/REGISTRY.md`, `planning-mds/features/ROADMAP.md`, `planning-mds/features/STORY-INDEX.md`, `planning-mds/BLUEPRINT.md`
+
+## Skipped Gates
+
+- None.

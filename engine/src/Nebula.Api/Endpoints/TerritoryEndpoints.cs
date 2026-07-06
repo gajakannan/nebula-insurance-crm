@@ -51,10 +51,16 @@ public static class TerritoryEndpoints
 
     private static async Task<IResult> ListMembers(
         Guid territoryId, DateOnly? asOf, int? page, int? pageSize,
-        TerritoryService svc, ICurrentUserService user, IAuthorizationService authz, CancellationToken ct)
+        TerritoryService svc,
+        IDistributionScopeService scope,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        CancellationToken ct)
     {
         if (!await HasAccessAsync(user, authz, "territory", "read"))
             return ProblemDetailsHelper.Forbidden();
+        if (!await scope.CanReadTerritoryAsync(territoryId, user, asOf, ct))
+            return ProblemDetailsHelper.NotFound("Territory", territoryId);
 
         var (result, error) = await svc.ListMembersAsync(territoryId, asOf, page ?? 1, Math.Min(pageSize ?? 20, 100), ct);
         return error switch
@@ -111,7 +117,11 @@ public static class TerritoryEndpoints
 
     private static async Task<IResult> GetAssignmentForMember(
         string? memberType, Guid? memberId, DateOnly? asOf,
-        TerritoryService svc, ICurrentUserService user, IAuthorizationService authz, CancellationToken ct)
+        TerritoryService svc,
+        IDistributionScopeService scope,
+        ICurrentUserService user,
+        IAuthorizationService authz,
+        CancellationToken ct)
     {
         if (!await HasAccessAsync(user, authz, "territory", "read"))
             return ProblemDetailsHelper.Forbidden();
@@ -119,10 +129,25 @@ public static class TerritoryEndpoints
         if (string.IsNullOrWhiteSpace(memberType) || memberId is null || memberId == Guid.Empty)
             return ProblemDetailsHelper.ValidationError(
                 new Dictionary<string, string[]> { ["member"] = ["memberType and memberId are required."] });
+        if (!await CanReadTerritoryMemberAsync(scope, memberType, memberId.Value, user, asOf, ct))
+            return ProblemDetailsHelper.NotFound("TerritoryAssignment", memberId.Value);
 
         var result = await svc.GetForMemberAsync(memberType, memberId.Value, asOf, ct);
         return Results.Ok(result);
     }
+
+    private static Task<bool> CanReadTerritoryMemberAsync(
+        IDistributionScopeService scope,
+        string memberType,
+        Guid memberId,
+        ICurrentUserService user,
+        DateOnly? asOf,
+        CancellationToken ct) => memberType.Trim() switch
+    {
+        "Broker" => scope.CanReadBrokerAsync(memberId, user, asOf, ct),
+        "Producer" => scope.CanReadProducerAsync(memberId, user, asOf, ct),
+        _ => Task.FromResult(false)
+    };
 
     private static bool IsUniqueViolation(DbUpdateException ex)
     {

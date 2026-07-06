@@ -1,15 +1,17 @@
 version: 0
-generated_at: '2026-07-06T04:57:14+00:00'
+generated_at: '2026-07-06T09:17:14+00:00'
 summary:
-  total_invocations: 3
+  total_invocations: 4
   by_language:
     csharp: 3
-  source_files: 1
-  bound_targets: 3
+    typescript: 1
+  source_files: 2
+  bound_targets: 4
   refreshed_languages:
-  - csharp
+  - python
   - typescript
-  preserved_languages: []
+  preserved_languages:
+  - csharp
 invocations:
 - source_file: engine/tests/Nebula.Tests/Unit/BrokerInsights/BrokerInsightServiceTests.cs
   source_line: 32
@@ -26,3 +28,8 @@ invocations:
   language: csharp
   target_symbol: symbol:capability-broker-relationship-management:broker-insight-service.get-benchmark-async
   target_node: capability:broker-relationship-management
+- source_file: experience/src/test-setup.ts
+  source_line: 58
+  language: typescript
+  target_symbol: symbol:config_key-document-metadata-schema-registry:documents.reset-document-mock-state
+  target_node: config_key:document-metadata-schema-registry

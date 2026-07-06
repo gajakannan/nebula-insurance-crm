@@ -31,7 +31,7 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 | F0030 | Integration Hub & Data Exchange | Planned | Brokerage Platform Expansion | `F0030-integration-hub-and-data-exchange/` |
 | F0031 | Data Import, Deduplication & Go-Live Migration | Planned | Release Enablement | `F0031-data-import-deduplication-and-go-live-migration/` |
 | F0032 | Admin Configuration & Reference Data Console | Planned | Platform Operations | `F0032-admin-configuration-and-reference-data-console/` |
-| F0037 | Hierarchy-Aware Access Scoping & Distribution Rollups | Planned | CRM Release MVP+ | `F0037-hierarchy-aware-access-scoping-and-distribution-rollups/` |
+| F0037 | Hierarchy-Aware Access Scoping & Distribution Rollups | Done | CRM Release MVP+ | `archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/` |
 | F0039 | Neuron Multi-Thread Conversations | Planned (provisional) | Neuron Companion | `F0039-neuron-multi-thread-conversations/` |
 | F0040 | Neuron Second Specialist Head | Planned (provisional) | Neuron Companion | `F0040-neuron-second-specialist-head/` |
 

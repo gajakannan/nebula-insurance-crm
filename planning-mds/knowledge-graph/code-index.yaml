@@ -321,6 +321,44 @@ node_bindings:
         security:
           - planning-mds/security/authorization-matrix.md
           - planning-mds/security/policies/policy.csv
+  - id: capability:distribution-rollup-reporting
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/DistributionEndpoints.cs
+          - engine/src/Nebula.Api/Endpoints/OperationalReportEndpoints.cs
+          - engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Interfaces/IDistributionScopeService.cs
+          - engine/src/Nebula.Application/Services/DistributionScopeService.cs
+          - engine/src/Nebula.Application/Services/OperationalReportService.cs
+          - engine/src/Nebula.Application/Validators/OperationalReportQueryValidator.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/DistributionScopeRepository.cs
+          - engine/src/Nebula.Infrastructure/Repositories/OperationalReportProjectionRepository.cs
+          - engine/src/Nebula.Infrastructure/Repositories/BrokerInsightProjectionRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/SearchReporting/DistributionScopeServiceTests.cs
+          - engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+          - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/reports/**
+          - experience/src/features/search/**
+        pages:
+          - experience/src/pages/OperationalReportsPage.tsx
+          - experience/src/pages/SearchResultsPage.tsx
+      planning:
+        feature:
+          - planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/PRD.md
+          - planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+        schemas:
+          - planning-mds/schemas/distribution-rollup-report.schema.json
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
   - id: capability:operations-routing
     paths:
       planning:
@@ -1110,6 +1148,22 @@ node_bindings:
       planning:
         feature:
           - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: endpoint:distribution-rollup-report
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/OperationalReportEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/OperationalReportDtos.cs
+          - engine/src/Nebula.Application/Services/OperationalReportService.cs
+          - engine/src/Nebula.Application/Validators/OperationalReportQueryValidator.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+      planning:
+        feature:
+          - planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/feature-assembly-plan.md
         api:
           - planning-mds/api/nebula-api.yaml
   - id: endpoint:renewal-assignment
@@ -2610,6 +2664,15 @@ node_bindings:
         security:
           - planning-mds/security/authorization-matrix.md
           - planning-mds/security/policies/policy.csv
+  - id: policy_rule:distribution-rollup-read
+    paths:
+      backend:
+        tests:
+          - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+      planning:
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
   - id: policy_rule:renewal-assign
     paths:
       backend:
@@ -3010,6 +3073,11 @@ node_bindings:
       planning:
         schemas:
           - planning-mds/schemas/operational-workload-report.schema.json
+  - id: schema:distribution-rollup-report
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/distribution-rollup-report.schema.json
   - id: schema:saved-view
     paths:
       planning:

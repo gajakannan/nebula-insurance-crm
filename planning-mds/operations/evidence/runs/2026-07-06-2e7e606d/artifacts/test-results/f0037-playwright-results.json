@@ -1,0 +1,225 @@
+{
+  "config": {
+    "configFile": "/Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm/experience/playwright.f0037.config.ts",
+    "rootDir": "/Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm/experience/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm/planning-mds/operations/evidence/runs/2026-07-06-2e7e606d/artifacts/test-results/playwright",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm/experience/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm/planning-mds/operations/evidence/runs/2026-07-06-2e7e606d/artifacts/test-results/f0037-playwright-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "f0037-distribution-rollups.spec.ts",
+      "file": "f0037-distribution-rollups.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "F0037 hierarchy-aware access scoping and distribution rollups",
+          "file": "f0037-distribution-rollups.spec.ts",
+          "line": 9,
+          "column": 15,
+          "specs": [
+            {
+              "title": "loads rollups from the sidebar and preserves the F0037 tab/filter surface",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1052,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-06T14:16:48.079Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f921e22e19d46f9081b3-e08b62e3781f20b6b51c",
+              "file": "f0037-distribution-rollups.spec.ts",
+              "line": 24,
+              "column": 3
+            },
+            {
+              "title": "supports rollup grouping, metric-family switching, filter query params, and drilldown links",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1186,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-06T14:16:50.135Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f921e22e19d46f9081b3-fa369aea5b32fe8a4fcc",
+              "file": "f0037-distribution-rollups.spec.ts",
+              "line": 44,
+              "column": 3
+            },
+            {
+              "title": "enforces no-leak API behavior for external users and scoped-away filters",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 76,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-06T14:16:51.329Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f921e22e19d46f9081b3-2fa5f81b0502301e08c1",
+              "file": "f0037-distribution-rollups.spec.ts",
+              "line": 76,
+              "column": 3
+            },
+            {
+              "title": "keeps search and broker insights scoped with F0037 query filters",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 596,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-06T14:16:51.411Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f921e22e19d46f9081b3-94ca253fcbf5d62d9901",
+              "file": "f0037-distribution-rollups.spec.ts",
+              "line": 102,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-07-06T14:16:47.617Z",
+    "duration": 4467.406,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

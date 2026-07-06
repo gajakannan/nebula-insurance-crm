@@ -206,6 +206,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 - F0024: Claims & Service Case Tracking - Planned
 - [F0027: COI, ACORD & Outbound Document Generation](features/archive/F0027-coi-acord-and-outbound-document-generation/PRD.md) - Done (Archived 2026-07-03; feature run `2026-07-02-b9316621`; 5 stories: template library governance, preview generated document, issue generated artifact, regenerate/retrieve artifacts, render proposal from submission packet context)
 - F0028: Carrier & Market Relationship Management - Planned
+- [F0037: Hierarchy-Aware Access Scoping & Distribution Rollups](features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/PRD.md) - Done and archived (2026-07-06, feature run `2026-07-06-76799554`; 6 stories: current-user distribution scope, hierarchy-aware read scoping, scoped search/views/insights/reports, distribution rollups, rollup filters/drilldowns/no-leak states, security evidence and reconciliation)
 
 **Brokerage Platform Expansion (Planned):**
 - F0025: Commission, Producer Splits & Revenue Tracking - Planned
