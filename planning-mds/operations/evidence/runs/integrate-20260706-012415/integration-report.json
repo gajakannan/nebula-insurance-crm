@@ -64,11 +64,14 @@
     }
   ],
   "conflicts_routed": [],
-  "prepared_merge_sha": "PENDING",
+  "prepared_merge_sha": "e17d79d32a6a8d90d22580db45232f8e4d57a3af",
   "gate2": {
-    "result": "pending (batch gate after #49)"
+    "result": "pass",
+    "exercised": "Batch validation: F0017 Distribution tab, F0028 carrier/market directory, F0027 template-governance flow (upload->publish->preview->issue; empty fresh-env library confirmed as correct behavior), F0021/F0024/Neuron regressions. Includes authentik blueprint fix (akadmin name) surfaced by fresh-volume restart.",
+    "recorded_by": "maintainer (gajakannan)",
+    "date": "2026-07-06"
   },
   "pushed": false,
   "supersedes_run": null,
-  "outcome": "merged-pending-gate2"
+  "outcome": "merged-gate2-passed"
 }
