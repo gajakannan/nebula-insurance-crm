@@ -2,7 +2,7 @@
 
 Auto-generated index of all user stories across feature folders.
 
-**Total Stories:** 190
+**Total Stories:** 195
 
 ---
 
@@ -94,6 +94,18 @@ Auto-generated index of all user stories across feature folders.
 | [F0007-S0005](./archive/F0007-renewal-pipeline/F0007-S0005-overdue-renewal-visibility-and-escalation-flags.md) | Overdue renewal visibility and escalation flags | High | CRM Release MVP | distribution manager |
 | [F0007-S0006](./archive/F0007-renewal-pipeline/F0007-S0006-create-renewal-from-expiring-policy.md) | Create renewal from expiring policy | Critical | CRM Release MVP | distribution user |
 | [F0007-S0007](./archive/F0007-renewal-pipeline/F0007-S0007-renewal-activity-timeline-and-audit-trail.md) | Renewal activity timeline and audit trail | High | CRM Release MVP | distribution user, underwriter, or distribution manager |
+
+---
+
+## F0008 - Broker Insights
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0008-S0001](./archive/F0008-broker-insights/F0008-S0001-broker-scorecard-overview.md) | Broker scorecard overview | Critical | MVP | Distribution Manager |
+| [F0008-S0002](./archive/F0008-broker-insights/F0008-S0002-trend-drilldown-source-records.md) | Trend drilldown and source record navigation | High | MVP | Broker Relationship Manager |
+| [F0008-S0003](./archive/F0008-broker-insights/F0008-S0003-authorized-benchmark-comparison.md) | Authorized benchmark comparison | High | MVP | Program Manager |
+| [F0008-S0004](./archive/F0008-broker-insights/F0008-S0004-review-snapshot.md) | Broker review snapshot | Medium | MVP | Broker Relationship Manager |
+| [F0008-S0005](./archive/F0008-broker-insights/F0008-S0005-permission-safe-insights.md) | Permission-safe broker insight behavior | Critical | MVP | CRM user |
 
 ---
 
@@ -414,7 +426,7 @@ Auto-generated index of all user stories across feature folders.
 | CRM Release MVP+ | 11 |
 | Future | 1 |
 | Infrastructure | 11 |
-| MVP | 81 |
+| MVP | 86 |
 | MVP Hardening | 1 |
 | MVP+ | 6 |
 | Phase 1 | 11 |
@@ -427,9 +439,9 @@ Auto-generated index of all user stories across feature folders.
 
 | Priority | Count |
 |----------|-------|
-| Critical | 75 |
-| High | 95 |
-| Medium | 16 |
+| Critical | 77 |
+| High | 97 |
+| Medium | 17 |
 
 ---
 

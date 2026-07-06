@@ -98,6 +98,9 @@ adrs:
   - id: adr:030
     label: Service Case And Claim Reference Boundary
     path: planning-mds/architecture/decisions/ADR-030-service-case-and-claim-reference-boundary.md
+  - id: adr:031
+    label: Broker Insights Read Models and Permission-Safe Analytics
+    path: planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
   - id: adr:auth-token-storage
     label: Auth Token Storage
     path: planning-mds/architecture/decisions/ADR-Auth-Token-Storage.md
@@ -154,6 +157,26 @@ capabilities:
     label: Broker Contact Management
     source_docs:
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
+  - id: capability:broker-insights
+    label: Broker Insights
+    rationale:
+      - adr: adr:031
+        section: Decision
+        summary: Broker Insights exposes read-only scorecards, trends, authorized benchmarks, and review
+          snapshots over permission-filtered source data.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:global-search
+      - capability:operational-reporting
+      - entity:broker-insight-projection
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+      - planning-mds/features/archive/F0008-broker-insights/PRD.md
+      - planning-mds/features/archive/F0008-broker-insights/README.md
+      - planning-mds/schemas/broker-insight-benchmark.schema.json
+      - planning-mds/schemas/broker-insight-scorecard.schema.json
+      - planning-mds/schemas/broker-insight-snapshot.schema.json
+      - planning-mds/schemas/broker-insight-trend.schema.json
   - id: capability:broker-relationship-management
     label: Broker Relationship Management
     source_docs:
@@ -1012,6 +1035,52 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0002-broker-relationship-management/README.md
+  - id: endpoint:broker-insight-benchmarks
+    label: GET /broker-insights/{brokerId}/benchmarks
+    method: GET
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - policy_rule:broker-insight-read
+    route: /broker-insights/{brokerId}/benchmarks
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+  - id: endpoint:broker-insight-scorecards
+    label: GET /broker-insights/scorecards
+    method: GET
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - policy_rule:broker-insight-read
+    route: /broker-insights/scorecards
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+  - id: endpoint:broker-insight-snapshot
+    label: GET /broker-insights/{brokerId}/snapshot
+    method: GET
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - entity:search-document
+      - policy_rule:broker-insight-read
+    route: /broker-insights/{brokerId}/snapshot
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+  - id: endpoint:broker-insight-trends
+    label: GET /broker-insights/{brokerId}/trends
+    method: GET
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - entity:search-document
+      - policy_rule:broker-insight-read
+    route: /broker-insights/{brokerId}/trends
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
   - id: endpoint:broker-list
     label: GET /brokers
     method: GET
@@ -2185,6 +2254,25 @@ entities:
     source_docs:
       - planning-mds/architecture/data-model.md
       - planning-mds/domain/glossary.md
+  - id: entity:broker-insight-projection
+    label: BrokerInsightProjection
+    rationale:
+      - adr: adr:031
+        section: Decision §1
+        summary: Broker insight metrics are derived broker-period-metric facts with denominator, source,
+          dimension, and freshness provenance; source modules remain authoritative.
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:operational-report-projection
+      - entity:policy
+      - entity:renewal
+      - entity:search-document
+      - entity:submission
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+      - planning-mds/features/archive/F0008-broker-insights/PRD.md
   - id: entity:broker-region
     label: BrokerRegion
     source_docs:
@@ -3381,6 +3469,31 @@ policy_rules:
       - entity:broker
     resource: broker
     source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:broker-insight-read
+    label: broker_insight:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: External BrokerUser and ExternalUser receive no F0008 policy lines.
+    rationale:
+      - adr: adr:031
+        section: Decision §2
+        summary: A high-level broker_insight:read gate is followed by source-record query filtering before
+          any aggregate counts, peer sets, ranks, trends, or links leave the server.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:broker-insights
+      - entity:broker-insight-projection
+    resource: broker_insight
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
   - id: policy_rule:broker-reactivate
@@ -5232,6 +5345,28 @@ schemas:
     path: planning-mds/schemas/broker-create-request.schema.json
     related_nodes:
       - entity:broker
+  - id: schema:broker-insight-benchmark
+    path: planning-mds/schemas/broker-insight-benchmark.schema.json
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+  - id: schema:broker-insight-scorecard
+    path: planning-mds/schemas/broker-insight-scorecard.schema.json
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+  - id: schema:broker-insight-snapshot
+    path: planning-mds/schemas/broker-insight-snapshot.schema.json
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - entity:search-document
+  - id: schema:broker-insight-trend
+    path: planning-mds/schemas/broker-insight-trend.schema.json
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - entity:search-document
   - id: schema:broker-search-query
     path: planning-mds/schemas/broker-search-query.schema.json
     related_nodes:

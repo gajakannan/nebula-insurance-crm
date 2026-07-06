@@ -55,6 +55,7 @@ export default defineConfig(({ mode }) => {
     '/service-cases',
     '/saved-views',
     '/operational-reports',
+    '/broker-insights',
     '/documents',
     '/document-templates',
     '/distribution-nodes',

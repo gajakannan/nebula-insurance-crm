@@ -37,6 +37,30 @@ Define the build order, role handoffs, and integration checkpoints for implement
 4. Frontend Generate Document Panel, template library metadata controls, and artifact provenance UI.
 5. QE/security/devops evidence and G1-G8 feature closeout.
 
+## F0008 - Broker Insights
+
+**Added:** 2026-07-03 - Feature action Step 0 authored the feature-local implementation execution plan after Phase B planning approval.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0008-broker-insights/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, read-only mutation traceability, permission-safe aggregate behavior, benchmark guardrails, and validation checkpoints for broker insights.
+
+### Dependencies
+
+| Dependency | Source | What F0008 Needs | Status |
+|------------|--------|------------------|--------|
+| Submission and renewal operational data | F0006/F0007 | Source counts, statuses, activity, and lifecycle dates | Available dependency |
+| Broker hierarchy and dimensions | F0017 | Broker/MGA/producer/territory filters and dimensions | Implemented dependency |
+| Quote/bind outcomes | F0019 | Quote-to-bind and production outcome metrics | Implemented dependency |
+| Reporting/search substrate | F0023 | Projection, source-row drilldown, and permission-safe reporting pattern | Implemented dependency |
+| Broker Insights architecture | ADR-031 | Read model, API, benchmark threshold, `broker_insight:read` policy | Accepted |
+
+### Assembly Slice Order
+
+1. Backend projection, DTOs, repository, and query validation.
+2. Backend service and Minimal API endpoints for scorecards, trends, benchmarks, and snapshots.
+3. Frontend broker insights workspace, route, query hooks, scorecards, drilldown, benchmark, and snapshot panels.
+4. Quality/security/deployability evidence focused on permission-safe aggregate behavior.
+5. G7 KG reconciliation and G8 PM closeout.
+
 ### Signoff Role Matrix
 
 | Role | Required | Rationale |
@@ -46,6 +70,12 @@ Define the build order, role handoffs, and integration checkpoints for implement
 | Security Reviewer | Yes | Generated artifacts may contain sensitive account/policy/submission data and require layered authorization |
 | DevOps | Yes | Renderer dependency, document storage configuration, and generated binary handling require deployability evidence |
 | Architect | Yes | F0027 must preserve F0019/F0020 boundaries and reconcile as-built KG bindings |
+
+| Quality Engineer | Yes | Metric correctness, benchmark threshold, and read-only UI behavior require validation. |
+| Code Reviewer | Yes | Aggregation logic, repository visibility-first filtering, and API/UI integration need independent review. |
+| Security Reviewer | Yes | Aggregate analytics can leak hidden-record existence if implemented incorrectly. |
+| DevOps | Yes | Projection table/migration and runtime smoke/deployability evidence are required. |
+| Architect | Yes | ADR-029 implementation and KG binding reconciliation are required. |
 
 ## F0019 - Submission Quoting, Proposal & Approval Workflow
 

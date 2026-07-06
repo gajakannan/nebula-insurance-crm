@@ -354,6 +354,7 @@ app.MapDocumentEndpoints();
 app.MapOutboundDocumentEndpoints();
 app.MapDashboardEndpoints();
 app.MapWorkQueueEndpoints();
+app.MapBrokerInsightEndpoints();
 app.MapTaskEndpoints();
 app.MapCommunicationEndpoints();
 app.MapServiceCaseEndpoints();

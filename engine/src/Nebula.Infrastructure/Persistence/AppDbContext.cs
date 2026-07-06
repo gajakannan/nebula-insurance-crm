@@ -74,6 +74,7 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<SavedView> SavedViews => Set<SavedView>();
     public DbSet<SavedViewAuditEvent> SavedViewAuditEvents => Set<SavedViewAuditEvent>();
     public DbSet<OperationalReportProjection> OperationalReportProjections => Set<OperationalReportProjection>();
+    public DbSet<BrokerInsightProjection> BrokerInsightProjections => Set<BrokerInsightProjection>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

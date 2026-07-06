@@ -1,0 +1,8 @@
+HTTP/1.1 401 Unauthorized
+Content-Type: application/problem+json
+Date: Fri, 03 Jul 2026 13:37:35 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+WWW-Authenticate: Bearer error="invalid_token", error_description="Authentication token is invalid."
+
+{"type":"https://nebula.local/problems/auth/invalid-token","title":"Authentication token invalid","status":401,"detail":"The access token is invalid.","code":"invalid_token","traceId":"00-c469cd604ce0c2e4e1166ccf69b33fb4-58dc048782436844-00"}

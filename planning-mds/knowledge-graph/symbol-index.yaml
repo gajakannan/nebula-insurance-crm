@@ -1,20 +1,20 @@
 version: 0
-generated_at: '2026-07-06T04:51:46+00:00'
+generated_at: '2026-07-06T04:57:13+00:00'
 summary:
-  total_symbols: 4609
+  total_symbols: 4656
   by_language:
     python:
       files: 52
-      parsed: 52
-      cached: 0
+      parsed: 0
+      cached: 52
     typescript:
       files: 295
-      parsed: 295
-      cached: 0
+      parsed: 1
+      cached: 294
     csharp:
-      files: 381
-      parsed: 381
-      cached: 0
+      files: 386
+      parsed: 7
+      cached: 379
   disambiguated_ids: 20
   compilation_roots_by_language:
     python: []
@@ -30,7 +30,6 @@ summary:
     csharp: f1e324c369f84d91c7fc9babd3fbb3df5352bd259db0a2d31fe5c8f61f74ce96
   sidecar_authoritative_languages:
   - csharp
-  - python
   - typescript
 symbols:
 - id: symbol:capability-authorization-enforcement:broker-authorization-tests.broker-authorization-tests
@@ -1567,6 +1566,514 @@ symbols:
   - symbol:capability-broker-relationship-management:broker-update-dto.broker-update-dto
   - symbol:capability-broker-relationship-management:types.broker-update-dto
   - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-benchmark-dto
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightBenchmarkDto
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 103
+  signature: public sealed record BrokerInsightBenchmarkDto(
+  visibility: public
+  language: csharp
+  end_line: 109
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-benchmark-metric-dto
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightBenchmarkMetricDto
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 93
+  signature: public sealed record BrokerInsightBenchmarkMetricDto(
+  visibility: public
+  language: csharp
+  end_line: 101
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-benchmark-query
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightBenchmarkQuery
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 26
+  signature: public sealed record BrokerInsightBenchmarkQuery(
+  visibility: public
+  language: csharp
+  end_line: 30
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-filter-context-dto
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightFilterContextDto
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 37
+  signature: public sealed record BrokerInsightFilterContextDto(
+  visibility: public
+  language: csharp
+  end_line: 42
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-metric-card-dto
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightMetricCardDto
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 44
+  signature: public sealed record BrokerInsightMetricCardDto(
+  visibility: public
+  language: csharp
+  end_line: 54
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-peer-set-dto
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightPeerSetDto
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 87
+  signature: public sealed record BrokerInsightPeerSetDto(
+  visibility: public
+  language: csharp
+  end_line: 91
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-projection-query
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightProjectionQuery
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 129
+  signature: public sealed record BrokerInsightProjectionQuery(
+  visibility: public
+  language: csharp
+  end_line: 141
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-query-defaults
+  node: capability:broker-relationship-management
+  kind: class
+  name: BrokerInsightQueryDefaults
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 143
+  signature: public static class BrokerInsightQueryDefaults
+  visibility: public
+  language: csharp
+  end_line: 159
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-scorecard-dto
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightScorecardDto
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 56
+  signature: public sealed record BrokerInsightScorecardDto(
+  visibility: public
+  language: csharp
+  end_line: 66
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-scorecard-query
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightScorecardQuery
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 5
+  signature: public sealed record BrokerInsightScorecardQuery(
+  visibility: public
+  language: csharp
+  end_line: 15
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-snapshot-dto
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightSnapshotDto
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 116
+  signature: public sealed record BrokerInsightSnapshotDto(
+  visibility: public
+  language: csharp
+  end_line: 127
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-snapshot-item-dto
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightSnapshotItemDto
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 111
+  signature: public sealed record BrokerInsightSnapshotItemDto(
+  visibility: public
+  language: csharp
+  end_line: 114
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-snapshot-query
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightSnapshotQuery
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 32
+  signature: public sealed record BrokerInsightSnapshotQuery(
+  visibility: public
+  language: csharp
+  end_line: 35
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-trend-dto
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightTrendDto
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 76
+  signature: public sealed record BrokerInsightTrendDto(
+  visibility: public
+  language: csharp
+  end_line: 85
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-trend-point-dto
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightTrendPointDto
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 68
+  signature: public sealed record BrokerInsightTrendPointDto(
+  visibility: public
+  language: csharp
+  end_line: 74
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-trend-query
+  node: capability:broker-relationship-management
+  kind: record
+  name: BrokerInsightTrendQuery
+  file: engine/src/Nebula.Application/DTOs/BrokerInsightDtos.cs
+  line: 17
+  signature: public sealed record BrokerInsightTrendQuery(
+  visibility: public
+  language: csharp
+  end_line: 24
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-service..ctor
+  node: capability:broker-relationship-management
+  kind: constructor
+  name: .ctor
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 12
+  signature: public BrokerInsightService(IBrokerInsightProjectionRepository repo)
+  visibility: public
+  language: csharp
+  container: BrokerInsightService
+  end_line: 12
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-service.broker-insight-service
+  node: capability:broker-relationship-management
+  kind: class
+  name: BrokerInsightService
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 8
+  signature: 'public class BrokerInsightService : IBrokerInsightService'
+  visibility: public
+  language: csharp
+  end_line: 318
+  callers: []
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-service.empty-metric-card
+  node: capability:broker-relationship-management
+  kind: method
+  name: EmptyMetricCard
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 224
+  signature: private static BrokerInsightMetricCardDto EmptyMetricCard(string metricKey)
+  visibility: private
+  language: csharp
+  container: BrokerInsightService
+  end_line: 234
+  callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.map-scorecard
+  callees:
+  - symbol:capability-broker-relationship-management:broker-insight-service.label-for
+  - symbol:capability-broker-relationship-management:broker-insight-service.unit-for
+  instantiates:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-metric-card-dto
+  type_refs:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-metric-card-dto
+- id: symbol:capability-broker-relationship-management:broker-insight-service.format-value
+  node: capability:broker-relationship-management
+  kind: method
+  name: FormatValue
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 285
+  signature: private static string FormatValue(BrokerInsightProjection row)
+  visibility: private
+  language: csharp
+  container: BrokerInsightService
+  end_line: 290
+  callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-snapshot-async
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-service.get-benchmark-async
+  node: capability:broker-relationship-management
+  kind: method
+  name: GetBenchmarkAsync
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 81
+  signature: public async Task<BrokerInsightBenchmarkDto?> GetBenchmarkAsync(
+  visibility: public
+  language: csharp
+  container: BrokerInsightService
+  end_line: 120
+  callers: []
+  callees:
+  - symbol:capability-broker-relationship-management:broker-insight-service.map-benchmark-metric
+  - symbol:capability-global-search:projection-visibility-resolver.for
+  instantiates:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-benchmark-dto
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-peer-set-dto
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-projection-query
+  type_refs:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-benchmark-dto
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-benchmark-query
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-broker-relationship-management:broker-insight-service.get-scorecards-async
+  node: capability:broker-relationship-management
+  kind: method
+  name: GetScorecardsAsync
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 14
+  signature: public async Task<PaginatedResult<BrokerInsightScorecardDto>> GetScorecardsAsync(
+  visibility: public
+  language: csharp
+  container: BrokerInsightService
+  end_line: 29
+  callers: []
+  callees:
+  - symbol:capability-broker-relationship-management:broker-insight-service.map-scorecard
+  - symbol:capability-broker-relationship-management:broker-insight-service.to-projection-query
+  - symbol:capability-global-search:projection-visibility-resolver.for
+  type_refs:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-scorecard-dto
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-scorecard-query
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-broker-relationship-management:broker-insight-service.get-snapshot-async
+  node: capability:broker-relationship-management
+  kind: method
+  name: GetSnapshotAsync
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 122
+  signature: public async Task<BrokerInsightSnapshotDto?> GetSnapshotAsync(
+  visibility: public
+  language: csharp
+  container: BrokerInsightService
+  end_line: 169
+  callers: []
+  callees:
+  - symbol:capability-broker-relationship-management:broker-insight-service.format-value
+  - symbol:capability-broker-relationship-management:broker-insight-service.is-partial
+  - symbol:capability-broker-relationship-management:broker-insight-service.summary-for
+  - symbol:capability-global-search:projection-visibility-resolver.for
+  instantiates:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-projection-query
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-snapshot-dto
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-snapshot-item-dto
+  type_refs:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-snapshot-dto
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-snapshot-query
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-broker-relationship-management:broker-insight-service.get-trend-async
+  node: capability:broker-relationship-management
+  kind: method
+  name: GetTrendAsync
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 31
+  signature: public async Task<BrokerInsightTrendDto?> GetTrendAsync(
+  visibility: public
+  language: csharp
+  container: BrokerInsightService
+  end_line: 79
+  callers: []
+  callees:
+  - symbol:capability-broker-relationship-management:broker-insight-service.merge-status
+  - symbol:capability-global-search:projection-visibility-resolver.for
+  instantiates:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-projection-query
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-trend-dto
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-trend-point-dto
+  type_refs:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-trend-dto
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-trend-query
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-broker-relationship-management:broker-insight-service.is-partial
+  node: capability:broker-relationship-management
+  kind: method
+  name: IsPartial
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 283
+  signature: private static bool IsPartial(BrokerInsightProjection row)
+  visibility: private
+  language: csharp
+  container: BrokerInsightService
+  end_line: 283
+  callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-snapshot-async
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-service.label-for
+  node: capability:broker-relationship-management
+  kind: method
+  name: LabelFor
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 300
+  signature: private static string LabelFor(string metricKey)
+  visibility: private
+  language: csharp
+  container: BrokerInsightService
+  end_line: 310
+  callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.empty-metric-card
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-service.map-benchmark-metric
+  node: capability:broker-relationship-management
+  kind: method
+  name: MapBenchmarkMetric
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 236
+  signature: private static BrokerInsightBenchmarkMetricDto MapBenchmarkMetric(
+  visibility: private
+  language: csharp
+  container: BrokerInsightService
+  end_line: 266
+  callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-benchmark-async
+  callees:
+  - symbol:capability-broker-relationship-management:broker-insight-service.median
+  instantiates:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-benchmark-metric-dto
+  type_refs:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-benchmark-metric-dto
+- id: symbol:capability-broker-relationship-management:broker-insight-service.map-metric-card
+  node: capability:broker-relationship-management
+  kind: method
+  name: MapMetricCard
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 212
+  signature: private static BrokerInsightMetricCardDto MapMetricCard(BrokerInsightProjection
+    row)
+  visibility: private
+  language: csharp
+  container: BrokerInsightService
+  end_line: 222
+  callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.map-scorecard
+  callees: []
+  instantiates:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-metric-card-dto
+  type_refs:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-metric-card-dto
+- id: symbol:capability-broker-relationship-management:broker-insight-service.map-scorecard
+  node: capability:broker-relationship-management
+  kind: method
+  name: MapScorecard
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 185
+  signature: private static BrokerInsightScorecardDto MapScorecard(
+  visibility: private
+  language: csharp
+  container: BrokerInsightService
+  end_line: 210
+  callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-scorecards-async
+  callees:
+  - symbol:capability-broker-relationship-management:broker-insight-service.empty-metric-card
+  - symbol:capability-broker-relationship-management:broker-insight-service.map-metric-card
+  instantiates:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-filter-context-dto
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-scorecard-dto
+  type_refs:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-scorecard-dto
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-scorecard-query
+- id: symbol:capability-broker-relationship-management:broker-insight-service.median
+  node: capability:broker-relationship-management
+  kind: method
+  name: Median
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 268
+  signature: private static decimal? Median(IReadOnlyList<decimal> values)
+  visibility: private
+  language: csharp
+  container: BrokerInsightService
+  end_line: 273
+  callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.map-benchmark-metric
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-service.merge-status
+  node: capability:broker-relationship-management
+  kind: method
+  name: MergeStatus
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 275
+  signature: private static string MergeStatus(IEnumerable<BrokerInsightProjection>
+    rows)
+  visibility: private
+  language: csharp
+  container: BrokerInsightService
+  end_line: 281
+  callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-trend-async
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-service.summary-for
+  node: capability:broker-relationship-management
+  kind: method
+  name: SummaryFor
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 292
+  signature: private static string? SummaryFor(IEnumerable<BrokerInsightProjection>
+    rows, string family)
+  visibility: private
+  language: csharp
+  container: BrokerInsightService
+  end_line: 298
+  callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-snapshot-async
+  callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-service.to-projection-query
+  node: capability:broker-relationship-management
+  kind: method
+  name: ToProjectionQuery
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 171
+  signature: private static BrokerInsightProjectionQuery ToProjectionQuery(BrokerInsightScorecardQuery
+    query)
+  visibility: private
+  language: csharp
+  container: BrokerInsightService
+  end_line: 183
+  callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-scorecards-async
+  callees: []
+  instantiates:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-projection-query
+  type_refs:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-projection-query
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-scorecard-query
+- id: symbol:capability-broker-relationship-management:broker-insight-service.unit-for
+  node: capability:broker-relationship-management
+  kind: method
+  name: UnitFor
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 312
+  signature: private static string UnitFor(string metricKey)
+  visibility: private
+  language: csharp
+  container: BrokerInsightService
+  end_line: 317
+  callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.empty-metric-card
+  callees: []
 - id: symbol:capability-broker-relationship-management:broker-list-page.broker-list-page
   node: capability:broker-relationship-management
   kind: function
@@ -18518,6 +19025,10 @@ symbols:
   container: ProjectionVisibilityResolver
   end_line: 20
   callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-benchmark-async
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-scorecards-async
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-snapshot-async
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-trend-async
   - symbol:capability-global-search:search-service.search-async
   - symbol:capability-operational-reporting:operational-report-service.get-workflow-aging-async
   - symbol:capability-operational-reporting:operational-report-service.get-workload-async
@@ -32160,11 +32671,11 @@ symbols:
   kind: class
   name: Program
   file: engine/src/Nebula.Api/Program.cs
-  line: 371
+  line: 372
   signature: public partial class Program
   visibility: public
   language: csharp
-  end_line: 371
+  end_line: 372
   callers: []
   callees: []
 - id: symbol:capability-outbound-document-generation:static-merge-data-assembler.assemble-async
@@ -35136,11 +35647,11 @@ symbols:
   kind: function
   name: App
   file: experience/src/App.tsx
-  line: 94
+  line: 96
   signature: function App()
   visibility: local
   language: typescript
-  end_line: 108
+  end_line: 110
   callers: []
   callees: []
 - id: symbol:capability-session-continuity:app.app-inner
@@ -35148,11 +35659,11 @@ symbols:
   kind: function
   name: AppInner
   file: experience/src/App.tsx
-  line: 51
+  line: 52
   signature: function AppInner()
   visibility: local
   language: typescript
-  end_line: 92
+  end_line: 94
   callers: []
   callees:
   - symbol:capability-session-continuity:use-auth-event-handler.use-auth-event-handler
@@ -55251,6 +55762,18 @@ symbols:
   end_line: 52
   callers: []
   callees: []
+- id: symbol:entity-broker:20260703185200-f0008-broker-insights.f0008-broker-insights
+  node: entity:broker
+  kind: class
+  name: F0008BrokerInsights
+  file: engine/src/Nebula.Infrastructure/Persistence/Migrations/20260703185200_F0008BrokerInsights.cs
+  line: 10
+  signature: 'public partial class F0008BrokerInsights : Migration'
+  visibility: public
+  language: csharp
+  end_line: 86
+  callers: []
+  callees: []
 - id: symbol:entity-broker:add-broker-email-phone.build-target-model
   node: entity:broker
   kind: method
@@ -55356,6 +55879,131 @@ symbols:
   callees: []
   type_refs:
   - symbol:entity-broker:broker.broker
+- id: symbol:entity-broker:broker-insight-benchmark-query-validator..ctor
+  node: entity:broker
+  kind: constructor
+  name: .ctor
+  file: engine/src/Nebula.Application/Validators/BrokerInsightQueryValidator.cs
+  line: 34
+  signature: public BrokerInsightBenchmarkQueryValidator()
+  visibility: public
+  language: csharp
+  container: BrokerInsightBenchmarkQueryValidator
+  end_line: 39
+  callers: []
+  callees: []
+- id: symbol:entity-broker:broker-insight-projection-configuration.broker-insight-projection-configuration
+  node: entity:broker
+  kind: class
+  name: BrokerInsightProjectionConfiguration
+  file: engine/src/Nebula.Infrastructure/Persistence/Configurations/BrokerInsightProjectionConfiguration.cs
+  line: 7
+  signature: 'public class BrokerInsightProjectionConfiguration : IEntityTypeConfiguration<BrokerInsightProjection>'
+  visibility: public
+  language: csharp
+  end_line: 43
+  callers: []
+  callees: []
+- id: symbol:entity-broker:broker-insight-projection-configuration.configure
+  node: entity:broker
+  kind: method
+  name: Configure
+  file: engine/src/Nebula.Infrastructure/Persistence/Configurations/BrokerInsightProjectionConfiguration.cs
+  line: 9
+  signature: public void Configure(EntityTypeBuilder<BrokerInsightProjection> builder)
+  visibility: public
+  language: csharp
+  container: BrokerInsightProjectionConfiguration
+  end_line: 42
+  callers: []
+  callees: []
+- id: symbol:entity-broker:broker-insight-query-validator.broker-insight-benchmark-query-validator
+  node: entity:broker
+  kind: class
+  name: BrokerInsightBenchmarkQueryValidator
+  file: engine/src/Nebula.Application/Validators/BrokerInsightQueryValidator.cs
+  line: 32
+  signature: 'public class BrokerInsightBenchmarkQueryValidator : AbstractValidator<BrokerInsightBenchmarkQuery>'
+  visibility: public
+  language: csharp
+  end_line: 40
+  callers: []
+  callees: []
+- id: symbol:entity-broker:broker-insight-query-validator.broker-insight-scorecard-query-validator
+  node: entity:broker
+  kind: class
+  name: BrokerInsightScorecardQueryValidator
+  file: engine/src/Nebula.Application/Validators/BrokerInsightQueryValidator.cs
+  line: 6
+  signature: 'public class BrokerInsightScorecardQueryValidator : AbstractValidator<BrokerInsightScorecardQuery>'
+  visibility: public
+  language: csharp
+  end_line: 16
+  callers: []
+  callees: []
+- id: symbol:entity-broker:broker-insight-query-validator.broker-insight-snapshot-query-validator
+  node: entity:broker
+  kind: class
+  name: BrokerInsightSnapshotQueryValidator
+  file: engine/src/Nebula.Application/Validators/BrokerInsightQueryValidator.cs
+  line: 42
+  signature: 'public class BrokerInsightSnapshotQueryValidator : AbstractValidator<BrokerInsightSnapshotQuery>'
+  visibility: public
+  language: csharp
+  end_line: 48
+  callers: []
+  callees: []
+- id: symbol:entity-broker:broker-insight-query-validator.broker-insight-trend-query-validator
+  node: entity:broker
+  kind: class
+  name: BrokerInsightTrendQueryValidator
+  file: engine/src/Nebula.Application/Validators/BrokerInsightQueryValidator.cs
+  line: 18
+  signature: 'public class BrokerInsightTrendQueryValidator : AbstractValidator<BrokerInsightTrendQuery>'
+  visibility: public
+  language: csharp
+  end_line: 30
+  callers: []
+  callees: []
+- id: symbol:entity-broker:broker-insight-scorecard-query-validator..ctor
+  node: entity:broker
+  kind: constructor
+  name: .ctor
+  file: engine/src/Nebula.Application/Validators/BrokerInsightQueryValidator.cs
+  line: 8
+  signature: public BrokerInsightScorecardQueryValidator()
+  visibility: public
+  language: csharp
+  container: BrokerInsightScorecardQueryValidator
+  end_line: 15
+  callers: []
+  callees: []
+- id: symbol:entity-broker:broker-insight-snapshot-query-validator..ctor
+  node: entity:broker
+  kind: constructor
+  name: .ctor
+  file: engine/src/Nebula.Application/Validators/BrokerInsightQueryValidator.cs
+  line: 44
+  signature: public BrokerInsightSnapshotQueryValidator()
+  visibility: public
+  language: csharp
+  container: BrokerInsightSnapshotQueryValidator
+  end_line: 47
+  callers: []
+  callees: []
+- id: symbol:entity-broker:broker-insight-trend-query-validator..ctor
+  node: entity:broker
+  kind: constructor
+  name: .ctor
+  file: engine/src/Nebula.Application/Validators/BrokerInsightQueryValidator.cs
+  line: 20
+  signature: public BrokerInsightTrendQueryValidator()
+  visibility: public
+  language: csharp
+  container: BrokerInsightTrendQueryValidator
+  end_line: 29
+  callers: []
+  callees: []
 - id: symbol:entity-broker:broker-region-configuration.broker-region-configuration
   node: entity:broker
   kind: class
@@ -55822,6 +56470,32 @@ symbols:
   language: csharp
   container: Broker
   end_line: 8
+  callers: []
+  callees: []
+- id: symbol:entity-broker:f0008-broker-insights.down
+  node: entity:broker
+  kind: method
+  name: Down
+  file: engine/src/Nebula.Infrastructure/Persistence/Migrations/20260703185200_F0008BrokerInsights.cs
+  line: 82
+  signature: protected override void Down(MigrationBuilder migrationBuilder)
+  visibility: protected
+  language: csharp
+  container: F0008BrokerInsights
+  end_line: 85
+  callers: []
+  callees: []
+- id: symbol:entity-broker:f0008-broker-insights.up
+  node: entity:broker
+  kind: method
+  name: Up
+  file: engine/src/Nebula.Infrastructure/Persistence/Migrations/20260703185200_F0008BrokerInsights.cs
+  line: 15
+  signature: protected override void Up(MigrationBuilder migrationBuilder)
+  visibility: protected
+  language: csharp
+  container: F0008BrokerInsights
+  end_line: 79
   callers: []
   callees: []
 - id: symbol:entity-broker:f0009-broker-tenant-id-broker-description.build-target-model
@@ -58451,7 +59125,7 @@ symbols:
   visibility: public
   language: csharp
   container: DependencyInjection
-  end_line: 80
+  end_line: 82
   callers: []
   callees: []
 - id: symbol:entity-document:dependency-injection.dependency-injection
@@ -58463,7 +59137,7 @@ symbols:
   signature: public static class DependencyInjection
   visibility: public
   language: csharp
-  end_line: 81
+  end_line: 83
   callers: []
   callees: []
 - id: symbol:entity-document:document-constants.document-constants

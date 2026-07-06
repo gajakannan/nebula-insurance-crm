@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/broker-insight-benchmark.schema.json",
+  "title": "BrokerInsightBenchmark",
+  "description": "F0008 authorized broker benchmark comparison response.",
+  "type": "object",
+  "required": ["brokerId", "periodStart", "periodEnd", "peerSet", "metrics", "generatedAt"],
+  "properties": {
+    "brokerId": { "type": "string", "format": "uuid" },
+    "periodStart": { "type": "string", "format": "date" },
+    "periodEnd": { "type": "string", "format": "date" },
+    "peerSet": {
+      "type": "object",
+      "required": ["type", "visiblePeerCount", "minimumPeerCount", "status"],
+      "properties": {
+        "type": { "type": "string", "enum": ["visibleBrokerGroup", "producer", "territory", "program", "region"] },
+        "visiblePeerCount": { "type": "integer", "minimum": 0 },
+        "minimumPeerCount": { "type": "integer", "minimum": 1 },
+        "status": { "type": "string", "enum": ["Available", "InsufficientPeers", "NoData"] }
+      },
+      "additionalProperties": false
+    },
+    "metrics": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/benchmarkMetric" }
+    },
+    "generatedAt": { "type": "string", "format": "date-time" }
+  },
+  "definitions": {
+    "benchmarkMetric": {
+      "type": "object",
+      "required": ["metricKey", "brokerValue", "denominator", "peerMedian", "rank", "percentile", "variance", "status"],
+      "properties": {
+        "metricKey": { "type": "string", "maxLength": 80 },
+        "brokerValue": { "type": ["number", "null"] },
+        "denominator": { "type": "integer", "minimum": 0 },
+        "peerMedian": { "type": ["number", "null"] },
+        "rank": { "type": ["integer", "null"], "minimum": 1 },
+        "percentile": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+        "variance": { "type": ["number", "null"] },
+        "status": { "type": "string", "enum": ["Available", "Suppressed", "NoData"] }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -25,6 +25,7 @@ import ServiceCaseDetailPage from './pages/ServiceCaseDetailPage'
 import WorkQueuesPage from './pages/WorkQueuesPage'
 import SearchResultsPage from './pages/SearchResultsPage'
 import OperationalReportsPage from './pages/OperationalReportsPage'
+import BrokerInsightsPage from './pages/BrokerInsightsPage'
 import NotFoundPage from './pages/NotFoundPage'
 import { DocumentDetailView, DocumentTemplatesLibrary } from './features/documents'
 import { UnauthorizedPage } from './pages/UnauthorizedPage'
@@ -85,6 +86,7 @@ function AppInner() {
       <Route path="/work-queues" element={<ProtectedRoute><WorkQueuesPage /></ProtectedRoute>} />
       <Route path="/search" element={<ProtectedRoute><SearchResultsPage /></ProtectedRoute>} />
       <Route path="/operational-reports" element={<ProtectedRoute><OperationalReportsPage /></ProtectedRoute>} />
+      <Route path="/broker-insights" element={<ProtectedRoute><BrokerInsightsPage /></ProtectedRoute>} />
 
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

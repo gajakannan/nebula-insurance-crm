@@ -27,6 +27,7 @@
 #   global_search   read
 #   saved_view      read, manage, default
 #   operational_report read
+#   broker_insight read
 #
 #   Note on broker "read" vs "search":
 #     read   — fetch a single broker by ID (e.g. GET /brokers/{id})
@@ -725,6 +726,15 @@ p, Underwriter,         operational_report, read, true
 p, RelationshipManager, operational_report, read, true
 p, ProgramManager,      operational_report, read, true
 p, Admin,               operational_report, read, true
+
+# F0008 Broker Insights — read-only internal analytics.
+# Query layer must filter source records before counts, trends, peer sets, ranks, and links are returned.
+p, DistributionUser,    broker_insight, read, true
+p, DistributionManager, broker_insight, read, true
+p, Underwriter,         broker_insight, read, true
+p, RelationshipManager, broker_insight, read, true
+p, ProgramManager,      broker_insight, read, true
+p, Admin,               broker_insight, read, true
 
 # ─────────────────────────────────────────────────────────────────────────────
 # §3 Documents (F0020 — ADR-012 + ADR-019)

@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0008",
+  "feature_slug": "broker-insights",
+  "run_id": "2026-07-03-fd732693",
+  "status": "approved",
+  "recorded_on": "2026-07-03",
+  "contract_effective_date": "2026-05-25",
+  "feature_path_at_run_start": "planning-mds/features/F0008-broker-insights",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0008-broker-insights",
+  "feature_state": "Archived",
+  "rerun_of": null,
+  "changed_paths": [
+    "engine/src/Nebula.Api",
+    "engine/src/Nebula.Application",
+    "engine/src/Nebula.Domain",
+    "engine/src/Nebula.Infrastructure",
+    "engine/tests/Nebula.Tests/Unit/BrokerInsights",
+    "experience/src/App.tsx",
+    "experience/src/features/broker-insights",
+    "experience/src/pages/BrokerInsightsPage.tsx",
+    "planning-mds",
+    "planning-mds/api/nebula-api.yaml",
+    "planning-mds/architecture/data-model.md",
+    "planning-mds/features/F0008-broker-insights",
+    "planning-mds/features/archive/F0008-broker-insights",
+    "planning-mds/architecture/feature-assembly-plan.md",
+    "planning-mds/security/authorization-matrix.md",
+    "planning-mds/security/policies/policy.csv",
+    "planning-mds/operations/evidence/runs/2026-07-03-fd732693/",
+    "scripts/kg"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feat/F0008-broker-insights",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": true,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer",
+    "DevOps",
+    "Architect"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g2-self-review.md"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "signoff-ledger.md"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED",
+      "artifact": "pm-closeout.md"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log"
+    },
+    "archive_correction": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "pm-closeout.md"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md"
+    ,
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md"
+  },
+  "role_results": {
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "DevOps": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ],
+      "verdict_artifact": "deployability-check.md"
+    },
+    "Architect": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md"
+      ],
+      "verdict_artifact": "g0-assembly-plan-validation.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "verdict_artifact": "security-review-report.md"
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": false,
+      "waiver": {
+        "reason": "External package registry access is restricted in this environment; targeted backend/frontend builds and tests were run instead.",
+        "owner": "Quality Engineer",
+        "approved_on": "2026-07-03"
+      }
+    },
+    "secrets": {
+      "ran": true,
+      "artifact": "artifacts/security/secrets-scan.md"
+    },
+    "sast": {
+      "ran": true,
+      "artifact": "artifacts/security/sast-scan.md"
+    },
+    "dast": {
+      "ran": false,
+      "waiver": {
+        "reason": "Authenticated runtime DAST requires rebuilding/restarting the API container and operator test credentials; deferred to post-G3 operator test run.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-03"
+      }
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {
+    "latest_run": "planning-mds/operations/evidence/features/F0008-broker-insights/latest-run.json"
+  }
+}
