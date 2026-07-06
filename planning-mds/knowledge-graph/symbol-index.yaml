@@ -1,20 +1,20 @@
 version: 0
-generated_at: '2026-07-06T04:57:13+00:00'
+generated_at: '2026-07-06T09:00:16+00:00'
 summary:
   total_symbols: 4656
   by_language:
     python:
       files: 52
-      parsed: 0
-      cached: 52
+      parsed: 52
+      cached: 0
     typescript:
       files: 295
-      parsed: 1
-      cached: 294
+      parsed: 295
+      cached: 0
     csharp:
       files: 386
-      parsed: 7
-      cached: 379
+      parsed: 386
+      cached: 0
   disambiguated_ids: 20
   compilation_roots_by_language:
     python: []
@@ -30,6 +30,7 @@ summary:
     csharp: f1e324c369f84d91c7fc9babd3fbb3df5352bd259db0a2d31fe5c8f61f74ce96
   sidecar_authoritative_languages:
   - csharp
+  - python
   - typescript
 symbols:
 - id: symbol:capability-authorization-enforcement:broker-authorization-tests.broker-authorization-tests
@@ -16695,7 +16696,8 @@ symbols:
   language: typescript
   end_line: 10
   callers: []
-  callees: []
+  callees:
+  - symbol:capability-dynamic-attribute-panel:widget-registry.resolve
 - id: symbol:capability-dynamic-attribute-panel:derive-widgets.ui-schema-section
   node: capability:dynamic-attribute-panel
   kind: interface
@@ -16770,7 +16772,8 @@ symbols:
   - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.preservation.test.loaded-bundle
   - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.test.loaded-bundle
   - symbol:capability-dynamic-attribute-panel:schema-driven-form.test.pinned-bundle
-  callees: []
+  callees:
+  - symbol:capability-dynamic-attribute-panel:widget-registry.resolve
 - id: symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.preservation.test.host
   node: capability:dynamic-attribute-panel
   kind: function
@@ -16867,7 +16870,8 @@ symbols:
   - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.preservation.test.loaded-bundle
   - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.test.loaded-bundle
   - symbol:capability-dynamic-attribute-panel:schema-driven-form.test.pinned-bundle
-  callees: []
+  callees:
+  - symbol:capability-dynamic-attribute-panel:widget-registry.resolve
 - id: symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.test.loaded-bundle
   node: capability:dynamic-attribute-panel
   kind: function
@@ -17312,7 +17316,8 @@ symbols:
   - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.preservation.test.loaded-bundle
   - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.test.loaded-bundle
   - symbol:capability-dynamic-attribute-panel:schema-driven-form.test.pinned-bundle
-  callees: []
+  callees:
+  - symbol:capability-dynamic-attribute-panel:widget-registry.resolve
 - id: symbol:capability-dynamic-attribute-panel:schema-driven-form.test.pinned-bundle
   node: capability:dynamic-attribute-panel
   kind: function
@@ -17739,7 +17744,11 @@ symbols:
   container: WidgetRegistry
   end_line: 67
   callers:
+  - symbol:capability-dynamic-attribute-panel:derive-widgets.test.bundle
+  - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.preservation.test.bundle-file
+  - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.test.bundle-file
   - symbol:capability-dynamic-attribute-panel:schema-driven-form.schema-driven-form
+  - symbol:capability-dynamic-attribute-panel:schema-driven-form.test.bundle-file
   - symbol:capability-dynamic-attribute-panel:use-pinned-bundle.use-pinned-bundle
   - symbol:capability-dynamic-attribute-panel:widget-registry.assert-option-allowed
   callees: []
@@ -32671,11 +32680,11 @@ symbols:
   kind: class
   name: Program
   file: engine/src/Nebula.Api/Program.cs
-  line: 372
+  line: 374
   signature: public partial class Program
   visibility: public
   language: csharp
-  end_line: 372
+  end_line: 374
   callers: []
   callees: []
 - id: symbol:capability-outbound-document-generation:static-merge-data-assembler.assemble-async
@@ -35647,11 +35656,11 @@ symbols:
   kind: function
   name: App
   file: experience/src/App.tsx
-  line: 96
+  line: 98
   signature: function App()
   visibility: local
   language: typescript
-  end_line: 110
+  end_line: 112
   callers: []
   callees: []
 - id: symbol:capability-session-continuity:app.app-inner
@@ -35659,11 +35668,11 @@ symbols:
   kind: function
   name: AppInner
   file: experience/src/App.tsx
-  line: 52
+  line: 53
   signature: function AppInner()
   visibility: local
   language: typescript
-  end_line: 94
+  end_line: 96
   callers: []
   callees:
   - symbol:capability-session-continuity:use-auth-event-handler.use-auth-event-handler
@@ -59125,7 +59134,7 @@ symbols:
   visibility: public
   language: csharp
   container: DependencyInjection
-  end_line: 82
+  end_line: 88
   callers: []
   callees: []
 - id: symbol:entity-document:dependency-injection.dependency-injection
@@ -59137,7 +59146,7 @@ symbols:
   signature: public static class DependencyInjection
   visibility: public
   language: csharp
-  end_line: 83
+  end_line: 89
   callers: []
   callees: []
 - id: symbol:entity-document:document-constants.document-constants

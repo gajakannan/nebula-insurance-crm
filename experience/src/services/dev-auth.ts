@@ -5,11 +5,11 @@
  *
  * IdpIssuer and IdpSubject values must match DevSeedData.cs:
  *   DevIdpIssuer = "http://localhost:9000/application/o/nebula/"
- *   IdpSubject   = "dev-user-001" (Sarah Chen — DistributionManager)
+ *   IdpSubject   = "dev-user-001" (Sarah Chen — Admin + DistributionManager for local feature testing)
  */
 
 const DEV_ISS = 'http://localhost:9000/application/o/nebula/';
-const DEV_SUB = 'dev-user-001'; // Sarah Chen — DistributionManager
+const DEV_SUB = 'dev-user-001'; // Sarah Chen — local Admin + DistributionManager
 
 function base64url(obj: object): string {
   return btoa(JSON.stringify(obj))
@@ -27,7 +27,7 @@ export function getDevToken(): Promise<string> {
       iss: DEV_ISS,
       sub: DEV_SUB,
       name: 'Sarah Chen',
-      nebula_roles: ['DistributionManager'],
+      nebula_roles: ['Admin', 'DistributionManager'],
       regions: ['West', 'Central', 'East', 'South'],
       exp: Math.floor(Date.now() / 1000) + 86400 * 365,
     });

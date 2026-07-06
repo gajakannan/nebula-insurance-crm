@@ -68,6 +68,12 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<CoverageWindow> CoverageWindows => Set<CoverageWindow>();
     public DbSet<QueueWorkItem> QueueWorkItems => Set<QueueWorkItem>();
     public DbSet<RoutingDecisionLog> RoutingDecisionLogs => Set<RoutingDecisionLog>();
+    public DbSet<ConfigurationDomain> ConfigurationDomains => Set<ConfigurationDomain>();
+    public DbSet<ConfigurationDraft> ConfigurationDrafts => Set<ConfigurationDraft>();
+    public DbSet<ConfigurationValidationResult> ConfigurationValidationResults => Set<ConfigurationValidationResult>();
+    public DbSet<PublishedOperationalConfigurationSet> PublishedOperationalConfigurationSets => Set<PublishedOperationalConfigurationSet>();
+    public DbSet<ConfigurationRefreshStatus> ConfigurationRefreshStatuses => Set<ConfigurationRefreshStatus>();
+    public DbSet<ConfigurationAuditEvent> ConfigurationAuditEvents => Set<ConfigurationAuditEvent>();
 
     // F0023 — SearchReporting read-side module
     public DbSet<SearchDocument> SearchDocuments => Set<SearchDocument>();

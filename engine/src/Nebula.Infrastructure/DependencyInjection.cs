@@ -53,6 +53,12 @@ public static class DependencyInjection
         services.AddScoped<IBrokerInsightProjectionRepository, BrokerInsightProjectionRepository>();
         services.AddScoped<IBrokerInsightService, Nebula.Application.Services.BrokerInsightService>();
         services.AddScoped<IQueueAssignmentRepository, QueueAssignmentRepository>();
+        services.AddScoped<IAdminConfigurationRepository, AdminConfigurationRepository>();
+        services.AddScoped<IAdminConfigurationDomainAdapter, QueueRoutingConfigurationAdapter>();
+        services.AddScoped<IAdminConfigurationDomainAdapter, WorkflowSlaConfigurationAdapter>();
+        services.AddScoped<IAdminConfigurationDomainAdapter, SearchReportDefaultsConfigurationAdapter>();
+        services.AddScoped<IAdminConfigurationDomainAdapter, TemplateMetadataConfigurationAdapter>();
+        services.AddScoped<IAdminConfigurationRefreshNotifier, InProcessAdminConfigurationRefreshNotifier>();
         services.AddScoped<ITaskRoutingSource, TaskRoutingSource>();
         services.AddScoped<ISubmissionRoutingSource, SubmissionRoutingSource>();
         services.AddScoped<IRenewalRoutingSource, RenewalRoutingSource>();

@@ -2,7 +2,7 @@
 
 **Purpose:** Authoritative data model reference for Nebula CRM. Contains the domain ERD, entity specifications, reference data, query patterns, and migration strategy. Supplements BLUEPRINT.md Section 4.2.
 
-**Last Updated:** 2026-07-03
+**Last Updated:** 2026-07-06
 
 ---
 
@@ -166,6 +166,53 @@ erDiagram
         int WarningDays
         int TargetDays
     }
+    ConfigurationDomain {
+        string DomainKey PK
+        string DisplayName
+        string OwningModule
+        string Status
+        string EditableSchemaRef
+        bool SupportsRollback
+    }
+    ConfigurationDraft {
+        uuid Id PK
+        string DomainKey FK
+        int BasePublishedVersion
+        int DraftVersion
+        string Status
+        jsonb PayloadJson
+        string PayloadHash
+    }
+    ConfigurationValidationResult {
+        uuid Id PK
+        uuid DraftId FK
+        string Status
+        string DraftPayloadHash
+        jsonb BlockingErrorsJson
+        jsonb CompareSummaryJson
+    }
+    PublishedOperationalConfigurationSet {
+        uuid Id PK
+        string DomainKey FK
+        int PublishedVersion
+        jsonb PayloadSnapshotJson
+        string PayloadHash
+    }
+    ConfigurationRefreshStatus {
+        uuid Id PK
+        uuid PublishedSetId FK
+        string ConsumerKey
+        string Status
+    }
+    ConfigurationAuditEvent {
+        uuid Id PK
+        string DomainKey FK
+        uuid DraftId FK "nullable"
+        uuid PublishedSetId FK "nullable"
+        string Action
+        string Outcome
+        uuid ActorUserId FK
+    }
     WorkQueue {
         uuid Id PK
         string Name
@@ -245,6 +292,13 @@ erDiagram
     ReferenceSubmissionStatus ||--o{ Submission : "status"
     ReferenceRenewalStatus ||--o{ Renewal : "status"
     ReferenceTaskStatus ||--o{ TaskItem : "status"
+    ConfigurationDomain ||--o{ ConfigurationDraft : "has drafts"
+    ConfigurationDomain ||--o{ PublishedOperationalConfigurationSet : "publishes"
+    ConfigurationDomain ||--o{ ConfigurationAuditEvent : "audits"
+    ConfigurationDraft ||--o{ ConfigurationValidationResult : "validates"
+    PublishedOperationalConfigurationSet ||--o{ ConfigurationRefreshStatus : "refreshes"
+    UserProfile ||--o{ ConfigurationDraft : "creates"
+    UserProfile ||--o{ ConfigurationAuditEvent : "acts"
     WorkQueue ||--o{ WorkQueueMember : "has members"
     WorkQueue ||--o{ AssignmentRule : "evaluates rules"
     WorkQueue ||--o{ CoverageWindow : "scopes coverage"
@@ -1404,9 +1458,150 @@ remain authoritative.
 
 ---
 
+## 13. Admin Configuration and Reference Data Console (F0032)
+
+F0032 adds a governed configuration facade over module-owned runtime settings,
+as defined by [ADR-016](decisions/ADR-016-published-operational-configuration-governance.md)
+and [ADR-032](decisions/ADR-032-admin-configuration-console-contract.md).
+The records below store draft, validation, publication, refresh, and audit state.
+Source modules remain authoritative for execution.
+
+### 13.1 ConfigurationDomain
+
+Catalog row for a supported configuration domain.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `DomainKey` | varchar(80) PK | `queue-routing`, `workflow-sla-thresholds`, `saved-view-report-defaults`, `template-metadata` |
+| `DisplayName` | varchar(120) | UI label |
+| `OwningModule` | varchar(20) | F0022, F0023, F0027, or F0032 |
+| `Status` | varchar(20) | Supported, Unsupported, ReadOnly |
+| `EditableSchemaRef` | varchar(200) | JSON Schema id or OpenAPI schema ref |
+| `ValidationStrategy` | varchar(80) | Adapter key |
+| `RefreshStrategy` | varchar(80) | InProcess, CacheInvalidate, NotRequired |
+| `SupportsRollback` | boolean | Domain-level rollback support |
+| audit / concurrency | - | base audit fields plus `RowVersion` |
+
+### 13.2 ConfigurationDraft
+
+Draft payload for one domain and base published version.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid PK | draft identity |
+| `DomainKey` | varchar(80) FK -> ConfigurationDomain.DomainKey | governed domain |
+| `BasePublishedVersion` | integer | published version the draft was created from |
+| `DraftVersion` | integer | increments on draft update |
+| `Status` | varchar(30) | Draft, ValidationFailed, Validated, Published, Abandoned |
+| `PayloadJson` | jsonb | domain-specific payload; no secrets or infrastructure config |
+| `PayloadHash` | varchar(80) | `sha256:<hex>` hash of canonical payload |
+| `LatestValidationResultId` | uuid? FK -> ConfigurationValidationResult.Id | latest validation for the current draft |
+| audit / concurrency | - | base audit fields plus `RowVersion` |
+
+Constraints:
+
+- At most one active non-published draft per `DomainKey`.
+- `PayloadHash` must be recomputed on every payload mutation.
+- Draft update requires optimistic concurrency through `RowVersion`.
+
+### 13.3 ConfigurationValidationResult
+
+Immutable validation result for a draft payload hash.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid PK | validation identity |
+| `DraftId` | uuid FK -> ConfigurationDraft.Id | validated draft |
+| `Status` | varchar(20) | Passed, Failed, Stale |
+| `DraftPayloadHash` | varchar(80) | hash validated |
+| `BlockingErrorsJson` | jsonb | field/rule errors |
+| `WarningsJson` | jsonb | non-blocking warnings |
+| `CompareSummaryJson` | jsonb | changed fields and downstream impact summary |
+| `ValidatedAt` | timestamptz | validation timestamp |
+| `ValidatedByUserId` | uuid FK -> UserProfile.Id | actor |
+
+### 13.4 PublishedOperationalConfigurationSet
+
+Immutable published snapshot used by consumers.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid PK | publication identity |
+| `DomainKey` | varchar(80) FK -> ConfigurationDomain.DomainKey | governed domain |
+| `PublishedVersion` | integer | monotonically increasing per domain |
+| `PayloadSnapshotJson` | jsonb | canonical published payload snapshot |
+| `PayloadHash` | varchar(80) | `sha256:<hex>` |
+| `SourceDraftId` | uuid? FK -> ConfigurationDraft.Id | draft that produced this version |
+| `RollbackOfPublishedVersion` | integer? | populated when this version was created by rollback |
+| `PublishedAt` | timestamptz | publication timestamp |
+| `PublishedByUserId` | uuid FK -> UserProfile.Id | Admin actor |
+
+Constraints:
+
+- Unique `(DomainKey, PublishedVersion)`.
+- Latest published version is authoritative for runtime consumers.
+- Rollback creates a new version; it never deletes or mutates previous published rows.
+
+### 13.5 ConfigurationRefreshStatus
+
+Refresh handshake for consumers that cache published configuration.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid PK | refresh status identity |
+| `PublishedSetId` | uuid FK -> PublishedOperationalConfigurationSet.Id | published set |
+| `ConsumerKey` | varchar(120) | queue-routing, reporting-defaults, template-metadata, workflow-sla |
+| `Status` | varchar(20) | NotRequired, Pending, Succeeded, Failed |
+| `RefreshedAt` | timestamptz? | success/failure timestamp |
+| `FailureSummary` | varchar(500)? | redacted failure details |
+
+### 13.6 ConfigurationAuditEvent
+
+Append-only audit row for all configuration actions.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid PK | audit event identity |
+| `DomainKey` | varchar(80) FK -> ConfigurationDomain.DomainKey | governed domain |
+| `DraftId` | uuid? FK -> ConfigurationDraft.Id | affected draft |
+| `PublishedSetId` | uuid? FK -> PublishedOperationalConfigurationSet.Id | affected published set |
+| `Action` | varchar(40) | Created, Updated, Validated, Published, RolledBack, RefreshSucceeded, RefreshFailed |
+| `Outcome` | varchar(20) | Succeeded, Failed |
+| `ActorUserId` | uuid FK -> UserProfile.Id | authenticated internal actor |
+| `OccurredAt` | timestamptz | UTC timestamp |
+| `Summary` | varchar(500) | redacted human summary |
+| `RedactedDetailsJson` | jsonb | field-level details safe for the caller's permission |
+
+### 13.7 Indexes
+
+| Table | Index | Columns | Purpose |
+|-------|-------|---------|---------|
+| ConfigurationDomain | `PK_ConfigurationDomains` | `DomainKey` | catalog lookup |
+| ConfigurationDraft | `UX_ConfigurationDraft_ActiveDomain` | `DomainKey WHERE Status IN ('Draft','ValidationFailed','Validated')` | one active draft per domain |
+| ConfigurationDraft | `IX_ConfigurationDraft_Domain_Status` | `DomainKey, Status` | catalog state lookup |
+| ConfigurationValidationResult | `IX_ConfigValidation_Draft_Hash` | `DraftId, DraftPayloadHash` | publish guard |
+| PublishedOperationalConfigurationSet | `UX_PublishedConfig_Domain_Version` | `DomainKey, PublishedVersion` | version uniqueness |
+| PublishedOperationalConfigurationSet | `IX_PublishedConfig_Domain_PublishedAt` | `DomainKey, PublishedAt DESC` | latest version lookup |
+| ConfigurationRefreshStatus | `IX_ConfigRefresh_Published_Status` | `PublishedSetId, Status` | refresh summary |
+| ConfigurationAuditEvent | `IX_ConfigAudit_Domain_OccurredAt` | `DomainKey, OccurredAt DESC` | audit filter |
+| ConfigurationAuditEvent | `IX_ConfigAudit_Actor_OccurredAt` | `ActorUserId, OccurredAt DESC` | actor filter |
+
+### 13.8 Migration order (F0032)
+
+1. Create `ConfigurationDomains`, `ConfigurationDrafts`, `ConfigurationValidationResults`,
+   `PublishedOperationalConfigurationSets`, `ConfigurationRefreshStatuses`, and
+   `ConfigurationAuditEvents`.
+2. Seed first-release `ConfigurationDomain` rows for queue/routing, workflow SLA
+   thresholds, saved-view/report defaults, and template metadata.
+3. Backfill initial `PublishedOperationalConfigurationSet` snapshots from current
+   module-owned configuration where available.
+4. Add indexes and active-draft unique filter.
+5. Wire in-process refresh-status updates for consumers that cache published values.
+
 ## Related Documents
 
 - [ADR-031: Broker Insights Read Models and Permission-Safe Analytics](decisions/ADR-031-broker-insights-read-models.md) — F0008 read-side model
+- [ADR-032: Admin Configuration Console Contract](decisions/ADR-032-admin-configuration-console-contract.md) — F0032 governed configuration facade
 - [ADR-027: Neuron Companion A2A Orchestration](decisions/ADR-027-neuron-companion-a2a-orchestration.md) — F0038 companion foundation
 - [ADR-028: Neuron Persistence, Cross-Store Consistency & Outreach Authorization](decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md) — F0038 `neuron.*` schema
 - [ADR-030: Service Case And Claim Reference Boundary](decisions/ADR-030-service-case-and-claim-reference-boundary.md) — F0024 service-case source record and claim-reference limits

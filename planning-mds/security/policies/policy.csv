@@ -921,3 +921,22 @@ p, Underwriter,          queue, read,             true
 p, DistributionUser,     queue, read,             true
 
 p, RelationshipManager,  queue, read,             true
+
+# §6 Admin configuration console (F0032)
+# Central runtime business configuration governance. Source-module ABAC still applies to details.
+p, Admin,                admin-configuration, read,     true
+p, Admin,                admin-configuration, draft,    true
+p, Admin,                admin-configuration, validate, true
+p, Admin,                admin-configuration, publish,  true
+p, Admin,                admin-configuration, rollback, true
+p, Admin,                admin-configuration, audit,    true
+
+p, ConfigurationSteward, admin-configuration, read,     true
+p, ConfigurationSteward, admin-configuration, draft,    true
+p, ConfigurationSteward, admin-configuration, validate, true
+
+p, OperationsManager,    admin-configuration, read,     true
+p, OperationsManager,    admin-configuration, validate, true
+
+p, ComplianceQualityLead,admin-configuration, read,     true
+p, ComplianceQualityLead,admin-configuration, audit,    true

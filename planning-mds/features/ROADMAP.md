@@ -1,6 +1,6 @@
 # Feature Roadmap (Now / Next / Later)
 
-**Last Reviewed:** 2026-07-03
+**Last Reviewed:** 2026-07-06
 
 This document is the working prioritization view for feature sequencing.
 
@@ -29,7 +29,6 @@ This document is the working prioritization view for feature sequencing.
 |---------|-------|----------|
 | [F0037 — Hierarchy-Aware Access Scoping & Distribution Rollups](./F0037-hierarchy-aware-access-scoping-and-distribution-rollups/README.md) | CRM Release MVP+ | Promoted Later→Next (2026-06-06, operator decision); now first in `Next` after F0023's 2026-06-19 promotion to `Now`. Homes the scope deferred from F0017 (plan run `2026-06-06-5fb353e9`): hierarchy-aware access-control enforcement + distribution rollup reporting. **Placeholder — needs its own `plan` run before build**; can only start once F0017 (Now) is delivered and F0023 is underway. |
 | [F0031 — Data Import, Deduplication & Go-Live Migration](./F0031-data-import-deduplication-and-go-live-migration/README.md) | Release Enablement | Required for production rollout and should start early enough to validate migration paths against the completed broker/account foundations while later workflow modules continue maturing. |
-| [F0032 — Admin Configuration & Reference Data Console](./F0032-admin-configuration-and-reference-data-console/README.md) | Platform Operations | Lands after F0022/F0023 to centralize governance, validation, publish, rollback, and audit over module-owned configuration rather than becoming a prerequisite for queues. |
 | [F0039 — Neuron Multi-Thread Conversations](./F0039-neuron-multi-thread-conversations/README.md) | Neuron Companion | Implements the real conversation store + thread management UX on F0038's reserved persistence/envelope seams. **Provisional skeleton** — re-derived in its own `plan` run after F0038 lands. Depends on F0038's persistence ADR. |
 | [F0040 — Neuron Second Specialist Head](./F0040-neuron-second-specialist-head/README.md) | Neuron Companion | Flips a second zone (Accounts/Brokers) from stub to live and hardens the head/orchestrator/registry platform on the first real second consumer. **Provisional skeleton** — re-derived in its own `plan` run after F0038 lands. Depends on F0038's zone-dispatch contract. |
 
@@ -53,6 +52,7 @@ This document is the working prioritization view for feature sequencing.
 
 | Feature | Phase | Completion State |
 |---------|-------|------------------|
+| [F0032 — Admin Configuration & Reference Data Console](./archive/F0032-admin-configuration-and-reference-data-console/README.md) | Platform Operations | Done and archived (2026-07-06, feature run `2026-07-06-f0ef8526`) — 6 stories: admin configuration catalog, draft reference/SLA configuration, queue/routing configuration governance, validate/compare before publish, publish/rollback configuration sets, audit and permission-safe behavior. Gates G0-G8 passed with accepted non-blocking recommendations. |
 | [F0038 — Neuron Day-at-a-Glance Shell (Renewals live + draft outreach + mock-send)](./archive/F0038-neuron-day-at-a-glance-shell/README.md) | Neuron Companion | Done and archived (2026-07-02, feature run `2026-07-01-90a75ace`) — 8 stories: service bootstrap, Day-at-a-Glance shell + zone-dispatch + message envelope, live Renewals zone (needs-attention + drill), inert stub zones, renewal outreach draft, mock-send + workflow transition, CRM scope guard, companion telemetry. First slice of the Neuron Companion epic; gates G0–G8 all PASS. |
 | [F0024 — Claims & Service Case Tracking](./archive/F0024-claims-and-service-case-tracking/README.md) | CRM Release MVP+ | Done and archived (2026-07-03; feature runs `2026-07-03-ba011af8`, `2026-07-03-72f49d29`) — 6 stories: service case intake, contextual visibility, ownership/follow-up, status transitions, claim-reference context, permission-safe audit history |
 | [F0021 — Communication Hub & Activity Capture](./archive/F0021-communication-hub-and-activity-capture/README.md) | CRM Release MVP | Done and archived (2026-07-02, feature run `2026-07-01-9cee64f0`) — 5 stories: structured communication capture, contextual history, related-record/participant links, follow-up task linkage, correction/redaction audit |
@@ -87,6 +87,8 @@ This document is the working prioritization view for feature sequencing.
 
 - This roadmap is the authoritative Now/Next/Later view.
 - Boundary guardrails: F0019 delivered submission-bound quote/proposal workflow while F0027 owns reusable outbound generation; F0022 owns usable queue/routing foundations while F0032 later governs shared configuration; F0008 remains separate but must land after F0023 and F0017.
+- Reviewed 2026-07-06 after F0032 closeout (feature run `2026-07-06-f0ef8526`); moved F0032 from Now to Completed and archived it after G8 validation.
+- Reviewed 2026-07-06 (operator decision): promoted **F0032 — Admin Configuration & Reference Data Console** from `Next` to `Now` after F0022 and F0023 were completed/archived. This is a planning/refinement-ready promotion; F0032 still needs story breakdown, first-release configuration-domain selection, signoff role finalization, and implementation contract before build. ROADMAP-only resequencing — `REGISTRY.md` status (`Planned`) and `BLUEPRINT.md` baseline status remain unchanged.
 - Reviewed 2026-07-03 after operator request to make F0024 archive-only; removed the active `F0024-claims-and-service-case-tracking/` folder and retained the canonical feature under `archive/F0024-claims-and-service-case-tracking/`.
 - Reviewed 2026-07-03 after F0024 closeout (feature run `2026-07-03-ba011af8`); moved F0024 from Now to Completed and archived it after G8 validation. Earlier the same day, operator approval promoted F0024 from Later to Now and approved continuing the harness feature action.
 - Reviewed 2026-07-01 (operator decision): promoted **F0021 — Communication Hub & Activity Capture** from `Next` to `Now` to pull the CRM communication system of record forward. F0021 is still a draft shell with no story breakdown, so it needs its own `plan` run before any `feature`/build action. ROADMAP-only resequencing — `REGISTRY.md` status (`Planned`) and `BLUEPRINT.md` baseline status remain unchanged.

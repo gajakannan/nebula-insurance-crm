@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/admin-configuration-draft.schema.json",
+  "title": "AdminConfigurationDraft",
+  "description": "Draft payload and lifecycle state for one governed configuration domain.",
+  "type": "object",
+  "required": [
+    "id",
+    "domainKey",
+    "basePublishedVersion",
+    "draftVersion",
+    "status",
+    "payload",
+    "payloadHash",
+    "createdByUserId",
+    "createdAt",
+    "updatedAt",
+    "rowVersion"
+  ],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "domainKey": {
+      "type": "string",
+      "enum": [
+        "queue-routing",
+        "workflow-sla-thresholds",
+        "saved-view-report-defaults",
+        "template-metadata"
+      ]
+    },
+    "basePublishedVersion": { "type": "integer", "minimum": 1 },
+    "draftVersion": { "type": "integer", "minimum": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["Draft", "ValidationFailed", "Validated", "Published", "Abandoned"]
+    },
+    "payload": {
+      "type": "object",
+      "description": "Domain-specific draft payload validated by the domain adapter and editableSchemaRef.",
+      "additionalProperties": true
+    },
+    "payloadHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "latestValidation": {
+      "oneOf": [
+        { "$ref": "https://nebula.local/schemas/admin-configuration-validation-result.schema.json" },
+        { "type": "null" }
+      ]
+    },
+    "createdByUserId": { "type": "string", "format": "uuid" },
+    "updatedByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "rowVersion": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/admin-configuration-validation-result.schema.json",
+  "title": "AdminConfigurationValidationResult",
+  "description": "Validation and compare output for a configuration draft.",
+  "type": "object",
+  "required": [
+    "id",
+    "draftId",
+    "status",
+    "draftPayloadHash",
+    "blockingErrors",
+    "warnings",
+    "compareSummary",
+    "validatedAt",
+    "validatedByUserId"
+  ],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "draftId": { "type": "string", "format": "uuid" },
+    "status": { "type": "string", "enum": ["Passed", "Failed", "Stale"] },
+    "draftPayloadHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "blockingErrors": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/issue" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/issue" }
+    },
+    "compareSummary": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/change" }
+    },
+    "validatedAt": { "type": "string", "format": "date-time" },
+    "validatedByUserId": { "type": "string", "format": "uuid" }
+  },
+  "definitions": {
+    "issue": {
+      "type": "object",
+      "required": ["code", "message"],
+      "properties": {
+        "code": { "type": "string", "maxLength": 80 },
+        "fieldPath": { "type": ["string", "null"], "maxLength": 200 },
+        "message": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "severity": { "type": "string", "enum": ["error", "warning"] }
+      },
+      "additionalProperties": false
+    },
+    "change": {
+      "type": "object",
+      "required": ["changeType", "path", "summary"],
+      "properties": {
+        "changeType": { "type": "string", "enum": ["Added", "Updated", "Removed", "Unchanged"] },
+        "path": { "type": "string", "maxLength": 200 },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "before": { "type": ["string", "number", "integer", "boolean", "null"] },
+        "after": { "type": ["string", "number", "integer", "boolean", "null"] }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

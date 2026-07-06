@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/admin-configuration-audit-event.schema.json",
+  "title": "AdminConfigurationAuditEvent",
+  "description": "Permission-safe audit row for admin configuration actions.",
+  "type": "object",
+  "required": [
+    "id",
+    "domainKey",
+    "action",
+    "outcome",
+    "actorUserId",
+    "occurredAt",
+    "summary"
+  ],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "domainKey": {
+      "type": "string",
+      "enum": [
+        "queue-routing",
+        "workflow-sla-thresholds",
+        "saved-view-report-defaults",
+        "template-metadata"
+      ]
+    },
+    "draftId": { "type": ["string", "null"], "format": "uuid" },
+    "publishedSetId": { "type": ["string", "null"], "format": "uuid" },
+    "action": {
+      "type": "string",
+      "enum": ["Created", "Updated", "Validated", "Published", "RolledBack", "RefreshSucceeded", "RefreshFailed"]
+    },
+    "outcome": { "type": "string", "enum": ["Succeeded", "Failed"] },
+    "actorUserId": { "type": "string", "format": "uuid" },
+    "actorDisplayName": { "type": ["string", "null"], "maxLength": 160 },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "redactedDetails": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

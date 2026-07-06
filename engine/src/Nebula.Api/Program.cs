@@ -197,6 +197,7 @@ builder.Services.AddScoped<SessionContinuityTelemetryService>();
 builder.Services.AddScoped<OperationsRoutingService>();
 builder.Services.AddScoped<NeuronCompanionTelemetryService>();
 builder.Services.AddScoped<ServiceCaseService>();
+builder.Services.AddScoped<AdminConfigurationService>();
 
 // Current user
 builder.Services.AddHttpContextAccessor();
@@ -365,6 +366,7 @@ app.MapNeuronCompanionTelemetryEndpoints();
 app.MapSearchEndpoints();
 app.MapSavedViewEndpoints();
 app.MapOperationalReportEndpoints();
+app.MapAdminConfigurationEndpoints();
 
 app.Run();
 

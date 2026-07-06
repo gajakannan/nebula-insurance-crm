@@ -12,6 +12,7 @@ import {
   ClipboardList,
   BadgeHelp,
   ListChecks,
+  Settings,
   PanelLeftClose,
   LogOut,
   ChevronRight,
@@ -31,6 +32,7 @@ const NAV_ITEMS = [
   { label: 'Tasks', href: '/tasks', icon: ClipboardList },
   { label: 'Service Cases', href: '/service-cases', icon: BadgeHelp },
   { label: 'Work queues', href: '/work-queues', icon: ListChecks },
+  { label: 'Configuration', href: '/admin/configuration', icon: Settings },
 ];
 
 function isActive(href: string, pathname: string) {
