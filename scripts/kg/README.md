@@ -131,6 +131,22 @@ python3 scripts/kg/compile.py --generators \  # also drive decisions/coverage/st
 
 Feature shards carry the full tracker-projected field set; `compile.py` emits only the *technical*
 subset into `feature-mappings.features` (presentation fields render to the trackers at S0007) and
-expands each feature's `stories:` block into `feature-mappings.stories`. Until the S0006 migration
-populates `kg-source/`, `compile.py` on the real tree is a no-op. Tests:
-`scripts/kg/tests/test_compile.py`.
+expands each feature's `stories:` block into `feature-mappings.stories`. Tests: `scripts/kg/tests/test_compile.py`.
+
+## Decompile (migration-only) — `decompile.py` (F0006-S0006)
+
+One-time migration that exploded the monolithic KG + REGISTRY/ROADMAP feature tables into
+`planning-mds/kg-source/**` shards (rewriting physical feature-doc refs to logical `F####/…`), gated
+by `compile(decompile(graph)) == graph` byte-identical. Cutover landed on 2026-07-10 (tags
+`pre-kg-cutover` → `kg-cutover`): `kg-source/` is now the authored truth and the `knowledge-graph/`
+trio + ontology are generated. Any pre-existing source drift is fixed in the monolith first, never in
+shards (the cutover moved 6 mis-filed `capability:document-*` records from `glossary_terms` to
+`capabilities`). `decompile.py` is retired from the normal flow but kept for adopting other repos:
+
+```bash
+python3 scripts/kg/decompile.py --check   # dry-run: partition + round-trip, write nothing
+python3 scripts/kg/decompile.py           # write kg-source/ shards (migration)
+```
+
+Tests: `scripts/kg/tests/test_decompile.py` (real-graph round-trip, idempotency, count-reconciliation,
+anomaly gate).
