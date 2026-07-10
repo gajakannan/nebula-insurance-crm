@@ -1,0 +1,11 @@
+id: entity:routing-decision-log
+label: RoutingDecisionLog
+rationale:
+  - adr: adr:013
+    section: F0022 Execution Contract
+    summary: Append-only routing evidence records matched, fallback, skipped, reassigned, rebalanced,
+      and exception outcomes for manager diagnostics.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - planning-mds/schemas/routing-event.schema.json

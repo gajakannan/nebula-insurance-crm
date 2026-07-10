@@ -1,0 +1,11 @@
+id: capability:claims-principal-normalization
+label: Claims Principal Normalization
+rationale:
+  - adr: adr:006
+    section: Context §3–4
+    summary: Claims normalization layer maps authentik JWT claims to Nebula's role model, keeping authorization
+      logic IdP-agnostic.
+source_docs:
+  - F0005/README.md
+  - planning-mds/architecture/SOLUTION-PATTERNS.md
+  - planning-mds/architecture/decisions/ADR-006-authentik-idp-migration.md

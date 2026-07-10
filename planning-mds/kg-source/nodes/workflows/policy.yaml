@@ -1,0 +1,33 @@
+id: workflow:policy
+label: Policy lifecycle
+rationale:
+  - adr: adr:011
+    section: Decision
+    summary: Policy lifecycle adopts the standardized state-machine + append-only transition history pattern
+      used by Submission, Renewal, and Account workflows.
+  - adr: adr:018
+    section: Decision §2
+    summary: Four canonical states (Pending/Issued/Cancelled/Expired). Cancelled→Issued is the sole non-monotonic
+      transition and is window-gated by LOB.
+source_docs:
+  - F0018/PRD.md
+  - F0018/README.md
+  - planning-mds/api/nebula-api.yaml
+  - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
+  - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+states:
+  - id: state:policy:pending
+    label: Pending
+    transitions_to:
+      - state:policy:issued
+  - id: state:policy:issued
+    label: Issued
+    transitions_to:
+      - state:policy:cancelled
+      - state:policy:expired
+  - id: state:policy:cancelled
+    label: Cancelled
+    transitions_to:
+      - state:policy:issued
+  - id: state:policy:expired
+    label: Expired

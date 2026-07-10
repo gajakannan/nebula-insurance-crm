@@ -1,0 +1,105 @@
+ui_routes:
+  - id: ui_route:account-create
+    label: /accounts/new
+    related_nodes:
+      - entity:account
+    route: /accounts/new
+    source_docs:
+      - experience/src/App.tsx
+      - experience/src/pages/CreateAccountPage.tsx
+  - id: ui_route:account-detail
+    label: /accounts/:accountId
+    related_nodes:
+      - entity:account
+      - workflow:account-lifecycle
+    route: /accounts/:accountId
+    source_docs:
+      - experience/src/App.tsx
+      - experience/src/pages/AccountDetailPage.tsx
+  - id: ui_route:accounts-list
+    label: /accounts
+    related_nodes:
+      - entity:account
+    route: /accounts
+    source_docs:
+      - experience/src/App.tsx
+      - experience/src/pages/AccountsPage.tsx
+  - id: ui_route:broker-create
+    label: /brokers/new
+    related_nodes:
+      - capability:broker-relationship-management
+      - entity:broker
+    route: /brokers/new
+    source_docs:
+      - experience/src/App.tsx
+      - experience/src/pages/CreateBrokerPage.tsx
+  - id: ui_route:broker-detail
+    label: /brokers/:brokerId
+    related_nodes:
+      - capability:broker-360
+      - entity:broker
+    route: /brokers/:brokerId
+    source_docs:
+      - experience/src/App.tsx
+      - experience/src/pages/BrokerDetailPage.tsx
+  - id: ui_route:brokers-list
+    label: /brokers
+    related_nodes:
+      - capability:broker-relationship-management
+      - entity:broker
+    route: /brokers
+    source_docs:
+      - experience/src/App.tsx
+      - experience/src/pages/BrokerListPage.tsx
+  - id: ui_route:dashboard-home
+    label: /
+    related_nodes:
+      - capability:dashboard-home
+    route: /
+    source_docs:
+      - experience/src/App.tsx
+      - experience/src/pages/DashboardPage.tsx
+  - id: ui_route:login
+    label: /login
+    related_nodes:
+      - capability:authentication
+    route: /login
+    source_docs:
+      - experience/src/App.tsx
+      - experience/src/pages/LoginPage.tsx
+  - id: ui_route:submission-create
+    label: /submissions/new
+    related_nodes:
+      - entity:submission
+      - workflow:submission
+    route: /submissions/new
+    source_docs:
+      - experience/src/App.tsx
+      - experience/src/pages/CreateSubmissionPage.tsx
+  - id: ui_route:submission-detail
+    label: /submissions/:submissionId
+    related_nodes:
+      - entity:submission
+      - workflow:submission
+    route: /submissions/:submissionId
+    source_docs:
+      - experience/src/App.tsx
+      - experience/src/pages/SubmissionDetailPage.tsx
+  - id: ui_route:submissions-list
+    label: /submissions
+    related_nodes:
+      - entity:submission
+      - workflow:submission
+    route: /submissions
+    source_docs:
+      - experience/src/App.tsx
+      - experience/src/pages/SubmissionsPage.tsx
+  - id: ui_route:task-center
+    label: /tasks
+    related_nodes:
+      - capability:task-center
+      - entity:task-item
+    route: /tasks
+    source_docs:
+      - experience/src/App.tsx
+      - experience/src/pages/TaskCenterPage.tsx

@@ -1,0 +1,10 @@
+id: capability:distribution-hierarchy-management
+label: Distribution Hierarchy Management
+rationale:
+  - adr: adr:026
+    section: Decision
+    summary: Arbitrary-depth self-referencing tree with cached ancestry; cycle/orphan-safe reparent and
+      bounded lazy traversal reads.
+source_docs:
+  - F0017/README.md
+  - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md

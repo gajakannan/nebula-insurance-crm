@@ -1,0 +1,10 @@
+id: entity:workflow-transition
+label: WorkflowTransition
+rationale:
+  - adr: adr:011
+    section: Decision
+    summary: Append-only transition history ensures audit consistency and prevents ad hoc status edits
+      across all CRM workflows.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md

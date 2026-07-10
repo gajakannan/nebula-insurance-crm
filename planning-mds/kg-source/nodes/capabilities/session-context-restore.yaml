@@ -1,0 +1,12 @@
+id: capability:session-context-restore
+label: Session Context Restore (Route + Form State)
+rationale:
+  - adr: adr:024
+    section: Decision §4
+    summary: sessionStorage snapshot keyed by (user_id, route, form_key); 1-hour TTL; 256 KB cap; mutations
+      require explicit user re-confirm — never auto-replayed.
+related_nodes:
+  - capability:authentication
+source_docs:
+  - F0035/F0035-S0003-forced-reauth-context-restore.md
+  - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md

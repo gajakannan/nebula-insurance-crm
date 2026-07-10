@@ -1,0 +1,11 @@
+id: entity:document-template
+label: DocumentTemplate
+rationale:
+  - adr: adr:012
+    section: Decision §10
+    summary: Templates are documents stored under <docroot>/templates/ with the same sidecar JSON shape;
+      materialising a template into a parent record creates an independent document with provenance.source
+      = template:{id}.
+source_docs:
+  - F0020/F0020-S0012-document-templates-library.md
+  - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md

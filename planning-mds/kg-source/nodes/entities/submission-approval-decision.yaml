@@ -1,0 +1,11 @@
+id: entity:submission-approval-decision
+label: SubmissionApprovalDecision
+rationale:
+  - adr: adr:025
+    section: Decision §3
+    summary: Append-only single-approver decision (approver, reason, authority context) gating bind; shaped
+      to extend to maker-checker / authority limits without a workflow rewrite.
+source_docs:
+  - F0019/F0019-S0003-underwriting-approval-checkpoint.md
+  - F0019/PRD.md
+  - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md

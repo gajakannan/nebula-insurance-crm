@@ -1,0 +1,3189 @@
+node_bindings:
+  - id: capability:authorization-enforcement
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        policies:
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+        tests:
+          - engine/tests/Nebula.Tests/Integration/BrokerAuthorizationTests.cs
+          - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
+          - engine/tests/Nebula.Tests/Integration/DashboardReadAuthorizationTests.cs
+          - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+  - id: capability:broker-insights
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0008-broker-insights/PRD.md
+          - planning-mds/features/archive/F0008-broker-insights/README.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+        architecture:
+          - planning-mds/architecture/data-model.md
+          - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+        schemas:
+          - planning-mds/schemas/broker-insight-benchmark.schema.json
+          - planning-mds/schemas/broker-insight-scorecard.schema.json
+          - planning-mds/schemas/broker-insight-snapshot.schema.json
+          - planning-mds/schemas/broker-insight-trend.schema.json
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: capability:broker-relationship-management
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Broker*.cs
+          - engine/src/Nebula.Application/Services/Broker*.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/BrokerRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Contracts/BrokerListProviderPactTests.cs
+          - engine/tests/Nebula.Tests/Integration/Broker*.cs
+      frontend:
+        features:
+          - experience/src/features/brokers/**
+        pages:
+          - experience/src/pages/BrokerDetailPage.tsx
+          - experience/src/pages/BrokerListPage.tsx
+          - experience/src/pages/CreateBrokerPage.tsx
+  - id: capability:dashboard-home
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/DashboardEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Dashboard*.cs
+          - engine/src/Nebula.Application/DTOs/Opportunity*.cs
+          - engine/src/Nebula.Application/Interfaces/IDashboardRepository.cs
+          - engine/src/Nebula.Application/Services/DashboardService.cs
+          - engine/src/Nebula.Application/Services/OpportunityFlowNodeEmphasisCalculator.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/DashboardRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/Dashboard*.cs
+          - engine/tests/Nebula.Tests/Unit/Dashboard/*.cs
+      frontend:
+        features:
+          - experience/src/features/kpis/**
+          - experience/src/features/nudges/**
+          - experience/src/features/opportunities/**
+        pages:
+          - experience/src/pages/DashboardPage.tsx
+        tests:
+          - experience/src/features/opportunities/tests/*.tsx
+          - experience/src/pages/tests/DashboardPage.integration.test.tsx
+  - id: capability:document-management
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IDocument*.cs
+          - engine/src/Nebula.Application/Services/Document*.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Documents/**
+        tests:
+          - engine/tests/Nebula.Tests/Unit/DocumentServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/documents/**
+        api:
+          - experience/src/services/api.ts
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+          - experience/src/pages/PolicyDetailPage.tsx
+          - experience/src/pages/RenewalDetailPage.tsx
+          - experience/src/pages/SubmissionDetailPage.tsx
+        tests:
+          - experience/src/features/documents/tests/ParentDocumentsPanel.test.tsx
+  - id: capability:dynamic-attribute-panel
+    paths:
+      docs:
+        api:
+          - planning-mds/api/nebula-api.yaml
+        architecture:
+          - planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md
+      frontend:
+        feature:
+          - experience/src/features/lob-attributes/**
+        pages:
+          - experience/src/pages/CreatePolicyPage.tsx
+          - experience/src/pages/CreateSubmissionPage.tsx
+          - experience/src/pages/PolicyDetailPage.tsx
+          - experience/src/pages/RenewalDetailPage.tsx
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: capability:dynamic-lob-attributes
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/DTOs/LobAttributeDtos.cs
+          - engine/src/Nebula.Application/Services/LobAttributeService.cs
+          - engine/src/Nebula.Application/Services/LobAttributeStorageResult.cs
+          - engine/src/Nebula.Application/Services/LobSchemaDefaults.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/LobAttributes/LobAttributeServiceTests.cs
+      docs:
+        architecture:
+          - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
+        schemas:
+          - planning-mds/schemas/lob-attribute-envelope.schema.json
+          - planning-mds/schemas/policy-endorsement.schema.json
+          - planning-mds/schemas/policy-version.schema.json
+          - planning-mds/schemas/policy.schema.json
+          - planning-mds/schemas/renewal.schema.json
+          - planning-mds/schemas/submission.schema.json
+      frontend:
+        feature:
+          - experience/src/features/lob-attributes/**
+  - id: capability:global-search
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SearchEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Interfaces/ISearchReportingServices.cs
+          - engine/src/Nebula.Application/Services/ProjectionVisibilityResolver.cs
+          - engine/src/Nebula.Application/Services/SearchService.cs
+          - engine/src/Nebula.Application/Validators/GlobalSearchQueryValidator.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Services/SearchProjectionService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/SearchReporting/SearchServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/search/**
+        pages:
+          - experience/src/pages/SearchResultsPage.tsx
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/README.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+        schemas:
+          - planning-mds/schemas/global-search-response.schema.json
+  - id: capability:neuron-companion
+    paths:
+      deployment:
+        - docker-compose.yml
+        - neuron/Dockerfile
+      neuron:
+        - neuron/app/**
+        - neuron/crm_agents/**
+        - neuron/orchestration/**
+      tests:
+        - neuron/tests/**
+  - id: capability:neuron-companion-telemetry
+    paths:
+      engine:
+        - engine/src/Nebula.Api/Endpoints/NeuronCompanionTelemetryEndpoints.cs
+        - engine/src/Nebula.Api/Models/NeuronCompanionTelemetryModels.cs
+        - engine/src/Nebula.Api/Services/NeuronCompanionTelemetryService.cs
+      neuron:
+        - neuron/app/telemetry.py
+      tests:
+        - engine/tests/Nebula.Tests/Integration/NeuronCompanionTelemetryEndpointTests.cs
+        - engine/tests/Nebula.Tests/Unit/Neuron/**
+        - neuron/tests/test_telemetry.py
+  - id: capability:neuron-day-at-a-glance-shell
+    paths:
+      frontend:
+        - experience/src/features/neuron/components/DayAtAGlance.tsx
+        - experience/src/features/neuron/components/NeuronPanel.tsx
+        - experience/src/features/neuron/hooks/useGlance.ts
+      neuron:
+        - neuron/app/orchestration/glance.py
+      tests:
+        - experience/src/features/neuron/components/DayAtAGlance.test.tsx
+        - neuron/tests/test_glance.py
+  - id: capability:neuron-message-envelope
+    paths:
+      frontend:
+        - experience/src/features/neuron/components/MessagePartView.tsx
+        - experience/src/features/neuron/registry/**
+      neuron:
+        - neuron/app/contracts/**
+        - neuron/app/envelope.py
+      tests:
+        - neuron/tests/test_envelope.py
+        - neuron/tests/test_schema_drift.py
+  - id: capability:neuron-operation-persistence
+    paths:
+      neuron:
+        - neuron/app/persistence/**
+      tests:
+        - neuron/tests/test_persistence.py
+  - id: capability:neuron-orchestration-runtime
+    paths:
+      neuron:
+        - neuron/app/bootstrap.py
+        - neuron/app/orchestration/**
+        - neuron/app/runtime.py
+        - neuron/crm_agents/cards/**
+        - neuron/orchestration/plans/**
+      tests:
+        - neuron/tests/test_agent_cards.py
+        - neuron/tests/test_bootstrap.py
+        - neuron/tests/test_plan_validation.py
+        - neuron/tests/test_registries.py
+        - neuron/tests/test_task_manager.py
+  - id: capability:neuron-outreach-drafter
+    paths:
+      engine:
+        - engine/src/Nebula.Application/DTOs/RenewalOutreachDtos.cs
+        - engine/src/Nebula.Application/Services/OutreachContentGuard.cs
+        - engine/src/Nebula.Application/Services/WorkflowStateMachine.cs
+      frontend:
+        - experience/src/features/neuron/components/OutreachDraftEditor.tsx
+      neuron:
+        - neuron/app/actions.py
+        - neuron/app/outreach_drafter.py
+      tests:
+        - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineOutreachTests.cs
+        - neuron/tests/test_actions.py
+  - id: capability:neuron-renewals-head
+    paths:
+      engine:
+        - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+        - engine/src/Nebula.Application/DTOs/RenewalCompanionContextDto.cs
+        - engine/src/Nebula.Application/DTOs/RenewalNeedsAttentionDtos.cs
+        - engine/src/Nebula.Application/Services/RenewalService.cs
+        - engine/src/Nebula.Infrastructure/Repositories/RenewalRepository.cs
+      frontend:
+        - experience/src/features/neuron/components/RenewalCompanionContext.tsx
+        - experience/src/features/neuron/components/RenewalsNeedsAttentionList.tsx
+      neuron:
+        - neuron/app/orchestration/zone_heads.py
+      tests:
+        - engine/tests/Nebula.Tests/Unit/Renewals/**
+        - neuron/tests/test_renewals_head.py
+  - id: capability:neuron-scope-guard
+    paths:
+      frontend:
+        - experience/src/features/neuron/components/Composer.tsx
+        - experience/src/features/neuron/hooks/useSendMessage.ts
+      neuron:
+        - neuron/app/messages.py
+        - neuron/app/scope_guard.py
+      tests:
+        - neuron/tests/test_scope_guard.py
+  - id: capability:neuron-zone-dispatch
+    paths:
+      frontend:
+        - experience/src/features/neuron/components/ZoneSlot.tsx
+      neuron:
+        - neuron/app/orchestration/glance.py
+        - neuron/app/orchestration/heads.py
+        - neuron/app/orchestration/zone_heads.py
+      tests:
+        - neuron/tests/test_glance.py
+        - neuron/tests/test_stub_zones.py
+  - id: capability:operational-reporting
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/OperationalReportEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/OperationalReportService.cs
+          - engine/src/Nebula.Application/Validators/OperationalReportQueryValidator.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/reports/**
+        pages:
+          - experience/src/pages/OperationalReportsPage.tsx
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/README.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+        schemas:
+          - planning-mds/schemas/operational-workload-report.schema.json
+          - planning-mds/schemas/workflow-aging-report.schema.json
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: capability:operations-routing
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/**
+        api:
+          - planning-mds/api/nebula-api.yaml
+        architecture:
+          - planning-mds/architecture/application-assembly-plan.md
+          - planning-mds/architecture/data-model.md
+          - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+          - planning-mds/architecture/feature-architecture-inventory-f0006-f0032.md
+        schemas:
+          - planning-mds/schemas/assignment-rule-upsert-request.schema.json
+          - planning-mds/schemas/assignment-rule.schema.json
+          - planning-mds/schemas/coverage-window-upsert-request.schema.json
+          - planning-mds/schemas/coverage-window.schema.json
+          - planning-mds/schemas/queue-member-upsert-request.schema.json
+          - planning-mds/schemas/queue-reassignment-request.schema.json
+          - planning-mds/schemas/queue-rebalance-request.schema.json
+          - planning-mds/schemas/queue-work-item.schema.json
+          - planning-mds/schemas/routing-event.schema.json
+          - planning-mds/schemas/work-queue-upsert-request.schema.json
+          - planning-mds/schemas/work-queue.schema.json
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: capability:outbound-document-generation
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/OutboundDocumentEndpoints.cs
+          - engine/src/Nebula.Api/Program.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/GeneratedDocumentDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IDocumentRenderer.cs
+          - engine/src/Nebula.Application/Interfaces/IOutboundMergeDataAssembler.cs
+          - engine/src/Nebula.Application/Services/OutboundDocumentGenerationService.cs
+          - engine/src/Nebula.Application/Services/OutboundTemplateGovernanceService.cs
+        config:
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/generated-document.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/registry.yaml
+          - engine/src/Nebula.Api/data/documents/configuration/taxonomy.yaml
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Documents/LocalFileSystemDocumentRepository.cs
+          - engine/src/Nebula.Infrastructure/Documents/OutboundMergeDataAssembler.cs
+          - engine/src/Nebula.Infrastructure/Documents/SimplePdfDocumentRenderer.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/OutboundDocumentGenerationServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/documents/**
+        tests:
+          - experience/src/features/documents/tests/ParentDocumentsPanel.test.tsx
+  - id: capability:product-schema-registry
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/LobAttributeDtos.cs
+          - engine/src/Nebula.Application/Interfaces/ILobSchemaRepository.cs
+          - engine/src/Nebula.Application/Services/LobSchemaDefaults.cs
+          - engine/src/Nebula.Application/Services/LobSchemaService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/LobBundleActivationEvent.cs
+          - engine/src/Nebula.Domain/Entities/LobProduct.cs
+          - engine/src/Nebula.Domain/Entities/LobProductVersion.cs
+          - engine/src/Nebula.Domain/Entities/LobSchemaBundle.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/LobBundleActivationEventConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/LobProductConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/LobProductVersionConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/LobSchemaBundleConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260507030000_F0034_ProductSchemaRegistryAndLobAttributes.cs
+          - engine/src/Nebula.Infrastructure/Repositories/LobSchemaRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/LobAttributes/LobAttributeServiceTests.cs
+      docs:
+        api:
+          - planning-mds/api/nebula-api.yaml
+        architecture:
+          - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
+          - planning-mds/architecture/openapi-30-projection-matrix.md
+          - planning-mds/architecture/validation-perf-baseline.md
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+        schemas:
+          - planning-mds/schemas/lob-schema-bundle.schema.json
+          - planning-mds/schemas/lob-validation-problem-details.schema.json
+  - id: capability:saved-views
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SavedViewEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/SavedViewService.cs
+          - engine/src/Nebula.Application/Validators/SavedViewUpsertRequestValidator.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/SearchReporting/SavedViewServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/search/**
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/README.md
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+        schemas:
+          - planning-mds/schemas/saved-view-upsert-request.schema.json
+          - planning-mds/schemas/saved-view.schema.json
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: capability:session-context-restore
+    paths:
+      docs:
+        architecture:
+          - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+      frontend:
+        feature:
+          - experience/src/features/forms/**
+        engine:
+          - experience/src/features/lob-attributes/engine/FormPreservation.tsx
+          - experience/src/features/lob-attributes/engine/rhfDirtyAdapter.ts
+  - id: capability:session-continuity
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SessionTelemetryEndpoints.cs
+          - engine/src/Nebula.Api/Helpers/ProblemDetailsHelper.cs
+          - engine/src/Nebula.Api/Models/SessionContinuityTelemetryModels.cs
+          - engine/src/Nebula.Api/Program.cs
+          - engine/src/Nebula.Api/Services/SessionContinuityTelemetryService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AuthProblemDetailsContractTests.cs
+          - engine/tests/Nebula.Tests/Integration/SessionTelemetryEndpointTests.cs
+          - engine/tests/Nebula.Tests/Integration/TestAuthHandler.cs
+      docs:
+        feature:
+          - planning-mds/features/archive/F0035-session-continuity-and-token-refresh/F0035-S0001-silent-token-renewal.md
+          - planning-mds/features/archive/F0035-session-continuity-and-token-refresh/F0035-S0002-idle-warning-modal.md
+          - planning-mds/features/archive/F0035-session-continuity-and-token-refresh/F0035-S0003-forced-reauth-context-restore.md
+          - planning-mds/features/archive/F0035-session-continuity-and-token-refresh/F0035-S0004-auth-error-semantics.md
+          - planning-mds/features/archive/F0035-session-continuity-and-token-refresh/F0035-S0005-session-telemetry-events.md
+          - planning-mds/features/archive/F0035-session-continuity-and-token-refresh/PRD.md
+          - planning-mds/features/archive/F0035-session-continuity-and-token-refresh/feature-assembly-plan.md
+        architecture:
+          - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+        schema:
+          - planning-mds/schemas/session-continuity-event.schema.json
+      frontend:
+        feature:
+          - experience/src/features/session-continuity/**/*.ts
+          - experience/src/features/session-continuity/**/*.tsx
+        api:
+          - experience/src/services/api.ts
+        app:
+          - experience/src/App.tsx
+        auth:
+          - experience/src/features/auth/authEvents.ts
+          - experience/src/features/auth/oidcUserManager.ts
+          - experience/src/features/auth/useAuthEventHandler.ts
+          - experience/src/features/auth/useSessionTeardown.ts
+        pages:
+          - experience/src/pages/AuthCallbackPage.tsx
+          - experience/src/pages/LoginPage.tsx
+        tests:
+          - experience/src/features/auth/tests/LoginPage.test.tsx
+          - experience/src/features/auth/tests/useSessionTeardown.test.tsx
+          - experience/src/features/session-continuity/tests/**/*.ts
+          - experience/src/features/session-continuity/tests/**/*.tsx
+          - experience/src/pages/tests/AuthCallbackPage.test.tsx
+          - experience/src/services/api.test.ts
+  - id: capability:task-center
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Task*.cs
+          - engine/src/Nebula.Application/Services/TaskService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/TaskRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/TaskServiceTests.cs
+      frontend:
+        features:
+          - experience/src/features/tasks/**
+        pages:
+          - experience/src/pages/TaskCenterPage.tsx
+  - id: capability:validator-equivalence
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/LobAttributeService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/LobAttributes/LobAttributeServiceTests.cs
+      docs:
+        architecture:
+          - planning-mds/architecture/decisions/ADR-022-validator-equivalence-restricted-profile.md
+          - planning-mds/architecture/validation-perf-baseline.md
+        schemas:
+          - planning-mds/schemas/lob-validation-problem-details.schema.json
+      frontend:
+        feature:
+          - experience/src/features/lob-attributes/lib/cyber.ts
+  - id: config_key:authentication-audience
+    paths:
+      backend:
+        config:
+          - engine/src/Nebula.Api/Program.cs
+      docs:
+        auth:
+          - planning-mds/architecture/decisions/ADR-Authentication-Strategy.md
+          - planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
+  - id: config_key:authentication-authority
+    paths:
+      backend:
+        config:
+          - engine/src/Nebula.Api/Endpoints/AuthEndpoints.cs
+          - engine/src/Nebula.Api/Program.cs
+      docs:
+        auth:
+          - planning-mds/architecture/decisions/ADR-Authentication-Strategy.md
+          - planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
+  - id: config_key:document-metadata-schema-registry
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IDocumentConfigurationProvider.cs
+          - engine/src/Nebula.Application/Services/DocumentService.cs
+        config:
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/acord.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/financials.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/loss-run.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/registry.yaml
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/supplemental.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/template.v1.schema.json
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Documents/YamlDocumentConfigurationProvider.cs
+      docs:
+        adr:
+          - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+        schemas:
+          - planning-mds/schemas/document-metadata-schema-registry.schema.json
+          - planning-mds/schemas/document-sidecar.schema.json
+      frontend:
+        feature:
+          - experience/src/features/documents/components/DocumentDetailView.tsx
+          - experience/src/features/documents/components/DocumentMetadataFields.tsx
+          - experience/src/features/documents/components/DocumentUploadDialog.tsx
+          - experience/src/features/documents/hooks.ts
+          - experience/src/features/documents/types.ts
+        api:
+          - experience/src/services/api.ts
+        mocks:
+          - experience/src/mocks/documents.ts
+  - id: config_key:oidc-authority
+    paths:
+      docs:
+        auth:
+          - planning-mds/features/archive/F0005-idp-migration/F0005-S0003-frontend-oidc-flow.md
+          - planning-mds/features/archive/F0015-frontend-quality-gates-and-test-infrastructure/GETTING-STARTED.md
+      frontend:
+        config:
+          - experience/src/features/auth/oidcUserManager.ts
+          - experience/src/pages/LoginPage.tsx
+        tests:
+          - experience/src/features/auth/tests/LoginPage.test.tsx
+  - id: config_key:oidc-client-id
+    paths:
+      docs:
+        auth:
+          - planning-mds/features/archive/F0005-idp-migration/F0005-S0003-frontend-oidc-flow.md
+          - planning-mds/features/archive/F0015-frontend-quality-gates-and-test-infrastructure/GETTING-STARTED.md
+      frontend:
+        config:
+          - experience/src/features/auth/oidcUserManager.ts
+          - experience/src/pages/LoginPage.tsx
+        tests:
+          - experience/src/features/auth/tests/LoginPage.test.tsx
+  - id: config_key:oidc-redirect-uri
+    paths:
+      docs:
+        auth:
+          - planning-mds/features/archive/F0005-idp-migration/F0005-S0003-frontend-oidc-flow.md
+          - planning-mds/features/archive/F0015-frontend-quality-gates-and-test-infrastructure/GETTING-STARTED.md
+      frontend:
+        config:
+          - experience/src/features/auth/oidcUserManager.ts
+          - experience/src/pages/LoginPage.tsx
+        tests:
+          - experience/src/features/auth/tests/LoginPage.test.tsx
+  - id: config_key:published-configuration-sets
+    paths:
+      docs:
+        planning:
+          - planning-mds/architecture/decisions/ADR-016-published-operational-configuration-governance.md
+          - planning-mds/features/F0032-admin-configuration-and-reference-data-console/**
+  - id: config_key:workflow-sla-thresholds
+    paths:
+      backend:
+        domain:
+          - engine/src/Nebula.Domain/Entities/WorkflowSlaThreshold.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/WorkflowSlaThresholdConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Repositories/DashboardRepository.cs
+          - engine/src/Nebula.Infrastructure/Repositories/SubmissionRepository.cs
+        migrations:
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*WorkflowSlaThreshold*.cs
+      docs:
+        planning:
+          - planning-mds/architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md
+          - planning-mds/architecture/decisions/ADR-014-workflow-sla-threshold-per-lob-extension.md
+          - planning-mds/features/archive/F0006-submission-intake-workflow/feature-assembly-plan.md
+          - planning-mds/features/archive/F0007-renewal-pipeline/feature-assembly-plan.md
+      frontend:
+        features:
+          - experience/src/features/opportunities/components/StageNodeStoryPanel.tsx
+  - id: endpoint:account-contact-create
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/AccountContactService.cs
+          - engine/src/Nebula.Application/Validators/AccountContactRequestValidator.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      frontend:
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+  - id: endpoint:account-contact-delete
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/AccountContactService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      frontend:
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+  - id: endpoint:account-contact-list
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/AccountContactDto.cs
+          - engine/src/Nebula.Application/Services/AccountContactService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      frontend:
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+  - id: endpoint:account-contact-update
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/AccountContactService.cs
+          - engine/src/Nebula.Application/Validators/AccountContactRequestValidator.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      frontend:
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+  - id: endpoint:account-create
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Validators/AccountCreateValidator.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      frontend:
+        app:
+          - experience/src/App.tsx
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/CreateAccountPage.tsx
+  - id: endpoint:account-detail
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/AccountDto.cs
+          - engine/src/Nebula.Application/Services/AccountService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      frontend:
+        app:
+          - experience/src/App.tsx
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+  - id: endpoint:account-lifecycle
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+        workflow:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Validators/AccountLifecycleValidator.cs
+          - engine/src/Nebula.Domain/Workflow/AccountLifecycleStateMachine.cs
+      frontend:
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+  - id: endpoint:account-list
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/AccountList*.cs
+          - engine/src/Nebula.Application/Services/AccountService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/AccountRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      frontend:
+        app:
+          - experience/src/App.tsx
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountsPage.tsx
+  - id: endpoint:account-merge
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+        workflow:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Validators/AccountMergeValidator.cs
+      frontend:
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+  - id: endpoint:account-policies
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/AccountPolicyListItemDto.cs
+          - engine/src/Nebula.Application/Services/AccountService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      frontend:
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+  - id: endpoint:account-relationship-change
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Validators/AccountRelationshipRequestValidator.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      frontend:
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+  - id: endpoint:account-renewals
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+      frontend:
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+          - experience/src/pages/RenewalDetailPage.tsx
+          - experience/src/pages/RenewalsPage.tsx
+  - id: endpoint:account-submissions
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+      frontend:
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+          - experience/src/pages/SubmissionDetailPage.tsx
+          - experience/src/pages/SubmissionsPage.tsx
+  - id: endpoint:account-summary
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/AccountSummary*.cs
+          - engine/src/Nebula.Application/Services/AccountService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/AccountRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      frontend:
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+          - experience/src/pages/AccountsPage.tsx
+  - id: endpoint:account-timeline
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+          - engine/src/Nebula.Api/Endpoints/TimelineEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Services/TimelineService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      frontend:
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+  - id: endpoint:account-update
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Validators/AccountUpdateValidator.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      frontend:
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+  - id: endpoint:broker-create
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/BrokerService.cs
+          - engine/src/Nebula.Application/Validators/BrokerCreateValidator.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/Broker*.cs
+      frontend:
+        pages:
+          - experience/src/pages/CreateBrokerPage.tsx
+        tests:
+          - experience/src/pages/tests/CreateBrokerPage.integration.test.tsx
+  - id: endpoint:broker-detail
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/BrokerService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/Broker*.cs
+      frontend:
+        pages:
+          - experience/src/pages/BrokerDetailPage.tsx
+        tests:
+          - experience/src/pages/tests/BrokerDetailPage.integration.test.tsx
+  - id: endpoint:broker-insight-benchmarks
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0008-broker-insights/PRD.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: endpoint:broker-insight-scorecards
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0008-broker-insights/PRD.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: endpoint:broker-insight-snapshot
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0008-broker-insights/PRD.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: endpoint:broker-insight-trends
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0008-broker-insights/PRD.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: endpoint:broker-list
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/BrokerService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Contracts/BrokerListProviderPactTests.cs
+          - engine/tests/Nebula.Tests/Integration/Broker*.cs
+      frontend:
+        pages:
+          - experience/src/pages/BrokerListPage.tsx
+        tests:
+          - experience/src/features/brokers/tests/BrokerListPage*.tsx
+  - id: endpoint:dashboard-kpis
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/DashboardEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Dashboard*.cs
+          - engine/src/Nebula.Application/Services/DashboardService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/Dashboard*.cs
+      frontend:
+        features:
+          - experience/src/features/kpis/**
+        pages:
+          - experience/src/pages/DashboardPage.tsx
+  - id: endpoint:dashboard-nudges
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/DashboardEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/DashboardService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/Dashboard*.cs
+      frontend:
+        features:
+          - experience/src/features/nudges/**
+        pages:
+          - experience/src/pages/DashboardPage.tsx
+  - id: endpoint:dashboard-opportunity-flow
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/DashboardEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Opportunity*.cs
+          - engine/src/Nebula.Application/Services/DashboardService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/Dashboard*.cs
+      frontend:
+        features:
+          - experience/src/features/opportunities/**
+        pages:
+          - experience/src/pages/DashboardPage.tsx
+  - id: endpoint:global-search-results
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: endpoint:internal-telemetry-session-continuity
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SessionTelemetryEndpoints.cs
+          - engine/src/Nebula.Api/Models/SessionContinuityTelemetryModels.cs
+          - engine/src/Nebula.Api/Program.cs
+          - engine/src/Nebula.Api/Services/SessionContinuityTelemetryService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/SessionTelemetryEndpointTests.cs
+      docs:
+        api:
+          - planning-mds/api/nebula-api.yaml
+        schema:
+          - planning-mds/schemas/session-continuity-event.schema.json
+      frontend:
+        telemetry:
+          - experience/src/features/session-continuity/deferredTelemetryBuffer.ts
+          - experience/src/features/session-continuity/sessionTelemetry.ts
+        tests:
+          - experience/src/features/session-continuity/tests/sessionTelemetry.test.ts
+  - id: endpoint:lob-schema-activate
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
+      docs:
+        api:
+          - planning-mds/api/nebula-api.yaml
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: endpoint:lob-schema-bundle-detail
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
+      docs:
+        api:
+          - planning-mds/api/nebula-api.yaml
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: endpoint:lob-schemas-active
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/LobSchemaEndpoints.cs
+      docs:
+        api:
+          - planning-mds/api/nebula-api.yaml
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: endpoint:neuron-action-callback
+    paths:
+      neuron:
+        - neuron/app/actions.py
+        - neuron/app/main.py
+  - id: endpoint:neuron-companion-telemetry
+    paths:
+      engine:
+        - engine/src/Nebula.Api/Endpoints/NeuronCompanionTelemetryEndpoints.cs
+      neuron:
+        - neuron/app/telemetry.py
+  - id: endpoint:neuron-glance
+    paths:
+      neuron:
+        - neuron/app/main.py
+        - neuron/app/orchestration/glance.py
+  - id: endpoint:neuron-message-send
+    paths:
+      neuron:
+        - neuron/app/main.py
+        - neuron/app/messages.py
+  - id: endpoint:operational-workload-report
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: endpoint:renewal-assignment
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Renewal*.cs
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+          - engine/src/Nebula.Application/Validators/Renewal*.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+  - id: endpoint:renewal-create
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Renewal*.cs
+          - engine/src/Nebula.Application/Interfaces/IRenewalRepository.cs
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+          - engine/src/Nebula.Application/Validators/RenewalCreateValidator.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/RenewalRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+  - id: endpoint:renewal-detail
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/RenewalDto.cs
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+  - id: endpoint:renewal-list
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Renewal*.cs
+          - engine/src/Nebula.Application/Interfaces/IRenewalRepository.cs
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/RenewalRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+  - id: endpoint:renewal-timeline
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+  - id: endpoint:renewal-transition
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+          - engine/src/Nebula.Application/Services/WorkflowStateMachine.cs
+          - engine/src/Nebula.Application/Validators/Renewal*.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
+  - id: endpoint:saved-view-archive
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: endpoint:saved-view-create
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: endpoint:saved-view-default
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: endpoint:saved-view-detail
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: endpoint:saved-view-list
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: endpoint:saved-view-update
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: endpoint:submission-approval
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionApprovalDecisionDto.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        features:
+          - experience/src/features/submissions/hooks/useSubmissionApproval.ts
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: endpoint:submission-archive
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionArchiveRequestDto.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        features:
+          - experience/src/features/submissions/hooks/useArchiveSubmission.ts
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: endpoint:submission-assignment
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/Validators/SubmissionAssignmentValidator.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+  - id: endpoint:submission-bind-confirmation
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionBindRequestDto.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        features:
+          - experience/src/features/submissions/hooks/useBindSubmission.ts
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: endpoint:submission-bind-request
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionBindRequestDto.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        features:
+          - experience/src/features/submissions/hooks/useBindSubmission.ts
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: endpoint:submission-create
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/Validators/SubmissionCreateValidator.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+      frontend:
+        pages:
+          - experience/src/pages/CreateSubmissionPage.tsx
+        tests:
+          - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
+  - id: endpoint:submission-detail
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionDto.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+      frontend:
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+        tests:
+          - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
+  - id: endpoint:submission-list
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionList*.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+      frontend:
+        pages:
+          - experience/src/pages/SubmissionsPage.tsx
+        tests:
+          - experience/src/pages/tests/SubmissionsPage.integration.test.tsx
+  - id: endpoint:submission-quote-packet-read
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionQuotePacketDto.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        features:
+          - experience/src/features/submissions/hooks/useSubmissionQuotePacket.ts
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: endpoint:submission-quote-packet-update
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionQuotePacketDto.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        features:
+          - experience/src/features/submissions/hooks/useSubmissionQuotePacket.ts
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: endpoint:submission-reactivate
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionArchiveRequestDto.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        features:
+          - experience/src/features/submissions/hooks/useArchiveSubmission.ts
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: endpoint:submission-timeline
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+          - engine/src/Nebula.Api/Endpoints/TimelineEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/Services/TimelineService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+      frontend:
+        features:
+          - experience/src/features/timeline/**
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: endpoint:submission-transition
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/Services/WorkflowStateMachine.cs
+          - engine/src/Nebula.Application/Validators/WorkflowTransitionRequestValidator.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
+  - id: endpoint:task-create
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/TaskService.cs
+          - engine/src/Nebula.Application/Validators/TaskCreateRequestValidator.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
+  - id: endpoint:task-detail
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/TaskDto.cs
+          - engine/src/Nebula.Application/Services/TaskService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
+      frontend:
+        pages:
+          - experience/src/pages/TaskCenterPage.tsx
+  - id: endpoint:task-list
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/TaskList*.cs
+          - engine/src/Nebula.Application/Services/TaskService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
+      frontend:
+        pages:
+          - experience/src/pages/TaskCenterPage.tsx
+  - id: endpoint:task-my-list
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/TaskService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
+      frontend:
+        pages:
+          - experience/src/pages/TaskCenterPage.tsx
+  - id: endpoint:timeline-events
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/TimelineEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Timeline*.cs
+          - engine/src/Nebula.Application/Services/TimelineService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/TimelineRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
+      frontend:
+        features:
+          - experience/src/contracts/timeline.ts
+          - experience/src/features/timeline/**
+  - id: endpoint:workflow-aging-report
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+  - id: entity:account
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Account*.cs
+          - engine/src/Nebula.Application/Interfaces/IAccount*.cs
+          - engine/src/Nebula.Application/Services/Account*.cs
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/Validators/Account*.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/Account.cs
+          - engine/src/Nebula.Domain/Entities/AccountContact.cs
+          - engine/src/Nebula.Domain/Entities/AccountRelationshipHistory.cs
+          - engine/src/Nebula.Domain/Workflow/AccountLifecycleStateMachine.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/Account*.cs
+          - engine/src/Nebula.Infrastructure/Persistence/DevSeedData.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0016*Account*.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0016*Fallback*.cs
+          - engine/src/Nebula.Infrastructure/Repositories/Account*.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+          - engine/tests/Nebula.Tests/Integration/DashboardScopeFilteringTests.cs
+          - engine/tests/Nebula.Tests/Integration/NudgePriorityTests.cs
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+      frontend:
+        feature:
+          - experience/src/features/accounts/**
+        app:
+          - experience/src/App.tsx
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+          - experience/src/pages/AccountsPage.tsx
+          - experience/src/pages/CreateAccountPage.tsx
+          - experience/src/pages/RenewalDetailPage.tsx
+          - experience/src/pages/RenewalsPage.tsx
+          - experience/src/pages/SubmissionDetailPage.tsx
+          - experience/src/pages/SubmissionsPage.tsx
+  - id: entity:activity-timeline-event
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/TimelineEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Timeline*.cs
+          - engine/src/Nebula.Application/Interfaces/ITimelineRepository.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ActivityTimelineEventConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Repositories/TimelineRepository.cs
+      frontend:
+        feature:
+          - experience/src/contracts/timeline.ts
+          - experience/src/features/timeline/**
+  - id: entity:broker
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Broker*.cs
+          - engine/src/Nebula.Application/Interfaces/IBrokerRepository.cs
+          - engine/src/Nebula.Application/Services/Broker*.cs
+          - engine/src/Nebula.Application/Validators/Broker*.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/Broker.cs
+          - engine/src/Nebula.Domain/Entities/BrokerRegion.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/Broker*.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*Broker*.cs
+          - engine/src/Nebula.Infrastructure/Repositories/BrokerRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Contracts/BrokerListProviderPactTests.cs
+          - engine/tests/Nebula.Tests/Integration/Broker*.cs
+          - engine/tests/Nebula.Tests/Unit/BrokerScopeResolverTests/BrokerScopeResolverTests.cs
+      frontend:
+        feature:
+          - experience/src/features/brokers/**
+        pages:
+          - experience/src/pages/BrokerDetailPage.tsx
+          - experience/src/pages/BrokerListPage.tsx
+          - experience/src/pages/CreateBrokerPage.tsx
+        tests:
+          - experience/src/features/brokers/tests/BrokerListPage*.tsx
+          - experience/src/pages/tests/BrokerDetailPage.integration.test.tsx
+          - experience/src/pages/tests/CreateBrokerPage.integration.test.tsx
+  - id: entity:broker-insight-projection
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0008-broker-insights/PRD.md
+          - planning-mds/features/archive/F0008-broker-insights/README.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+        architecture:
+          - planning-mds/architecture/data-model.md
+          - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+        schemas:
+          - planning-mds/schemas/broker-insight-benchmark.schema.json
+          - planning-mds/schemas/broker-insight-scorecard.schema.json
+          - planning-mds/schemas/broker-insight-snapshot.schema.json
+          - planning-mds/schemas/broker-insight-trend.schema.json
+  - id: entity:carrier-market
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0028-carrier-and-market-relationship-management/**
+        api:
+          - planning-mds/api/nebula-api.yaml
+        schemas:
+          - planning-mds/schemas/carrier-appetite-note.schema.json
+          - planning-mds/schemas/carrier-appointment.schema.json
+          - planning-mds/schemas/carrier-market*.schema.json
+  - id: entity:communication-event
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/CommunicationEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Communication*.cs
+          - engine/src/Nebula.Application/Interfaces/ICommunicationRepository.cs
+          - engine/src/Nebula.Application/Services/CommunicationService.cs
+          - engine/src/Nebula.Application/Validators/Communication*.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/Communication*.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/Communication*.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0021*Communication*.cs
+          - engine/src/Nebula.Infrastructure/Repositories/CommunicationRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/**/Communication*.cs
+      docs:
+        architecture:
+          - planning-mds/architecture/decisions/ADR-029-communication-activity-capture-and-redaction.md
+          - planning-mds/features/archive/F0021-communication-hub-and-activity-capture/architecture-plan.md
+          - planning-mds/features/archive/F0021-communication-hub-and-activity-capture/feature-assembly-plan.md
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+        schemas:
+          - planning-mds/schemas/activity-event-payloads.schema.json
+          - planning-mds/schemas/communication-event*.schema.json
+      frontend:
+        feature:
+          - experience/src/features/communications/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+          - experience/src/pages/BrokerDetailPage.tsx
+          - experience/src/pages/PolicyDetailPage.tsx
+          - experience/src/pages/RenewalDetailPage.tsx
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: entity:document
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+          - engine/src/Nebula.Api/Program.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IDocumentClassificationGate.cs
+          - engine/src/Nebula.Application/Interfaces/IDocumentConfigurationProvider.cs
+          - engine/src/Nebula.Application/Interfaces/IDocumentParentAccessResolver.cs
+          - engine/src/Nebula.Application/Interfaces/IDocumentRepository.cs
+          - engine/src/Nebula.Application/Interfaces/IQuarantineScanner.cs
+          - engine/src/Nebula.Application/Services/DocumentRetentionService.cs
+          - engine/src/Nebula.Application/Services/DocumentService.cs
+          - engine/src/Nebula.Application/Services/DocumentTemplateService.cs
+        config:
+          - engine/src/Nebula.Api/data/documents/configuration/casbin-document-roles.yaml
+          - engine/src/Nebula.Api/data/documents/configuration/document-retention-policies.yaml
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/acord.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/financials.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/loss-run.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/registry.yaml
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/supplemental.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/template.v1.schema.json
+          - engine/src/Nebula.Api/data/documents/configuration/taxonomy.yaml
+        domain:
+          - engine/src/Nebula.Domain/Documents/DocumentConstants.cs
+          - engine/src/Nebula.Domain/Documents/DocumentIds.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/DependencyInjection.cs
+          - engine/src/Nebula.Infrastructure/Documents/DocumentClassificationGate.cs
+          - engine/src/Nebula.Infrastructure/Documents/DocumentParentAccessResolver.cs
+          - engine/src/Nebula.Infrastructure/Documents/DocumentRetentionHostedService.cs
+          - engine/src/Nebula.Infrastructure/Documents/LocalFileSystemDocumentRepository.cs
+          - engine/src/Nebula.Infrastructure/Documents/MockTimerScanner.cs
+          - engine/src/Nebula.Infrastructure/Documents/QuarantinePromotionWorker.cs
+          - engine/src/Nebula.Infrastructure/Documents/YamlDocumentConfigurationProvider.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/DocumentServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/documents/components/DocumentDetailView.tsx
+          - experience/src/features/documents/components/DocumentMetadataFields.tsx
+          - experience/src/features/documents/components/DocumentTemplatesLibrary.tsx
+          - experience/src/features/documents/components/DocumentUploadDialog.tsx
+          - experience/src/features/documents/components/ParentDocumentsPanel.tsx
+          - experience/src/features/documents/hooks.ts
+          - experience/src/features/documents/index.ts
+          - experience/src/features/documents/types.ts
+        api:
+          - experience/src/services/api.ts
+        mocks:
+          - experience/src/mocks/data.ts
+          - experience/src/mocks/documents.ts
+          - experience/src/mocks/handlers.ts
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+          - experience/src/pages/PolicyDetailPage.tsx
+          - experience/src/pages/RenewalDetailPage.tsx
+          - experience/src/pages/SubmissionDetailPage.tsx
+        tests:
+          - experience/src/features/documents/tests/ParentDocumentsPanel.test.tsx
+          - experience/src/services/api.test.ts
+  - id: entity:document-template
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
+          - engine/src/Nebula.Application/Services/DocumentTemplateService.cs
+        config:
+          - engine/src/Nebula.Api/data/documents/configuration/metadata-schemas/template.v1.schema.json
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Documents/LocalFileSystemDocumentRepository.cs
+          - engine/src/Nebula.Infrastructure/Documents/YamlDocumentConfigurationProvider.cs
+      frontend:
+        feature:
+          - experience/src/features/documents/components/DocumentTemplatesLibrary.tsx
+          - experience/src/features/documents/components/ParentDocumentsPanel.tsx
+        api:
+          - experience/src/services/api.ts
+        mocks:
+          - experience/src/mocks/documents.ts
+  - id: entity:mga
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/ReferenceDataEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Interfaces/IReferenceDataRepository.cs
+          - engine/src/Nebula.Application/Services/ReferenceDataService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/ReferenceDataRepository.cs
+  - id: entity:operational-report-projection
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/DTOs/OperationalReportDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IOperationalReportProjectionRepository.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/OperationalReportProjection.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/OperationalReportProjectionConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Repositories/OperationalReportProjectionRepository.cs
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+        architecture:
+          - planning-mds/architecture/data-model.md
+          - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+        schemas:
+          - planning-mds/schemas/operational-workload-report.schema.json
+          - planning-mds/schemas/workflow-aging-report.schema.json
+  - id: entity:policy
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/PolicyEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/PolicyDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IPolicyRepository.cs
+          - engine/src/Nebula.Application/Services/PolicyService.cs
+          - engine/src/Nebula.Application/Validators/PolicyValidators.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/CarrierRef.cs
+          - engine/src/Nebula.Domain/Entities/Policy.cs
+          - engine/src/Nebula.Domain/Entities/PolicyCoverageLine.cs
+          - engine/src/Nebula.Domain/Entities/PolicyEndorsement.cs
+          - engine/src/Nebula.Domain/Entities/PolicyVersion.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/CarrierRefConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/PolicyConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/PolicyCoverageLineConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/PolicyEndorsementConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/PolicyVersionConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260422021000_F0018_PolicyLifecycleAggregate.cs
+          - engine/src/Nebula.Infrastructure/Repositories/PolicyRepository.cs
+          - engine/src/Nebula.Infrastructure/Services/PolicyExpirationHostedService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+          - engine/tests/Nebula.Tests/Integration/NudgePriorityTests.cs
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/policies/**
+        mocks:
+          - experience/src/mocks/handlers.ts
+          - experience/src/mocks/policies.ts
+        pages:
+          - experience/src/pages/CreatePolicyPage.tsx
+          - experience/src/pages/PoliciesPage.tsx
+          - experience/src/pages/PolicyDetailPage.tsx
+          - experience/src/pages/PolicyImportPage.tsx
+  - id: entity:renewal
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Renewal*.cs
+          - engine/src/Nebula.Application/DTOs/WorkflowTransition*.cs
+          - engine/src/Nebula.Application/Interfaces/IRenewalRepository.cs
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+          - engine/src/Nebula.Application/Validators/Renewal*.cs
+          - engine/src/Nebula.Application/Validators/WorkflowTransitionRequestValidator.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ReferenceRenewalStatus.cs
+          - engine/src/Nebula.Domain/Entities/Renewal.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ReferenceRenewalStatusConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/RenewalConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0007*Renewal*.cs
+          - engine/src/Nebula.Infrastructure/Repositories/RenewalRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
+  - id: entity:saved-view
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/DTOs/SavedViewDtos.cs
+          - engine/src/Nebula.Application/Interfaces/ISavedViewRepository.cs
+          - engine/src/Nebula.Application/Services/SavedViewService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/SavedView.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SavedViewConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Repositories/SavedViewRepository.cs
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+        architecture:
+          - planning-mds/architecture/data-model.md
+          - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+        schemas:
+          - planning-mds/schemas/saved-view-upsert-request.schema.json
+          - planning-mds/schemas/saved-view.schema.json
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: entity:saved-view-audit-event
+    paths:
+      backend:
+        domain:
+          - engine/src/Nebula.Domain/Entities/SavedViewAuditEvent.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SavedViewAuditEventConfiguration.cs
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        architecture:
+          - planning-mds/architecture/data-model.md
+          - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+  - id: entity:search-document
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/DTOs/SearchDtos.cs
+          - engine/src/Nebula.Application/Interfaces/ISearchDocumentRepository.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/SearchDocument.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SearchDocumentConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0023_SearchSavedViewsOperationalReporting.cs
+          - engine/src/Nebula.Infrastructure/Repositories/SearchDocumentRepository.cs
+      planning:
+        feature:
+          - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+        architecture:
+          - planning-mds/architecture/data-model.md
+          - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+        schemas:
+          - planning-mds/schemas/global-search-response.schema.json
+          - planning-mds/schemas/global-search-result.schema.json
+  - id: entity:service-case
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/ServiceCaseEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/ServiceCase*.cs
+          - engine/src/Nebula.Application/Interfaces/IServiceCaseRepository.cs
+          - engine/src/Nebula.Application/Services/ServiceCaseService.cs
+          - engine/src/Nebula.Application/Validators/ServiceCase*.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ServiceCase*.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ServiceCase*.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0024*ServiceCases*.cs
+          - engine/src/Nebula.Infrastructure/Repositories/ServiceCaseRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/**/ServiceCase*.cs
+      docs:
+        architecture:
+          - planning-mds/architecture/decisions/ADR-030-service-case-and-claim-reference-boundary.md
+          - planning-mds/features/archive/F0024-claims-and-service-case-tracking/api-schema-deltas.md
+          - planning-mds/features/archive/F0024-claims-and-service-case-tracking/architecture-plan.md
+          - planning-mds/features/archive/F0024-claims-and-service-case-tracking/authorization-deltas.md
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+        schemas:
+          - planning-mds/schemas/activity-event-payloads.schema.json
+          - planning-mds/schemas/paginated-service-case-list.schema.json
+          - planning-mds/schemas/service-case*.schema.json
+      frontend:
+        feature:
+          - experience/src/features/service-cases/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+          - experience/src/pages/PolicyDetailPage.tsx
+          - experience/src/pages/ServiceCaseDetailPage.tsx
+          - experience/src/pages/ServiceCasesPage.tsx
+  - id: entity:submission
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Submission*.cs
+          - engine/src/Nebula.Application/Interfaces/ISubmission*.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/Validators/Submission*.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/Submission*.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/Submission*.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0006*Submission*.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0019*Submission*.cs
+          - engine/src/Nebula.Infrastructure/Repositories/Submission*.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
+      frontend:
+        feature:
+          - experience/src/features/submissions/**
+        pages:
+          - experience/src/pages/CreateSubmissionPage.tsx
+          - experience/src/pages/SubmissionDetailPage.tsx
+          - experience/src/pages/SubmissionsPage.tsx
+        tests:
+          - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
+          - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
+          - experience/src/pages/tests/SubmissionsPage.integration.test.tsx
+  - id: entity:submission-approval-decision
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionApprovalDecisionDto.cs
+          - engine/src/Nebula.Application/Interfaces/ISubmissionApprovalDecisionRepository.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/SubmissionApprovalDecision.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionApprovalDecisionConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0019*Submission*.cs
+          - engine/src/Nebula.Infrastructure/Repositories/SubmissionApprovalDecisionRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/submissions/hooks/useSubmissionApproval.ts
+          - experience/src/features/submissions/types.ts
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: entity:submission-bind-handoff
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionBindRequestDto.cs
+          - engine/src/Nebula.Application/DTOs/SubmissionDto.cs
+          - engine/src/Nebula.Application/Interfaces/ISubmissionBindHandoffRepository.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/SubmissionBindHandoff.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionBindHandoffConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0019*Submission*.cs
+          - engine/src/Nebula.Infrastructure/Repositories/SubmissionBindHandoffRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/submissions/hooks/useBindSubmission.ts
+          - experience/src/features/submissions/types.ts
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: entity:submission-quote-packet
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/SubmissionQuotePacketDto.cs
+          - engine/src/Nebula.Application/Interfaces/ISubmissionQuotePacketRepository.cs
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/SubmissionQuotePacket.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionQuotePacketConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*F0019*Submission*.cs
+          - engine/src/Nebula.Infrastructure/Repositories/SubmissionQuotePacketRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/submissions/hooks/useSubmissionQuotePacket.ts
+          - experience/src/features/submissions/types.ts
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: entity:task-item
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Task*.cs
+          - engine/src/Nebula.Application/Interfaces/ITaskRepository.cs
+          - engine/src/Nebula.Application/Services/TaskService.cs
+          - engine/src/Nebula.Application/Validators/Task*.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ReferenceTaskStatus.cs
+          - engine/src/Nebula.Domain/Entities/TaskItem.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ReferenceTaskStatusConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/TaskItemConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/*Task*.cs
+          - engine/src/Nebula.Infrastructure/Repositories/TaskRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/TaskServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/tasks/**
+        pages:
+          - experience/src/pages/TaskCenterPage.tsx
+  - id: entity:user-profile
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Services/HttpCurrentUserService.cs
+        application:
+          - engine/src/Nebula.Application/Common/ICurrentUserService.cs
+          - engine/src/Nebula.Application/Interfaces/IUserProfileRepository.cs
+          - engine/src/Nebula.Application/Services/UserService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/UserProfile.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/UserProfileConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Repositories/UserProfileRepository.cs
+      frontend:
+        feature:
+          - experience/src/features/auth/**
+        pages:
+          - experience/src/pages/AuthCallbackPage.tsx
+        tests:
+          - experience/src/pages/tests/AuthCallbackPage.test.tsx
+  - id: entity:workflow-transition
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/DTOs/WorkflowTransition*.cs
+          - engine/src/Nebula.Application/Interfaces/IWorkflowTransitionRepository.cs
+          - engine/src/Nebula.Application/Services/WorkflowStateMachine.cs
+          - engine/src/Nebula.Application/Validators/WorkflowTransitionRequestValidator.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/WorkflowTransition.cs
+          - engine/src/Nebula.Domain/Workflow/OpportunityStatusCatalog.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/WorkflowTransitionConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Repositories/WorkflowTransitionRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
+  - id: event:broker-created
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/BrokerService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/TimelineRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/Broker*.cs
+  - id: event:broker-updated
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/BrokerService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/TimelineRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/Broker*.cs
+  - id: event:contact-created
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/ContactEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/ContactService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/TimelineRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/ContactEndpointTests.cs
+  - id: event:renewal-transitioned
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+          - engine/src/Nebula.Application/Services/WorkflowStateMachine.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+          - engine/src/Nebula.Domain/Entities/WorkflowTransition.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
+  - id: event:submission-approval-declined
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+          - engine/src/Nebula.Domain/Entities/SubmissionApprovalDecision.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+  - id: event:submission-approval-granted
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+          - engine/src/Nebula.Domain/Entities/SubmissionApprovalDecision.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+  - id: event:submission-archived
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+          - engine/src/Nebula.Domain/Entities/Submission.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+  - id: event:submission-created
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+          - engine/src/Nebula.Domain/Entities/WorkflowTransition.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+  - id: event:submission-packet-updated
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+          - engine/src/Nebula.Domain/Entities/SubmissionQuotePacket.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+  - id: event:submission-reactivated
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+          - engine/src/Nebula.Domain/Entities/Submission.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+  - id: event:submission-transitioned
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/Services/WorkflowStateMachine.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+          - engine/src/Nebula.Domain/Entities/WorkflowTransition.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
+  - id: event:task-created
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/TaskService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
+  - id: event:task-updated
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Services/TaskService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ActivityTimelineEvent.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
+  - id: evidence:broker-access-integration-tests
+    paths:
+      backend:
+        tests:
+          - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
+  - id: evidence:broker-list-pact-tests
+    paths:
+      backend:
+        tests:
+          - engine/tests/Nebula.Tests/Contracts/BrokerListProviderPactTests.cs
+  - id: evidence:theme-smoke-visual-tests
+    paths:
+      frontend:
+        tests:
+          - experience/tests/visual/theme-smoke.spec.ts
+  - id: evidence:workflow-endpoint-integration-tests
+    paths:
+      backend:
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+  - id: evidence:workflow-state-machine-tests
+    paths:
+      backend:
+        tests:
+          - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
+  - id: migration:f0004-task-and-user-profile-indexes
+    paths:
+      backend:
+        migrations:
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260322184705_F0004_AddTaskAndUserProfileIndexes.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs
+  - id: migration:f0005-idp-principal-refactor
+    paths:
+      backend:
+        migrations:
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260301000000_F0005_IdpPrincipalRefactor.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs
+  - id: migration:f0006-submission-intake-columns
+    paths:
+      backend:
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionConfiguration.cs
+        migrations:
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260331164454_F0006_SubmissionIntakeColumns.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs
+  - id: migration:f0007-renewal-entity-shape-reconcile
+    paths:
+      backend:
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/RenewalConfiguration.cs
+        migrations:
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260408013334_F0007_ReconcileRenewalEntityShape.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs
+  - id: migration:f0007-renewal-workflow-states-reconcile
+    paths:
+      backend:
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ReferenceRenewalStatusConfiguration.cs
+        migrations:
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260407151358_F0007_ReconcileRenewalWorkflowStates.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs
+  - id: migration:f0013-workflow-sla-thresholds
+    paths:
+      backend:
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/WorkflowSlaThresholdConfiguration.cs
+        migrations:
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260316014518_F0013_AddLineOfBusinessAndWorkflowSlaThresholds.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs
+  - id: migration:f0016-account-contacts-and-relationship-history
+    paths:
+      backend:
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/AccountContactConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/AccountRelationshipHistoryConfiguration.cs
+        migrations:
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260414121000_F0016_AccountContactsAndRelationshipHistory.cs
+  - id: migration:f0016-account-lifecycle
+    paths:
+      backend:
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/AccountConfiguration.cs
+        migrations:
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260414120000_F0016_AccountLifecycle.cs
+  - id: migration:f0016-dependent-fallback-denormalization
+    paths:
+      backend:
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/RenewalConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/SubmissionConfiguration.cs
+        migrations:
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260414122000_F0016_DependentFallbackDenormalization.cs
+  - id: migration:initial-create
+    paths:
+      backend:
+        migrations:
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260223071234_InitialCreate.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs
+  - id: policy_rule:account-contact-manage
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/AccountContactService.cs
+          - engine/src/Nebula.Application/Validators/AccountContactRequestValidator.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-create
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Validators/AccountCreateValidator.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-deactivate
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+        workflow:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Validators/AccountLifecycleValidator.cs
+          - engine/src/Nebula.Domain/Workflow/AccountLifecycleStateMachine.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-delete
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+        workflow:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Validators/AccountLifecycleValidator.cs
+          - engine/src/Nebula.Domain/Workflow/AccountLifecycleStateMachine.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-merge
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+        workflow:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Validators/AccountMergeValidator.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-reactivate
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+        workflow:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Validators/AccountLifecycleValidator.cs
+          - engine/src/Nebula.Domain/Workflow/AccountLifecycleStateMachine.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-read
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Interfaces/IAccountRepository.cs
+          - engine/src/Nebula.Application/Services/AccountService.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/AccountRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-relationship-change
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Validators/AccountRelationshipRequestValidator.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-update
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Application/Validators/AccountUpdateValidator.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:broker-insight-read
+    paths:
+      planning:
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:broker-read
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/BrokerService.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/BrokerRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/BrokerAuthorizationTests.cs
+          - engine/tests/Nebula.Tests/Integration/BrokerEndpointTests.cs
+          - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
+      docs:
+        authz:
+          - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:broker-search
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/BrokerService.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/BrokerRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/BrokerAuthorizationTests.cs
+          - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
+      docs:
+        authz:
+          - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:contact-read
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/ContactBrokerUserDto.cs
+          - engine/src/Nebula.Application/Services/BrokerService.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/BrokerRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/BrokerAuthorizationTests.cs
+          - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
+      docs:
+        authz:
+          - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:dashboard-nudge-read
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/DashboardEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Interfaces/IDashboardRepository.cs
+          - engine/src/Nebula.Application/Services/DashboardService.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/DashboardRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
+          - engine/tests/Nebula.Tests/Integration/DashboardReadAuthorizationTests.cs
+          - engine/tests/Nebula.Tests/Integration/DashboardScopeFilteringTests.cs
+      docs:
+        authz:
+          - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:global-search-read
+    paths:
+      planning:
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:operational-report-read
+    paths:
+      planning:
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:renewal-assign
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+          - engine/src/Nebula.Api/Endpoints/UserEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Interfaces/IUserProfileRepository.cs
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+          - engine/src/Nebula.Application/Services/UserService.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:renewal-create
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Interfaces/IRenewalRepository.cs
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+          - engine/src/Nebula.Application/Validators/RenewalCreateValidator.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/RenewalRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:renewal-read
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Interfaces/IRenewalRepository.cs
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/RenewalRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:renewal-transition
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
+        workflow:
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+          - engine/src/Nebula.Application/Services/WorkflowStateMachine.cs
+          - engine/src/Nebula.Application/Validators/WorkflowTransitionRequestValidator.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:saved-view-default
+    paths:
+      planning:
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:saved-view-manage
+    paths:
+      planning:
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:saved-view-read
+    paths:
+      planning:
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:task-create
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/TaskService.cs
+          - engine/src/Nebula.Application/Validators/TaskCreateRequestValidator.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/TaskServiceTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:task-delete
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/TaskService.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/TaskServiceTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:task-read
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Interfaces/ITaskRepository.cs
+          - engine/src/Nebula.Application/Services/TaskService.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/TaskRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
+          - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
+      docs:
+        authz:
+          - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:task-update
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/TaskEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Services/TaskService.cs
+          - engine/src/Nebula.Application/Validators/TaskUpdateRequestValidator.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/TaskEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/TaskServiceTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:timeline-event-read
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/TimelineEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/TimelineBrokerUserEventDto.cs
+          - engine/src/Nebula.Application/DTOs/TimelineEventDto.cs
+          - engine/src/Nebula.Application/Interfaces/ITimelineRepository.cs
+          - engine/src/Nebula.Application/Services/TimelineService.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/TimelineRepository.cs
+      docs:
+        authz:
+          - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: policy_rule:user-search
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/UserEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/UserSearchResponseDto.cs
+          - engine/src/Nebula.Application/Interfaces/IUserProfileRepository.cs
+          - engine/src/Nebula.Application/Services/UserService.cs
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/UserProfileRepository.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+  - id: role:admin
+    paths:
+      backend:
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        identity:
+          - engine/src/Nebula.Api/Services/HttpCurrentUserService.cs
+          - engine/src/Nebula.Application/Common/ICurrentUserService.cs
+          - engine/src/Nebula.Domain/Entities/UserProfile.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: role:broker-user
+    paths:
+      backend:
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Application/Services/BrokerScopeResolver.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        identity:
+          - engine/src/Nebula.Api/Services/HttpCurrentUserService.cs
+          - engine/src/Nebula.Application/Common/ICurrentUserService.cs
+          - engine/src/Nebula.Domain/Entities/UserProfile.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
+          - engine/tests/Nebula.Tests/Unit/BrokerScopeResolverTests/BrokerScopeResolverTests.cs
+          - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+      docs:
+        authz:
+          - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: role:distribution-manager
+    paths:
+      backend:
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        identity:
+          - engine/src/Nebula.Api/Services/HttpCurrentUserService.cs
+          - engine/src/Nebula.Application/Common/ICurrentUserService.cs
+          - engine/src/Nebula.Domain/Entities/UserProfile.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: role:distribution-user
+    paths:
+      backend:
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        identity:
+          - engine/src/Nebula.Api/Services/HttpCurrentUserService.cs
+          - engine/src/Nebula.Application/Common/ICurrentUserService.cs
+          - engine/src/Nebula.Domain/Entities/UserProfile.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: role:external-user
+    paths:
+      backend:
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+  - id: role:program-manager
+    paths:
+      backend:
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        identity:
+          - engine/src/Nebula.Api/Services/HttpCurrentUserService.cs
+          - engine/src/Nebula.Application/Common/ICurrentUserService.cs
+          - engine/src/Nebula.Domain/Entities/UserProfile.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: role:relationship-manager
+    paths:
+      backend:
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        identity:
+          - engine/src/Nebula.Api/Services/HttpCurrentUserService.cs
+          - engine/src/Nebula.Application/Common/ICurrentUserService.cs
+          - engine/src/Nebula.Domain/Entities/UserProfile.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: role:underwriter
+    paths:
+      backend:
+        authorization:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        identity:
+          - engine/src/Nebula.Api/Services/HttpCurrentUserService.cs
+          - engine/src/Nebula.Application/Common/ICurrentUserService.cs
+          - engine/src/Nebula.Domain/Entities/UserProfile.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+      docs:
+        authz:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: schema:broker-insight-benchmark
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/broker-insight-benchmark.schema.json
+  - id: schema:broker-insight-scorecard
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/broker-insight-scorecard.schema.json
+  - id: schema:broker-insight-snapshot
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/broker-insight-snapshot.schema.json
+  - id: schema:broker-insight-trend
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/broker-insight-trend.schema.json
+  - id: schema:global-search-response
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/global-search-response.schema.json
+  - id: schema:global-search-result
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/global-search-result.schema.json
+  - id: schema:operational-workload-report
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/operational-workload-report.schema.json
+  - id: schema:saved-view
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/saved-view.schema.json
+  - id: schema:saved-view-upsert-request
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/saved-view-upsert-request.schema.json
+  - id: schema:workflow-aging-report
+    paths:
+      planning:
+        schemas:
+          - planning-mds/schemas/workflow-aging-report.schema.json
+  - id: ui_route:account-create
+    paths:
+      frontend:
+        app:
+          - experience/src/App.tsx
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/CreateAccountPage.tsx
+  - id: ui_route:account-detail
+    paths:
+      frontend:
+        app:
+          - experience/src/App.tsx
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+  - id: ui_route:accounts-list
+    paths:
+      frontend:
+        app:
+          - experience/src/App.tsx
+        features:
+          - experience/src/features/accounts/**
+        pages:
+          - experience/src/pages/AccountsPage.tsx
+  - id: ui_route:broker-create
+    paths:
+      frontend:
+        app:
+          - experience/src/App.tsx
+        pages:
+          - experience/src/pages/CreateBrokerPage.tsx
+        tests:
+          - experience/src/pages/tests/CreateBrokerPage.integration.test.tsx
+  - id: ui_route:broker-detail
+    paths:
+      frontend:
+        app:
+          - experience/src/App.tsx
+        pages:
+          - experience/src/pages/BrokerDetailPage.tsx
+        tests:
+          - experience/src/pages/tests/BrokerDetailPage.integration.test.tsx
+  - id: ui_route:brokers-list
+    paths:
+      frontend:
+        app:
+          - experience/src/App.tsx
+        pages:
+          - experience/src/pages/BrokerListPage.tsx
+        tests:
+          - experience/src/features/brokers/tests/BrokerListPage*.tsx
+  - id: ui_route:dashboard-home
+    paths:
+      frontend:
+        app:
+          - experience/src/App.tsx
+        pages:
+          - experience/src/pages/DashboardPage.tsx
+        tests:
+          - experience/src/pages/tests/DashboardPage.integration.test.tsx
+  - id: ui_route:login
+    paths:
+      frontend:
+        app:
+          - experience/src/App.tsx
+        features:
+          - experience/src/features/auth/**
+        pages:
+          - experience/src/pages/LoginPage.tsx
+        tests:
+          - experience/src/features/auth/tests/LoginPage*.tsx
+  - id: ui_route:submission-create
+    paths:
+      frontend:
+        app:
+          - experience/src/App.tsx
+        pages:
+          - experience/src/pages/CreateSubmissionPage.tsx
+        tests:
+          - experience/src/pages/tests/CreateSubmissionPage.integration.test.tsx
+  - id: ui_route:submission-detail
+    paths:
+      frontend:
+        app:
+          - experience/src/App.tsx
+        pages:
+          - experience/src/pages/SubmissionDetailPage.tsx
+        tests:
+          - experience/src/pages/tests/SubmissionDetailPage.integration.test.tsx
+  - id: ui_route:submissions-list
+    paths:
+      frontend:
+        app:
+          - experience/src/App.tsx
+        pages:
+          - experience/src/pages/SubmissionsPage.tsx
+        tests:
+          - experience/src/pages/tests/SubmissionsPage.integration.test.tsx
+  - id: ui_route:task-center
+    paths:
+      frontend:
+        app:
+          - experience/src/App.tsx
+        pages:
+          - experience/src/pages/TaskCenterPage.tsx
+  - id: workflow:account-lifecycle
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/AccountEndpointTests.cs
+        workflow:
+          - engine/src/Nebula.Application/Services/AccountService.cs
+          - engine/src/Nebula.Domain/Workflow/AccountLifecycleStateMachine.cs
+      frontend:
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+  - id: workflow:document-ingest
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/Interfaces/IQuarantineScanner.cs
+          - engine/src/Nebula.Application/Services/DocumentService.cs
+          - engine/src/Nebula.Application/Services/DocumentTemplateService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Documents/LocalFileSystemDocumentRepository.cs
+          - engine/src/Nebula.Infrastructure/Documents/MockTimerScanner.cs
+          - engine/src/Nebula.Infrastructure/Documents/QuarantinePromotionWorker.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/DocumentServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/documents/components/DocumentUploadDialog.tsx
+          - experience/src/features/documents/components/ParentDocumentsPanel.tsx
+  - id: workflow:renewal
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
+        workflow:
+          - engine/src/Nebula.Application/Services/RenewalService.cs
+          - engine/src/Nebula.Application/Services/WorkflowStateMachine.cs
+          - engine/src/Nebula.Domain/Workflow/OpportunityStatusCatalog.cs
+  - id: workflow:submission
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowServiceTests.cs
+          - engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
+        workflow:
+          - engine/src/Nebula.Application/Services/SubmissionService.cs
+          - engine/src/Nebula.Application/Services/WorkflowStateMachine.cs
+          - engine/src/Nebula.Domain/Workflow/OpportunityStatusCatalog.cs
+      frontend:
+        feature:
+          - experience/src/features/submissions/**

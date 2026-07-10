@@ -1,0 +1,10 @@
+id: entity:producer
+label: Producer
+rationale:
+  - adr: adr:026
+    section: Decision
+    summary: Producers are distribution nodes in the self-referencing hierarchy and the subject of effective-dated
+      ownership; node_type ordering is advisory so depth is unbounded.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md

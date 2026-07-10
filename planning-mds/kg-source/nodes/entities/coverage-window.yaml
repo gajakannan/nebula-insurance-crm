@@ -1,0 +1,10 @@
+id: entity:coverage-window
+label: CoverageWindow
+rationale:
+  - adr: adr:013
+    section: F0022 Execution Contract
+    summary: Coverage is explicit and time-bounded; inactivity alone never triggers backup routing.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - planning-mds/schemas/coverage-window.schema.json

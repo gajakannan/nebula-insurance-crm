@@ -1,0 +1,11 @@
+id: entity:work-queue
+label: WorkQueue
+rationale:
+  - adr: adr:013
+    section: F0022 Execution Contract
+    summary: Named queue definitions provide the durable operational target for routing outcomes and the
+      required manager-visible fallback queue.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - planning-mds/schemas/work-queue.schema.json

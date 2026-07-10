@@ -1,0 +1,10 @@
+id: entity:work-queue-member
+label: WorkQueueMember
+rationale:
+  - adr: adr:013
+    section: F0022 Execution Contract
+    summary: Effective-dated queue membership keeps assignment eligibility explicit rather than inferred
+      from inactive-user heuristics.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md

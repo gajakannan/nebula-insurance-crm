@@ -1,0 +1,11 @@
+id: entity:submission
+label: Submission
+rationale:
+  - adr: adr:020
+    section: Decision
+    summary: 'Submission is a variant attribute carrier: core fields remain columned while product-specific
+      intake attributes are pinned by lob_product_version_id and stored in attributes_json.'
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
+  - planning-mds/domain/glossary.md

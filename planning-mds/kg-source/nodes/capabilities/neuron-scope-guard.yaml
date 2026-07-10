@@ -1,0 +1,10 @@
+id: capability:neuron-scope-guard
+label: CRM Scope Guard (out_of_scope redirect)
+notes: 'CRM-scoped assistant (intake L8), not a general chatbot. Non-CRM intents route to a polite CRM
+  redirect; resistant to prompt-injection; fails safe to the bounded CRM path. Guard decisions recorded
+  in the operation store.
+
+  '
+source_docs:
+  - F0038/F0038-S0007-crm-scope-guard.md
+  - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md

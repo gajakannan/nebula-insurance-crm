@@ -1,0 +1,11 @@
+id: capability:dashboard-pipeline-visualization
+label: Dashboard Pipeline Visualization
+rationale:
+  - adr: adr:002
+    section: Decision
+    summary: Backend-for-frontend aggregation over individual module endpoints ensures single widget failure
+      isolation and stays within the p95 < 2s dashboard budget.
+source_docs:
+  - F0001/README.md
+  - F0013/README.md
+  - planning-mds/architecture/decisions/ADR-002-dashboard-data-aggregation.md

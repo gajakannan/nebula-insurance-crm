@@ -1,0 +1,11 @@
+id: entity:saved-view-audit-event
+label: SavedViewAuditEvent
+rationale:
+  - adr: adr:014-search
+    section: Decision
+    summary: Saved-view administrative mutations append immutable audit rows separate from source-record
+      timelines.
+source_docs:
+  - F0023/feature-assembly-plan.md
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md

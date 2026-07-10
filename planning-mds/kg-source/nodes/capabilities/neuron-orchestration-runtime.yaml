@@ -1,0 +1,18 @@
+id: capability:neuron-orchestration-runtime
+label: Neuron Orchestration Runtime (bootstrap, registries, YAML plans, A2A profile)
+notes: 'First runnable stateless runtime: specialist-head registry, tool registry, versioned YAML orchestration
+  assets (schema-validated, fail-fast on unknown head/tool or missing terminal state), private Agent Card
+  registry, A2A task trace. Heads live under neuron/crm_agents/.
+
+  '
+rationale:
+  - adr: adr:027
+    section: Decision §3,§4,§10
+    summary: Simple versioned YAML + registered Agent Cards is enough for F0038; MS Agent Framework is
+      an unnecessary runtime dependency. Every referenced head/tool/terminal state must resolve or the
+      asset is refused.
+source_docs:
+  - F0038/F0038-S0001-neuron-service-bootstrap.md
+  - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
+  - planning-mds/schemas/neuron-agent-card.schema.json
+  - planning-mds/schemas/neuron-orchestration-plan.schema.json

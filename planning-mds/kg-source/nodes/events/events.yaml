@@ -1,0 +1,265 @@
+events:
+  - id: event:auth-classifier-conflict
+    label: AuthClassifierConflict
+    event_type: AuthClassifierConflict
+    related_nodes:
+      - capability:auth-error-classification
+      - capability:session-telemetry
+    source_docs:
+      - F0035/F0035-S0004-auth-error-semantics.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+  - id: event:auth-classifier-fallback
+    label: AuthClassifierFallback
+    event_type: AuthClassifierFallback
+    related_nodes:
+      - capability:auth-error-classification
+      - capability:session-telemetry
+    source_docs:
+      - F0035/F0035-S0004-auth-error-semantics.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+  - id: event:broker-created
+    label: BrokerCreated
+    event_type: BrokerCreated
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:broker
+    source_docs:
+      - F0002/README.md
+      - planning-mds/architecture/data-model.md
+  - id: event:broker-updated
+    label: BrokerUpdated
+    event_type: BrokerUpdated
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:broker
+    source_docs:
+      - F0002/README.md
+      - planning-mds/architecture/data-model.md
+  - id: event:contact-created
+    label: ContactCreated
+    event_type: ContactCreated
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:contact
+    source_docs:
+      - F0002/README.md
+      - planning-mds/architecture/data-model.md
+  - id: event:forced-redirect
+    label: ForcedRedirect
+    event_type: ForcedRedirect
+    related_nodes:
+      - capability:session-context-restore
+      - capability:session-telemetry
+    source_docs:
+      - F0035/F0035-S0003-forced-reauth-context-restore.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+  - id: event:form-snapshot-skipped
+    label: FormSnapshotSkipped
+    event_type: FormSnapshotSkipped
+    related_nodes:
+      - capability:session-context-restore
+      - capability:session-telemetry
+    source_docs:
+      - F0035/F0035-S0003-forced-reauth-context-restore.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+  - id: event:idle-warning-accepted
+    label: IdleWarningAccepted
+    event_type: IdleWarningAccepted
+    related_nodes:
+      - capability:idle-warning
+      - capability:session-telemetry
+    source_docs:
+      - F0035/F0035-S0002-idle-warning-modal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+  - id: event:idle-warning-dismissed
+    label: IdleWarningDismissed
+    event_type: IdleWarningDismissed
+    related_nodes:
+      - capability:idle-warning
+      - capability:session-telemetry
+    source_docs:
+      - F0035/F0035-S0002-idle-warning-modal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+  - id: event:idle-warning-shown
+    label: IdleWarningShown
+    event_type: IdleWarningShown
+    related_nodes:
+      - capability:idle-warning
+      - capability:session-telemetry
+    source_docs:
+      - F0035/F0035-S0002-idle-warning-modal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+  - id: event:neuron-companion-telemetry
+    label: NeuronCompanionTelemetry
+    event_type: NeuronCompanionTelemetry
+    rationale:
+      - adr: adr:024
+        section: Decision §6
+        summary: 'Reuses the F0035 SessionTelemetry fire-and-forget-to-Serilog ingest pattern; needs-attention-surfaced/draft-ready
+          bracket the baseline metric, plus the minimal secondary set. PII boundary: correlation ids +
+          metric fields only.'
+    related_nodes:
+      - capability:neuron-companion-telemetry
+    source_docs:
+      - F0038/F0038-S0008-companion-telemetry-instrumentation.md
+      - planning-mds/schemas/neuron-companion-telemetry-event.schema.json
+  - id: event:renewal-outreach-drafted
+    label: RenewalOutreachDrafted
+    event_type: RenewalOutreachDrafted
+    rationale:
+      - adr: adr:028
+        section: Decision §3
+        summary: Draft persists as an InternalOnly AI-generated renewal ActivityTimelineEvent with provenance
+          (actor/model/prompt id+version/content hash); generation does NOT transition the renewal.
+    related_nodes:
+      - capability:neuron-outreach-drafter
+      - entity:activity-timeline-event
+      - entity:renewal
+    source_docs:
+      - F0038/F0038-S0005-renewal-outreach-draft.md
+      - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
+  - id: event:renewal-outreach-mock-sent
+    label: RenewalOutreachMockSent
+    event_type: RenewalOutreachMockSent
+    rationale:
+      - adr: adr:028
+        section: Decision §3
+        summary: Mock-send commits the real Identified→Outreach WorkflowTransition + a 'sent (simulated)'
+          ActivityTimelineEvent atomically, but fakes SMTP — no real email. Reuses event:renewal-transitioned
+          for the transition itself.
+    related_nodes:
+      - capability:neuron-outreach-drafter
+      - entity:activity-timeline-event
+      - entity:renewal
+      - entity:workflow-transition
+    source_docs:
+      - F0038/F0038-S0006-mock-send-and-workflow-transition.md
+      - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
+  - id: event:renewal-transitioned
+    label: RenewalTransitioned
+    event_type: RenewalTransitioned
+    rationale:
+      - adr: adr:011
+        section: F0007 Renewal Workflow Specification
+        summary: Renewal transitions follow the same append-only audit pattern as submission transitions
+          for consistent cross-workflow reporting.
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:renewal
+      - entity:workflow-transition
+    source_docs:
+      - F0007/F0007-S0003-renewal-status-transitions.md
+      - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
+  - id: event:silent-renewal-fail
+    label: SilentRenewalFail
+    event_type: SilentRenewalFail
+    related_nodes:
+      - capability:session-telemetry
+      - capability:silent-token-renewal
+    source_docs:
+      - F0035/F0035-S0001-silent-token-renewal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+  - id: event:silent-renewal-success
+    label: SilentRenewalSuccess
+    event_type: SilentRenewalSuccess
+    related_nodes:
+      - capability:session-telemetry
+      - capability:silent-token-renewal
+    source_docs:
+      - F0035/F0035-S0001-silent-token-renewal.md
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+  - id: event:submission-approval-declined
+    label: SubmissionApprovalDeclined
+    event_type: SubmissionApprovalDeclined
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:submission
+      - entity:submission-approval-decision
+      - workflow:submission
+    source_docs:
+      - F0019/F0019-S0003-underwriting-approval-checkpoint.md
+      - planning-mds/schemas/activity-event-payloads.schema.json
+  - id: event:submission-approval-granted
+    label: SubmissionApprovalGranted
+    event_type: SubmissionApprovalGranted
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:submission
+      - entity:submission-approval-decision
+      - workflow:submission
+    source_docs:
+      - F0019/F0019-S0003-underwriting-approval-checkpoint.md
+      - planning-mds/schemas/activity-event-payloads.schema.json
+  - id: event:submission-archived
+    label: SubmissionArchived
+    event_type: SubmissionArchived
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:submission
+      - workflow:submission
+    source_docs:
+      - F0019/F0019-S0006-submission-archive-and-deactivate.md
+      - planning-mds/schemas/activity-event-payloads.schema.json
+  - id: event:submission-created
+    label: SubmissionCreated
+    event_type: SubmissionCreated
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:submission
+    source_docs:
+      - F0006/README.md
+      - planning-mds/architecture/data-model.md
+  - id: event:submission-packet-updated
+    label: SubmissionPacketUpdated
+    event_type: SubmissionPacketUpdated
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:submission
+      - entity:submission-quote-packet
+      - workflow:submission
+    source_docs:
+      - F0019/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+      - planning-mds/schemas/activity-event-payloads.schema.json
+  - id: event:submission-reactivated
+    label: SubmissionReactivated
+    event_type: SubmissionReactivated
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:submission
+      - workflow:submission
+    source_docs:
+      - F0019/F0019-S0006-submission-archive-and-deactivate.md
+      - planning-mds/schemas/activity-event-payloads.schema.json
+  - id: event:submission-transitioned
+    label: SubmissionTransitioned
+    event_type: SubmissionTransitioned
+    rationale:
+      - adr: adr:011
+        section: Decision
+        summary: Immutable transition events with timestamps, actor identity, and reason enable auditable
+          reporting over structured transition history.
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:submission
+      - entity:workflow-transition
+    source_docs:
+      - F0006/F0006-S0004-submission-intake-status-transitions.md
+      - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
+  - id: event:task-created
+    label: TaskCreated
+    event_type: TaskCreated
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:task-item
+    source_docs:
+      - F0003/README.md
+      - planning-mds/architecture/data-model.md
+  - id: event:task-updated
+    label: TaskUpdated
+    event_type: TaskUpdated
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:task-item
+    source_docs:
+      - F0004/README.md
+      - planning-mds/architecture/data-model.md

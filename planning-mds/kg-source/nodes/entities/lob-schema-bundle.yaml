@@ -1,0 +1,12 @@
+id: entity:lob-schema-bundle
+label: LobSchemaBundle
+rationale:
+  - adr: adr:022
+    section: Decision
+    summary: Resolved schema bundles are the runtime validation and dynamic-form contract; OpenAPI receives
+      a 3.0.3 projection, not the authoritative source.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
+  - planning-mds/architecture/decisions/ADR-022-validator-equivalence-restricted-profile.md
+  - planning-mds/schemas/lob-schema-bundle.schema.json

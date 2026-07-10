@@ -1,0 +1,103 @@
+adrs:
+  - id: adr:001
+    label: JSON Schema Validation
+    path: planning-mds/architecture/decisions/ADR-001-json-schema-validation.md
+  - id: adr:002
+    label: Dashboard Data Aggregation
+    path: planning-mds/architecture/decisions/ADR-002-dashboard-data-aggregation.md
+  - id: adr:003
+    label: Task Entity Nudge Engine
+    path: planning-mds/architecture/decisions/ADR-003-task-entity-nudge-engine.md
+  - id: adr:004
+    label: Frontend Dashboard Widget Architecture
+    path: planning-mds/architecture/decisions/ADR-004-frontend-dashboard-widget-architecture.md
+  - id: adr:005
+    label: Caching Strategy
+    path: planning-mds/architecture/decisions/ADR-005-caching-strategy.md
+  - id: adr:006
+    label: Authentik IdP Migration
+    path: planning-mds/architecture/decisions/ADR-006-authentik-idp-migration.md
+  - id: adr:007
+    label: F0009 Login and Broker Scope
+    path: planning-mds/architecture/decisions/ADR-007-f0009-login-and-broker-scope.md
+  - id: adr:008
+    label: Casbin Enforcer Adoption
+    path: planning-mds/architecture/decisions/ADR-008-casbin-enforcer-adoption.md
+  - id: adr:009
+    label: LOB Classification and SLA Configuration
+    path: planning-mds/architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md
+  - id: adr:010
+    label: Temporal Durable Workflow Orchestration
+    path: planning-mds/architecture/decisions/ADR-010-temporal-durable-workflow-orchestration.md
+  - id: adr:011
+    label: CRM Workflow State Machines and Transition History
+    path: planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
+  - id: adr:012
+    label: Shared Document Storage and Metadata Architecture
+    path: planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+  - id: adr:013
+    label: Operational Routing and Queue Engine
+    path: planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - id: adr:014-search
+    label: Search Index and Saved View Architecture
+    path: planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+  - id: adr:014-workflow-sla
+    label: Workflow SLA Threshold Per-LOB Extension
+    path: planning-mds/architecture/decisions/ADR-014-workflow-sla-threshold-per-lob-extension.md
+  - id: adr:015
+    label: Integration Hub Canonical Contracts and Outbox
+    path: planning-mds/architecture/decisions/ADR-015-integration-hub-canonical-contracts-and-outbox.md
+  - id: adr:016
+    label: Published Operational Configuration Governance
+    path: planning-mds/architecture/decisions/ADR-016-published-operational-configuration-governance.md
+  - id: adr:017
+    label: Account Merge Tombstone and Fallback Contract
+    path: planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
+  - id: adr:018
+    label: Policy Aggregate Versioning and Reinstatement Window
+    path: planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - id: adr:019
+    label: Mock-quarantine-then-promote ingest pipeline
+    path: planning-mds/architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md
+  - id: adr:020
+    label: LOB Extensible Attribute Architecture
+    path: planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
+  - id: adr:021
+    label: Dynamic Form Engine with RHF AJV and shadcn Registry
+    path: planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md
+  - id: adr:022
+    label: Validator Equivalence and Restricted JSON Schema Profile
+    path: planning-mds/architecture/decisions/ADR-022-validator-equivalence-restricted-profile.md
+  - id: adr:023
+    label: JsonLogic Rules Governance
+    path: planning-mds/architecture/decisions/ADR-023-rules-governance-jsonlogic.md
+  - id: adr:024
+    label: Session Continuity and Token Refresh Architecture
+    path: planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+  - id: adr:025
+    label: Submission Downstream Workflow — Quote/Approval/Bind, Recorded-Not-Computed Packet, and Archive
+    path: planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md
+  - id: adr:026
+    label: Broker/MGA Hierarchy, Producer Ownership & Territory
+    path: planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: adr:027
+    label: Neuron Companion A2A-Aligned Orchestration Foundation
+    path: planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
+  - id: adr:028
+    label: Neuron Companion Persistence Schema, Cross-Store Write Consistency, and Outreach-Draft Authorization
+    path: planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
+  - id: adr:029
+    label: Communication Activity Capture And Redaction
+    path: planning-mds/architecture/decisions/ADR-029-communication-activity-capture-and-redaction.md
+  - id: adr:030
+    label: Service Case And Claim Reference Boundary
+    path: planning-mds/architecture/decisions/ADR-030-service-case-and-claim-reference-boundary.md
+  - id: adr:031
+    label: Broker Insights Read Models and Permission-Safe Analytics
+    path: planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+  - id: adr:auth-token-storage
+    label: Auth Token Storage
+    path: planning-mds/architecture/decisions/ADR-Auth-Token-Storage.md
+  - id: adr:authentication-strategy
+    label: Authentication Strategy
+    path: planning-mds/architecture/decisions/ADR-Authentication-Strategy.md

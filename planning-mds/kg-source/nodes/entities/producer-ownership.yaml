@@ -1,0 +1,10 @@
+id: entity:producer-ownership
+label: ProducerOwnership
+rationale:
+  - adr: adr:026
+    section: Decision
+    summary: 'Effective-dated ownership relationship (effective_from/to): reassignment closes the prior
+      period and opens a new one so point-in-time attribution is preserved.'
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md

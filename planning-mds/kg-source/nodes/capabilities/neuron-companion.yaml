@@ -1,0 +1,15 @@
+id: capability:neuron-companion
+label: Neuron Companion
+notes: 'In-CRM conversational companion (stateless Python/FastAPI, secondary interface). Umbrella capability
+  for the F0038 epic first slice. Engine remains source of truth; Neuron calls it as the user (forwarded
+  token).
+
+  '
+rationale:
+  - adr: adr:027
+    section: Decision §1
+    summary: A2A-aligned internal profile (not ad hoc Python delegation, not a public federation) avoids
+      a migration cliff when heads/agents later move across process boundaries, while keeping F0038 shippable.
+source_docs:
+  - F0038/README.md
+  - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md

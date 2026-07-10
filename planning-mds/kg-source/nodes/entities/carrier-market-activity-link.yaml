@@ -1,0 +1,11 @@
+id: entity:carrier-market-activity-link
+label: CarrierMarketActivityLink
+notes: Link-only context; creating a link never mutates submission or policy workflow state.
+related_nodes:
+  - entity:activity-timeline-event
+  - entity:carrier-market
+  - entity:policy
+  - entity:submission
+source_docs:
+  - F0028/ARCHITECTURE.md
+  - planning-mds/schemas/carrier-market-activity-link.schema.json

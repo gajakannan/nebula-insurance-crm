@@ -1,0 +1,17 @@
+id: capability:neuron-outreach-drafter
+label: Renewal Outreach Drafter (goal agent + persist + mock-send)
+notes: 'The one write. Proactive CTA → generate-on-click → persist InternalOnly AI-generated ActivityTimelineEvent
+  → edit in-chat → mock-send (commits Identified→Outreach, fakes SMTP). Underwriter only.
+
+  '
+rationale:
+  - adr: adr:028
+    section: Decision §3
+    summary: Dedicated least-privilege renewal:draft_outreach gates draft+mock-send; the engine state
+      machine permits Identified→Outreach for an Underwriter only on the mock-send path, leaving the F0007
+      Distribution-owned transition model intact.
+source_docs:
+  - F0038/F0038-S0005-renewal-outreach-draft.md
+  - F0038/F0038-S0006-mock-send-and-workflow-transition.md
+  - planning-mds/schemas/renewal-outreach-draft-request.schema.json
+  - planning-mds/schemas/renewal-outreach-mock-send-request.schema.json

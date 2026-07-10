@@ -1,0 +1,11 @@
+id: capability:neuron-zone-dispatch
+label: Zone-Dispatch (multi-head extension point)
+notes: 'Orchestrator enumerates registered specialist heads and dispatches per zone; live heads return
+  content, stubs return a typed inactive payload. This is the F0040 extension point ("flip a stub to live").
+  Head contract is thin and provisional — do not gold-plate (a stub agrees with anything).
+
+  '
+source_docs:
+  - F0038/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
+  - F0038/F0038-S0004-stub-zones-inactive-payload.md
+  - planning-mds/schemas/neuron-zone-payload.schema.json

@@ -1,0 +1,10 @@
+id: entity:document
+label: Document
+rationale:
+  - adr: adr:012
+    section: Decision
+    summary: Shared document subsystem prevents fragmented per-feature file models that would duplicate
+      metadata rules, weaken auditability, and complicate access control.
+source_docs:
+  - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+  - planning-mds/domain/glossary.md

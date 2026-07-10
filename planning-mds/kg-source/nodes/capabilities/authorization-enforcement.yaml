@@ -1,0 +1,11 @@
+id: capability:authorization-enforcement
+label: Authorization Enforcement
+rationale:
+  - adr: adr:008
+    section: Decision
+    summary: Native Casbin enforcer replaces hand-rolled policy parser to eliminate syntax drift from
+      Casbin semantics and avoid manual parser changes for new policy conditions.
+source_docs:
+  - F0002/F0002-S0009-adopt-native-casbin-enforcer.md
+  - F0009/F0009-S0004-broker-user-access-boundaries.md
+  - planning-mds/architecture/decisions/ADR-008-casbin-enforcer-adoption.md

@@ -1,0 +1,40 @@
+id: workflow:renewal
+label: Renewal lifecycle
+rationale:
+  - adr: adr:011
+    section: F0007 Renewal Workflow Specification
+    summary: First full application of the standardized state-machine pattern beyond submissions; six
+      states with terminal Completed/Lost.
+  - adr: adr:010
+    section: Decision
+    summary: Temporal adopted for durable orchestration of renewal reminders and escalations that must
+      survive deploys and restarts.
+source_docs:
+  - F0007/README.md
+  - planning-mds/api/nebula-api.yaml
+  - planning-mds/architecture/decisions/ADR-010-temporal-durable-workflow-orchestration.md
+  - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
+  - planning-mds/architecture/feature-assembly-plan.md
+states:
+  - id: state:renewal:identified
+    label: Identified
+    transitions_to:
+      - state:renewal:outreach
+  - id: state:renewal:outreach
+    label: Outreach
+    transitions_to:
+      - state:renewal:in-review
+  - id: state:renewal:in-review
+    label: InReview
+    transitions_to:
+      - state:renewal:quoted
+      - state:renewal:lost
+  - id: state:renewal:quoted
+    label: Quoted
+    transitions_to:
+      - state:renewal:completed
+      - state:renewal:lost
+  - id: state:renewal:completed
+    label: Completed
+  - id: state:renewal:lost
+    label: Lost

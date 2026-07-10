@@ -1,0 +1,18 @@
+id: capability:operational-reporting
+label: Operational Reporting
+rationale:
+  - adr: adr:014-search
+    section: Operational Report Projection Design
+    summary: Operational workload and aging reports aggregate report fact rows only after query-layer
+      authorization filters are applied.
+related_nodes:
+  - capability:authorization-enforcement
+  - entity:operational-report-projection
+  - workflow:renewal
+  - workflow:submission
+source_docs:
+  - F0023/README.md
+  - F0023/feature-assembly-plan.md
+  - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+  - planning-mds/schemas/operational-workload-report.schema.json
+  - planning-mds/schemas/workflow-aging-report.schema.json

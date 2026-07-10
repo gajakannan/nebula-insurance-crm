@@ -1,0 +1,11 @@
+id: entity:generated-document-artifact
+label: GeneratedDocumentArtifact
+rationale:
+  - adr: adr:012
+    section: Decision §2, §8, §9, §10
+    summary: F0027 issued artifacts are parent-linked ADR-012 documents with generated-document metadata,
+      immutable binaries, sidecar events, and source-record timeline events; no per-feature document table
+      is introduced.
+source_docs:
+  - F0027/ARCHITECTURE.md
+  - planning-mds/api/nebula-api.yaml

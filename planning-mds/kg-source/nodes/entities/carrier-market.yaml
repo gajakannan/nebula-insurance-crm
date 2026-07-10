@@ -1,0 +1,12 @@
+id: entity:carrier-market
+label: CarrierMarket
+notes: CRM-side carrier and market relationship aggregate introduced by F0028; replaces the earlier lightweight
+  CarrierRef seed for relationship intelligence while policy history may retain CarrierRef references.
+related_nodes:
+  - capability:carrier-market-relationship-management
+  - entity:activity-timeline-event
+  - entity:carrier-ref
+source_docs:
+  - F0028/ARCHITECTURE.md
+  - planning-mds/api/nebula-api.yaml
+  - planning-mds/schemas/carrier-market.schema.json
