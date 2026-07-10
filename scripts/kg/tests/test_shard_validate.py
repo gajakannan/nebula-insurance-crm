@@ -136,35 +136,25 @@ def test_reference_unknown_kind_fails(tmp_path):
     assert_has(errs, "unknown reference kind")
 
 
-# 8 — feature shard missing a required tracker-projected field.
-def test_feature_now_without_rationale_fails(tmp_path):
-    errs = errors_for(
-        tmp_path,
-        "features/F0100.yaml",
-        "id: feature:F0100\nname: Ex\npath: planning-mds/features/F0100-ex\n"
-        "status: in-progress\nphase: P\nroadmap_section: Now\n",
-    )
-    assert_has(errs, "rationale")
+# 8 — feature base-required fields still enforced; presentation conditional-requires relaxed (S0006).
+def test_feature_missing_base_required_fails(tmp_path):
+    # name + roadmap_section are base-required; a bare feature record fails.
+    errs = errors_for(tmp_path, "features/F0100.yaml", "id: feature:F0100\nstatus: planned\n")
+    assert any("name" in e for e in errs) and any("roadmap_section" in e for e in errs), errs
 
 
-def test_feature_retired_without_dates_fails(tmp_path):
-    errs = errors_for(
-        tmp_path,
-        "features/F0101.yaml",
-        "id: feature:F0101\nname: Ex\npath: planning-mds/features/F0101-ex\n"
-        "status: superseded\nphase: P\nroadmap_section: Abandoned\nsuperseded_by: feature:F0102\n",
-    )
-    assert any("retired_date" in e or "reason" in e for e in errs), errs
-
-
-def test_feature_archived_without_date_fails(tmp_path):
-    errs = errors_for(
-        tmp_path,
-        "features/F0103.yaml",
-        "id: feature:F0103\nname: Ex\npath: planning-mds/features/archive/F0103-ex\n"
-        "status: archived-done\nphase: P\nroadmap_section: Completed\ncompletion_state: Done.\n",
-    )
-    assert_has(errs, "archived_date")
+def test_feature_presentation_conditionals_relaxed(tmp_path):
+    # S0006 relaxed the strict conditional-requires (rationale/retired_date/archived_date) because the
+    # real graph has legitimate edge cases (superseded+archived, etc.). Completeness is enforced at
+    # render time (S0007). These best-effort-populated shards validate.
+    for name, body in (
+        ("F0101", "status: in-progress\nphase: P\nroadmap_section: Now\n"),                  # no rationale
+        ("F0102", "status: superseded\nroadmap_section: Abandoned\nsuperseded_by: feature:F0103\n"),  # no retired_date
+        ("F0104", "status: archived-done\nphase: P\nroadmap_section: Completed\ncompletion_state: Done.\n"),  # no archived_date
+    ):
+        errs = errors_for(tmp_path, f"features/{name}.yaml",
+                          f"id: feature:{name}\nname: Ex\npath: planning-mds/features/{name}-ex\n{body}")
+        assert errs == [], (name, errs)
 
 
 # 8b — feature story block (D3): valid stories pass; malformed story id / path-ref fail.
@@ -174,7 +164,7 @@ def test_feature_with_valid_stories_passes(tmp_path):
         "features/F0104.yaml",
         "id: feature:F0104\nname: Ex\npath: planning-mds/features/F0104-ex\n"
         "status: in-progress\nphase: P\nroadmap_section: Now\nrationale: why\n"
-        "stories:\n  - id: story:F0104-S0001\n    path: planning-mds/features/F0104-ex/s1.md\n"
+        "story_mappings:\n  - id: story:F0104-S0001\n    path: planning-mds/features/F0104-ex/s1.md\n"
         "    affects:\n      - capability:dashboard-home\n",
     )
     assert errs == []
@@ -186,7 +176,7 @@ def test_feature_bad_story_id_fails(tmp_path):
         "features/F0105.yaml",
         "id: feature:F0105\nname: Ex\npath: planning-mds/features/F0105-ex\n"
         "status: in-progress\nphase: P\nroadmap_section: Now\nrationale: why\n"
-        "stories:\n  - id: F0105-S0001\n    path: planning-mds/features/F0105-ex/s1.md\n",
+        "story_mappings:\n  - id: F0105-S0001\n    path: planning-mds/features/F0105-ex/s1.md\n",
     )
     assert errs, "expected a schema/grammar error for the malformed story id"
 
@@ -197,7 +187,7 @@ def test_feature_story_ref_must_be_id(tmp_path):
         "features/F0106.yaml",
         "id: feature:F0106\nname: Ex\npath: planning-mds/features/F0106-ex\n"
         "status: in-progress\nphase: P\nroadmap_section: Now\nrationale: why\n"
-        "stories:\n  - id: story:F0106-S0001\n    path: planning-mds/features/F0106-ex/s1.md\n"
+        "story_mappings:\n  - id: story:F0106-S0001\n    path: planning-mds/features/F0106-ex/s1.md\n"
         "    affects:\n      - planning-mds/features/x\n",
     )
     assert_has(errs, "never a path")

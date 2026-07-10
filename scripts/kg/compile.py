@@ -55,13 +55,14 @@ DEFAULT_HEADERS: dict[str, dict[str, Any]] = {
     "code-index.yaml": {"version": 0, "status": "generated"},
 }
 
-# feature-mappings.features carries only the technical/binding subset; presentation fields
-# (name/phase/roadmap_section/rationale/dates …) project to the trackers (S0007), never here.
-FEATURE_TECHNICAL_FIELDS = (
-    "id", "status", "path", "affects", "governed_by",
-    "uses_api_contract", "uses_schema", "depends_on", "supersedes", "superseded_by",
-)
-STORY_FIELDS = ("id", "feature", "path", "affects", "governed_by", "uses_api_contract", "uses_schema", "depends_on")
+# feature-mappings.features carries only the technical/binding fields; these presentation fields
+# (rendered to the trackers at S0007) are excluded from the projection. Everything else on the
+# feature shard — status/path/affects/governed_by/uses_*/depends_on/supersedes/enforced_by_policy/
+# restricted_to_role/notes/… — projects verbatim.
+FEATURE_PRESENTATION_FIELDS = frozenset({
+    "name", "phase", "roadmap_section", "rationale", "completion_state", "validation_gate",
+    "retired_date", "reason", "archived_date", "coverage_excluded", "story_mappings", "superseded_by",
+})
 
 GENERATED_AT_LINE_RE = re.compile(r"(?m)^generated_at:.*\n")
 
@@ -86,7 +87,15 @@ class CompileResult:
         fm = self.projections.get("feature-mappings.yaml", {})
         ci = self.projections.get("code-index.yaml", {})
         has_nodes = any(isinstance(v, list) and v for v in cn.values())
-        return not (has_nodes or fm.get("features") or ci.get("node_bindings") or self.ontology_text)
+        return not (has_nodes or fm.get("features") or fm.get("coverage")
+                    or ci.get("node_bindings") or self.ontology_text)
+
+
+def _load_headers(source_dir: Path) -> dict[str, dict[str, Any]]:
+    """Projection non-record headers (version/status/coverage_note/rules) from the source meta file
+    (S0006-D-header), or the seed defaults when it is absent."""
+    meta = Path(source_dir) / "projections-meta.yaml"
+    return load_yaml(meta) if meta.exists() else DEFAULT_HEADERS
 
 
 def _records(data: Any) -> list[dict[str, Any]]:
@@ -136,7 +145,7 @@ def compile_sources(
 ) -> CompileResult:
     """Load, validate, resolve, and assemble the projection trio + ontology mirror in memory."""
     source_dir = Path(source_dir)
-    headers = headers or DEFAULT_HEADERS
+    headers = headers if headers is not None else _load_headers(source_dir)
     result = CompileResult()
 
     # 1. Validate every shard first — fail fast, before any assembly.
@@ -166,6 +175,7 @@ def compile_sources(
     features: list[dict[str, Any]] = []
     stories: list[dict[str, Any]] = []
     exclusions: list[dict[str, Any]] = []
+    coverage_excluded: list[dict[str, Any]] = []
 
     for path, dc, recs in loaded:
         rel = repo_relative(path)
@@ -179,16 +189,23 @@ def compile_sources(
             bindings.extend(recs)
         elif dc.directory == "features":
             for r in recs:
-                features.append({k: r[k] for k in FEATURE_TECHNICAL_FIELDS if k in r})
-                for s in r.get("stories", []) or []:
-                    entry = {"id": s.get("id"), "feature": r["id"]}
-                    entry.update({k: s[k] for k in STORY_FIELDS if k in s and k not in entry})
+                if r.get("coverage_excluded"):  # D-coverage-excluded → coverage.excluded_features
+                    coverage_excluded.append(
+                        {"id": r["id"], "path": r["path"], "reason": r["coverage_excluded"]["reason"]}
+                    )
+                else:
+                    features.append({k: v for k, v in r.items() if k not in FEATURE_PRESENTATION_FIELDS})
+                for s in r.get("story_mappings", []) or []:
+                    entry = dict(s)  # verbatim story mapping + its owning feature
+                    entry["feature"] = r["id"]
                     stories.append(entry)
         elif dc.directory == "exclusions":
             exclusions.extend(recs)
 
     canonical_doc: dict[str, Any] = {**headers.get("canonical-nodes.yaml", {}), **canonical}
     mappings_doc: dict[str, Any] = {**headers.get("feature-mappings.yaml", {}), "features": features}
+    if coverage_excluded:
+        mappings_doc["coverage"] = {"excluded_features": coverage_excluded}
     if stories:
         mappings_doc["stories"] = stories
     if exclusions:

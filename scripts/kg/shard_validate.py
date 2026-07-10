@@ -59,6 +59,9 @@ KNOWN_ID_PREFIXES = {
     "story", "schema", "evidence", "persona",
 }
 
+# Optional fields any node kind may carry (the real graph attaches these broadly).
+COMMON_OPTIONAL: set[str] = {"notes", "rationale", "source_docs", "related_nodes", "related_entities"}
+
 # Per-kind field profiles (README §3). id is always allowed. Fields outside required∪allowed fail.
 KIND_PROFILES: dict[str, dict[str, set[str]]] = {
     "adr": {"required": {"label", "path"}, "allowed": {"related_nodes"}},
@@ -196,9 +199,11 @@ def _records_from_file(data: Any, dc: DirClass, rel: str, report: Report) -> lis
     return records
 
 
-def _check_reference_value(value: str, field_name: str, rel: str, report: Report) -> None:
+def _check_reference_value(value: Any, field_name: str, rel: str, report: Report) -> None:
+    if isinstance(value, dict):  # object-form edge ref {id, provenance, confidence, …}
+        value = value.get("id")
     if not isinstance(value, str):
-        report.error(f"{rel}: {field_name} entry must be an ID string, got {type(value).__name__}")
+        report.error(f"{rel}: {field_name} entry must be an ID string (or {{id: …}}), got {type(value).__name__}")
         return
     if "/" in value or ":" not in value:
         report.error(
@@ -274,7 +279,7 @@ def _validate_record(record: dict[str, Any], dc: DirClass, rel: str, report: Rep
         missing = profile["required"] - present
         if missing:
             report.error(f"{rel}: [{rid}] missing required field(s) for `{dc.kind}`: {sorted(missing)}")
-        unexpected = present - profile["required"] - profile["allowed"]
+        unexpected = present - profile["required"] - profile["allowed"] - COMMON_OPTIONAL
         if unexpected:
             report.error(f"{rel}: [{rid}] unexpected field(s) for `{dc.kind}`: {sorted(unexpected)}")
 
@@ -298,8 +303,8 @@ def _validate_record(record: dict[str, Any], dc: DirClass, rel: str, report: Rep
         _check_binding_paths(record["paths"], rel, rid, report)
 
     # 7. Feature story mappings (D3): story ids well-formed; nested refs are IDs only.
-    if dc.schema == "feature" and isinstance(record.get("stories"), list):
-        for story in record["stories"]:
+    if dc.schema == "feature" and isinstance(record.get("story_mappings"), list):
+        for story in record["story_mappings"]:
             if not isinstance(story, dict):
                 continue
             sid = story.get("id")
@@ -343,7 +348,7 @@ def validate_shard_file(path: Path, report: Report | None = None) -> Report:
 
 
 # Files under kg-source/ that are tooling ledgers, not concept shards (not validated/assembled).
-NON_SHARD_BASENAMES = {"suppressions.yaml"}
+NON_SHARD_BASENAMES = {"suppressions.yaml", "projections-meta.yaml"}
 
 
 def iter_shard_files(root: Path) -> list[Path]:
