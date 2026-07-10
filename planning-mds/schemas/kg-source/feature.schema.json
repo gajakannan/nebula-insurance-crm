@@ -28,7 +28,25 @@
     "superseded_by": { "type": "string", "pattern": "^feature:F[0-9]{4}$" },
     "retired_date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
     "reason": { "type": "string" },
-    "archived_date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" }
+    "archived_date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "stories": {
+      "type": "array",
+      "description": "Story mappings owned by this feature; compiled into feature-mappings.yaml `stories` with `feature` set to this shard's id (F0006-S0005 D3).",
+      "items": {
+        "type": "object",
+        "required": ["id", "path"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^story:F[0-9]{4}-S[0-9]{4}$" },
+          "path": { "type": "string", "minLength": 1 },
+          "affects": { "type": "array", "items": { "type": "string" } },
+          "depends_on": { "type": "array", "items": { "type": "string" } },
+          "governed_by": { "type": "array", "items": { "type": "string" } },
+          "uses_api_contract": { "type": "array", "items": { "type": "string" } },
+          "uses_schema": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
   },
   "allOf": [
     {

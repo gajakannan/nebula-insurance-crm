@@ -167,6 +167,42 @@ def test_feature_archived_without_date_fails(tmp_path):
     assert_has(errs, "archived_date")
 
 
+# 8b — feature story block (D3): valid stories pass; malformed story id / path-ref fail.
+def test_feature_with_valid_stories_passes(tmp_path):
+    errs = errors_for(
+        tmp_path,
+        "features/F0104.yaml",
+        "id: feature:F0104\nname: Ex\npath: planning-mds/features/F0104-ex\n"
+        "status: in-progress\nphase: P\nroadmap_section: Now\nrationale: why\n"
+        "stories:\n  - id: story:F0104-S0001\n    path: planning-mds/features/F0104-ex/s1.md\n"
+        "    affects:\n      - capability:dashboard-home\n",
+    )
+    assert errs == []
+
+
+def test_feature_bad_story_id_fails(tmp_path):
+    errs = errors_for(
+        tmp_path,
+        "features/F0105.yaml",
+        "id: feature:F0105\nname: Ex\npath: planning-mds/features/F0105-ex\n"
+        "status: in-progress\nphase: P\nroadmap_section: Now\nrationale: why\n"
+        "stories:\n  - id: F0105-S0001\n    path: planning-mds/features/F0105-ex/s1.md\n",
+    )
+    assert errs, "expected a schema/grammar error for the malformed story id"
+
+
+def test_feature_story_ref_must_be_id(tmp_path):
+    errs = errors_for(
+        tmp_path,
+        "features/F0106.yaml",
+        "id: feature:F0106\nname: Ex\npath: planning-mds/features/F0106-ex\n"
+        "status: in-progress\nphase: P\nroadmap_section: Now\nrationale: why\n"
+        "stories:\n  - id: story:F0106-S0001\n    path: planning-mds/features/F0106-ex/s1.md\n"
+        "    affects:\n      - planning-mds/features/x\n",
+    )
+    assert_has(errs, "never a path")
+
+
 # 9 — unparseable YAML / missing id.
 def test_unparseable_yaml_fails(tmp_path):
     errs = errors_for(tmp_path, "nodes/entities/broken.yaml", "id: entity:x\n  : : : bad\n- also")

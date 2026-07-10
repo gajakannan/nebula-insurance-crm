@@ -96,3 +96,41 @@ KG schema, register it in `ORDERED_LIST_FIELDS` — unregistered structures
 conflict rather than silently union.
 
 Tests: `scripts/kg/tests/test_merge3.py`.
+
+## Shard validation — `shard_validate.py` (F0006-S0004)
+
+Validates the authored shard layer (`planning-mds/kg-source/**`) against the schema + ownership
+contract in `planning-mds/kg-source/README.md`: directory↔kind agreement, ID grammar (reusing the
+ontology's `id_patterns`), references are IDs only, doc refs are logical (`F####/…`) or stable-root,
+one-concept-per-file (or an allowed per-kind bundle), and owner-resolvability.
+
+```bash
+python3 scripts/kg/shard_validate.py                 # all shards under kg-source/
+python3 scripts/kg/shard_validate.py <file|dir> ...  # specific shards
+```
+
+Standalone and importable (the compiler calls it). Tests: `scripts/kg/tests/test_shard_validate.py`.
+
+## Compile — `compile.py` (F0006-S0005)
+
+Deterministic compiler: the only sanctioned producer of the projection trio
+(`canonical-nodes.yaml`, `feature-mappings.yaml`, `code-index.yaml`) from `kg-source/` shards.
+Validates shards, resolves logical `F####/…` doc refs through each feature shard's `path:` (absorbs
+F0005), assembles + emits the trio through `kg_common.canonical_dump` (byte-identical anywhere),
+mirrors `solution-ontology.yaml` verbatim into the generated tree, and runs compile-time analysis
+(duplicate IDs = hard error; name-similarity + binding-glob overlap = advisory, blocking under
+`--strict`). All-or-nothing: nothing is written unless the whole build succeeds.
+
+```bash
+python3 scripts/kg/compile.py                 # shards → projection trio (+ ontology mirror)
+python3 scripts/kg/compile.py --check         # compile to memory, diff committed (reproducibility)
+python3 scripts/kg/compile.py --strict        # analysis warnings become blocking
+python3 scripts/kg/compile.py --generators \  # also drive decisions/coverage/story-index …
+    --framework-root ../nebula-agents         # … then strip their generated_at timestamps
+```
+
+Feature shards carry the full tracker-projected field set; `compile.py` emits only the *technical*
+subset into `feature-mappings.features` (presentation fields render to the trackers at S0007) and
+expands each feature's `stories:` block into `feature-mappings.stories`. Until the S0006 migration
+populates `kg-source/`, `compile.py` on the real tree is a no-op. Tests:
+`scripts/kg/tests/test_compile.py`.

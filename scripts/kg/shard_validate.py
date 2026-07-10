@@ -297,6 +297,18 @@ def _validate_record(record: dict[str, Any], dc: DirClass, rel: str, report: Rep
     if dc.schema == "binding" and isinstance(record.get("paths"), dict):
         _check_binding_paths(record["paths"], rel, rid, report)
 
+    # 7. Feature story mappings (D3): story ids well-formed; nested refs are IDs only.
+    if dc.schema == "feature" and isinstance(record.get("stories"), list):
+        for story in record["stories"]:
+            if not isinstance(story, dict):
+                continue
+            sid = story.get("id")
+            if isinstance(sid, str) and not KIND_ID_RE["story"].match(sid):
+                report.error(f"{rel}: [{rid}] story id '{sid}' must match `story:F####-S####`")
+            for fname in ("affects", "depends_on", "governed_by", "uses_api_contract", "uses_schema"):
+                for item in story.get(fname, []) or []:
+                    _check_reference_value(item, f"stories[{sid}].{fname}", rel, report)
+
 
 def validate_shard_file(path: Path, report: Report | None = None) -> Report:
     """Validate one shard file. Returns the Report (accumulating if one is passed in)."""
@@ -330,11 +342,18 @@ def validate_shard_file(path: Path, report: Report | None = None) -> Report:
     return report
 
 
+# Files under kg-source/ that are tooling ledgers, not concept shards (not validated/assembled).
+NON_SHARD_BASENAMES = {"suppressions.yaml"}
+
+
 def iter_shard_files(root: Path) -> list[Path]:
     root = Path(root)
     if root.is_file():
         return [root]
-    return sorted(p for p in root.rglob("*.y*ml") if p.is_file())
+    return sorted(
+        p for p in root.rglob("*.y*ml")
+        if p.is_file() and p.name not in NON_SHARD_BASENAMES
+    )
 
 
 def validate_paths(paths: list[Path]) -> Report:

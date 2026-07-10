@@ -416,6 +416,78 @@ def resolve_refs(ref_ids: Iterable[str], bundle: Mapping[str, Any]) -> list[dict
     return resolved
 
 
+# ---------------------------------------------------------------------------
+# Logical feature-doc references (F0006-S0005 / absorbs F0005)
+# ---------------------------------------------------------------------------
+# A shard authors doc refs move-invariantly: `F####/rel/path.md` resolves through
+# the owning feature shard's `path:` at compile time, so archiving a feature (one
+# `path:` edit) repoints every ref with zero shard changes. Stable-root refs (docs
+# that do not move with a feature) pass through physical.
+
+LOGICAL_DOC_REF_RE = re.compile(r"^F(\d{4})/(.*)$")
+STABLE_ROOT_PREFIXES: tuple[str, ...] = (
+    "planning-mds/architecture/",
+    "planning-mds/api/",
+    "planning-mds/schemas/",
+    "planning-mds/security/",
+    "planning-mds/domain/",
+    "engine/",
+    "experience/",
+)
+
+
+class DocRefError(ValueError):
+    """A shard doc ref could not be resolved (unknown feature, missing file, or malformed)."""
+
+
+def resolve_doc_ref(
+    ref: str,
+    feature_paths: Mapping[str, str],
+    *,
+    exist_root: Path | None = REPO_ROOT,
+) -> str:
+    """Resolve a shard doc ref to a physical repo-relative path.
+
+    - ``F####/rel`` → ``<feature path>/rel`` (feature path from ``feature_paths``,
+      keyed by ``feature:F####``); existence-checked under ``exist_root`` when given.
+    - a stable-root physical ref → returned unchanged (validated to exist when a root is given).
+    - anything else (physical ``planning-mds/features/…`` path, unknown feature, empty
+      remainder, missing file) → :class:`DocRefError`.
+    """
+    if not isinstance(ref, str) or not ref:
+        raise DocRefError(f"doc ref must be a non-empty string, got {ref!r}")
+
+    m = LOGICAL_DOC_REF_RE.match(ref)
+    if m:
+        remainder = m.group(2).strip()
+        if not remainder:
+            raise DocRefError(f"malformed logical ref '{ref}': empty path after F{m.group(1)}/")
+        feature_id = f"feature:F{m.group(1)}"
+        base = feature_paths.get(feature_id)
+        if base is None:
+            raise DocRefError(f"logical ref '{ref}' names unknown feature {feature_id}")
+        resolved = f"{base.rstrip('/')}/{remainder}"
+        if exist_root is not None and not (exist_root / resolved).exists():
+            raise DocRefError(f"logical ref '{ref}' resolves to '{resolved}', which does not exist")
+        return resolved
+
+    if ref.startswith("planning-mds/features/"):
+        raise DocRefError(
+            f"physical feature-doc path '{ref}' is not allowed in a shard; use the logical "
+            f"`F####/rel` form so archive moves need no shard edit"
+        )
+
+    if ref.startswith(STABLE_ROOT_PREFIXES):
+        if exist_root is not None and not (exist_root / ref).exists():
+            raise DocRefError(f"stable-root ref '{ref}' does not exist")
+        return ref
+
+    raise DocRefError(
+        f"unrecognized doc ref '{ref}': expected a logical `F####/rel` ref or a stable-root path "
+        f"({', '.join(STABLE_ROOT_PREFIXES)})"
+    )
+
+
 def iter_feature_dirs() -> list[str]:
     feature_dirs: list[str] = []
     for path in sorted(FEATURES_DIR.glob("*")):

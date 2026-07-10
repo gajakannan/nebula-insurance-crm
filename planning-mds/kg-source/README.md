@@ -147,6 +147,7 @@ feature-shard field is a schema gap, not a table edit.
 | `supersedes` / `superseded_by` | when applicable | feature IDs |
 | `retired_date` + `reason` | when `status = superseded/retired` | REGISTRY Retired row |
 | `archived_date` | when archived | REGISTRY Archived row |
+| `stories` | no | story mappings owned by this feature (`id`, `path`, `affects`, `uses_*`); compiled into `feature-mappings.yaml` `stories` with `feature` set to this shard's id (added S0005-D3) |
 
 \* `phase` is not meaningful for the `Abandoned` roadmap section; required for all others.
 
