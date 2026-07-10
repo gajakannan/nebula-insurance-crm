@@ -270,6 +270,43 @@ capabilities:
     source_docs:
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
       - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/README.md
+  - id: capability:document-classification
+    label: Classification-based document access control
+    related_nodes:
+      - entity:document
+      - entity:document-template
+    source_docs:
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/security/authorization-matrix.md
+  - id: capability:document-completeness-signal
+    label: Document completeness signal (read-only summary)
+    related_nodes:
+      - entity:document
+    source_docs:
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+  - id: capability:document-management
+    label: Document Management
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
+  - id: capability:document-retention
+    label: Document retention policy and scheduled cleanup
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
+  - id: capability:document-templates
+    label: Document Templates Library
+    related_nodes:
+      - entity:document
+      - entity:document-template
+    source_docs:
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
   - id: capability:dynamic-attribute-panel
     label: Dynamic Attribute Panel
     related_nodes:
@@ -526,6 +563,18 @@ capabilities:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
       - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/PRD.md
+  - id: capability:outbound-document-generation
+    label: Outbound Document Generation
+    related_nodes:
+      - capability:document-management
+      - capability:document-templates
+      - entity:document
+      - entity:document-template
+      - entity:generated-document-artifact
+      - entity:submission-quote-packet
+    source_docs:
+      - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
+      - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/PRD.md
   - id: capability:principal-key-normalization
     label: Principal Key Normalization
     source_docs:
@@ -3052,55 +3101,6 @@ evidence:
       - workflow:renewal
       - workflow:submission
 glossary_terms:
-  - id: capability:document-classification
-    label: Classification-based document access control
-    related_nodes:
-      - entity:document
-      - entity:document-template
-    source_docs:
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
-      - planning-mds/security/authorization-matrix.md
-  - id: capability:document-completeness-signal
-    label: Document completeness signal (read-only summary)
-    related_nodes:
-      - entity:document
-    source_docs:
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
-  - id: capability:document-management
-    label: Document Management
-    related_nodes:
-      - entity:document
-      - workflow:document-ingest
-    source_docs:
-      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
-  - id: capability:document-retention
-    label: Document retention policy and scheduled cleanup
-    related_nodes:
-      - entity:document
-      - workflow:document-ingest
-    source_docs:
-      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
-  - id: capability:document-templates
-    label: Document Templates Library
-    related_nodes:
-      - entity:document
-      - entity:document-template
-    source_docs:
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
-  - id: capability:outbound-document-generation
-    label: Outbound Document Generation
-    related_nodes:
-      - capability:document-management
-      - capability:document-templates
-      - entity:document
-      - entity:document-template
-      - entity:generated-document-artifact
-      - entity:submission-quote-packet
-    source_docs:
-      - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
-      - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/PRD.md
   - id: glossary_term:acord-form
     label: ACORD Form
     related_nodes:
