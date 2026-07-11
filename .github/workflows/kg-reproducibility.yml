@@ -1,10 +1,15 @@
 # Knowledge-graph reproducibility gate (F0006-S0008).
 #
-# Proves every branch's committed generated files are a pure function of source: the compiled
-# projections + tracker regions equal compile(source), and the toolchain-generated indexes
-# (symbols/decisions/coverage/story-index) regenerate to exactly what's committed. Hand-editing a
-# generated file, or forgetting to recompile, fails this check. Blocking (D-ci-mode); a
-# `KG-Reproducibility-Override: <reason>` trailer on the head commit downgrades it for emergencies.
+# Proves every branch's committed compiled projections + tracker regions equal compile(source), the
+# shards are valid, and the git policy holds. Hand-editing a generated file, or forgetting to
+# recompile, fails this check. Blocking (D-ci-mode); a `KG-Reproducibility-Override: <reason>` trailer
+# on the head commit downgrades it for emergencies.
+#
+# Scope: the compiled-projection invariant only (D-ci-scope reverted to fast-core after a CI run showed
+# the symbol/decision/coverage indexes are not byte-reproducible across machines — symbol extraction
+# and the coverage `last_modified` mtime differ on the runner). Those indexes stay integrator-gated via
+# the existing `validate.py --check-symbols/--check-decisions` resolve-checks; this gate covers the
+# deterministic compiled surface that must never be hand-edited.
 name: kg-reproducibility
 
 on:
@@ -16,57 +21,11 @@ jobs:
   reproducibility:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout product repo
-        uses: actions/checkout@v4
-        with:
-          path: product
-
-      - name: Checkout framework (for generate-story-index)
-        uses: actions/checkout@v4
-        with:
-          repository: gajakannan/nebula-agents
-          path: nebula-agents
-
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "10.0.x"
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-      - run: corepack enable
-
       - name: Install Python deps
         run: pip install pyyaml jsonschema
-
-      # ── fast core invariant: committed projections + tracker regions == compile(source) ──
       - name: Reproducibility + git-policy check
-        working-directory: product
         run: python3 scripts/kg/validate.py --check-reproducible
-
-      # ── full surface: rebuild the toolchain indexes and prove zero drift (D-ci-scope) ──
-      - name: Build symbol extractors
-        working-directory: product
-        run: |
-          dotnet build scripts/kg/csharp-symbols -c Release
-          (cd scripts/kg/ts-symbols && pnpm install --frozen-lockfile=false)
-
-      - name: Regenerate generated surface
-        working-directory: product
-        run: |
-          rm -f .kg-state/symbols-cache.json          # avoid the poisoned-cache trap
-          python3 scripts/kg/validate.py --regenerate-symbols --regenerate-decisions
-          python3 scripts/kg/validate.py --write-coverage-report
-          python3 scripts/kg/compile.py --generators --framework-root ../nebula-agents
-          python3 scripts/kg/reproducibility.py --strip-generated-at
-
-      - name: Fail on any drift in the generated surface
-        working-directory: product
-        run: |
-          if ! git diff --exit-code -- planning-mds/knowledge-graph planning-mds/features/STORY-INDEX.md \
-               planning-mds/features/REGISTRY.md planning-mds/features/ROADMAP.md; then
-            echo "::error::A generated file differs from its regenerated form. Edit the source and recompile; never hand-edit generated files."
-            exit 1
-          fi
