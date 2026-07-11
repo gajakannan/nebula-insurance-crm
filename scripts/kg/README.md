@@ -150,3 +150,23 @@ python3 scripts/kg/decompile.py           # write kg-source/ shards (migration)
 
 Tests: `scripts/kg/tests/test_decompile.py` (real-graph round-trip, idempotency, count-reconciliation,
 anomaly gate).
+
+## Tracker generation — `tracker_gen.py` (F0006-S0007)
+
+Generates the **REGISTRY.md** and **ROADMAP.md** feature tables from `kg-source/features/**`, writing
+only inside fenced regions (`<!-- generated:begin <file>:<table> -->` … `<!-- generated:end … -->`);
+surrounding PM-authored prose is byte-untouched. REGISTRY placement/sort is derived
+(`retired_date`/`superseded_by`→Retired, `archived_date`→Archived, `planned`→Planned, else Active;
+Retired/Archived sort date-desc + ID-desc); ROADMAP order follows each feature's captured
+`roadmap_order`. Closes the byte-identical tracker round trip (zero-diff regeneration on unchanged
+shards). `compile.py` drives it on the real tree.
+
+```bash
+python3 scripts/kg/tracker_gen.py           # regenerate REGISTRY/ROADMAP fenced regions
+python3 scripts/kg/tracker_gen.py --check   # zero-diff check (regions match shards)
+```
+
+The S0002 tracker-row merge (`tracker_merge.py`) is now **transition-only** — with tables generated,
+merges recompute the fenced regions from shards rather than merging rows. BLUEPRINT.md §3.3 generation
+is **deferred** (it's a bespoke prose list with stale duplicates, not a clean projection). Tests:
+`scripts/kg/tests/test_tracker_gen.py`.

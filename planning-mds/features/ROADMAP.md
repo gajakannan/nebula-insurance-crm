@@ -18,13 +18,16 @@ This document is the working prioritization view for feature sequencing.
 
 ## Now
 
+<!-- generated:begin roadmap:now -->
 | Feature | Phase | Why Now |
 |---------|-------|---------|
+<!-- generated:end roadmap:now -->
 
 **Boundary Notes:** F0017 owns the **structural** distribution model + audit only; hierarchy-aware access enforcement and distribution rollups are owned by F0037. F0019 delivered the submission-bound quote/proposal packet workflow needed to move a submission through approval and bind. F0027 owns reusable COI, ACORD, proposal-template, and outbound document generation capability.
 
 ## Next
 
+<!-- generated:begin roadmap:next -->
 | Feature | Phase | Why Next |
 |---------|-------|----------|
 | [F0037 — Hierarchy-Aware Access Scoping & Distribution Rollups](./F0037-hierarchy-aware-access-scoping-and-distribution-rollups/README.md) | CRM Release MVP+ | Promoted Later→Next (2026-06-06, operator decision); now first in `Next` after F0023's 2026-06-19 promotion to `Now`. Homes the scope deferred from F0017 (plan run `2026-06-06-5fb353e9`): hierarchy-aware access-control enforcement + distribution rollup reporting. **Placeholder — needs its own `plan` run before build**; can only start once F0017 (Now) is delivered and F0023 is underway. |
@@ -32,25 +35,31 @@ This document is the working prioritization view for feature sequencing.
 | [F0032 — Admin Configuration & Reference Data Console](./F0032-admin-configuration-and-reference-data-console/README.md) | Platform Operations | Lands after F0022/F0023 to centralize governance, validation, publish, rollback, and audit over module-owned configuration rather than becoming a prerequisite for queues. |
 | [F0039 — Neuron Multi-Thread Conversations](./F0039-neuron-multi-thread-conversations/README.md) | Neuron Companion | Implements the real conversation store + thread management UX on F0038's reserved persistence/envelope seams. **Provisional skeleton** — re-derived in its own `plan` run after F0038 lands. Depends on F0038's persistence ADR. |
 | [F0040 — Neuron Second Specialist Head](./F0040-neuron-second-specialist-head/README.md) | Neuron Companion | Flips a second zone (Accounts/Brokers) from stub to live and hardens the head/orchestrator/registry platform on the first real second consumer. **Provisional skeleton** — re-derived in its own `plan` run after F0038 lands. Depends on F0038's zone-dispatch contract. |
+<!-- generated:end roadmap:next -->
 
 ## Later
 
+<!-- generated:begin roadmap:later -->
 | Feature | Phase | Why Later |
 |---------|-------|-----------|
 | [F0025 — Commission, Producer Splits & Revenue Tracking](./F0025-commission-producer-splits-and-revenue-tracking/README.md) | Brokerage Platform Expansion | Moves Nebula from CRM into brokerage economics and compensation operations. |
 | [F0026 — Billing, Invoicing & Reconciliation](./F0026-billing-invoicing-and-reconciliation/README.md) | Brokerage Platform Expansion | Pushes the product deeper into agency management and finance operations. |
 | [F0030 — Integration Hub & Data Exchange](./F0030-integration-hub-and-data-exchange/README.md) | Brokerage Platform Expansion | Needed for scalable connectivity across email, carriers, accounting, and document systems. |
 | [F0029 — External Broker Collaboration Portal](./F0029-external-broker-collaboration-portal/README.md) | Brokerage Platform Expansion | External collaboration remains intentionally post-MVP until internal workflows, integration boundaries, and broker-safe visibility controls are mature. |
+<!-- generated:end roadmap:later -->
 
 ## Abandoned
 
+<!-- generated:begin roadmap:abandoned -->
 | Feature | Superseded By | Rationale |
 |---------|---------------|-----------|
-| [F0010 — Dashboard Opportunities Refactor](./archive/F0010-dashboard-opportunities-refactor/README.md) | F0013 | F0010's Pipeline Board, Heatmap, Treemap, and Sunburst views are replaced by F0013's vertical timeline with contextual mini-visualizations. The insight views no longer fit the storytelling canvas direction. |
-| [F0011 — Dashboard Opportunities Flow-First Modernization](./archive/F0011-dashboard-opportunities-flow-modernization/README.md) | F0013 | F0011's connected flow and terminal outcomes concepts live on in F0013 but with a fundamentally different visual approach (vertical timeline + narrative callouts instead of connected flow cells). |
+| [F0010 — Dashboard Opportunities Refactor (Pipeline Board + Insight Views)](./archive/F0010-dashboard-opportunities-refactor/README.md) | F0013 | F0010's Pipeline Board, Heatmap, Treemap, and Sunburst views are replaced by F0013's vertical timeline with contextual mini-visualizations. The insight views no longer fit the storytelling canvas direction. |
+| [F0011 — Dashboard Opportunities Flow-First Modernization (Connected Pipeline + Terminal Outcomes)](./archive/F0011-dashboard-opportunities-flow-modernization/README.md) | F0013 | F0011's connected flow and terminal outcomes concepts live on in F0013 but with a fundamentally different visual approach (vertical timeline + narrative callouts instead of connected flow cells). |
+<!-- generated:end roadmap:abandoned -->
 
 ## Completed
 
+<!-- generated:begin roadmap:completed -->
 | Feature | Phase | Completion State |
 |---------|-------|------------------|
 | [F0038 — Neuron Day-at-a-Glance Shell (Renewals live + draft outreach + mock-send)](./archive/F0038-neuron-day-at-a-glance-shell/README.md) | Neuron Companion | Done and archived (2026-07-02, feature run `2026-07-01-90a75ace`) — 8 stories: service bootstrap, Day-at-a-Glance shell + zone-dispatch + message envelope, live Renewals zone (needs-attention + drill), inert stub zones, renewal outreach draft, mock-send + workflow transition, CRM scope guard, companion telemetry. First slice of the Neuron Companion epic; gates G0–G8 all PASS. |
@@ -72,7 +81,7 @@ This document is the working prioritization view for feature sequencing.
 | [F0007 — Renewal Pipeline](./archive/F0007-renewal-pipeline/README.md) | CRM Release MVP | Done and archived (2026-04-12) — 7 stories: pipeline list, detail view, transitions, assignment, overdue visibility, create from policy, timeline |
 | [F0006 — Submission Intake Workflow](./archive/F0006-submission-intake-workflow/README.md) | CRM Release MVP | Done and archived (2026-04-04) — 8 stories: pipeline list, create flow, detail workspace, intake transitions, completeness, assignment, timeline, stale visibility |
 | [F0033 — Structured Logging and QE Toolchain Activation](./archive/F0033-structured-logging-and-qe-toolchain-activation/README.md) | Infrastructure | Done and archived (2026-03-30) — 5 stories: Serilog baseline, Bruno API validation, Lighthouse CI, Pact contract testing, SonarQube Community |
-| [F0014 — DevOps Smoke Test Automation](./archive/F0014-devops-smoke-test-automation/PRD.md) | Infrastructure | Done and archived (2026-03-28) — 3 stories: blueprint fixes, multi-role smoke test, CI workflow |
+| [F0014 — DevOps Smoke Test Automation](./archive/F0014-devops-smoke-test-automation/README.md) | Infrastructure | Done and archived (2026-03-28) — 3 stories: blueprint fixes, multi-role smoke test, CI workflow |
 | [F0004 — Task Center UI + Manager Assignment](./archive/F0004-task-center-ui-and-assignment/README.md) | Phase 1 | Done and archived (2026-03-23) |
 | [F0015 — Frontend Quality Gates + Test Infrastructure](./archive/F0015-frontend-quality-gates-and-test-infrastructure/README.md) | Infrastructure | Done and archived (2026-03-21) |
 | [F0003 — Task Center + Reminders (API-only MVP)](./archive/F0003-task-center/README.md) | MVP | Done and archived |
@@ -82,6 +91,7 @@ This document is the working prioritization view for feature sequencing.
 | [F0005 — IdP Migration: Keycloak → authentik](./archive/F0005-idp-migration/README.md) | Foundation | Done and archived |
 | [F0009 — Authentication + Role-Based Login](./archive/F0009-authentication-and-role-based-login/README.md) | Phase 1 | Done and archived |
 | [F0012 — Dashboard Storytelling Infographic Canvas (Flat Canvas + Collapsible Rails)](./archive/F0012-dashboard-storytelling-infographic-canvas/README.md) | MVP | Done and archived |
+<!-- generated:end roadmap:completed -->
 
 ## Notes
 

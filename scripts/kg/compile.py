@@ -32,6 +32,7 @@ from typing import Any
 import kg_common
 import merge3
 import shard_validate
+import tracker_gen
 from kg_common import (
     DocRefError,
     canonical_dump,
@@ -60,8 +61,9 @@ DEFAULT_HEADERS: dict[str, dict[str, Any]] = {
 # feature shard — status/path/affects/governed_by/uses_*/depends_on/supersedes/enforced_by_policy/
 # restricted_to_role/notes/… — projects verbatim.
 FEATURE_PRESENTATION_FIELDS = frozenset({
-    "name", "phase", "roadmap_section", "rationale", "completion_state", "validation_gate",
-    "retired_date", "reason", "archived_date", "coverage_excluded", "story_mappings", "superseded_by",
+    "name", "phase", "roadmap_section", "roadmap_order", "rationale", "completion_state",
+    "validation_gate", "retired_date", "reason", "archived_date", "coverage_excluded",
+    "story_mappings", "superseded_by",
 })
 
 GENERATED_AT_LINE_RE = re.compile(r"(?m)^generated_at:.*\n")
@@ -397,18 +399,26 @@ def main(argv: list[str] | None = None) -> int:
               "(kg-source/ is authored by the S0006 migration; compile is a no-op until then).")
         return 0
 
+    # Tracker generation (S0007) only fires on the real source tree (it renders the real trackers).
+    real_tree = Path(args.source).resolve() == KG_SOURCE_DIR.resolve()
+
     if args.check:
         drift = check_projections(result, args.out)
+        if real_tree:
+            drift += tracker_gen.check()
         if drift:
             for name in drift:
                 print(f"error: {name} is stale — committed output != compile(source). Run compile.py.", file=sys.stderr)
             return 1
-        print("compile --check: committed projections match compile(source)")
+        print("compile --check: committed projections + tracker regions match compile(source)")
         return 0
 
     write_projections(result, args.out)
     printed = ", ".join(render(result))
     print(f"compile: wrote {printed}")
+    if real_tree:
+        tracker_gen.generate(write=True)
+        print("  generated: REGISTRY.md, ROADMAP.md tracker regions")
     if args.generators:
         for cmd in drive_generators(args.out, framework_root=args.framework_root):
             print(f"  drove: {cmd}")

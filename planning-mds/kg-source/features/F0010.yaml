@@ -16,7 +16,11 @@ depends_on:
 governed_by:
   - adr:002
   - adr:004
+rationale: F0010's Pipeline Board, Heatmap, Treemap, and Sunburst views are replaced by F0013's vertical
+  timeline with contextual mini-visualizations. The insight views no longer fit the storytelling canvas
+  direction.
 retired_date: '2026-03-14'
+roadmap_order: 0
 roadmap_section: Abandoned
 story_mappings:
   - id: story:F0010-S0001

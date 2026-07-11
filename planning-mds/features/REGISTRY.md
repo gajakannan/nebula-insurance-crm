@@ -9,20 +9,25 @@
 
 ## Active Features
 
+<!-- generated:begin registry:active -->
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
+<!-- generated:end registry:active -->
 
 ## Retired Features
 
 Per §19 of the feature-evidence package contract. Replaces the legacy `Abandoned Features` section. Retired features are registry records that were not delivered as completed scope.
 
+<!-- generated:begin registry:retired -->
 | Feature ID | Name | Terminal Status | Superseded By | Retired Date | Folder | Reason |
 |------------|------|-----------------|---------------|--------------|--------|--------|
 | F0011 | Dashboard Opportunities Flow-First Modernization (Connected Pipeline + Terminal Outcomes) | Superseded | F0013 | 2026-03-14 | `archive/F0011-dashboard-opportunities-flow-modernization/` | Superseded by F0013 framed storytelling canvas approach |
 | F0010 | Dashboard Opportunities Refactor (Pipeline Board + Insight Views) | Superseded | F0013 | 2026-03-14 | `archive/F0010-dashboard-opportunities-refactor/` | Superseded by F0013 framed storytelling canvas approach |
+<!-- generated:end registry:retired -->
 
 ## Planned (Reserved IDs)
 
+<!-- generated:begin registry:planned -->
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
 | F0025 | Commission, Producer Splits & Revenue Tracking | Planned | Brokerage Platform Expansion | `F0025-commission-producer-splits-and-revenue-tracking/` |
@@ -34,9 +39,11 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 | F0037 | Hierarchy-Aware Access Scoping & Distribution Rollups | Planned | CRM Release MVP+ | `F0037-hierarchy-aware-access-scoping-and-distribution-rollups/` |
 | F0039 | Neuron Multi-Thread Conversations | Planned (provisional) | Neuron Companion | `F0039-neuron-multi-thread-conversations/` |
 | F0040 | Neuron Second Specialist Head | Planned (provisional) | Neuron Companion | `F0040-neuron-second-specialist-head/` |
+<!-- generated:end registry:planned -->
 
 ## Archived Features
 
+<!-- generated:begin registry:archived -->
 | Feature ID | Name | Archived Date | Folder |
 |------------|------|---------------|--------|
 | F0028 | Carrier & Market Relationship Management | 2026-07-03 | `archive/F0028-carrier-and-market-relationship-management/` |
@@ -68,6 +75,7 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 | F0009 | Authentication + Role-Based Login | 2026-03-07 | `archive/F0009-authentication-and-role-based-login/` |
 | F0005 | IdP Migration: Keycloak → authentik | 2026-03-07 | `archive/F0005-idp-migration/` |
 | F0001 | Dashboard | 2026-03-07 | `archive/F0001-dashboard/` |
+<!-- generated:end registry:archived -->
 
 ## Numbering Rules
 

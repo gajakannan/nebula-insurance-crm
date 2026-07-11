@@ -136,6 +136,7 @@ feature-shard field is a schema gap, not a table edit.
 | `status` | yes | canonical status (see vocabulary below) |
 | `phase` | yes\* | delivery phase |
 | `roadmap_section` | yes | `Now` \| `Next` \| `Later` \| `Abandoned` \| `Completed` |
+| `roadmap_order` | no | integer position within the ROADMAP section (captures the PM-authored order; consumed by the S0007 tracker generator) |
 | `rationale` | when `roadmap_section ∈ {Now,Next,Later}` | the ROADMAP "Why Now/Next/Later" prose |
 | `completion_state` | when `roadmap_section = Completed` | the ROADMAP "Completion State" prose |
 | `validation_gate` | where applicable | entry/exit gate note |
