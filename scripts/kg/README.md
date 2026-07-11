@@ -170,3 +170,30 @@ The S0002 tracker-row merge (`tracker_merge.py`) is now **transition-only** — 
 merges recompute the fenced regions from shards rather than merging rows. BLUEPRINT.md §3.3 generation
 is **deferred** (it's a bespoke prose list with stale duplicates, not a clean projection). Tests:
 `scripts/kg/tests/test_tracker_gen.py`.
+
+## Reproducibility + git policy — `reproducibility.py` (F0006-S0008)
+
+`validate.py --check-reproducible` (delegates to `reproducibility.py`) is the single check CI and the
+integrator use to prove the committed generated files are a pure function of source:
+
+```bash
+python3 scripts/kg/validate.py --check-reproducible   # compile-check + shard-validate + rules + .gitattributes
+python3 scripts/kg/reproducibility.py --write-gitattributes  # regenerate .gitattributes from the manifest
+```
+
+It fails (naming the file + remediation) on a hand-edited/stale projection or tracker region, an
+invalid shard, `.gitattributes` drift, an archived feature reachable by a non-archive path, a
+suppression-ledger entry without a rationale, or a binding path that matches no file. A
+`KG-Reproducibility-Override: <reason>` trailer on the head commit downgrades failures to logged
+warnings (emergencies only).
+
+**Manifest + git policy.** `generated_paths.yaml` is the one authoritative list of every generated
+path with a `whole-file` / `fenced-region` granularity marker. `.gitattributes` is **generated from it**
+(never hand-listed): whole-file paths get `linguist-generated` + `merge=ours`; the fenced-region
+trackers (REGISTRY/ROADMAP) get neither (both are file-scoped and would hide/drop PM prose). The
+`merge=ours` driver needs a one-time local `git config merge.ours.driver true`.
+
+**CI.** `.github/workflows/kg-reproducibility.yml` runs `--check-reproducible` on every PR, then (full
+scope) rebuilds the symbol/decision/coverage indexes and diffs. Committed `symbol-index`/
+`decisions-index`/`unbound-but-referenced` carry no `generated_at` (stripped, S0005-D1) so the
+regenerate-and-diff is deterministic. Tests: `scripts/kg/tests/test_reproducibility.py`.
