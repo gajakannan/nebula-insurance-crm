@@ -130,7 +130,7 @@ public class OperationalReportServiceTests
 
         var result = await svc.GetDistributionRollupsAsync(query, new RUser(OwnerA, ["DistributionManager"], ["West"]), default);
 
-        repo.LastVisibility!.TerritoryIds.ShouldContain(TerritoryA);
+        repo.LastVisibility!.RequestedTerritoryIds.ShouldNotBeNull().ShouldContain(TerritoryA);
         result.Scope!.TerritoryId.ShouldBe(TerritoryA);
         result.Totals.RecordCount.ShouldBe(3);
         result.Totals.ProductionCount.ShouldBe(2);
@@ -157,8 +157,8 @@ public class OperationalReportServiceTests
 
         var result = await svc.GetDistributionRollupsAsync(query, new RUser(OwnerA, ["DistributionManager"], ["West"]), default);
 
-        insightRepo.LastVisibility!.TerritoryIds.ShouldContain(TerritoryA);
-        insightRepo.LastVisibility.ProducerUserIds.ShouldContain(OwnerA);
+        insightRepo.LastVisibility!.RequestedTerritoryIds.ShouldNotBeNull().ShouldContain(TerritoryA);
+        insightRepo.LastVisibility.RequestedProducerUserIds.ShouldNotBeNull().ShouldContain(OwnerA);
         result.MetricFamily.ShouldBe("Activity");
         result.Totals.RecordCount.ShouldBe(3);
         result.Totals.ActivityCount.ShouldBe(3);
@@ -211,20 +211,23 @@ file class RptRepo : IOperationalReportProjectionRepository
         if (!visibility.HasScope)
             return Task.FromResult<IReadOnlyList<OperationalReportProjection>>([]);
 
+        // Mirrors OperationalReportProjectionRepository.QueryAsync: authority union (BrokerIds/ProducerUserIds)
+        // OR-ed with owner/region, then Requested* AND-narrowing on top.
         IEnumerable<OperationalReportProjection> rows = Rows;
         if (!visibility.SeeAll)
         {
             rows = rows.Where(r =>
                 r.OwnerUserId == visibility.UserId
-                || (r.Region is not null && visibility.Regions.Contains(r.Region)));
+                || (r.Region is not null && visibility.Regions.Contains(r.Region))
+                || (r.BrokerId is { } b && visibility.BrokerIds.Contains(b))
+                || (r.OwnerUserId is { } o && visibility.ProducerUserIds.Contains(o)));
         }
-
-        if (visibility.BrokerIds.Count > 0)
-            rows = rows.Where(r => r.BrokerId is { } brokerId && visibility.BrokerIds.Contains(brokerId));
-        if (visibility.TerritoryIds.Count > 0)
-            rows = rows.Where(r => r.TerritoryId is { } territoryId && visibility.TerritoryIds.Contains(territoryId));
-        if (visibility.ProducerUserIds.Count > 0)
-            rows = rows.Where(r => r.OwnerUserId is { } ownerId && visibility.ProducerUserIds.Contains(ownerId));
+        if (visibility.RequestedBrokerIds is { Count: > 0 } rb)
+            rows = rows.Where(r => r.BrokerId is { } b && rb.Contains(b));
+        if (visibility.RequestedTerritoryIds is { Count: > 0 } rt)
+            rows = rows.Where(r => r.TerritoryId is { } t && rt.Contains(t));
+        if (visibility.RequestedProducerUserIds is { Count: > 0 } rp)
+            rows = rows.Where(r => r.OwnerUserId is { } o && rp.Contains(o));
 
         return Task.FromResult<IReadOnlyList<OperationalReportProjection>>(rows.ToList());
     }
@@ -243,18 +246,23 @@ file class InsightRepo : IBrokerInsightProjectionRepository
         if (!visibility.HasScope)
             return Task.FromResult<IReadOnlyList<BrokerInsightProjection>>([]);
 
+        // Mirrors BrokerInsightProjectionRepository.QueryAsync: authority union (region OR authorized-broker OR
+        // authorized-producer), then Requested* AND-narrowing on top.
         IEnumerable<BrokerInsightProjection> rows = Rows;
         if (!visibility.SeeAll)
         {
-            rows = rows.Where(r => r.Region is not null && visibility.Regions.Contains(r.Region));
+            rows = rows.Where(r =>
+                (r.Region is not null && visibility.Regions.Contains(r.Region))
+                || visibility.BrokerIds.Contains(r.BrokerId)
+                || (r.ProducerId is { } p && visibility.ProducerUserIds.Contains(p)));
         }
+        if (visibility.RequestedBrokerIds is { Count: > 0 } rb)
+            rows = rows.Where(r => rb.Contains(r.BrokerId));
+        if (visibility.RequestedTerritoryIds is { Count: > 0 } rt)
+            rows = rows.Where(r => r.TerritoryId is { } t && rt.Contains(t));
+        if (visibility.RequestedProducerUserIds is { Count: > 0 } rp)
+            rows = rows.Where(r => r.ProducerId is { } p && rp.Contains(p));
 
-        if (visibility.BrokerIds.Count > 0)
-            rows = rows.Where(r => visibility.BrokerIds.Contains(r.BrokerId));
-        if (visibility.TerritoryIds.Count > 0)
-            rows = rows.Where(r => r.TerritoryId is { } territoryId && visibility.TerritoryIds.Contains(territoryId));
-        if (visibility.ProducerUserIds.Count > 0)
-            rows = rows.Where(r => r.ProducerId is { } producerId && visibility.ProducerUserIds.Contains(producerId));
         if (query.TerritoryId.HasValue)
             rows = rows.Where(r => r.TerritoryId == query.TerritoryId);
         if (query.ProducerId.HasValue)
@@ -272,23 +280,26 @@ file class RptScope : IDistributionScopeService
     public Task<ProjectionVisibility> ResolveAsync(DistributionScopeRequest request, ICurrentUserService user, CancellationToken ct)
     {
         var externalDenied = user.Roles.Any(r => r is "ExternalUser" or "BrokerUser");
-        var territoryIds = request.TerritoryId is { } territoryId ? new HashSet<Guid> { territoryId } : [];
-        var producerIds = request.ProducerUserId is { } producerId ? new HashSet<Guid> { producerId } : [];
-        var brokerIds = request.RootNodeId is { } rootId ? new HashSet<Guid> { rootId } : [];
+        var requested = request.RootNodeId.HasValue || request.TerritoryId.HasValue || request.ProducerUserId.HasValue;
         var asOf = request.AsOf ?? DateOnly.Parse("2026-07-06");
 
+        // Authority sets are empty in this fake; the request maps to the Requested* narrowing sets.
         return Task.FromResult(new ProjectionVisibility(
             SeeAll: user.Roles.Contains("Admin"),
             UserId: user.UserId,
             Roles: user.Roles,
             Regions: user.Regions,
             DistributionNodeIds: new HashSet<Guid>(),
-            BrokerIds: brokerIds,
-            TerritoryIds: territoryIds,
-            ProducerUserIds: producerIds,
+            BrokerIds: new HashSet<Guid>(),
+            TerritoryIds: new HashSet<Guid>(),
+            ProducerUserIds: new HashSet<Guid>(),
             AsOf: asOf,
             HasScope: !externalDenied,
-            ExplanationCodes: externalDenied ? ["external_denied"] : ["test_scope"]));
+            ExplanationCodes: externalDenied ? ["external_denied"] : ["test_scope"],
+            ExplicitScopeRequested: requested,
+            RequestedBrokerIds: request.RootNodeId is { } rootId ? new HashSet<Guid> { rootId } : null,
+            RequestedTerritoryIds: request.TerritoryId is { } territoryId ? new HashSet<Guid> { territoryId } : null,
+            RequestedProducerUserIds: request.ProducerUserId is { } producerId ? new HashSet<Guid> { producerId } : null));
     }
 
     public Task<bool> CanReadDistributionNodeAsync(Guid nodeId, ICurrentUserService user, DateOnly? asOf, CancellationToken ct) => Task.FromResult(true);

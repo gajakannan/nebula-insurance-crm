@@ -5,6 +5,29 @@ import { useDistributionRollupReport } from '../hooks';
 import type { DistributionRollupParams, DistributionRollupRow } from '../types';
 import { StatTile } from './ReportShared';
 
+// WHY: Production/Activity rollups are backed by broker-insight projections that only carry their own metric
+// family — the other columns are structurally not computed (0-by-construction). Per the PRD, missing metrics
+// must read as explicitly unavailable ("—") rather than a fabricated 0. Workflow rollups compute every
+// column from the operational-report projection, so all columns are available there.
+interface MetricAvailability {
+  production: boolean;
+  workflowOpen: boolean;
+  workflowOverdue: boolean;
+  activity: boolean;
+}
+
+function metricAvailability(metricFamily: string): MetricAvailability {
+  const isWorkflow = metricFamily === 'Workflow';
+  return {
+    production: isWorkflow || metricFamily === 'Production',
+    workflowOpen: isWorkflow,
+    workflowOverdue: isWorkflow,
+    activity: isWorkflow || metricFamily === 'Activity',
+  };
+}
+
+const UNAVAILABLE = '—';
+
 export function DistributionRollupReportView({ params }: { params: DistributionRollupParams }) {
   const { data, isLoading, isError, refetch } = useDistributionRollupReport(params);
 
@@ -21,15 +44,16 @@ export function DistributionRollupReportView({ params }: { params: DistributionR
   }
 
   const empty = data.rows.length === 0;
+  const avail = metricAvailability(data.metricFamily);
 
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
         <StatTile label="Records" value={data.totals.recordCount} />
-        <StatTile label="Production" value={data.totals.productionCount} />
-        <StatTile label="Open workflow" value={data.totals.workflowOpen} />
-        <StatTile label="Overdue" value={data.totals.workflowOverdue} />
-        <StatTile label="Activity" value={data.totals.activityCount} />
+        <StatTile label="Production" value={avail.production ? data.totals.productionCount : null} />
+        <StatTile label="Open workflow" value={avail.workflowOpen ? data.totals.workflowOpen : null} />
+        <StatTile label="Overdue" value={avail.workflowOverdue ? data.totals.workflowOverdue : null} />
+        <StatTile label="Activity" value={avail.activity ? data.totals.activityCount : null} />
       </div>
 
       {empty ? (
@@ -53,7 +77,7 @@ export function DistributionRollupReportView({ params }: { params: DistributionR
               </tr>
             </thead>
             <tbody className="divide-y divide-surface-border bg-surface-panel">
-              {data.rows.map((row) => <RollupRow key={`${row.groupType}:${row.groupKey}`} row={row} />)}
+              {data.rows.map((row) => <RollupRow key={`${row.groupType}:${row.groupKey}`} row={row} avail={avail} />)}
             </tbody>
           </table>
         </div>
@@ -66,7 +90,7 @@ export function DistributionRollupReportView({ params }: { params: DistributionR
   );
 }
 
-function RollupRow({ row }: { row: DistributionRollupRow }) {
+function RollupRow({ row, avail }: { row: DistributionRollupRow; avail: MetricAvailability }) {
   const label = row.drilldownUrl ? (
     <Link to={row.drilldownUrl} className="text-text-primary underline-offset-2 hover:underline">
       {row.groupLabel}
@@ -79,10 +103,10 @@ function RollupRow({ row }: { row: DistributionRollupRow }) {
     <tr>
       <td className="px-3 py-2">{label}</td>
       <td className="px-3 py-2 text-right text-text-secondary">{row.metrics.recordCount}</td>
-      <td className="px-3 py-2 text-right text-text-secondary">{row.metrics.productionCount}</td>
-      <td className="px-3 py-2 text-right text-text-secondary">{row.metrics.workflowOpen}</td>
-      <td className="px-3 py-2 text-right text-text-secondary">{row.metrics.workflowOverdue}</td>
-      <td className="px-3 py-2 text-right text-text-secondary">{row.metrics.activityCount}</td>
+      <td className="px-3 py-2 text-right text-text-secondary">{avail.production ? row.metrics.productionCount : UNAVAILABLE}</td>
+      <td className="px-3 py-2 text-right text-text-secondary">{avail.workflowOpen ? row.metrics.workflowOpen : UNAVAILABLE}</td>
+      <td className="px-3 py-2 text-right text-text-secondary">{avail.workflowOverdue ? row.metrics.workflowOverdue : UNAVAILABLE}</td>
+      <td className="px-3 py-2 text-right text-text-secondary">{avail.activity ? row.metrics.activityCount : UNAVAILABLE}</td>
     </tr>
   );
 }

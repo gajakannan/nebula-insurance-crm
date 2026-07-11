@@ -181,12 +181,16 @@ file class BrokerInsightScope : IDistributionScopeService
             Roles: user.Roles,
             Regions: user.Regions,
             DistributionNodeIds: new HashSet<Guid>(),
-            BrokerIds: request.RootNodeId is { } rootId ? new HashSet<Guid> { rootId } : [],
-            TerritoryIds: request.TerritoryId is { } territoryId ? new HashSet<Guid> { territoryId } : [],
-            ProducerUserIds: request.ProducerUserId is { } producerId ? new HashSet<Guid> { producerId } : [],
+            BrokerIds: new HashSet<Guid>(),
+            TerritoryIds: new HashSet<Guid>(),
+            ProducerUserIds: new HashSet<Guid>(),
             AsOf: request.AsOf ?? DateOnly.Parse("2026-07-06"),
             HasScope: !externalDenied,
-            ExplanationCodes: externalDenied ? ["external_denied"] : ["test_scope"]));
+            ExplanationCodes: externalDenied ? ["external_denied"] : ["test_scope"],
+            ExplicitScopeRequested: request.RootNodeId.HasValue || request.TerritoryId.HasValue || request.ProducerUserId.HasValue,
+            RequestedBrokerIds: request.RootNodeId is { } rootId ? new HashSet<Guid> { rootId } : null,
+            RequestedTerritoryIds: request.TerritoryId is { } territoryId ? new HashSet<Guid> { territoryId } : null,
+            RequestedProducerUserIds: request.ProducerUserId is { } producerId ? new HashSet<Guid> { producerId } : null));
     }
 
     public Task<bool> CanReadDistributionNodeAsync(Guid nodeId, ICurrentUserService user, DateOnly? asOf, CancellationToken ct) => Task.FromResult(true);

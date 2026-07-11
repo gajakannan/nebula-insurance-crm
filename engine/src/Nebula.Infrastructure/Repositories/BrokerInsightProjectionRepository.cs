@@ -23,22 +23,35 @@ public class BrokerInsightProjectionRepository : IBrokerInsightProjectionReposit
         if (!visibility.HasScope)
             q = q.Where(p => false);
 
-        var brokerIds = visibility.BrokerIds.ToList();
-        var territoryIds = visibility.TerritoryIds.ToList();
-        var producerIds = visibility.ProducerUserIds.ToList();
-
+        // Authority UNION (non-admin): region OR authorized-broker OR authorized-producer. Broker insights
+        // carry no owner. Territory authority is not OR-ed (derived → sibling-leak risk); it only narrows.
+        var authBrokerIds = visibility.BrokerIds.ToList();
+        var authProducerIds = visibility.ProducerUserIds.ToList();
         if (!visibility.SeeAll)
         {
             var regions = visibility.Regions.ToList();
-            q = q.Where(p => p.Region != null && regions.Contains(p.Region));
+            q = q.Where(p =>
+                (p.Region != null && regions.Contains(p.Region))
+                || authBrokerIds.Contains(p.BrokerId)
+                || (p.ProducerId != null && authProducerIds.Contains(p.ProducerId.Value)));
         }
 
-        if (brokerIds.Count > 0)
-            q = q.Where(p => brokerIds.Contains(p.BrokerId));
-        if (territoryIds.Count > 0)
-            q = q.Where(p => p.TerritoryId != null && territoryIds.Contains(p.TerritoryId.Value));
-        if (producerIds.Count > 0)
-            q = q.Where(p => p.ProducerId != null && producerIds.Contains(p.ProducerId.Value));
+        // Requested narrowing — explicit filter ANDs on top of the union (and narrows admin too).
+        if (visibility.RequestedBrokerIds is { Count: > 0 } reqBrokers)
+        {
+            var l = reqBrokers.ToList();
+            q = q.Where(p => l.Contains(p.BrokerId));
+        }
+        if (visibility.RequestedTerritoryIds is { Count: > 0 } reqTerritories)
+        {
+            var l = reqTerritories.ToList();
+            q = q.Where(p => p.TerritoryId != null && l.Contains(p.TerritoryId.Value));
+        }
+        if (visibility.RequestedProducerUserIds is { Count: > 0 } reqProducers)
+        {
+            var l = reqProducers.ToList();
+            q = q.Where(p => p.ProducerId != null && l.Contains(p.ProducerId.Value));
+        }
 
         if (query.BrokerId.HasValue)
             q = q.Where(p => p.BrokerId == query.BrokerId.Value);

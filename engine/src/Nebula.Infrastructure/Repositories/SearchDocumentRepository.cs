@@ -135,25 +135,37 @@ public class SearchDocumentRepository : ISearchDocumentRepository
     {
         if (!v.HasScope) return q.Where(d => false);
 
-        var brokerIds = v.BrokerIds.ToList();
-        var territoryIds = v.TerritoryIds.ToList();
-        var producerIds = v.ProducerUserIds.ToList();
-
+        // Authority UNION (non-admin): owner OR region OR authorized-broker OR authorized-producer. Territory
+        // authority is not OR-ed (derived → sibling-leak risk); it only narrows an explicit request below.
+        var authBrokerIds = v.BrokerIds.ToList();
+        var authProducerIds = v.ProducerUserIds.ToList();
         if (!v.SeeAll)
         {
             var regions = v.Regions.ToList();
             var uid = v.UserId;
             q = q.Where(d =>
                 d.OwnerUserId == uid
-                || (d.Region != null && regions.Contains(d.Region)));
+                || (d.Region != null && regions.Contains(d.Region))
+                || (d.BrokerId != null && authBrokerIds.Contains(d.BrokerId.Value))
+                || (d.OwnerUserId != null && authProducerIds.Contains(d.OwnerUserId.Value)));
         }
 
-        if (brokerIds.Count > 0)
-            q = q.Where(d => d.BrokerId != null && brokerIds.Contains(d.BrokerId.Value));
-        if (territoryIds.Count > 0)
-            q = q.Where(d => d.TerritoryId != null && territoryIds.Contains(d.TerritoryId.Value));
-        if (producerIds.Count > 0)
-            q = q.Where(d => d.OwnerUserId != null && producerIds.Contains(d.OwnerUserId.Value));
+        // Requested narrowing — explicit filter ANDs on top of the union (and narrows admin too).
+        if (v.RequestedBrokerIds is { Count: > 0 } reqBrokers)
+        {
+            var l = reqBrokers.ToList();
+            q = q.Where(d => d.BrokerId != null && l.Contains(d.BrokerId.Value));
+        }
+        if (v.RequestedTerritoryIds is { Count: > 0 } reqTerritories)
+        {
+            var l = reqTerritories.ToList();
+            q = q.Where(d => d.TerritoryId != null && l.Contains(d.TerritoryId.Value));
+        }
+        if (v.RequestedProducerUserIds is { Count: > 0 } reqProducers)
+        {
+            var l = reqProducers.ToList();
+            q = q.Where(d => d.OwnerUserId != null && l.Contains(d.OwnerUserId.Value));
+        }
 
         return q;
     }

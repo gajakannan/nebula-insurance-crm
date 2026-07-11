@@ -75,4 +75,25 @@ describe('DistributionRollupReportView', () => {
     expect(screen.getByText(/No visible rollup rows/i)).toBeInTheDocument();
     expect(screen.getByText(/available to your access scope/i)).toBeInTheDocument();
   });
+
+  it('renders "—" for metrics not applicable to the selected metric family', () => {
+    // Production rollups are broker-insight backed and do not compute workflow open/overdue or activity —
+    // those must read as unavailable ("—"), not a fabricated 0 (CR-L2).
+    mockRollupState.value = { data: report({ metricFamily: 'Production' }), isLoading: false, isError: false, refetch: vi.fn() };
+
+    renderView();
+
+    // Open workflow, Overdue, and Activity are unavailable in both the totals tiles and the row → ≥ 3 dashes.
+    expect(screen.getAllByText('—').length).toBeGreaterThanOrEqual(3);
+    // Applicable metrics (Records, Production) still render real values.
+    expect(screen.getAllByText('2').length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('renders every metric column for the Workflow family', () => {
+    mockRollupState.value = { data: report({ metricFamily: 'Workflow' }), isLoading: false, isError: false, refetch: vi.fn() };
+
+    renderView();
+
+    expect(screen.queryByText('—')).not.toBeInTheDocument();
+  });
 });

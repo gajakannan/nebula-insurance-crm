@@ -1,0 +1,25 @@
+# Lifecycle Gates Log — F0037 standalone review run 2026-07-11-17633f6b
+
+> Required per §8. Records what *ran* during this review (sibling to `gate-decisions.md`, which records
+> what was *decided*). Standalone review mode runs no stack-specific compile/test/lint inside runtime
+> containers for this pass — the review is a static read of the PR diff plus its checked-in test/evidence
+> artifacts. No `validate-feature-evidence.py` invocation applies (standalone; no feature stage).
+
+## Lifecycle Gate Runs
+
+| When (local) | Gate | Invocation | Result |
+|--------------|------|------------|--------|
+| 2026-07-11T16:19:00-04:00 | context-load | Loaded ROUTER → agent-map → AGENT-USE → review.md → code-reviewer/SKILL → security/SKILL | OK |
+| 2026-07-11T16:26:00-04:00 | R0 scope-lock | Resolved SCOPE=path-set from PR #56 changed files; security_sensitive_scope=true | PASS |
+| 2026-07-11T16:44:00-04:00 | R1 code-review | Static review across 9 dimensions over the reviewed path-set | COMPLETE — REQUEST CHANGES |
+| 2026-07-11T16:44:00-04:00 | R1 security-review | OWASP Top 10 + 10 security dimensions over the reviewed path-set | COMPLETE — PASS |
+| 2026-07-11T16:46:17-04:00 | R2 approval-gate | Computed gate state WARNING (0 critical / 2 high); presented to user | PENDING USER |
+| n/a | R3 stage-validation | Standalone mode — no feature-stage (G3) validation | N/A |
+
+## Runtime execution note
+
+Per `agents/actions/review.md` "Runtime Execution Boundary", stack-specific compile/test/lint/SAST must run
+in application runtime containers when executed. This standalone pass did not spin up runtime containers;
+it relied on the PR's checked-in unit/integration/e2e test sources as the test-evidence basis and records a
+test-adequacy finding (CR-H2) where DB-level predicate proof is absent. If the R2 approver wants executed
+test evidence (not just source inspection), re-run with the engine test container and attach results here.

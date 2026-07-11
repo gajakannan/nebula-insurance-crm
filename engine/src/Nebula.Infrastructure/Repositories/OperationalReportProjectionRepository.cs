@@ -21,25 +21,40 @@ public class OperationalReportProjectionRepository : IOperationalReportProjectio
         if (!visibility.HasScope)
             q = q.Where(p => false);
 
-        var brokerIds = visibility.BrokerIds.ToList();
-        var territoryIds = visibility.TerritoryIds.ToList();
-        var producerIds = visibility.ProducerUserIds.ToList();
-
+        // Authority UNION (non-admin): a row is visible if the caller owns it, it is in one of their regions,
+        // it is for an authorized broker, or for an authorized producer. WHY union: a manager must see every
+        // managed broker's rows regardless of region. Territory authority is intentionally NOT OR-ed here
+        // (it is derived from broker authority → OR-ing it would leak sibling brokers sharing a territory).
+        var authBrokerIds = visibility.BrokerIds.ToList();
+        var authProducerIds = visibility.ProducerUserIds.ToList();
         if (!visibility.SeeAll)
         {
             var regions = visibility.Regions.ToList();
             var uid = visibility.UserId;
             q = q.Where(p =>
                 p.OwnerUserId == uid
-                || (p.Region != null && regions.Contains(p.Region)));
+                || (p.Region != null && regions.Contains(p.Region))
+                || (p.BrokerId != null && authBrokerIds.Contains(p.BrokerId.Value))
+                || (p.OwnerUserId != null && authProducerIds.Contains(p.OwnerUserId.Value)));
         }
 
-        if (brokerIds.Count > 0)
-            q = q.Where(p => p.BrokerId != null && brokerIds.Contains(p.BrokerId.Value));
-        if (territoryIds.Count > 0)
-            q = q.Where(p => p.TerritoryId != null && territoryIds.Contains(p.TerritoryId.Value));
-        if (producerIds.Count > 0)
-            q = q.Where(p => p.OwnerUserId != null && producerIds.Contains(p.OwnerUserId.Value));
+        // Requested narrowing — an explicit rootNode/territory/producer filter ANDs on top of the union
+        // (and narrows admin too). Sets are pre-clamped to authority by DistributionScopeService.
+        if (visibility.RequestedBrokerIds is { Count: > 0 } reqBrokers)
+        {
+            var l = reqBrokers.ToList();
+            q = q.Where(p => p.BrokerId != null && l.Contains(p.BrokerId.Value));
+        }
+        if (visibility.RequestedTerritoryIds is { Count: > 0 } reqTerritories)
+        {
+            var l = reqTerritories.ToList();
+            q = q.Where(p => p.TerritoryId != null && l.Contains(p.TerritoryId.Value));
+        }
+        if (visibility.RequestedProducerUserIds is { Count: > 0 } reqProducers)
+        {
+            var l = reqProducers.ToList();
+            q = q.Where(p => p.OwnerUserId != null && l.Contains(p.OwnerUserId.Value));
+        }
 
         if (!string.IsNullOrWhiteSpace(query.Region))
             q = q.Where(p => p.Region == query.Region);

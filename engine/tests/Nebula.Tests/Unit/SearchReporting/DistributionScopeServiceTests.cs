@@ -93,6 +93,61 @@ public class DistributionScopeServiceTests
 
         canRead.ShouldBeFalse();
     }
+
+    [Fact]
+    public async Task ResolveAsync_DefaultManagerView_UsesAuthorityUnionAndIsNotExplicitlyScoped()
+    {
+        var repo = new ScopeRepo
+        {
+            Authority = new DistributionAuthorityScope(
+                new HashSet<Guid> { AuthorizedBroker },
+                new HashSet<Guid> { AuthorizedBroker },
+                new HashSet<Guid> { AuthorizedTerritory },
+                new HashSet<Guid>(),
+                ["managed_broker_authority"]),
+        };
+        var service = new DistributionScopeService(repo);
+
+        var visibility = await service.ResolveAsync(
+            new DistributionScopeRequest(null, null, null, DateOnly.Parse("2026-07-06")),
+            new ScopeUser(UserId, ["DistributionManager"], ["West"]),
+            default);
+
+        visibility.HasScope.ShouldBeTrue();
+        // Default view (no explicit rootNode/territory/producer) → authority union, OR-ed in the repos so a
+        // manager sees managed-broker rows regardless of region. CR-H1 regression guard.
+        visibility.ExplicitScopeRequested.ShouldBeFalse();
+        visibility.BrokerIds.ShouldContain(AuthorizedBroker);
+    }
+
+    [Fact]
+    public async Task ResolveAsync_ExplicitTerritoryFilter_IsExplicitlyScoped()
+    {
+        var repo = new ScopeRepo
+        {
+            Authority = new DistributionAuthorityScope(
+                new HashSet<Guid> { AuthorizedBroker },
+                new HashSet<Guid> { AuthorizedBroker },
+                new HashSet<Guid> { AuthorizedTerritory },
+                new HashSet<Guid>(),
+                ["managed_broker_authority"]),
+        };
+        repo.TerritoryBrokerIds[AuthorizedTerritory] = new HashSet<Guid> { AuthorizedBroker };
+        var service = new DistributionScopeService(repo);
+
+        var visibility = await service.ResolveAsync(
+            new DistributionScopeRequest(null, AuthorizedTerritory, null, DateOnly.Parse("2026-07-06")),
+            new ScopeUser(UserId, ["DistributionManager"], ["West"]),
+            default);
+
+        visibility.HasScope.ShouldBeTrue();
+        // Explicit filter → the request lands in the Requested* narrowing sets...
+        visibility.ExplicitScopeRequested.ShouldBeTrue();
+        visibility.RequestedTerritoryIds.ShouldNotBeNull().ShouldContain(AuthorizedTerritory);
+        // ...while the authority union is preserved in BrokerIds, so the repos still OR in managed-broker
+        // rows within the requested slice regardless of region/ownership (CR-L3 regression guard).
+        visibility.BrokerIds.ShouldContain(AuthorizedBroker);
+    }
 }
 
 file class ScopeUser : ICurrentUserService
