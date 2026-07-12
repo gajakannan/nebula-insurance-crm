@@ -1,0 +1,48 @@
+status: archived-done
+id: feature:F0035
+name: Session Continuity & Token Refresh
+path: planning-mds/features/archive/F0035-session-continuity-and-token-refresh
+affects:
+  - capability:auth-error-classification
+  - capability:authentication
+  - capability:idle-warning
+  - capability:session-context-restore
+  - capability:session-continuity
+  - capability:session-telemetry
+  - capability:silent-token-renewal
+  - endpoint:internal-telemetry-session-continuity
+  - event:auth-classifier-conflict
+  - event:auth-classifier-fallback
+  - event:forced-redirect
+  - event:form-snapshot-skipped
+  - event:idle-warning-accepted
+  - event:idle-warning-dismissed
+  - event:idle-warning-shown
+  - event:silent-renewal-fail
+  - event:silent-renewal-success
+archived_date: '2026-05-24'
+completion_state: 'Done and archived (2026-05-24) - 5 stories: silent renewal, idle warning modal, forced
+  re-auth restore, auth error semantics, session telemetry'
+depends_on:
+  - feature:F0005
+  - feature:F0009
+  - feature:F0033
+governed_by:
+  - adr:006
+  - adr:007
+  - adr:008
+  - adr:024
+notes:
+  - 'Operator-mandated invariant (plan run 2026-05-23-41109356): no mutation auto-replay after silent
+    renewal. Reads auto-replay; mutations require explicit user re-confirm. Captured permanently in ADR-024
+    §2 + ''Invalid After This ADR''.'
+  - Refresh-token transport intentionally remains frontend-mediated via oidc-client-ts (F0005-S0003) for
+    scope discipline; backend-mediated HttpOnly cookie tightening is a Phase 2 candidate in F0035 STATUS.md.
+phase: Release Enablement / Platform Operations
+roadmap_order: 11
+roadmap_section: Completed
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:problem-details
+  - schema:session-continuity-event

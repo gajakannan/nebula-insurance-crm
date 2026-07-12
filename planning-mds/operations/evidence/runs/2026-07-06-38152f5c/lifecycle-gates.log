@@ -1,0 +1,31 @@
+# Lifecycle Gates Log - F0037-hierarchy-aware-access-scoping-and-distribution-rollups run 2026-07-06-38152f5c
+
+## Lifecycle Gate Run
+
+## Command
+
+python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037 --run-id 2026-07-06-38152f5c --stage G0
+
+## Stage
+
+G0
+
+## Exit Code
+
+0
+
+## Result
+
+PASS
+
+## Output References
+
+- G0 validator stdout.
+- G6 feature evidence validation: PASS.
+- `python3 agents/product-manager/scripts/validate-trackers.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037 --run-id 2026-07-06-38152f5c`: PASS.
+- KG coverage regeneration: PASS.
+- KG drift check: PASS.
+
+## Skipped Gates
+
+- None.

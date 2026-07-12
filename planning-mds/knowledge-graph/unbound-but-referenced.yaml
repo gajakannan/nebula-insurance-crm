@@ -1,88 +1,18 @@
 version: 0
-generated_at: '2026-07-06T09:00:18+00:00'
+generated_at: '2026-07-12T00:06:13+00:00'
 summary:
-  total_invocations: 143
+  total_invocations: 135
   by_language:
-    csharp: 142
+    csharp: 134
     typescript: 1
   source_files: 19
-  bound_targets: 28
+  bound_targets: 29
   refreshed_languages:
   - csharp
   - python
   - typescript
   preserved_languages: []
 invocations:
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 37
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.policy-denied
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 44
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.policy-denied
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 56
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.policy-denied
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 77
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.policy-denied
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 83
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.not-found
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 84
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.concurrency-conflict
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 93
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.policy-denied
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 97
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.not-found
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 106
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.policy-denied
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 110
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.not-found
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 119
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.policy-denied
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 123
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.not-found
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 133
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.policy-denied
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-  source_line: 160
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.policy-denied
-  target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/BrokerInsightEndpoints.cs
   source_line: 44
   language: csharp
@@ -329,27 +259,37 @@ invocations:
   target_symbol: symbol:capability-session-continuity:problem-details-helper.precondition-failed
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/DistributionEndpoints.cs
-  source_line: 71
+  source_line: 76
   language: csharp
   target_symbol: symbol:capability-session-continuity:problem-details-helper.forbidden
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/DistributionEndpoints.cs
-  source_line: 74
+  source_line: 78
   language: csharp
   target_symbol: symbol:capability-session-continuity:problem-details-helper.not-found
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/DistributionEndpoints.cs
-  source_line: 82
+  source_line: 81
+  language: csharp
+  target_symbol: symbol:capability-session-continuity:problem-details-helper.not-found
+  target_node: capability:session-continuity
+- source_file: engine/src/Nebula.Api/Endpoints/DistributionEndpoints.cs
+  source_line: 93
   language: csharp
   target_symbol: symbol:capability-session-continuity:problem-details-helper.forbidden
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/DistributionEndpoints.cs
-  source_line: 87
+  source_line: 95
   language: csharp
   target_symbol: symbol:capability-session-continuity:problem-details-helper.not-found
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/DistributionEndpoints.cs
-  source_line: 96
+  source_line: 100
+  language: csharp
+  target_symbol: symbol:capability-session-continuity:problem-details-helper.not-found
+  target_node: capability:session-continuity
+- source_file: engine/src/Nebula.Api/Endpoints/DistributionEndpoints.cs
+  source_line: 109
   language: csharp
   target_symbol: symbol:capability-authorization-enforcement:i-authorization-service.authorize-async
   target_node: capability:authorization-enforcement
@@ -414,57 +354,67 @@ invocations:
   target_symbol: symbol:capability-session-continuity:problem-details-helper.territory-duplicate-name
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
-  source_line: 57
+  source_line: 61
   language: csharp
   target_symbol: symbol:capability-session-continuity:problem-details-helper.forbidden
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
-  source_line: 62
+  source_line: 63
   language: csharp
   target_symbol: symbol:capability-session-continuity:problem-details-helper.not-found
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
-  source_line: 75
+  source_line: 68
+  language: csharp
+  target_symbol: symbol:capability-session-continuity:problem-details-helper.not-found
+  target_node: capability:session-continuity
+- source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
+  source_line: 81
   language: csharp
   target_symbol: symbol:capability-session-continuity:problem-details-helper.forbidden
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
-  source_line: 79
+  source_line: 85
   language: csharp
   target_symbol: symbol:capability-session-continuity:problem-details-helper.validation-error
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
-  source_line: 97
+  source_line: 103
   language: csharp
   target_symbol: symbol:capability-session-continuity:problem-details-helper.not-found
-  target_node: capability:session-continuity
-- source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
-  source_line: 98
-  language: csharp
-  target_symbol: symbol:capability-session-continuity:problem-details-helper.territory-assignment-period-invalid
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
   source_line: 104
   language: csharp
+  target_symbol: symbol:capability-session-continuity:problem-details-helper.territory-assignment-period-invalid
+  target_node: capability:session-continuity
+- source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
+  source_line: 110
+  language: csharp
   target_symbol: symbol:capability-session-continuity:problem-details-helper.precondition-failed
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
-  source_line: 108
+  source_line: 114
   language: csharp
   target_symbol: symbol:capability-session-continuity:problem-details-helper.territory-assignment-overlap
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
-  source_line: 117
+  source_line: 127
   language: csharp
   target_symbol: symbol:capability-session-continuity:problem-details-helper.forbidden
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
-  source_line: 120
+  source_line: 130
   language: csharp
   target_symbol: symbol:capability-session-continuity:problem-details-helper.validation-error
   target_node: capability:session-continuity
 - source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
-  source_line: 137
+  source_line: 133
+  language: csharp
+  target_symbol: symbol:capability-session-continuity:problem-details-helper.not-found
+  target_node: capability:session-continuity
+- source_file: engine/src/Nebula.Api/Endpoints/TerritoryEndpoints.cs
+  source_line: 162
   language: csharp
   target_symbol: symbol:capability-authorization-enforcement:i-authorization-service.authorize-async
   target_node: capability:authorization-enforcement
@@ -658,6 +608,16 @@ invocations:
   language: csharp
   target_symbol: symbol:capability-session-continuity:test-auth-handler.reset-f0009-overrides
   target_node: capability:session-continuity
+- source_file: engine/tests/Nebula.Tests/Integration/DistributionScopeReadScopingTests.cs
+  source_line: 58
+  language: csharp
+  target_symbol: symbol:entity-operational-report-projection:operational-report-projection-repository.query-async
+  target_node: entity:operational-report-projection
+- source_file: engine/tests/Nebula.Tests/Integration/DistributionScopeReadScopingTests.cs
+  source_line: 94
+  language: csharp
+  target_symbol: symbol:entity-operational-report-projection:operational-report-projection-repository.query-async
+  target_node: entity:operational-report-projection
 - source_file: engine/tests/Nebula.Tests/Unit/AuthEndpoints/LogoutHandlerTests.cs
   source_line: 36
   language: csharp

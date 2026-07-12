@@ -21,6 +21,10 @@ export default function SearchResultsPage() {
     status: searchParams.get('status') ?? '',
     region: searchParams.get('region') ?? '',
     lineOfBusiness: searchParams.get('lineOfBusiness') ?? '',
+    rootNodeId: searchParams.get('rootNodeId') ?? '',
+    territoryId: searchParams.get('territoryId') ?? '',
+    producerUserId: searchParams.get('producerUserId') ?? '',
+    asOf: searchParams.get('asOf') ?? '',
     sort: searchParams.get('sort') ?? 'relevance',
   };
   const page = Number(searchParams.get('page') ?? '1');
@@ -31,6 +35,10 @@ export default function SearchResultsPage() {
     status: filters.status || undefined,
     region: filters.region || undefined,
     lineOfBusiness: filters.lineOfBusiness || undefined,
+    rootNodeId: filters.rootNodeId || undefined,
+    territoryId: filters.territoryId || undefined,
+    producerUserId: filters.producerUserId || undefined,
+    asOf: filters.asOf || undefined,
     sort: filters.sort,
     page,
     pageSize: 20,
@@ -52,6 +60,10 @@ export default function SearchResultsPage() {
     if (c.status) next.set('status', c.status);
     if (c.region) next.set('region', c.region);
     if (c.lineOfBusiness) next.set('lineOfBusiness', c.lineOfBusiness);
+    if (c.rootNodeId) next.set('rootNodeId', c.rootNodeId);
+    if (c.territoryId) next.set('territoryId', c.territoryId);
+    if (c.producerUserId) next.set('producerUserId', c.producerUserId);
+    if (c.asOf) next.set('asOf', c.asOf);
     next.set('sort', c.sort ?? 'relevance');
     next.set('page', '1');
     startTransition(() => setSearchParams(next));

@@ -1,0 +1,81 @@
+status: archived-done
+id: feature:F0018
+name: Policy Lifecycle & Policy 360
+path: planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360
+affects:
+  - entity:account
+  - entity:activity-timeline-event
+  - entity:carrier-ref
+  - entity:policy
+  - entity:policy-coverage-line
+  - entity:policy-endorsement
+  - entity:policy-version
+  - entity:renewal
+  - entity:submission
+  - entity:workflow-sla-threshold
+  - entity:workflow-transition
+  - policy_rule:policy-cancel
+  - policy_rule:policy-coverage-manage
+  - policy_rule:policy-create
+  - policy_rule:policy-endorse
+  - policy_rule:policy-import
+  - policy_rule:policy-issue
+  - policy_rule:policy-read
+  - policy_rule:policy-reinstate
+  - policy_rule:policy-update
+  - workflow:policy
+archived_date: '2026-04-22'
+completion_state: 'Done and archived (2026-04-22) — 11 stories: list, create, profile edit, 360 composition,
+  versions, endorsements, cancellation, reinstatement, renewal linkage, timeline, summary projection'
+depends_on:
+  - feature:F0016
+  - feature:F0007
+  - feature:F0002
+  - feature:F0009
+  - id: feature:F0020
+    confidence: 1.0
+    note: 'Implemented: Policy 360 documents rail fulfilled by F0020; PolicyDetailPage mounts ParentDocumentsPanel
+      with parent.type=policy'
+    provenance: extracted
+  - id: feature:F0019
+    confidence: 0.6
+    note: F0019 future consumer of POST /api/policies/from-bind hook
+    provenance: inferred
+  - id: feature:F0028
+    confidence: 0.4
+    note: Future replacement for lightweight CarrierRef seed
+    provenance: inferred
+governed_by:
+  - adr:008
+  - adr:009
+  - adr:010
+  - adr:011
+  - adr:012
+  - adr:014-workflow-sla
+  - adr:017
+  - adr:018
+phase: CRM Release MVP
+roadmap_order: 14
+roadmap_section: Completed
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:activity-event-payloads
+  - schema:carrier-ref
+  - schema:line-of-business
+  - schema:policy
+  - schema:policy-account-summary
+  - schema:policy-cancel-request
+  - schema:policy-coverage-line
+  - schema:policy-create-request
+  - schema:policy-endorsement
+  - schema:policy-endorsement-request
+  - schema:policy-from-bind-request
+  - schema:policy-import-request
+  - schema:policy-issue-request
+  - schema:policy-list-item
+  - schema:policy-reinstate-request
+  - schema:policy-summary
+  - schema:policy-update-request
+  - schema:policy-version
+  - schema:timeline-event

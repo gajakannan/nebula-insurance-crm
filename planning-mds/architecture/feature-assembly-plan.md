@@ -18,7 +18,7 @@ Define the build order, role handoffs, and integration checkpoints for implement
 
 **Added:** 2026-07-06 - Feature action G0 authored the feature-local implementation execution plan after Phase A and Phase B operator approval.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0032-admin-configuration-and-reference-data-console/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and service signatures, endpoint response table, mutation traceability, EF migration plan, authorization policy sync, frontend guardrails, and validation checkpoints for governed admin configuration.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0032-admin-configuration-and-reference-data-console/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and service signatures, endpoint response table, mutation traceability, EF migration plan, authorization policy sync, frontend guardrails, and validation checkpoints for governed admin configuration.
 
 ### Dependencies
 
@@ -47,6 +47,41 @@ Define the build order, role handoffs, and integration checkpoints for implement
 | Security Reviewer | Yes | Admin configuration exposes privileged operational settings, publish controls, and audit details. |
 | DevOps | Yes | New persisted tables, migration, refresh status, and configuration-cache behavior need deployability evidence. |
 | Architect | Yes | F0032 introduces a cross-cutting governed configuration facade and requires as-built KG reconciliation. |
+
+## F0037 - Hierarchy-Aware Access Scoping & Distribution Rollups
+
+**Added:** 2026-07-06 - Plan Phase B drafted the feature-local implementation execution plan in plan run `2026-07-06-6e3851ab`; pending G5 architecture approval.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/feature-assembly-plan.md) - implementation slice order, distribution-scope resolver contracts, predicate-first projection visibility, hierarchy filter API deltas, distribution rollup response schema, `distribution_rollup:read` policy binding, UI state contracts, and validation checkpoints for no-leak access scoping and rollup reconciliation.
+
+### Dependencies
+
+| Dependency | Source | What F0037 Needs | Status |
+|------------|--------|------------------|--------|
+| Broker/MGA hierarchy and producer ownership | F0017 / ADR-026 | Effective-dated hierarchy, territory, producer ownership, and audit context for scope resolution | Done and archived |
+| Search/saved-view/reporting substrate | F0023 / ADR-014 | Projection visibility flow, global search, saved views, operational reports, facets, counts, and drilldown patterns | Done and archived |
+| Broker insights projections | F0008 / ADR-031 | Permission-safe analytics pattern and broker insight projection dimensions | Done and archived |
+| Authorization policy foundation | ADR-008 / policy.csv | Casbin resource/action gate for distribution rollup reads and role parity with the authorization matrix | Available |
+
+### Assembly Slice Order
+
+1. Backend distribution-scope resolver and repository over F0017 hierarchy, territory, ownership, role, and `asOf` inputs.
+2. Predicate-first projection visibility expansion for search, saved views, operational reports, broker insights, facets, suggestions, counts, drilldowns, and direct hidden-record behavior.
+3. Distribution rollup query contract, service, validator, API endpoint, JSON schema, and `distribution_rollup:read` policy enforcement.
+4. Frontend report filters, rollup panels, drilldowns, and distinct empty/filtered/no-access/stale/error states.
+5. Security, QE, code review, KG reconciliation, and PM closeout evidence during the future feature action.
+
+### Signoff Role Matrix
+
+| Role | Required | Rationale |
+|------|----------|-----------|
+| Quality Engineer | Yes | Scope enforcement, saved-view reapplication, empty-state behavior, and rollup reconciliation need independent acceptance evidence. |
+| Code Reviewer | Yes | Shared authorization/visibility changes and aggregation behavior need implementation review. |
+| Security Reviewer | Yes | F0037 introduces hierarchy/territory/producer access-control enforcement and no-leak direct-access behavior. |
+| DevOps | Conditional | Required only if Phase B/G5 later approves materialized rollup jobs, background recomputation, or new runtime infrastructure. |
+| Architect | Yes | G5 approval and G7 as-built KG reconciliation are required before and after implementation. |
+
+---
 
 ## F0027 - COI, ACORD & Outbound Document Generation
 

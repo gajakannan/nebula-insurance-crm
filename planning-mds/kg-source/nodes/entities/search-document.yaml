@@ -1,0 +1,13 @@
+id: entity:search-document
+label: SearchDocument
+notes: SearchDocument is a read-side projection only; source modules remain authoritative for detail and
+  access semantics.
+rationale:
+  - adr: adr:014-search
+    section: Search Index Design
+    summary: One permission-filterable search row per source record enables cross-object search without
+      querying every transactional aggregate for each request.
+source_docs:
+  - F0023/feature-assembly-plan.md
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md

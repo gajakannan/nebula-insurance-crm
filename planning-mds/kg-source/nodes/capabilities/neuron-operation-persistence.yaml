@@ -1,0 +1,16 @@
+id: capability:neuron-operation-persistence
+label: Neuron-Owned Operation Persistence (neuron.* schema)
+notes: 'Neuron owns and writes its own neuron.* schema directly (threads, messages, message_parts, agent_runs,
+  tool_calls, provenance_events) — not via an engine pass-through. Service stays stateless; threads owner-scoped.
+
+  '
+rationale:
+  - adr: adr:028
+    section: Decision §1,§2
+    summary: Six neuron.* tables; definitions (Agent Cards/prompts) stay checked-in assets referenced
+      by id+version+hash; cross-store writes are engine-first authoritative with an idempotent Neuron
+      record referencing the engine id (no cross-runtime transaction; outbox deferred).
+source_docs:
+  - F0038/F0038-S0001-neuron-service-bootstrap.md
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md

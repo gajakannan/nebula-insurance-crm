@@ -1,0 +1,16 @@
+id: capability:neuron-message-envelope
+label: Versioned Multi-Part Message/Component Envelope
+notes: 'Versioned envelope (text|app|status|sources|actions) keyed by thread_id so persisted threads replay
+  correctly. Component-registry rendering only.
+
+  '
+rationale:
+  - adr: adr:027
+    section: Decision §6
+    summary: A2A messages/parts/artifacts map onto the envelope part types; the frontend renders only
+      registered components from validated props — Neuron never returns executable markup or model-emitted
+      numbers.
+source_docs:
+  - F0038/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
+  - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
+  - planning-mds/schemas/neuron-message-envelope.schema.json

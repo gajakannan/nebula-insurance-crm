@@ -118,21 +118,17 @@ api_contracts:
     label: Neuron Companion API
     path: planning-mds/api/neuron-api.yaml
 capabilities:
-  - id: capability:api-contract-testing
-    label: API Contract Testing
-    source_docs:
-      - planning-mds/features/archive/F0033-structured-logging-and-qe-toolchain-activation/F0033-S0004-establish-broker-list-contract-testing-with-pact.md
   - id: capability:admin-configuration-governance
     label: Admin Configuration Governance
     rationale:
       - adr: adr:016
         section: Decision
-        summary: Runtime business configuration is governed through versioned, validated, published
-          configuration sets with audit and rollback evidence.
+        summary: Runtime business configuration is governed through versioned, validated, published configuration
+          sets with audit and rollback evidence.
       - adr: adr:032
         section: Decision
-        summary: F0032 implements a governed facade over module-owned configuration domains instead
-          of creating a parallel execution engine.
+        summary: F0032 implements a governed facade over module-owned configuration domains instead of
+          creating a parallel execution engine.
     related_nodes:
       - config_key:published-configuration-sets
       - entity:configuration-domain
@@ -140,8 +136,12 @@ capabilities:
       - entity:published-operational-configuration-set
       - policy_rule:admin-configuration-publish
     source_docs:
-      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
       - planning-mds/architecture/decisions/ADR-032-admin-configuration-console-contract.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+  - id: capability:api-contract-testing
+    label: API Contract Testing
+    source_docs:
+      - planning-mds/features/archive/F0033-structured-logging-and-qe-toolchain-activation/F0033-S0004-establish-broker-list-contract-testing-with-pact.md
   - id: capability:auth-error-classification
     label: Auth Error Classification (401-expired / 401-failed / 403-denied)
     rationale:
@@ -293,6 +293,43 @@ capabilities:
     source_docs:
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
       - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/README.md
+  - id: capability:document-classification
+    label: Classification-based document access control
+    related_nodes:
+      - entity:document
+      - entity:document-template
+    source_docs:
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/security/authorization-matrix.md
+  - id: capability:document-completeness-signal
+    label: Document completeness signal (read-only summary)
+    related_nodes:
+      - entity:document
+    source_docs:
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+  - id: capability:document-management
+    label: Document Management
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
+  - id: capability:document-retention
+    label: Document retention policy and scheduled cleanup
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
+  - id: capability:document-templates
+    label: Document Templates Library
+    related_nodes:
+      - entity:document
+      - entity:document-template
+    source_docs:
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
   - id: capability:dynamic-attribute-panel
     label: Dynamic Attribute Panel
     related_nodes:
@@ -549,6 +586,18 @@ capabilities:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
       - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/PRD.md
+  - id: capability:outbound-document-generation
+    label: Outbound Document Generation
+    related_nodes:
+      - capability:document-management
+      - capability:document-templates
+      - entity:document
+      - entity:document-template
+      - entity:generated-document-artifact
+      - entity:submission-quote-packet
+    source_docs:
+      - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
+      - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/PRD.md
   - id: capability:principal-key-normalization
     label: Principal Key Normalization
     source_docs:
@@ -843,100 +892,6 @@ config_keys:
       - planning-mds/architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md
       - planning-mds/architecture/decisions/ADR-014-workflow-sla-threshold-per-lob-extension.md
 endpoints:
-  - id: endpoint:admin-configuration-audit-events
-    label: GET /admin/configuration-audit-events
-    method: GET
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-audit-event
-      - policy_rule:admin-configuration-audit
-    route: /admin/configuration-audit-events
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-compare-draft
-    label: GET /admin/configuration-drafts/{draftId}/comparison
-    method: GET
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-draft
-      - entity:configuration-validation-result
-      - policy_rule:admin-configuration-validate
-    route: /admin/configuration-drafts/{draftId}/comparison
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-create-draft
-    label: POST /admin/configuration-domains/{domainKey}/drafts
-    method: POST
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-domain
-      - entity:configuration-draft
-      - policy_rule:admin-configuration-draft
-    route: /admin/configuration-domains/{domainKey}/drafts
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-domain-detail
-    label: GET /admin/configuration-domains/{domainKey}
-    method: GET
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-domain
-      - policy_rule:admin-configuration-read
-    route: /admin/configuration-domains/{domainKey}
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-domains
-    label: GET /admin/configuration-domains
-    method: GET
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-domain
-      - policy_rule:admin-configuration-read
-    route: /admin/configuration-domains
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-publish-draft
-    label: POST /admin/configuration-drafts/{draftId}/publish
-    method: POST
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-draft
-      - entity:published-operational-configuration-set
-      - policy_rule:admin-configuration-publish
-    route: /admin/configuration-drafts/{draftId}/publish
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-rollback-domain
-    label: POST /admin/configuration-domains/{domainKey}/rollback
-    method: POST
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:published-operational-configuration-set
-      - policy_rule:admin-configuration-rollback
-    route: /admin/configuration-domains/{domainKey}/rollback
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-update-draft
-    label: PATCH /admin/configuration-drafts/{draftId}
-    method: PATCH
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-draft
-      - policy_rule:admin-configuration-draft
-    route: /admin/configuration-drafts/{draftId}
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-validate-draft
-    label: POST /admin/configuration-drafts/{draftId}/validation
-    method: POST
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-draft
-      - entity:configuration-validation-result
-      - policy_rule:admin-configuration-validate
-    route: /admin/configuration-drafts/{draftId}/validation
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
   - id: endpoint:account-contact-create
     label: POST /accounts/{accountId}/contacts
     method: POST
@@ -1119,6 +1074,100 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0016-account-360-and-insured-management/README.md
+  - id: endpoint:admin-configuration-audit-events
+    label: GET /admin/configuration-audit-events
+    method: GET
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-audit-event
+      - policy_rule:admin-configuration-audit
+    route: /admin/configuration-audit-events
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-compare-draft
+    label: GET /admin/configuration-drafts/{draftId}/comparison
+    method: GET
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+      - entity:configuration-validation-result
+      - policy_rule:admin-configuration-validate
+    route: /admin/configuration-drafts/{draftId}/comparison
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-create-draft
+    label: POST /admin/configuration-domains/{domainKey}/drafts
+    method: POST
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-domain
+      - entity:configuration-draft
+      - policy_rule:admin-configuration-draft
+    route: /admin/configuration-domains/{domainKey}/drafts
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-domain-detail
+    label: GET /admin/configuration-domains/{domainKey}
+    method: GET
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-domain
+      - policy_rule:admin-configuration-read
+    route: /admin/configuration-domains/{domainKey}
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-domains
+    label: GET /admin/configuration-domains
+    method: GET
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-domain
+      - policy_rule:admin-configuration-read
+    route: /admin/configuration-domains
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-publish-draft
+    label: POST /admin/configuration-drafts/{draftId}/publish
+    method: POST
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+      - entity:published-operational-configuration-set
+      - policy_rule:admin-configuration-publish
+    route: /admin/configuration-drafts/{draftId}/publish
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-rollback-domain
+    label: POST /admin/configuration-domains/{domainKey}/rollback
+    method: POST
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:published-operational-configuration-set
+      - policy_rule:admin-configuration-rollback
+    route: /admin/configuration-domains/{domainKey}/rollback
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-update-draft
+    label: PATCH /admin/configuration-drafts/{draftId}
+    method: PATCH
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+      - policy_rule:admin-configuration-draft
+    route: /admin/configuration-drafts/{draftId}
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-validate-draft
+    label: POST /admin/configuration-drafts/{draftId}/validation
+    method: POST
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+      - entity:configuration-validation-result
+      - policy_rule:admin-configuration-validate
+    route: /admin/configuration-drafts/{draftId}/validation
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
   - id: endpoint:assignment-rule-upsert
     label: POST/PUT /assignment-rules
     method: POST|PUT
@@ -2346,73 +2395,6 @@ endpoints:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
 entities:
-  - id: entity:configuration-audit-event
-    label: ConfigurationAuditEvent
-    rationale:
-      - adr: adr:032
-        section: Decision
-        summary: Admin configuration create, update, validate, publish, rollback, refresh, and failure
-          actions are recorded as append-only audit evidence.
-    source_docs:
-      - planning-mds/architecture/data-model.md
-      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
-      - planning-mds/schemas/admin-configuration-audit-event.schema.json
-  - id: entity:configuration-domain
-    label: ConfigurationDomain
-    rationale:
-      - adr: adr:032
-        section: Decision
-        summary: Catalog entries declare supported configuration domains, owning modules, editable
-          schemas, validation strategy, refresh strategy, and rollback support.
-    source_docs:
-      - planning-mds/architecture/data-model.md
-      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
-      - planning-mds/schemas/admin-configuration-domain.schema.json
-  - id: entity:configuration-draft
-    label: ConfigurationDraft
-    rationale:
-      - adr: adr:032
-        section: Decision
-        summary: Draft payloads are isolated from runtime behavior until validation and publish succeed.
-    source_docs:
-      - planning-mds/architecture/data-model.md
-      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
-      - planning-mds/schemas/admin-configuration-draft.schema.json
-  - id: entity:configuration-refresh-status
-    label: ConfigurationRefreshStatus
-    rationale:
-      - adr: adr:032
-        section: Decision
-        summary: Downstream consumers that cache published configuration expose explicit refresh status
-          after publication or rollback.
-    source_docs:
-      - planning-mds/architecture/data-model.md
-      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
-  - id: entity:configuration-validation-result
-    label: ConfigurationValidationResult
-    rationale:
-      - adr: adr:032
-        section: Decision
-        summary: Publish is guarded by the latest passing validation result for the exact draft payload hash.
-    source_docs:
-      - planning-mds/architecture/data-model.md
-      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
-      - planning-mds/schemas/admin-configuration-validation-result.schema.json
-  - id: entity:published-operational-configuration-set
-    label: PublishedOperationalConfigurationSet
-    rationale:
-      - adr: adr:016
-        section: Decision
-        summary: Published configuration sets are the authoritative runtime snapshots for governed
-          operational business settings.
-      - adr: adr:032
-        section: Decision
-        summary: Rollback creates a new published version from an eligible prior snapshot rather than
-          mutating history.
-    source_docs:
-      - planning-mds/architecture/data-model.md
-      - planning-mds/architecture/decisions/ADR-016-published-operational-configuration-governance.md
-      - planning-mds/architecture/decisions/ADR-032-admin-configuration-console-contract.md
   - id: entity:account
     label: Account
     source_docs:
@@ -2540,6 +2522,59 @@ entities:
       model.
     source_docs:
       - planning-mds/features/archive/F0021-communication-hub-and-activity-capture/architecture-plan.md
+  - id: entity:configuration-audit-event
+    label: ConfigurationAuditEvent
+    rationale:
+      - adr: adr:032
+        section: Decision
+        summary: Admin configuration create, update, validate, publish, rollback, refresh, and failure
+          actions are recorded as append-only audit evidence.
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/schemas/admin-configuration-audit-event.schema.json
+  - id: entity:configuration-domain
+    label: ConfigurationDomain
+    rationale:
+      - adr: adr:032
+        section: Decision
+        summary: Catalog entries declare supported configuration domains, owning modules, editable schemas,
+          validation strategy, refresh strategy, and rollback support.
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/schemas/admin-configuration-domain.schema.json
+  - id: entity:configuration-draft
+    label: ConfigurationDraft
+    rationale:
+      - adr: adr:032
+        section: Decision
+        summary: Draft payloads are isolated from runtime behavior until validation and publish succeed.
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/schemas/admin-configuration-draft.schema.json
+  - id: entity:configuration-refresh-status
+    label: ConfigurationRefreshStatus
+    rationale:
+      - adr: adr:032
+        section: Decision
+        summary: Downstream consumers that cache published configuration expose explicit refresh status
+          after publication or rollback.
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+  - id: entity:configuration-validation-result
+    label: ConfigurationValidationResult
+    rationale:
+      - adr: adr:032
+        section: Decision
+        summary: Publish is guarded by the latest passing validation result for the exact draft payload
+          hash.
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/schemas/admin-configuration-validation-result.schema.json
   - id: entity:contact
     label: Contact
     source_docs:
@@ -2728,6 +2763,21 @@ entities:
     source_docs:
       - planning-mds/architecture/data-model.md
       - planning-mds/domain/glossary.md
+  - id: entity:published-operational-configuration-set
+    label: PublishedOperationalConfigurationSet
+    rationale:
+      - adr: adr:016
+        section: Decision
+        summary: Published configuration sets are the authoritative runtime snapshots for governed operational
+          business settings.
+      - adr: adr:032
+        section: Decision
+        summary: Rollback creates a new published version from an eligible prior snapshot rather than
+          mutating history.
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-016-published-operational-configuration-governance.md
+      - planning-mds/architecture/decisions/ADR-032-admin-configuration-console-contract.md
   - id: entity:queue-work-item
     label: QueueWorkItem
     rationale:
@@ -3236,55 +3286,6 @@ evidence:
       - workflow:renewal
       - workflow:submission
 glossary_terms:
-  - id: capability:document-classification
-    label: Classification-based document access control
-    related_nodes:
-      - entity:document
-      - entity:document-template
-    source_docs:
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
-      - planning-mds/security/authorization-matrix.md
-  - id: capability:document-completeness-signal
-    label: Document completeness signal (read-only summary)
-    related_nodes:
-      - entity:document
-    source_docs:
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
-  - id: capability:document-management
-    label: Document Management
-    related_nodes:
-      - entity:document
-      - workflow:document-ingest
-    source_docs:
-      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
-  - id: capability:document-retention
-    label: Document retention policy and scheduled cleanup
-    related_nodes:
-      - entity:document
-      - workflow:document-ingest
-    source_docs:
-      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
-  - id: capability:document-templates
-    label: Document Templates Library
-    related_nodes:
-      - entity:document
-      - entity:document-template
-    source_docs:
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
-  - id: capability:outbound-document-generation
-    label: Outbound Document Generation
-    related_nodes:
-      - capability:document-management
-      - capability:document-templates
-      - entity:document
-      - entity:document-template
-      - entity:generated-document-artifact
-      - entity:submission-quote-packet
-    source_docs:
-      - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
-      - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/PRD.md
   - id: glossary_term:acord-form
     label: ACORD Form
     related_nodes:
@@ -3475,85 +3476,6 @@ migrations:
       - entity:submission
       - entity:task-item
 policy_rules:
-  - id: policy_rule:admin-configuration-audit
-    label: admin-configuration:audit
-    action: audit
-    allowed_roles:
-      - role:admin
-      - role:compliance-quality-lead
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-audit-event
-    resource: admin-configuration
-    source_docs:
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
-  - id: policy_rule:admin-configuration-draft
-    label: admin-configuration:draft
-    action: draft
-    allowed_roles:
-      - role:admin
-      - role:configuration-steward
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-draft
-    resource: admin-configuration
-    source_docs:
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
-  - id: policy_rule:admin-configuration-publish
-    label: admin-configuration:publish
-    action: publish
-    allowed_roles:
-      - role:admin
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:published-operational-configuration-set
-    resource: admin-configuration
-    source_docs:
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
-  - id: policy_rule:admin-configuration-read
-    label: admin-configuration:read
-    action: read
-    allowed_roles:
-      - role:admin
-      - role:configuration-steward
-      - role:operations-manager
-      - role:compliance-quality-lead
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-domain
-    resource: admin-configuration
-    source_docs:
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
-  - id: policy_rule:admin-configuration-rollback
-    label: admin-configuration:rollback
-    action: rollback
-    allowed_roles:
-      - role:admin
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:published-operational-configuration-set
-    resource: admin-configuration
-    source_docs:
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
-  - id: policy_rule:admin-configuration-validate
-    label: admin-configuration:validate
-    action: validate
-    allowed_roles:
-      - role:admin
-      - role:configuration-steward
-      - role:operations-manager
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-validation-result
-    resource: admin-configuration
-    source_docs:
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
   - id: policy_rule:account-contact-manage
     label: account:contact:manage
     action: contact:manage
@@ -3698,6 +3620,85 @@ policy_rules:
       - capability:authorization-enforcement
       - entity:account
     resource: account
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-audit
+    label: admin-configuration:audit
+    action: audit
+    allowed_roles:
+      - role:admin
+      - role:compliance-quality-lead
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-audit-event
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-draft
+    label: admin-configuration:draft
+    action: draft
+    allowed_roles:
+      - role:admin
+      - role:configuration-steward
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-publish
+    label: admin-configuration:publish
+    action: publish
+    allowed_roles:
+      - role:admin
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:published-operational-configuration-set
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-read
+    label: admin-configuration:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:compliance-quality-lead
+      - role:configuration-steward
+      - role:operations-manager
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-domain
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-rollback
+    label: admin-configuration:rollback
+    action: rollback
+    allowed_roles:
+      - role:admin
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:published-operational-configuration-set
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-validate
+    label: admin-configuration:validate
+    action: validate
+    allowed_roles:
+      - role:admin
+      - role:configuration-steward
+      - role:operations-manager
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-validation-result
+    resource: admin-configuration
     source_docs:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
@@ -5483,27 +5484,28 @@ roles:
       - planning-mds/features/archive/F0009-authentication-and-role-based-login/BROKER-VISIBILITY-MATRIX.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
-  - id: role:coordinator
-    label: Coordinator
-    notes: Internal Broker Relationship Coordinator role; parallels DistributionUser scope on documents
-      (F0020 introduced this role into the security matrix).
-    source_docs:
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
   - id: role:compliance-quality-lead
     label: ComplianceQualityLead
-    notes: Internal audit/review role for permission-safe admin configuration history.
+    notes: Internal compliance/quality oversight role introduced by F0032 for admin configuration audit
+      and read access.
     source_docs:
       - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
   - id: role:configuration-steward
     label: ConfigurationSteward
-    notes: Delegated internal role that can draft and validate supported admin configuration domains but
-      cannot publish or roll back.
+    notes: Internal configuration steward role introduced by F0032 for drafting, validating, and reading
+      governed admin configuration.
     source_docs:
       - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: role:coordinator
+    label: Coordinator
+    notes: Internal Broker Relationship Coordinator role; parallels DistributionUser scope on documents
+      (F0020 introduced this role into the security matrix).
+    source_docs:
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
   - id: role:distribution-manager
@@ -5533,7 +5535,8 @@ roles:
       - planning-mds/security/policies/policy.csv
   - id: role:operations-manager
     label: OperationsManager
-    notes: Internal operations reviewer role for queue/routing and SLA configuration impact review.
+    notes: Internal operations manager role introduced by F0032 for reading and validating governed admin
+      configuration.
     source_docs:
       - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
       - planning-mds/security/authorization-matrix.md
@@ -5558,31 +5561,6 @@ roles:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
 schemas:
-  - id: schema:admin-configuration-audit-event
-    path: planning-mds/schemas/admin-configuration-audit-event.schema.json
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-audit-event
-  - id: schema:admin-configuration-domain
-    path: planning-mds/schemas/admin-configuration-domain.schema.json
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-domain
-  - id: schema:admin-configuration-draft
-    path: planning-mds/schemas/admin-configuration-draft.schema.json
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-draft
-  - id: schema:admin-configuration-publish-request
-    path: planning-mds/schemas/admin-configuration-publish-request.schema.json
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:published-operational-configuration-set
-  - id: schema:admin-configuration-validation-result
-    path: planning-mds/schemas/admin-configuration-validation-result.schema.json
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-validation-result
   - id: schema:account
     path: planning-mds/schemas/account.schema.json
     related_nodes:
@@ -5635,6 +5613,31 @@ schemas:
     path: planning-mds/schemas/activity-event-payloads.schema.json
     related_nodes:
       - entity:activity-timeline-event
+  - id: schema:admin-configuration-audit-event
+    path: planning-mds/schemas/admin-configuration-audit-event.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-audit-event
+  - id: schema:admin-configuration-domain
+    path: planning-mds/schemas/admin-configuration-domain.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-domain
+  - id: schema:admin-configuration-draft
+    path: planning-mds/schemas/admin-configuration-draft.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+  - id: schema:admin-configuration-publish-request
+    path: planning-mds/schemas/admin-configuration-publish-request.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:published-operational-configuration-set
+  - id: schema:admin-configuration-validation-result
+    path: planning-mds/schemas/admin-configuration-validation-result.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-validation-result
   - id: schema:assignment-rule
     path: planning-mds/schemas/assignment-rule.schema.json
     related_nodes:

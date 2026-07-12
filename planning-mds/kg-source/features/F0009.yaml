@@ -1,0 +1,117 @@
+status: archived-done
+id: feature:F0009
+name: Authentication + Role-Based Login
+path: planning-mds/features/archive/F0009-authentication-and-role-based-login
+affects:
+  - capability:authentication
+  - capability:authorization-enforcement
+  - capability:broker-user-access-boundaries
+  - capability:oidc-login-and-session
+  - capability:role-based-entry
+  - config_key:authentication-audience
+  - config_key:authentication-authority
+  - config_key:oidc-authority
+  - config_key:oidc-client-id
+  - config_key:oidc-redirect-uri
+  - entity:user-profile
+  - ui_route:login
+archived_date: '2026-03-07'
+completion_state: Done and archived
+depends_on:
+  - feature:F0005
+governed_by:
+  - adr:007
+  - adr:008
+  - adr:auth-token-storage
+  - adr:authentication-strategy
+phase: Phase 1
+roadmap_order: 27
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0009-S0001
+    path: planning-mds/features/archive/F0009-authentication-and-role-based-login/F0009-S0001-login-screen-and-oidc-redirect.md
+    affects:
+      - capability:authentication
+      - capability:oidc-login-and-session
+      - config_key:oidc-authority
+      - config_key:oidc-client-id
+      - config_key:oidc-redirect-uri
+      - ui_route:login
+    governed_by:
+      - adr:007
+      - adr:auth-token-storage
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0009-S0002
+    path: planning-mds/features/archive/F0009-authentication-and-role-based-login/F0009-S0002-oidc-callback-and-session-bootstrap.md
+    affects:
+      - capability:authentication
+      - capability:claims-principal-normalization
+      - capability:oidc-login-and-session
+      - entity:user-profile
+      - ui_route:login
+    governed_by:
+      - adr:006
+      - adr:007
+      - adr:auth-token-storage
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0009-S0003
+    path: planning-mds/features/archive/F0009-authentication-and-role-based-login/F0009-S0003-role-based-entry-and-protected-navigation.md
+    affects:
+      - capability:authentication
+      - capability:authorization-enforcement
+      - capability:role-based-entry
+      - entity:user-profile
+      - ui_route:brokers-list
+      - ui_route:dashboard-home
+      - ui_route:login
+    governed_by:
+      - adr:007
+      - adr:008
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0009-S0004
+    path: planning-mds/features/archive/F0009-authentication-and-role-based-login/F0009-S0004-broker-user-access-boundaries.md
+    affects:
+      - capability:authentication
+      - capability:authorization-enforcement
+      - capability:broker-user-access-boundaries
+      - config_key:authentication-audience
+      - config_key:authentication-authority
+      - config_key:oidc-authority
+      - config_key:oidc-client-id
+      - config_key:oidc-redirect-uri
+      - entity:user-profile
+      - ui_route:login
+    enforced_by_policy:
+      - policy_rule:broker-read
+      - policy_rule:broker-search
+      - policy_rule:contact-read
+      - policy_rule:dashboard-nudge-read
+      - policy_rule:task-read
+      - policy_rule:timeline-event-read
+    governed_by:
+      - adr:007
+      - adr:008
+    restricted_to_role:
+      - role:broker-user
+    uses_api_contract:
+      - api:nebula-rest
+    validated_by:
+      - evidence:broker-access-integration-tests
+  - id: story:F0009-S0005
+    path: planning-mds/features/archive/F0009-authentication-and-role-based-login/F0009-S0005-seeded-user-access-validation-matrix.md
+    affects:
+      - capability:authentication
+      - capability:authorization-enforcement
+      - capability:broker-user-access-boundaries
+      - capability:role-based-entry
+      - entity:user-profile
+    governed_by:
+      - adr:007
+      - adr:008
+    uses_api_contract:
+      - api:nebula-rest
+uses_api_contract:
+  - api:nebula-rest

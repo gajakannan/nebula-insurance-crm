@@ -1,0 +1,182 @@
+# Lifecycle Gates Log — F0037 Plan Run 2026-07-06-6e3851ab
+
+## Lifecycle Gate Run
+
+### Prerequisite: tracker validator repair regression
+Command: `.venv/bin/python -m pytest agents/product-manager/scripts/tests/test_validate_trackers_plan_mode.py`
+Stage: pre-plan
+Exit Code: 0
+Result: PASS
+Output References: -
+
+### Prerequisite: KG coverage regeneration
+Command: `.venv/bin/python scripts/kg/validate.py --write-coverage-report`
+Stage: pre-plan
+Exit Code: 0
+Result: PASS WITH WARNING
+Output References: `planning-mds/knowledge-graph/coverage-report.yaml`
+
+### Prerequisite: KG validation
+Command: `.venv/bin/python scripts/kg/validate.py`
+Stage: pre-plan
+Exit Code: 0
+Result: PASS WITH WARNING
+Output References: -
+
+### Prerequisite: KG drift validation
+Command: `.venv/bin/python scripts/kg/validate.py --check-drift`
+Stage: pre-plan
+Exit Code: 0
+Result: PASS WITH WARNING
+Output References: -
+
+### Prerequisite: F0037 tracker validation
+Command: `/Users/srinivasubezawada/Desktop/nebula3/nebula-agents/.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037`
+Stage: pre-plan
+Exit Code: 0
+Result: PASS
+Output References: -
+
+### G1: Clarification
+Command: Product Manager artifact update
+Stage: Phase A
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/features/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/PRD.md`
+
+### Phase A: Story validation
+Command: `.venv/bin/python ../nebula-agents/agents/product-manager/scripts/validate-stories.py planning-mds/features/F0037-hierarchy-aware-access-scoping-and-distribution-rollups`
+Stage: Phase A
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/features/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/F0037-S*.md`
+
+### Phase A: Story index generation
+Command: `.venv/bin/python ../nebula-agents/agents/product-manager/scripts/generate-story-index.py planning-mds/features/`
+Stage: Phase A
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/features/STORY-INDEX.md`
+
+### G2: Tracker validation
+Command: `/Users/srinivasubezawada/Desktop/nebula3/nebula-agents/.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037`
+Stage: Phase A
+Exit Code: 0
+Result: PASS
+Output References: -
+
+### G4-prep: KG coverage regeneration
+Command: `.venv/bin/python scripts/kg/validate.py --write-coverage-report`
+Stage: Phase A
+Exit Code: 0
+Result: PASS WITH WARNING
+Output References: `planning-mds/knowledge-graph/coverage-report.yaml`
+
+### G4-prep: KG validation
+Command: `.venv/bin/python scripts/kg/validate.py`
+Stage: Phase A
+Exit Code: 0
+Result: PASS WITH WARNING
+Output References: -
+
+### G4-prep: KG drift validation
+Command: `.venv/bin/python scripts/kg/validate.py --check-drift`
+Stage: Phase A
+Exit Code: 0
+Result: PASS WITH WARNING
+Output References: -
+
+### Template validation
+Command: `.venv/bin/python agents/scripts/validate_templates.py`
+Stage: Phase A
+Exit Code: 0
+Result: PASS
+Output References: -
+
+### G3: Phase A approval
+Command: Operator replied `approved`
+Stage: Phase A
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/operations/evidence/runs/2026-07-06-6e3851ab/gate-decisions.md`
+
+### Phase B: Architecture draft
+Command: Architect artifact update
+Stage: Phase B
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/features/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/feature-assembly-plan.md`
+
+### Phase B: Story validation
+Command: `.venv/bin/python ../nebula-agents/agents/product-manager/scripts/validate-stories.py planning-mds/features/F0037-hierarchy-aware-access-scoping-and-distribution-rollups`
+Stage: Phase B
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/features/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/F0037-S*.md`
+
+### Phase B: Story index generation
+Command: `.venv/bin/python ../nebula-agents/agents/product-manager/scripts/generate-story-index.py planning-mds/features/`
+Stage: Phase B
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/features/STORY-INDEX.md`
+
+### Phase B: Tracker validation
+Command: `.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037`
+Stage: Phase B
+Exit Code: 0
+Result: PASS
+Output References: -
+
+### Phase B: Template validation
+Command: `.venv/bin/python agents/scripts/validate_templates.py`
+Stage: Phase B
+Exit Code: 0
+Result: PASS
+Output References: -
+
+### Phase B: Schema JSON syntax
+Command: `jq empty planning-mds/schemas/distribution-rollup-report.schema.json`
+Stage: Phase B
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/schemas/distribution-rollup-report.schema.json`
+
+### G4: KG coverage regeneration
+Command: `.venv/bin/python scripts/kg/validate.py --write-coverage-report`
+Stage: Phase B
+Exit Code: 0
+Result: PASS WITH WARNING
+Output References: `planning-mds/knowledge-graph/coverage-report.yaml`
+
+### G4: KG validation
+Command: `.venv/bin/python scripts/kg/validate.py`
+Stage: Phase B
+Exit Code: 0
+Result: PASS WITH WARNING
+Output References: -
+
+### G4: KG drift validation
+Command: `.venv/bin/python scripts/kg/validate.py --check-drift`
+Stage: Phase B
+Exit Code: 0
+Result: PASS WITH WARNING
+Output References: -
+
+### Phase B: Final tracker validation
+Command: `.venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037`
+Stage: Phase B
+Exit Code: 0
+Result: PASS
+Output References: -
+
+### G5: Phase B approval
+Command: Operator replied `approved, use nebula-agent harness strictly`
+Stage: Phase B
+Exit Code: 0
+Result: PASS
+Output References: `planning-mds/operations/evidence/runs/2026-07-06-6e3851ab/gate-decisions.md`
+
+## Skipped Gates
+
+- All `feature` action gates are owned by the separate feature run package.

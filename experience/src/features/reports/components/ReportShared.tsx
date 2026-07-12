@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom';
 import type { GlobalSearchResult } from '@/features/search/types';
 import type { CountByKey } from '../types';
 
-export function StatTile({ label, value }: { label: string; value: number }) {
+export function StatTile({ label, value }: { label: string; value: number | null }) {
   return (
     <div className="rounded-lg border border-surface-border bg-surface-card p-4">
-      <p className="text-2xl font-semibold text-text-primary">{value}</p>
+      <p className="text-2xl font-semibold text-text-primary">{value ?? '—'}</p>
       <p className="text-xs text-text-muted">{label}</p>
     </div>
   );

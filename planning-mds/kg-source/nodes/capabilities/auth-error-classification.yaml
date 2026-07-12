@@ -1,0 +1,13 @@
+id: capability:auth-error-classification
+label: Auth Error Classification (401-expired / 401-failed / 403-denied)
+rationale:
+  - adr: adr:024
+    section: Decision §1
+    summary: 'Backend pairs WWW-Authenticate header with ProblemDetails type URI from a closed set of
+      auth/* and authz/* URIs. Defensive default: unknown 401 → treat as auth_token_invalid, force re-auth.'
+related_nodes:
+  - capability:authentication
+  - capability:authorization-enforcement
+source_docs:
+  - F0035/F0035-S0004-auth-error-semantics.md
+  - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md

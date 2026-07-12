@@ -3799,6 +3799,34 @@ paths:
           schema:
             type: string
             format: uuid
+        - name: rootNodeId
+          in: query
+          required: false
+          description: Optional hierarchy root filter. Must be within the caller's resolved distribution scope.
+          schema:
+            type: string
+            format: uuid
+        - name: territoryId
+          in: query
+          required: false
+          description: Optional territory filter. Must be within the caller's resolved distribution scope.
+          schema:
+            type: string
+            format: uuid
+        - name: producerUserId
+          in: query
+          required: false
+          description: Optional producer/user ownership filter. Must be within the caller's resolved distribution scope.
+          schema:
+            type: string
+            format: uuid
+        - name: asOf
+          in: query
+          required: false
+          description: Point-in-time date for effective-dated hierarchy, ownership, and territory scope.
+          schema:
+            type: string
+            format: date
         - name: region
           in: query
           required: false
@@ -4053,6 +4081,27 @@ paths:
           schema:
             type: string
             format: uuid
+        - name: rootNodeId
+          in: query
+          required: false
+          description: Optional hierarchy root filter. Must be within the caller's resolved distribution scope.
+          schema:
+            type: string
+            format: uuid
+        - name: territoryId
+          in: query
+          required: false
+          description: Optional territory filter. Must be within the caller's resolved distribution scope.
+          schema:
+            type: string
+            format: uuid
+        - name: producerUserId
+          in: query
+          required: false
+          description: Optional producer/user ownership filter. Must be within the caller's resolved distribution scope.
+          schema:
+            type: string
+            format: uuid
         - name: region
           in: query
           required: false
@@ -4111,6 +4160,27 @@ paths:
           schema:
             type: string
             format: uuid
+        - name: rootNodeId
+          in: query
+          required: false
+          description: Optional hierarchy root filter. Must be within the caller's resolved distribution scope.
+          schema:
+            type: string
+            format: uuid
+        - name: territoryId
+          in: query
+          required: false
+          description: Optional territory filter. Must be within the caller's resolved distribution scope.
+          schema:
+            type: string
+            format: uuid
+        - name: producerUserId
+          in: query
+          required: false
+          description: Optional producer/user ownership filter. Must be within the caller's resolved distribution scope.
+          schema:
+            type: string
+            format: uuid
         - name: region
           in: query
           required: false
@@ -4130,6 +4200,72 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/WorkflowAgingReport"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /operational-reports/distribution-rollups:
+    get:
+      operationId: getDistributionRollupReport
+      summary: Get hierarchy-aware distribution rollups
+      description: |
+        Returns production, workflow, or activity rollups grouped by hierarchy,
+        territory, or producer. The service resolves the caller's distribution
+        scope from role, hierarchy, territory, producer ownership, source-record
+        visibility, and `asOf`; rows, totals, counts, and drilldown links are
+        computed after that scope is applied. Hidden records are omitted rather
+        than surfaced as hidden-source counts.
+      tags: [OperationalReports]
+      parameters:
+        - name: groupBy
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [Hierarchy, Territory, Producer]
+        - name: metricFamily
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [Production, Workflow, Activity]
+        - name: asOf
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: rootNodeId
+          in: query
+          required: false
+          description: Optional hierarchy root filter. Must be within the caller's resolved distribution scope.
+          schema:
+            type: string
+            format: uuid
+        - name: territoryId
+          in: query
+          required: false
+          description: Optional territory filter. Must be within the caller's resolved distribution scope.
+          schema:
+            type: string
+            format: uuid
+        - name: producerUserId
+          in: query
+          required: false
+          description: Optional producer/user ownership filter. Must be within the caller's resolved distribution scope.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Scoped distribution rollup report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DistributionRollupReport"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -10501,6 +10637,55 @@ components:
         ownerDisplayName: { type: string }
         openCount: { type: integer, minimum: 0 }
         overdueCount: { type: integer, minimum: 0 }
+
+    DistributionRollupReport:
+      type: object
+      required: [groupBy, metricFamily, asOf, generatedAt, totals, rows]
+      properties:
+        groupBy:
+          type: string
+          enum: [Hierarchy, Territory, Producer]
+        metricFamily:
+          type: string
+          enum: [Production, Workflow, Activity]
+        asOf: { type: string, format: date }
+        generatedAt: { type: string, format: date-time }
+        scope:
+          type: object
+          required: [rootNodeId, territoryId, producerUserId]
+          properties:
+            rootNodeId: { type: string, format: uuid, nullable: true }
+            territoryId: { type: string, format: uuid, nullable: true }
+            producerUserId: { type: string, format: uuid, nullable: true }
+        totals:
+          $ref: "#/components/schemas/DistributionRollupMetricSet"
+        rows:
+          type: array
+          items: { $ref: "#/components/schemas/DistributionRollupRow" }
+
+    DistributionRollupRow:
+      type: object
+      required: [groupKey, groupLabel, groupType, metrics, drilldownUrl]
+      properties:
+        groupKey: { type: string, minLength: 1, maxLength: 120 }
+        groupLabel: { type: string, minLength: 1, maxLength: 160 }
+        groupType:
+          type: string
+          enum: [Hierarchy, Territory, Producer]
+        metrics:
+          $ref: "#/components/schemas/DistributionRollupMetricSet"
+        drilldownUrl: { type: string, nullable: true, maxLength: 500 }
+        unavailableReason: { type: string, nullable: true, maxLength: 200 }
+
+    DistributionRollupMetricSet:
+      type: object
+      required: [recordCount, productionCount, workflowOpen, workflowOverdue, activityCount]
+      properties:
+        recordCount: { type: integer, minimum: 0 }
+        productionCount: { type: integer, minimum: 0 }
+        workflowOpen: { type: integer, minimum: 0 }
+        workflowOverdue: { type: integer, minimum: 0 }
+        activityCount: { type: integer, minimum: 0 }
 
     # ──────────────────────────────────────────────────────────────
     # F0008 Broker Insights schemas

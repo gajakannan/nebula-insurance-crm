@@ -1,0 +1,18 @@
+id: capability:session-continuity
+label: Session Continuity
+rationale:
+  - adr: adr:024
+    section: Decision
+    summary: Five coordinated mechanisms (auth-error discriminator, silent renewal with coalescing, idle
+      modal, forced-reauth context restore, telemetry) remove disruptive mid-workflow login redirects
+      while preserving F0009 auth boundaries.
+related_nodes:
+  - capability:auth-error-classification
+  - capability:authentication
+  - capability:idle-warning
+  - capability:session-context-restore
+  - capability:session-telemetry
+  - capability:silent-token-renewal
+source_docs:
+  - F0035/PRD.md
+  - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md

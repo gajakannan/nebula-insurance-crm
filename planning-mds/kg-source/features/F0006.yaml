@@ -1,0 +1,236 @@
+status: archived
+id: feature:F0006
+name: Submission Intake Workflow
+path: planning-mds/features/archive/F0006-submission-intake-workflow
+affects:
+  - config_key:workflow-sla-thresholds
+  - endpoint:submission-assignment
+  - endpoint:submission-create
+  - endpoint:submission-detail
+  - endpoint:submission-list
+  - endpoint:submission-timeline
+  - endpoint:submission-transition
+  - entity:account
+  - entity:activity-timeline-event
+  - entity:broker
+  - entity:document
+  - entity:submission
+  - entity:workflow-sla-threshold
+  - entity:workflow-transition
+  - event:submission-created
+  - event:submission-transitioned
+  - glossary_term:line-of-business
+  - glossary_term:triaging
+  - migration:f0006-submission-intake-columns
+  - ui_route:submission-create
+  - ui_route:submission-detail
+  - ui_route:submissions-list
+  - workflow:submission
+archived_date: '2026-04-04'
+completion_state: 'Done and archived (2026-04-04) — 8 stories: pipeline list, create flow, detail workspace,
+  intake transitions, completeness, assignment, timeline, stale visibility'
+depends_on:
+  - id: feature:F0016
+    confidence: 0.8
+    provenance: inferred
+  - id: feature:F0020
+    confidence: 0.7
+    provenance: inferred
+governed_by:
+  - adr:009
+  - adr:011
+  - adr:012
+phase: CRM Release MVP
+roadmap_order: 17
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0006-S0001
+    path: planning-mds/features/archive/F0006-submission-intake-workflow/F0006-S0001-submission-pipeline-list-with-intake-status-filtering.md
+    affects:
+      - endpoint:submission-list
+      - entity:account
+      - entity:broker
+      - entity:submission
+      - glossary_term:line-of-business
+      - ui_route:submissions-list
+      - workflow:submission
+    governed_by:
+      - adr:009
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:line-of-business
+      - schema:submission-list-item
+  - id: story:F0006-S0002
+    path: planning-mds/features/archive/F0006-submission-intake-workflow/F0006-S0002-create-submission-for-new-business-intake.md
+    affects:
+      - endpoint:submission-create
+      - entity:account
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:program
+      - entity:submission
+      - entity:workflow-transition
+      - event:submission-created
+      - glossary_term:line-of-business
+      - migration:f0006-submission-intake-columns
+      - ui_route:submission-create
+      - workflow:submission
+    governed_by:
+      - adr:009
+      - adr:011
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:line-of-business
+      - schema:submission
+      - schema:submission-create-request
+    workflow_states:
+      - state:submission:received
+  - id: story:F0006-S0003
+    path: planning-mds/features/archive/F0006-submission-intake-workflow/F0006-S0003-submission-detail-view-with-intake-context.md
+    affects:
+      - endpoint:submission-detail
+      - endpoint:submission-timeline
+      - entity:account
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:document
+      - entity:program
+      - entity:submission
+      - glossary_term:line-of-business
+      - glossary_term:triaging
+      - ui_route:submission-detail
+      - workflow:submission
+    governed_by:
+      - adr:011
+      - adr:012
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:line-of-business
+      - schema:submission
+      - schema:submission-completeness
+      - schema:submission-update-request
+      - schema:timeline-event
+  - id: story:F0006-S0004
+    path: planning-mds/features/archive/F0006-submission-intake-workflow/F0006-S0004-submission-intake-status-transitions.md
+    affects:
+      - endpoint:submission-transition
+      - entity:activity-timeline-event
+      - entity:submission
+      - entity:workflow-transition
+      - event:submission-transitioned
+      - workflow:submission
+    governed_by:
+      - adr:011
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:submission
+      - schema:submission-transition-request
+    validated_by:
+      - evidence:workflow-endpoint-integration-tests
+      - evidence:workflow-state-machine-tests
+    workflow_states:
+      - state:submission:ready-for-uw-review
+      - state:submission:received
+      - state:submission:triaging
+      - state:submission:waiting-on-broker
+  - id: story:F0006-S0005
+    path: planning-mds/features/archive/F0006-submission-intake-workflow/F0006-S0005-submission-completeness-evaluation.md
+    affects:
+      - endpoint:submission-detail
+      - endpoint:submission-transition
+      - entity:document
+      - entity:submission
+      - entity:user-profile
+      - glossary_term:line-of-business
+      - workflow:submission
+    governed_by:
+      - adr:011
+      - adr:012
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:submission
+      - schema:submission-completeness
+    workflow_states:
+      - state:submission:ready-for-uw-review
+      - state:submission:triaging
+      - state:submission:waiting-on-broker
+  - id: story:F0006-S0006
+    path: planning-mds/features/archive/F0006-submission-intake-workflow/F0006-S0006-submission-ownership-assignment-and-underwriting-handoff.md
+    affects:
+      - endpoint:submission-assignment
+      - entity:activity-timeline-event
+      - entity:submission
+      - entity:user-profile
+      - workflow:submission
+    governed_by:
+      - adr:011
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:submission-assignment-request
+  - id: story:F0006-S0007
+    path: planning-mds/features/archive/F0006-submission-intake-workflow/F0006-S0007-submission-activity-timeline-and-audit-trail.md
+    affects:
+      - endpoint:submission-timeline
+      - endpoint:timeline-events
+      - entity:activity-timeline-event
+      - entity:submission
+      - entity:workflow-transition
+      - event:submission-created
+      - event:submission-transitioned
+      - workflow:submission
+    enforced_by_policy:
+      - policy_rule:timeline-event-read
+    governed_by:
+      - adr:011
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:timeline-event
+  - id: story:F0006-S0008
+    path: planning-mds/features/archive/F0006-submission-intake-workflow/F0006-S0008-stale-submission-visibility-and-follow-up-flags.md
+    affects:
+      - capability:dashboard-nudge-cards
+      - config_key:workflow-sla-thresholds
+      - endpoint:dashboard-nudges
+      - endpoint:submission-list
+      - entity:submission
+      - entity:workflow-sla-threshold
+      - entity:workflow-transition
+      - workflow:submission
+    enforced_by_policy:
+      - policy_rule:dashboard-nudge-read
+    governed_by:
+      - adr:009
+      - adr:014-workflow-sla
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:nudge-card
+      - schema:submission-list-item
+    workflow_states:
+      - state:submission:received
+      - state:submission:triaging
+      - state:submission:waiting-on-broker
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:activity-event-payloads
+  - schema:line-of-business
+  - schema:submission
+  - schema:submission-assignment-request
+  - schema:submission-completeness
+  - schema:submission-create-request
+  - schema:submission-list-item
+  - schema:submission-transition-request
+  - schema:submission-update-request
+  - schema:timeline-event

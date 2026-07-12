@@ -42,13 +42,13 @@ node_bindings:
           - experience/src/features/admin-configuration/**
         routes:
           - experience/src/App.tsx
-          - experience/src/pages/AdminConfigurationPage.tsx
           - experience/src/components/layout/Sidebar.tsx
+          - experience/src/pages/AdminConfigurationPage.tsx
       planning:
         feature:
+          - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
           - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
           - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/README.md
-          - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
         api:
           - planning-mds/api/nebula-api.yaml
         architecture:
@@ -216,7 +216,6 @@ node_bindings:
           - engine/src/Nebula.Api/Endpoints/SearchEndpoints.cs
         application:
           - engine/src/Nebula.Application/Interfaces/ISearchReportingServices.cs
-          - engine/src/Nebula.Application/Services/ProjectionVisibilityResolver.cs
           - engine/src/Nebula.Application/Services/SearchService.cs
           - engine/src/Nebula.Application/Validators/GlobalSearchQueryValidator.cs
         infrastructure:

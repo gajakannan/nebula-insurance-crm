@@ -1,0 +1,10 @@
+id: entity:lob-product
+label: LobProduct
+rationale:
+  - adr: adr:020
+    section: Decision
+    summary: Product identity, kind, code, and line-of-business semantics are separated from individual
+      product versions so sentinels and standard products share one registry model.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md

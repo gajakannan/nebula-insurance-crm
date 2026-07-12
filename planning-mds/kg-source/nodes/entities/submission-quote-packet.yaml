@@ -1,0 +1,11 @@
+id: entity:submission-quote-packet
+label: SubmissionQuotePacket
+rationale:
+  - adr: adr:025
+    section: Decision §2
+    summary: Submission-scoped coordination record (status, linked F0020 documents, recorded reference
+      facts validated for presence/format only) — never computed. A CRM packet, not a quoting/rating artifact.
+source_docs:
+  - F0019/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+  - F0019/PRD.md
+  - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md

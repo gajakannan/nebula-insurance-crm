@@ -1,0 +1,10 @@
+id: capability:neuron-companion-telemetry
+label: Neuron Companion Telemetry
+notes: 'Establishes the baseline needs-attention→draft-ready duration plus a minimal secondary v1 set
+  (DAU, %-actioned, drafts/mock-sent). Fire-and-forget to Serilog; PII-minimized (correlation ids + metric
+  fields only).
+
+  '
+source_docs:
+  - F0038/F0038-S0008-companion-telemetry-instrumentation.md
+  - planning-mds/schemas/neuron-companion-telemetry-event.schema.json

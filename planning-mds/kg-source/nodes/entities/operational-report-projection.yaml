@@ -1,0 +1,11 @@
+id: entity:operational-report-projection
+label: OperationalReportProjection
+rationale:
+  - adr: adr:014-search
+    section: Operational Report Projection Design
+    summary: Queryable report fact rows store source dimensions so workload and aging reports aggregate
+      only after authorization filtering.
+source_docs:
+  - F0023/feature-assembly-plan.md
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md

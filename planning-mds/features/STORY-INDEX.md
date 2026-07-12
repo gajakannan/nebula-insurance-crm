@@ -2,7 +2,7 @@
 
 Auto-generated index of all user stories across feature folders.
 
-**Total Stories:** 201
+**Total Stories:** 207
 
 ---
 
@@ -416,6 +416,19 @@ Auto-generated index of all user stories across feature folders.
 
 ---
 
+## F0037 - Hierarchy-Aware Access Scoping & Distribution Rollups
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0037-S0001](./archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/F0037-S0001-resolve-current-user-distribution-scope.md) | Resolve current user distribution scope | Critical | CRM Release MVP+ | security-conscious distribution operations manager |
+| [F0037-S0002](./archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/F0037-S0002-enforce-hierarchy-aware-read-scoping.md) | Enforce hierarchy-aware read scoping | Critical | CRM Release MVP+ | compliance owner |
+| [F0037-S0003](./archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/F0037-S0003-apply-visibility-to-search-views-insights-reports.md) | Apply visibility to search, saved views, insights, and reports | Critical | CRM Release MVP+ | relationship manager |
+| [F0037-S0004](./archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/F0037-S0004-add-distribution-rollup-reporting.md) | Add distribution rollup reporting | High | CRM Release MVP+ | distribution operations manager |
+| [F0037-S0005](./archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/F0037-S0005-add-rollup-filters-panels-and-no-leak-states.md) | Add rollup filters, panels, drilldowns, and no-leak states | High | CRM Release MVP+ | distribution leader |
+| [F0037-S0006](./archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/F0037-S0006-add-security-evidence-and-reconciliation.md) | Add security evidence and reconciliation checks | High | CRM Release MVP+ | security compliance owner |
+
+---
+
 ## F0038 — Neuron Day-at-a-Glance Shell
 
 | Story ID | Title | Priority | Phase | Persona |
@@ -436,7 +449,7 @@ Auto-generated index of all user stories across feature folders.
 | Phase | Count |
 |-------|-------|
 | CRM Release MVP | 57 |
-| CRM Release MVP+ | 11 |
+| CRM Release MVP+ | 17 |
 | Future | 1 |
 | Infrastructure | 11 |
 | MVP | 92 |
@@ -452,8 +465,8 @@ Auto-generated index of all user stories across feature folders.
 
 | Priority | Count |
 |----------|-------|
-| Critical | 78 |
-| High | 102 |
+| Critical | 81 |
+| High | 105 |
 | Medium | 17 |
 
 ---

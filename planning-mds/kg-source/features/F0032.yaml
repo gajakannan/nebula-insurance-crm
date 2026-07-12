@@ -1,0 +1,163 @@
+status: archived-done
+id: feature:F0032
+name: Admin Configuration & Reference Data Console
+path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console
+affects:
+  - capability:admin-configuration-governance
+  - config_key:published-configuration-sets
+  - config_key:workflow-sla-thresholds
+  - endpoint:admin-configuration-audit-events
+  - endpoint:admin-configuration-compare-draft
+  - endpoint:admin-configuration-create-draft
+  - endpoint:admin-configuration-domain-detail
+  - endpoint:admin-configuration-domains
+  - endpoint:admin-configuration-publish-draft
+  - endpoint:admin-configuration-rollback-domain
+  - endpoint:admin-configuration-update-draft
+  - endpoint:admin-configuration-validate-draft
+  - entity:configuration-audit-event
+  - entity:configuration-domain
+  - entity:configuration-draft
+  - entity:configuration-refresh-status
+  - entity:configuration-validation-result
+  - entity:published-operational-configuration-set
+  - entity:workflow-sla-threshold
+  - workflow:renewal
+  - workflow:submission
+archived_date: '2026-07-06'
+completion_state: 'Done and archived (2026-07-06, feature run `2026-07-06-f0ef8526`) — 6 stories:
+  admin configuration catalog, draft reference & SLA configuration, govern queue/routing configuration,
+  validate & compare configuration, publish & rollback configuration, audit & permission-safe admin configuration'
+depends_on:
+  - feature:F0022
+  - feature:F0023
+  - feature:F0027
+enforced_by_policy:
+  - policy_rule:admin-configuration-audit
+  - policy_rule:admin-configuration-draft
+  - policy_rule:admin-configuration-publish
+  - policy_rule:admin-configuration-read
+  - policy_rule:admin-configuration-rollback
+  - policy_rule:admin-configuration-validate
+governed_by:
+  - adr:013
+  - adr:014-search
+  - adr:014-workflow-sla
+  - adr:016
+  - adr:032
+notes: First-release scope is governed admin configuration over existing module-owned domains (F0022
+  queue/routing, workflow SLA thresholds, F0023 saved-view/report defaults, F0027 template metadata);
+  F0032 does not replace F0022 execution, F0023 search/report behavior, F0027 document generation, or
+  F0034 product schema authoring. Phase B architecture uses the ADR-032 governed facade, AdminConfiguration
+  OpenAPI endpoints, shared JSON Schemas, and configuration draft/publish/audit entities. Cross-instance
+  cache invalidation remains a later DevOps/runtime decision.
+phase: Platform Operations
+roadmap_order: 2
+roadmap_section: Completed
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:admin-configuration-audit-event
+  - schema:admin-configuration-domain
+  - schema:admin-configuration-draft
+  - schema:admin-configuration-publish-request
+  - schema:admin-configuration-validation-result
+story_mappings:
+  - id: story:F0032-S0001
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md
+    affects:
+      - capability:admin-configuration-governance
+      - config_key:published-configuration-sets
+      - config_key:workflow-sla-thresholds
+      - endpoint:admin-configuration-domain-detail
+      - endpoint:admin-configuration-domains
+      - entity:configuration-domain
+    enforced_by_policy:
+      - policy_rule:admin-configuration-read
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:admin-configuration-domain
+  - id: story:F0032-S0002
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md
+    affects:
+      - capability:admin-configuration-governance
+      - config_key:workflow-sla-thresholds
+      - endpoint:admin-configuration-create-draft
+      - endpoint:admin-configuration-update-draft
+      - entity:configuration-draft
+      - entity:workflow-sla-threshold
+      - workflow:renewal
+      - workflow:submission
+    enforced_by_policy:
+      - policy_rule:admin-configuration-draft
+      - policy_rule:admin-configuration-validate
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:admin-configuration-draft
+  - id: story:F0032-S0003
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md
+    affects:
+      - capability:admin-configuration-governance
+      - config_key:published-configuration-sets
+      - endpoint:admin-configuration-create-draft
+      - endpoint:admin-configuration-update-draft
+      - entity:configuration-draft
+      - entity:work-queue
+      - workflow:renewal
+      - workflow:submission
+    enforced_by_policy:
+      - policy_rule:admin-configuration-draft
+      - policy_rule:admin-configuration-validate
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:admin-configuration-draft
+  - id: story:F0032-S0004
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md
+    affects:
+      - capability:admin-configuration-governance
+      - config_key:published-configuration-sets
+      - config_key:workflow-sla-thresholds
+      - endpoint:admin-configuration-compare-draft
+      - endpoint:admin-configuration-validate-draft
+      - entity:configuration-validation-result
+    enforced_by_policy:
+      - policy_rule:admin-configuration-validate
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:admin-configuration-validation-result
+  - id: story:F0032-S0005
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md
+    affects:
+      - capability:admin-configuration-governance
+      - config_key:published-configuration-sets
+      - config_key:workflow-sla-thresholds
+      - endpoint:admin-configuration-publish-draft
+      - endpoint:admin-configuration-rollback-domain
+      - entity:configuration-refresh-status
+      - entity:published-operational-configuration-set
+    enforced_by_policy:
+      - policy_rule:admin-configuration-publish
+      - policy_rule:admin-configuration-rollback
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:admin-configuration-publish-request
+  - id: story:F0032-S0006
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md
+    affects:
+      - capability:admin-configuration-governance
+      - config_key:published-configuration-sets
+      - config_key:workflow-sla-thresholds
+      - endpoint:admin-configuration-audit-events
+      - entity:configuration-audit-event
+    enforced_by_policy:
+      - policy_rule:admin-configuration-audit
+      - policy_rule:admin-configuration-read
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:admin-configuration-audit-event

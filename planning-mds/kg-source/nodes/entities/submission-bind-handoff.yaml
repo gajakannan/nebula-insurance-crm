@@ -1,0 +1,11 @@
+id: entity:submission-bind-handoff
+label: SubmissionBindHandoff
+rationale:
+  - adr: adr:025
+    section: Decision §4
+    summary: Append-only bind handoff coordination record created after approval; records handoff metadata
+      and supports idempotent bind request/confirmation without creating policies directly.
+source_docs:
+  - F0019/F0019-S0004-bind-decision-and-policy-handoff.md
+  - F0019/PRD.md
+  - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md

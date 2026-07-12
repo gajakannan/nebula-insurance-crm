@@ -1,0 +1,15 @@
+id: entity:policy-version
+label: PolicyVersion
+rationale:
+  - adr: adr:018
+    section: Decision §1
+    summary: Immutable term snapshot captured at issue, endorsement, or reinstatement. VersionNumber is
+      monotonic per PolicyId and the source of truth for historical policy terms.
+  - adr: adr:020
+    section: Decision
+    summary: PolicyVersion is the authoritative policy-level LOB attribute carrier; attributes_json supplements
+      platform snapshots rather than replacing them.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md

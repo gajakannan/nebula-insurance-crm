@@ -1,0 +1,79 @@
+status: archived-done
+id: feature:F0003
+name: Task Center + Reminders (API-only MVP)
+path: planning-mds/features/archive/F0003-task-center
+affects:
+  - capability:dashboard-nudge-cards
+  - capability:task-center
+  - endpoint:task-create
+  - endpoint:task-my-list
+  - entity:task-item
+  - event:task-created
+  - ui_route:task-center
+archived_date: '2026-03-20'
+completion_state: Done and archived
+depends_on:
+  - feature:F0001
+governed_by:
+  - adr:003
+phase: MVP
+roadmap_order: 22
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0003-S0001
+    path: planning-mds/features/archive/F0003-task-center/F0003-S0001-create-task.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:task-center
+      - endpoint:task-create
+      - entity:activity-timeline-event
+      - entity:task-item
+      - event:task-created
+    enforced_by_policy:
+      - policy_rule:task-create
+    governed_by:
+      - adr:003
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:task
+      - schema:task-create-request
+  - id: story:F0003-S0002
+    path: planning-mds/features/archive/F0003-task-center/F0003-S0002-update-task.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:task-center
+      - endpoint:task-detail
+      - entity:activity-timeline-event
+      - entity:task-item
+    enforced_by_policy:
+      - policy_rule:task-update
+    governed_by:
+      - adr:003
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:task
+      - schema:task-update-request
+  - id: story:F0003-S0003
+    path: planning-mds/features/archive/F0003-task-center/F0003-S0003-delete-task.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:task-center
+      - endpoint:task-detail
+      - entity:activity-timeline-event
+      - entity:task-item
+    enforced_by_policy:
+      - policy_rule:task-delete
+    governed_by:
+      - adr:003
+    uses_api_contract:
+      - api:nebula-rest
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:nudge-card
+  - schema:task
+  - schema:task-create-request
+  - schema:task-summary
+  - schema:task-update-request

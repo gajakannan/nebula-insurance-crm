@@ -1,0 +1,286 @@
+status: archived-done
+id: feature:F0020
+name: Document Management & ACORD Intake
+path: planning-mds/features/archive/F0020-document-management-and-acord-intake
+affects:
+  - capability:document-classification
+  - capability:document-completeness-signal
+  - capability:document-management
+  - capability:document-retention
+  - capability:document-templates
+  - endpoint:document-templates-link
+  - endpoint:document-templates-list
+  - endpoint:document-templates-upload
+  - endpoint:documents-completeness
+  - endpoint:documents-detail
+  - endpoint:documents-download
+  - endpoint:documents-list
+  - endpoint:documents-metadata-schemas
+  - endpoint:documents-metadata-update
+  - endpoint:documents-replace
+  - endpoint:documents-upload
+  - entity:account
+  - entity:activity-timeline-event
+  - entity:document
+  - entity:document-template
+  - entity:policy
+  - entity:renewal
+  - entity:submission
+  - workflow:document-ingest
+archived_date: '2026-05-05'
+completion_state: 'Done and archived (2026-05-05) — 12 stories: single upload, bulk upload, quarantine
+  promote, classification-filtered list, detail/provenance, downloads, immutable replace, metadata update,
+  classification ABAC, completeness signal, retention cleanup, templates library'
+config_keys:
+  - config_key:document-classification-policy
+  - config_key:document-metadata-schema-registry
+  - config_key:document-retention-policies
+  - config_key:document-taxonomy
+depends_on:
+  - feature:F0006
+  - id: feature:F0018
+    confidence: 1.0
+    note: 'Implemented: Policy parent-record integration fulfilled through ParentDocumentsPanel on PolicyDetailPage'
+    provenance: extracted
+enforced_by_policy:
+  - policy_rule:document-create
+  - policy_rule:document-create-restricted
+  - policy_rule:document-declassify
+  - policy_rule:document-download
+  - policy_rule:document-read
+  - policy_rule:document-replace
+  - policy_rule:document-template-create
+  - policy_rule:document-template-link
+  - policy_rule:document-template-read
+  - policy_rule:document-template-replace
+  - policy_rule:document-update-metadata
+governed_by:
+  - adr:012
+  - adr:019
+phase: CRM Release MVP
+roadmap_order: 13
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0020-S0001
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
+    affects:
+      - capability:document-management
+      - endpoint:documents-upload
+      - entity:document
+      - workflow:document-ingest
+    enforced_by_policy:
+      - policy_rule:document-create
+      - policy_rule:document-create-restricted
+    governed_by:
+      - adr:012
+      - adr:019
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:document-sidecar
+      - schema:problem-details
+  - id: story:F0020-S0002
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
+    affects:
+      - capability:document-management
+      - endpoint:documents-upload
+      - entity:document
+      - workflow:document-ingest
+    enforced_by_policy:
+      - policy_rule:document-create
+      - policy_rule:document-create-restricted
+    governed_by:
+      - adr:012
+      - adr:019
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:document-sidecar
+      - schema:problem-details
+  - id: story:F0020-S0003
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0003-quarantine-and-mock-scan-workflow.md
+    affects:
+      - capability:document-management
+      - entity:document
+      - workflow:document-ingest
+    config_keys:
+      - config_key:document-retention-policies
+    governed_by:
+      - adr:012
+      - adr:019
+    uses_schema:
+      - schema:document-retention-policy
+      - schema:document-sidecar
+  - id: story:F0020-S0004
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0004-list-documents-with-classification-filtering.md
+    affects:
+      - capability:document-classification
+      - capability:document-management
+      - endpoint:documents-list
+      - entity:document
+    enforced_by_policy:
+      - policy_rule:document-read
+    governed_by:
+      - adr:012
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:document-list-item
+      - schema:paginated-document-list
+      - schema:problem-details
+  - id: story:F0020-S0005
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0005-document-detail-with-preview-and-provenance.md
+    affects:
+      - capability:document-management
+      - endpoint:documents-detail
+      - entity:document
+    enforced_by_policy:
+      - policy_rule:document-read
+    governed_by:
+      - adr:012
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:document-detail
+      - schema:document-sidecar
+      - schema:problem-details
+  - id: story:F0020-S0006
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0006-download-current-and-prior-versions.md
+    affects:
+      - capability:document-classification
+      - endpoint:documents-download
+      - entity:document
+    enforced_by_policy:
+      - policy_rule:document-download
+    governed_by:
+      - adr:012
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:problem-details
+  - id: story:F0020-S0007
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0007-replace-with-immutable-supersedes-lineage.md
+    affects:
+      - capability:document-management
+      - endpoint:documents-replace
+      - entity:document
+      - workflow:document-ingest
+    enforced_by_policy:
+      - policy_rule:document-create-restricted
+      - policy_rule:document-replace
+    governed_by:
+      - adr:012
+      - adr:019
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:document-sidecar
+      - schema:problem-details
+  - id: story:F0020-S0008
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0008-update-metadata-without-new-version.md
+    affects:
+      - capability:document-classification
+      - endpoint:documents-metadata-update
+      - entity:document
+    enforced_by_policy:
+      - policy_rule:document-create-restricted
+      - policy_rule:document-declassify
+      - policy_rule:document-update-metadata
+    governed_by:
+      - adr:012
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:document-detail
+      - schema:document-sidecar
+      - schema:problem-details
+  - id: story:F0020-S0009
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+    affects:
+      - capability:document-classification
+      - entity:document
+      - entity:document-template
+    config_keys:
+      - config_key:document-classification-policy
+    enforced_by_policy:
+      - policy_rule:document-create
+      - policy_rule:document-create-restricted
+      - policy_rule:document-declassify
+      - policy_rule:document-download
+      - policy_rule:document-read
+      - policy_rule:document-replace
+      - policy_rule:document-template-create
+      - policy_rule:document-template-link
+      - policy_rule:document-template-read
+      - policy_rule:document-template-replace
+      - policy_rule:document-update-metadata
+    governed_by:
+      - adr:012
+    uses_schema:
+      - schema:document-classification-policy
+  - id: story:F0020-S0010
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+    affects:
+      - capability:document-completeness-signal
+      - endpoint:documents-completeness
+      - entity:document
+    enforced_by_policy:
+      - policy_rule:document-read
+    governed_by:
+      - adr:012
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:document-completeness
+  - id: story:F0020-S0011
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
+    affects:
+      - capability:document-retention
+      - entity:document
+      - entity:document-template
+      - workflow:document-ingest
+    config_keys:
+      - config_key:document-retention-policies
+    governed_by:
+      - adr:012
+      - adr:019
+    uses_schema:
+      - schema:document-retention-policy
+  - id: story:F0020-S0012
+    path: planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+    affects:
+      - capability:document-templates
+      - endpoint:document-templates-link
+      - endpoint:document-templates-list
+      - endpoint:document-templates-upload
+      - entity:document
+      - entity:document-template
+      - workflow:document-ingest
+    enforced_by_policy:
+      - policy_rule:document-create
+      - policy_rule:document-template-create
+      - policy_rule:document-template-link
+      - policy_rule:document-template-read
+      - policy_rule:document-template-replace
+    governed_by:
+      - adr:012
+      - adr:019
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:document-sidecar
+      - schema:document-template
+      - schema:problem-details
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:document-classification-policy
+  - schema:document-completeness
+  - schema:document-detail
+  - schema:document-list-item
+  - schema:document-metadata-schema-registry
+  - schema:document-retention-policy
+  - schema:document-sidecar
+  - schema:document-template
+  - schema:paginated-document-list
+  - schema:problem-details

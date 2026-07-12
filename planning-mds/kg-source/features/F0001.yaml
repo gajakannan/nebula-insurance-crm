@@ -1,0 +1,120 @@
+status: archived-done
+id: feature:F0001
+name: Dashboard
+path: planning-mds/features/archive/F0001-dashboard
+affects:
+  - capability:dashboard-broker-activity-feed
+  - capability:dashboard-home
+  - capability:dashboard-kpis
+  - capability:dashboard-nudge-cards
+  - capability:dashboard-pipeline-visualization
+  - endpoint:dashboard-kpis
+  - endpoint:dashboard-nudges
+  - endpoint:dashboard-opportunity-flow
+  - entity:activity-timeline-event
+  - entity:broker
+  - entity:task-item
+  - ui_route:dashboard-home
+  - workflow:submission
+archived_date: '2026-03-07'
+completion_state: Done and archived
+governed_by:
+  - adr:002
+  - adr:003
+  - adr:004
+phase: MVP
+roadmap_order: 24
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0001-S0001
+    path: planning-mds/features/archive/F0001-dashboard/F0001-S0001-view-key-metrics-cards.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-kpis
+      - endpoint:dashboard-kpis
+      - entity:broker
+      - entity:renewal
+      - entity:submission
+      - ui_route:dashboard-home
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:dashboard-kpis
+  - id: story:F0001-S0002
+    path: planning-mds/features/archive/F0001-dashboard/F0001-S0002-view-pipeline-summary.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-pipeline-visualization
+      - endpoint:dashboard-opportunity-flow
+      - entity:renewal
+      - entity:submission
+      - entity:workflow-transition
+      - ui_route:dashboard-home
+      - workflow:renewal
+      - workflow:submission
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:dashboard-pipeline
+      - schema:opportunity-flow
+      - schema:opportunity-flow-link
+      - schema:opportunity-flow-node
+      - schema:pipeline-status-count
+  - id: story:F0001-S0003
+    path: planning-mds/features/archive/F0001-dashboard/F0001-S0003-view-my-tasks-and-reminders.md
+    affects:
+      - capability:dashboard-home
+      - capability:task-center
+      - endpoint:task-my-list
+      - entity:task-item
+      - entity:user-profile
+      - ui_route:dashboard-home
+    enforced_by_policy:
+      - policy_rule:task-read
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:task-summary
+  - id: story:F0001-S0004
+    path: planning-mds/features/archive/F0001-dashboard/F0001-S0004-view-broker-activity-feed.md
+    affects:
+      - capability:dashboard-broker-activity-feed
+      - capability:dashboard-home
+      - endpoint:timeline-events
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:user-profile
+      - ui_route:dashboard-home
+    enforced_by_policy:
+      - policy_rule:broker-read
+      - policy_rule:timeline-event-read
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:timeline-event
+  - id: story:F0001-S0005
+    path: planning-mds/features/archive/F0001-dashboard/F0001-S0005-view-nudge-cards.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-nudge-cards
+      - endpoint:dashboard-nudges
+      - entity:renewal
+      - entity:submission
+      - entity:task-item
+      - ui_route:dashboard-home
+    enforced_by_policy:
+      - policy_rule:dashboard-nudge-read
+      - policy_rule:task-read
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:nudge-card
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:dashboard-kpis
+  - schema:dashboard-pipeline
+  - schema:nudge-card
+  - schema:pipeline-status-count
+  - schema:task-summary

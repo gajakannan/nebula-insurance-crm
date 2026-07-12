@@ -1,0 +1,11 @@
+id: capability:submission-workflow
+label: Submission Downstream Workflow
+rationale:
+  - adr: adr:025
+    section: Decision §6
+    summary: 'CRM status/workflow coordination, NOT an underwriting workbench: no rating/pricing/scoring;
+      quote figures are recorded, never computed. Any feature touching workflow:submission inherits this
+      boundary.'
+source_docs:
+  - F0019/PRD.md
+  - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md

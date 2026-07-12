@@ -1,0 +1,15 @@
+id: entity:published-operational-configuration-set
+label: PublishedOperationalConfigurationSet
+rationale:
+  - adr: adr:016
+    section: Decision
+    summary: Published configuration sets are the authoritative runtime snapshots for governed
+      operational business settings.
+  - adr: adr:032
+    section: Decision
+    summary: Rollback creates a new published version from an eligible prior snapshot rather than
+      mutating history.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-016-published-operational-configuration-governance.md
+  - planning-mds/architecture/decisions/ADR-032-admin-configuration-console-contract.md

@@ -1,0 +1,37 @@
+evidence:
+  - id: evidence:broker-access-integration-tests
+    label: Broker Access Integration Tests
+    path: engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
+    related_nodes:
+      - capability:authorization-enforcement
+      - policy_rule:broker-read
+      - policy_rule:timeline-event-read
+      - role:broker-user
+  - id: evidence:broker-list-pact-tests
+    label: Broker List Pact Tests
+    path: engine/tests/Nebula.Tests/Contracts/BrokerListProviderPactTests.cs
+    related_nodes:
+      - capability:api-contract-testing
+      - endpoint:broker-list
+      - entity:broker
+  - id: evidence:theme-smoke-visual-tests
+    label: Theme Smoke Visual Tests
+    path: experience/tests/visual/theme-smoke.spec.ts
+    related_nodes:
+      - capability:frontend-quality-gates
+      - capability:frontend-test-infrastructure
+  - id: evidence:workflow-endpoint-integration-tests
+    label: Workflow Endpoint Integration Tests
+    path: engine/tests/Nebula.Tests/Integration/WorkflowEndpointTests.cs
+    related_nodes:
+      - entity:renewal
+      - entity:submission
+      - workflow:renewal
+      - workflow:submission
+  - id: evidence:workflow-state-machine-tests
+    label: Workflow State Machine Tests
+    path: engine/tests/Nebula.Tests/Unit/WorkflowStateMachineTests.cs
+    related_nodes:
+      - entity:workflow-transition
+      - workflow:renewal
+      - workflow:submission

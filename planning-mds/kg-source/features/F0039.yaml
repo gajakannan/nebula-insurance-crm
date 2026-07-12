@@ -1,0 +1,13 @@
+status: planned-provisional
+id: feature:F0039
+name: Neuron Multi-Thread Conversations
+path: planning-mds/features/F0039-neuron-multi-thread-conversations
+coverage_excluded:
+  reason: Neuron Companion epic; provisional skeleton. Ontology mapping deferred until F0038 lands and
+    F0039 runs its own plan.
+phase: Neuron Companion
+rationale: Implements the real conversation store + thread management UX on F0038's reserved persistence/envelope
+  seams. **Provisional skeleton** — re-derived in its own `plan` run after F0038 lands. Depends on F0038's
+  persistence ADR.
+roadmap_order: 3
+roadmap_section: Next

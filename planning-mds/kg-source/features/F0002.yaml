@@ -1,0 +1,197 @@
+status: archived-done
+id: feature:F0002
+name: Broker & MGA Relationship Management
+path: planning-mds/features/archive/F0002-broker-relationship-management
+affects:
+  - capability:authorization-enforcement
+  - capability:broker-360
+  - capability:broker-contact-management
+  - capability:broker-relationship-management
+  - endpoint:broker-create
+  - endpoint:broker-detail
+  - endpoint:broker-list
+  - endpoint:timeline-events
+  - entity:activity-timeline-event
+  - entity:broker
+  - entity:contact
+  - event:broker-created
+  - event:contact-created
+  - ui_route:broker-create
+  - ui_route:broker-detail
+  - ui_route:brokers-list
+archived_date: '2026-03-10'
+completion_state: Done and archived (post-MVP hardening follow-ups tracked)
+governed_by:
+  - adr:008
+phase: MVP
+roadmap_order: 25
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0002-S0001
+    path: planning-mds/features/archive/F0002-broker-relationship-management/F0002-S0001-create-broker.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:broker-relationship-management
+      - endpoint:broker-create
+      - entity:activity-timeline-event
+      - entity:broker
+      - event:broker-created
+      - ui_route:broker-create
+    governed_by:
+      - adr:008
+    restricted_to_role:
+      - role:admin
+      - role:distribution-manager
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:broker
+      - schema:broker-create-request
+  - id: story:F0002-S0002
+    path: planning-mds/features/archive/F0002-broker-relationship-management/F0002-S0002-search-brokers.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:broker-relationship-management
+      - endpoint:broker-list
+      - entity:broker
+      - ui_route:brokers-list
+    enforced_by_policy:
+      - policy_rule:broker-search
+    governed_by:
+      - adr:008
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:broker
+      - schema:broker-search-query
+      - schema:paginated-broker-list
+  - id: story:F0002-S0003
+    path: planning-mds/features/archive/F0002-broker-relationship-management/F0002-S0003-read-broker.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:broker-360
+      - capability:broker-relationship-management
+      - endpoint:broker-detail
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:contact
+      - ui_route:broker-detail
+    enforced_by_policy:
+      - policy_rule:broker-read
+      - policy_rule:contact-read
+    governed_by:
+      - adr:008
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:broker
+      - schema:contact
+  - id: story:F0002-S0004
+    path: planning-mds/features/archive/F0002-broker-relationship-management/F0002-S0004-update-broker.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:broker-relationship-management
+      - endpoint:broker-detail
+      - entity:activity-timeline-event
+      - entity:broker
+      - ui_route:broker-detail
+    governed_by:
+      - adr:008
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:broker
+      - schema:broker-update-request
+  - id: story:F0002-S0005
+    path: planning-mds/features/archive/F0002-broker-relationship-management/F0002-S0005-delete-broker.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:broker-relationship-management
+      - endpoint:broker-detail
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:contact
+      - ui_route:broker-detail
+    governed_by:
+      - adr:008
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0002-S0006
+    path: planning-mds/features/archive/F0002-broker-relationship-management/F0002-S0006-manage-broker-contacts.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:broker-360
+      - capability:broker-contact-management
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:contact
+      - event:contact-created
+      - ui_route:broker-detail
+    enforced_by_policy:
+      - policy_rule:contact-read
+    governed_by:
+      - adr:008
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:contact
+      - schema:contact-create-request
+      - schema:contact-update-request
+  - id: story:F0002-S0007
+    path: planning-mds/features/archive/F0002-broker-relationship-management/F0002-S0007-view-broker-activity-timeline.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:broker-360
+      - capability:broker-relationship-management
+      - endpoint:timeline-events
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:user-profile
+      - ui_route:broker-detail
+    enforced_by_policy:
+      - policy_rule:broker-read
+      - policy_rule:timeline-event-read
+    governed_by:
+      - adr:008
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:timeline-event
+  - id: story:F0002-S0008
+    path: planning-mds/features/archive/F0002-broker-relationship-management/F0002-S0008-reactivate-broker.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:broker-relationship-management
+      - endpoint:broker-detail
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:contact
+      - ui_route:broker-detail
+    governed_by:
+      - adr:008
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0002-S0009
+    path: planning-mds/features/archive/F0002-broker-relationship-management/F0002-S0009-adopt-native-casbin-enforcer.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:broker-relationship-management
+      - entity:broker
+    governed_by:
+      - adr:008
+    uses_api_contract:
+      - api:nebula-rest
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:activity-event-payloads
+  - schema:broker
+  - schema:broker-create-request
+  - schema:broker-search-query
+  - schema:broker-update-request
+  - schema:contact
+  - schema:contact-create-request
+  - schema:contact-update-request
+  - schema:paginated-broker-list
+  - schema:timeline-event

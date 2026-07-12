@@ -20,9 +20,9 @@ coverage:
       path: planning-mds/features/F0031-data-import-deduplication-and-go-live-migration
       reason: Planned feature folder exists but ontology mapping backfill has not started.
     - id: feature:F0037
-      path: planning-mds/features/F0037-hierarchy-aware-access-scoping-and-distribution-rollups
-      reason: Planned placeholder feature (homes F0017 deferred scope); ontology mapping backfill has
-        not started.
+      path: planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups
+      reason: Delivered and archived via PR 56; full ontology mapping backfill has not started, so the
+        feature stays coverage-excluded until a follow-up plan run maps its as-built code.
     - id: feature:F0039
       path: planning-mds/features/F0039-neuron-multi-thread-conversations
       reason: Neuron Companion epic; provisional skeleton. Ontology mapping deferred until F0038 lands
@@ -1211,6 +1211,10 @@ features:
       - entity:workflow-sla-threshold
       - workflow:renewal
       - workflow:submission
+    depends_on:
+      - feature:F0022
+      - feature:F0023
+      - feature:F0027
     enforced_by_policy:
       - policy_rule:admin-configuration-audit
       - policy_rule:admin-configuration-draft
@@ -1224,6 +1228,12 @@ features:
       - adr:014-workflow-sla
       - adr:016
       - adr:032
+    notes: First-release scope is governed admin configuration over existing module-owned domains (F0022
+      queue/routing, workflow SLA thresholds, F0023 saved-view/report defaults, F0027 template metadata);
+      F0032 does not replace F0022 execution, F0023 search/report behavior, F0027 document generation,
+      or F0034 product schema authoring. Phase B architecture uses the ADR-032 governed facade, AdminConfiguration
+      OpenAPI endpoints, shared JSON Schemas, and configuration draft/publish/audit entities. Cross-instance
+      cache invalidation remains a later DevOps/runtime decision.
     uses_api_contract:
       - api:nebula-rest
     uses_schema:
@@ -1232,9 +1242,6 @@ features:
       - schema:admin-configuration-draft
       - schema:admin-configuration-publish-request
       - schema:admin-configuration-validation-result
-    notes:
-      - "Phase A refinement 2026-07-06: first-release scope is governed admin configuration over existing module-owned domains: F0022 queue/routing, workflow SLA thresholds, F0023 saved-view/report defaults, and F0027 template metadata. F0032 does not replace F0022 execution, F0023 search/report behavior, F0027 document generation, or F0034 product schema authoring."
-      - "Phase B architecture 2026-07-06: F0032 uses ADR-032 governed facade, AdminConfiguration OpenAPI endpoints, shared JSON Schemas, and configuration draft/publish/audit entities. Cross-instance cache invalidation remains a later DevOps/runtime decision."
   - status: archived-done
     id: feature:F0033
     path: planning-mds/features/archive/F0033-structured-logging-and-qe-toolchain-activation
@@ -4351,6 +4358,110 @@ stories:
       - schema:activity-event-payloads
       - schema:carrier-market-activity-link
       - schema:timeline-event
+  - id: story:F0032-S0001
+    feature: feature:F0032
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md
+    affects:
+      - capability:admin-configuration-governance
+      - config_key:published-configuration-sets
+      - config_key:workflow-sla-thresholds
+      - endpoint:admin-configuration-domain-detail
+      - endpoint:admin-configuration-domains
+      - entity:configuration-domain
+    enforced_by_policy:
+      - policy_rule:admin-configuration-read
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:admin-configuration-domain
+  - id: story:F0032-S0002
+    feature: feature:F0032
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md
+    affects:
+      - capability:admin-configuration-governance
+      - config_key:workflow-sla-thresholds
+      - endpoint:admin-configuration-create-draft
+      - endpoint:admin-configuration-update-draft
+      - entity:configuration-draft
+      - entity:workflow-sla-threshold
+      - workflow:renewal
+      - workflow:submission
+    enforced_by_policy:
+      - policy_rule:admin-configuration-draft
+      - policy_rule:admin-configuration-validate
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:admin-configuration-draft
+  - id: story:F0032-S0003
+    feature: feature:F0032
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md
+    affects:
+      - capability:admin-configuration-governance
+      - config_key:published-configuration-sets
+      - endpoint:admin-configuration-create-draft
+      - endpoint:admin-configuration-update-draft
+      - entity:configuration-draft
+      - entity:work-queue
+      - workflow:renewal
+      - workflow:submission
+    enforced_by_policy:
+      - policy_rule:admin-configuration-draft
+      - policy_rule:admin-configuration-validate
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:admin-configuration-draft
+  - id: story:F0032-S0004
+    feature: feature:F0032
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md
+    affects:
+      - capability:admin-configuration-governance
+      - config_key:published-configuration-sets
+      - config_key:workflow-sla-thresholds
+      - endpoint:admin-configuration-compare-draft
+      - endpoint:admin-configuration-validate-draft
+      - entity:configuration-validation-result
+    enforced_by_policy:
+      - policy_rule:admin-configuration-validate
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:admin-configuration-validation-result
+  - id: story:F0032-S0005
+    feature: feature:F0032
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md
+    affects:
+      - capability:admin-configuration-governance
+      - config_key:published-configuration-sets
+      - config_key:workflow-sla-thresholds
+      - endpoint:admin-configuration-publish-draft
+      - endpoint:admin-configuration-rollback-domain
+      - entity:configuration-refresh-status
+      - entity:published-operational-configuration-set
+    enforced_by_policy:
+      - policy_rule:admin-configuration-publish
+      - policy_rule:admin-configuration-rollback
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:admin-configuration-publish-request
+  - id: story:F0032-S0006
+    feature: feature:F0032
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md
+    affects:
+      - capability:admin-configuration-governance
+      - config_key:published-configuration-sets
+      - config_key:workflow-sla-thresholds
+      - endpoint:admin-configuration-audit-events
+      - entity:configuration-audit-event
+    enforced_by_policy:
+      - policy_rule:admin-configuration-audit
+      - policy_rule:admin-configuration-read
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:admin-configuration-audit-event
   - id: story:F0033-S0001
     feature: feature:F0033
     path: planning-mds/features/archive/F0033-structured-logging-and-qe-toolchain-activation/F0033-S0001-establish-serilog-structured-logging-baseline.md
@@ -4614,130 +4725,6 @@ stories:
       - schema:renewal-create-request
       - schema:submission
       - schema:submission-create-request
-  - id: story:F0032-S0001
-    feature: feature:F0032
-    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md
-    affects:
-      - capability:admin-configuration-governance
-      - endpoint:admin-configuration-domain-detail
-      - endpoint:admin-configuration-domains
-      - entity:configuration-domain
-      - config_key:published-configuration-sets
-      - config_key:workflow-sla-thresholds
-    enforced_by_policy:
-      - policy_rule:admin-configuration-read
-    governed_by:
-      - adr:016
-      - adr:032
-    uses_api_contract:
-      - api:nebula-rest
-    uses_schema:
-      - schema:admin-configuration-domain
-  - id: story:F0032-S0002
-    feature: feature:F0032
-    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md
-    affects:
-      - capability:admin-configuration-governance
-      - config_key:workflow-sla-thresholds
-      - endpoint:admin-configuration-create-draft
-      - endpoint:admin-configuration-update-draft
-      - entity:configuration-draft
-      - entity:workflow-sla-threshold
-      - workflow:renewal
-      - workflow:submission
-    enforced_by_policy:
-      - policy_rule:admin-configuration-draft
-      - policy_rule:admin-configuration-validate
-    governed_by:
-      - adr:014-workflow-sla
-      - adr:016
-      - adr:032
-    uses_api_contract:
-      - api:nebula-rest
-    uses_schema:
-      - schema:admin-configuration-draft
-  - id: story:F0032-S0003
-    feature: feature:F0032
-    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md
-    affects:
-      - capability:admin-configuration-governance
-      - config_key:published-configuration-sets
-      - endpoint:admin-configuration-create-draft
-      - endpoint:admin-configuration-update-draft
-      - entity:configuration-draft
-      - entity:work-queue
-      - workflow:renewal
-      - workflow:submission
-    enforced_by_policy:
-      - policy_rule:admin-configuration-draft
-      - policy_rule:admin-configuration-validate
-    governed_by:
-      - adr:013
-      - adr:016
-      - adr:032
-    uses_api_contract:
-      - api:nebula-rest
-    uses_schema:
-      - schema:admin-configuration-draft
-  - id: story:F0032-S0004
-    feature: feature:F0032
-    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md
-    affects:
-      - capability:admin-configuration-governance
-      - config_key:published-configuration-sets
-      - config_key:workflow-sla-thresholds
-      - endpoint:admin-configuration-compare-draft
-      - endpoint:admin-configuration-validate-draft
-      - entity:configuration-validation-result
-    enforced_by_policy:
-      - policy_rule:admin-configuration-validate
-    governed_by:
-      - adr:016
-      - adr:032
-    uses_api_contract:
-      - api:nebula-rest
-    uses_schema:
-      - schema:admin-configuration-validation-result
-  - id: story:F0032-S0005
-    feature: feature:F0032
-    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md
-    affects:
-      - capability:admin-configuration-governance
-      - config_key:published-configuration-sets
-      - config_key:workflow-sla-thresholds
-      - endpoint:admin-configuration-publish-draft
-      - endpoint:admin-configuration-rollback-domain
-      - entity:configuration-refresh-status
-      - entity:published-operational-configuration-set
-    enforced_by_policy:
-      - policy_rule:admin-configuration-publish
-      - policy_rule:admin-configuration-rollback
-    governed_by:
-      - adr:016
-      - adr:032
-    uses_api_contract:
-      - api:nebula-rest
-    uses_schema:
-      - schema:admin-configuration-publish-request
-  - id: story:F0032-S0006
-    feature: feature:F0032
-    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md
-    affects:
-      - capability:admin-configuration-governance
-      - config_key:published-configuration-sets
-      - config_key:workflow-sla-thresholds
-      - endpoint:admin-configuration-audit-events
-      - entity:configuration-audit-event
-    enforced_by_policy:
-      - policy_rule:admin-configuration-audit
-      - policy_rule:admin-configuration-read
-    governed_by:
-      - adr:016
-      - adr:032
-    uses_api_contract:
-      - api:nebula-rest
-    uses_schema:
-      - schema:admin-configuration-audit-event
   - id: story:F0038-S0001
     feature: feature:F0038
     path: planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md

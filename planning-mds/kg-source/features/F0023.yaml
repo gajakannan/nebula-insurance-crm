@@ -1,0 +1,249 @@
+status: archived-done
+id: feature:F0023
+name: Global Search, Saved Views & Operational Reporting
+path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting
+affects:
+  - capability:authorization-enforcement
+  - capability:broker-relationship-management
+  - capability:global-search
+  - capability:operational-reporting
+  - capability:saved-views
+  - capability:task-center
+  - endpoint:global-search-results
+  - endpoint:operational-workload-report
+  - endpoint:saved-view-archive
+  - endpoint:saved-view-create
+  - endpoint:saved-view-default
+  - endpoint:saved-view-detail
+  - endpoint:saved-view-list
+  - endpoint:saved-view-update
+  - endpoint:workflow-aging-report
+  - entity:account
+  - entity:broker
+  - entity:mga
+  - entity:operational-report-projection
+  - entity:policy
+  - entity:renewal
+  - entity:saved-view
+  - entity:saved-view-audit-event
+  - entity:search-document
+  - entity:submission
+  - entity:task-item
+  - policy_rule:global-search-read
+  - policy_rule:operational-report-read
+  - policy_rule:saved-view-default
+  - policy_rule:saved-view-manage
+  - policy_rule:saved-view-read
+  - schema:global-search-response
+  - schema:global-search-result
+  - schema:operational-workload-report
+  - schema:saved-view
+  - schema:saved-view-upsert-request
+  - schema:workflow-aging-report
+  - workflow:renewal
+  - workflow:submission
+archived_date: '2026-06-20'
+completion_state: 'Done and archived (2026-06-20, feature run `2026-06-19-a4e3fdd6`) — 7 stories: global
+  search, filter/open, personal saved views, team saved views + defaults, daily workload report, workflow
+  aging/backlog, permission-safe behavior'
+depends_on:
+  - feature:F0003
+  - feature:F0006
+  - feature:F0007
+  - feature:F0016
+  - feature:F0017
+  - feature:F0018
+  - feature:F0019
+governed_by:
+  - adr:014-search
+  - adr:016
+notes:
+  - Core search/saved-view/reporting substrate may build in parallel with F0017; hierarchy/territory facets
+    depend on F0017 data. Hierarchy-aware access enforcement and distribution rollups remain deferred
+    to F0037.
+  - Phase B Architect binding completed in plan run 2026-06-19-2f180001. F0023 uses PostgreSQL-backed
+    SearchDocument and OperationalReportProjection read models plus SavedView/SavedViewAuditEvent persistence;
+    no external search engine in MVP.
+phase: CRM Release MVP
+roadmap_order: 8
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0023-S0001
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0001-global-search-results.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:global-search
+      - endpoint:global-search-results
+      - entity:account
+      - entity:broker
+      - entity:mga
+      - entity:policy
+      - entity:renewal
+      - entity:search-document
+      - entity:submission
+      - entity:task-item
+      - policy_rule:global-search-read
+      - schema:global-search-response
+      - schema:global-search-result
+    governed_by:
+      - adr:014-search
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0023-S0002
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0002-filter-and-open-search-results.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:global-search
+      - endpoint:global-search-results
+      - entity:account
+      - entity:broker
+      - entity:policy
+      - entity:renewal
+      - entity:search-document
+      - entity:submission
+      - entity:task-item
+      - policy_rule:global-search-read
+      - schema:global-search-response
+    depends_on:
+      - story:F0023-S0001
+    governed_by:
+      - adr:014-search
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0023-S0003
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0003-personal-saved-views.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:saved-views
+      - endpoint:saved-view-archive
+      - endpoint:saved-view-create
+      - endpoint:saved-view-default
+      - endpoint:saved-view-detail
+      - endpoint:saved-view-list
+      - endpoint:saved-view-update
+      - entity:saved-view
+      - entity:saved-view-audit-event
+      - entity:user-profile
+      - policy_rule:saved-view-default
+      - policy_rule:saved-view-manage
+      - policy_rule:saved-view-read
+      - schema:saved-view
+      - schema:saved-view-upsert-request
+    depends_on:
+      - story:F0023-S0001
+      - story:F0023-S0002
+    governed_by:
+      - adr:014-search
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0023-S0004
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0004-team-saved-views.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:saved-views
+      - endpoint:saved-view-archive
+      - endpoint:saved-view-create
+      - endpoint:saved-view-default
+      - endpoint:saved-view-detail
+      - endpoint:saved-view-list
+      - endpoint:saved-view-update
+      - entity:saved-view
+      - entity:saved-view-audit-event
+      - entity:user-profile
+      - policy_rule:saved-view-default
+      - policy_rule:saved-view-manage
+      - policy_rule:saved-view-read
+      - schema:saved-view
+      - schema:saved-view-upsert-request
+    depends_on:
+      - story:F0023-S0003
+    governed_by:
+      - adr:014-search
+      - adr:016
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0023-S0005
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0005-daily-operational-workload-report.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:operational-reporting
+      - endpoint:operational-workload-report
+      - entity:operational-report-projection
+      - entity:policy
+      - entity:renewal
+      - entity:search-document
+      - entity:submission
+      - entity:task-item
+      - policy_rule:operational-report-read
+      - schema:global-search-result
+      - schema:operational-workload-report
+      - workflow:renewal
+      - workflow:submission
+    depends_on:
+      - feature:F0003
+      - feature:F0006
+      - feature:F0007
+      - feature:F0018
+      - feature:F0019
+    governed_by:
+      - adr:014-search
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0023-S0006
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0006-workflow-aging-and-backlog-report.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:operational-reporting
+      - endpoint:workflow-aging-report
+      - entity:operational-report-projection
+      - entity:renewal
+      - entity:search-document
+      - entity:submission
+      - entity:workflow-transition
+      - policy_rule:operational-report-read
+      - schema:global-search-result
+      - schema:workflow-aging-report
+      - workflow:renewal
+      - workflow:submission
+    depends_on:
+      - feature:F0006
+      - feature:F0007
+      - feature:F0017
+      - feature:F0019
+    governed_by:
+      - adr:011
+      - adr:014-search
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0023-S0007
+    path: planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/F0023-S0007-permission-safe-search-and-reporting.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:global-search
+      - capability:operational-reporting
+      - capability:saved-views
+      - endpoint:global-search-results
+      - endpoint:operational-workload-report
+      - endpoint:saved-view-list
+      - endpoint:workflow-aging-report
+      - entity:account
+      - entity:broker
+      - entity:operational-report-projection
+      - entity:policy
+      - entity:renewal
+      - entity:saved-view
+      - entity:search-document
+      - entity:submission
+      - entity:task-item
+      - entity:user-profile
+      - policy_rule:global-search-read
+      - policy_rule:operational-report-read
+      - policy_rule:saved-view-default
+      - policy_rule:saved-view-manage
+      - policy_rule:saved-view-read
+    governed_by:
+      - adr:014-search
+    uses_api_contract:
+      - api:nebula-rest
+uses_api_contract:
+  - api:nebula-rest

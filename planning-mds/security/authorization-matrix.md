@@ -665,6 +665,38 @@ hierarchy-aware read enforcement or distribution rollups; F0037 owns that scope.
 
 ---
 
+### 2.10d Hierarchy-Aware Access Scoping and Distribution Rollups (F0037)
+
+F0037 resolves a current-user distribution scope from role, hierarchy, territory,
+producer ownership, source-record visibility, and `asOf`. Search, saved-view,
+broker-insight, operational-report, and direct-read paths continue to use their
+existing resource gates, but must consume the F0037 scope before materializing
+rows, counts, facets, suggestions, drilldowns, or aggregates. The new
+`distribution_rollup:read` resource gates the leader/relationship rollup report.
+
+| Role | Resource | Action | Decision | Business Scope / Constraints | Story / AC Reference |
+|------|----------|--------|----------|------------------------------|----------------------|
+| DistributionUser | global_search / operational_report / distribution_node / producer_ownership / territory | read | **ALLOW** | Existing read gates remain; F0037 resolver narrows rows to assigned source records, territories, producer ownership, and effective hierarchy scope. | F0037-S0001, S0002, S0003 |
+| DistributionUser | distribution_rollup | read | **DENY** | Rollup workspace is leader/relationship scoped in MVP; DistributionUser still receives scoped search/report results. | F0037-S0004, S0005 |
+| DistributionManager | distribution_rollup | read | **ALLOW** | Managed subtree, territory, producer, and source-record scope applies before grouping and totals. | F0037-S0001, S0004, S0005 |
+| Underwriter | global_search / operational_report / distribution_node / producer_ownership / territory | read | **ALLOW** | Existing read gates remain; F0037 resolver narrows to underwriting source-record and assignment scope. | F0037-S0001, S0002, S0003 |
+| Underwriter | distribution_rollup | read | **DENY** | Underwriters are not distribution rollup viewers in MVP. | F0037-S0004, S0005 |
+| RelationshipManager | distribution_rollup | read | **ALLOW** | Assigned relationship, territory, producer, and source-record scope applies before grouping and totals. | F0037-S0001, S0004, S0005 |
+| ProgramManager | distribution_rollup | read | **ALLOW** | Program/hierarchy/territory authority applies before grouping and totals. | F0037-S0001, S0004, S0005 |
+| Admin | distribution_rollup | read | **ALLOW** | Full internal rollup scope, still subject to source-record existence and `asOf`. | F0037-S0004, S0005 |
+| BrokerUser / ExternalUser | F0037 internal scope and rollup resources | all | **DENY** | F0037 internal hierarchy-aware search/report/rollup surfaces are not exposed externally. | F0037-S0001 through S0006 |
+
+**Constraints applying to all F0037 ALLOW decisions:**
+- Scope resolution fails closed; empty scope is not widened.
+- Hidden records are omitted before rows, counts, facets, suggestions, drilldowns, broker-insight metrics, and distribution rollups are computed.
+- Direct access to a hidden record returns no-leak not found behavior, preferably 404, unless authentication or broad resource-policy failure occurs first.
+- `asOf` evaluates effective-dated hierarchy, producer ownership, and territory assignments consistently for one request.
+- Saved views preserve criteria only; executing a saved view recomputes the current user's F0037 scope.
+- `distribution_rollup:read` is read-only and emits no timeline event.
+- Security review and rollup reconciliation evidence are mandatory before feature closeout.
+
+---
+
 ### 2.11 Account (F0016)
 
 Resource: `account`. Actions: `read`, `create`, `update`, `deactivate`, `reactivate`, `delete`, `merge`, `contact:manage`, `relationship:change`. See [ADR-017](../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md) for merge and tombstone contract.

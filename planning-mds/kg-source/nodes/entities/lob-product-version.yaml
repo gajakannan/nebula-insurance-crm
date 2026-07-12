@@ -1,0 +1,10 @@
+id: entity:lob-product-version
+label: LobProductVersion
+rationale:
+  - adr: adr:020
+    section: Decision
+    summary: Lifecycle rows pin a deterministic product version id to keep historical attributes resolvable
+      after new schema versions activate.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md

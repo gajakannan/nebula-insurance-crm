@@ -1,0 +1,12 @@
+id: entity:saved-view
+label: SavedView
+rationale:
+  - adr: adr:014-search
+    section: Saved View Design
+    summary: Saved views persist reusable criteria for personal or team scopes; applying a view always
+      reruns current authorization and never grants access.
+source_docs:
+  - F0023/feature-assembly-plan.md
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+  - planning-mds/schemas/saved-view.schema.json

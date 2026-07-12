@@ -1,0 +1,32 @@
+status: archived-done
+id: feature:F0015
+name: Frontend Quality Gates + Test Infrastructure
+path: planning-mds/features/archive/F0015-frontend-quality-gates-and-test-infrastructure
+affects:
+  - capability:frontend-quality-gates
+  - capability:frontend-test-infrastructure
+archived_date: '2026-03-21'
+completion_state: Done and archived (2026-03-21)
+phase: Infrastructure
+roadmap_order: 21
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0015-S0001
+    path: planning-mds/features/archive/F0015-frontend-quality-gates-and-test-infrastructure/F0015-S0001-establish-frontend-test-infrastructure-and-commands.md
+    affects:
+      - capability:frontend-quality-gates
+      - capability:frontend-test-infrastructure
+  - id: story:F0015-S0002
+    path: planning-mds/features/archive/F0015-frontend-quality-gates-and-test-infrastructure/F0015-S0002-activate-nebula-frontend-quality-gates-and-evidence.md
+    affects:
+      - capability:frontend-quality-gates
+      - capability:frontend-test-infrastructure
+    validated_by:
+      - evidence:theme-smoke-visual-tests
+  - id: story:F0015-S0003
+    path: planning-mds/features/archive/F0015-frontend-quality-gates-and-test-infrastructure/F0015-S0003-backfill-critical-frontend-coverage-and-record-full-validation-run.md
+    affects:
+      - capability:frontend-quality-gates
+      - capability:frontend-test-infrastructure
+    validated_by:
+      - evidence:theme-smoke-visual-tests

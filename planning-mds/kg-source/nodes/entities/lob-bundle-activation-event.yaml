@@ -1,0 +1,10 @@
+id: entity:lob-bundle-activation-event
+label: LobBundleActivationEvent
+rationale:
+  - adr: adr:020
+    section: Decision
+    summary: Bundle activation, deprecation, retirement, and rollback need append-only evidence because
+      product schema changes alter validation behavior.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md

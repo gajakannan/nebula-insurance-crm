@@ -1,0 +1,34 @@
+id: workflow:account-lifecycle
+label: Account lifecycle
+rationale:
+  - adr: adr:011
+    section: Decision
+    summary: Account lifecycle adopts the standardized state-machine + append-only transition history
+      pattern used by Submission and Renewal workflows.
+  - adr: adr:017
+    section: Decision
+    summary: Merged and Deleted are terminal tombstone states — no FK re-pointing occurs; dependent views
+      consume survivorAccountId plus denormalized display/status fallbacks.
+source_docs:
+  - F0016/README.md
+  - F0016/feature-assembly-plan.md
+  - planning-mds/api/nebula-api.yaml
+  - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
+  - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
+states:
+  - id: state:account:active
+    label: Active
+    transitions_to:
+      - state:account:inactive
+      - state:account:merged
+      - state:account:deleted
+  - id: state:account:inactive
+    label: Inactive
+    transitions_to:
+      - state:account:active
+      - state:account:merged
+      - state:account:deleted
+  - id: state:account:merged
+    label: Merged
+  - id: state:account:deleted
+    label: Deleted

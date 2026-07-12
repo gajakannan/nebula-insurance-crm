@@ -1,0 +1,141 @@
+config_keys:
+  - id: config_key:authentication-audience
+    label: Authentication:Audience
+    key: Authentication:Audience
+    related_nodes:
+      - capability:authentication
+      - capability:idp-foundation
+    source_docs:
+      - F0005/F0005-S0002-claims-normalization-backend.md
+      - planning-mds/architecture/decisions/ADR-Authentication-Strategy.md
+  - id: config_key:authentication-authority
+    label: Authentication:Authority
+    key: Authentication:Authority
+    related_nodes:
+      - capability:authentication
+      - capability:idp-foundation
+    source_docs:
+      - F0005/F0005-S0002-claims-normalization-backend.md
+      - planning-mds/architecture/decisions/ADR-Authentication-Strategy.md
+  - id: config_key:document-classification-policy
+    label: Document Classification Policy (Casbin)
+    key: configuration/casbin-document-roles.yaml
+    rationale:
+      - adr: adr:012
+        section: Decision §5
+        summary: Classification policy table is YAML, not code. Closed-by-default missing entries deny;
+          loader rejects malformed files and keeps the prior policy in force.
+    related_nodes:
+      - capability:document-classification
+      - entity:document
+      - schema:document-classification-policy
+    source_docs:
+      - F0020/F0020-S0009-classification-based-access-control.md
+      - planning-mds/schemas/document-classification-policy.schema.json
+      - planning-mds/security/authorization-matrix.md
+  - id: config_key:document-metadata-schema-registry
+    label: Document Metadata Schema Registry
+    key: configuration/metadata-schemas/registry.yaml
+    rationale:
+      - adr: adr:012
+        section: Decision §6.1
+        summary: Type-specific document metadata is validated by versioned JSON Schemas in document configuration;
+          sidecars pin the schema version so historical metadata stays readable.
+    related_nodes:
+      - capability:document-management
+      - entity:document
+      - entity:document-template
+      - schema:document-metadata-schema-registry
+      - schema:document-sidecar
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/schemas/document-metadata-schema-registry.schema.json
+  - id: config_key:document-retention-policies
+    label: Document Retention Policies
+    key: configuration/document-retention-policies.yaml
+    rationale:
+      - adr: adr:012
+        section: Decision §7
+        summary: Per-type retention with hard 10-day MVP ceiling; sweeper reads YAML and removes documents
+          past their per-type window. Loader rejects values above the ceiling so MVP cannot silently retain
+          too long.
+      - adr: adr:019
+        section: Decision §Configuration
+        summary: Quarantine knobs (holdSeconds, workerTickSeconds, maxRetries) colocated in the same retention
+          YAML so all document repository configuration is in one file.
+    related_nodes:
+      - capability:document-retention
+      - entity:document
+      - schema:document-retention-policy
+      - workflow:document-ingest
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md
+      - planning-mds/schemas/document-retention-policy.schema.json
+  - id: config_key:document-taxonomy
+    label: Document Type Taxonomy
+    key: configuration/taxonomy.yaml
+    rationale:
+      - adr: adr:012
+        section: Decision §6
+        summary: Document type taxonomy is canonical YAML inside the reserved configuration/ folder; code
+          never embeds document type values.
+    related_nodes:
+      - capability:document-management
+      - entity:document
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+  - id: config_key:oidc-authority
+    label: VITE_OIDC_AUTHORITY
+    key: VITE_OIDC_AUTHORITY
+    related_nodes:
+      - capability:authentication
+      - ui_route:login
+    source_docs:
+      - F0005/F0005-S0003-frontend-oidc-flow.md
+      - F0015/GETTING-STARTED.md
+  - id: config_key:oidc-client-id
+    label: VITE_OIDC_CLIENT_ID
+    key: VITE_OIDC_CLIENT_ID
+    related_nodes:
+      - capability:authentication
+      - ui_route:login
+    source_docs:
+      - F0005/F0005-S0003-frontend-oidc-flow.md
+      - F0015/GETTING-STARTED.md
+  - id: config_key:oidc-redirect-uri
+    label: VITE_OIDC_REDIRECT_URI
+    key: VITE_OIDC_REDIRECT_URI
+    related_nodes:
+      - capability:authentication
+      - ui_route:login
+    source_docs:
+      - F0005/F0005-S0003-frontend-oidc-flow.md
+      - F0015/GETTING-STARTED.md
+  - id: config_key:published-configuration-sets
+    label: Published Operational Configuration Sets
+    key: published-configuration-sets
+    rationale:
+      - adr: adr:016
+        section: Decision
+        summary: Governed publish semantics with versioning and validation prevent ad hoc runtime configuration
+          and ensure audit trails for rollback.
+    related_nodes:
+      - adr:016
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-016-published-operational-configuration-governance.md
+  - id: config_key:workflow-sla-thresholds
+    label: WorkflowSlaThresholds
+    key: WorkflowSlaThresholds
+    rationale:
+      - adr: adr:009
+        section: Decision §2
+        summary: SLA configuration stored as entities rather than hardcoded day-range buckets, enabling
+          per-status warning/target thresholds.
+    related_nodes:
+      - entity:workflow-sla-threshold
+      - workflow:renewal
+      - workflow:submission
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md
+      - planning-mds/architecture/decisions/ADR-014-workflow-sla-threshold-per-lob-extension.md

@@ -1,0 +1,15 @@
+id: entity:workflow-sla-threshold
+label: WorkflowSlaThreshold
+rationale:
+  - adr: adr:009
+    section: Decision §2
+    summary: Per-entity-type, per-status SLA thresholds enable aging band computation (on-time/approaching/overdue)
+      for dashboard gauges.
+  - adr: adr:014-workflow-sla
+    section: Decision
+    summary: Extended with LOB dimension so SLA targets vary by line of business rather than being entity-wide
+      defaults.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md
+  - planning-mds/architecture/decisions/ADR-014-workflow-sla-threshold-per-lob-extension.md

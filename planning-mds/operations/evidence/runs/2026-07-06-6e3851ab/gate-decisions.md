@@ -1,0 +1,11 @@
+# Gate Decisions — F0037 Plan Run 2026-07-06-6e3851ab
+
+## Gate Decisions
+
+| Gate | Decision | Decider | Timestamp | Rationale | Blocking | Follow-up |
+|------|----------|---------|-----------|-----------|----------|-----------|
+| G1 Clarification | PASS | Product Manager using operator-provided plan inputs | 2026-07-06T00:00:00+05:30 | Phase A locked F0037 as a full feature, not a spike; Admin full scope; BrokerUser/ExternalUser denied by default; hidden records omitted before rows/counts/facets/suggestions/drilldowns/rollups; direct hidden detail prefers 404/no-leak; `asOf` applies to effective-dated hierarchy/territory/producer scope; MVP reuses F0017 and F0023 substrate. | No | Carry these rules into Phase B architecture for confirmation and binding. |
+| G2 Tracker Sync | PASS | Product Manager | 2026-07-06T00:00:00+05:30 | F0037 PRD/README/STATUS/GETTING-STARTED updated; six story files created; ROADMAP, BLUEPRINT, STORY-INDEX, feature-mappings, and coverage report synced; `validate-trackers.py --feature F0037` passed with 0 errors and 0 warnings. | No | Keep REGISTRY status `Planned` until feature action/closeout changes lifecycle status. |
+| G3 Phase A Approval | PASS | Operator/User | 2026-07-06T00:00:00+05:30 | Operator replied `approved`, explicitly approving the Phase A requirements for plan run `2026-07-06-6e3851ab` and unlocking Phase B Architect work. | No | Phase B architecture proceeds; no feature action can begin until G5 passes. |
+| G4 Ontology Sync | PASS | Architect | 2026-07-06T00:00:00+05:30 | Phase B ontology, schema, API, and policy bindings were validated. Story validation, story-index generation, tracker validation, KG coverage regeneration, KG integrity, KG drift, schema JSON syntax, and template validation all passed; KG retained only the pre-existing F0028/F0018 low-confidence inferred-edge warning. | No | Carry Phase B bindings into G5 review and later feature-action G7 reconciliation. |
+| G5 Phase B Approval | PASS | Operator/User | 2026-07-06T00:00:00+05:30 | Operator replied `approved, use nebula-agent harness strictly`, approving the Phase B architecture for plan run `2026-07-06-6e3851ab` and authorizing a separate `feature` action. | No | Start feature action in a new run package; do not reuse plan evidence as feature evidence. |

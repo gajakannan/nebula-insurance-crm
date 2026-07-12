@@ -15,6 +15,10 @@ function buildSearchQuery(params: GlobalSearchParams): string {
   if (params.objectTypes?.length) sp.set('objectTypes', params.objectTypes.join(','));
   if (params.status) sp.set('status', params.status);
   if (params.ownerUserId) sp.set('ownerUserId', params.ownerUserId);
+  if (params.rootNodeId) sp.set('rootNodeId', params.rootNodeId);
+  if (params.territoryId) sp.set('territoryId', params.territoryId);
+  if (params.producerUserId) sp.set('producerUserId', params.producerUserId);
+  if (params.asOf) sp.set('asOf', params.asOf);
   if (params.region) sp.set('region', params.region);
   if (params.lineOfBusiness) sp.set('lineOfBusiness', params.lineOfBusiness);
   sp.set('sort', params.sort ?? 'relevance');

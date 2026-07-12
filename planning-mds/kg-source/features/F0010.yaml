@@ -1,0 +1,109 @@
+status: archived-done
+id: feature:F0010
+name: Dashboard Opportunities Refactor (Pipeline Board + Insight Views)
+path: planning-mds/features/archive/F0010-dashboard-opportunities-refactor
+reason: Superseded by F0013 framed storytelling canvas approach
+affects:
+  - capability:dashboard-home
+  - capability:dashboard-opportunity-analytics
+  - capability:dashboard-pipeline-visualization
+  - endpoint:dashboard-opportunity-flow
+  - ui_route:dashboard-home
+  - workflow:renewal
+  - workflow:submission
+depends_on:
+  - feature:F0001
+governed_by:
+  - adr:002
+  - adr:004
+rationale: F0010's Pipeline Board, Heatmap, Treemap, and Sunburst views are replaced by F0013's vertical
+  timeline with contextual mini-visualizations. The insight views no longer fit the storytelling canvas
+  direction.
+retired_date: '2026-03-14'
+roadmap_order: 0
+roadmap_section: Abandoned
+story_mappings:
+  - id: story:F0010-S0001
+    path: planning-mds/features/archive/F0010-dashboard-opportunities-refactor/F0010-S0001-replace-sankey-with-pipeline-board-default.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-opportunity-analytics
+      - capability:dashboard-pipeline-visualization
+      - endpoint:dashboard-opportunity-flow
+      - ui_route:dashboard-home
+      - workflow:renewal
+      - workflow:submission
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:opportunity-flow
+      - schema:opportunity-flow-node
+      - schema:pipeline-status-count
+  - id: story:F0010-S0002
+    path: planning-mds/features/archive/F0010-dashboard-opportunities-refactor/F0010-S0002-add-opportunity-aging-heatmap-view.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-opportunity-analytics
+      - endpoint:dashboard-opportunity-flow
+      - ui_route:dashboard-home
+      - workflow:renewal
+      - workflow:submission
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:opportunity-aging
+      - schema:opportunity-aging-bucket
+      - schema:opportunity-aging-status
+  - id: story:F0010-S0003
+    path: planning-mds/features/archive/F0010-dashboard-opportunities-refactor/F0010-S0003-add-opportunity-composition-treemap-view.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-opportunity-analytics
+      - endpoint:dashboard-opportunity-flow
+      - ui_route:dashboard-home
+      - workflow:renewal
+      - workflow:submission
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:opportunity-hierarchy
+      - schema:opportunity-hierarchy-node
+  - id: story:F0010-S0004
+    path: planning-mds/features/archive/F0010-dashboard-opportunities-refactor/F0010-S0004-add-opportunity-hierarchy-sunburst-view.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-opportunity-analytics
+      - endpoint:dashboard-opportunity-flow
+      - ui_route:dashboard-home
+      - workflow:renewal
+      - workflow:submission
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:opportunity-hierarchy
+      - schema:opportunity-hierarchy-node
+  - id: story:F0010-S0005
+    path: planning-mds/features/archive/F0010-dashboard-opportunities-refactor/F0010-S0005-unify-drilldown-responsive-and-accessibility.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-opportunity-analytics
+      - capability:dashboard-pipeline-visualization
+      - ui_route:dashboard-home
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:pipeline-mini-card
+superseded_by: feature:F0013
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:opportunity-aging
+  - schema:opportunity-aging-bucket
+  - schema:opportunity-aging-status
+  - schema:opportunity-flow
+  - schema:opportunity-flow-link
+  - schema:opportunity-flow-node
+  - schema:opportunity-hierarchy
+  - schema:opportunity-hierarchy-node
+  - schema:pipeline-mini-card
+  - schema:pipeline-status-count

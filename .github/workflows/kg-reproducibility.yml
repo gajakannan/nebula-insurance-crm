@@ -1,0 +1,31 @@
+# Knowledge-graph reproducibility gate (F0006-S0008).
+#
+# Proves every branch's committed compiled projections + tracker regions equal compile(source), the
+# shards are valid, and the git policy holds. Hand-editing a generated file, or forgetting to
+# recompile, fails this check. Blocking (D-ci-mode); a `KG-Reproducibility-Override: <reason>` trailer
+# on the head commit downgrades it for emergencies.
+#
+# Scope: the compiled-projection invariant only (D-ci-scope reverted to fast-core after a CI run showed
+# the symbol/decision/coverage indexes are not byte-reproducible across machines — symbol extraction
+# and the coverage `last_modified` mtime differ on the runner). Those indexes stay integrator-gated via
+# the existing `validate.py --check-symbols/--check-decisions` resolve-checks; this gate covers the
+# deterministic compiled surface that must never be hand-edited.
+name: kg-reproducibility
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+
+jobs:
+  reproducibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python deps
+        run: pip install pyyaml jsonschema
+      - name: Reproducibility + git-policy check
+        run: python3 scripts/kg/validate.py --check-reproducible

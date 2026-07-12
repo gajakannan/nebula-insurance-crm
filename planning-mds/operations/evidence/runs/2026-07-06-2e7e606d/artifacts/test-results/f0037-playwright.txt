@@ -1,0 +1,12 @@
+Command:
+F0037_API_BASE=http://127.0.0.1:5114 F0037_E2E_BASE_URL=http://127.0.0.1:4173 F0037_E2E_SCREENSHOTS_DIR=/Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm/planning-mds/operations/evidence/runs/2026-07-06-2e7e606d/artifacts/screenshots F0037_E2E_OUTPUT_DIR=/Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm/planning-mds/operations/evidence/runs/2026-07-06-2e7e606d/artifacts/test-results/playwright F0037_E2E_JSON_REPORT=/Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm/planning-mds/operations/evidence/runs/2026-07-06-2e7e606d/artifacts/test-results/f0037-playwright-results.json VITE_AUTH_MODE=dev VITE_API_PROXY_TARGET=http://127.0.0.1:5114 corepack pnpm -C experience exec playwright test f0037-distribution-rollups.spec.ts --config=playwright.f0037.config.ts
+
+Result:
+PASS
+
+Summary:
+4 passed (4.5s)
+
+PRD alignment assertion:
+- Required rollup filters are visible.
+- Generic non-rollup filters are absent on the Distribution rollups tab.

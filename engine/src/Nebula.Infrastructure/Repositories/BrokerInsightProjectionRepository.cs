@@ -20,10 +20,37 @@ public class BrokerInsightProjectionRepository : IBrokerInsightProjectionReposit
         // Source visibility is deliberately applied before all metric aggregation.
         var q = _db.BrokerInsightProjections.AsNoTracking().AsQueryable();
 
+        if (!visibility.HasScope)
+            q = q.Where(p => false);
+
+        // Authority UNION (non-admin): region OR authorized-broker OR authorized-producer. Broker insights
+        // carry no owner. Territory authority is not OR-ed (derived → sibling-leak risk); it only narrows.
+        var authBrokerIds = visibility.BrokerIds.ToList();
+        var authProducerIds = visibility.ProducerUserIds.ToList();
         if (!visibility.SeeAll)
         {
             var regions = visibility.Regions.ToList();
-            q = q.Where(p => p.Region != null && regions.Contains(p.Region));
+            q = q.Where(p =>
+                (p.Region != null && regions.Contains(p.Region))
+                || authBrokerIds.Contains(p.BrokerId)
+                || (p.ProducerId != null && authProducerIds.Contains(p.ProducerId.Value)));
+        }
+
+        // Requested narrowing — explicit filter ANDs on top of the union (and narrows admin too).
+        if (visibility.RequestedBrokerIds is { Count: > 0 } reqBrokers)
+        {
+            var l = reqBrokers.ToList();
+            q = q.Where(p => l.Contains(p.BrokerId));
+        }
+        if (visibility.RequestedTerritoryIds is { Count: > 0 } reqTerritories)
+        {
+            var l = reqTerritories.ToList();
+            q = q.Where(p => p.TerritoryId != null && l.Contains(p.TerritoryId.Value));
+        }
+        if (visibility.RequestedProducerUserIds is { Count: > 0 } reqProducers)
+        {
+            var l = reqProducers.ToList();
+            q = q.Where(p => p.ProducerId != null && l.Contains(p.ProducerId.Value));
         }
 
         if (query.BrokerId.HasValue)

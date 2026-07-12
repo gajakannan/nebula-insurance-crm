@@ -1,0 +1,166 @@
+status: archived-done
+id: feature:F0021
+name: Communication Hub & Activity Capture
+path: planning-mds/features/archive/F0021-communication-hub-and-activity-capture
+affects:
+  - endpoint:account-timeline
+  - endpoint:renewal-timeline
+  - endpoint:submission-timeline
+  - endpoint:timeline-events
+  - entity:account
+  - entity:activity-timeline-event
+  - entity:broker
+  - entity:policy
+  - entity:submission
+  - entity:task-item
+  - policy_rule:timeline-event-read
+archived_date: '2026-07-02'
+completion_state: 'Done and archived (2026-07-02, feature run `2026-07-01-9cee64f0`) — 5 stories: structured
+  communication capture, contextual history, related-record/participant links, follow-up task linkage,
+  correction/redaction audit'
+depends_on:
+  - feature:F0002
+  - feature:F0004
+  - feature:F0006
+  - feature:F0016
+  - feature:F0018
+notes:
+  - Archived 2026-07-02 via feature run 2026-07-01-9cee64f0. G7 reconciled as-built communication-event
+    code bindings; G8 moved lifecycle paths to archive.
+  - Phase A PM mapping stub from plan run 2026-07-01-c1726908. MVP = structured manual communication capture
+    and contextual visibility; no outbound send, connector ingestion, marketing automation, or AI summary
+    scope.
+phase: CRM Release MVP
+roadmap_order: 2
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0021-S0001
+    path: planning-mds/features/archive/F0021-communication-hub-and-activity-capture/F0021-S0001-capture-communication-event.md
+    affects:
+      - endpoint:communication-create
+      - entity:account
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:communication-event
+      - entity:communication-link
+      - entity:communication-participant
+      - entity:policy
+      - entity:submission
+    enforced_by_policy:
+      - policy_rule:communication-event-create
+      - policy_rule:communication-event-link
+    governed_by:
+      - adr:029
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:communication-event
+      - schema:communication-event-create-request
+      - schema:problem-details
+      - schema:timeline-event
+  - id: story:F0021-S0002
+    path: planning-mds/features/archive/F0021-communication-hub-and-activity-capture/F0021-S0002-view-contextual-communication-history.md
+    affects:
+      - endpoint:account-timeline
+      - endpoint:communication-detail
+      - endpoint:communication-list
+      - endpoint:policy-timeline
+      - endpoint:renewal-timeline
+      - endpoint:submission-timeline
+      - endpoint:timeline-events
+      - entity:activity-timeline-event
+      - entity:communication-event
+      - policy_rule:communication-event-read
+      - policy_rule:timeline-event-read
+    governed_by:
+      - adr:029
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:communication-event
+      - schema:problem-details
+      - schema:timeline-event
+  - id: story:F0021-S0003
+    path: planning-mds/features/archive/F0021-communication-hub-and-activity-capture/F0021-S0003-link-communications-to-related-records-and-participants.md
+    affects:
+      - endpoint:communication-correction
+      - endpoint:communication-create
+      - entity:account
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:communication-event
+      - entity:communication-link
+      - entity:communication-participant
+      - entity:policy
+      - entity:submission
+    enforced_by_policy:
+      - policy_rule:communication-event-correct
+      - policy_rule:communication-event-link
+    governed_by:
+      - adr:029
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:communication-event
+      - schema:communication-event-correction-request
+      - schema:communication-event-create-request
+      - schema:problem-details
+      - schema:timeline-event
+  - id: story:F0021-S0004
+    path: planning-mds/features/archive/F0021-communication-hub-and-activity-capture/F0021-S0004-create-follow-up-task-from-communication.md
+    affects:
+      - endpoint:communication-follow-up
+      - endpoint:task-create
+      - entity:activity-timeline-event
+      - entity:communication-event
+      - entity:task-item
+    depends_on:
+      - story:F0021-S0001
+    enforced_by_policy:
+      - policy_rule:communication-event-create-follow-up
+      - policy_rule:communication-event-read
+      - policy_rule:task-create
+    governed_by:
+      - adr:029
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:communication-event
+      - schema:communication-event-follow-up-request
+      - schema:problem-details
+      - schema:task
+      - schema:task-create-request
+      - schema:timeline-event
+  - id: story:F0021-S0005
+    path: planning-mds/features/archive/F0021-communication-hub-and-activity-capture/F0021-S0005-correct-or-redact-communication-with-audit.md
+    affects:
+      - endpoint:communication-correction
+      - entity:activity-timeline-event
+      - entity:communication-event
+      - policy_rule:communication-event-correct
+      - policy_rule:communication-event-redact
+      - policy_rule:timeline-event-read
+    depends_on:
+      - story:F0021-S0001
+    enforced_by_policy:
+      - policy_rule:communication-event-correct
+      - policy_rule:communication-event-redact
+    governed_by:
+      - adr:029
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:communication-event
+      - schema:communication-event-correction-request
+      - schema:problem-details
+      - schema:timeline-event
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:activity-event-payloads
+  - schema:problem-details
+  - schema:task
+  - schema:task-create-request
+  - schema:timeline-event

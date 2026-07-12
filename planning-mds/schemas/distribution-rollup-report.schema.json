@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/distribution-rollup-report.schema.json",
+  "title": "DistributionRollupReport",
+  "description": "F0037 hierarchy-aware distribution rollup response. All rows, totals, counts, and drilldown links are computed after distribution-scope filtering.",
+  "type": "object",
+  "required": [
+    "groupBy",
+    "metricFamily",
+    "asOf",
+    "generatedAt",
+    "totals",
+    "rows"
+  ],
+  "properties": {
+    "groupBy": {
+      "type": "string",
+      "enum": ["Hierarchy", "Territory", "Producer"]
+    },
+    "metricFamily": {
+      "type": "string",
+      "enum": ["Production", "Workflow", "Activity"]
+    },
+    "asOf": {
+      "type": "string",
+      "format": "date"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "scope": {
+      "$ref": "#/definitions/distributionScopeEcho"
+    },
+    "totals": {
+      "$ref": "#/definitions/distributionRollupMetricSet"
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/distributionRollupRow"
+      }
+    }
+  },
+  "definitions": {
+    "distributionScopeEcho": {
+      "type": "object",
+      "required": ["rootNodeId", "territoryId", "producerUserId"],
+      "properties": {
+        "rootNodeId": { "type": ["string", "null"], "format": "uuid" },
+        "territoryId": { "type": ["string", "null"], "format": "uuid" },
+        "producerUserId": { "type": ["string", "null"], "format": "uuid" }
+      },
+      "additionalProperties": false
+    },
+    "distributionRollupRow": {
+      "type": "object",
+      "required": [
+        "groupKey",
+        "groupLabel",
+        "groupType",
+        "metrics",
+        "drilldownUrl"
+      ],
+      "properties": {
+        "groupKey": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "groupLabel": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "groupType": { "type": "string", "enum": ["Hierarchy", "Territory", "Producer"] },
+        "metrics": { "$ref": "#/definitions/distributionRollupMetricSet" },
+        "drilldownUrl": { "type": ["string", "null"], "maxLength": 500 },
+        "unavailableReason": { "type": ["string", "null"], "maxLength": 200 }
+      },
+      "additionalProperties": false
+    },
+    "distributionRollupMetricSet": {
+      "type": "object",
+      "required": [
+        "recordCount",
+        "productionCount",
+        "workflowOpen",
+        "workflowOverdue",
+        "activityCount"
+      ],
+      "properties": {
+        "recordCount": { "type": "integer", "minimum": 0 },
+        "productionCount": { "type": "integer", "minimum": 0 },
+        "workflowOpen": { "type": "integer", "minimum": 0 },
+        "workflowOverdue": { "type": "integer", "minimum": 0 },
+        "activityCount": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,21 @@
+id: capability:operations-routing
+label: Operations Routing
+rationale:
+  - adr: adr:013
+    section: Decision
+    summary: Shared routing engine prevents task, submission, and renewal modules from implementing divergent
+      assignment rules.
+related_nodes:
+  - entity:assignment-rule
+  - entity:coverage-window
+  - entity:queue-work-item
+  - entity:routing-decision-log
+  - entity:task-item
+  - entity:work-queue
+  - workflow:renewal
+  - workflow:submission
+source_docs:
+  - F0022/PRD.md
+  - planning-mds/api/nebula-api.yaml
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md

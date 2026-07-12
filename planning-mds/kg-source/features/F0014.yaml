@@ -1,0 +1,49 @@
+status: archived-done
+id: feature:F0014
+name: DevOps Smoke Test Automation
+path: planning-mds/features/archive/F0014-devops-smoke-test-automation
+affects:
+  - capability:authorization-enforcement
+  - capability:environment-reset
+  - capability:smoke-test-automation
+archived_date: '2026-03-28'
+completion_state: 'Done and archived (2026-03-28) — 3 stories: blueprint fixes, multi-role smoke test,
+  CI workflow'
+depends_on:
+  - feature:F0009
+phase: Infrastructure
+roadmap_order: 19
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0014-S0001
+    path: planning-mds/features/archive/F0014-devops-smoke-test-automation/F0014-S0001-blueprint-ropc-fixes-and-smoke-scripts.md
+    affects:
+      - capability:authentication
+      - capability:environment-reset
+      - capability:idp-foundation
+      - capability:smoke-test-automation
+    governed_by:
+      - adr:006
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0014-S0002
+    path: planning-mds/features/archive/F0014-devops-smoke-test-automation/F0014-S0002-multi-role-smoke-test-verification.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:smoke-test-automation
+    depends_on:
+      - feature:F0009
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0014-S0003
+    path: planning-mds/features/archive/F0014-devops-smoke-test-automation/F0014-S0003-ci-smoke-test-integration.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:smoke-test-automation
+    depends_on:
+      - story:F0014-S0001
+      - story:F0014-S0002
+    uses_api_contract:
+      - api:nebula-rest
+uses_api_contract:
+  - api:nebula-rest

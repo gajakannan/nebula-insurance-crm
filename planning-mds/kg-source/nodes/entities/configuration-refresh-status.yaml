@@ -1,0 +1,10 @@
+id: entity:configuration-refresh-status
+label: ConfigurationRefreshStatus
+rationale:
+  - adr: adr:032
+    section: Decision
+    summary: Downstream consumers that cache published configuration expose explicit refresh status
+      after publication or rollback.
+source_docs:
+  - F0032/ARCHITECTURE.md
+  - planning-mds/architecture/data-model.md
