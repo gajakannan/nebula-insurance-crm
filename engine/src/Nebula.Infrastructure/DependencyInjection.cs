@@ -50,6 +50,8 @@ public static class DependencyInjection
         services.AddScoped<ISearchDocumentRepository, SearchDocumentRepository>();
         services.AddScoped<ISavedViewRepository, SavedViewRepository>();
         services.AddScoped<IOperationalReportProjectionRepository, OperationalReportProjectionRepository>();
+        services.AddScoped<IDistributionScopeRepository, DistributionScopeRepository>();
+        services.AddScoped<IDistributionScopeService, Nebula.Application.Services.DistributionScopeService>();
         services.AddScoped<IBrokerInsightProjectionRepository, BrokerInsightProjectionRepository>();
         services.AddScoped<IBrokerInsightService, Nebula.Application.Services.BrokerInsightService>();
         services.AddScoped<IQueueAssignmentRepository, QueueAssignmentRepository>();

@@ -20,9 +20,9 @@ coverage:
       path: planning-mds/features/F0031-data-import-deduplication-and-go-live-migration
       reason: Planned feature folder exists but ontology mapping backfill has not started.
     - id: feature:F0037
-      path: planning-mds/features/F0037-hierarchy-aware-access-scoping-and-distribution-rollups
-      reason: Planned placeholder feature (homes F0017 deferred scope); ontology mapping backfill has
-        not started.
+      path: planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups
+      reason: Delivered and archived via PR 56; full ontology mapping backfill has not started, so the
+        feature stays coverage-excluded until a follow-up plan run maps its as-built code.
     - id: feature:F0039
       path: planning-mds/features/F0039-neuron-multi-thread-conversations
       reason: Neuron Companion epic; provisional skeleton. Ontology mapping deferred until F0038 lands

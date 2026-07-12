@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "validator": "validate-feature-evidence",
+  "stage": "closeout",
+  "product_root": "/Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm",
+  "effective_date": "2026-05-19",
+  "features_validated": 1,
+  "features_skipped_pre_contract_archived": 0,
+  "features_skipped_active_done_pre_contract": 0,
+  "features_skipped_retired_abandoned": 0,
+  "features_skipped_retired_superseded": 0,
+  "errors": [],
+  "warnings": [
+    {
+      "rule_id": "commands_log_absolute_cwd_warns",
+      "message": "commands.log contains an absolute cwd without Run Environment justification",
+      "feature": "F0037",
+      "run_id": "2026-07-06-38152f5c",
+      "path": "/Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm/planning-mds/operations/evidence/runs/2026-07-06-38152f5c/commands.log"
+    }
+  ],
+  "info": []
+}

@@ -6,6 +6,10 @@ public sealed record GlobalSearchQuery(
     IReadOnlyList<string> ObjectTypes,
     string? Status,
     Guid? OwnerUserId,
+    Guid? RootNodeId,
+    Guid? TerritoryId,
+    Guid? ProducerUserId,
+    DateOnly? AsOf,
     string? Region,
     string? LineOfBusiness,
     string Sort,
@@ -50,9 +54,48 @@ public sealed record GlobalSearchResponseDto(
 
 /// <summary>
 /// Computed source-visibility spec for a user, applied at the query layer BEFORE
-/// rows/counts/facets are materialized (F0023 Critical risk mitigation). When
-/// <see cref="SeeAll"/> is false, only owner-matched or in-region projection rows
-/// are visible. Mirrors the projection's denormalized scope columns
-/// (OwnerUserId, Region).
+/// rows/counts/facets are materialized. F0037 extends the earlier owner/region
+/// shape with distribution hierarchy, broker, territory, producer, and as-of scope.
 /// </summary>
-public sealed record ProjectionVisibility(bool SeeAll, IReadOnlyList<string> Regions, Guid UserId);
+/// <remarks>
+/// WHY: the broker/territory/producer sets are combined differently depending on
+/// <see cref="ExplicitScopeRequested"/>:
+/// <list type="bullet">
+/// <item>Default view (no explicit filter) — the sets are the caller's <b>authority union</b>: a row is
+/// visible if it is owned by the caller, in one of their regions, for one of their authorized brokers, or
+/// for one of their authorized producers. This is a union so that (e.g.) a manager sees every managed
+/// broker's rows regardless of region. Territory is intentionally NOT a default grant — territory ids are
+/// derived from broker authority, so OR-ing them would expose sibling brokers that merely share a
+/// territory. Territory only ever narrows an explicit request.</item>
+/// <item>Explicit request (caller passed rootNodeId / territoryId / producerUserId) — the
+/// <c>Requested*</c> sets carry the authorized intersection of that request and are AND-ed as a narrowing
+/// filter ON TOP of the authority union. So a manager still sees managed-broker rows within the requested
+/// slice regardless of region/ownership, while anything outside authority fails closed to an empty scope
+/// upstream (see DistributionScopeService).</item>
+/// </list>
+/// The <c>BrokerIds</c> / <c>TerritoryIds</c> / <c>ProducerUserIds</c> fields always hold the caller's
+/// <b>authority union</b>; the <c>Requested*</c> fields (null unless an explicit filter was passed) hold the
+/// narrowing sets.
+/// </remarks>
+public sealed record ProjectionVisibility(
+    bool SeeAll,
+    Guid UserId,
+    IReadOnlyList<string> Roles,
+    IReadOnlyList<string> Regions,
+    IReadOnlySet<Guid> DistributionNodeIds,
+    IReadOnlySet<Guid> BrokerIds,
+    IReadOnlySet<Guid> TerritoryIds,
+    IReadOnlySet<Guid> ProducerUserIds,
+    DateOnly AsOf,
+    bool HasScope,
+    IReadOnlyList<string> ExplanationCodes,
+    bool ExplicitScopeRequested = false,
+    IReadOnlySet<Guid>? RequestedBrokerIds = null,
+    IReadOnlySet<Guid>? RequestedTerritoryIds = null,
+    IReadOnlySet<Guid>? RequestedProducerUserIds = null);
+
+public sealed record DistributionScopeRequest(
+    Guid? RootNodeId,
+    Guid? TerritoryId,
+    Guid? ProducerUserId,
+    DateOnly? AsOf);

@@ -1,0 +1,36 @@
+# Lifecycle Gates Log - F0037-hierarchy-aware-access-scoping-and-distribution-rollups run 2026-07-06-74a4efd7
+
+## Lifecycle Gate Run
+
+## Command
+
+Pending.
+
+## Stage
+
+G0
+
+## Exit Code
+
+Pending.
+
+## Result
+
+Pending.
+
+## Output References
+
+- Pending.
+
+## Skipped Gates
+
+- None.
+2026-07-06T19:10:00+05:30 G1 PASS runtime preflight for F0037 E2E rerun.
+2026-07-06T19:11:00+05:30 G2 PASS E2E test execution, coverage, and self-review.
+2026-07-06T19:12:00+05:30 G3 PASS code and security review.
+2026-07-06T19:13:00+05:30 G5 PASS signoff ledger.
+2026-07-06T19:14:00+05:30 G6 PASS validate-feature-evidence.py --feature F0037 --run-id 2026-07-06-74a4efd7 --stage G6.
+2026-07-06T19:14:30+05:30 G6 PASS validate-trackers.py --product-root /Users/srinivasubezawada/Desktop/nebula3/nebula-insurance-crm --feature F0037 --run-id 2026-07-06-74a4efd7.
+2026-07-06T19:15:00+05:30 G7 PASS KG symbol, drift, and coverage validation.
+2026-07-06T19:16:30+05:30 G7 PASS validate-feature-evidence.py --feature F0037 --run-id 2026-07-06-74a4efd7 --stage G7.
+2026-07-06T19:17:00+05:30 G8 APPROVED validate-feature-evidence.py --feature F0037 --stage closeout.

@@ -39,7 +39,48 @@ export interface OperationalReportParams {
   region?: string;
   lineOfBusiness?: string;
   ownerUserId?: string;
+  rootNodeId?: string;
+  territoryId?: string;
+  producerUserId?: string;
   workflowType?: string;
   asOf?: string;
   drilldownLimit?: number;
+}
+
+export interface DistributionScopeEcho {
+  rootNodeId: string | null;
+  territoryId: string | null;
+  producerUserId: string | null;
+}
+
+export interface DistributionRollupMetricSet {
+  recordCount: number;
+  productionCount: number;
+  workflowOpen: number;
+  workflowOverdue: number;
+  activityCount: number;
+}
+
+export interface DistributionRollupRow {
+  groupKey: string;
+  groupLabel: string;
+  groupType: string;
+  metrics: DistributionRollupMetricSet;
+  drilldownUrl: string | null;
+  unavailableReason: string | null;
+}
+
+export interface DistributionRollupReport {
+  groupBy: string;
+  metricFamily: string;
+  asOf: string;
+  generatedAt: string;
+  scope: DistributionScopeEcho | null;
+  totals: DistributionRollupMetricSet;
+  rows: DistributionRollupRow[];
+}
+
+export interface DistributionRollupParams extends OperationalReportParams {
+  groupBy?: 'Hierarchy' | 'Territory' | 'Producer';
+  metricFamily?: 'Production' | 'Workflow' | 'Activity';
 }

@@ -1,20 +1,21 @@
 version: 0
+generated_at: '2026-07-12T00:06:12+00:00'
 summary:
-  total_symbols: 4656
+  total_symbols: 4711
   by_language:
     python:
       files: 52
-      parsed: 0
-      cached: 52
+      parsed: 52
+      cached: 0
     typescript:
-      files: 295
-      parsed: 1
-      cached: 294
+      files: 297
+      parsed: 297
+      cached: 0
     csharp:
-      files: 386
-      parsed: 7
-      cached: 379
-  disambiguated_ids: 20
+      files: 385
+      parsed: 385
+      cached: 0
+  disambiguated_ids: 23
   compilation_roots_by_language:
     python: []
     typescript:
@@ -29,6 +30,7 @@ summary:
     csharp: f1e324c369f84d91c7fc9babd3fbb3df5352bd259db0a2d31fe5c8f61f74ce96
   sidecar_authoritative_languages:
   - csharp
+  - python
   - typescript
 symbols:
 - id: symbol:capability-authorization-enforcement:broker-authorization-tests.broker-authorization-tests
@@ -434,7 +436,7 @@ symbols:
   signature: public class CasbinAuthorizationServiceTests
   visibility: public
   language: csharp
-  end_line: 291
+  end_line: 306
   is_test: true
   callers: []
   callees: []
@@ -443,12 +445,12 @@ symbols:
   kind: method
   name: Constructor_LoadsSuccessfully
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 284
+  line: 299
   signature: public void Constructor_LoadsSuccessfully()
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 290
+  end_line: 305
   is_test: true
   callers: []
   callees: []
@@ -475,13 +477,29 @@ symbols:
   kind: method
   name: DashboardPolicy_MatchesPolicyCsv
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 239
+  line: 254
   signature: public async Task DashboardPolicy_MatchesPolicyCsv(string role, string
     resource, bool expected)
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 252
+  end_line: 267
+  is_test: true
+  callers: []
+  callees:
+  - symbol:capability-authorization-enforcement:casbin-authorization-service.authorize-async
+- id: symbol:capability-authorization-enforcement:casbin-authorization-service-tests.distribution-rollup-read-matches-f0037-policy-csv
+  node: capability:authorization-enforcement
+  kind: method
+  name: DistributionRollupRead_MatchesF0037PolicyCsv
+  file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+  line: 210
+  signature: public async Task DistributionRollupRead_MatchesF0037PolicyCsv(string
+    role, bool expected)
+  visibility: public
+  language: csharp
+  container: CasbinAuthorizationServiceTests
+  end_line: 223
   is_test: true
   callers: []
   callees:
@@ -583,12 +601,12 @@ symbols:
   kind: method
   name: UnknownAction_DeniedByDefault
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 221
+  line: 236
   signature: public async Task UnknownAction_DeniedByDefault()
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 226
+  end_line: 241
   is_test: true
   callers: []
   callees:
@@ -598,12 +616,12 @@ symbols:
   kind: method
   name: UnknownResource_DeniedByDefault
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 228
+  line: 243
   signature: public async Task UnknownResource_DeniedByDefault()
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 233
+  end_line: 248
   is_test: true
   callers: []
   callees:
@@ -613,12 +631,12 @@ symbols:
   kind: method
   name: UnknownRole_DeniedByDefault
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 214
+  line: 229
   signature: public async Task UnknownRole_DeniedByDefault()
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 219
+  end_line: 234
   is_test: true
   callers: []
   callees:
@@ -628,13 +646,13 @@ symbols:
   kind: method
   name: WorkQueuePolicy_MatchesPolicyCsv
   file: engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
-  line: 258
+  line: 273
   signature: public async Task WorkQueuePolicy_MatchesPolicyCsv(string role, string
     action, bool expected)
   visibility: public
   language: csharp
   container: CasbinAuthorizationServiceTests
-  end_line: 278
+  end_line: 293
   is_test: true
   callers: []
   callees:
@@ -670,6 +688,7 @@ symbols:
   - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.carrier-market-policy-matches-policy-csv
   - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.contact-policy-matches-policy-csv
   - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.dashboard-policy-matches-policy-csv
+  - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.distribution-rollup-read-matches-f0037-policy-csv
   - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.external-user-all-resources-denied
   - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.task-create-matching-assignee-returns-true
   - symbol:capability-authorization-enforcement:casbin-authorization-service-tests.task-read-matching-assignee-returns-true
@@ -1762,12 +1781,13 @@ symbols:
   kind: constructor
   name: .ctor
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 12
-  signature: public BrokerInsightService(IBrokerInsightProjectionRepository repo)
+  line: 13
+  signature: public BrokerInsightService(IBrokerInsightProjectionRepository repo,
+    IDistributionScopeService scope)
   visibility: public
   language: csharp
   container: BrokerInsightService
-  end_line: 12
+  end_line: 17
   callers: []
   callees: []
 - id: symbol:capability-broker-relationship-management:broker-insight-service.broker-insight-service
@@ -1779,7 +1799,7 @@ symbols:
   signature: 'public class BrokerInsightService : IBrokerInsightService'
   visibility: public
   language: csharp
-  end_line: 318
+  end_line: 326
   callers: []
   callees: []
 - id: symbol:capability-broker-relationship-management:broker-insight-service.empty-metric-card
@@ -1787,12 +1807,12 @@ symbols:
   kind: method
   name: EmptyMetricCard
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 224
+  line: 232
   signature: private static BrokerInsightMetricCardDto EmptyMetricCard(string metricKey)
   visibility: private
   language: csharp
   container: BrokerInsightService
-  end_line: 234
+  end_line: 242
   callers:
   - symbol:capability-broker-relationship-management:broker-insight-service.map-scorecard
   callees:
@@ -1807,12 +1827,12 @@ symbols:
   kind: method
   name: FormatValue
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 285
+  line: 293
   signature: private static string FormatValue(BrokerInsightProjection row)
   visibility: private
   language: csharp
   container: BrokerInsightService
-  end_line: 290
+  end_line: 298
   callers:
   - symbol:capability-broker-relationship-management:broker-insight-service.get-snapshot-async
   callees: []
@@ -1821,16 +1841,16 @@ symbols:
   kind: method
   name: GetBenchmarkAsync
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 81
+  line: 86
   signature: public async Task<BrokerInsightBenchmarkDto?> GetBenchmarkAsync(
   visibility: public
   language: csharp
   container: BrokerInsightService
-  end_line: 120
+  end_line: 125
   callers: []
   callees:
   - symbol:capability-broker-relationship-management:broker-insight-service.map-benchmark-metric
-  - symbol:capability-global-search:projection-visibility-resolver.for
+  - symbol:capability-broker-relationship-management:broker-insight-service.resolve-async
   instantiates:
   - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-benchmark-dto
   - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-peer-set-dto
@@ -1844,17 +1864,17 @@ symbols:
   kind: method
   name: GetScorecardsAsync
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 14
+  line: 19
   signature: public async Task<PaginatedResult<BrokerInsightScorecardDto>> GetScorecardsAsync(
   visibility: public
   language: csharp
   container: BrokerInsightService
-  end_line: 29
+  end_line: 34
   callers: []
   callees:
   - symbol:capability-broker-relationship-management:broker-insight-service.map-scorecard
+  - symbol:capability-broker-relationship-management:broker-insight-service.resolve-async
   - symbol:capability-broker-relationship-management:broker-insight-service.to-projection-query
-  - symbol:capability-global-search:projection-visibility-resolver.for
   type_refs:
   - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-scorecard-dto
   - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-scorecard-query
@@ -1864,18 +1884,18 @@ symbols:
   kind: method
   name: GetSnapshotAsync
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 122
+  line: 127
   signature: public async Task<BrokerInsightSnapshotDto?> GetSnapshotAsync(
   visibility: public
   language: csharp
   container: BrokerInsightService
-  end_line: 169
+  end_line: 174
   callers: []
   callees:
   - symbol:capability-broker-relationship-management:broker-insight-service.format-value
   - symbol:capability-broker-relationship-management:broker-insight-service.is-partial
+  - symbol:capability-broker-relationship-management:broker-insight-service.resolve-async
   - symbol:capability-broker-relationship-management:broker-insight-service.summary-for
-  - symbol:capability-global-search:projection-visibility-resolver.for
   instantiates:
   - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-projection-query
   - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-snapshot-dto
@@ -1889,16 +1909,16 @@ symbols:
   kind: method
   name: GetTrendAsync
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 31
+  line: 36
   signature: public async Task<BrokerInsightTrendDto?> GetTrendAsync(
   visibility: public
   language: csharp
   container: BrokerInsightService
-  end_line: 79
+  end_line: 84
   callers: []
   callees:
   - symbol:capability-broker-relationship-management:broker-insight-service.merge-status
-  - symbol:capability-global-search:projection-visibility-resolver.for
+  - symbol:capability-broker-relationship-management:broker-insight-service.resolve-async
   instantiates:
   - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-projection-query
   - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-trend-dto
@@ -1912,12 +1932,12 @@ symbols:
   kind: method
   name: IsPartial
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 283
+  line: 291
   signature: private static bool IsPartial(BrokerInsightProjection row)
   visibility: private
   language: csharp
   container: BrokerInsightService
-  end_line: 283
+  end_line: 291
   callers:
   - symbol:capability-broker-relationship-management:broker-insight-service.get-snapshot-async
   callees: []
@@ -1926,12 +1946,12 @@ symbols:
   kind: method
   name: LabelFor
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 300
+  line: 308
   signature: private static string LabelFor(string metricKey)
   visibility: private
   language: csharp
   container: BrokerInsightService
-  end_line: 310
+  end_line: 318
   callers:
   - symbol:capability-broker-relationship-management:broker-insight-service.empty-metric-card
   callees: []
@@ -1940,12 +1960,12 @@ symbols:
   kind: method
   name: MapBenchmarkMetric
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 236
+  line: 244
   signature: private static BrokerInsightBenchmarkMetricDto MapBenchmarkMetric(
   visibility: private
   language: csharp
   container: BrokerInsightService
-  end_line: 266
+  end_line: 274
   callers:
   - symbol:capability-broker-relationship-management:broker-insight-service.get-benchmark-async
   callees:
@@ -1959,13 +1979,13 @@ symbols:
   kind: method
   name: MapMetricCard
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 212
+  line: 220
   signature: private static BrokerInsightMetricCardDto MapMetricCard(BrokerInsightProjection
     row)
   visibility: private
   language: csharp
   container: BrokerInsightService
-  end_line: 222
+  end_line: 230
   callers:
   - symbol:capability-broker-relationship-management:broker-insight-service.map-scorecard
   callees: []
@@ -1978,12 +1998,12 @@ symbols:
   kind: method
   name: MapScorecard
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 185
+  line: 193
   signature: private static BrokerInsightScorecardDto MapScorecard(
   visibility: private
   language: csharp
   container: BrokerInsightService
-  end_line: 210
+  end_line: 218
   callers:
   - symbol:capability-broker-relationship-management:broker-insight-service.get-scorecards-async
   callees:
@@ -2000,12 +2020,12 @@ symbols:
   kind: method
   name: Median
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 268
+  line: 276
   signature: private static decimal? Median(IReadOnlyList<decimal> values)
   visibility: private
   language: csharp
   container: BrokerInsightService
-  end_line: 273
+  end_line: 281
   callers:
   - symbol:capability-broker-relationship-management:broker-insight-service.map-benchmark-metric
   callees: []
@@ -2014,28 +2034,51 @@ symbols:
   kind: method
   name: MergeStatus
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 275
+  line: 283
   signature: private static string MergeStatus(IEnumerable<BrokerInsightProjection>
     rows)
   visibility: private
   language: csharp
   container: BrokerInsightService
-  end_line: 281
+  end_line: 289
   callers:
   - symbol:capability-broker-relationship-management:broker-insight-service.get-trend-async
   callees: []
+- id: symbol:capability-broker-relationship-management:broker-insight-service.resolve-async
+  node: capability:broker-relationship-management
+  kind: method
+  name: ResolveAsync
+  file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
+  line: 190
+  signature: private Task<ProjectionVisibility> ResolveAsync(DateOnly asOf, ICurrentUserService
+    user, CancellationToken ct)
+  visibility: private
+  language: csharp
+  container: BrokerInsightService
+  end_line: 191
+  callers:
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-benchmark-async
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-scorecards-async
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-snapshot-async
+  - symbol:capability-broker-relationship-management:broker-insight-service.get-trend-async
+  callees: []
+  instantiates:
+  - symbol:entity-search-document:search-dtos.distribution-scope-request
+  type_refs:
+  - symbol:entity-search-document:search-dtos.projection-visibility
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
 - id: symbol:capability-broker-relationship-management:broker-insight-service.summary-for
   node: capability:broker-relationship-management
   kind: method
   name: SummaryFor
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 292
+  line: 300
   signature: private static string? SummaryFor(IEnumerable<BrokerInsightProjection>
     rows, string family)
   visibility: private
   language: csharp
   container: BrokerInsightService
-  end_line: 298
+  end_line: 306
   callers:
   - symbol:capability-broker-relationship-management:broker-insight-service.get-snapshot-async
   callees: []
@@ -2044,13 +2087,13 @@ symbols:
   kind: method
   name: ToProjectionQuery
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 171
+  line: 176
   signature: private static BrokerInsightProjectionQuery ToProjectionQuery(BrokerInsightScorecardQuery
     query)
   visibility: private
   language: csharp
   container: BrokerInsightService
-  end_line: 183
+  end_line: 188
   callers:
   - symbol:capability-broker-relationship-management:broker-insight-service.get-scorecards-async
   callees: []
@@ -2064,12 +2107,12 @@ symbols:
   kind: method
   name: UnitFor
   file: engine/src/Nebula.Application/Services/BrokerInsightService.cs
-  line: 312
+  line: 320
   signature: private static string UnitFor(string metricKey)
   visibility: private
   language: csharp
   container: BrokerInsightService
-  end_line: 317
+  end_line: 325
   callers:
   - symbol:capability-broker-relationship-management:broker-insight-service.empty-metric-card
   callees: []
@@ -16694,7 +16737,8 @@ symbols:
   language: typescript
   end_line: 10
   callers: []
-  callees: []
+  callees:
+  - symbol:capability-dynamic-attribute-panel:widget-registry.resolve
 - id: symbol:capability-dynamic-attribute-panel:derive-widgets.ui-schema-section
   node: capability:dynamic-attribute-panel
   kind: interface
@@ -16769,7 +16813,8 @@ symbols:
   - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.preservation.test.loaded-bundle
   - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.test.loaded-bundle
   - symbol:capability-dynamic-attribute-panel:schema-driven-form.test.pinned-bundle
-  callees: []
+  callees:
+  - symbol:capability-dynamic-attribute-panel:widget-registry.resolve
 - id: symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.preservation.test.host
   node: capability:dynamic-attribute-panel
   kind: function
@@ -16866,7 +16911,8 @@ symbols:
   - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.preservation.test.loaded-bundle
   - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.test.loaded-bundle
   - symbol:capability-dynamic-attribute-panel:schema-driven-form.test.pinned-bundle
-  callees: []
+  callees:
+  - symbol:capability-dynamic-attribute-panel:widget-registry.resolve
 - id: symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.test.loaded-bundle
   node: capability:dynamic-attribute-panel
   kind: function
@@ -17311,7 +17357,8 @@ symbols:
   - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.preservation.test.loaded-bundle
   - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.test.loaded-bundle
   - symbol:capability-dynamic-attribute-panel:schema-driven-form.test.pinned-bundle
-  callees: []
+  callees:
+  - symbol:capability-dynamic-attribute-panel:widget-registry.resolve
 - id: symbol:capability-dynamic-attribute-panel:schema-driven-form.test.pinned-bundle
   node: capability:dynamic-attribute-panel
   kind: function
@@ -17738,7 +17785,11 @@ symbols:
   container: WidgetRegistry
   end_line: 67
   callers:
+  - symbol:capability-dynamic-attribute-panel:derive-widgets.test.bundle
+  - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.preservation.test.bundle-file
+  - symbol:capability-dynamic-attribute-panel:dynamic-attribute-panel.test.bundle-file
   - symbol:capability-dynamic-attribute-panel:schema-driven-form.schema-driven-form
+  - symbol:capability-dynamic-attribute-panel:schema-driven-form.test.bundle-file
   - symbol:capability-dynamic-attribute-panel:use-pinned-bundle.use-pinned-bundle
   - symbol:capability-dynamic-attribute-panel:widget-registry.assert-option-allowed
   callees: []
@@ -18651,7 +18702,7 @@ symbols:
   signature: 'function buildSearchQuery(params: GlobalSearchParams): string'
   visibility: local
   language: typescript
-  end_line: 24
+  end_line: 28
   callers:
   - symbol:capability-global-search:hooks.use-global-search
   callees: []
@@ -18662,11 +18713,11 @@ symbols:
   kind: function
   name: useArchiveSavedView
   file: experience/src/features/search/hooks.ts
-  line: 67
+  line: 71
   signature: 'export function useArchiveSavedView(savedViewId: string)'
   visibility: export
   language: typescript
-  end_line: 74
+  end_line: 78
   callers:
   - symbol:capability-global-search:saved-views-drawer.saved-view-actions
   callees: []
@@ -18675,11 +18726,11 @@ symbols:
   kind: function
   name: useCreateSavedView
   file: experience/src/features/search/hooks.ts
-  line: 50
+  line: 54
   signature: export function useCreateSavedView()
   visibility: export
   language: typescript
-  end_line: 56
+  end_line: 60
   callers:
   - symbol:capability-global-search:saved-views-drawer.save-view-modal
   callees: []
@@ -18692,11 +18743,11 @@ symbols:
   kind: function
   name: useGlobalSearch
   file: experience/src/features/search/hooks.ts
-  line: 26
+  line: 30
   signature: 'export function useGlobalSearch(params: GlobalSearchParams)'
   visibility: export
   language: typescript
-  end_line: 35
+  end_line: 39
   callers: []
   callees:
   - symbol:capability-global-search:hooks.build-search-query
@@ -18708,11 +18759,11 @@ symbols:
   kind: function
   name: useSavedViews
   file: experience/src/features/search/hooks.ts
-  line: 37
+  line: 41
   signature: 'export function useSavedViews(params: SavedViewListParams ='
   visibility: export
   language: typescript
-  end_line: 48
+  end_line: 52
   callers:
   - symbol:capability-global-search:saved-views-drawer.saved-views-drawer
   callees: []
@@ -18730,11 +18781,11 @@ symbols:
   kind: function
   name: useSetDefaultSavedView
   file: experience/src/features/search/hooks.ts
-  line: 76
+  line: 80
   signature: 'export function useSetDefaultSavedView(savedViewId: string)'
   visibility: export
   language: typescript
-  end_line: 83
+  end_line: 87
   callers:
   - symbol:capability-global-search:saved-views-drawer.saved-view-actions
   callees: []
@@ -18746,17 +18797,37 @@ symbols:
   kind: function
   name: useUpdateSavedView
   file: experience/src/features/search/hooks.ts
-  line: 58
+  line: 62
   signature: 'export function useUpdateSavedView(savedViewId: string)'
   visibility: export
   language: typescript
-  end_line: 65
+  end_line: 69
   callers: []
   callees: []
   type_refs:
   - symbol:capability-global-search:types.saved-view
   - symbol:capability-global-search:types.saved-view-upsert-request
   - symbol:entity-saved-view:saved-view.saved-view
+- id: symbol:capability-global-search:i-operational-report-service.get-distribution-rollups-async
+  node: capability:global-search
+  kind: method
+  name: GetDistributionRollupsAsync
+  file: engine/src/Nebula.Application/Interfaces/ISearchReportingServices.cs
+  line: 25
+  signature: Task<DistributionRollupReportDto> GetDistributionRollupsAsync(DistributionRollupQuery
+    query, ICurrentUserService user, CancellationToken ct)
+  visibility: internal
+  language: csharp
+  container: IOperationalReportService
+  end_line: 25
+  callers:
+  - symbol:capability-operational-reporting:operational-report-endpoints.distribution-rollups
+  callees:
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  type_refs:
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-query
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-report-dto
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
 - id: symbol:capability-global-search:i-operational-report-service.get-workflow-aging-async
   node: capability:global-search
   kind: method
@@ -18919,13 +18990,13 @@ symbols:
   kind: method
   name: BackfillAsync
   file: engine/src/Nebula.Application/Interfaces/ISearchReportingServices.cs
-  line: 31
+  line: 32
   signature: Task<ProjectionBackfillResult> BackfillAsync(DateTimeOffset startedAt,
     CancellationToken ct)
   visibility: internal
   language: csharp
   container: ISearchProjectionService
-  end_line: 31
+  end_line: 32
   callers: []
   callees:
   - symbol:capability-global-search:search-projection-service.backfill-async
@@ -18940,7 +19011,7 @@ symbols:
   signature: public interface IOperationalReportService
   visibility: public
   language: csharp
-  end_line: 25
+  end_line: 26
   callers: []
   callees: []
 - id: symbol:capability-global-search:i-search-reporting-services.i-saved-view-service
@@ -18960,11 +19031,11 @@ symbols:
   kind: interface
   name: ISearchProjectionService
   file: engine/src/Nebula.Application/Interfaces/ISearchReportingServices.cs
-  line: 29
+  line: 30
   signature: public interface ISearchProjectionService
   visibility: public
   language: csharp
-  end_line: 32
+  end_line: 33
   callers: []
   callees: []
 - id: symbol:capability-global-search:i-search-reporting-services.i-search-service
@@ -18984,12 +19055,12 @@ symbols:
   kind: record
   name: ProjectionBackfillResult
   file: engine/src/Nebula.Application/Interfaces/ISearchReportingServices.cs
-  line: 27
+  line: 28
   signature: public sealed record ProjectionBackfillResult(int SearchDocuments, int
     ReportProjections, int Errors, DateTimeOffset CompletedAt)
   visibility: public
   language: csharp
-  end_line: 27
+  end_line: 28
   callers: []
   callees: []
 - id: symbol:capability-global-search:i-search-service.search-async
@@ -19012,43 +19083,95 @@ symbols:
   - symbol:entity-search-document:search-dtos.global-search-query
   - symbol:entity-search-document:search-dtos.global-search-response-dto
   - symbol:entity-user-profile:i-current-user-service.i-current-user-service
-- id: symbol:capability-global-search:projection-visibility-resolver.for
+- id: symbol:capability-global-search:s-scope.can-read-broker-async
   node: capability:global-search
   kind: method
-  name: For
-  file: engine/src/Nebula.Application/Services/ProjectionVisibilityResolver.cs
-  line: 16
-  signature: public static ProjectionVisibility For(ICurrentUserService user)
+  name: CanReadBrokerAsync
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/SearchServiceTests.cs
+  line: 120
+  signature: public Task<bool> CanReadBrokerAsync(Guid brokerId, ICurrentUserService
+    user, DateOnly? asOf, CancellationToken ct)
   visibility: public
   language: csharp
-  container: ProjectionVisibilityResolver
-  end_line: 20
-  callers:
-  - symbol:capability-broker-relationship-management:broker-insight-service.get-benchmark-async
-  - symbol:capability-broker-relationship-management:broker-insight-service.get-scorecards-async
-  - symbol:capability-broker-relationship-management:broker-insight-service.get-snapshot-async
-  - symbol:capability-broker-relationship-management:broker-insight-service.get-trend-async
-  - symbol:capability-global-search:search-service.search-async
-  - symbol:capability-operational-reporting:operational-report-service.get-workflow-aging-async
-  - symbol:capability-operational-reporting:operational-report-service.get-workload-async
+  container: SScope
+  end_line: 120
+  is_test: true
+  callers: []
+  callees: []
+  type_refs:
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-global-search:s-scope.can-read-distribution-node-async
+  node: capability:global-search
+  kind: method
+  name: CanReadDistributionNodeAsync
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/SearchServiceTests.cs
+  line: 118
+  signature: public Task<bool> CanReadDistributionNodeAsync(Guid nodeId, ICurrentUserService
+    user, DateOnly? asOf, CancellationToken ct)
+  visibility: public
+  language: csharp
+  container: SScope
+  end_line: 118
+  is_test: true
+  callers: []
+  callees: []
+  type_refs:
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-global-search:s-scope.can-read-producer-async
+  node: capability:global-search
+  kind: method
+  name: CanReadProducerAsync
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/SearchServiceTests.cs
+  line: 121
+  signature: public Task<bool> CanReadProducerAsync(Guid producerUserId, ICurrentUserService
+    user, DateOnly? asOf, CancellationToken ct)
+  visibility: public
+  language: csharp
+  container: SScope
+  end_line: 121
+  is_test: true
+  callers: []
+  callees: []
+  type_refs:
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-global-search:s-scope.can-read-territory-async
+  node: capability:global-search
+  kind: method
+  name: CanReadTerritoryAsync
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/SearchServiceTests.cs
+  line: 119
+  signature: public Task<bool> CanReadTerritoryAsync(Guid territoryId, ICurrentUserService
+    user, DateOnly? asOf, CancellationToken ct)
+  visibility: public
+  language: csharp
+  container: SScope
+  end_line: 119
+  is_test: true
+  callers: []
+  callees: []
+  type_refs:
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-global-search:s-scope.resolve-async
+  node: capability:global-search
+  kind: method
+  name: ResolveAsync
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/SearchServiceTests.cs
+  line: 97
+  signature: public Task<ProjectionVisibility> ResolveAsync(DistributionScopeRequest
+    request, ICurrentUserService user, CancellationToken ct)
+  visibility: public
+  language: csharp
+  container: SScope
+  end_line: 116
+  is_test: true
+  callers: []
   callees: []
   instantiates:
   - symbol:entity-search-document:search-dtos.projection-visibility
   type_refs:
+  - symbol:entity-search-document:search-dtos.distribution-scope-request
   - symbol:entity-search-document:search-dtos.projection-visibility
   - symbol:entity-user-profile:i-current-user-service.i-current-user-service
-- id: symbol:capability-global-search:projection-visibility-resolver.projection-visibility-resolver
-  node: capability:global-search
-  kind: class
-  name: ProjectionVisibilityResolver
-  file: engine/src/Nebula.Application/Services/ProjectionVisibilityResolver.cs
-  line: 12
-  signature: public static class ProjectionVisibilityResolver
-  visibility: public
-  language: csharp
-  end_line: 21
-  callers: []
-  callees: []
 - id: symbol:capability-global-search:s-user..ctor
   node: capability:global-search
   kind: constructor
@@ -19217,7 +19340,7 @@ symbols:
   visibility: private
   language: csharp
   container: SearchEndpoints
-  end_line: 63
+  end_line: 71
   callers: []
   callees:
   - symbol:capability-global-search:i-search-service.search-async
@@ -19240,7 +19363,7 @@ symbols:
   signature: public static class SearchEndpoints
   visibility: public
   language: csharp
-  end_line: 64
+  end_line: 72
   callers: []
   callees: []
 - id: symbol:capability-global-search:search-filters.search-filter-state
@@ -19248,11 +19371,11 @@ symbols:
   kind: interface
   name: SearchFilterState
   file: experience/src/features/search/components/SearchFilters.tsx
-  line: 4
+  line: 5
   signature: export interface SearchFilterState
   visibility: export
   language: typescript
-  end_line: 10
+  end_line: 15
   callers: []
   callees: []
 - id: symbol:capability-global-search:search-filters.search-filters
@@ -19260,11 +19383,11 @@ symbols:
   kind: function
   name: SearchFilters
   file: experience/src/features/search/components/SearchFilters.tsx
-  line: 29
+  line: 34
   signature: export function SearchFilters(
   visibility: export
   language: typescript
-  end_line: 64
+  end_line: 93
   callers: []
   callees:
   - symbol:capability-global-search:search-filters.to-options
@@ -19275,11 +19398,11 @@ symbols:
   kind: interface
   name: SearchFiltersProps
   file: experience/src/features/search/components/SearchFilters.tsx
-  line: 12
+  line: 17
   signature: interface SearchFiltersProps
   visibility: local
   language: typescript
-  end_line: 16
+  end_line: 21
   callers: []
   callees: []
 - id: symbol:capability-global-search:search-filters.to-options
@@ -19287,11 +19410,11 @@ symbols:
   kind: function
   name: toOptions
   file: experience/src/features/search/components/SearchFilters.tsx
-  line: 24
+  line: 29
   signature: 'function toOptions(buckets:'
   visibility: local
   language: typescript
-  end_line: 27
+  end_line: 32
   callers:
   - symbol:capability-global-search:search-filters.search-filters
   callees: []
@@ -19501,7 +19624,7 @@ symbols:
   signature: export default function SearchResultsPage()
   visibility: export
   language: typescript
-  end_line: 102
+  end_line: 114
   callers: []
   callees: []
 - id: symbol:capability-global-search:search-service-tests.empty-facets
@@ -19517,7 +19640,7 @@ symbols:
   end_line: 15
   is_test: true
   callers:
-  - symbol:capability-global-search:search-service-tests.search-async-broad-role-gets-see-all-visibility
+  - symbol:capability-global-search:search-service-tests.search-async-admin-gets-see-all-visibility
   - symbol:capability-global-search:search-service-tests.search-async-maps-results-and-computes-paging
   - symbol:capability-global-search:search-service-tests.search-async-scoped-role-not-see-all-passes-regions
   callees: []
@@ -19538,7 +19661,7 @@ symbols:
   end_line: 13
   is_test: true
   callers:
-  - symbol:capability-global-search:search-service-tests.search-async-broad-role-gets-see-all-visibility
+  - symbol:capability-global-search:search-service-tests.search-async-admin-gets-see-all-visibility
   - symbol:capability-global-search:search-service-tests.search-async-maps-results-and-computes-paging
   - symbol:capability-global-search:search-service-tests.search-async-scoped-role-not-see-all-passes-regions
   callees: []
@@ -19546,6 +19669,19 @@ symbols:
   - symbol:entity-search-document:search-dtos.global-search-query
   type_refs:
   - symbol:entity-search-document:search-dtos.global-search-query
+- id: symbol:capability-global-search:search-service-tests.s-scope
+  node: capability:global-search
+  kind: class
+  name: SScope
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/SearchServiceTests.cs
+  line: 95
+  signature: 'file class SScope : IDistributionScopeService'
+  visibility: internal
+  language: csharp
+  end_line: 122
+  is_test: true
+  callers: []
+  callees: []
 - id: symbol:capability-global-search:search-service-tests.s-user
   node: capability:global-search
   kind: class
@@ -19559,13 +19695,13 @@ symbols:
   is_test: true
   callers: []
   callees: []
-- id: symbol:capability-global-search:search-service-tests.search-async-broad-role-gets-see-all-visibility
+- id: symbol:capability-global-search:search-service-tests.search-async-admin-gets-see-all-visibility
   node: capability:global-search
   kind: method
-  name: SearchAsync_BroadRole_GetsSeeAllVisibility
+  name: SearchAsync_Admin_GetsSeeAllVisibility
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/SearchServiceTests.cs
   line: 44
-  signature: public async Task SearchAsync_BroadRole_GetsSeeAllVisibility()
+  signature: public async Task SearchAsync_Admin_GetsSeeAllVisibility()
   visibility: public
   language: csharp
   container: SearchServiceTests
@@ -19577,6 +19713,7 @@ symbols:
   - symbol:capability-global-search:search-service-tests.query
   - symbol:capability-global-search:search-service.search-async
   instantiates:
+  - symbol:capability-global-search:search-service-tests.s-scope
   - symbol:capability-global-search:search-service-tests.s-user
   - symbol:capability-global-search:search-service-tests.srch-repo
   - symbol:capability-global-search:search-service.search-service
@@ -19599,6 +19736,7 @@ symbols:
   - symbol:capability-global-search:search-service-tests.query
   - symbol:capability-global-search:search-service.search-async
   instantiates:
+  - symbol:capability-global-search:search-service-tests.s-scope
   - symbol:capability-global-search:search-service-tests.s-user
   - symbol:capability-global-search:search-service-tests.srch-repo
   - symbol:capability-global-search:search-service.search-service
@@ -19622,6 +19760,7 @@ symbols:
   - symbol:capability-global-search:search-service-tests.query
   - symbol:capability-global-search:search-service.search-async
   instantiates:
+  - symbol:capability-global-search:search-service-tests.s-scope
   - symbol:capability-global-search:search-service-tests.s-user
   - symbol:capability-global-search:search-service-tests.srch-repo
   - symbol:capability-global-search:search-service.search-service
@@ -19657,12 +19796,13 @@ symbols:
   kind: constructor
   name: .ctor
   file: engine/src/Nebula.Application/Services/SearchService.cs
-  line: 13
-  signature: public SearchService(ISearchDocumentRepository repo)
+  line: 14
+  signature: public SearchService(ISearchDocumentRepository repo, IDistributionScopeService
+    scope)
   visibility: public
   language: csharp
   container: SearchService
-  end_line: 13
+  end_line: 18
   callers: []
   callees: []
   type_refs:
@@ -19672,12 +19812,12 @@ symbols:
   kind: method
   name: BuildSnippet
   file: engine/src/Nebula.Application/Services/SearchService.cs
-  line: 64
+  line: 72
   signature: private static string? BuildSnippet(SearchDocument d)
   visibility: private
   language: csharp
   container: SearchService
-  end_line: 70
+  end_line: 78
   callers:
   - symbol:capability-global-search:search-service.map
   callees: []
@@ -19688,12 +19828,12 @@ symbols:
   kind: method
   name: Map
   file: engine/src/Nebula.Application/Services/SearchService.cs
-  line: 34
+  line: 42
   signature: internal static GlobalSearchResultDto Map(SearchDocument d)
   visibility: internal
   language: csharp
   container: SearchService
-  end_line: 49
+  end_line: 57
   callers: []
   callees:
   - symbol:capability-global-search:search-service.build-snippet
@@ -19708,12 +19848,12 @@ symbols:
   kind: method
   name: ParseHints
   file: engine/src/Nebula.Application/Services/SearchService.cs
-  line: 51
+  line: 59
   signature: private static IReadOnlyList<string> ParseHints(string json)
   visibility: private
   language: csharp
   container: SearchService
-  end_line: 62
+  end_line: 70
   callers:
   - symbol:capability-global-search:search-service.map
   callees: []
@@ -19722,24 +19862,24 @@ symbols:
   kind: method
   name: SearchAsync
   file: engine/src/Nebula.Application/Services/SearchService.cs
-  line: 15
+  line: 20
   signature: public async Task<GlobalSearchResponseDto> SearchAsync(GlobalSearchQuery
     query, ICurrentUserService user, CancellationToken ct)
   visibility: public
   language: csharp
   container: SearchService
-  end_line: 32
+  end_line: 40
   callers:
   - symbol:capability-global-search:i-search-service.search-async
-  - symbol:capability-global-search:search-service-tests.search-async-broad-role-gets-see-all-visibility
+  - symbol:capability-global-search:search-service-tests.search-async-admin-gets-see-all-visibility
   - symbol:capability-global-search:search-service-tests.search-async-maps-results-and-computes-paging
   - symbol:capability-global-search:search-service-tests.search-async-scoped-role-not-see-all-passes-regions
   callees:
-  - symbol:capability-global-search:projection-visibility-resolver.for
   - symbol:entity-search-document:i-search-document-repository.search-async
   implements:
   - symbol:capability-global-search:i-search-service.search-async
   instantiates:
+  - symbol:entity-search-document:search-dtos.distribution-scope-request
   - symbol:entity-search-document:search-dtos.global-search-response-dto
   type_refs:
   - symbol:entity-search-document:search-dtos.global-search-query
@@ -19754,7 +19894,7 @@ symbols:
   signature: 'public class SearchService : ISearchService'
   visibility: public
   language: csharp
-  end_line: 71
+  end_line: 79
   callers: []
   callees: []
 - id: symbol:capability-global-search:srch-repo.count-async
@@ -19884,7 +20024,7 @@ symbols:
   signature: export interface GlobalSearchParams
   visibility: export
   language: typescript
-  end_line: 56
+  end_line: 60
   callers: []
   callees: []
 - id: symbol:capability-global-search:types.global-search-response
@@ -19916,11 +20056,11 @@ symbols:
   kind: interface
   name: PaginatedResponse
   file: experience/src/features/search/types.ts
-  line: 102
+  line: 106
   signature: export interface PaginatedResponse<T>
   visibility: export
   language: typescript
-  end_line: 107
+  end_line: 111
   callers: []
   callees: []
 - id: symbol:capability-global-search:types.saved-view
@@ -19928,11 +20068,11 @@ symbols:
   kind: interface
   name: SavedView
   file: experience/src/features/search/types.ts
-  line: 61
+  line: 65
   signature: export interface SavedView
   visibility: export
   language: typescript
-  end_line: 80
+  end_line: 84
   callers: []
   callees: []
 - id: symbol:capability-global-search:types.saved-view-list-params
@@ -19940,11 +20080,11 @@ symbols:
   kind: interface
   name: SavedViewListParams
   file: experience/src/features/search/types.ts
-  line: 94
+  line: 98
   signature: export interface SavedViewListParams
   visibility: export
   language: typescript
-  end_line: 100
+  end_line: 104
   callers: []
   callees: []
 - id: symbol:capability-global-search:types.saved-view-type
@@ -19952,11 +20092,11 @@ symbols:
   kind: type
   name: SavedViewType
   file: experience/src/features/search/types.ts
-  line: 58
+  line: 62
   signature: export type SavedViewType = 'Search' | 'WorkloadReport' | 'WorkflowAgingReport';
   visibility: export
   language: typescript
-  end_line: 58
+  end_line: 62
   callers: []
   callees: []
 - id: symbol:capability-global-search:types.saved-view-upsert-request
@@ -19964,11 +20104,11 @@ symbols:
   kind: interface
   name: SavedViewUpsertRequest
   file: experience/src/features/search/types.ts
-  line: 82
+  line: 86
   signature: export interface SavedViewUpsertRequest
   visibility: export
   language: typescript
-  end_line: 92
+  end_line: 96
   callers: []
   callees: []
 - id: symbol:capability-global-search:types.saved-view-visibility
@@ -19976,11 +20116,11 @@ symbols:
   kind: type
   name: SavedViewVisibility
   file: experience/src/features/search/types.ts
-  line: 59
+  line: 63
   signature: export type SavedViewVisibility = 'Personal' | 'Team';
   visibility: export
   language: typescript
-  end_line: 59
+  end_line: 63
   callers: []
   callees: []
 - id: symbol:capability-neuron-companion-telemetry:neuron-companion-telemetry-endpoint-tests.arrange-current-user-async
@@ -30500,33 +30640,149 @@ symbols:
   callees: []
   type_refs:
   - symbol:capability-neuron-companion:zone-heads.zone-payload
+- id: symbol:capability-operational-reporting:distribution-rollup-query-validator..ctor
+  node: capability:operational-reporting
+  kind: constructor
+  name: .ctor
+  file: engine/src/Nebula.Application/Validators/OperationalReportQueryValidator.cs
+  line: 22
+  signature: public DistributionRollupQueryValidator()
+  visibility: public
+  language: csharp
+  container: DistributionRollupQueryValidator
+  end_line: 33
+  callers: []
+  callees: []
+- id: symbol:capability-operational-reporting:distribution-rollup-report-view.distribution-rollup-report-view
+  node: capability:operational-reporting
+  kind: function
+  name: DistributionRollupReportView
+  file: experience/src/features/reports/components/DistributionRollupReportView.tsx
+  line: 31
+  signature: export function DistributionRollupReportView(
+  visibility: export
+  language: typescript
+  end_line: 91
+  callers: []
+  callees:
+  - symbol:capability-operational-reporting:distribution-rollup-report-view.metric-availability-2
+  - symbol:capability-operational-reporting:hooks.use-distribution-rollup-report
+  type_refs:
+  - symbol:capability-operational-reporting:types.distribution-rollup-params
+- id: symbol:capability-operational-reporting:distribution-rollup-report-view.metric-availability
+  node: capability:operational-reporting
+  kind: interface
+  name: MetricAvailability
+  file: experience/src/features/reports/components/DistributionRollupReportView.tsx
+  line: 12
+  signature: interface MetricAvailability
+  visibility: local
+  language: typescript
+  end_line: 17
+  callers: []
+  callees: []
+- id: symbol:capability-operational-reporting:distribution-rollup-report-view.metric-availability-2
+  node: capability:operational-reporting
+  kind: function
+  name: metricAvailability
+  file: experience/src/features/reports/components/DistributionRollupReportView.tsx
+  line: 19
+  signature: 'function metricAvailability(metricFamily: string): MetricAvailability'
+  visibility: local
+  language: typescript
+  end_line: 27
+  callers:
+  - symbol:capability-operational-reporting:distribution-rollup-report-view.distribution-rollup-report-view
+  callees: []
+  type_refs:
+  - symbol:capability-operational-reporting:distribution-rollup-report-view.metric-availability
+- id: symbol:capability-operational-reporting:distribution-rollup-report-view.rollup-row
+  node: capability:operational-reporting
+  kind: function
+  name: RollupRow
+  file: experience/src/features/reports/components/DistributionRollupReportView.tsx
+  line: 93
+  signature: function RollupRow(
+  visibility: local
+  language: typescript
+  end_line: 112
+  callers: []
+  callees: []
+  type_refs:
+  - symbol:capability-operational-reporting:distribution-rollup-report-view.metric-availability
+  - symbol:capability-operational-reporting:types.distribution-rollup-row
+- id: symbol:capability-operational-reporting:distribution-rollup-report-view.test.render-view
+  node: capability:operational-reporting
+  kind: function
+  name: renderView
+  file: experience/src/features/reports/components/__tests__/DistributionRollupReportView.test.tsx
+  line: 42
+  signature: function renderView()
+  visibility: local
+  language: typescript
+  end_line: 48
+  callers: []
+  callees: []
+- id: symbol:capability-operational-reporting:distribution-rollup-report-view.test.report
+  node: capability:operational-reporting
+  kind: function
+  name: report
+  file: experience/src/features/reports/components/__tests__/DistributionRollupReportView.test.tsx
+  line: 20
+  signature: 'function report(overrides: Partial<DistributionRollupReport> ='
+  visibility: local
+  language: typescript
+  end_line: 40
+  callers: []
+  callees: []
+  type_refs:
+  - symbol:capability-operational-reporting:types.distribution-rollup-report
 - id: symbol:capability-operational-reporting:hooks.build-query
   node: capability:operational-reporting
   kind: function
   name: buildQuery
   file: experience/src/features/reports/hooks.ts
-  line: 5
+  line: 11
   signature: 'function buildQuery(params: OperationalReportParams): string'
   visibility: local
   language: typescript
-  end_line: 14
+  end_line: 23
   callers:
+  - symbol:capability-operational-reporting:hooks.use-distribution-rollup-report
   - symbol:capability-operational-reporting:hooks.use-workflow-aging-report
   - symbol:capability-operational-reporting:hooks.use-workload-report
   callees: []
   type_refs:
   - symbol:capability-operational-reporting:types.operational-report-params
+- id: symbol:capability-operational-reporting:hooks.use-distribution-rollup-report
+  node: capability:operational-reporting
+  kind: function
+  name: useDistributionRollupReport
+  file: experience/src/features/reports/hooks.ts
+  line: 39
+  signature: 'export function useDistributionRollupReport(params: DistributionRollupParams
+    ='
+  visibility: export
+  language: typescript
+  end_line: 49
+  callers:
+  - symbol:capability-operational-reporting:distribution-rollup-report-view.distribution-rollup-report-view
+  callees:
+  - symbol:capability-operational-reporting:hooks.build-query
+  type_refs:
+  - symbol:capability-operational-reporting:types.distribution-rollup-params
+  - symbol:capability-operational-reporting:types.distribution-rollup-report
 - id: symbol:capability-operational-reporting:hooks.use-workflow-aging-report
   node: capability:operational-reporting
   kind: function
   name: useWorkflowAgingReport
   file: experience/src/features/reports/hooks.ts
-  line: 23
+  line: 32
   signature: 'export function useWorkflowAgingReport(params: OperationalReportParams
     ='
   visibility: export
   language: typescript
-  end_line: 28
+  end_line: 37
   callers:
   - symbol:capability-operational-reporting:workflow-aging-report-view.workflow-aging-report-view
   callees:
@@ -30539,11 +30795,11 @@ symbols:
   kind: function
   name: useWorkloadReport
   file: experience/src/features/reports/hooks.ts
-  line: 16
+  line: 25
   signature: 'export function useWorkloadReport(params: OperationalReportParams ='
   visibility: export
   language: typescript
-  end_line: 21
+  end_line: 30
   callers:
   - symbol:capability-operational-reporting:workload-report-view.workload-report-view
   callees:
@@ -30551,18 +30807,95 @@ symbols:
   type_refs:
   - symbol:capability-operational-reporting:types.operational-report-params
   - symbol:capability-operational-reporting:types.operational-workload-report
+- id: symbol:capability-operational-reporting:insight-repo.count-async
+  node: capability:operational-reporting
+  kind: method
+  name: CountAsync
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 275
+  signature: public Task<int> CountAsync(CancellationToken ct)
+  visibility: public
+  language: csharp
+  container: InsightRepo
+  end_line: 275
+  is_test: true
+  callers: []
+  callees: []
+- id: symbol:capability-operational-reporting:insight-repo.last-visibility
+  node: capability:operational-reporting
+  kind: property
+  name: LastVisibility
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 241
+  signature: public ProjectionVisibility? LastVisibility
+  visibility: public
+  language: csharp
+  container: InsightRepo
+  end_line: 241
+  is_test: true
+  callers: []
+  callees: []
+  type_refs:
+  - symbol:entity-search-document:search-dtos.projection-visibility
+- id: symbol:capability-operational-reporting:insight-repo.query-async
+  node: capability:operational-reporting
+  kind: method
+  name: QueryAsync
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 243
+  signature: public Task<IReadOnlyList<BrokerInsightProjection>> QueryAsync(BrokerInsightProjectionQuery
+    query, ProjectionVisibility visibility, CancellationToken ct)
+  visibility: public
+  language: csharp
+  container: InsightRepo
+  end_line: 272
+  is_test: true
+  callers: []
+  callees: []
+  type_refs:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-projection-query
+  - symbol:entity-search-document:search-dtos.projection-visibility
+- id: symbol:capability-operational-reporting:insight-repo.rows
+  node: capability:operational-reporting
+  kind: property
+  name: Rows
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 240
+  signature: public IReadOnlyList<BrokerInsightProjection> Rows
+  visibility: public
+  language: csharp
+  container: InsightRepo
+  end_line: 240
+  is_test: true
+  callers: []
+  callees: []
+- id: symbol:capability-operational-reporting:insight-repo.upsert-many-async
+  node: capability:operational-reporting
+  kind: method
+  name: UpsertManyAsync
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 274
+  signature: public Task UpsertManyAsync(IReadOnlyList<BrokerInsightProjection> rows,
+    CancellationToken ct)
+  visibility: public
+  language: csharp
+  container: InsightRepo
+  end_line: 274
+  is_test: true
+  callers: []
+  callees: []
 - id: symbol:capability-operational-reporting:operational-report-endpoints.build-query
   node: capability:operational-reporting
   kind: method
   name: BuildQuery
   file: engine/src/Nebula.Api/Endpoints/OperationalReportEndpoints.cs
-  line: 44
+  line: 73
   signature: private static async Task<(OperationalReportQuery? Query, IResult? Error)>
     BuildQuery(
   visibility: private
   language: csharp
   container: OperationalReportEndpoints
-  end_line: 66
+  end_line: 99
   callers:
   - symbol:capability-operational-reporting:operational-report-endpoints.workflow-aging
   - symbol:capability-operational-reporting:operational-report-endpoints.workload
@@ -30575,6 +30908,29 @@ symbols:
   - symbol:capability-authorization-enforcement:i-authorization-service.i-authorization-service
   - symbol:entity-operational-report-projection:operational-report-dtos.operational-report-query
   - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-operational-reporting:operational-report-endpoints.distribution-rollups
+  node: capability:operational-reporting
+  kind: method
+  name: DistributionRollups
+  file: engine/src/Nebula.Api/Endpoints/OperationalReportEndpoints.cs
+  line: 47
+  signature: private static async Task<IResult> DistributionRollups(
+  visibility: private
+  language: csharp
+  container: OperationalReportEndpoints
+  end_line: 71
+  callers: []
+  callees:
+  - symbol:capability-global-search:i-operational-report-service.get-distribution-rollups-async
+  - symbol:capability-session-continuity:problem-details-helper.policy-denied
+  - symbol:capability-session-continuity:problem-details-helper.validation-error
+  instantiates:
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-query
+  type_refs:
+  - symbol:capability-authorization-enforcement:i-authorization-service.i-authorization-service
+  - symbol:capability-global-search:i-search-reporting-services.i-operational-report-service
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-query
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
 - id: symbol:capability-operational-reporting:operational-report-endpoints.map-operational-report-endpoints
   node: capability:operational-reporting
   kind: method
@@ -30586,7 +30942,7 @@ symbols:
   visibility: public
   language: csharp
   container: OperationalReportEndpoints
-  end_line: 22
+  end_line: 23
   callers: []
   callees: []
 - id: symbol:capability-operational-reporting:operational-report-endpoints.operational-report-endpoints
@@ -30598,7 +30954,7 @@ symbols:
   signature: public static class OperationalReportEndpoints
   visibility: public
   language: csharp
-  end_line: 67
+  end_line: 100
   callers: []
   callees: []
 - id: symbol:capability-operational-reporting:operational-report-endpoints.workflow-aging
@@ -30606,12 +30962,12 @@ symbols:
   kind: method
   name: WorkflowAging
   file: engine/src/Nebula.Api/Endpoints/OperationalReportEndpoints.cs
-  line: 34
+  line: 36
   signature: private static async Task<IResult> WorkflowAging(
   visibility: private
   language: csharp
   container: OperationalReportEndpoints
-  end_line: 42
+  end_line: 45
   callers: []
   callees:
   - symbol:capability-global-search:i-operational-report-service.get-workflow-aging-async
@@ -30626,12 +30982,12 @@ symbols:
   kind: method
   name: Workload
   file: engine/src/Nebula.Api/Endpoints/OperationalReportEndpoints.cs
-  line: 24
+  line: 25
   signature: private static async Task<IResult> Workload(
   visibility: private
   language: csharp
   container: OperationalReportEndpoints
-  end_line: 32
+  end_line: 34
   callers: []
   callees:
   - symbol:capability-global-search:i-operational-report-service.get-workload-async
@@ -30654,6 +31010,18 @@ symbols:
   end_line: 14
   callers: []
   callees: []
+- id: symbol:capability-operational-reporting:operational-report-query-validator.distribution-rollup-query-validator
+  node: capability:operational-reporting
+  kind: class
+  name: DistributionRollupQueryValidator
+  file: engine/src/Nebula.Application/Validators/OperationalReportQueryValidator.cs
+  line: 17
+  signature: 'public class DistributionRollupQueryValidator : AbstractValidator<DistributionRollupQuery>'
+  visibility: public
+  language: csharp
+  end_line: 34
+  callers: []
+  callees: []
 - id: symbol:capability-operational-reporting:operational-report-query-validator.operational-report-query-validator
   node: capability:operational-reporting
   kind: class
@@ -30666,17 +31034,86 @@ symbols:
   end_line: 15
   callers: []
   callees: []
+- id: symbol:capability-operational-reporting:operational-report-service-tests.get-distribution-rollups-async-activity-metric-family-uses-broker-insight-projection
+  node: capability:operational-reporting
+  kind: method
+  name: GetDistributionRollupsAsync_ActivityMetricFamilyUsesBrokerInsightProjection
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 143
+  signature: public async Task GetDistributionRollupsAsync_ActivityMetricFamilyUsesBrokerInsightProjection()
+  visibility: public
+  language: csharp
+  container: OperationalReportServiceTests
+  end_line: 167
+  is_test: true
+  callers: []
+  callees:
+  - symbol:capability-operational-reporting:operational-report-service-tests.insight
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  instantiates:
+  - symbol:capability-operational-reporting:operational-report-service-tests.insight-repo
+  - symbol:capability-operational-reporting:operational-report-service-tests.r-user
+  - symbol:capability-operational-reporting:operational-report-service-tests.rpt-repo
+  - symbol:capability-operational-reporting:operational-report-service-tests.rpt-scope
+  - symbol:capability-operational-reporting:operational-report-service.operational-report-service
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-query
+- id: symbol:capability-operational-reporting:operational-report-service-tests.get-distribution-rollups-async-aggregates-only-rows-returned-by-visibility-predicate
+  node: capability:operational-reporting
+  kind: method
+  name: GetDistributionRollupsAsync_AggregatesOnlyRowsReturnedByVisibilityPredicate
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 115
+  signature: public async Task GetDistributionRollupsAsync_AggregatesOnlyRowsReturnedByVisibilityPredicate()
+  visibility: public
+  language: csharp
+  container: OperationalReportServiceTests
+  end_line: 141
+  is_test: true
+  callers: []
+  callees:
+  - symbol:capability-operational-reporting:operational-report-service-tests.proj
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  instantiates:
+  - symbol:capability-operational-reporting:operational-report-service-tests.insight-repo
+  - symbol:capability-operational-reporting:operational-report-service-tests.r-user
+  - symbol:capability-operational-reporting:operational-report-service-tests.rpt-repo
+  - symbol:capability-operational-reporting:operational-report-service-tests.rpt-scope
+  - symbol:capability-operational-reporting:operational-report-service.operational-report-service
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-query
+- id: symbol:capability-operational-reporting:operational-report-service-tests.get-distribution-rollups-async-external-role-fails-closed
+  node: capability:operational-reporting
+  kind: method
+  name: GetDistributionRollupsAsync_ExternalRoleFailsClosed
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 169
+  signature: public async Task GetDistributionRollupsAsync_ExternalRoleFailsClosed()
+  visibility: public
+  language: csharp
+  container: OperationalReportServiceTests
+  end_line: 187
+  is_test: true
+  callers: []
+  callees:
+  - symbol:capability-operational-reporting:operational-report-service-tests.insight
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  instantiates:
+  - symbol:capability-operational-reporting:operational-report-service-tests.insight-repo
+  - symbol:capability-operational-reporting:operational-report-service-tests.r-user
+  - symbol:capability-operational-reporting:operational-report-service-tests.rpt-repo
+  - symbol:capability-operational-reporting:operational-report-service-tests.rpt-scope
+  - symbol:capability-operational-reporting:operational-report-service.operational-report-service
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-query
 - id: symbol:capability-operational-reporting:operational-report-service-tests.get-workflow-aging-async-groups-bands-and-orders
   node: capability:operational-reporting
   kind: method
   name: GetWorkflowAgingAsync_GroupsBandsAndOrders
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 42
+  line: 81
   signature: public async Task GetWorkflowAgingAsync_GroupsBandsAndOrders()
   visibility: public
   language: csharp
   container: OperationalReportServiceTests
-  end_line: 62
+  end_line: 101
   is_test: true
   callers: []
   callees:
@@ -30684,20 +31121,22 @@ symbols:
   - symbol:capability-operational-reporting:operational-report-service-tests.query
   - symbol:capability-operational-reporting:operational-report-service.get-workflow-aging-async
   instantiates:
+  - symbol:capability-operational-reporting:operational-report-service-tests.insight-repo
   - symbol:capability-operational-reporting:operational-report-service-tests.r-user
   - symbol:capability-operational-reporting:operational-report-service-tests.rpt-repo
+  - symbol:capability-operational-reporting:operational-report-service-tests.rpt-scope
   - symbol:capability-operational-reporting:operational-report-service.operational-report-service
 - id: symbol:capability-operational-reporting:operational-report-service-tests.get-workload-async-computes-counts
   node: capability:operational-reporting
   kind: method
   name: GetWorkloadAsync_ComputesCounts
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 24
+  line: 63
   signature: public async Task GetWorkloadAsync_ComputesCounts()
   visibility: public
   language: csharp
   container: OperationalReportServiceTests
-  end_line: 40
+  end_line: 79
   is_test: true
   callers: []
   callees:
@@ -30705,29 +31144,62 @@ symbols:
   - symbol:capability-operational-reporting:operational-report-service-tests.query
   - symbol:capability-operational-reporting:operational-report-service.get-workload-async
   instantiates:
+  - symbol:capability-operational-reporting:operational-report-service-tests.insight-repo
   - symbol:capability-operational-reporting:operational-report-service-tests.r-user
   - symbol:capability-operational-reporting:operational-report-service-tests.rpt-repo
+  - symbol:capability-operational-reporting:operational-report-service-tests.rpt-scope
   - symbol:capability-operational-reporting:operational-report-service.operational-report-service
 - id: symbol:capability-operational-reporting:operational-report-service-tests.get-workload-async-scoped-role-passes-non-see-all-visibility
   node: capability:operational-reporting
   kind: method
   name: GetWorkloadAsync_ScopedRole_PassesNonSeeAllVisibility
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 64
+  line: 103
   signature: public async Task GetWorkloadAsync_ScopedRole_PassesNonSeeAllVisibility()
   visibility: public
   language: csharp
   container: OperationalReportServiceTests
-  end_line: 74
+  end_line: 113
   is_test: true
   callers: []
   callees:
   - symbol:capability-operational-reporting:operational-report-service-tests.query
   - symbol:capability-operational-reporting:operational-report-service.get-workload-async
   instantiates:
+  - symbol:capability-operational-reporting:operational-report-service-tests.insight-repo
   - symbol:capability-operational-reporting:operational-report-service-tests.r-user
   - symbol:capability-operational-reporting:operational-report-service-tests.rpt-repo
+  - symbol:capability-operational-reporting:operational-report-service-tests.rpt-scope
   - symbol:capability-operational-reporting:operational-report-service.operational-report-service
+- id: symbol:capability-operational-reporting:operational-report-service-tests.insight
+  node: capability:operational-reporting
+  kind: method
+  name: Insight
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 40
+  signature: private static BrokerInsightProjection Insight(
+  visibility: private
+  language: csharp
+  container: OperationalReportServiceTests
+  end_line: 61
+  is_test: true
+  callers:
+  - symbol:capability-operational-reporting:operational-report-service-tests.get-distribution-rollups-async-activity-metric-family-uses-broker-insight-projection
+  - symbol:capability-operational-reporting:operational-report-service-tests.get-distribution-rollups-async-external-role-fails-closed
+  callees: []
+- id: symbol:capability-operational-reporting:operational-report-service-tests.insight-repo
+  node: capability:operational-reporting
+  kind: class
+  name: InsightRepo
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 238
+  signature: 'file class InsightRepo : IBrokerInsightProjectionRepository'
+  visibility: internal
+  language: csharp
+  end_line: 276
+  is_test: true
+  callers: []
+  callees: []
 - id: symbol:capability-operational-reporting:operational-report-service-tests.operational-report-service-tests
   node: capability:operational-reporting
   kind: class
@@ -30737,7 +31209,7 @@ symbols:
   signature: public class OperationalReportServiceTests
   visibility: public
   language: csharp
-  end_line: 75
+  end_line: 188
   is_test: true
   callers: []
   callees: []
@@ -30746,16 +31218,15 @@ symbols:
   kind: method
   name: Proj
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 16
-  signature: private static OperationalReportProjection Proj(Guid? owner, bool dueToday
-    = false, bool overdue = false, string ageBand = "OnTrack", int days = 1, string
-    status = "InReview", string workflow = "Submission")
+  line: 21
+  signature: private static OperationalReportProjection Proj(
   visibility: private
   language: csharp
   container: OperationalReportServiceTests
-  end_line: 22
+  end_line: 38
   is_test: true
   callers:
+  - symbol:capability-operational-reporting:operational-report-service-tests.get-distribution-rollups-async-aggregates-only-rows-returned-by-visibility-predicate
   - symbol:capability-operational-reporting:operational-report-service-tests.get-workflow-aging-async-groups-bands-and-orders
   - symbol:capability-operational-reporting:operational-report-service-tests.get-workload-async-computes-counts
   callees: []
@@ -30768,12 +31239,12 @@ symbols:
   kind: method
   name: Query
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 14
+  line: 19
   signature: private static OperationalReportQuery Query()
   visibility: private
   language: csharp
   container: OperationalReportServiceTests
-  end_line: 14
+  end_line: 19
   is_test: true
   callers:
   - symbol:capability-operational-reporting:operational-report-service-tests.get-workflow-aging-async-groups-bands-and-orders
@@ -30789,11 +31260,11 @@ symbols:
   kind: class
   name: RUser
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 77
+  line: 190
   signature: 'file class RUser : ICurrentUserService'
   visibility: internal
   language: csharp
-  end_line: 88
+  end_line: 201
   is_test: true
   callers: []
   callees: []
@@ -30802,11 +31273,24 @@ symbols:
   kind: class
   name: RptRepo
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 90
+  line: 203
   signature: 'file class RptRepo : IOperationalReportProjectionRepository'
   visibility: internal
   language: csharp
-  end_line: 102
+  end_line: 236
+  is_test: true
+  callers: []
+  callees: []
+- id: symbol:capability-operational-reporting:operational-report-service-tests.rpt-scope
+  node: capability:operational-reporting
+  kind: class
+  name: RptScope
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 278
+  signature: 'file class RptScope : IDistributionScopeService'
+  visibility: internal
+  language: csharp
+  end_line: 309
   is_test: true
   callers: []
   callees: []
@@ -30815,13 +31299,12 @@ symbols:
   kind: constructor
   name: .ctor
   file: engine/src/Nebula.Application/Services/OperationalReportService.cs
-  line: 12
-  signature: public OperationalReportService(IOperationalReportProjectionRepository
-    repo)
+  line: 14
+  signature: public OperationalReportService(
   visibility: public
   language: csharp
   container: OperationalReportService
-  end_line: 12
+  end_line: 22
   callers: []
   callees: []
   type_refs:
@@ -30831,34 +31314,116 @@ symbols:
   kind: method
   name: AgeBandOrder
   file: engine/src/Nebula.Application/Services/OperationalReportService.cs
-  line: 76
+  line: 195
   signature: private static int AgeBandOrder(string band)
   visibility: private
   language: csharp
   container: OperationalReportService
-  end_line: 82
+  end_line: 201
   callers:
   - symbol:capability-operational-reporting:operational-report-service.get-workflow-aging-async
   callees: []
+- id: symbol:capability-operational-reporting:operational-report-service.drilldown-url
+  node: capability:operational-reporting
+  kind: method
+  name: DrilldownUrl
+  file: engine/src/Nebula.Application/Services/OperationalReportService.cs
+  line: 247
+  signature: private static string DrilldownUrl(string groupBy, string key, DateOnly
+    asOf)
+  visibility: private
+  language: csharp
+  container: OperationalReportService
+  end_line: 252
+  callers:
+  - symbol:capability-operational-reporting:operational-report-service.get-broker-insight-rollups-async
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  callees: []
+- id: symbol:capability-operational-reporting:operational-report-service.get-broker-insight-rollups-async
+  node: capability:operational-reporting
+  kind: method
+  name: GetBrokerInsightRollupsAsync
+  file: engine/src/Nebula.Application/Services/OperationalReportService.cs
+  line: 132
+  signature: private async Task<DistributionRollupReportDto> GetBrokerInsightRollupsAsync(
+  visibility: private
+  language: csharp
+  container: OperationalReportService
+  end_line: 184
+  callers:
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  callees:
+  - symbol:capability-operational-reporting:operational-report-service.drilldown-url
+  - symbol:capability-operational-reporting:operational-report-service.group-key
+  - symbol:capability-operational-reporting:operational-report-service.group-key-2
+  - symbol:capability-operational-reporting:operational-report-service.metrics-for
+  - symbol:capability-operational-reporting:operational-report-service.metrics-for-2
+  instantiates:
+  - symbol:capability-broker-relationship-management:broker-insight-dtos.broker-insight-projection-query
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-report-dto
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-row-dto
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-scope-echo-dto
+  type_refs:
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-query
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-report-dto
+  - symbol:entity-search-document:search-dtos.projection-visibility
+- id: symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  node: capability:operational-reporting
+  kind: method
+  name: GetDistributionRollupsAsync
+  file: engine/src/Nebula.Application/Services/OperationalReportService.cs
+  line: 80
+  signature: public async Task<DistributionRollupReportDto> GetDistributionRollupsAsync(
+  visibility: public
+  language: csharp
+  container: OperationalReportService
+  end_line: 130
+  callers:
+  - symbol:capability-global-search:i-operational-report-service.get-distribution-rollups-async
+  - symbol:capability-operational-reporting:operational-report-service-tests.get-distribution-rollups-async-activity-metric-family-uses-broker-insight-projection
+  - symbol:capability-operational-reporting:operational-report-service-tests.get-distribution-rollups-async-aggregates-only-rows-returned-by-visibility-predicate
+  - symbol:capability-operational-reporting:operational-report-service-tests.get-distribution-rollups-async-external-role-fails-closed
+  callees:
+  - symbol:capability-operational-reporting:operational-report-service.drilldown-url
+  - symbol:capability-operational-reporting:operational-report-service.get-broker-insight-rollups-async
+  - symbol:capability-operational-reporting:operational-report-service.group-key
+  - symbol:capability-operational-reporting:operational-report-service.group-key-2
+  - symbol:capability-operational-reporting:operational-report-service.metrics-for
+  - symbol:capability-operational-reporting:operational-report-service.metrics-for-2
+  - symbol:capability-operational-reporting:operational-report-service.normalize-group-by
+  - symbol:capability-operational-reporting:operational-report-service.normalize-metric-family
+  - symbol:capability-operational-reporting:operational-report-service.resolve-async
+  - symbol:entity-operational-report-projection:i-operational-report-projection-repository.query-async
+  implements:
+  - symbol:capability-global-search:i-operational-report-service.get-distribution-rollups-async
+  instantiates:
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-report-dto
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-row-dto
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-scope-echo-dto
+  - symbol:entity-operational-report-projection:operational-report-dtos.operational-report-query
+  type_refs:
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-query
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-report-dto
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
 - id: symbol:capability-operational-reporting:operational-report-service.get-workflow-aging-async
   node: capability:operational-reporting
   kind: method
   name: GetWorkflowAgingAsync
   file: engine/src/Nebula.Application/Services/OperationalReportService.cs
-  line: 46
+  line: 56
   signature: public async Task<WorkflowAgingReportDto> GetWorkflowAgingAsync(OperationalReportQuery
     query, ICurrentUserService user, CancellationToken ct)
   visibility: public
   language: csharp
   container: OperationalReportService
-  end_line: 68
+  end_line: 78
   callers:
   - symbol:capability-global-search:i-operational-report-service.get-workflow-aging-async
   - symbol:capability-operational-reporting:operational-report-service-tests.get-workflow-aging-async-groups-bands-and-orders
   callees:
-  - symbol:capability-global-search:projection-visibility-resolver.for
   - symbol:capability-operational-reporting:operational-report-service.age-band-order
   - symbol:capability-operational-reporting:operational-report-service.group-counts
+  - symbol:capability-operational-reporting:operational-report-service.resolve-async
   - symbol:entity-operational-report-projection:i-operational-report-projection-repository.query-async
   implements:
   - symbol:capability-global-search:i-operational-report-service.get-workflow-aging-async
@@ -30874,20 +31439,20 @@ symbols:
   kind: method
   name: GetWorkloadAsync
   file: engine/src/Nebula.Application/Services/OperationalReportService.cs
-  line: 14
+  line: 24
   signature: public async Task<OperationalWorkloadReportDto> GetWorkloadAsync(OperationalReportQuery
     query, ICurrentUserService user, CancellationToken ct)
   visibility: public
   language: csharp
   container: OperationalReportService
-  end_line: 44
+  end_line: 54
   callers:
   - symbol:capability-global-search:i-operational-report-service.get-workload-async
   - symbol:capability-operational-reporting:operational-report-service-tests.get-workload-async-computes-counts
   - symbol:capability-operational-reporting:operational-report-service-tests.get-workload-async-scoped-role-passes-non-see-all-visibility
   callees:
-  - symbol:capability-global-search:projection-visibility-resolver.for
   - symbol:capability-operational-reporting:operational-report-service.group-counts
+  - symbol:capability-operational-reporting:operational-report-service.resolve-async
   - symbol:entity-operational-report-projection:i-operational-report-projection-repository.query-async
   implements:
   - symbol:capability-global-search:i-operational-report-service.get-workload-async
@@ -30903,13 +31468,13 @@ symbols:
   kind: method
   name: GroupCounts
   file: engine/src/Nebula.Application/Services/OperationalReportService.cs
-  line: 70
+  line: 189
   signature: private static List<CountByKeyDto> GroupCounts(IReadOnlyList<OperationalReportProjection>
     rows, Func<OperationalReportProjection, string?> selector)
   visibility: private
   language: csharp
   container: OperationalReportService
-  end_line: 74
+  end_line: 193
   callers:
   - symbol:capability-operational-reporting:operational-report-service.get-workflow-aging-async
   - symbol:capability-operational-reporting:operational-report-service.get-workload-async
@@ -30919,18 +31484,52 @@ symbols:
   type_refs:
   - symbol:entity-operational-report-projection:operational-report-dtos.count-by-key-dto
   - symbol:entity-operational-report-projection:operational-report-projection.operational-report-projection
+- id: symbol:capability-operational-reporting:operational-report-service.group-key
+  node: capability:operational-reporting
+  kind: method
+  name: GroupKey
+  file: engine/src/Nebula.Application/Services/OperationalReportService.cs
+  line: 217
+  signature: private static (string? Key, string? Label) GroupKey(OperationalReportProjection
+    row, string groupBy)
+  visibility: private
+  language: csharp
+  container: OperationalReportService
+  end_line: 223
+  callers:
+  - symbol:capability-operational-reporting:operational-report-service.get-broker-insight-rollups-async
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  callees: []
+  type_refs:
+  - symbol:entity-operational-report-projection:operational-report-projection.operational-report-projection
+- id: symbol:capability-operational-reporting:operational-report-service.group-key-2
+  node: capability:operational-reporting
+  kind: method
+  name: GroupKey
+  file: engine/src/Nebula.Application/Services/OperationalReportService.cs
+  line: 225
+  signature: private static (string? Key, string? Label) GroupKey(BrokerInsightProjection
+    row, string groupBy)
+  visibility: private
+  language: csharp
+  container: OperationalReportService
+  end_line: 231
+  callers:
+  - symbol:capability-operational-reporting:operational-report-service.get-broker-insight-rollups-async
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  callees: []
 - id: symbol:capability-operational-reporting:operational-report-service.map-drilldown
   node: capability:operational-reporting
   kind: method
   name: MapDrilldown
   file: engine/src/Nebula.Application/Services/OperationalReportService.cs
-  line: 84
+  line: 254
   signature: private static GlobalSearchResultDto MapDrilldown(OperationalReportProjection
     p)
   visibility: private
   language: csharp
   container: OperationalReportService
-  end_line: 99
+  end_line: 269
   callers: []
   callees: []
   instantiates:
@@ -30938,6 +31537,75 @@ symbols:
   type_refs:
   - symbol:entity-operational-report-projection:operational-report-projection.operational-report-projection
   - symbol:entity-search-document:search-dtos.global-search-result-dto
+- id: symbol:capability-operational-reporting:operational-report-service.metrics-for
+  node: capability:operational-reporting
+  kind: method
+  name: MetricsFor
+  file: engine/src/Nebula.Application/Services/OperationalReportService.cs
+  line: 203
+  signature: private static DistributionRollupMetricSetDto MetricsFor(IReadOnlyList<OperationalReportProjection>
+    rows)
+  visibility: private
+  language: csharp
+  container: OperationalReportService
+  end_line: 208
+  callers:
+  - symbol:capability-operational-reporting:operational-report-service.get-broker-insight-rollups-async
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  callees: []
+  instantiates:
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-metric-set-dto
+  type_refs:
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-metric-set-dto
+  - symbol:entity-operational-report-projection:operational-report-projection.operational-report-projection
+- id: symbol:capability-operational-reporting:operational-report-service.metrics-for-2
+  node: capability:operational-reporting
+  kind: method
+  name: MetricsFor
+  file: engine/src/Nebula.Application/Services/OperationalReportService.cs
+  line: 210
+  signature: private static DistributionRollupMetricSetDto MetricsFor(IReadOnlyList<BrokerInsightProjection>
+    rows, string metricFamily)
+  visibility: private
+  language: csharp
+  container: OperationalReportService
+  end_line: 215
+  callers:
+  - symbol:capability-operational-reporting:operational-report-service.get-broker-insight-rollups-async
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  callees: []
+  instantiates:
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-metric-set-dto
+  type_refs:
+  - symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-metric-set-dto
+- id: symbol:capability-operational-reporting:operational-report-service.normalize-group-by
+  node: capability:operational-reporting
+  kind: method
+  name: NormalizeGroupBy
+  file: engine/src/Nebula.Application/Services/OperationalReportService.cs
+  line: 233
+  signature: private static string NormalizeGroupBy(string groupBy)
+  visibility: private
+  language: csharp
+  container: OperationalReportService
+  end_line: 238
+  callers:
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  callees: []
+- id: symbol:capability-operational-reporting:operational-report-service.normalize-metric-family
+  node: capability:operational-reporting
+  kind: method
+  name: NormalizeMetricFamily
+  file: engine/src/Nebula.Application/Services/OperationalReportService.cs
+  line: 240
+  signature: private static string NormalizeMetricFamily(string metricFamily)
+  visibility: private
+  language: csharp
+  container: OperationalReportService
+  end_line: 245
+  callers:
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  callees: []
 - id: symbol:capability-operational-reporting:operational-report-service.operational-report-service
   node: capability:operational-reporting
   kind: class
@@ -30947,7 +31615,42 @@ symbols:
   signature: 'public class OperationalReportService : IOperationalReportService'
   visibility: public
   language: csharp
-  end_line: 100
+  end_line: 270
+  callers: []
+  callees: []
+- id: symbol:capability-operational-reporting:operational-report-service.resolve-async
+  node: capability:operational-reporting
+  kind: method
+  name: ResolveAsync
+  file: engine/src/Nebula.Application/Services/OperationalReportService.cs
+  line: 186
+  signature: private Task<ProjectionVisibility> ResolveAsync(OperationalReportQuery
+    query, ICurrentUserService user, CancellationToken ct)
+  visibility: private
+  language: csharp
+  container: OperationalReportService
+  end_line: 187
+  callers:
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
+  - symbol:capability-operational-reporting:operational-report-service.get-workflow-aging-async
+  - symbol:capability-operational-reporting:operational-report-service.get-workload-async
+  callees: []
+  instantiates:
+  - symbol:entity-search-document:search-dtos.distribution-scope-request
+  type_refs:
+  - symbol:entity-operational-report-projection:operational-report-dtos.operational-report-query
+  - symbol:entity-search-document:search-dtos.projection-visibility
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-operational-reporting:operational-reports-page.distribution-rollup-controls
+  node: capability:operational-reporting
+  kind: function
+  name: DistributionRollupControls
+  file: experience/src/pages/OperationalReportsPage.tsx
+  line: 89
+  signature: function DistributionRollupControls(
+  visibility: local
+  language: typescript
+  end_line: 144
   callers: []
   callees: []
 - id: symbol:capability-operational-reporting:operational-reports-page.operational-reports-page
@@ -30955,11 +31658,11 @@ symbols:
   kind: function
   name: OperationalReportsPage
   file: experience/src/pages/OperationalReportsPage.tsx
-  line: 15
+  line: 19
   signature: export default function OperationalReportsPage()
   visibility: export
   language: typescript
-  end_line: 64
+  end_line: 87
   callers: []
   callees: []
 - id: symbol:capability-operational-reporting:r-user..ctor
@@ -30967,12 +31670,12 @@ symbols:
   kind: constructor
   name: .ctor
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 79
+  line: 192
   signature: public RUser(Guid id, string[]? roles = null, string[]? regions = null)
   visibility: public
   language: csharp
   container: RUser
-  end_line: 82
+  end_line: 195
   is_test: true
   callers: []
   callees: []
@@ -30981,12 +31684,12 @@ symbols:
   kind: property
   name: BrokerTenantId
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 87
+  line: 200
   signature: public string? BrokerTenantId
   visibility: public
   language: csharp
   container: RUser
-  end_line: 87
+  end_line: 200
   is_test: true
   callers: []
   callees: []
@@ -30995,12 +31698,12 @@ symbols:
   kind: property
   name: DisplayName
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 84
+  line: 197
   signature: public string? DisplayName
   visibility: public
   language: csharp
   container: RUser
-  end_line: 84
+  end_line: 197
   is_test: true
   callers: []
   callees: []
@@ -31009,12 +31712,12 @@ symbols:
   kind: property
   name: Regions
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 86
+  line: 199
   signature: public IReadOnlyList<string> Regions
   visibility: public
   language: csharp
   container: RUser
-  end_line: 86
+  end_line: 199
   is_test: true
   callers: []
   callees: []
@@ -31023,12 +31726,12 @@ symbols:
   kind: property
   name: Roles
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 85
+  line: 198
   signature: public IReadOnlyList<string> Roles
   visibility: public
   language: csharp
   container: RUser
-  end_line: 85
+  end_line: 198
   is_test: true
   callers: []
   callees: []
@@ -31037,12 +31740,12 @@ symbols:
   kind: property
   name: UserId
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 83
+  line: 196
   signature: public Guid UserId
   visibility: public
   language: csharp
   container: RUser
-  end_line: 83
+  end_line: 196
   is_test: true
   callers: []
   callees: []
@@ -31055,7 +31758,7 @@ symbols:
   signature: export function ReportControls(
   visibility: export
   language: typescript
-  end_line: 38
+  end_line: 56
   callers: []
   callees: []
   type_refs:
@@ -31115,12 +31818,12 @@ symbols:
   kind: method
   name: CountAsync
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 101
+  line: 235
   signature: public Task<int> CountAsync(CancellationToken ct)
   visibility: public
   language: csharp
   container: RptRepo
-  end_line: 101
+  end_line: 235
   is_test: true
   callers:
   - symbol:entity-operational-report-projection:i-operational-report-projection-repository.count-async
@@ -31132,12 +31835,12 @@ symbols:
   kind: property
   name: LastVisibility
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 93
+  line: 206
   signature: public ProjectionVisibility? LastVisibility
   visibility: public
   language: csharp
   container: RptRepo
-  end_line: 93
+  end_line: 206
   is_test: true
   callers: []
   callees: []
@@ -31148,13 +31851,13 @@ symbols:
   kind: method
   name: QueryAsync
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 95
+  line: 208
   signature: public Task<IReadOnlyList<OperationalReportProjection>> QueryAsync(OperationalReportQuery
     query, ProjectionVisibility visibility, CancellationToken ct)
   visibility: public
   language: csharp
   container: RptRepo
-  end_line: 99
+  end_line: 233
   is_test: true
   callers:
   - symbol:entity-operational-report-projection:i-operational-report-projection-repository.query-async
@@ -31170,12 +31873,12 @@ symbols:
   kind: property
   name: Rows
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 92
+  line: 205
   signature: public IReadOnlyList<OperationalReportProjection> Rows
   visibility: public
   language: csharp
   container: RptRepo
-  end_line: 92
+  end_line: 205
   is_test: true
   callers: []
   callees: []
@@ -31186,13 +31889,13 @@ symbols:
   kind: method
   name: UpsertManyAsync
   file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
-  line: 100
+  line: 234
   signature: public Task UpsertManyAsync(IReadOnlyList<OperationalReportProjection>
     rows, CancellationToken ct)
   visibility: public
   language: csharp
   container: RptRepo
-  end_line: 100
+  end_line: 234
   is_test: true
   callers:
   - symbol:entity-operational-report-projection:i-operational-report-projection-repository.upsert-many-async
@@ -31201,6 +31904,95 @@ symbols:
   - symbol:entity-operational-report-projection:i-operational-report-projection-repository.upsert-many-async
   type_refs:
   - symbol:entity-operational-report-projection:operational-report-projection.operational-report-projection
+- id: symbol:capability-operational-reporting:rpt-scope.can-read-broker-async
+  node: capability:operational-reporting
+  kind: method
+  name: CanReadBrokerAsync
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 307
+  signature: public Task<bool> CanReadBrokerAsync(Guid brokerId, ICurrentUserService
+    user, DateOnly? asOf, CancellationToken ct)
+  visibility: public
+  language: csharp
+  container: RptScope
+  end_line: 307
+  is_test: true
+  callers: []
+  callees: []
+  type_refs:
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-operational-reporting:rpt-scope.can-read-distribution-node-async
+  node: capability:operational-reporting
+  kind: method
+  name: CanReadDistributionNodeAsync
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 305
+  signature: public Task<bool> CanReadDistributionNodeAsync(Guid nodeId, ICurrentUserService
+    user, DateOnly? asOf, CancellationToken ct)
+  visibility: public
+  language: csharp
+  container: RptScope
+  end_line: 305
+  is_test: true
+  callers: []
+  callees: []
+  type_refs:
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-operational-reporting:rpt-scope.can-read-producer-async
+  node: capability:operational-reporting
+  kind: method
+  name: CanReadProducerAsync
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 308
+  signature: public Task<bool> CanReadProducerAsync(Guid producerUserId, ICurrentUserService
+    user, DateOnly? asOf, CancellationToken ct)
+  visibility: public
+  language: csharp
+  container: RptScope
+  end_line: 308
+  is_test: true
+  callers: []
+  callees: []
+  type_refs:
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-operational-reporting:rpt-scope.can-read-territory-async
+  node: capability:operational-reporting
+  kind: method
+  name: CanReadTerritoryAsync
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 306
+  signature: public Task<bool> CanReadTerritoryAsync(Guid territoryId, ICurrentUserService
+    user, DateOnly? asOf, CancellationToken ct)
+  visibility: public
+  language: csharp
+  container: RptScope
+  end_line: 306
+  is_test: true
+  callers: []
+  callees: []
+  type_refs:
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
+- id: symbol:capability-operational-reporting:rpt-scope.resolve-async
+  node: capability:operational-reporting
+  kind: method
+  name: ResolveAsync
+  file: engine/tests/Nebula.Tests/Unit/SearchReporting/OperationalReportServiceTests.cs
+  line: 280
+  signature: public Task<ProjectionVisibility> ResolveAsync(DistributionScopeRequest
+    request, ICurrentUserService user, CancellationToken ct)
+  visibility: public
+  language: csharp
+  container: RptScope
+  end_line: 303
+  is_test: true
+  callers: []
+  callees: []
+  instantiates:
+  - symbol:entity-search-document:search-dtos.projection-visibility
+  type_refs:
+  - symbol:entity-search-document:search-dtos.distribution-scope-request
+  - symbol:entity-search-document:search-dtos.projection-visibility
+  - symbol:entity-user-profile:i-current-user-service.i-current-user-service
 - id: symbol:capability-operational-reporting:types.aging-band
   node: capability:operational-reporting
   kind: interface
@@ -31225,6 +32017,66 @@ symbols:
   end_line: 7
   callers: []
   callees: []
+- id: symbol:capability-operational-reporting:types.distribution-rollup-metric-set
+  node: capability:operational-reporting
+  kind: interface
+  name: DistributionRollupMetricSet
+  file: experience/src/features/reports/types.ts
+  line: 56
+  signature: export interface DistributionRollupMetricSet
+  visibility: export
+  language: typescript
+  end_line: 62
+  callers: []
+  callees: []
+- id: symbol:capability-operational-reporting:types.distribution-rollup-params
+  node: capability:operational-reporting
+  kind: interface
+  name: DistributionRollupParams
+  file: experience/src/features/reports/types.ts
+  line: 83
+  signature: export interface DistributionRollupParams extends OperationalReportParams
+  visibility: export
+  language: typescript
+  end_line: 86
+  callers: []
+  callees: []
+- id: symbol:capability-operational-reporting:types.distribution-rollup-report
+  node: capability:operational-reporting
+  kind: interface
+  name: DistributionRollupReport
+  file: experience/src/features/reports/types.ts
+  line: 73
+  signature: export interface DistributionRollupReport
+  visibility: export
+  language: typescript
+  end_line: 81
+  callers: []
+  callees: []
+- id: symbol:capability-operational-reporting:types.distribution-rollup-row
+  node: capability:operational-reporting
+  kind: interface
+  name: DistributionRollupRow
+  file: experience/src/features/reports/types.ts
+  line: 64
+  signature: export interface DistributionRollupRow
+  visibility: export
+  language: typescript
+  end_line: 71
+  callers: []
+  callees: []
+- id: symbol:capability-operational-reporting:types.distribution-scope-echo
+  node: capability:operational-reporting
+  kind: interface
+  name: DistributionScopeEcho
+  file: experience/src/features/reports/types.ts
+  line: 50
+  signature: export interface DistributionScopeEcho
+  visibility: export
+  language: typescript
+  end_line: 54
+  callers: []
+  callees: []
 - id: symbol:capability-operational-reporting:types.operational-report-params
   node: capability:operational-reporting
   kind: interface
@@ -31234,7 +32086,7 @@ symbols:
   signature: export interface OperationalReportParams
   visibility: export
   language: typescript
-  end_line: 45
+  end_line: 48
   callers: []
   callees: []
 - id: symbol:capability-operational-reporting:types.operational-workload-report
@@ -37104,6 +37956,7 @@ symbols:
   - symbol:capability-neuron-renewals-head:renewal-endpoints.put-assignment
   - symbol:capability-neuron-renewals-head:renewal-endpoints.put-lob-attributes
   - symbol:capability-operational-reporting:operational-report-endpoints.build-query
+  - symbol:capability-operational-reporting:operational-report-endpoints.distribution-rollups
   - symbol:capability-product-schema-registry:lob-schema-endpoints.activate-product-version
   - symbol:capability-product-schema-registry:lob-schema-endpoints.get-bundle
   - symbol:capability-product-schema-registry:lob-schema-endpoints.list-active-bundles
@@ -37470,6 +38323,7 @@ symbols:
   - symbol:capability-neuron-renewals-head:renewal-endpoints.put-assignment
   - symbol:capability-neuron-renewals-head:renewal-endpoints.put-lob-attributes
   - symbol:capability-operational-reporting:operational-report-endpoints.build-query
+  - symbol:capability-operational-reporting:operational-report-endpoints.distribution-rollups
   - symbol:capability-saved-views:saved-view-endpoints.validation-problem
   - symbol:capability-task-center:task-endpoints.create-task
   - symbol:capability-task-center:task-endpoints.get-task-list
@@ -59124,7 +59978,7 @@ symbols:
   visibility: public
   language: csharp
   container: DependencyInjection
-  end_line: 82
+  end_line: 84
   callers: []
   callees: []
 - id: symbol:entity-document:dependency-injection.dependency-injection
@@ -59136,7 +59990,7 @@ symbols:
   signature: public static class DependencyInjection
   visibility: public
   language: csharp
-  end_line: 83
+  end_line: 85
   callers: []
   callees: []
 - id: symbol:entity-document:document-constants.document-constants
@@ -59782,6 +60636,7 @@ symbols:
   container: IOperationalReportProjectionRepository
   end_line: 11
   callers:
+  - symbol:capability-operational-reporting:operational-report-service.get-distribution-rollups-async
   - symbol:capability-operational-reporting:operational-report-service.get-workflow-aging-async
   - symbol:capability-operational-reporting:operational-report-service.get-workload-async
   callees:
@@ -59815,11 +60670,11 @@ symbols:
   kind: record
   name: AgingBandDto
   file: engine/src/Nebula.Application/DTOs/OperationalReportDtos.cs
-  line: 14
+  line: 17
   signature: public sealed record AgingBandDto(string AgeBand, int Count)
   visibility: public
   language: csharp
-  end_line: 14
+  end_line: 17
   callers: []
   callees: []
 - id: symbol:entity-operational-report-projection:operational-report-dtos.count-by-key-dto
@@ -59827,11 +60682,71 @@ symbols:
   kind: record
   name: CountByKeyDto
   file: engine/src/Nebula.Application/DTOs/OperationalReportDtos.cs
-  line: 12
+  line: 15
   signature: public sealed record CountByKeyDto(string Key, string? Label, int Count)
   visibility: public
   language: csharp
-  end_line: 12
+  end_line: 15
+  callers: []
+  callees: []
+- id: symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-metric-set-dto
+  node: entity:operational-report-projection
+  kind: record
+  name: DistributionRollupMetricSetDto
+  file: engine/src/Nebula.Application/DTOs/OperationalReportDtos.cs
+  line: 57
+  signature: public sealed record DistributionRollupMetricSetDto(
+  visibility: public
+  language: csharp
+  end_line: 62
+  callers: []
+  callees: []
+- id: symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-query
+  node: entity:operational-report-projection
+  kind: record
+  name: DistributionRollupQuery
+  file: engine/src/Nebula.Application/DTOs/OperationalReportDtos.cs
+  line: 43
+  signature: public sealed record DistributionRollupQuery(
+  visibility: public
+  language: csharp
+  end_line: 50
+  callers: []
+  callees: []
+- id: symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-report-dto
+  node: entity:operational-report-projection
+  kind: record
+  name: DistributionRollupReportDto
+  file: engine/src/Nebula.Application/DTOs/OperationalReportDtos.cs
+  line: 72
+  signature: public sealed record DistributionRollupReportDto(
+  visibility: public
+  language: csharp
+  end_line: 79
+  callers: []
+  callees: []
+- id: symbol:entity-operational-report-projection:operational-report-dtos.distribution-rollup-row-dto
+  node: entity:operational-report-projection
+  kind: record
+  name: DistributionRollupRowDto
+  file: engine/src/Nebula.Application/DTOs/OperationalReportDtos.cs
+  line: 64
+  signature: public sealed record DistributionRollupRowDto(
+  visibility: public
+  language: csharp
+  end_line: 70
+  callers: []
+  callees: []
+- id: symbol:entity-operational-report-projection:operational-report-dtos.distribution-scope-echo-dto
+  node: entity:operational-report-projection
+  kind: record
+  name: DistributionScopeEchoDto
+  file: engine/src/Nebula.Application/DTOs/OperationalReportDtos.cs
+  line: 52
+  signature: public sealed record DistributionScopeEchoDto(
+  visibility: public
+  language: csharp
+  end_line: 55
   callers: []
   callees: []
 - id: symbol:entity-operational-report-projection:operational-report-dtos.operational-report-query
@@ -59843,7 +60758,7 @@ symbols:
   signature: public sealed record OperationalReportQuery(
   visibility: public
   language: csharp
-  end_line: 10
+  end_line: 13
   callers: []
   callees: []
 - id: symbol:entity-operational-report-projection:operational-report-dtos.operational-workload-report-dto
@@ -59851,11 +60766,11 @@ symbols:
   kind: record
   name: OperationalWorkloadReportDto
   file: engine/src/Nebula.Application/DTOs/OperationalReportDtos.cs
-  line: 17
+  line: 20
   signature: public sealed record OperationalWorkloadReportDto(
   visibility: public
   language: csharp
-  end_line: 28
+  end_line: 31
   callers: []
   callees: []
 - id: symbol:entity-operational-report-projection:operational-report-dtos.workflow-aging-report-dto
@@ -59863,11 +60778,11 @@ symbols:
   kind: record
   name: WorkflowAgingReportDto
   file: engine/src/Nebula.Application/DTOs/OperationalReportDtos.cs
-  line: 31
+  line: 34
   signature: public sealed record WorkflowAgingReportDto(
   visibility: public
   language: csharp
-  end_line: 38
+  end_line: 41
   callers: []
   callees: []
 - id: symbol:entity-operational-report-projection:operational-report-projection-configuration.configure
@@ -59916,12 +60831,12 @@ symbols:
   kind: method
   name: CountAsync
   file: engine/src/Nebula.Infrastructure/Repositories/OperationalReportProjectionRepository.cs
-  line: 81
+  line: 116
   signature: public Task<int> CountAsync(CancellationToken ct)
   visibility: public
   language: csharp
   container: OperationalReportProjectionRepository
-  end_line: 81
+  end_line: 116
   callers:
   - symbol:entity-operational-report-projection:i-operational-report-projection-repository.count-async
   callees:
@@ -59937,7 +60852,7 @@ symbols:
   signature: 'public class OperationalReportProjectionRepository : IOperationalReportProjectionRepository'
   visibility: public
   language: csharp
-  end_line: 82
+  end_line: 117
   callers: []
   callees: []
 - id: symbol:entity-operational-report-projection:operational-report-projection-repository.query-async
@@ -59950,7 +60865,7 @@ symbols:
   visibility: public
   language: csharp
   container: OperationalReportProjectionRepository
-  end_line: 38
+  end_line: 73
   callers:
   - symbol:entity-operational-report-projection:i-operational-report-projection-repository.query-async
   callees: []
@@ -59965,13 +60880,13 @@ symbols:
   kind: method
   name: UpsertManyAsync
   file: engine/src/Nebula.Infrastructure/Repositories/OperationalReportProjectionRepository.cs
-  line: 40
+  line: 75
   signature: public async Task UpsertManyAsync(IReadOnlyList<OperationalReportProjection>
     rows, CancellationToken ct)
   visibility: public
   language: csharp
   container: OperationalReportProjectionRepository
-  end_line: 79
+  end_line: 114
   callers:
   - symbol:entity-operational-report-projection:i-operational-report-projection-repository.upsert-many-async
   callees: []
@@ -67566,7 +68481,7 @@ symbols:
   visibility: private
   language: csharp
   container: SearchDocumentRepository
-  end_line: 140
+  end_line: 171
   callers:
   - symbol:entity-search-document:search-document-repository.search-async
   callees: []
@@ -67628,7 +68543,7 @@ symbols:
   signature: 'public class SearchDocumentRepository : ISearchDocumentRepository'
   visibility: public
   language: csharp
-  end_line: 141
+  end_line: 172
   callers: []
   callees: []
 - id: symbol:entity-search-document:search-document-repository.upsert-many-async
@@ -67961,16 +68876,28 @@ symbols:
   end_line: 14
   callers: []
   callees: []
+- id: symbol:entity-search-document:search-dtos.distribution-scope-request
+  node: entity:search-document
+  kind: record
+  name: DistributionScopeRequest
+  file: engine/src/Nebula.Application/DTOs/SearchDtos.cs
+  line: 97
+  signature: public sealed record DistributionScopeRequest(
+  visibility: public
+  language: csharp
+  end_line: 101
+  callers: []
+  callees: []
 - id: symbol:entity-search-document:search-dtos.facet-bucket-dto
   node: entity:search-document
   kind: record
   name: FacetBucketDto
   file: engine/src/Nebula.Application/DTOs/SearchDtos.cs
-  line: 32
+  line: 36
   signature: public sealed record FacetBucketDto(string Key, string? Label, int Count)
   visibility: public
   language: csharp
-  end_line: 32
+  end_line: 36
   callers: []
   callees: []
 - id: symbol:entity-search-document:search-dtos.global-search-facets-dto
@@ -67978,11 +68905,11 @@ symbols:
   kind: record
   name: GlobalSearchFacetsDto
   file: engine/src/Nebula.Application/DTOs/SearchDtos.cs
-  line: 34
+  line: 38
   signature: public sealed record GlobalSearchFacetsDto(
   visibility: public
   language: csharp
-  end_line: 39
+  end_line: 43
   callers: []
   callees: []
 - id: symbol:entity-search-document:search-dtos.global-search-query
@@ -67994,7 +68921,7 @@ symbols:
   signature: public sealed record GlobalSearchQuery(
   visibility: public
   language: csharp
-  end_line: 13
+  end_line: 17
   callers: []
   callees: []
 - id: symbol:entity-search-document:search-dtos.global-search-response-dto
@@ -68002,11 +68929,11 @@ symbols:
   kind: record
   name: GlobalSearchResponseDto
   file: engine/src/Nebula.Application/DTOs/SearchDtos.cs
-  line: 41
+  line: 45
   signature: public sealed record GlobalSearchResponseDto(
   visibility: public
   language: csharp
-  end_line: 49
+  end_line: 53
   callers: []
   callees: []
 - id: symbol:entity-search-document:search-dtos.global-search-result-dto
@@ -68014,11 +68941,11 @@ symbols:
   kind: record
   name: GlobalSearchResultDto
   file: engine/src/Nebula.Application/DTOs/SearchDtos.cs
-  line: 15
+  line: 19
   signature: public sealed record GlobalSearchResultDto(
   visibility: public
   language: csharp
-  end_line: 30
+  end_line: 34
   callers: []
   callees: []
 - id: symbol:entity-search-document:search-dtos.projection-visibility
@@ -68026,12 +68953,11 @@ symbols:
   kind: record
   name: ProjectionVisibility
   file: engine/src/Nebula.Application/DTOs/SearchDtos.cs
-  line: 58
-  signature: public sealed record ProjectionVisibility(bool SeeAll, IReadOnlyList<string>
-    Regions, Guid UserId)
+  line: 80
+  signature: public sealed record ProjectionVisibility(
   visibility: public
   language: csharp
-  end_line: 58
+  end_line: 95
   callers: []
   callees: []
 - id: symbol:entity-service-case:20260703171000-f0024-service-cases.f0024-service-cases

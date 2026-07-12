@@ -22,6 +22,7 @@ public interface IOperationalReportService
 {
     Task<OperationalWorkloadReportDto> GetWorkloadAsync(OperationalReportQuery query, ICurrentUserService user, CancellationToken ct);
     Task<WorkflowAgingReportDto> GetWorkflowAgingAsync(OperationalReportQuery query, ICurrentUserService user, CancellationToken ct);
+    Task<DistributionRollupReportDto> GetDistributionRollupsAsync(DistributionRollupQuery query, ICurrentUserService user, CancellationToken ct);
 }
 
 public sealed record ProjectionBackfillResult(int SearchDocuments, int ReportProjections, int Errors, DateTimeOffset CompletedAt);

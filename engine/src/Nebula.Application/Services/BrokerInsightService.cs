@@ -8,15 +8,20 @@ namespace Nebula.Application.Services;
 public class BrokerInsightService : IBrokerInsightService
 {
     private readonly IBrokerInsightProjectionRepository _repo;
+    private readonly IDistributionScopeService _scope;
 
-    public BrokerInsightService(IBrokerInsightProjectionRepository repo) => _repo = repo;
+    public BrokerInsightService(IBrokerInsightProjectionRepository repo, IDistributionScopeService scope)
+    {
+        _repo = repo;
+        _scope = scope;
+    }
 
     public async Task<PaginatedResult<BrokerInsightScorecardDto>> GetScorecardsAsync(
         BrokerInsightScorecardQuery query,
         ICurrentUserService user,
         CancellationToken ct)
     {
-        var rows = await _repo.QueryAsync(ToProjectionQuery(query), ProjectionVisibilityResolver.For(user), ct);
+        var rows = await _repo.QueryAsync(ToProjectionQuery(query), await ResolveAsync(query.PeriodEnd, user, ct), ct);
         var grouped = rows.GroupBy(r => new { r.BrokerId, r.BrokerName })
             .Select(g => MapScorecard(g.Key.BrokerId, g.Key.BrokerName, query, g.ToList()))
             .ToList();
@@ -45,7 +50,7 @@ public class BrokerInsightService : IBrokerInsightService
             LineOfBusiness: null,
             Region: null,
             Page: query.Page,
-            PageSize: query.PageSize), ProjectionVisibilityResolver.For(user), ct);
+            PageSize: query.PageSize), await ResolveAsync(query.PeriodEnd, user, ct), ct);
 
         if (rows.Count == 0)
             return null;
@@ -95,7 +100,7 @@ public class BrokerInsightService : IBrokerInsightService
             LineOfBusiness: null,
             Region: null,
             Page: 1,
-            PageSize: 200), ProjectionVisibilityResolver.For(user), ct);
+            PageSize: 200), await ResolveAsync(query.PeriodEnd, user, ct), ct);
 
         if (!rows.Any(r => r.BrokerId == query.BrokerId))
             return null;
@@ -136,7 +141,7 @@ public class BrokerInsightService : IBrokerInsightService
             LineOfBusiness: null,
             Region: null,
             Page: 1,
-            PageSize: 200), ProjectionVisibilityResolver.For(user), ct);
+            PageSize: 200), await ResolveAsync(query.PeriodEnd, user, ct), ct);
 
         if (rows.Count == 0)
             return null;
@@ -181,6 +186,9 @@ public class BrokerInsightService : IBrokerInsightService
         Region: query.Region,
         Page: query.Page,
         PageSize: query.PageSize);
+
+    private Task<ProjectionVisibility> ResolveAsync(DateOnly asOf, ICurrentUserService user, CancellationToken ct) =>
+        _scope.ResolveAsync(new DistributionScopeRequest(null, null, null, asOf), user, ct);
 
     private static BrokerInsightScorecardDto MapScorecard(
         Guid brokerId,

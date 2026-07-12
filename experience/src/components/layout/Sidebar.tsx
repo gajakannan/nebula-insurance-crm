@@ -27,6 +27,7 @@ const NAV_ITEMS = [
   { label: 'Policies', href: '/policies', icon: ShieldCheck },
   { label: 'Brokers', href: '/brokers', icon: Users },
   { label: 'Markets', href: '/carrier-markets', icon: Handshake },
+  { label: 'Operational Reports', href: '/operational-reports?report=rollups', icon: ChartNoAxesCombined },
   { label: 'Broker Insights', href: '/broker-insights', icon: ChartNoAxesCombined },
   { label: 'Tasks', href: '/tasks', icon: ClipboardList },
   { label: 'Service Cases', href: '/service-cases', icon: BadgeHelp },
@@ -34,7 +35,8 @@ const NAV_ITEMS = [
 ];
 
 function isActive(href: string, pathname: string) {
-  return href === '/' ? pathname === '/' : pathname.startsWith(href);
+  const hrefPath = href.split('?')[0];
+  return hrefPath === '/' ? pathname === '/' : pathname.startsWith(hrefPath);
 }
 
 export function Sidebar() {

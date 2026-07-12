@@ -5,6 +5,9 @@ public sealed record OperationalReportQuery(
     string? Region,
     string? LineOfBusiness,
     Guid? OwnerUserId,
+    Guid? RootNodeId,
+    Guid? TerritoryId,
+    Guid? ProducerUserId,
     string? WorkflowType,
     DateOnly? AsOf,
     int DrilldownLimit);
@@ -36,3 +39,41 @@ public sealed record WorkflowAgingReportDto(
     IReadOnlyList<GlobalSearchResultDto> BacklogDrilldown,
     DateOnly AsOf,
     DateTimeOffset GeneratedAt);
+
+public sealed record DistributionRollupQuery(
+    string GroupBy,
+    string MetricFamily,
+    DateOnly? AsOf,
+    Guid? RootNodeId,
+    Guid? TerritoryId,
+    Guid? ProducerUserId,
+    int DrilldownLimit);
+
+public sealed record DistributionScopeEchoDto(
+    Guid? RootNodeId,
+    Guid? TerritoryId,
+    Guid? ProducerUserId);
+
+public sealed record DistributionRollupMetricSetDto(
+    int RecordCount,
+    int ProductionCount,
+    int WorkflowOpen,
+    int WorkflowOverdue,
+    int ActivityCount);
+
+public sealed record DistributionRollupRowDto(
+    string GroupKey,
+    string GroupLabel,
+    string GroupType,
+    DistributionRollupMetricSetDto Metrics,
+    string? DrilldownUrl,
+    string? UnavailableReason);
+
+public sealed record DistributionRollupReportDto(
+    string GroupBy,
+    string MetricFamily,
+    DateOnly AsOf,
+    DateTimeOffset GeneratedAt,
+    DistributionScopeEchoDto? Scope,
+    DistributionRollupMetricSetDto Totals,
+    IReadOnlyList<DistributionRollupRowDto> Rows);

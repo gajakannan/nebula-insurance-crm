@@ -50,6 +50,7 @@ Current baseline:
 - `territory-member-assignment-request.schema.json` - F0017 territory member assignment payload
 - `paginated-territory-assignment-list.schema.json` - F0017 territory member list response
 - `territory-assignment-lookup-response.schema.json` - F0017 point-in-time territory assignment lookup response
+- `distribution-rollup-report.schema.json` - F0037 hierarchy-aware distribution rollup response
 - `generated-document-request.schema.json` - F0027 outbound generation source/template selector
 - `generated-document-preview-response.schema.json` - F0027 ephemeral preview diagnostics and preview URL response
 - `generated-document-issue-response.schema.json` - F0027 issued generated artifact response

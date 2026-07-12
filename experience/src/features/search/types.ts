@@ -48,6 +48,10 @@ export interface GlobalSearchParams {
   objectTypes?: string[];
   status?: string;
   ownerUserId?: string;
+  rootNodeId?: string;
+  territoryId?: string;
+  producerUserId?: string;
+  asOf?: string;
   region?: string;
   lineOfBusiness?: string;
   sort?: string;

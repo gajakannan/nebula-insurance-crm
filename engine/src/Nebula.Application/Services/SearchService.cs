@@ -9,12 +9,20 @@ namespace Nebula.Application.Services;
 public class SearchService : ISearchService
 {
     private readonly ISearchDocumentRepository _repo;
+    private readonly IDistributionScopeService _scope;
 
-    public SearchService(ISearchDocumentRepository repo) => _repo = repo;
+    public SearchService(ISearchDocumentRepository repo, IDistributionScopeService scope)
+    {
+        _repo = repo;
+        _scope = scope;
+    }
 
     public async Task<GlobalSearchResponseDto> SearchAsync(GlobalSearchQuery query, ICurrentUserService user, CancellationToken ct)
     {
-        var visibility = ProjectionVisibilityResolver.For(user);
+        var visibility = await _scope.ResolveAsync(
+            new DistributionScopeRequest(query.RootNodeId, query.TerritoryId, query.ProducerUserId, query.AsOf),
+            user,
+            ct);
         var result = await _repo.SearchAsync(query, visibility, ct);
 
         var data = result.Items.Select(Map).ToList();
