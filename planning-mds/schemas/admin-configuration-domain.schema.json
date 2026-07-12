@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/admin-configuration-domain.schema.json",
+  "title": "AdminConfigurationDomain",
+  "description": "Catalog entry for a governed admin configuration domain.",
+  "type": "object",
+  "required": [
+    "domainKey",
+    "displayName",
+    "owningModule",
+    "status",
+    "supportsDraft",
+    "supportsRollback",
+    "editableSchemaRef",
+    "currentPublishedVersion",
+    "draftStatus",
+    "validationStatus",
+    "refreshStatus"
+  ],
+  "properties": {
+    "domainKey": {
+      "type": "string",
+      "enum": [
+        "queue-routing",
+        "workflow-sla-thresholds",
+        "saved-view-report-defaults",
+        "template-metadata"
+      ]
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "owningModule": {
+      "type": "string",
+      "enum": ["F0022", "F0023", "F0027", "F0032"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Supported", "Unsupported", "ReadOnly"]
+    },
+    "supportsDraft": { "type": "boolean" },
+    "supportsRollback": { "type": "boolean" },
+    "editableSchemaRef": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "currentPublishedVersion": {
+      "type": ["integer", "null"],
+      "minimum": 1
+    },
+    "draftStatus": {
+      "type": ["string", "null"],
+      "enum": ["None", "Draft", "ValidationFailed", "Validated", null]
+    },
+    "validationStatus": {
+      "type": ["string", "null"],
+      "enum": ["NotRun", "Passed", "Failed", "Stale", null]
+    },
+    "refreshStatus": {
+      "type": ["string", "null"],
+      "enum": ["NotRequired", "Pending", "Succeeded", "Failed", null]
+    },
+    "lastPublishedAt": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "lastPublishedByDisplayName": {
+      "type": ["string", "null"],
+      "maxLength": 160
+    }
+  },
+  "additionalProperties": false
+}

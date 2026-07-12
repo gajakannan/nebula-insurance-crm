@@ -428,7 +428,10 @@ ROLE_SLUG_TO_CSV = {
     "admin": "Admin",
     "broker-user": "BrokerUser",
     "coordinator": "Coordinator",
+    "compliance-quality-lead": "ComplianceQualityLead",
+    "configuration-steward": "ConfigurationSteward",
     "mga-user": "MgaUser",
+    "operations-manager": "OperationsManager",
     "external-user": "ExternalUser",
 }
 

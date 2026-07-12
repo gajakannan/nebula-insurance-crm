@@ -1,0 +1,11 @@
+id: entity:configuration-domain
+label: ConfigurationDomain
+rationale:
+  - adr: adr:032
+    section: Decision
+    summary: Catalog entries declare supported configuration domains, owning modules, editable
+      schemas, validation strategy, refresh strategy, and rollback support.
+source_docs:
+  - F0032/ARCHITECTURE.md
+  - planning-mds/architecture/data-model.md
+  - planning-mds/schemas/admin-configuration-domain.schema.json

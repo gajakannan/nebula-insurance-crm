@@ -14,6 +14,9 @@ info:
     F0028 adds CRM-side carrier and market relationship management under the
     CarrierMarkets tag: market directory/profile management, underwriter contacts,
     appetite notes, appointment context, and links to submissions/policies.
+    F0032 adds AdminConfiguration endpoints for governed runtime configuration:
+    domain catalog, drafts, validation/compare, publish, rollback, refresh status,
+    and permission-safe audit history.
     Version 0.6.0 adds F0023 Global Search, Saved Views, and Operational Reporting:
     permission-filtered cross-object search, personal/team saved-view management,
     and workload / workflow-aging operational report endpoints.
@@ -84,6 +87,8 @@ tags:
     description: Internal telemetry ingest for F0035 session-continuity events (silent renewal, idle warning, forced redirect, auth-error classification, form-snapshot skip). Governed by ADR-024.
   - name: NeuronCompanion
     description: F0038 Neuron Companion engine endpoints — renewals needing attention, per-renewal companion context, persist outreach draft, mock-send (commit Identified→Outreach, fake SMTP), and companion telemetry ingest. Called by the Neuron service as the user. Governed by ADR-027 + ADR-028.
+  - name: AdminConfiguration
+    description: F0032 governed admin configuration domains, draft/validate/publish lifecycle, rollback, and audit.
 
 paths:
   # ──────────────────────────────────────────────────────────────
@@ -5812,6 +5817,303 @@ paths:
         "403":
           $ref: "#/components/responses/Forbidden"
 
+  # ──────────────────────────────────────────────────────────────
+  # F0032 Admin configuration and reference data console
+  # ──────────────────────────────────────────────────────────────
+  /admin/configuration-domains:
+    get:
+      operationId: listAdminConfigurationDomains
+      summary: List governed admin configuration domains
+      description: |
+        Returns supported and read-only configuration domains with current
+        published version, draft state, validation state, and refresh status.
+        Unsupported domains expose no editable payload.
+      tags: [AdminConfiguration]
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Supported, Unsupported, ReadOnly]
+      responses:
+        "200":
+          description: Admin configuration domain catalog
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdminConfigurationDomain"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /admin/configuration-domains/{domainKey}:
+    parameters:
+      - $ref: "#/components/parameters/ConfigurationDomainKey"
+    get:
+      operationId: getAdminConfigurationDomain
+      summary: Get configuration domain detail
+      tags: [AdminConfiguration]
+      responses:
+        "200":
+          description: Domain detail including current draft and latest published state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminConfigurationDomainDetail"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /admin/configuration-domains/{domainKey}/drafts:
+    parameters:
+      - $ref: "#/components/parameters/ConfigurationDomainKey"
+    post:
+      operationId: createAdminConfigurationDraft
+      summary: Create a configuration draft from the current published version
+      description: |
+        Creates a draft payload for one supported domain. The current published
+        version remains authoritative until a later publish succeeds.
+      tags: [AdminConfiguration]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminConfigurationDraftCreateRequest"
+      responses:
+        "201":
+          description: Configuration draft created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminConfigurationDraft"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          $ref: "#/components/responses/Conflict"
+
+  /admin/configuration-drafts/{draftId}:
+    parameters:
+      - $ref: "#/components/parameters/ConfigurationDraftId"
+    patch:
+      operationId: updateAdminConfigurationDraft
+      summary: Update a configuration draft payload
+      description: Requires `If-Match`; stale row versions return `412`.
+      tags: [AdminConfiguration]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminConfigurationDraftUpdateRequest"
+      responses:
+        "200":
+          description: Configuration draft updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminConfigurationDraft"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+
+  /admin/configuration-drafts/{draftId}/validation:
+    parameters:
+      - $ref: "#/components/parameters/ConfigurationDraftId"
+    post:
+      operationId: validateAdminConfigurationDraft
+      summary: Validate a configuration draft
+      description: |
+        Runs schema and domain-adapter validation for the current draft payload.
+        A failed validation returns 200 with `status=Failed`; malformed requests
+        still use ProblemDetails.
+      tags: [AdminConfiguration]
+      responses:
+        "200":
+          description: Validation result for the draft
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminConfigurationValidationResult"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+
+  /admin/configuration-drafts/{draftId}/comparison:
+    parameters:
+      - $ref: "#/components/parameters/ConfigurationDraftId"
+    get:
+      operationId: compareAdminConfigurationDraft
+      summary: Compare a draft against the current published version
+      tags: [AdminConfiguration]
+      responses:
+        "200":
+          description: Draft comparison summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminConfigurationValidationResult"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /admin/configuration-drafts/{draftId}/publish:
+    parameters:
+      - $ref: "#/components/parameters/ConfigurationDraftId"
+    post:
+      operationId: publishAdminConfigurationDraft
+      summary: Publish a validated configuration draft
+      description: |
+        Publishes a draft only when the latest validation passed and matches the
+        current draft payload hash. Publish appends audit evidence and returns
+        downstream refresh status.
+      tags: [AdminConfiguration]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminConfigurationPublishRequest"
+      responses:
+        "200":
+          description: Published configuration set
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminConfigurationPublishedSet"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+
+  /admin/configuration-domains/{domainKey}/rollback:
+    parameters:
+      - $ref: "#/components/parameters/ConfigurationDomainKey"
+    post:
+      operationId: rollbackAdminConfigurationDomain
+      summary: Roll back a domain to a previous eligible published version
+      tags: [AdminConfiguration]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminConfigurationPublishRequest"
+      responses:
+        "200":
+          description: New published configuration set created from rollback
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminConfigurationPublishedSet"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+
+  /admin/configuration-audit-events:
+    get:
+      operationId: listAdminConfigurationAuditEvents
+      summary: Search permission-safe configuration audit history
+      tags: [AdminConfiguration]
+      parameters:
+        - name: domainKey
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [queue-routing, workflow-sla-thresholds, search-report-defaults, template-metadata]
+        - name: action
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [DraftCreated, DraftUpdated, ValidationPassed, ValidationFailed, Published, RollbackPublished]
+        - name: actorUserId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Configuration audit events
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, page, pageSize, totalCount]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/AdminConfigurationAuditEvent"
+                  page: { type: integer, minimum: 1 }
+                  pageSize: { type: integer, minimum: 1, maximum: 100 }
+                  totalCount: { type: integer, minimum: 0 }
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -5991,6 +6293,20 @@ components:
         format: uuid
     SavedViewId:
       name: savedViewId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ConfigurationDomainKey:
+      name: domainKey
+      in: path
+      required: true
+      schema:
+        type: string
+        enum: [queue-routing, workflow-sla-thresholds, search-report-defaults, template-metadata]
+    ConfigurationDraftId:
+      name: draftId
       in: path
       required: true
       schema:
@@ -6278,6 +6594,175 @@ components:
             type: array
             items:
               type: string
+
+    # ── Admin Configuration Schemas (F0032) ─────────────────────
+    AdminConfigurationDomain:
+      type: object
+      required: [domainKey, displayName, owningModule, status, editableSchemaRef, supportsRollback, currentPublishedVersion, draftStatus, lastValidationStatus, lastPublishedBy, lastPublishedAt]
+      properties:
+        domainKey: { type: string, enum: [queue-routing, workflow-sla-thresholds, search-report-defaults, template-metadata] }
+        displayName: { type: string, minLength: 1, maxLength: 120 }
+        owningModule: { type: string, enum: [F0022, F0023, F0027, F0032] }
+        status: { type: string, enum: [Supported, Unsupported, ReadOnly] }
+        editableSchemaRef: { type: string, maxLength: 200 }
+        supportsRollback: { type: boolean }
+        currentPublishedVersion: { type: integer, minimum: 1, nullable: true }
+        draftStatus: { type: string, enum: [Draft, ValidationFailed, ValidationPassed, Published, Superseded], nullable: true }
+        lastValidationStatus: { type: string, enum: [Passed, Failed], nullable: true }
+        lastPublishedBy: { type: string, nullable: true, format: uuid }
+        lastPublishedAt: { type: string, format: date-time, nullable: true }
+
+    AdminConfigurationDomainDetail:
+      type: object
+      required: [domain, activeDraft, currentPublishedSet, refreshStatuses, publishedSets]
+      properties:
+        domain: { $ref: "#/components/schemas/AdminConfigurationDomain" }
+        activeDraft:
+          nullable: true
+          allOf:
+            - $ref: "#/components/schemas/AdminConfigurationDraft"
+        currentPublishedSet:
+          nullable: true
+          allOf:
+            - $ref: "#/components/schemas/AdminConfigurationPublishedSet"
+        refreshStatuses:
+          type: array
+          items:
+            $ref: "#/components/schemas/AdminConfigurationRefreshStatus"
+        publishedSets:
+          type: array
+          items:
+            $ref: "#/components/schemas/AdminConfigurationPublishedSet"
+
+    AdminConfigurationDraft:
+      type: object
+      required: [id, domainKey, basePublishedVersion, draftVersion, status, payload, payloadHash, createdByUserId, createdAt, updatedAt, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        domainKey: { type: string, enum: [queue-routing, workflow-sla-thresholds, search-report-defaults, template-metadata] }
+        basePublishedVersion: { type: integer, minimum: 1 }
+        draftVersion: { type: integer, minimum: 1 }
+        status: { type: string, enum: [Draft, ValidationFailed, Validated, Published, Abandoned] }
+        payload:
+          type: object
+          additionalProperties: true
+        payloadHash:
+          type: string
+          pattern: "^sha256:[0-9a-f]{64}$"
+        latestValidation:
+          nullable: true
+          allOf:
+            - $ref: "#/components/schemas/AdminConfigurationValidationResult"
+        createdByUserId: { type: string, format: uuid }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        rowVersion: { type: string }
+
+    AdminConfigurationDraftCreateRequest:
+      type: object
+      required: [reason]
+      properties:
+        reason: { type: string, minLength: 1, maxLength: 500 }
+
+    AdminConfigurationDraftUpdateRequest:
+      type: object
+      required: [payload, reason]
+      properties:
+        payload:
+          type: object
+          additionalProperties: true
+        reason: { type: string, minLength: 1, maxLength: 500 }
+
+    AdminConfigurationValidationResult:
+      type: object
+      required: [id, draftId, status, draftPayloadHash, blockingErrors, warnings, compareSummary]
+      properties:
+        id: { type: string, format: uuid }
+        draftId: { type: string, format: uuid }
+        status: { type: string, enum: [Passed, Failed, Compared] }
+        draftPayloadHash:
+          type: string
+          pattern: "^sha256:[0-9a-f]{64}$"
+        blockingErrors:
+          type: array
+          items: { $ref: "#/components/schemas/AdminConfigurationValidationIssue" }
+        warnings:
+          type: array
+          items: { $ref: "#/components/schemas/AdminConfigurationValidationIssue" }
+        compareSummary:
+          type: array
+          items: { $ref: "#/components/schemas/AdminConfigurationChangeSummary" }
+
+    AdminConfigurationValidationIssue:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: string, maxLength: 80 }
+        path: { type: string, nullable: true, maxLength: 200 }
+        message: { type: string, minLength: 1, maxLength: 500 }
+
+    AdminConfigurationChangeSummary:
+      type: object
+      required: [path, changeType]
+      properties:
+        path: { type: string, maxLength: 200 }
+        changeType: { type: string, enum: [Added, Modified, Removed, Unchanged] }
+        before: { nullable: true }
+        after: { nullable: true }
+
+    AdminConfigurationPublishRequest:
+      type: object
+      required: [reason]
+      properties:
+        reason: { type: string, minLength: 1, maxLength: 500 }
+        targetPublishedVersion: { type: integer, minimum: 1, nullable: true }
+
+    AdminConfigurationPublishedSet:
+      type: object
+      required: [id, domainKey, publishedVersion, payloadSnapshot, payloadHash, publishedByUserId, publishedAt, publishReason, refreshStatuses]
+      properties:
+        id: { type: string, format: uuid }
+        domainKey: { type: string, enum: [queue-routing, workflow-sla-thresholds, search-report-defaults, template-metadata] }
+        publishedVersion: { type: integer, minimum: 1 }
+        payloadSnapshot:
+          type: object
+          additionalProperties: true
+        payloadHash:
+          type: string
+          pattern: "^sha256:[0-9a-f]{64}$"
+        publishedByUserId: { type: string, format: uuid }
+        publishedAt: { type: string, format: date-time }
+        publishReason: { type: string, minLength: 1, maxLength: 500 }
+        refreshStatuses:
+          type: array
+          items: { $ref: "#/components/schemas/AdminConfigurationRefreshStatus" }
+
+    AdminConfigurationRefreshStatus:
+      type: object
+      required: [id, consumerKey, status, refreshedAt, errorSummary]
+      properties:
+        id: { type: string, format: uuid }
+        consumerKey: { type: string, maxLength: 120 }
+        status: { type: string, enum: [Refreshed, Pending, Failed] }
+        refreshedAt: { type: string, format: date-time, nullable: true }
+        errorSummary: { type: string, nullable: true, maxLength: 500 }
+
+    AdminConfigurationAuditEvent:
+      type: object
+      required: [id, domainKey, action, outcome, actorUserId, createdAt, summary]
+      properties:
+        id: { type: string, format: uuid }
+        domainKey: { type: string, enum: [queue-routing, workflow-sla-thresholds, search-report-defaults, template-metadata] }
+        draftId: { type: string, format: uuid, nullable: true }
+        publishedSetId: { type: string, format: uuid, nullable: true }
+        action: { type: string, enum: [DraftCreated, DraftUpdated, ValidationPassed, ValidationFailed, Published, RollbackPublished] }
+        outcome: { type: string, enum: [Succeeded, Passed, Failed] }
+        actorUserId: { type: string, format: uuid }
+        createdAt: { type: string, format: date-time }
+        summary:
+          type: object
+          additionalProperties: true
 
     # ── Work Queue Schemas (F0022) ──────────────────────────────
     WorkQueue:

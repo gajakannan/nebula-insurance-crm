@@ -14,6 +14,40 @@ Define the build order, role handoffs, and integration checkpoints for implement
 
 ---
 
+## F0032 - Admin Configuration & Reference Data Console
+
+**Added:** 2026-07-06 - Feature action G0 authored the feature-local implementation execution plan after Phase A and Phase B operator approval.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0032-admin-configuration-and-reference-data-console/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and service signatures, endpoint response table, mutation traceability, EF migration plan, authorization policy sync, frontend guardrails, and validation checkpoints for governed admin configuration.
+
+### Dependencies
+
+| Dependency | Source | What F0032 Needs | Status |
+|------------|--------|------------------|--------|
+| Work queues/routing | F0022 / ADR-013 | Queue, assignment-rule, coverage-window, fallback routing contracts for governed drafts | Planned dependency |
+| Search/report defaults | F0023 / ADR-014 | Saved-view and operational report default metadata without replacing F0023 execution | Implemented dependency |
+| Template metadata | F0027 | Template family/status/version/publish metadata; upload/rendering stays F0027-owned | Planned dependency |
+| Product schema governance precedent | F0034 / ADR-020/021/023 | JSON/rules validation posture without no-code schema authoring | Done and archived |
+| Published configuration governance | ADR-016 / ADR-032 | Draft, validation, publish, rollback, refresh, and audit lifecycle | Approved in plan |
+
+### Assembly Slice Order
+
+1. Backend domain entities, EF configurations, migration, seed domains, repository, and in-process refresh status.
+2. Application DTOs, validators, domain adapters, and lifecycle service for catalog/draft/validate/compare/publish/rollback/audit.
+3. Minimal API endpoints, Casbin enforcement, ProblemDetails, and contract/schema parity.
+4. Frontend Admin Configuration route, workspace, catalog, detail, editor, compare drawer, publish/rollback dialog, and audit workspace.
+5. G2-G8 quality, code/security review, DevOps deployability, signoff, KG reconciliation, and PM closeout.
+
+### Signoff Role Matrix
+
+| Role | Required | Rationale |
+|------|----------|-----------|
+| Quality Engineer | Yes | Draft/validate/publish/rollback/audit lifecycle and UI guardrails need acceptance validation. |
+| Code Reviewer | Yes | New domain entities, persistence, service orchestration, endpoint contract, and frontend workspace need independent review. |
+| Security Reviewer | Yes | Admin configuration exposes privileged operational settings, publish controls, and audit details. |
+| DevOps | Yes | New persisted tables, migration, refresh status, and configuration-cache behavior need deployability evidence. |
+| Architect | Yes | F0032 introduces a cross-cutting governed configuration facade and requires as-built KG reconciliation. |
+
 ## F0037 - Hierarchy-Aware Access Scoping & Distribution Rollups
 
 **Added:** 2026-07-06 - Plan Phase B drafted the feature-local implementation execution plan in plan run `2026-07-06-6e3851ab`; pending G5 architecture approval.

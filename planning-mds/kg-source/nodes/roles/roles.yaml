@@ -64,3 +64,27 @@ roles:
     source_docs:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
+  - id: role:compliance-quality-lead
+    label: ComplianceQualityLead
+    notes: Internal compliance/quality oversight role introduced by F0032 for admin configuration audit
+      and read access.
+    source_docs:
+      - F0032/PRD.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: role:configuration-steward
+    label: ConfigurationSteward
+    notes: Internal configuration steward role introduced by F0032 for drafting, validating, and reading
+      governed admin configuration.
+    source_docs:
+      - F0032/PRD.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: role:operations-manager
+    label: OperationsManager
+    notes: Internal operations manager role introduced by F0032 for reading and validating governed
+      admin configuration.
+    source_docs:
+      - F0032/PRD.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv

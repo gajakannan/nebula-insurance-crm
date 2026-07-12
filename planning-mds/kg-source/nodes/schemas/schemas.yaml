@@ -761,3 +761,28 @@ schemas:
       - entity:operational-report-projection
       - workflow:renewal
       - workflow:submission
+  - id: schema:admin-configuration-audit-event
+    path: planning-mds/schemas/admin-configuration-audit-event.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-audit-event
+  - id: schema:admin-configuration-domain
+    path: planning-mds/schemas/admin-configuration-domain.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-domain
+  - id: schema:admin-configuration-draft
+    path: planning-mds/schemas/admin-configuration-draft.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+  - id: schema:admin-configuration-publish-request
+    path: planning-mds/schemas/admin-configuration-publish-request.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:published-operational-configuration-set
+  - id: schema:admin-configuration-validation-result
+    path: planning-mds/schemas/admin-configuration-validation-result.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-validation-result

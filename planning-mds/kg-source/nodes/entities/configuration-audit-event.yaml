@@ -1,0 +1,11 @@
+id: entity:configuration-audit-event
+label: ConfigurationAuditEvent
+rationale:
+  - adr: adr:032
+    section: Decision
+    summary: Admin configuration create, update, validate, publish, rollback, refresh, and failure
+      actions are recorded as append-only audit evidence.
+source_docs:
+  - F0032/ARCHITECTURE.md
+  - planning-mds/architecture/data-model.md
+  - planning-mds/schemas/admin-configuration-audit-event.schema.json

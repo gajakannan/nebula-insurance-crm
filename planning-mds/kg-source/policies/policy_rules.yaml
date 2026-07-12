@@ -1914,3 +1914,82 @@ policy_rules:
     source_docs:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-audit
+    label: admin-configuration:audit
+    action: audit
+    allowed_roles:
+      - role:admin
+      - role:compliance-quality-lead
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-audit-event
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-draft
+    label: admin-configuration:draft
+    action: draft
+    allowed_roles:
+      - role:admin
+      - role:configuration-steward
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-publish
+    label: admin-configuration:publish
+    action: publish
+    allowed_roles:
+      - role:admin
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:published-operational-configuration-set
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-read
+    label: admin-configuration:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:compliance-quality-lead
+      - role:configuration-steward
+      - role:operations-manager
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-domain
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-rollback
+    label: admin-configuration:rollback
+    action: rollback
+    allowed_roles:
+      - role:admin
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:published-operational-configuration-set
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-validate
+    label: admin-configuration:validate
+    action: validate
+    allowed_roles:
+      - role:admin
+      - role:configuration-steward
+      - role:operations-manager
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-validation-result
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv

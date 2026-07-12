@@ -63,6 +63,7 @@ export default defineConfig(({ mode }) => {
     '/territories',
     '/territory-assignments',
     '/internal',
+    '/admin',
     '/lob-schemas',
     '/healthz',
   ]

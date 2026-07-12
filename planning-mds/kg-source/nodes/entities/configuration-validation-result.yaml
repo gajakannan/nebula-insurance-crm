@@ -1,0 +1,10 @@
+id: entity:configuration-validation-result
+label: ConfigurationValidationResult
+rationale:
+  - adr: adr:032
+    section: Decision
+    summary: Publish is guarded by the latest passing validation result for the exact draft payload hash.
+source_docs:
+  - F0032/ARCHITECTURE.md
+  - planning-mds/architecture/data-model.md
+  - planning-mds/schemas/admin-configuration-validation-result.schema.json

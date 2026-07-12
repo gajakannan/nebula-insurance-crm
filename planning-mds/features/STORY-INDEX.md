@@ -2,7 +2,7 @@
 
 Auto-generated index of all user stories across feature folders.
 
-**Total Stories:** 201
+**Total Stories:** 207
 
 ---
 
@@ -350,6 +350,19 @@ Auto-generated index of all user stories across feature folders.
 
 ---
 
+## F0032 — Admin Configuration & Reference Data Console
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0032-S0001](./archive/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md) | Admin configuration catalog | High | MVP | Admin |
+| [F0032-S0002](./archive/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md) | Draft reference data and workflow SLA configuration | High | MVP | Configuration Steward |
+| [F0032-S0003](./archive/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md) | Govern queue and routing configuration drafts | High | MVP | platform Admin |
+| [F0032-S0004](./archive/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md) | Validate and compare configuration before publish | High | MVP | platform Admin |
+| [F0032-S0005](./archive/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md) | Publish and roll back configuration sets | Critical | MVP | platform Admin |
+| [F0032-S0006](./archive/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md) | Audit and permission-safe configuration behavior | High | MVP | Compliance or Quality Lead |
+
+---
+
 ## F0033 — Structured Logging and QE Toolchain Activation
 
 | Story ID | Title | Priority | Phase | Persona |
@@ -439,7 +452,7 @@ Auto-generated index of all user stories across feature folders.
 | CRM Release MVP+ | 17 |
 | Future | 1 |
 | Infrastructure | 11 |
-| MVP | 86 |
+| MVP | 92 |
 | MVP Hardening | 1 |
 | MVP+ | 6 |
 | Phase 1 | 11 |
@@ -452,8 +465,8 @@ Auto-generated index of all user stories across feature folders.
 
 | Priority | Count |
 |----------|-------|
-| Critical | 80 |
-| High | 100 |
+| Critical | 81 |
+| High | 105 |
 | Medium | 17 |
 
 ---

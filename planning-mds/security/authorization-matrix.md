@@ -879,6 +879,35 @@ Constraints:
 
 ---
 
-## 6. Open Questions
+## 7. Admin Configuration Console (F0032)
+
+F0032 governs runtime business configuration through a central console. It does
+not grant source-record access by itself; source modules still enforce their own
+ABAC and redaction rules when validation or audit details reference underlying
+queue, reporting, template, or workflow-SLA records.
+
+| Role | read | draft | validate | publish | rollback | audit |
+|------|------|-------|----------|---------|----------|-------|
+| Admin | ALLOW | ALLOW | ALLOW | ALLOW | ALLOW | ALLOW |
+| ConfigurationSteward | ALLOW | ALLOW | ALLOW | DENY | DENY | DENY |
+| OperationsManager | ALLOW | DENY | ALLOW | DENY | DENY | DENY |
+| ComplianceQualityLead | ALLOW | DENY | DENY | DENY | DENY | ALLOW |
+| Underwriter | DENY | DENY | DENY | DENY | DENY | DENY |
+| DistributionUser | DENY | DENY | DENY | DENY | DENY | DENY |
+| DistributionManager | DENY | DENY | DENY | DENY | DENY | DENY |
+| RelationshipManager | DENY | DENY | DENY | DENY | DENY | DENY |
+| ProgramManager | DENY | DENY | DENY | DENY | DENY | DENY |
+| BrokerUser | DENY | DENY | DENY | DENY | DENY | DENY |
+| MgaUser | DENY | DENY | DENY | DENY | DENY | DENY |
+| ExternalUser | DENY | DENY | DENY | DENY | DENY | DENY |
+
+Constraints:
+
+- Publish and rollback are Admin-only, even when a steward created or validated the draft.
+- Validation details are redacted unless the caller also has read access to the source module and domain.
+- Audit access never exposes hidden record counts, restricted payload fields, or source-record details that the caller cannot otherwise read.
+- Every successful or failed mutation appends `ConfigurationAuditEvent`; successful mutations also append `ActivityTimelineEvent`.
+
+## 8. Open Questions
 
 None.

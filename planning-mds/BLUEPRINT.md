@@ -216,7 +216,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 
 **Release Enablement / Platform Operations (Planned):**
 - F0031: Data Import, Deduplication & Go-Live Migration - Planned
-- F0032: Admin Configuration & Reference Data Console - Planned
+- [F0032: Admin Configuration & Reference Data Console](features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md) - Planned (Phase A refined 2026-07-06; 6 draft stories: admin configuration catalog, reference/SLA drafts, queue/routing drafts, validate/compare, publish/rollback, audit/permission-safe behavior)
 - [F0033: Structured Logging and QE Toolchain Activation](features/archive/F0033-structured-logging-and-qe-toolchain-activation/PRD.md) - Done (Archived)
 - [F0035: Session Continuity & Token Refresh](features/archive/F0035-session-continuity-and-token-refresh/PRD.md) - Done (Archived 2026-05-24; 5 stories: silent renewal, idle warning modal, forced re-auth restore, auth error semantics, session telemetry)
 
@@ -313,6 +313,14 @@ The first epic since the harness adopted the action/KG flow. A conversational co
 - [F0024-S0005: Capture claim-reference context on a service case](features/archive/F0024-claims-and-service-case-tracking/F0024-S0005-capture-claim-reference-context.md) - Done
 - [F0024-S0006: Audit and permission-safe service case history](features/archive/F0024-claims-and-service-case-tracking/F0024-S0006-audit-and-permission-safe-service-case-history.md) - Done
 
+**Platform Operations Stories (Feature F0032: Admin Configuration & Reference Data Console):**
+- [F0032-S0001: Admin configuration catalog](features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md) - Draft
+- [F0032-S0002: Draft reference data and workflow SLA configuration](features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md) - Draft
+- [F0032-S0003: Govern queue and routing configuration drafts](features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md) - Draft
+- [F0032-S0004: Validate and compare configuration before publish](features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md) - Draft
+- [F0032-S0005: Publish and roll back configuration sets](features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md) - Draft
+- [F0032-S0006: Audit and permission-safe configuration behavior](features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md) - Draft
+
 **MVP+ Stories (Feature F0028: Carrier & Market Relationship Management):**
 - [F0028-S0001: Market directory search and open](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0001-market-directory-search.md) - Done (Archived)
 - [F0028-S0002: Carrier and market profile management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0002-carrier-market-profile-management.md) - Done (Archived)
@@ -397,6 +405,11 @@ Reference examples also live under `planning-mds/examples/stories/`.
 - Search Results Workspace (F0023)
 - Saved Views Drawer (F0023)
 - Operational Reports Workspace (F0023)
+- Admin Configuration Catalog (F0032)
+- Configuration Domain Detail (F0032)
+- Configuration Draft Editor (F0032)
+- Validation and Compare Drawer (F0032)
+- Configuration Audit Workspace (F0032)
 - Broker Insights Workspace (F0008)
 - Broker Scorecard Panel (F0008)
 - Trend Drilldown Drawer (F0008)
@@ -415,6 +428,11 @@ Screen baseline details:
 - Search Results Workspace: deep-linkable search criteria, filters, grouped result lists, pagination, and source-record navigation.
 - Saved Views Drawer: personal and team view list, apply/save/update/delete controls, and manager/admin team defaults.
 - Operational Reports Workspace: due-work, workload by owner/status, and workflow aging/backlog reports with source-record drilldowns.
+- Admin Configuration Catalog: internal-only configuration entry point showing supported domains, published version, draft state, validation status, and unsupported-domain boundaries.
+- Configuration Domain Detail: domain-level view of published configuration, drafts, validation status, compare summary, publish/rollback actions, and downstream refresh state.
+- Configuration Draft Editor: supported field editing for first-release configuration domains without changing published runtime behavior until publish.
+- Validation and Compare Drawer: review validation errors, warnings, version deltas, and downstream impact notes before publish.
+- Configuration Audit Workspace: permission-safe audit review for create, update, validate, publish, rollback, and failed configuration attempts.
 - Admin minimal: role assignment visibility and policy diagnostics (read-focused in MVP).
 
 ---
@@ -440,10 +458,11 @@ This section defines the build-ready technical baseline for the reference implem
 - [ADR-022](architecture/decisions/ADR-022-validator-equivalence-restricted-profile.md) — Validator equivalence and restricted JSON Schema profile (F0034)
 - [ADR-023](architecture/decisions/ADR-023-rules-governance-jsonlogic.md) — JsonLogic rules governance (F0034)
 - [ADR-014](architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) — Search index, saved views, and operational reporting projections (F0023)
+- [ADR-032](architecture/decisions/ADR-032-admin-configuration-console-contract.md) — Admin configuration console contract (F0032)
 
 **F0023 addendum status:** Approved 2026-06-19 in plan run `2026-06-19-2f180001`.
 
-**Data Model Supplement:** See `planning-mds/architecture/data-model.md` for Task entity, dashboard indexes, query patterns, F0017 hierarchy/territory, F0034 product schema registry, and F0023 search/reporting read models. F0020 documents are filesystem-first (no relational entity in MVP); see `planning-mds/features/archive/F0020-document-management-and-acord-intake/README.md` for the on-disk layout and the `IDocumentRepository` boundary.
+**Data Model Supplement:** See `planning-mds/architecture/data-model.md` for Task entity, dashboard indexes, query patterns, F0017 hierarchy/territory, F0034 product schema registry, F0023 search/reporting read models, and F0032 admin configuration draft/publish/audit records. F0020 documents are filesystem-first (no relational entity in MVP); see `planning-mds/features/archive/F0020-document-management-and-acord-intake/README.md` for the on-disk layout and the `IDocumentRepository` boundary.
 
 ### 4.1 Service boundaries
 
@@ -490,6 +509,11 @@ This section defines the build-ready technical baseline for the reference implem
   - Reads source work through narrow adapters and updates source assignment only through existing source assignment ports.
   - Provides WorkQueues API endpoints for manager/admin queue operations before F0032 centralizes governance.
   - Enforces queue-level Casbin actions plus source-record ABAC before exposing queue work item details.
+- AdminConfiguration module (F0032):
+  - Owns ConfigurationDomain, ConfigurationDraft, ConfigurationValidationResult, PublishedOperationalConfigurationSet, ConfigurationRefreshStatus, and ConfigurationAuditEvent.
+  - Provides a governed facade over F0022 queue/routing configuration, workflow SLA thresholds, F0023 saved-view/report defaults, and F0027 template metadata.
+  - Calls source-module adapters for validation and publication; source modules remain authoritative for queue execution, report/search behavior, document generation, and product schema activation.
+  - Enforces Admin-only publish/rollback, delegated steward draft/validate access, and permission-safe audit redaction.
 - IdentityAuthorization module:
   - Validates authentik JWT tokens (JWKS from `Authentication__Authority/.well-known/openid-configuration`).
   - Normalizes `(iss, sub)` claims to internal `NebulaPrincipal { UserId, Roles, Regions }` via `IClaimsPrincipalNormalizer`.
@@ -571,6 +595,20 @@ Core entities (minimum baseline):
   - Id (uuid), SourceObjectType, SourceObjectId, TargetUrl, WorkflowType (nullable), CurrentStatus (nullable), StatusEnteredAt (nullable), DaysInStatus (nullable)
   - OwnerUserId/OwnerDisplayName, DueDate, IsDueToday, IsOverdue, AgeBand, AccountId/BrokerId/PolicyId, LineOfBusiness, Region, ProgramId/TerritoryId
   - LastSourceUpdatedAt, ProjectedAt; unique `(SourceObjectType, SourceObjectId)` and report/filter indexes
+- ConfigurationDomain (F0032)
+  - DomainKey, DisplayName, OwningModule, Status, EditableSchemaRef, ValidationStrategy, RefreshStrategy, SupportsRollback
+  - Seeded for queue-routing, workflow-sla-thresholds, saved-view-report-defaults, and template-metadata
+- ConfigurationDraft (F0032)
+  - Id, DomainKey, BasePublishedVersion, DraftVersion, Status, PayloadJson, PayloadHash, LatestValidationResultId, RowVersion
+  - At most one active non-published draft per domain
+- ConfigurationValidationResult (F0032)
+  - Id, DraftId, Status, DraftPayloadHash, BlockingErrorsJson, WarningsJson, CompareSummaryJson, ValidatedAt, ValidatedByUserId
+- PublishedOperationalConfigurationSet (F0032)
+  - Id, DomainKey, PublishedVersion, PayloadSnapshotJson, PayloadHash, SourceDraftId, RollbackOfPublishedVersion, PublishedAt, PublishedByUserId
+  - Latest published version is authoritative; rollback creates a new version
+- ConfigurationRefreshStatus and ConfigurationAuditEvent (F0032)
+  - RefreshStatus records consumer cache/refresh handshake
+  - AuditEvent records Created, Updated, Validated, Published, RolledBack, RefreshSucceeded, and RefreshFailed actions
 
 F0034 attribute-carrier additions:
 - Submission, Renewal, PolicyVersion, and PolicyEndorsement carry `LobProductVersionId` plus `AttributesJson`.
@@ -612,6 +650,18 @@ Transition rules and validations:
   - one ActivityTimelineEvent record
 - Transition records are immutable; corrections happen via compensating transitions.
 
+F0032 configuration lifecycle:
+- DraftCreated -> DraftUpdated -> ValidationPassed -> Published
+- DraftCreated -> DraftUpdated -> ValidationFailed -> DraftUpdated
+- Published -> RollbackRequested -> Published
+
+F0032 publication rules:
+- Draft payloads never affect runtime behavior.
+- Publish requires the latest validation result to be `Passed` and to match the current draft `PayloadHash`.
+- Publish returns HTTP 409 when the draft base version is no longer the current published version.
+- Draft update requires `If-Match`; stale row versions return HTTP 412.
+- Rollback creates a new published version from an eligible prior snapshot and preserves all intervening audit history.
+
 ### 4.4 Authorization model (ABAC)
 
 Define subject attributes (from UserProfile), resource attributes, actions.
@@ -642,6 +692,12 @@ Policy baseline:
   - `saved_view:manage` and `saved_view:default` for personal owners and manager/admin team-scope administrators.
   - `operational_report:read` for internal roles only.
 - F0023 query-layer authorization is mandatory for source rows, snippets, suggestions, facets, counts, report summaries, and drilldowns. BrokerUser and ExternalUser have no F0023 policy lines.
+- F0032 high-level resources:
+  - `admin_configuration:read` for Admin, OperationsManager, ConfigurationSteward, and ComplianceQualityLead.
+  - `admin_configuration:draft` and `admin_configuration:validate` for Admin and delegated ConfigurationSteward.
+  - `admin_configuration:publish` and `admin_configuration:rollback` for Admin only.
+  - `admin_configuration:audit` for Admin and ComplianceQualityLead.
+- F0032 audit queries must redact domain payload fragments when the caller has audit access but lacks the source module's read policy.
 
 ### 4.5 API Contracts
 
@@ -697,6 +753,17 @@ F0023 search/reporting endpoints:
 - GET `/operational-reports/workload` — due-today, overdue, owner/status workload report
 - GET `/operational-reports/workflow-aging` — workflow aging and backlog report
 
+F0032 admin configuration endpoints:
+- GET `/admin/configuration-domains` — supported domain catalog and current state
+- GET `/admin/configuration-domains/{domainKey}` — domain detail with draft/published/refresh state
+- POST `/admin/configuration-domains/{domainKey}/drafts` — create draft from current published version
+- PATCH `/admin/configuration-drafts/{draftId}` — update draft payload (requires `If-Match`)
+- POST `/admin/configuration-drafts/{draftId}/validation` — validate draft payload
+- GET `/admin/configuration-drafts/{draftId}/comparison` — compare draft to current published version
+- POST `/admin/configuration-drafts/{draftId}/publish` — publish validated draft
+- POST `/admin/configuration-domains/{domainKey}/rollback` — publish rollback snapshot
+- GET `/admin/configuration-audit-events` — permission-safe audit search
+
 Error contract:
 - All non-success responses return RFC 7807 `ProblemDetails` with `type`, `title`, `status`, plus extension fields `code`, `traceId`, and optional `detail`/`errors`.
 - Dynamic LOB validation returns `LobValidationProblemDetails` with `lobErrors[]`; it does not reuse the global `ProblemDetails.errors` map.
@@ -716,6 +783,9 @@ Performance:
 - API write/transition endpoints: p95 < 500ms under nominal load.
 - List endpoints support pagination and bounded query size.
 - F0023 search/report endpoints: p95 < 500ms for bounded queries and p95 projection lag under 60 seconds after source-record commit.
+- F0032 catalog/domain reads: p95 < 500ms for up to 25 supported configuration domains.
+- F0032 validation: p95 < 2 seconds for first-release domains with up to 250 queue/routing rules or SLA rows per domain.
+- F0032 audit search: p95 < 750ms for filtered first-page queries.
 
 Security:
 - OIDC JWT validation against authentik issuer/audience (see ADR-006).

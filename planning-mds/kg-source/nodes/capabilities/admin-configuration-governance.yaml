@@ -1,0 +1,20 @@
+id: capability:admin-configuration-governance
+label: Admin Configuration Governance
+rationale:
+  - adr: adr:016
+    section: Decision
+    summary: Runtime business configuration is governed through versioned, validated, published
+      configuration sets with audit and rollback evidence.
+  - adr: adr:032
+    section: Decision
+    summary: F0032 implements a governed facade over module-owned configuration domains instead
+      of creating a parallel execution engine.
+related_nodes:
+  - config_key:published-configuration-sets
+  - entity:configuration-domain
+  - entity:configuration-draft
+  - entity:published-operational-configuration-set
+  - policy_rule:admin-configuration-publish
+source_docs:
+  - F0032/ARCHITECTURE.md
+  - planning-mds/architecture/decisions/ADR-032-admin-configuration-console-contract.md

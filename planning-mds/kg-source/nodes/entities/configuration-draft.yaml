@@ -1,0 +1,10 @@
+id: entity:configuration-draft
+label: ConfigurationDraft
+rationale:
+  - adr: adr:032
+    section: Decision
+    summary: Draft payloads are isolated from runtime behavior until validation and publish succeed.
+source_docs:
+  - F0032/ARCHITECTURE.md
+  - planning-mds/architecture/data-model.md
+  - planning-mds/schemas/admin-configuration-draft.schema.json
