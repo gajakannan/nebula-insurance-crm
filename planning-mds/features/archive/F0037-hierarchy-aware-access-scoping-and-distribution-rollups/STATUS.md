@@ -8,12 +8,12 @@
 
 | Story | Title | Status |
 |-------|-------|--------|
-| F0037-S0001 | Resolve current user distribution scope | Draft |
-| F0037-S0002 | Enforce hierarchy-aware read scoping | Draft |
-| F0037-S0003 | Apply visibility to search, saved views, insights, and reports | Draft |
-| F0037-S0004 | Add distribution rollup reporting | Draft |
-| F0037-S0005 | Add rollup filters, panels, drilldowns, and no-leak states | Draft |
-| F0037-S0006 | Add security evidence and reconciliation checks | Draft |
+| F0037-S0001 | Resolve current user distribution scope | Done |
+| F0037-S0002 | Enforce hierarchy-aware read scoping | Done |
+| F0037-S0003 | Apply visibility to search, saved views, insights, and reports | Done |
+| F0037-S0004 | Add distribution rollup reporting | Done |
+| F0037-S0005 | Add rollup filters, panels, drilldowns, and no-leak states | Done |
+| F0037-S0006 | Add security evidence and reconciliation checks | Done |
 
 ## Required Role Matrix
 

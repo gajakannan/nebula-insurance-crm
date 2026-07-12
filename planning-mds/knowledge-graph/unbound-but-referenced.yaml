@@ -1,17 +1,17 @@
 version: 0
-generated_at: '2026-07-12T00:06:13+00:00'
+generated_at: '2026-07-12T19:15:41+00:00'
 summary:
-  total_invocations: 135
+  total_invocations: 136
   by_language:
-    csharp: 134
+    csharp: 135
     typescript: 1
-  source_files: 19
+  source_files: 20
   bound_targets: 29
   refreshed_languages:
   - csharp
   - python
+  preserved_languages:
   - typescript
-  preserved_languages: []
 invocations:
 - source_file: engine/src/Nebula.Api/Endpoints/BrokerInsightEndpoints.cs
   source_line: 44
@@ -603,6 +603,11 @@ invocations:
   language: csharp
   target_symbol: symbol:entity-activity-timeline-event:i-timeline-repository.add-event-async
   target_node: entity:activity-timeline-event
+- source_file: engine/tests/Nebula.Tests/Integration/AdminConfigurationEndpointTests.cs
+  source_line: 16
+  language: csharp
+  target_symbol: symbol:capability-session-continuity:test-auth-handler.reset-f0009-overrides
+  target_node: capability:session-continuity
 - source_file: engine/tests/Nebula.Tests/Integration/CarrierMarketEndpointTests.cs
   source_line: 144
   language: csharp

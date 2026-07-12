@@ -1,14 +1,14 @@
-status: planned
+status: archived-done
 id: feature:F0037
 name: Hierarchy-Aware Access Scoping & Distribution Rollups
 path: planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups
+archived_date: '2026-07-06'
+completion_state: 'Done and archived (2026-07-06); delivered via PR #56 and the PR #60 review-fix
+  supersede. As-built ontology mapping is deferred to a follow-up plan run, so the feature remains
+  coverage-excluded.'
 coverage_excluded:
   reason: Delivered and archived via PR 56; full ontology mapping backfill has not started, so the
     feature stays coverage-excluded until a follow-up plan run maps its as-built code.
 phase: CRM Release MVP+
-rationale: 'Promoted Later→Next (2026-06-06, operator decision); now first in `Next` after F0023''s 2026-06-19
-  promotion to `Now`. Homes the scope deferred from F0017 (plan run `2026-06-06-5fb353e9`): hierarchy-aware
-  access-control enforcement + distribution rollup reporting. **Placeholder — needs its own `plan` run
-  before build**; can only start once F0017 (Now) is delivered and F0023 is underway.'
 roadmap_order: 0
-roadmap_section: Next
+roadmap_section: Completed
