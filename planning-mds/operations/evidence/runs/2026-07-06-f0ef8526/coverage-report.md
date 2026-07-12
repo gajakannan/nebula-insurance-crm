@@ -2,9 +2,7 @@
 
 ## Coverage Evidence
 
-The backend smoke test run generated coverage output:
-
-- `engine/tests/Nebula.Tests/TestResults/ad9e2d29-aac2-4825-aa25-0fb8f425c759/coverage.cobertura.xml`
+The backend smoke test run generated Coverlet coverage output. The raw `coverage.cobertura.xml` is written by the Coverlet collector under `engine/tests/Nebula.Tests/TestResults/<run-guid>/` (a git-ignored, per-run transient path per `.gitignore`) and is not retained in this evidence package; the coverage assessment below is the retained coverage evidence of record.
 
 ## Coverage Assessment
 

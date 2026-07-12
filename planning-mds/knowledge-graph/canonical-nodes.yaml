@@ -140,7 +140,7 @@ capabilities:
       - entity:published-operational-configuration-set
       - policy_rule:admin-configuration-publish
     source_docs:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
       - planning-mds/architecture/decisions/ADR-032-admin-configuration-console-contract.md
   - id: capability:auth-error-classification
     label: Auth Error Classification (401-expired / 401-failed / 403-denied)
@@ -2355,7 +2355,7 @@ entities:
           actions are recorded as append-only audit evidence.
     source_docs:
       - planning-mds/architecture/data-model.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
       - planning-mds/schemas/admin-configuration-audit-event.schema.json
   - id: entity:configuration-domain
     label: ConfigurationDomain
@@ -2366,7 +2366,7 @@ entities:
           schemas, validation strategy, refresh strategy, and rollback support.
     source_docs:
       - planning-mds/architecture/data-model.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
       - planning-mds/schemas/admin-configuration-domain.schema.json
   - id: entity:configuration-draft
     label: ConfigurationDraft
@@ -2376,7 +2376,7 @@ entities:
         summary: Draft payloads are isolated from runtime behavior until validation and publish succeed.
     source_docs:
       - planning-mds/architecture/data-model.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
       - planning-mds/schemas/admin-configuration-draft.schema.json
   - id: entity:configuration-refresh-status
     label: ConfigurationRefreshStatus
@@ -2387,7 +2387,7 @@ entities:
           after publication or rollback.
     source_docs:
       - planning-mds/architecture/data-model.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
   - id: entity:configuration-validation-result
     label: ConfigurationValidationResult
     rationale:
@@ -2396,7 +2396,7 @@ entities:
         summary: Publish is guarded by the latest passing validation result for the exact draft payload hash.
     source_docs:
       - planning-mds/architecture/data-model.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
       - planning-mds/schemas/admin-configuration-validation-result.schema.json
   - id: entity:published-operational-configuration-set
     label: PublishedOperationalConfigurationSet
@@ -5495,7 +5495,7 @@ roles:
     label: ComplianceQualityLead
     notes: Internal audit/review role for permission-safe admin configuration history.
     source_docs:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/PRD.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
   - id: role:configuration-steward
@@ -5503,7 +5503,7 @@ roles:
     notes: Delegated internal role that can draft and validate supported admin configuration domains but
       cannot publish or roll back.
     source_docs:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/PRD.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
   - id: role:distribution-manager
@@ -5535,7 +5535,7 @@ roles:
     label: OperationsManager
     notes: Internal operations reviewer role for queue/routing and SLA configuration impact review.
     source_docs:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/PRD.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
   - id: role:program-manager

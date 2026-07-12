@@ -1186,9 +1186,9 @@ features:
       - adr:016
     uses_api_contract:
       - api:nebula-rest
-  - status: planned
+  - status: archived-done
     id: feature:F0032
-    path: planning-mds/features/F0032-admin-configuration-and-reference-data-console
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console
     affects:
       - capability:admin-configuration-governance
       - config_key:published-configuration-sets
@@ -4616,7 +4616,7 @@ stories:
       - schema:submission-create-request
   - id: story:F0032-S0001
     feature: feature:F0032
-    path: planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md
     affects:
       - capability:admin-configuration-governance
       - endpoint:admin-configuration-domain-detail
@@ -4635,7 +4635,7 @@ stories:
       - schema:admin-configuration-domain
   - id: story:F0032-S0002
     feature: feature:F0032
-    path: planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md
     affects:
       - capability:admin-configuration-governance
       - config_key:workflow-sla-thresholds
@@ -4658,7 +4658,7 @@ stories:
       - schema:admin-configuration-draft
   - id: story:F0032-S0003
     feature: feature:F0032
-    path: planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md
     affects:
       - capability:admin-configuration-governance
       - config_key:published-configuration-sets
@@ -4681,7 +4681,7 @@ stories:
       - schema:admin-configuration-draft
   - id: story:F0032-S0004
     feature: feature:F0032
-    path: planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md
     affects:
       - capability:admin-configuration-governance
       - config_key:published-configuration-sets
@@ -4700,7 +4700,7 @@ stories:
       - schema:admin-configuration-validation-result
   - id: story:F0032-S0005
     feature: feature:F0032
-    path: planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md
     affects:
       - capability:admin-configuration-governance
       - config_key:published-configuration-sets
@@ -4721,7 +4721,7 @@ stories:
       - schema:admin-configuration-publish-request
   - id: story:F0032-S0006
     feature: feature:F0032
-    path: planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md
+    path: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md
     affects:
       - capability:admin-configuration-governance
       - config_key:published-configuration-sets

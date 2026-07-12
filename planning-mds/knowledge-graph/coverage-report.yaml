@@ -247,7 +247,7 @@ freshness:
     entity:configuration-audit-event:
       source_paths:
       - planning-mds/architecture/data-model.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
       - planning-mds/schemas/admin-configuration-audit-event.schema.json
       source_count: 3
       last_modified: '2026-07-06'
@@ -255,7 +255,7 @@ freshness:
     entity:configuration-domain:
       source_paths:
       - planning-mds/architecture/data-model.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
       - planning-mds/schemas/admin-configuration-domain.schema.json
       source_count: 3
       last_modified: '2026-07-06'
@@ -263,7 +263,7 @@ freshness:
     entity:configuration-draft:
       source_paths:
       - planning-mds/architecture/data-model.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
       - planning-mds/schemas/admin-configuration-draft.schema.json
       source_count: 3
       last_modified: '2026-07-06'
@@ -271,14 +271,14 @@ freshness:
     entity:configuration-refresh-status:
       source_paths:
       - planning-mds/architecture/data-model.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
       source_count: 2
       last_modified: '2026-07-06'
       source_hash: e79e1d5c3285b60a
     entity:configuration-validation-result:
       source_paths:
       - planning-mds/architecture/data-model.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
       - planning-mds/schemas/admin-configuration-validation-result.schema.json
       source_count: 3
       last_modified: '2026-07-06'
@@ -1035,7 +1035,7 @@ freshness:
       source_hash: 8d804097d1b738cd
     capability:admin-configuration-governance:
       source_paths:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
       - planning-mds/architecture/decisions/ADR-032-admin-configuration-console-contract.md
       source_count: 2
       last_modified: '2026-07-06'
@@ -3509,7 +3509,7 @@ freshness:
       source_hash: ad34247c597a58db
     role:compliance-quality-lead:
       source_paths:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/PRD.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 3
@@ -3517,7 +3517,7 @@ freshness:
       source_hash: 9e633890ccf56e3f
     role:configuration-steward:
       source_paths:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/PRD.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 3
@@ -3568,7 +3568,7 @@ freshness:
       source_hash: ad34247c597a58db
     role:operations-manager:
       source_paths:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/PRD.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
       source_count: 3
@@ -6286,18 +6286,18 @@ freshness:
       source_hash: b67cfec309ceb269
     feature:F0032:
       source_paths:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/GETTING-STARTED.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/PRD.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/README.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/STATUS.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/feature-assembly-plan.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/GETTING-STARTED.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/README.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/STATUS.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/feature-assembly-plan.md
       source_count: 12
       last_modified: '2026-07-06'
       source_hash: bb7a60a76f464a74
@@ -7324,37 +7324,37 @@ freshness:
       source_hash: 1924fa00697e4e9e
     story:F0032-S0001:
       source_paths:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: abab98c99803d5db
     story:F0032-S0002:
       source_paths:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 01f9f2a2ac366d25
     story:F0032-S0003:
       source_paths:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: bd82806429dc1d08
     story:F0032-S0004:
       source_paths:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 6e2ed2132bd20a15
     story:F0032-S0005:
       source_paths:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 662149418a181941
     story:F0032-S0006:
       source_paths:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md
       source_count: 1
       last_modified: '2026-07-06'
       source_hash: 9caf3475b67d349a
@@ -7409,9 +7409,9 @@ freshness:
   code_bindings:
     capability:admin-configuration-governance:
       source_paths:
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/PRD.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/README.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/README.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-016-published-operational-configuration-governance.md
@@ -8276,18 +8276,18 @@ freshness:
     config_key:published-configuration-sets:
       source_paths:
       - planning-mds/architecture/decisions/ADR-016-published-operational-configuration-governance.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/GETTING-STARTED.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/PRD.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/README.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/STATUS.md
-      - planning-mds/features/F0032-admin-configuration-and-reference-data-console/feature-assembly-plan.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/GETTING-STARTED.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/README.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/STATUS.md
+      - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/feature-assembly-plan.md
       source_count: 13
       last_modified: '2026-07-06'
       source_hash: fd8e05fd752e606e

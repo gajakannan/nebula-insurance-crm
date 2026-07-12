@@ -15,8 +15,8 @@
 
 ## Artifacts
 
-- `engine/tests/Nebula.Tests/TestResults/ad9e2d29-aac2-4825-aa25-0fb8f425c759/coverage.cobertura.xml`
-- `engine/tests/Nebula.Tests/TestResults/85febe8f-0839-455f-ba72-30a85befad7f/coverage.cobertura.xml`
+- Coverlet `coverage.cobertura.xml` outputs were written per test run under `engine/tests/Nebula.Tests/TestResults/<run-guid>/` (git-ignored transient paths, not retained in the evidence package).
+- Retained coverage evidence of record: `coverage-report.md` (this run folder).
 
 ## Open Test Gaps
 
