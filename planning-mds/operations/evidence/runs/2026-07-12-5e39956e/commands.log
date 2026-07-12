@@ -1,0 +1,4 @@
+python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root {PR} --feature F0032 --stage closeout  -> PASS
+python3 agents/product-manager/scripts/validate-trackers.py --product-root {PR} --feature F0032 --skip-feature-evidence  -> PASS
+python3 scripts/kg/validate.py --check-symbols  -> PASS
+python3 scripts/kg/validate.py --check-drift  -> PASS

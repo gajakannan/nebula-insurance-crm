@@ -1,0 +1,12 @@
+=== [2026-07-12T03:04:28Z] python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm-f0032 --feature F0032 --stage closeout ===
+ERROR artifact_missing_fails: commands.log line 27 artifact 'engine/tests/Nebula.Tests/TestResults/ad9e2d29-aac2-4825-aa25-0fb8f425c759/coverage.cobertura.xml' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 27 references missing artifact 'engine/tests/Nebula.Tests/TestResults/ad9e2d29-aac2-4825-aa25-0fb8f425c759/coverage.cobertura.xml'
+ERROR artifact_missing_fails: commands.log line 46 artifact 'engine/tests/Nebula.Tests/TestResults/85febe8f-0839-455f-ba72-30a85befad7f/coverage.cobertura.xml' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 46 references missing artifact 'engine/tests/Nebula.Tests/TestResults/85febe8f-0839-455f-ba72-30a85befad7f/coverage.cobertura.xml'
+ERROR artifact_missing_fails: commands.log line 64 artifact 'engine/tests/Nebula.Tests/TestResults/8679bb63-61ed-4486-adbc-96fd539a43eb/coverage.cobertura.xml' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 64 references missing artifact 'engine/tests/Nebula.Tests/TestResults/8679bb63-61ed-4486-adbc-96fd539a43eb/coverage.cobertura.xml'
+ERROR command_artifact_missing_fails: commands.log line 27 artifact 'engine/tests/Nebula.Tests/TestResults/ad9e2d29-aac2-4825-aa25-0fb8f425c759/coverage.cobertura.xml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 46 artifact 'engine/tests/Nebula.Tests/TestResults/85febe8f-0839-455f-ba72-30a85befad7f/coverage.cobertura.xml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 64 artifact 'engine/tests/Nebula.Tests/TestResults/8679bb63-61ed-4486-adbc-96fd539a43eb/coverage.cobertura.xml' does not resolve under product root
+Summary: validated=0, skipped_pre_contract_archived=0, skipped_active_done_pre_contract=0, skipped_retired_abandoned=0, skipped_retired_superseded=0
+--- exit: 1 ---

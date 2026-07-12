@@ -1,0 +1,6 @@
+python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm-f0032 --feature F0032 --stage closeout
+python3 agents/product-manager/scripts/validate-trackers.py
+python3 scripts/kg/validate.py --check-symbols
+python3 scripts/kg/validate.py --check-drift
+python3 agents/product-manager/scripts/validate-trackers.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm-f0032 --feature F0032 --skip-feature-evidence
+python3 agents/scripts/validate_templates.py

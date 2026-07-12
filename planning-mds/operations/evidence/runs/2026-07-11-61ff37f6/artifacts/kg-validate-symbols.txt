@@ -1,0 +1,36 @@
+=== [2026-07-12T03:05:07Z] python3 scripts/kg/validate.py --check-symbols ===
+Knowledge graph validation
+------------------------------------------------------------
+Features mapped:   33
+Stories mapped:    170
+Feature coverage:  33 mapped, 7 excluded, 1 uncovered
+Code bindings:     217
+Symbol index:      4656 symbols, 4656 on bound nodes (csharp: 3199, python: 391, typescript: 1066)
+Decision markers: 8 markers, 8 WHY (WHY: 8)
+
+Warnings:
+- Low-confidence inferred edge (0.4) on feature:F0028 in feature:F0018.depends_on
+
+Errors:
+- Missing path for entity:configuration-audit-event.source_docs: planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+- Missing path for entity:configuration-domain.source_docs: planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+- Missing path for entity:configuration-draft.source_docs: planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+- Missing path for entity:configuration-refresh-status.source_docs: planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+- Missing path for entity:configuration-validation-result.source_docs: planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+- Missing path for capability:admin-configuration-governance.source_docs: planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+- Missing path for role:compliance-quality-lead.source_docs: planning-mds/features/F0032-admin-configuration-and-reference-data-console/PRD.md
+- Missing path for role:configuration-steward.source_docs: planning-mds/features/F0032-admin-configuration-and-reference-data-console/PRD.md
+- Missing path for role:operations-manager.source_docs: planning-mds/features/F0032-admin-configuration-and-reference-data-console/PRD.md
+- Missing path for feature:F0032: planning-mds/features/F0032-admin-configuration-and-reference-data-console
+- Missing path for story:F0032-S0001: planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0001-admin-configuration-catalog.md
+- Missing path for story:F0032-S0002: planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0002-draft-reference-and-sla-configuration.md
+- Missing path for story:F0032-S0003: planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0003-govern-queue-routing-configuration.md
+- Missing path for story:F0032-S0004: planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0004-validate-and-compare-configuration.md
+- Missing path for story:F0032-S0005: planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0005-publish-and-rollback-configuration.md
+- Missing path for story:F0032-S0006: planning-mds/features/F0032-admin-configuration-and-reference-data-console/F0032-S0006-audit-and-permission-safe-admin-configuration.md
+- Feature directory is neither mapped nor excluded: planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console
+- code-index pattern does not resolve for capability:admin-configuration-governance (planning.feature): planning-mds/features/F0032-admin-configuration-and-reference-data-console/PRD.md
+- code-index pattern does not resolve for capability:admin-configuration-governance (planning.feature): planning-mds/features/F0032-admin-configuration-and-reference-data-console/README.md
+- code-index pattern does not resolve for capability:admin-configuration-governance (planning.feature): planning-mds/features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+- code-index pattern does not resolve for config_key:published-configuration-sets (docs.planning): planning-mds/features/F0032-admin-configuration-and-reference-data-console/**
+--- exit: 1 ---
