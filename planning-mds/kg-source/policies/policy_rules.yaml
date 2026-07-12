@@ -1,0 +1,1916 @@
+policy_rules:
+  - id: policy_rule:account-contact-manage
+    label: account:contact:manage
+    action: contact:manage
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:account
+      - entity:contact
+    resource: account
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-create
+    label: account:create
+    action: create
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:account
+    resource: account
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-deactivate
+    label: account:deactivate
+    action: deactivate
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:account
+      - entity:workflow-transition
+      - workflow:account-lifecycle
+    resource: account
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-delete
+    label: account:delete
+    action: delete
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: Terminal tombstone — no FK re-pointing. Dependent views return 410 Gone keyed by accountId.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:account
+      - entity:workflow-transition
+      - workflow:account-lifecycle
+    resource: account
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-merge
+    label: account:merge
+    action: merge
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: Tombstone-forward merge — source becomes Merged with MergedIntoAccountId set to survivorAccountId;
+      no FK re-pointing. Dependent reads return 200 with survivorAccountId.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:account
+      - entity:workflow-transition
+      - workflow:account-lifecycle
+    resource: account
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-reactivate
+    label: account:reactivate
+    action: reactivate
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:account
+      - entity:workflow-transition
+      - workflow:account-lifecycle
+    resource: account
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-read
+    label: account:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:broker-user
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Broker/region/territory ABAC scoping applied per role; BrokerUser reads are broker-tenant scoped
+      and return 410 on deleted and 200+survivorAccountId on merged.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:account
+    resource: account
+    source_docs:
+      - F0016/README.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-relationship-change
+    label: account:relationship:change
+    action: relationship:change
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: Appends AccountRelationshipHistory + ActivityTimelineEvent. Used for BrokerOfRecord, PrimaryProducer,
+      Territory changes.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:account
+      - entity:broker
+    resource: account
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:account-update
+    label: account:update
+    action: update
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+    notes: If-Match required; 412 on stale RowVersion. Update is profile-only; lifecycle, merge, and relationship
+      changes have dedicated endpoints.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:account
+    resource: account
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:broker-create
+    label: broker:create
+    action: create
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:broker-relationship-management
+      - entity:broker
+    resource: broker
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:broker-delete
+    label: broker:delete
+    action: delete
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+    notes: RelationshipManager delete is explicitly DENY (authorization-matrix.md §2.1 OQ-4 resolution);
+      structural record changes require DistributionUser/Manager or Admin.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:broker-relationship-management
+      - entity:broker
+    resource: broker
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:broker-insight-read
+    label: broker_insight:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: External BrokerUser and ExternalUser receive no F0008 policy lines.
+    rationale:
+      - adr: adr:031
+        section: Decision §2
+        summary: A high-level broker_insight:read gate is followed by source-record query filtering before
+          any aggregate counts, peer sets, ranks, trends, or links leave the server.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:broker-insights
+      - entity:broker-insight-projection
+    resource: broker_insight
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:broker-reactivate
+    label: broker:reactivate
+    action: reactivate
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: Reverse of broker:delete (F0002-S0008). Manager authority required; DistributionUser and RelationshipManager
+      excluded because structural record change requires manager authority.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:broker-relationship-management
+      - entity:broker
+    resource: broker
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:broker-read
+    label: broker:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:broker-user
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:broker-relationship-management
+      - entity:broker
+    resource: broker
+    source_docs:
+      - F0009/BROKER-VISIBILITY-MATRIX.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:broker-search
+    label: broker:search
+    action: search
+    allowed_roles:
+      - role:admin
+      - role:broker-user
+      - role:distribution-manager
+      - role:distribution-user
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:broker-relationship-management
+      - entity:broker
+    resource: broker
+    source_docs:
+      - F0009/BROKER-VISIBILITY-MATRIX.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:broker-update
+    label: broker:update
+    action: update
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:broker-relationship-management
+      - entity:broker
+    resource: broker
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:carrier-market-create
+    label: carrier_market:create
+    action: create
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:activity-timeline-event
+      - entity:carrier-market
+    resource: carrier_market
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:carrier-market-link-activity
+    label: carrier_market:link_activity
+    action: link_activity
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:relationship-manager
+      - role:underwriter
+    notes: Application layer must also confirm read access to the linked submission or policy.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:activity-timeline-event
+      - entity:carrier-market-activity-link
+      - entity:policy
+      - entity:submission
+    resource: carrier_market
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:carrier-market-manage-appetite
+    label: carrier_market:manage_appetite
+    action: manage_appetite
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:activity-timeline-event
+      - entity:carrier-appetite-note
+    resource: carrier_market
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:carrier-market-manage-appointment
+    label: carrier_market:manage_appointment
+    action: manage_appointment
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:activity-timeline-event
+      - entity:carrier-appointment
+    resource: carrier_market
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:carrier-market-manage-contact
+    label: carrier_market:manage_contact
+    action: manage_contact
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:activity-timeline-event
+      - entity:carrier-market-contact
+    resource: carrier_market
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:carrier-market-read
+    label: carrier_market:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:carrier-market-relationship-management
+      - entity:carrier-market
+    resource: carrier_market
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:carrier-market-search
+    label: carrier_market:search
+    action: search
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:carrier-market-relationship-management
+      - capability:global-search
+      - entity:carrier-market
+    resource: carrier_market
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:carrier-market-update
+    label: carrier_market:update
+    action: update
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:activity-timeline-event
+      - entity:carrier-market
+    resource: carrier_market
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:communication-event-correct
+    label: communication_event:correct
+    action: correct
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Corrections are append-only audit actions and cannot delete prior evidence.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:communication-event
+    resource: communication_event
+    source_docs:
+      - F0021/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:communication-event-create
+    label: communication_event:create
+    action: create
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Create also requires read access to every linked CRM record.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:communication-event
+      - entity:communication-link
+    resource: communication_event
+    source_docs:
+      - F0021/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:communication-event-create-follow-up
+    label: communication_event:create_follow_up
+    action: create_follow_up
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Also requires task:create and linked entity read access.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:communication-event
+      - entity:task-item
+    resource: communication_event
+    source_docs:
+      - F0021/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:communication-event-link
+    label: communication_event:link
+    action: link
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Link targets must be approved CRM entity types and pass linked-entity read scope.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:communication-event
+      - entity:communication-link
+    resource: communication_event
+    source_docs:
+      - F0021/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:communication-event-read
+    label: communication_event:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Read also requires access to at least one linked CRM record; external roles are denied for
+      MVP.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:communication-event
+    resource: communication_event
+    source_docs:
+      - F0021/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:communication-event-redact
+    label: communication_event:redact
+    action: redact
+    allowed_roles:
+      - role:admin
+    notes: Redaction is Admin-only in MVP and requires Security Reviewer signoff in feature action.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:communication-event
+    resource: communication_event
+    source_docs:
+      - F0021/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:contact-create
+    label: contact:create
+    action: create
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:broker-contact-management
+      - entity:contact
+    resource: contact
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:contact-delete
+    label: contact:delete
+    action: delete
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: DistributionUser and RelationshipManager delete are explicitly DENY (authorization-matrix.md
+      §2.2 OQ-5 resolution); destructive contact removal requires manager authority.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:broker-contact-management
+      - entity:contact
+    resource: contact
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:contact-read
+    label: contact:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:broker-user
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:broker-contact-management
+      - entity:contact
+    resource: contact
+    source_docs:
+      - F0009/BROKER-VISIBILITY-MATRIX.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:contact-update
+    label: contact:update
+    action: update
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:broker-contact-management
+      - entity:contact
+    resource: contact
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:dashboard-kpi-read
+    label: dashboard_kpi:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Scope (assigned, region, program, broker relationships, unscoped) is enforced at the query
+      layer per role; Casbin grants the broad read permission only.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:dashboard-kpis
+    resource: dashboard_kpi
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:dashboard-nudge-read
+    label: dashboard_nudge:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:broker-user
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: BrokerUser reads are additionally constrained to broker-linked OverdueTask nudges by query-layer
+      filtering.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:dashboard-nudge-cards
+      - entity:task-item
+      - workflow:renewal
+    resource: dashboard_nudge
+    source_docs:
+      - F0009/BROKER-VISIBILITY-MATRIX.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:dashboard-pipeline-read
+    label: dashboard_pipeline:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Non-terminal status filter and per-role scope are enforced at the query layer; Casbin grants
+      the broad read permission only.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:dashboard-pipeline-visualization
+    resource: dashboard_pipeline
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:distribution-node-read
+    label: distribution_node:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Authenticated internal read only; hierarchy-aware subtree scoping is deferred to F0037.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:distribution-hierarchy-management
+    resource: distribution_node
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:distribution-node-update
+    label: distribution_node:update
+    action: update
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: Covers set/clear parent; service enforces self-parent, cycle/orphan, and rowVersion guards.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:distribution-hierarchy-management
+      - entity:activity-timeline-event
+    resource: distribution_node
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:document-create
+    label: document:create
+    action: create
+    allowed_roles:
+      - role:admin
+      - role:broker-user
+      - role:coordinator
+      - role:distribution-manager
+      - role:distribution-user
+      - role:mga-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:document-management
+      - entity:document
+      - workflow:document-ingest
+    resource: document
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:document-create-restricted
+    label: document:create:restricted
+    action: create:restricted
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+    notes: Elevated permission required to create or replace a restricted-classification document. Underwriter
+      and Admin only in MVP.
+    related_nodes:
+      - capability:document-classification
+      - entity:document
+    resource: document
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:document-declassify
+    label: document:declassify
+    action: declassify
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+    notes: Required to drop classification down from restricted; Underwriter and Admin only in MVP.
+    related_nodes:
+      - capability:document-classification
+      - entity:document
+    resource: document
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:document-download
+    label: document:download
+    action: download
+    allowed_roles:
+      - role:admin
+      - role:broker-user
+      - role:coordinator
+      - role:distribution-manager
+      - role:distribution-user
+      - role:external-user
+      - role:mga-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:document-classification
+      - entity:document
+    resource: document
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:document-read
+    label: document:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:broker-user
+      - role:coordinator
+      - role:distribution-manager
+      - role:distribution-user
+      - role:external-user
+      - role:mga-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: 'Parent ABAC layer. Effective decision is parent_abac AND classification_policy (the latter
+      loaded from configuration/casbin-document-roles.yaml at runtime).
+
+      '
+    related_nodes:
+      - capability:document-classification
+      - capability:document-management
+      - entity:document
+    resource: document
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:document-replace
+    label: document:replace
+    action: replace
+    allowed_roles:
+      - role:admin
+      - role:coordinator
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:document-management
+      - entity:document
+      - workflow:document-ingest
+    resource: document
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:document-template-create
+    label: document_template:create
+    action: create
+    allowed_roles:
+      - role:admin
+      - role:broker-user
+      - role:coordinator
+      - role:distribution-manager
+      - role:distribution-user
+      - role:mga-user
+    related_nodes:
+      - capability:document-templates
+      - entity:document-template
+      - workflow:document-ingest
+    resource: document_template
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:document-template-link
+    label: document_template:link
+    action: link
+    allowed_roles:
+      - role:admin
+      - role:broker-user
+      - role:coordinator
+      - role:distribution-manager
+      - role:distribution-user
+      - role:external-user
+      - role:mga-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:document-templates
+      - entity:document
+      - entity:document-template
+    resource: document_template
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:document-template-read
+    label: document_template:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:broker-user
+      - role:coordinator
+      - role:distribution-manager
+      - role:distribution-user
+      - role:external-user
+      - role:mga-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:document-templates
+      - entity:document-template
+    resource: document_template
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:document-template-replace
+    label: document_template:replace
+    action: replace
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    related_nodes:
+      - capability:document-templates
+      - entity:document-template
+      - workflow:document-ingest
+    resource: document_template
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:document-update-metadata
+    label: document:update_metadata
+    action: update_metadata
+    allowed_roles:
+      - role:admin
+      - role:coordinator
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:document-classification
+      - entity:document
+    resource: document
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:global-search-read
+    label: global_search:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Rows, snippets, facets, suggestions, and counts are filtered at the query layer before response
+      materialization; external roles have no policy lines.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:global-search
+      - entity:search-document
+    resource: global_search
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:lob-schema-activate
+    label: lob_schema:activate
+    action: activate
+    allowed_roles:
+      - role:admin
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:product-schema-registry
+      - entity:lob-bundle-activation-event
+    resource: lob_schema
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:lob-schema-deprecate
+    label: lob_schema:deprecate
+    action: deprecate
+    allowed_roles:
+      - role:admin
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:product-schema-registry
+      - entity:lob-bundle-activation-event
+    resource: lob_schema
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:lob-schema-read
+    label: lob_schema:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:coordinator
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Active bootstrap read; query layer filters to tenant-available active product versions and
+      excludes Internal sentinels.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:product-schema-registry
+      - entity:lob-schema-bundle
+    resource: lob_schema
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:lob-schema-resolve
+    label: lob_schema:resolve
+    action: resolve
+    allowed_roles:
+      - role:admin
+      - role:coordinator
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Direct resolve path for historical rows pinned to Deprecated, Retired, or Internal bundles.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:product-schema-registry
+      - entity:lob-product-version
+      - entity:lob-schema-bundle
+    resource: lob_schema
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:lob-schema-retire
+    label: lob_schema:retire
+    action: retire
+    allowed_roles:
+      - role:admin
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:product-schema-registry
+      - entity:lob-bundle-activation-event
+    resource: lob_schema
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:operational-report-read
+    label: operational_report:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Report rows, counts, and drilldowns are computed after source-record authorization filtering;
+      hidden records are not surfaced as hidden-source counts.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:operational-reporting
+      - entity:operational-report-projection
+    resource: operational_report
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:outbound-document-issue
+    label: outbound_document:issue
+    action: issue
+    allowed_roles:
+      - role:admin
+      - role:coordinator
+      - role:distribution-manager
+      - role:distribution-user
+      - role:underwriter
+    related_nodes:
+      - capability:outbound-document-generation
+      - entity:document
+      - entity:generated-document-artifact
+    resource: outbound_document
+    source_docs:
+      - F0027/ARCHITECTURE.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:outbound-document-preview
+    label: outbound_document:preview
+    action: preview
+    allowed_roles:
+      - role:admin
+      - role:coordinator
+      - role:distribution-manager
+      - role:distribution-user
+      - role:underwriter
+    related_nodes:
+      - capability:outbound-document-generation
+      - entity:document-template
+    resource: outbound_document
+    source_docs:
+      - F0027/ARCHITECTURE.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:outbound-document-regenerate
+    label: outbound_document:regenerate
+    action: regenerate
+    allowed_roles:
+      - role:admin
+      - role:coordinator
+      - role:distribution-manager
+      - role:distribution-user
+      - role:underwriter
+    related_nodes:
+      - capability:outbound-document-generation
+      - entity:document
+      - entity:generated-document-artifact
+    resource: outbound_document
+    source_docs:
+      - F0027/ARCHITECTURE.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:outbound-template-manage
+    label: outbound_template:manage
+    action: manage
+    allowed_roles:
+      - role:admin
+    related_nodes:
+      - capability:outbound-document-generation
+      - entity:document-template
+    resource: outbound_template
+    source_docs:
+      - F0027/ARCHITECTURE.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:policy-cancel
+    label: policy:cancel
+    action: cancel
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:policy
+      - workflow:policy
+    resource: policy
+    source_docs:
+      - F0018/F0018-S0007-policy-cancellation.md
+      - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - id: policy_rule:policy-coverage-manage
+    label: policy:coverage:manage
+    action: coverage:manage
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:underwriter
+    notes: Gates Pending-state coverage CRUD for DistributionUser, DistributionManager, Underwriter, and
+      Admin. Issued-state coverage changes go through policy:endorse.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:policy
+      - entity:policy-coverage-line
+    resource: policy
+    source_docs:
+      - F0018/F0018-S0003-policy-detail-and-profile-edit.md
+      - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - id: policy_rule:policy-create
+    label: policy:create
+    action: create
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:underwriter
+    notes: Gates manual create and the future F0019 bind-hook path; both land in Pending. Import-lite
+      uses policy:import.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:policy
+      - workflow:policy
+    resource: policy
+    source_docs:
+      - F0018/F0018-S0002-create-policy.md
+      - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - id: policy_rule:policy-endorse
+    label: policy:endorse
+    action: endorse
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:policy
+      - entity:policy-endorsement
+      - entity:policy-version
+      - workflow:policy
+    resource: policy
+    source_docs:
+      - F0018/F0018-S0006-policy-endorsements.md
+      - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - id: policy_rule:policy-import
+    label: policy:import
+    action: import
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: Gates the import-lite CSV ingest path; DistributionManager and Admin only in MVP.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:policy
+    resource: policy
+    source_docs:
+      - F0018/F0018-S0002-create-policy.md
+      - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - id: policy_rule:policy-issue
+    label: policy:issue
+    action: issue
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:policy
+      - entity:policy-version
+      - workflow:policy
+    resource: policy
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - id: policy_rule:policy-read
+    label: policy:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:policy
+      - workflow:policy
+    resource: policy
+    source_docs:
+      - F0018/PRD.md
+      - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - id: policy_rule:policy-reinstate
+    label: policy:reinstate
+    action: reinstate
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:policy
+      - entity:policy-version
+      - entity:workflow-sla-threshold
+      - workflow:policy
+    resource: policy
+    source_docs:
+      - F0018/F0018-S0008-policy-reinstatement.md
+      - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - id: policy_rule:policy-update
+    label: policy:update
+    action: update
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:underwriter
+    notes: State-aware. DistributionUser and DistributionManager edit Pending only; Underwriter edits
+      Pending plus non-material Issued fields; Admin edits state-allowed fields.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:policy
+      - workflow:policy
+    resource: policy
+    source_docs:
+      - F0018/F0018-S0003-policy-detail-and-profile-edit.md
+      - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - id: policy_rule:producer-ownership-assign
+    label: producer_ownership:assign
+    action: assign
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: Effective-dated assign/reassign; service enforces overlap, date-order, backdating, and rowVersion
+      guards.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:producer-ownership-management
+      - entity:activity-timeline-event
+      - entity:producer-ownership
+    resource: producer_ownership
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:producer-ownership-read
+    label: producer_ownership:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Authenticated internal read only; ownership-scoped read enforcement is deferred to F0037.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:producer-ownership-management
+    resource: producer_ownership
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:queue-assign
+    label: queue:assign
+    action: assign
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:operations-routing
+      - entity:activity-timeline-event
+      - entity:queue-work-item
+      - entity:routing-decision-log
+    resource: queue
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:queue-manage
+    label: queue:manage
+    action: manage
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:operations-routing
+      - entity:assignment-rule
+      - entity:coverage-window
+      - entity:work-queue
+    resource: queue
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:queue-read
+    label: queue:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Queue item details require both queue read authorization and linked source-record ABAC.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:operations-routing
+      - entity:queue-work-item
+      - entity:work-queue
+    resource: queue
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:renewal-assign
+    label: renewal:assign
+    action: assign
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: Policy surface grants manager and admin assignment authority; any additional self-assign semantics
+      remain application-layer behavior until policy artifacts are updated.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:renewal
+      - entity:user-profile
+    resource: renewal
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:renewal-create
+    label: renewal:create
+    action: create
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:policy
+      - entity:renewal
+      - workflow:renewal
+    resource: renewal
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:renewal-draft-outreach
+    label: renewal:draft_outreach
+    action: draft_outreach
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+    rationale:
+      - adr: adr:028
+        section: Decision §3
+        summary: Dedicated least-privilege action gating draft + mock-send (Underwriter only; distinct
+          from renewal:transition). The engine state machine permits Identified→Outreach for an Underwriter
+          only on the mock-send path, keeping the F0007 Distribution-owned transition model intact.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:neuron-outreach-drafter
+      - entity:renewal
+      - workflow:renewal
+    resource: renewal
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:renewal-read
+    label: renewal:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:renewal
+      - workflow:renewal
+    resource: renewal
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:renewal-transition
+    label: renewal:transition
+    action: transition
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:renewal
+      - entity:workflow-transition
+      - workflow:renewal
+    resource: renewal
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:renewal-update
+    label: renewal:update
+    action: update
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:dynamic-lob-attributes
+      - entity:renewal
+      - workflow:renewal
+    resource: renewal
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:saved-view-default
+    label: saved_view:default
+    action: default
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Setting a default clears the prior default for the same personal/team scope and view type in
+      one transaction.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:saved-views
+      - entity:saved-view
+      - entity:saved-view-audit-event
+    resource: saved_view
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:saved-view-manage
+    label: saved_view:manage
+    action: manage
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Non-manager roles require owner match at the policy layer; manager/admin team mutations still
+      validate administered team scope in the service.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:saved-views
+      - entity:saved-view
+      - entity:saved-view-audit-event
+    resource: saved_view
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:saved-view-read
+    label: saved_view:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Personal/team eligibility is filtered at the query layer; saved-view metadata must not reveal
+      unauthorized team scopes.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:saved-views
+      - entity:saved-view
+    resource: saved_view
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:service-case-assign
+    label: service_case:assign
+    action: assign
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: Cross-user owner changes are manager/admin scope in MVP.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:service-case
+    resource: service_case
+    source_docs:
+      - F0024/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:service-case-create
+    label: service_case:create
+    action: create
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Create also requires linked account and optional policy read scope.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:service-case
+    resource: service_case
+    source_docs:
+      - F0024/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:service-case-create-follow-up
+    label: service_case:create_follow_up
+    action: create_follow_up
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Also requires task:create and existing task assignee validation.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:service-case
+      - entity:task-item
+    resource: service_case
+    source_docs:
+      - F0024/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:service-case-link-communication
+    label: service_case:link_communication
+    action: link_communication
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Also requires communication_event:read and linked communication record scope.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:communication-event
+      - entity:service-case
+    resource: service_case
+    source_docs:
+      - F0024/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:service-case-read
+    label: service_case:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Read also requires linked account/policy scope; external roles are denied for MVP.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:service-case
+    resource: service_case
+    source_docs:
+      - F0024/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:service-case-transition
+    label: service_case:transition
+    action: transition
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Transition must satisfy the approved service-case state machine and append transition evidence.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:service-case
+      - entity:service-case-transition
+    resource: service_case
+    source_docs:
+      - F0024/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:service-case-update
+    label: service_case:update
+    action: update
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Closed service cases are immutable except for audit reads.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:service-case
+    resource: service_case
+    source_docs:
+      - F0024/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:service-case-update-claim-reference
+    label: service_case:update_claim_reference
+    action: update_claim_reference
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Claim reference context excludes adjudication, reserves, payments, and carrier sync.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:service-case
+      - entity:service-case-claim-reference
+    resource: service_case
+    source_docs:
+      - F0024/authorization-deltas.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:submission-approve
+    label: submission:approve
+    action: approve
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+    notes: MVP single authorized approver; distinct from submission:transition and a precondition for
+      bind. Maker-checker / authority limits are Future via SubmissionApprovalDecision.authorityContext.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:submission
+      - entity:submission-approval-decision
+      - workflow:submission
+    resource: submission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:submission-archive
+    label: submission:archive
+    action: archive
+    allowed_roles:
+      - role:admin
+      - role:underwriter
+    notes: Explicit archive/deactivate lifecycle action allowed only for terminal submission states; not
+      a generic delete. Reactivation is gated by the same rule.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:submission
+      - workflow:submission
+    resource: submission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:submission-assign
+    label: submission:assign
+    action: assign
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+    notes: DistributionUser self-assign and DistributionManager/Admin region- or cross-scope assignment
+      are both gated here; query-layer filters the assignable pool.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:submission
+      - entity:user-profile
+    resource: submission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:submission-create
+    label: submission:create
+    action: create
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:submission
+      - workflow:submission
+    resource: submission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:submission-read
+    label: submission:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:submission
+      - workflow:submission
+    resource: submission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:submission-transition
+    label: submission:transition
+    action: transition
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:underwriter
+    notes: Casbin gates the broad transition action; per-state from→to pairs are enforced at the application
+      layer per ADR-011.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:submission
+      - entity:workflow-transition
+      - workflow:submission
+    resource: submission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:submission-update
+    label: submission:update
+    action: update
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:submission
+      - workflow:submission
+    resource: submission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:task-create
+    label: task:create
+    action: create
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Self-assigned task creation is policy-gated; F0004 adds manager/admin create-any-target semantics.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:task-center
+      - entity:task-item
+    resource: task
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:task-delete
+    label: task:delete
+    action: delete
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:task-center
+      - entity:task-item
+    resource: task
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:task-read
+    label: task:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:broker-user
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Internal roles use assignee and creator policy predicates; BrokerUser reads are broker-tenant
+      scoped.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:task-center
+      - entity:task-item
+    resource: task
+    source_docs:
+      - F0009/BROKER-VISIBILITY-MATRIX.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:task-update
+    label: task:update
+    action: update
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Policy layer combines assignee and creator-based predicates with OR semantics for manager/admin
+      flows.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:task-center
+      - entity:task-item
+    resource: task
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:territory-assign
+    label: territory:assign
+    action: assign
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: Effective-dated member assign/reassign; service enforces overlap, date-order, and rowVersion
+      guards.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:territory-management
+      - entity:activity-timeline-event
+      - entity:territory-assignment
+    resource: territory
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:territory-create
+    label: territory:create
+    action: create
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: Service enforces unique active territory name and emits timeline on successful create.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:territory-management
+      - entity:activity-timeline-event
+      - entity:territory
+    resource: territory
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:territory-read
+    label: territory:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Authenticated internal read only; territory-scoped read enforcement is deferred to F0037.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:territory-management
+    resource: territory
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:timeline-event-read
+    label: timeline_event:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:broker-user
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: BrokerUser timeline reads remain limited to explicitly broker-visible event types and fields.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:activity-timeline-event
+    resource: timeline_event
+    source_docs:
+      - F0009/BROKER-VISIBILITY-MATRIX.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:user-search
+    label: user:search
+    action: search
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Search is internal-only; IdP issuer and subject fields remain excluded from responses.
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:user-profile
+    resource: user
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv

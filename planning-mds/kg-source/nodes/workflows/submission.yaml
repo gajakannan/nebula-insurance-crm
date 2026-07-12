@@ -1,0 +1,63 @@
+id: workflow:submission
+label: Submission lifecycle
+notes: 'F0006 owns the intake half of this workflow through ReadyForUWReview. F0019 activates and extends
+  the downstream quote, approval, bind, decline, and withdrawal path, owns the archive/deactivate lifecycle,
+  and is bounded as CRM status/workflow only (recorded, never computed) — not an underwriting workbench.
+
+  '
+rationale:
+  - adr: adr:011
+    section: Decision
+    summary: Explicit state machine with declared transitions and append-only history prevents ad hoc
+      status edits and enables audit-ready reporting.
+  - adr: adr:025
+    section: Decision §1, §6
+    summary: F0019 deliberately activates the downstream transitions (boundary move beyond F0006) and
+      bounds the workflow as CRM status coordination — no rating/pricing/scoring; quote figures are recorded,
+      never computed.
+source_docs:
+  - F0006/README.md
+  - planning-mds/api/nebula-api.yaml
+  - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
+  - planning-mds/architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md
+  - planning-mds/architecture/feature-assembly-plan.md
+states:
+  - id: state:submission:received
+    label: Received
+    transitions_to:
+      - state:submission:triaging
+  - id: state:submission:triaging
+    label: Triaging
+    transitions_to:
+      - state:submission:waiting-on-broker
+      - state:submission:ready-for-uw-review
+  - id: state:submission:waiting-on-broker
+    label: WaitingOnBroker
+    transitions_to:
+      - state:submission:ready-for-uw-review
+  - id: state:submission:ready-for-uw-review
+    label: ReadyForUWReview
+    transitions_to:
+      - state:submission:in-review
+  - id: state:submission:in-review
+    label: InReview
+    transitions_to:
+      - state:submission:quoted
+      - state:submission:declined
+  - id: state:submission:quoted
+    label: Quoted
+    transitions_to:
+      - state:submission:bind-requested
+      - state:submission:declined
+      - state:submission:withdrawn
+  - id: state:submission:bind-requested
+    label: BindRequested
+    transitions_to:
+      - state:submission:bound
+      - state:submission:withdrawn
+  - id: state:submission:bound
+    label: Bound
+  - id: state:submission:declined
+    label: Declined
+  - id: state:submission:withdrawn
+    label: Withdrawn

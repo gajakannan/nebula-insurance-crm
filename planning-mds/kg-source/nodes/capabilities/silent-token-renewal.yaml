@@ -1,0 +1,13 @@
+id: capability:silent-token-renewal
+label: Silent Token Renewal
+rationale:
+  - adr: adr:024
+    section: Decision §2
+    summary: Coalescing semaphore guarantees exactly one in-flight refresh per expiry burst; queued requests
+      retry once on success. Mutations are never auto-replayed; only reads.
+related_nodes:
+  - capability:auth-error-classification
+  - capability:authentication
+source_docs:
+  - F0035/F0035-S0001-silent-token-renewal.md
+  - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md

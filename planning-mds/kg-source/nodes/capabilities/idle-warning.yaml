@@ -1,0 +1,11 @@
+id: capability:idle-warning
+label: Idle Warning Modal
+rationale:
+  - adr: adr:024
+    section: Decision §3
+    summary: 25 min inactivity → modal with 5:00 grace; Stay-signed-in triggers silent renewal; Sign-out
+      uses ?reason=signed_out (not session_expired); unattended grace triggers forced re-auth with idle_timeout
+      cause.
+source_docs:
+  - F0035/F0035-S0002-idle-warning-modal.md
+  - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md

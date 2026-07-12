@@ -1014,6 +1014,15 @@ def main() -> int:
         ),
     )
     parser.add_argument(
+        "--check-reproducible",
+        action="store_true",
+        help=(
+            "Prove committed generated files == compile(source) and enforce the git policy "
+            "(F0006-S0008): compile --check + shard validation + archived/ledger/glob rules + "
+            ".gitattributes drift. The single CI/integrator reproducibility entry point."
+        ),
+    )
+    parser.add_argument(
         "--check-untested",
         action="store_true",
         help=(
@@ -1041,6 +1050,10 @@ def main() -> int:
         ),
     )
     args = parser.parse_args()
+
+    if args.check_reproducible:
+        import reproducibility
+        return reproducibility.main([])
 
     if args.regenerate_symbols:
         rc = regenerate_symbols()

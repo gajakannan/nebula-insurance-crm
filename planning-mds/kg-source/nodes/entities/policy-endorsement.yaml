@@ -1,0 +1,15 @@
+id: entity:policy-endorsement
+label: PolicyEndorsement
+rationale:
+  - adr: adr:018
+    section: Decision §1
+    summary: Endorsement record on an Issued policy; ties 1:1 to the PolicyVersion it produced and carries
+      reason code, effective date, and premium delta.
+  - adr: adr:020
+    section: Decision
+    summary: PolicyEndorsement carries endorsement-stage LOB attributes until the resulting PolicyVersion
+      freezes the authoritative policy-stage attributes.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md

@@ -1,0 +1,11 @@
+id: entity:assignment-rule
+label: AssignmentRule
+rationale:
+  - adr: adr:013
+    section: F0022 Execution Contract
+    summary: Versioned deterministic rules explain routing outcomes by rule version, precedence, selected
+      queue, and match reason.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - planning-mds/schemas/assignment-rule.schema.json

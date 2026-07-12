@@ -1,0 +1,66 @@
+roles:
+  - id: role:admin
+    label: Admin
+    notes: Internal administrator with broad unscoped access where policy lines exist.
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: role:broker-user
+    label: BrokerUser
+    notes: External phase-1 broker role with broker-tenant-scoped reads and field filtering.
+    source_docs:
+      - F0009/BROKER-VISIBILITY-MATRIX.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: role:coordinator
+    label: Coordinator
+    notes: Internal Broker Relationship Coordinator role; parallels DistributionUser scope on documents
+      (F0020 introduced this role into the security matrix).
+    source_docs:
+      - F0020/PRD.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: role:distribution-manager
+    label: DistributionManager
+    notes: Internal distribution manager with region-scoped authority.
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: role:distribution-user
+    label: DistributionUser
+    notes: Internal distribution operator scoped primarily to assigned opportunities.
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: role:external-user
+    label: ExternalUser
+    notes: Default external deny role for MVP; no allow policy lines exist.
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+  - id: role:mga-user
+    label: MgaUser
+    notes: External MGA contact role; same access shape as BrokerUser for documents (introduced in F0020
+      phase B).
+    source_docs:
+      - F0020/PRD.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: role:program-manager
+    label: ProgramManager
+    notes: Internal MGA/program oversight role with program-scoped read access.
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: role:relationship-manager
+    label: RelationshipManager
+    notes: Internal broker/account relationship owner with read-heavy opportunity access.
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: role:underwriter
+    label: Underwriter
+    notes: Internal underwriting role with downstream transition authority and read access to broker/account
+      context.
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv

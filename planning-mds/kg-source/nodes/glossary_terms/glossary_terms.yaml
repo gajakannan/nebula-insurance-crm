@@ -1,0 +1,120 @@
+glossary_terms:
+  - id: glossary_term:acord-form
+    label: ACORD Form
+    related_nodes:
+      - entity:document
+      - entity:submission
+    source_docs:
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:application
+    label: Application
+    related_nodes:
+      - entity:document
+      - entity:submission
+    source_docs:
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:bind
+    label: Bind
+    related_nodes:
+      - entity:policy
+      - workflow:submission
+    source_docs:
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:binder
+    label: Binder
+    related_nodes:
+      - entity:document
+      - entity:policy
+      - state:submission:bound
+    source_docs:
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:carrier
+    label: Carrier
+    related_nodes:
+      - entity:mga
+      - entity:program
+    source_docs:
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:declination
+    label: Declination
+    related_nodes:
+      - state:submission:declined
+      - workflow:submission
+    source_docs:
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:exposure
+    label: Exposure
+    related_nodes:
+      - entity:policy
+      - entity:submission
+    source_docs:
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:insured
+    label: Insured
+    related_nodes:
+      - entity:account
+      - entity:policy
+    source_docs:
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:line-of-business
+    label: Line of Business
+    related_nodes:
+      - entity:policy
+      - entity:renewal
+      - entity:submission
+      - entity:workflow-sla-threshold
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:loss-runs
+    label: Loss Runs
+    related_nodes:
+      - entity:document
+      - entity:submission
+    source_docs:
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:premium
+    label: Premium
+    related_nodes:
+      - entity:policy
+      - entity:renewal
+    source_docs:
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:quote
+    label: Quote
+    related_nodes:
+      - entity:policy
+      - entity:submission
+      - workflow:submission
+    source_docs:
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:surplus-lines
+    label: Surplus Lines
+    related_nodes:
+      - entity:mga
+      - entity:program
+    source_docs:
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:triaging
+    label: Triaging
+    related_nodes:
+      - state:submission:triaging
+      - workflow:submission
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:underwriting
+    label: Underwriting
+    related_nodes:
+      - role:underwriter
+      - state:submission:in-review
+      - workflow:submission
+    source_docs:
+      - planning-mds/domain/glossary.md
+  - id: glossary_term:withdrawal
+    label: Withdrawal
+    related_nodes:
+      - state:submission:withdrawn
+      - workflow:submission
+    source_docs:
+      - planning-mds/domain/glossary.md

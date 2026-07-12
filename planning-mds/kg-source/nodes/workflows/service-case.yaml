@@ -1,0 +1,34 @@
+id: workflow:service-case
+label: Service Case Workflow
+notes: Internal servicing workflow from Intake through Closed; transitions are append-only and closed
+  records are immutable in MVP.
+related_entities:
+  - entity:activity-timeline-event
+  - entity:service-case
+  - entity:service-case-transition
+source_docs:
+  - F0024/architecture-plan.md
+  - planning-mds/architecture/data-model.md
+states:
+  - id: state:service-case:intake
+    label: Intake
+    transitions_to:
+      - state:service-case:in-progress
+      - state:service-case:waiting
+  - id: state:service-case:in-progress
+    label: InProgress
+    transitions_to:
+      - state:service-case:waiting
+      - state:service-case:resolved
+  - id: state:service-case:waiting
+    label: Waiting
+    transitions_to:
+      - state:service-case:in-progress
+      - state:service-case:resolved
+  - id: state:service-case:resolved
+    label: Resolved
+    transitions_to:
+      - state:service-case:closed
+  - id: state:service-case:closed
+    label: Closed
+    transitions_to: []

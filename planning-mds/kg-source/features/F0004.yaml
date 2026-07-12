@@ -1,0 +1,135 @@
+status: archived-done
+id: feature:F0004
+name: Task Center UI + Manager Assignment
+path: planning-mds/features/archive/F0004-task-center-ui-and-assignment
+affects:
+  - capability:task-assignment
+  - capability:task-center
+  - capability:task-visibility
+  - endpoint:task-detail
+  - endpoint:task-list
+  - entity:task-item
+  - entity:user-profile
+  - event:task-updated
+  - ui_route:task-center
+archived_date: '2026-03-23'
+completion_state: Done and archived (2026-03-23)
+depends_on:
+  - feature:F0003
+  - feature:F0005
+phase: Phase 1
+roadmap_order: 20
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0004-S0001
+    path: planning-mds/features/archive/F0004-task-center-ui-and-assignment/F0004-S0001-task-list-api-endpoint.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:task-center
+      - capability:task-visibility
+      - endpoint:task-list
+      - entity:task-item
+      - entity:user-profile
+    enforced_by_policy:
+      - policy_rule:task-read
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:task
+  - id: story:F0004-S0002
+    path: planning-mds/features/archive/F0004-task-center-ui-and-assignment/F0004-S0002-user-search-api-endpoint.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:task-assignment
+      - entity:user-profile
+    enforced_by_policy:
+      - policy_rule:user-search
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0004-S0003
+    path: planning-mds/features/archive/F0004-task-center-ui-and-assignment/F0004-S0003-cross-user-task-authorization.md
+    affects:
+      - capability:task-assignment
+      - capability:task-visibility
+      - entity:task-item
+      - entity:user-profile
+    enforced_by_policy:
+      - policy_rule:task-create
+      - policy_rule:task-delete
+      - policy_rule:task-read
+      - policy_rule:task-update
+      - policy_rule:user-search
+    restricted_to_role:
+      - role:admin
+      - role:distribution-manager
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:task
+      - schema:task-update-request
+  - id: story:F0004-S0004
+    path: planning-mds/features/archive/F0004-task-center-ui-and-assignment/F0004-S0004-task-center-list-and-filter-ui.md
+    affects:
+      - capability:task-center
+      - capability:task-visibility
+      - endpoint:task-list
+      - entity:task-item
+      - ui_route:task-center
+    enforced_by_policy:
+      - policy_rule:task-read
+      - policy_rule:task-update
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:task
+      - schema:task-update-request
+  - id: story:F0004-S0005
+    path: planning-mds/features/archive/F0004-task-center-ui-and-assignment/F0004-S0005-task-create-edit-ui-with-assignment.md
+    affects:
+      - capability:task-assignment
+      - capability:task-center
+      - endpoint:task-create
+      - endpoint:task-detail
+      - entity:task-item
+      - entity:user-profile
+      - event:task-created
+      - event:task-updated
+      - ui_route:task-center
+    enforced_by_policy:
+      - policy_rule:task-create
+      - policy_rule:task-update
+      - policy_rule:user-search
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:task
+      - schema:task-create-request
+      - schema:task-update-request
+  - id: story:F0004-S0006
+    path: planning-mds/features/archive/F0004-task-center-ui-and-assignment/F0004-S0006-task-detail-panel-and-mobile-view.md
+    affects:
+      - capability:task-center
+      - capability:task-visibility
+      - endpoint:task-detail
+      - endpoint:timeline-events
+      - entity:activity-timeline-event
+      - entity:task-item
+      - event:task-updated
+      - ui_route:task-center
+    enforced_by_policy:
+      - policy_rule:task-read
+      - policy_rule:task-update
+      - policy_rule:timeline-event-read
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:task
+      - schema:task-update-request
+      - schema:timeline-event
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:task
+  - schema:task-create-request
+  - schema:task-summary
+  - schema:task-update-request

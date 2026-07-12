@@ -1,0 +1,16 @@
+id: capability:saved-views
+label: Saved Views
+rationale:
+  - adr: adr:014-search
+    section: Saved View Design
+    summary: Saved views persist structured criteria for personal/team scopes, require If-Match for mutations,
+      and append SavedViewAuditEvent rows.
+related_nodes:
+  - capability:authorization-enforcement
+  - entity:saved-view
+  - entity:saved-view-audit-event
+source_docs:
+  - F0023/README.md
+  - F0023/feature-assembly-plan.md
+  - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+  - planning-mds/schemas/saved-view.schema.json

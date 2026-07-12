@@ -1,0 +1,313 @@
+status: archived-done
+id: feature:F0016
+name: Account 360 & Insured Management
+path: planning-mds/features/archive/F0016-account-360-and-insured-management
+affects:
+  - endpoint:account-contact-create
+  - endpoint:account-contact-delete
+  - endpoint:account-contact-list
+  - endpoint:account-contact-update
+  - endpoint:account-create
+  - endpoint:account-detail
+  - endpoint:account-lifecycle
+  - endpoint:account-list
+  - endpoint:account-merge
+  - endpoint:account-policies
+  - endpoint:account-relationship-change
+  - endpoint:account-renewals
+  - endpoint:account-submissions
+  - endpoint:account-summary
+  - endpoint:account-timeline
+  - endpoint:account-update
+  - entity:account
+  - entity:activity-timeline-event
+  - entity:broker
+  - entity:contact
+  - entity:workflow-transition
+  - workflow:account-lifecycle
+archived_date: '2026-04-14'
+completion_state: 'Done and archived (2026-04-14) — 11 stories: list, create, profile edit, 360 workspace,
+  contacts, relationships, lifecycle, merge, fallback contract, timeline, summary projection'
+depends_on:
+  - feature:F0002
+  - id: feature:F0018
+    confidence: 0.5
+    note: Soft; reads F0007-seeded Policy stub in MVP
+    provenance: inferred
+  - id: feature:F0020
+    confidence: 0.6
+    note: Soft; Account 360 documents rail
+    provenance: inferred
+enforced_by_policy:
+  - policy_rule:account-contact-manage
+  - policy_rule:account-create
+  - policy_rule:account-deactivate
+  - policy_rule:account-delete
+  - policy_rule:account-merge
+  - policy_rule:account-reactivate
+  - policy_rule:account-read
+  - policy_rule:account-relationship-change
+  - policy_rule:account-update
+  - policy_rule:timeline-event-read
+governed_by:
+  - adr:008
+  - adr:009
+  - adr:011
+  - adr:012
+  - adr:017
+phase: CRM Release MVP
+restricted_to_role:
+  - role:admin
+  - role:broker-user
+  - role:distribution-manager
+  - role:distribution-user
+  - role:program-manager
+  - role:relationship-manager
+  - role:underwriter
+roadmap_order: 15
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0016-S0001
+    path: planning-mds/features/archive/F0016-account-360-and-insured-management/F0016-S0001-account-list-with-search-and-filtering.md
+    affects:
+      - endpoint:account-list
+      - entity:account
+      - entity:broker
+    enforced_by_policy:
+      - policy_rule:account-read
+    restricted_to_role:
+      - role:admin
+      - role:broker-user
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:account-list-item
+  - id: story:F0016-S0002
+    path: planning-mds/features/archive/F0016-account-360-and-insured-management/F0016-S0002-create-account.md
+    affects:
+      - endpoint:account-create
+      - entity:account
+      - entity:activity-timeline-event
+    enforced_by_policy:
+      - policy_rule:account-create
+    restricted_to_role:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:account
+      - schema:account-create-request
+  - id: story:F0016-S0003
+    path: planning-mds/features/archive/F0016-account-360-and-insured-management/F0016-S0003-account-detail-and-profile-edit.md
+    affects:
+      - endpoint:account-detail
+      - endpoint:account-update
+      - entity:account
+      - entity:activity-timeline-event
+    enforced_by_policy:
+      - policy_rule:account-read
+      - policy_rule:account-update
+    governed_by:
+      - adr:017
+    restricted_to_role:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:account
+      - schema:account-update-request
+  - id: story:F0016-S0004
+    path: planning-mds/features/archive/F0016-account-360-and-insured-management/F0016-S0004-account-360-composition.md
+    affects:
+      - endpoint:account-detail
+      - endpoint:account-policies
+      - endpoint:account-renewals
+      - endpoint:account-submissions
+      - endpoint:account-summary
+      - entity:account
+      - entity:policy
+      - entity:renewal
+      - entity:submission
+    depends_on:
+      - id: feature:F0018
+        confidence: 0.5
+        provenance: inferred
+      - id: feature:F0020
+        confidence: 0.6
+        provenance: inferred
+    enforced_by_policy:
+      - policy_rule:account-read
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:account
+      - schema:account-summary
+  - id: story:F0016-S0005
+    path: planning-mds/features/archive/F0016-account-360-and-insured-management/F0016-S0005-account-contacts-management.md
+    affects:
+      - endpoint:account-contact-create
+      - endpoint:account-contact-delete
+      - endpoint:account-contact-list
+      - endpoint:account-contact-update
+      - entity:account
+      - entity:activity-timeline-event
+      - entity:contact
+    enforced_by_policy:
+      - policy_rule:account-contact-manage
+    restricted_to_role:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:relationship-manager
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:account-contact
+      - schema:account-contact-request
+  - id: story:F0016-S0006
+    path: planning-mds/features/archive/F0016-account-360-and-insured-management/F0016-S0006-account-relationships-broker-producer-territory.md
+    affects:
+      - endpoint:account-relationship-change
+      - entity:account
+      - entity:activity-timeline-event
+      - entity:broker
+    enforced_by_policy:
+      - policy_rule:account-relationship-change
+    restricted_to_role:
+      - role:admin
+      - role:distribution-manager
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:account-relationship-request
+  - id: story:F0016-S0007
+    path: planning-mds/features/archive/F0016-account-360-and-insured-management/F0016-S0007-account-lifecycle-deactivate-reactivate-delete.md
+    affects:
+      - endpoint:account-lifecycle
+      - entity:account
+      - entity:activity-timeline-event
+      - entity:workflow-transition
+      - workflow:account-lifecycle
+    enforced_by_policy:
+      - policy_rule:account-deactivate
+      - policy_rule:account-delete
+      - policy_rule:account-reactivate
+    governed_by:
+      - adr:011
+      - adr:017
+    restricted_to_role:
+      - role:admin
+      - role:distribution-manager
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:account-lifecycle-request
+      - schema:activity-event-payloads
+    workflow_states:
+      - state:account:active
+      - state:account:deleted
+      - state:account:inactive
+  - id: story:F0016-S0008
+    path: planning-mds/features/archive/F0016-account-360-and-insured-management/F0016-S0008-account-merge-and-duplicate-handling.md
+    affects:
+      - endpoint:account-merge
+      - entity:account
+      - entity:activity-timeline-event
+      - entity:workflow-transition
+      - workflow:account-lifecycle
+    enforced_by_policy:
+      - policy_rule:account-merge
+    governed_by:
+      - adr:011
+      - adr:017
+    restricted_to_role:
+      - role:admin
+      - role:distribution-manager
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:account-merge-request
+      - schema:activity-event-payloads
+    workflow_states:
+      - state:account:active
+      - state:account:inactive
+      - state:account:merged
+  - id: story:F0016-S0009
+    path: planning-mds/features/archive/F0016-account-360-and-insured-management/F0016-S0009-deleted-merged-account-fallback-contract.md
+    affects:
+      - endpoint:account-detail
+      - endpoint:account-list
+      - endpoint:account-policies
+      - endpoint:account-renewals
+      - endpoint:account-submissions
+      - entity:account
+      - entity:policy
+      - entity:renewal
+      - entity:submission
+    depends_on:
+      - story:F0016-S0007
+      - story:F0016-S0008
+    enforced_by_policy:
+      - policy_rule:account-read
+    governed_by:
+      - adr:017
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:account
+      - schema:account-list-item
+  - id: story:F0016-S0010
+    path: planning-mds/features/archive/F0016-account-360-and-insured-management/F0016-S0010-account-activity-timeline-and-audit.md
+    affects:
+      - endpoint:account-timeline
+      - entity:account
+      - entity:activity-timeline-event
+      - entity:workflow-transition
+    enforced_by_policy:
+      - policy_rule:account-read
+      - policy_rule:timeline-event-read
+    governed_by:
+      - adr:011
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:timeline-event
+  - id: story:F0016-S0011
+    path: planning-mds/features/archive/F0016-account-360-and-insured-management/F0016-S0011-account-summary-projection.md
+    affects:
+      - endpoint:account-summary
+      - entity:account
+      - entity:policy
+      - entity:renewal
+      - entity:submission
+    enforced_by_policy:
+      - policy_rule:account-read
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:account-summary
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:account
+  - schema:account-contact
+  - schema:account-contact-request
+  - schema:account-create-request
+  - schema:account-lifecycle-request
+  - schema:account-list-item
+  - schema:account-merge-request
+  - schema:account-relationship-request
+  - schema:account-summary
+  - schema:account-update-request
+  - schema:activity-event-payloads
+  - schema:timeline-event

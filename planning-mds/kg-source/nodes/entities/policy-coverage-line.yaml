@@ -1,0 +1,11 @@
+id: entity:policy-coverage-line
+label: PolicyCoverageLine
+rationale:
+  - adr: adr:018
+    section: Decision §1
+    summary: Materialized coverage line attached to a specific PolicyVersion. Re-materialized on every
+      endorsement/reinstatement so that queries for current coverages do not require walking snapshot
+      blobs.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md

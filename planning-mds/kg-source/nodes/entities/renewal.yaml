@@ -1,0 +1,11 @@
+id: entity:renewal
+label: Renewal
+rationale:
+  - adr: adr:020
+    section: Decision
+    summary: Renewal is a variant attribute carrier whose renewal-stage attributes are schema-pinned independently
+      of core renewal workflow state.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
+  - planning-mds/domain/glossary.md

@@ -1,0 +1,29 @@
+canonical-nodes.yaml:
+  version: 0
+  status: seed
+  coverage_note: 'This file seeds only the shared canonical layer that is already well-supported by current
+    Nebula artifacts. Add nodes here only when they have stable names and authoritative source documents.
+
+    '
+code-index.yaml:
+  version: 0
+  status: seed
+  coverage_note: 'This file binds stable solution node IDs to implementation paths in engine/, experience/,
+    and security policy artifacts so agents can route into code without broad repo scans. These bindings
+    are retrieval hints only; raw source files remain authoritative.
+
+    '
+feature-mappings.yaml:
+  version: 0
+  status: seed
+  coverage_note: 'This file intentionally expands shared coverage in phases. Core workflow features and
+    the completed archived features are backfilled first because they represent executed solution truth.
+    Draft and abandoned historical scopes may still have thinner coverage.
+
+    '
+  rules:
+    - Mappings must reference canonical IDs declared in canonical-nodes.yaml.
+    - Product Manager owns feature and story mapping freshness.
+    - Architect owns corrections to canonical shared semantics.
+    - If a target feature or story is not mapped here, prompts must fall back to the current file-centric
+      read pattern.

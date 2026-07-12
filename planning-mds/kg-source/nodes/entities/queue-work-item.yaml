@@ -1,0 +1,11 @@
+id: entity:queue-work-item
+label: QueueWorkItem
+rationale:
+  - adr: adr:013
+    section: F0022 Execution Contract
+    summary: One active queue placement per task/submission/renewal keeps routing idempotent under repeated
+      source workflow events.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - planning-mds/schemas/queue-work-item.schema.json

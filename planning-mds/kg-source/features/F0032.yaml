@@ -1,0 +1,22 @@
+status: planned
+id: feature:F0032
+name: Admin Configuration & Reference Data Console
+path: planning-mds/features/F0032-admin-configuration-and-reference-data-console
+affects:
+  - config_key:published-configuration-sets
+  - config_key:workflow-sla-thresholds
+  - entity:workflow-sla-threshold
+  - workflow:renewal
+  - workflow:submission
+governed_by:
+  - adr:013
+  - adr:014-search
+  - adr:014-workflow-sla
+  - adr:016
+phase: Platform Operations
+rationale: Lands after F0022/F0023 to centralize governance, validation, publish, rollback, and audit
+  over module-owned configuration rather than becoming a prerequisite for queues.
+roadmap_order: 2
+roadmap_section: Next
+uses_api_contract:
+  - api:nebula-rest

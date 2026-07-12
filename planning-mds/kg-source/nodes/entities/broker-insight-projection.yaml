@@ -1,0 +1,19 @@
+id: entity:broker-insight-projection
+label: BrokerInsightProjection
+rationale:
+  - adr: adr:031
+    section: Decision §1
+    summary: Broker insight metrics are derived broker-period-metric facts with denominator, source, dimension,
+      and freshness provenance; source modules remain authoritative.
+related_nodes:
+  - entity:activity-timeline-event
+  - entity:broker
+  - entity:operational-report-projection
+  - entity:policy
+  - entity:renewal
+  - entity:search-document
+  - entity:submission
+source_docs:
+  - F0008/PRD.md
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md

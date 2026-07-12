@@ -1,0 +1,119 @@
+status: archived-done
+id: feature:F0013
+name: Dashboard Framed Storytelling Canvas
+path: planning-mds/features/archive/F0013-dashboard-framed-storytelling-canvas
+affects:
+  - capability:dashboard-home
+  - capability:dashboard-nudge-cards
+  - capability:dashboard-opportunity-analytics
+  - capability:dashboard-pipeline-visualization
+  - capability:dashboard-storytelling-canvas
+  - config_key:workflow-sla-thresholds
+  - endpoint:dashboard-kpis
+  - endpoint:dashboard-nudges
+  - endpoint:dashboard-opportunity-flow
+  - entity:task-item
+  - migration:f0013-workflow-sla-thresholds
+  - ui_route:dashboard-home
+  - workflow:submission
+archived_date: '2026-03-19'
+completion_state: Done and archived
+depends_on:
+  - feature:F0001
+governed_by:
+  - adr:002
+  - adr:004
+phase: MVP
+roadmap_order: 23
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0013-S0000
+    path: planning-mds/features/archive/F0013-dashboard-framed-storytelling-canvas/F0013-S0000-editorial-palette-refresh-dark-and-light-themes.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-storytelling-canvas
+      - ui_route:dashboard-home
+    validated_by:
+      - evidence:theme-smoke-visual-tests
+  - id: story:F0013-S0001
+    path: planning-mds/features/archive/F0013-dashboard-framed-storytelling-canvas/F0013-S0001-restore-framed-canvas-identity-with-three-layer-visual-hierarchy.md
+    affects:
+      - capability:dashboard-broker-activity-feed
+      - capability:dashboard-home
+      - capability:dashboard-nudge-cards
+      - capability:dashboard-storytelling-canvas
+      - ui_route:dashboard-home
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0013-S0002
+    path: planning-mds/features/archive/F0013-dashboard-framed-storytelling-canvas/F0013-S0002-build-timeline-bar-with-connected-stage-nodes-and-terminal-branches.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-opportunity-analytics
+      - capability:dashboard-pipeline-visualization
+      - capability:dashboard-storytelling-canvas
+      - endpoint:dashboard-opportunity-flow
+      - ui_route:dashboard-home
+      - workflow:renewal
+      - workflow:submission
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:opportunity-flow
+      - schema:opportunity-flow-link
+      - schema:opportunity-flow-node
+  - id: story:F0013-S0003
+    path: planning-mds/features/archive/F0013-dashboard-framed-storytelling-canvas/F0013-S0003-add-radial-donut-chart-popovers-at-each-timeline-stage-node.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-opportunity-analytics
+      - capability:dashboard-storytelling-canvas
+      - endpoint:dashboard-opportunity-flow
+      - ui_route:dashboard-home
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:opportunity-breakdown
+      - schema:opportunity-breakdown-group
+      - schema:pipeline-mini-card
+  - id: story:F0013-S0004
+    path: planning-mds/features/archive/F0013-dashboard-framed-storytelling-canvas/F0013-S0004-connect-chapter-controls-to-radial-popover-data-layers.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-opportunity-analytics
+      - capability:dashboard-storytelling-canvas
+      - config_key:workflow-sla-thresholds
+      - endpoint:dashboard-opportunity-flow
+      - entity:workflow-sla-threshold
+      - migration:f0013-workflow-sla-thresholds
+      - ui_route:dashboard-home
+    governed_by:
+      - adr:014-workflow-sla
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:opportunity-breakdown
+      - schema:opportunity-breakdown-group
+  - id: story:F0013-S0005
+    path: planning-mds/features/archive/F0013-dashboard-framed-storytelling-canvas/F0013-S0005-ensure-responsive-accessibility-and-performance-parity.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-storytelling-canvas
+      - ui_route:dashboard-home
+    validated_by:
+      - evidence:theme-smoke-visual-tests
+supersedes:
+  - feature:F0010
+  - feature:F0012
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:dashboard-kpis
+  - schema:nudge-card
+  - schema:opportunity-breakdown
+  - schema:opportunity-breakdown-group
+  - schema:opportunity-flow
+  - schema:opportunity-flow-link
+  - schema:opportunity-flow-node
+  - schema:pipeline-mini-card
+  - schema:task-summary

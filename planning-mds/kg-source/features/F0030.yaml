@@ -1,0 +1,18 @@
+status: planned
+id: feature:F0030
+name: Integration Hub & Data Exchange
+path: planning-mds/features/F0030-integration-hub-and-data-exchange
+affects:
+  - entity:document
+  - entity:policy
+  - entity:renewal
+  - entity:submission
+governed_by:
+  - adr:015
+  - adr:016
+phase: Brokerage Platform Expansion
+rationale: Needed for scalable connectivity across email, carriers, accounting, and document systems.
+roadmap_order: 2
+roadmap_section: Later
+uses_api_contract:
+  - api:nebula-rest

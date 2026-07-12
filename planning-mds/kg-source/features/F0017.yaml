@@ -1,0 +1,179 @@
+status: archived-done
+id: feature:F0017
+name: Broker/MGA Hierarchy, Producer Ownership & Territory Management
+path: planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership
+affects:
+  - capability:distribution-hierarchy-management
+  - capability:producer-ownership-management
+  - capability:territory-management
+  - endpoint:distribution-node-ancestors
+  - endpoint:distribution-node-descendants
+  - endpoint:distribution-node-parent-update
+  - endpoint:producer-ownership-assign
+  - endpoint:producer-ownership-read
+  - endpoint:territory-assignment-lookup
+  - endpoint:territory-create
+  - endpoint:territory-member-assign
+  - endpoint:territory-members-list
+  - entity:activity-timeline-event
+  - entity:broker
+  - entity:mga
+  - entity:producer
+  - entity:producer-ownership
+  - entity:territory
+  - entity:territory-assignment
+archived_date: '2026-07-03'
+completion_state: 'Done and archived (2026-07-03, feature run `2026-06-07-771a5ef6`) — 5 stories: arbitrary-depth
+  broker/MGA hierarchy, hierarchy traversal, effective-dated producer ownership, effective-dated territory
+  assignment, audit/timeline'
+depends_on:
+  - feature:F0002
+enforced_by_policy:
+  - policy_rule:distribution-node-read
+  - policy_rule:distribution-node-update
+  - policy_rule:producer-ownership-assign
+  - policy_rule:producer-ownership-read
+  - policy_rule:territory-assign
+  - policy_rule:territory-create
+  - policy_rule:territory-read
+governed_by:
+  - adr:026
+notes:
+  - Phase B Architect bindings (plan run 2026-06-06-5fb353e9), governed by ADR-026. MVP = arbitrary-depth
+    self-referencing hierarchy + effective-dated producer ownership + effective-dated territory + change
+    audit (stories S0001-S0005).
+  - Plan-review repair 2026-06-06 bound F0017 to concrete OpenAPI routes, JSON Schemas, and role-based
+    mutation policy rules. F0023 is a downstream reporting substrate/consumer, not a build prerequisite.
+    Hierarchy-aware access-control enforcement and rollup reporting are deferred to F0037.
+phase: CRM Release MVP+
+roadmap_order: 5
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0017-S0001
+    path: planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0001-model-broker-mga-hierarchy.md
+    affects:
+      - capability:distribution-hierarchy-management
+      - endpoint:distribution-node-parent-update
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:mga
+      - entity:producer
+    enforced_by_policy:
+      - policy_rule:distribution-node-update
+    governed_by:
+      - adr:026
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:distribution-node
+      - schema:distribution-node-parent-request
+      - schema:problem-details
+      - schema:timeline-event
+  - id: story:F0017-S0002
+    path: planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0002-navigate-hierarchy.md
+    affects:
+      - capability:distribution-hierarchy-management
+      - endpoint:distribution-node-ancestors
+      - endpoint:distribution-node-descendants
+    enforced_by_policy:
+      - policy_rule:distribution-node-read
+    governed_by:
+      - adr:026
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:distribution-node
+      - schema:distribution-node-ancestors-response
+      - schema:paginated-distribution-node-list
+      - schema:problem-details
+  - id: story:F0017-S0003
+    path: planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md
+    affects:
+      - capability:producer-ownership-management
+      - endpoint:producer-ownership-assign
+      - endpoint:producer-ownership-read
+      - entity:activity-timeline-event
+      - entity:producer
+      - entity:producer-ownership
+    enforced_by_policy:
+      - policy_rule:producer-ownership-assign
+      - policy_rule:producer-ownership-read
+    governed_by:
+      - adr:026
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:problem-details
+      - schema:producer-ownership
+      - schema:producer-ownership-assignment-request
+      - schema:producer-ownership-lookup-response
+      - schema:timeline-event
+  - id: story:F0017-S0004
+    path: planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0004-territory-management-effective-dated.md
+    affects:
+      - capability:territory-management
+      - endpoint:territory-assignment-lookup
+      - endpoint:territory-create
+      - endpoint:territory-member-assign
+      - endpoint:territory-members-list
+      - entity:activity-timeline-event
+      - entity:territory
+      - entity:territory-assignment
+    enforced_by_policy:
+      - policy_rule:territory-assign
+      - policy_rule:territory-create
+      - policy_rule:territory-read
+    governed_by:
+      - adr:026
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:paginated-territory-assignment-list
+      - schema:problem-details
+      - schema:territory
+      - schema:territory-assignment
+      - schema:territory-assignment-lookup-response
+      - schema:territory-create-request
+      - schema:territory-member-assignment-request
+      - schema:timeline-event
+  - id: story:F0017-S0005
+    path: planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0005-hierarchy-ownership-territory-audit.md
+    affects:
+      - capability:distribution-hierarchy-management
+      - capability:producer-ownership-management
+      - capability:territory-management
+      - endpoint:distribution-node-parent-update
+      - endpoint:producer-ownership-assign
+      - endpoint:territory-create
+      - endpoint:territory-member-assign
+      - entity:activity-timeline-event
+    governed_by:
+      - adr:026
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:problem-details
+      - schema:timeline-event
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:activity-event-payloads
+  - schema:distribution-node
+  - schema:distribution-node-ancestors-response
+  - schema:distribution-node-parent-request
+  - schema:paginated-distribution-node-list
+  - schema:paginated-territory-assignment-list
+  - schema:problem-details
+  - schema:producer-ownership
+  - schema:producer-ownership-assignment-request
+  - schema:producer-ownership-lookup-response
+  - schema:territory
+  - schema:territory-assignment
+  - schema:territory-assignment-lookup-response
+  - schema:territory-create-request
+  - schema:territory-member-assignment-request
+  - schema:timeline-event

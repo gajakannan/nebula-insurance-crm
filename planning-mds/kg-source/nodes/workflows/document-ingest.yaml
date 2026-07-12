@@ -1,0 +1,27 @@
+id: workflow:document-ingest
+label: Document ingest pipeline (quarantine then promote)
+notes: 'Every uploaded binary (single, bulk, replace, template materialise) is held in <docroot>/quarantine/{upload-id}
+  for a configurable hold (default 60 s; bounds 30-300 s) before an idempotent worker promotes the binary
+  atomically and flips the sidecar JSON status. The MVP scanner is a timer (`MockTimerScanner`); real
+  scanners satisfy the same `IQuarantineScanner` interface.
+
+  '
+rationale:
+  - adr: adr:019
+    section: Decision
+    summary: Structural pipeline that lets the mock scanner be replaced with a real scanner via a single
+      interface implementation, and exposes failure modes through sidecar JSON events[].
+source_docs:
+  - F0020/F0020-S0003-quarantine-and-mock-scan-workflow.md
+  - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+  - planning-mds/architecture/decisions/ADR-019-mock-quarantine-then-promote-ingest-pipeline.md
+states:
+  - id: state:document-ingest:quarantined
+    label: Quarantined
+    transitions_to:
+      - state:document-ingest:available
+      - state:document-ingest:failed-promote
+  - id: state:document-ingest:available
+    label: Available
+  - id: state:document-ingest:failed-promote
+    label: FailedPromote

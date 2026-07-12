@@ -1,0 +1,65 @@
+status: archived-done
+id: feature:F0033
+name: Structured Logging and QE Toolchain Activation
+path: planning-mds/features/archive/F0033-structured-logging-and-qe-toolchain-activation
+affects:
+  - capability:api-contract-testing
+  - capability:lighthouse-performance-gate
+  - capability:qe-toolchain-activation
+  - capability:sonarqube-reporting
+  - capability:structured-logging
+archived_date: '2026-03-30'
+completion_state: 'Done and archived (2026-03-30) — 5 stories: Serilog baseline, Bruno API validation,
+  Lighthouse CI, Pact contract testing, SonarQube Community'
+depends_on:
+  - feature:F0015
+phase: Infrastructure
+roadmap_order: 18
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0033-S0001
+    path: planning-mds/features/archive/F0033-structured-logging-and-qe-toolchain-activation/F0033-S0001-establish-serilog-structured-logging-baseline.md
+    affects:
+      - capability:qe-toolchain-activation
+      - capability:structured-logging
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0033-S0002
+    path: planning-mds/features/archive/F0033-structured-logging-and-qe-toolchain-activation/F0033-S0002-activate-bruno-api-validation-path.md
+    affects:
+      - capability:authentication
+      - capability:qe-toolchain-activation
+      - entity:broker
+      - entity:task-item
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0033-S0003
+    path: planning-mds/features/archive/F0033-structured-logging-and-qe-toolchain-activation/F0033-S0003-activate-lighthouse-ci-performance-gate.md
+    affects:
+      - capability:frontend-quality-gates
+      - capability:lighthouse-performance-gate
+      - capability:qe-toolchain-activation
+      - ui_route:brokers-list
+      - ui_route:dashboard-home
+      - ui_route:login
+  - id: story:F0033-S0004
+    path: planning-mds/features/archive/F0033-structured-logging-and-qe-toolchain-activation/F0033-S0004-establish-broker-list-contract-testing-with-pact.md
+    affects:
+      - capability:api-contract-testing
+      - entity:broker
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:broker
+      - schema:paginated-broker-list
+      - schema:problem-details
+    validated_by:
+      - evidence:broker-list-pact-tests
+  - id: story:F0033-S0005
+    path: planning-mds/features/archive/F0033-structured-logging-and-qe-toolchain-activation/F0033-S0005-activate-sonarqube-community-quality-reporting.md
+    affects:
+      - capability:frontend-quality-gates
+      - capability:qe-toolchain-activation
+      - capability:sonarqube-reporting
+uses_api_contract:
+  - api:nebula-rest

@@ -1,0 +1,69 @@
+status: archived-done
+id: feature:F0022
+name: Work Queues, Assignment Rules & Coverage Management
+path: planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management
+affects:
+  - capability:operations-routing
+  - endpoint:assignment-rule-upsert
+  - endpoint:coverage-window-upsert
+  - endpoint:queue-work-item-reassign
+  - endpoint:routing-events-list
+  - endpoint:work-queue-create
+  - endpoint:work-queue-items-list
+  - endpoint:work-queue-list
+  - endpoint:work-queue-rebalance
+  - entity:assignment-rule
+  - entity:coverage-window
+  - entity:queue-work-item
+  - entity:routing-decision-log
+  - entity:task-item
+  - entity:work-queue
+  - entity:work-queue-member
+  - entity:workflow-sla-threshold
+  - workflow:renewal
+  - workflow:submission
+archived_date: '2026-07-03'
+completion_state: 'Done and archived (2026-07-03, feature run `2026-07-03-b9f40b31`) — 7 stories: queues/memberships,
+  assignment rules, task/submission/renewal routing, coverage windows, queue worklists/aging, reassignment/rebalance,
+  routing audit/permissions'
+depends_on:
+  - feature:F0004
+  - feature:F0006
+  - feature:F0007
+  - feature:F0017
+enforced_by_policy:
+  - policy_rule:queue-assign
+  - policy_rule:queue-manage
+  - policy_rule:queue-read
+governed_by:
+  - adr:013
+  - adr:016
+notes: 'Phase A clarification 2026-07-03: F0022 must land before F0032. F0032 governs queue/rule configuration
+  later but is not a prerequisite. Initial routed work types are tasks, submissions, and renewals; no-match
+  work falls back to Unassigned Operations Queue. Phase B 2026-07-03 accepted ADR-013 and bound durable
+  queue/rule/coverage entities, WorkQueues API contracts, queue:* policy rules, and routing audit schemas.'
+phase: CRM Release MVP
+roadmap_order: 3
+roadmap_section: Completed
+stories:
+  - F0022-S0001
+  - F0022-S0002
+  - F0022-S0003
+  - F0022-S0004
+  - F0022-S0005
+  - F0022-S0006
+  - F0022-S0007
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:assignment-rule
+  - schema:assignment-rule-upsert-request
+  - schema:coverage-window
+  - schema:coverage-window-upsert-request
+  - schema:queue-member-upsert-request
+  - schema:queue-reassignment-request
+  - schema:queue-rebalance-request
+  - schema:queue-work-item
+  - schema:routing-event
+  - schema:work-queue
+  - schema:work-queue-upsert-request

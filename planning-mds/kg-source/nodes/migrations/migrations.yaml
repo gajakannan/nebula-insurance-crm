@@ -1,0 +1,70 @@
+migrations:
+  - id: migration:f0004-task-and-user-profile-indexes
+    label: F0004 Task and User Profile Indexes
+    path: engine/src/Nebula.Infrastructure/Persistence/Migrations/20260322184705_F0004_AddTaskAndUserProfileIndexes.cs
+    related_nodes:
+      - capability:task-center
+      - entity:task-item
+      - entity:user-profile
+  - id: migration:f0005-idp-principal-refactor
+    label: F0005 IdP Principal Refactor
+    path: engine/src/Nebula.Infrastructure/Persistence/Migrations/20260301000000_F0005_IdpPrincipalRefactor.cs
+    related_nodes:
+      - capability:idp-foundation
+      - capability:principal-key-normalization
+      - entity:user-profile
+  - id: migration:f0006-submission-intake-columns
+    label: F0006 Submission Intake Columns
+    path: engine/src/Nebula.Infrastructure/Persistence/Migrations/20260331164454_F0006_SubmissionIntakeColumns.cs
+    related_nodes:
+      - config_key:workflow-sla-thresholds
+      - entity:submission
+      - workflow:submission
+  - id: migration:f0007-renewal-entity-shape-reconcile
+    label: F0007 Reconcile Renewal Entity Shape
+    path: engine/src/Nebula.Infrastructure/Persistence/Migrations/20260408013334_F0007_ReconcileRenewalEntityShape.cs
+    related_nodes:
+      - config_key:workflow-sla-thresholds
+      - entity:renewal
+      - workflow:renewal
+  - id: migration:f0007-renewal-workflow-states-reconcile
+    label: F0007 Reconcile Renewal Workflow States
+    path: engine/src/Nebula.Infrastructure/Persistence/Migrations/20260407151358_F0007_ReconcileRenewalWorkflowStates.cs
+    related_nodes:
+      - config_key:workflow-sla-thresholds
+      - entity:renewal
+      - workflow:renewal
+  - id: migration:f0013-workflow-sla-thresholds
+    label: F0013 Add Line Of Business And Workflow SLA Thresholds
+    path: engine/src/Nebula.Infrastructure/Persistence/Migrations/20260316014518_F0013_AddLineOfBusinessAndWorkflowSlaThresholds.cs
+    related_nodes:
+      - config_key:workflow-sla-thresholds
+      - entity:workflow-sla-threshold
+  - id: migration:f0016-account-contacts-and-relationship-history
+    label: F0016 Account Contacts And Relationship History
+    path: engine/src/Nebula.Infrastructure/Persistence/Migrations/20260414121000_F0016_AccountContactsAndRelationshipHistory.cs
+    related_nodes:
+      - entity:account
+      - entity:contact
+  - id: migration:f0016-account-lifecycle
+    label: F0016 Account Lifecycle
+    path: engine/src/Nebula.Infrastructure/Persistence/Migrations/20260414120000_F0016_AccountLifecycle.cs
+    related_nodes:
+      - entity:account
+      - workflow:account-lifecycle
+  - id: migration:f0016-dependent-fallback-denormalization
+    label: F0016 Dependent Fallback Denormalization
+    path: engine/src/Nebula.Infrastructure/Persistence/Migrations/20260414122000_F0016_DependentFallbackDenormalization.cs
+    related_nodes:
+      - entity:account
+      - entity:policy
+      - entity:renewal
+      - entity:submission
+  - id: migration:initial-create
+    label: Initial Create
+    path: engine/src/Nebula.Infrastructure/Persistence/Migrations/20260223071234_InitialCreate.cs
+    related_nodes:
+      - entity:broker
+      - entity:renewal
+      - entity:submission
+      - entity:task-item

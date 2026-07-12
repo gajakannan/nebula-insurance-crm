@@ -1,0 +1,1409 @@
+endpoints:
+  - id: endpoint:account-contact-create
+    label: POST /accounts/{accountId}/contacts
+    method: POST
+    related_nodes:
+      - entity:account
+      - entity:contact
+      - policy_rule:account-contact-manage
+    route: /accounts/{accountId}/contacts
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:account-contact-delete
+    label: DELETE /accounts/{accountId}/contacts/{contactId}
+    method: DELETE
+    related_nodes:
+      - entity:account
+      - entity:contact
+      - policy_rule:account-contact-manage
+    route: /accounts/{accountId}/contacts/{contactId}
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:account-contact-list
+    label: GET /accounts/{accountId}/contacts
+    method: GET
+    related_nodes:
+      - entity:account
+      - entity:contact
+      - policy_rule:account-read
+    route: /accounts/{accountId}/contacts
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:account-contact-update
+    label: PUT /accounts/{accountId}/contacts/{contactId}
+    method: PUT
+    related_nodes:
+      - entity:account
+      - entity:contact
+      - policy_rule:account-contact-manage
+    route: /accounts/{accountId}/contacts/{contactId}
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:account-create
+    label: POST /accounts
+    method: POST
+    related_nodes:
+      - entity:account
+      - policy_rule:account-create
+      - workflow:account-lifecycle
+    route: /accounts
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:account-detail
+    label: GET /accounts/{accountId}
+    method: GET
+    related_nodes:
+      - entity:account
+      - policy_rule:account-read
+      - workflow:account-lifecycle
+    route: /accounts/{accountId}
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
+  - id: endpoint:account-lifecycle
+    label: POST /accounts/{accountId}/lifecycle
+    method: POST
+    related_nodes:
+      - entity:account
+      - entity:workflow-transition
+      - policy_rule:account-deactivate
+      - policy_rule:account-delete
+      - policy_rule:account-reactivate
+      - workflow:account-lifecycle
+    route: /accounts/{accountId}/lifecycle
+    source_docs:
+      - F0016/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
+      - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
+  - id: endpoint:account-list
+    label: GET /accounts
+    method: GET
+    related_nodes:
+      - entity:account
+      - policy_rule:account-read
+      - workflow:account-lifecycle
+    route: /accounts
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:account-merge
+    label: POST /accounts/{accountId}/merge
+    method: POST
+    related_nodes:
+      - entity:account
+      - entity:workflow-transition
+      - policy_rule:account-merge
+      - workflow:account-lifecycle
+    route: /accounts/{accountId}/merge
+    source_docs:
+      - F0016/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md
+  - id: endpoint:account-policies
+    label: GET /accounts/{accountId}/policies
+    method: GET
+    related_nodes:
+      - entity:account
+      - entity:policy
+      - policy_rule:account-read
+    route: /accounts/{accountId}/policies
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:account-relationship-change
+    label: POST /accounts/{accountId}/relationships
+    method: POST
+    related_nodes:
+      - entity:account
+      - entity:broker
+      - policy_rule:account-relationship-change
+    route: /accounts/{accountId}/relationships
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:account-renewals
+    label: GET /accounts/{accountId}/renewals
+    method: GET
+    related_nodes:
+      - entity:account
+      - entity:renewal
+      - policy_rule:account-read
+    route: /accounts/{accountId}/renewals
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:account-submissions
+    label: GET /accounts/{accountId}/submissions
+    method: GET
+    related_nodes:
+      - entity:account
+      - entity:submission
+      - policy_rule:account-read
+    route: /accounts/{accountId}/submissions
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:account-summary
+    label: GET /accounts/{accountId}/summary
+    method: GET
+    related_nodes:
+      - entity:account
+      - policy_rule:account-read
+    route: /accounts/{accountId}/summary
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:account-timeline
+    label: GET /accounts/{accountId}/timeline
+    method: GET
+    related_nodes:
+      - entity:account
+      - entity:activity-timeline-event
+      - policy_rule:timeline-event-read
+    route: /accounts/{accountId}/timeline
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:account-update
+    label: PUT /accounts/{accountId}
+    method: PUT
+    related_nodes:
+      - entity:account
+      - policy_rule:account-update
+    route: /accounts/{accountId}
+    source_docs:
+      - F0016/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:assignment-rule-upsert
+    label: POST/PUT /assignment-rules
+    method: POST|PUT
+    related_nodes:
+      - capability:operations-routing
+      - entity:activity-timeline-event
+      - entity:assignment-rule
+      - policy_rule:queue-manage
+    route: /assignment-rules
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - id: endpoint:broker-create
+    label: POST /brokers
+    method: POST
+    related_nodes:
+      - capability:broker-relationship-management
+      - entity:broker
+    route: /brokers
+    source_docs:
+      - F0002/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:broker-detail
+    label: GET /brokers/{brokerId}
+    method: GET
+    related_nodes:
+      - capability:broker-360
+      - entity:broker
+      - policy_rule:broker-read
+    route: /brokers/{brokerId}
+    source_docs:
+      - F0002/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:broker-insight-benchmarks
+    label: GET /broker-insights/{brokerId}/benchmarks
+    method: GET
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - policy_rule:broker-insight-read
+    route: /broker-insights/{brokerId}/benchmarks
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+  - id: endpoint:broker-insight-scorecards
+    label: GET /broker-insights/scorecards
+    method: GET
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - policy_rule:broker-insight-read
+    route: /broker-insights/scorecards
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+  - id: endpoint:broker-insight-snapshot
+    label: GET /broker-insights/{brokerId}/snapshot
+    method: GET
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - entity:search-document
+      - policy_rule:broker-insight-read
+    route: /broker-insights/{brokerId}/snapshot
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+  - id: endpoint:broker-insight-trends
+    label: GET /broker-insights/{brokerId}/trends
+    method: GET
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - entity:search-document
+      - policy_rule:broker-insight-read
+    route: /broker-insights/{brokerId}/trends
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+  - id: endpoint:broker-list
+    label: GET /brokers
+    method: GET
+    related_nodes:
+      - capability:broker-relationship-management
+      - entity:broker
+      - policy_rule:broker-search
+    route: /brokers
+    source_docs:
+      - F0002/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:carrier-market-activity-links
+    label: GET/POST /carrier-markets/{carrierMarketId}/activity-links
+    method: MULTI
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:carrier-market-activity-link
+      - entity:policy
+      - entity:submission
+      - policy_rule:carrier-market-link-activity
+    route: /carrier-markets/{carrierMarketId}/activity-links
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:carrier-market-appetite-notes
+    label: GET/POST/PUT /carrier-markets/{carrierMarketId}/appetite-notes
+    method: MULTI
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:carrier-appetite-note
+      - policy_rule:carrier-market-manage-appetite
+    route: /carrier-markets/{carrierMarketId}/appetite-notes
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:carrier-market-appointments
+    label: GET/POST/PUT /carrier-markets/{carrierMarketId}/appointments
+    method: MULTI
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:carrier-appointment
+      - policy_rule:carrier-market-manage-appointment
+    route: /carrier-markets/{carrierMarketId}/appointments
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:carrier-market-contacts
+    label: GET/POST/PUT /carrier-markets/{carrierMarketId}/contacts
+    method: MULTI
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:carrier-market-contact
+      - policy_rule:carrier-market-manage-contact
+    route: /carrier-markets/{carrierMarketId}/contacts
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:carrier-market-create
+    label: POST /carrier-markets
+    method: POST
+    related_nodes:
+      - capability:carrier-market-relationship-management
+      - entity:activity-timeline-event
+      - entity:carrier-market
+      - policy_rule:carrier-market-create
+    route: /carrier-markets
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:carrier-market-detail
+    label: GET /carrier-markets/{carrierMarketId}
+    method: GET
+    related_nodes:
+      - capability:carrier-market-relationship-management
+      - entity:carrier-market
+      - policy_rule:carrier-market-read
+    route: /carrier-markets/{carrierMarketId}
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:carrier-market-list
+    label: GET /carrier-markets
+    method: GET
+    related_nodes:
+      - capability:carrier-market-relationship-management
+      - entity:carrier-market
+      - policy_rule:carrier-market-read
+    route: /carrier-markets
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:carrier-market-update
+    label: PUT /carrier-markets/{carrierMarketId}
+    method: PUT
+    related_nodes:
+      - capability:carrier-market-relationship-management
+      - entity:activity-timeline-event
+      - entity:carrier-market
+      - policy_rule:carrier-market-update
+    route: /carrier-markets/{carrierMarketId}
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:communication-correction
+    label: POST /communications/{communicationId}/corrections
+    method: POST
+    related_nodes:
+      - entity:communication-event
+      - policy_rule:communication-event-correct
+      - policy_rule:communication-event-redact
+    route: /communications/{communicationId}/corrections
+    source_docs:
+      - F0021/api-schema-deltas.md
+  - id: endpoint:communication-create
+    label: POST /communications
+    method: POST
+    related_nodes:
+      - entity:communication-event
+      - entity:communication-link
+      - entity:communication-participant
+      - policy_rule:communication-event-create
+    route: /communications
+    source_docs:
+      - F0021/api-schema-deltas.md
+  - id: endpoint:communication-detail
+    label: GET /communications/{communicationId}
+    method: GET
+    related_nodes:
+      - entity:communication-event
+      - policy_rule:communication-event-read
+    route: /communications/{communicationId}
+    source_docs:
+      - F0021/api-schema-deltas.md
+  - id: endpoint:communication-follow-up
+    label: POST /communications/{communicationId}/follow-up-task
+    method: POST
+    related_nodes:
+      - entity:communication-event
+      - entity:task-item
+      - policy_rule:communication-event-create-follow-up
+      - policy_rule:task-create
+    route: /communications/{communicationId}/follow-up-task
+    source_docs:
+      - F0021/api-schema-deltas.md
+  - id: endpoint:communication-list
+    label: GET /communications
+    method: GET
+    related_nodes:
+      - entity:communication-event
+      - policy_rule:communication-event-read
+    route: /communications
+    source_docs:
+      - F0021/api-schema-deltas.md
+  - id: endpoint:coverage-window-upsert
+    label: POST/PUT /coverage-windows
+    method: POST|PUT
+    related_nodes:
+      - capability:operations-routing
+      - entity:activity-timeline-event
+      - entity:coverage-window
+      - policy_rule:queue-manage
+    route: /coverage-windows
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - id: endpoint:dashboard-kpis
+    label: GET /dashboard/kpis
+    method: GET
+    related_nodes:
+      - capability:dashboard-home
+      - capability:dashboard-kpis
+    route: /dashboard/kpis
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-002-dashboard-data-aggregation.md
+  - id: endpoint:dashboard-nudges
+    label: GET /dashboard/nudges
+    method: GET
+    related_nodes:
+      - capability:dashboard-nudge-cards
+      - entity:task-item
+    route: /dashboard/nudges
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-003-task-entity-nudge-engine.md
+  - id: endpoint:dashboard-opportunity-flow
+    label: GET /dashboard/opportunities/flow
+    method: GET
+    related_nodes:
+      - capability:dashboard-opportunity-analytics
+      - capability:dashboard-pipeline-visualization
+      - workflow:renewal
+      - workflow:submission
+    route: /dashboard/opportunities/flow
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-002-dashboard-data-aggregation.md
+      - planning-mds/architecture/decisions/ADR-004-frontend-dashboard-widget-architecture.md
+  - id: endpoint:distribution-node-ancestors
+    label: GET /distribution-nodes/{nodeId}/ancestors
+    method: GET
+    related_nodes:
+      - capability:distribution-hierarchy-management
+      - entity:broker
+      - entity:mga
+      - entity:producer
+      - policy_rule:distribution-node-read
+    route: /distribution-nodes/{nodeId}/ancestors
+    source_docs:
+      - F0017/F0017-S0002-navigate-hierarchy.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: endpoint:distribution-node-descendants
+    label: GET /distribution-nodes/{nodeId}/descendants
+    method: GET
+    related_nodes:
+      - capability:distribution-hierarchy-management
+      - entity:broker
+      - entity:mga
+      - entity:producer
+      - policy_rule:distribution-node-read
+    route: /distribution-nodes/{nodeId}/descendants
+    source_docs:
+      - F0017/F0017-S0002-navigate-hierarchy.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: endpoint:distribution-node-parent-update
+    label: PUT /distribution-nodes/{nodeId}/parent
+    method: PUT
+    related_nodes:
+      - capability:distribution-hierarchy-management
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:mga
+      - entity:producer
+      - policy_rule:distribution-node-update
+    route: /distribution-nodes/{nodeId}/parent
+    source_docs:
+      - F0017/F0017-S0001-model-broker-mga-hierarchy.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: endpoint:document-templates-link
+    label: POST /document-templates/{templateId}/link
+    method: POST
+    related_nodes:
+      - capability:document-templates
+      - entity:document
+      - entity:document-template
+    route: /document-templates/{templateId}/link
+    source_docs:
+      - F0020/F0020-S0012-document-templates-library.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:document-templates-list
+    label: GET /document-templates
+    method: GET
+    related_nodes:
+      - capability:document-templates
+      - entity:document-template
+    route: /document-templates
+    source_docs:
+      - F0020/F0020-S0012-document-templates-library.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:document-templates-upload
+    label: POST /document-templates
+    method: POST
+    related_nodes:
+      - entity:document-template
+      - workflow:document-ingest
+    route: /document-templates
+    source_docs:
+      - F0020/F0020-S0012-document-templates-library.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:documents-completeness
+    label: GET /documents/completeness
+    method: GET
+    related_nodes:
+      - capability:document-completeness-signal
+      - entity:document
+    route: /documents/completeness
+    source_docs:
+      - F0020/F0020-S0010-document-completeness-signal-endpoint.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:documents-detail
+    label: GET /documents/{documentId}
+    method: GET
+    related_nodes:
+      - capability:document-management
+      - entity:document
+    route: /documents/{documentId}
+    source_docs:
+      - F0020/F0020-S0005-document-detail-with-preview-and-provenance.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:documents-download
+    label: GET /documents/{documentId}/versions/{versionRef}/binary
+    method: GET
+    related_nodes:
+      - capability:document-classification
+      - entity:document
+    route: /documents/{documentId}/versions/{versionRef}/binary
+    source_docs:
+      - F0020/F0020-S0006-download-current-and-prior-versions.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:documents-list
+    label: GET /documents
+    method: GET
+    related_nodes:
+      - capability:document-classification
+      - capability:document-management
+      - entity:document
+    route: /documents
+    source_docs:
+      - F0020/F0020-S0004-list-documents-with-classification-filtering.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:documents-metadata-schemas
+    label: GET /documents/metadata-schemas
+    method: GET
+    related_nodes:
+      - capability:document-management
+      - config_key:document-metadata-schema-registry
+      - entity:document
+      - schema:document-metadata-schema-registry
+    route: /documents/metadata-schemas
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+  - id: endpoint:documents-metadata-update
+    label: PATCH /documents/{documentId}/metadata
+    method: PATCH
+    related_nodes:
+      - capability:document-classification
+      - config_key:document-metadata-schema-registry
+      - entity:document
+    route: /documents/{documentId}/metadata
+    source_docs:
+      - F0020/F0020-S0008-update-metadata-without-new-version.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:documents-replace
+    label: PUT /documents/{documentId}/replace
+    method: PUT
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+    route: /documents/{documentId}/replace
+    source_docs:
+      - F0020/F0020-S0007-replace-with-immutable-supersedes-lineage.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:documents-upload
+    label: POST /documents
+    method: POST
+    related_nodes:
+      - capability:document-management
+      - entity:document
+      - workflow:document-ingest
+    route: /documents
+    source_docs:
+      - F0020/F0020-S0001-upload-single-document-with-metadata.md
+      - F0020/F0020-S0002-bulk-multi-file-upload.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:global-search-results
+    label: GET /search-results
+    method: GET
+    related_nodes:
+      - capability:global-search
+      - entity:search-document
+      - policy_rule:global-search-read
+    route: /search-results
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+  - id: endpoint:internal-telemetry-session-continuity
+    label: POST /internal/telemetry/session-continuity
+    method: POST
+    rationale:
+      - adr: adr:024
+        section: Decision §6
+        summary: Authenticated batch ingest (1-10 events); 202 Accepted fire-and-forget; backend validates
+          against session-continuity-event.schema.json; writes to Serilog Nebula.Session.Continuity; failures
+          here MUST NOT affect frontend session-continuity logic.
+    related_nodes:
+      - capability:session-continuity
+      - capability:session-telemetry
+    route: /internal/telemetry/session-continuity
+    source_docs:
+      - F0035/F0035-S0005-session-telemetry-events.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md
+  - id: endpoint:lob-schema-activate
+    label: POST /lob-schemas/{productVersionId}/activate
+    method: POST
+    related_nodes:
+      - capability:product-schema-registry
+      - entity:lob-bundle-activation-event
+      - entity:lob-product-version
+      - policy_rule:lob-schema-activate
+    route: /lob-schemas/{productVersionId}/activate
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
+      - planning-mds/security/authorization-matrix.md
+  - id: endpoint:lob-schema-bundle-detail
+    label: GET /lob-schemas/{productVersionId}/{stage}
+    method: GET
+    related_nodes:
+      - capability:product-schema-registry
+      - entity:lob-product-version
+      - entity:lob-schema-bundle
+      - policy_rule:lob-schema-resolve
+    route: /lob-schemas/{productVersionId}/{stage}
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
+  - id: endpoint:lob-schemas-active
+    label: GET /lob-schemas/active
+    method: GET
+    related_nodes:
+      - capability:product-schema-registry
+      - entity:lob-schema-bundle
+      - policy_rule:lob-schema-read
+    route: /lob-schemas/active
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
+  - id: endpoint:neuron-action-callback
+    label: POST /v1/actions (Neuron service)
+    method: POST
+    related_nodes:
+      - capability:neuron-message-envelope
+      - capability:neuron-outreach-drafter
+    route: /v1/actions
+    source_docs:
+      - planning-mds/api/neuron-api.yaml
+      - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
+  - id: endpoint:neuron-companion-telemetry
+    label: POST /internal/telemetry/neuron-companion
+    method: POST
+    related_nodes:
+      - capability:neuron-companion-telemetry
+    route: /internal/telemetry/neuron-companion
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/schemas/neuron-companion-telemetry-event.schema.json
+  - id: endpoint:neuron-glance
+    label: GET /v1/glance (Neuron service)
+    method: GET
+    related_nodes:
+      - capability:neuron-day-at-a-glance-shell
+      - capability:neuron-zone-dispatch
+    route: /v1/glance
+    source_docs:
+      - planning-mds/api/neuron-api.yaml
+      - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
+  - id: endpoint:neuron-message-send
+    label: POST /v1/messages (Neuron service)
+    method: POST
+    related_nodes:
+      - capability:neuron-message-envelope
+      - capability:neuron-scope-guard
+    route: /v1/messages
+    source_docs:
+      - planning-mds/api/neuron-api.yaml
+      - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
+  - id: endpoint:operational-workload-report
+    label: GET /operational-reports/workload
+    method: GET
+    related_nodes:
+      - capability:operational-reporting
+      - entity:operational-report-projection
+      - policy_rule:operational-report-read
+    route: /operational-reports/workload
+    source_docs:
+      - F0023/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:outbound-documents-issue
+    label: POST /outbound-documents/issue
+    method: POST
+    related_nodes:
+      - capability:outbound-document-generation
+      - entity:document
+      - entity:document-template
+      - entity:generated-document-artifact
+    route: /outbound-documents/issue
+    source_docs:
+      - F0027/ARCHITECTURE.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:outbound-documents-preview
+    label: POST /outbound-documents/preview
+    method: POST
+    related_nodes:
+      - capability:outbound-document-generation
+      - entity:document-template
+      - entity:submission-quote-packet
+    route: /outbound-documents/preview
+    source_docs:
+      - F0027/ARCHITECTURE.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:outbound-documents-regenerate
+    label: POST /outbound-documents/{documentId}/regenerate
+    method: POST
+    related_nodes:
+      - capability:outbound-document-generation
+      - entity:document
+      - entity:document-template
+      - entity:generated-document-artifact
+    route: /outbound-documents/{documentId}/regenerate
+    source_docs:
+      - F0027/ARCHITECTURE.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:policy-timeline
+    label: GET /policies/{policyId}/timeline
+    method: GET
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:policy
+      - policy_rule:timeline-event-read
+    route: /policies/{policyId}/timeline
+    source_docs:
+      - F0018/F0018-S0010-policy-activity-timeline-and-audit.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:producer-ownership-assign
+    label: POST /producer-ownership
+    method: POST
+    related_nodes:
+      - capability:producer-ownership-management
+      - entity:activity-timeline-event
+      - entity:producer
+      - entity:producer-ownership
+      - policy_rule:producer-ownership-assign
+    route: /producer-ownership
+    source_docs:
+      - F0017/F0017-S0003-producer-ownership-effective-dated.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: endpoint:producer-ownership-read
+    label: GET /producer-ownership
+    method: GET
+    related_nodes:
+      - capability:producer-ownership-management
+      - entity:producer
+      - entity:producer-ownership
+      - policy_rule:producer-ownership-read
+    route: /producer-ownership
+    source_docs:
+      - F0017/F0017-S0003-producer-ownership-effective-dated.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: endpoint:queue-work-item-reassign
+    label: PUT /queue-work-items/{queueItemId}/assignment
+    method: PUT
+    related_nodes:
+      - capability:operations-routing
+      - entity:activity-timeline-event
+      - entity:queue-work-item
+      - entity:routing-decision-log
+      - policy_rule:queue-assign
+    route: /queue-work-items/{queueItemId}/assignment
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - id: endpoint:renewal-assignment
+    label: PUT /renewals/{renewalId}/assignment
+    method: PUT
+    related_nodes:
+      - entity:renewal
+      - entity:user-profile
+      - policy_rule:renewal-assign
+    route: /renewals/{renewalId}/assignment
+    source_docs:
+      - F0007/README.md
+      - F0007/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:renewal-companion-context
+    label: GET /renewals/{renewalId}/companion-context
+    method: GET
+    related_nodes:
+      - capability:neuron-renewals-head
+      - entity:account
+      - entity:broker
+      - entity:renewal
+    route: /renewals/{renewalId}/companion-context
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:renewal-create
+    label: POST /renewals
+    method: POST
+    related_nodes:
+      - config_key:workflow-sla-thresholds
+      - entity:policy
+      - entity:renewal
+      - policy_rule:renewal-create
+      - workflow:renewal
+    route: /renewals
+    source_docs:
+      - F0007/README.md
+      - F0007/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:renewal-detail
+    label: GET /renewals/{renewalId}
+    method: GET
+    related_nodes:
+      - entity:policy
+      - entity:renewal
+      - policy_rule:renewal-read
+      - workflow:renewal
+    route: /renewals/{renewalId}
+    source_docs:
+      - F0007/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:renewal-list
+    label: GET /renewals
+    method: GET
+    related_nodes:
+      - config_key:workflow-sla-thresholds
+      - entity:renewal
+      - policy_rule:renewal-read
+      - workflow:renewal
+    route: /renewals
+    source_docs:
+      - F0007/README.md
+      - F0007/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:renewal-outreach-draft
+    label: POST /renewals/{renewalId}/outreach-draft
+    method: POST
+    related_nodes:
+      - capability:neuron-outreach-drafter
+      - entity:activity-timeline-event
+      - entity:renewal
+    route: /renewals/{renewalId}/outreach-draft
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
+  - id: endpoint:renewal-outreach-mock-send
+    label: POST /renewals/{renewalId}/outreach-mock-send
+    method: POST
+    related_nodes:
+      - capability:neuron-outreach-drafter
+      - entity:activity-timeline-event
+      - entity:renewal
+      - entity:workflow-transition
+      - workflow:renewal
+    route: /renewals/{renewalId}/outreach-mock-send
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
+  - id: endpoint:renewal-timeline
+    label: GET /renewals/{renewalId}/timeline
+    method: GET
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:renewal
+      - entity:workflow-transition
+      - policy_rule:timeline-event-read
+    route: /renewals/{renewalId}/timeline
+    source_docs:
+      - F0007/README.md
+      - F0007/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:renewal-transition
+    label: POST /renewals/{renewalId}/transitions
+    method: POST
+    related_nodes:
+      - entity:renewal
+      - entity:workflow-transition
+      - policy_rule:renewal-transition
+      - workflow:renewal
+    route: /renewals/{renewalId}/transitions
+    source_docs:
+      - F0007/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
+  - id: endpoint:renewals-needs-attention
+    label: GET /renewals/needs-attention
+    method: GET
+    related_nodes:
+      - capability:neuron-renewals-head
+      - entity:renewal
+      - workflow:renewal
+    route: /renewals/needs-attention
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
+  - id: endpoint:routing-events-list
+    label: GET /routing-events
+    method: GET
+    related_nodes:
+      - capability:operations-routing
+      - entity:routing-decision-log
+      - policy_rule:queue-read
+    route: /routing-events
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - id: endpoint:saved-view-archive
+    label: DELETE /saved-views/{savedViewId}
+    method: DELETE
+    related_nodes:
+      - capability:saved-views
+      - entity:saved-view
+      - entity:saved-view-audit-event
+      - policy_rule:saved-view-manage
+    route: /saved-views/{savedViewId}
+    source_docs:
+      - F0023/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:saved-view-create
+    label: POST /saved-views
+    method: POST
+    related_nodes:
+      - capability:saved-views
+      - entity:saved-view
+      - entity:saved-view-audit-event
+      - policy_rule:saved-view-manage
+    route: /saved-views
+    source_docs:
+      - F0023/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:saved-view-default
+    label: PUT /saved-views/{savedViewId}/default
+    method: PUT
+    related_nodes:
+      - capability:saved-views
+      - entity:saved-view
+      - entity:saved-view-audit-event
+      - policy_rule:saved-view-default
+    route: /saved-views/{savedViewId}/default
+    source_docs:
+      - F0023/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:saved-view-detail
+    label: GET /saved-views/{savedViewId}
+    method: GET
+    related_nodes:
+      - capability:saved-views
+      - entity:saved-view
+      - policy_rule:saved-view-read
+    route: /saved-views/{savedViewId}
+    source_docs:
+      - F0023/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:saved-view-list
+    label: GET /saved-views
+    method: GET
+    related_nodes:
+      - capability:saved-views
+      - entity:saved-view
+      - policy_rule:saved-view-read
+    route: /saved-views
+    source_docs:
+      - F0023/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:saved-view-update
+    label: PATCH /saved-views/{savedViewId}
+    method: PATCH
+    related_nodes:
+      - capability:saved-views
+      - entity:saved-view
+      - entity:saved-view-audit-event
+      - policy_rule:saved-view-manage
+    route: /saved-views/{savedViewId}
+    source_docs:
+      - F0023/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:service-case-claim-reference
+    label: PATCH /service-cases/{serviceCaseId}/claim-reference
+    method: PATCH
+    related_nodes:
+      - entity:service-case
+      - entity:service-case-claim-reference
+      - policy_rule:service-case-update-claim-reference
+    route: /service-cases/{serviceCaseId}/claim-reference
+    source_docs:
+      - F0024/api-schema-deltas.md
+  - id: endpoint:service-case-communication-link
+    label: POST /service-cases/{serviceCaseId}/communication-links
+    method: POST
+    related_nodes:
+      - entity:communication-event
+      - entity:service-case
+      - policy_rule:communication-event-read
+      - policy_rule:service-case-link-communication
+    route: /service-cases/{serviceCaseId}/communication-links
+    source_docs:
+      - F0024/api-schema-deltas.md
+  - id: endpoint:service-case-create
+    label: POST /service-cases
+    method: POST
+    related_nodes:
+      - entity:service-case
+      - entity:service-case-claim-reference
+      - policy_rule:service-case-create
+      - workflow:service-case
+    route: /service-cases
+    source_docs:
+      - F0024/api-schema-deltas.md
+  - id: endpoint:service-case-detail
+    label: GET /service-cases/{serviceCaseId}
+    method: GET
+    related_nodes:
+      - entity:service-case
+      - policy_rule:service-case-read
+    route: /service-cases/{serviceCaseId}
+    source_docs:
+      - F0024/api-schema-deltas.md
+  - id: endpoint:service-case-follow-up-task
+    label: POST /service-cases/{serviceCaseId}/follow-up-task
+    method: POST
+    related_nodes:
+      - entity:service-case
+      - entity:task-item
+      - policy_rule:service-case-create-follow-up
+      - policy_rule:task-create
+    route: /service-cases/{serviceCaseId}/follow-up-task
+    source_docs:
+      - F0024/api-schema-deltas.md
+  - id: endpoint:service-case-list
+    label: GET /service-cases
+    method: GET
+    related_nodes:
+      - entity:service-case
+      - policy_rule:service-case-read
+    route: /service-cases
+    source_docs:
+      - F0024/api-schema-deltas.md
+  - id: endpoint:service-case-transition
+    label: POST /service-cases/{serviceCaseId}/transition
+    method: POST
+    related_nodes:
+      - entity:service-case
+      - entity:service-case-transition
+      - policy_rule:service-case-transition
+      - workflow:service-case
+    route: /service-cases/{serviceCaseId}/transition
+    source_docs:
+      - F0024/api-schema-deltas.md
+  - id: endpoint:service-case-update
+    label: PATCH /service-cases/{serviceCaseId}
+    method: PATCH
+    related_nodes:
+      - entity:service-case
+      - policy_rule:service-case-assign
+      - policy_rule:service-case-update
+    route: /service-cases/{serviceCaseId}
+    source_docs:
+      - F0024/api-schema-deltas.md
+  - id: endpoint:submission-approval
+    label: POST /submissions/{submissionId}/approval
+    method: POST
+    related_nodes:
+      - entity:submission
+      - entity:submission-approval-decision
+      - policy_rule:submission-approve
+      - workflow:submission
+    route: /submissions/{submissionId}/approval
+    source_docs:
+      - F0019/F0019-S0003-underwriting-approval-checkpoint.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:submission-archive
+    label: POST /submissions/{submissionId}/archive
+    method: POST
+    related_nodes:
+      - entity:submission
+      - policy_rule:submission-archive
+      - workflow:submission
+    route: /submissions/{submissionId}/archive
+    source_docs:
+      - F0019/F0019-S0006-submission-archive-and-deactivate.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:submission-assignment
+    label: PUT /submissions/{submissionId}/assignment
+    method: PUT
+    related_nodes:
+      - entity:submission
+      - entity:user-profile
+    route: /submissions/{submissionId}/assignment
+    source_docs:
+      - F0006/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:submission-bind-confirmation
+    label: POST /submissions/{submissionId}/bind-confirmation
+    method: POST
+    related_nodes:
+      - entity:submission
+      - entity:submission-bind-handoff
+      - workflow:submission
+    route: /submissions/{submissionId}/bind-confirmation
+    source_docs:
+      - F0019/F0019-S0004-bind-decision-and-policy-handoff.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:submission-bind-request
+    label: POST /submissions/{submissionId}/bind-request
+    method: POST
+    related_nodes:
+      - entity:submission
+      - entity:submission-approval-decision
+      - entity:submission-bind-handoff
+      - workflow:submission
+    route: /submissions/{submissionId}/bind-request
+    source_docs:
+      - F0019/F0019-S0004-bind-decision-and-policy-handoff.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:submission-create
+    label: POST /submissions
+    method: POST
+    related_nodes:
+      - entity:submission
+      - workflow:submission
+    route: /submissions
+    source_docs:
+      - F0006/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:submission-detail
+    label: GET /submissions/{submissionId}
+    method: GET
+    related_nodes:
+      - entity:submission
+      - workflow:submission
+    route: /submissions/{submissionId}
+    source_docs:
+      - F0006/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:submission-list
+    label: GET /submissions
+    method: GET
+    related_nodes:
+      - entity:submission
+      - workflow:submission
+    route: /submissions
+    source_docs:
+      - F0006/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:submission-quote-packet-read
+    label: GET /submissions/{submissionId}/quote-packet
+    method: GET
+    related_nodes:
+      - entity:submission
+      - entity:submission-quote-packet
+      - workflow:submission
+    route: /submissions/{submissionId}/quote-packet
+    source_docs:
+      - F0019/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:submission-quote-packet-update
+    label: PUT /submissions/{submissionId}/quote-packet
+    method: PUT
+    related_nodes:
+      - entity:submission
+      - entity:submission-quote-packet
+      - workflow:submission
+    route: /submissions/{submissionId}/quote-packet
+    source_docs:
+      - F0019/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:submission-reactivate
+    label: POST /submissions/{submissionId}/reactivate
+    method: POST
+    related_nodes:
+      - entity:submission
+      - policy_rule:submission-archive
+      - workflow:submission
+    route: /submissions/{submissionId}/reactivate
+    source_docs:
+      - F0019/F0019-S0006-submission-archive-and-deactivate.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:submission-timeline
+    label: GET /submissions/{submissionId}/timeline
+    method: GET
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:submission
+      - policy_rule:timeline-event-read
+    route: /submissions/{submissionId}/timeline
+    source_docs:
+      - F0006/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:submission-transition
+    label: POST /submissions/{submissionId}/transitions
+    method: POST
+    related_nodes:
+      - entity:submission
+      - entity:workflow-transition
+      - workflow:submission
+    route: /submissions/{submissionId}/transitions
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md
+  - id: endpoint:task-create
+    label: POST /tasks
+    method: POST
+    related_nodes:
+      - capability:task-center
+      - entity:task-item
+      - policy_rule:task-create
+    route: /tasks
+    source_docs:
+      - F0003/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:task-detail
+    label: GET /tasks/{taskId}
+    method: GET
+    related_nodes:
+      - capability:task-center
+      - entity:task-item
+      - policy_rule:task-read
+    route: /tasks/{taskId}
+    source_docs:
+      - F0004/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:task-list
+    label: GET /tasks
+    method: GET
+    related_nodes:
+      - capability:task-center
+      - entity:task-item
+      - policy_rule:task-read
+    route: /tasks
+    source_docs:
+      - F0004/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:task-my-list
+    label: GET /my/tasks
+    method: GET
+    related_nodes:
+      - capability:task-center
+      - entity:task-item
+      - policy_rule:task-read
+    route: /my/tasks
+    source_docs:
+      - F0003/README.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:territory-assignment-lookup
+    label: GET /territory-assignments
+    method: GET
+    related_nodes:
+      - capability:territory-management
+      - entity:territory-assignment
+      - policy_rule:territory-read
+    route: /territory-assignments
+    source_docs:
+      - F0017/F0017-S0004-territory-management-effective-dated.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: endpoint:territory-create
+    label: POST /territories
+    method: POST
+    related_nodes:
+      - capability:territory-management
+      - entity:activity-timeline-event
+      - entity:territory
+      - policy_rule:territory-create
+    route: /territories
+    source_docs:
+      - F0017/F0017-S0004-territory-management-effective-dated.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: endpoint:territory-member-assign
+    label: POST /territories/{territoryId}/members
+    method: POST
+    related_nodes:
+      - capability:territory-management
+      - entity:activity-timeline-event
+      - entity:territory
+      - entity:territory-assignment
+      - policy_rule:territory-assign
+    route: /territories/{territoryId}/members
+    source_docs:
+      - F0017/F0017-S0004-territory-management-effective-dated.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: endpoint:territory-members-list
+    label: GET /territories/{territoryId}/members
+    method: GET
+    related_nodes:
+      - capability:territory-management
+      - entity:territory
+      - entity:territory-assignment
+      - policy_rule:territory-read
+    route: /territories/{territoryId}/members
+    source_docs:
+      - F0017/F0017-S0004-territory-management-effective-dated.md
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: endpoint:timeline-events
+    label: GET /timeline/events
+    method: GET
+    related_nodes:
+      - capability:authorization-enforcement
+      - entity:activity-timeline-event
+      - policy_rule:timeline-event-read
+    route: /timeline/events
+    source_docs:
+      - F0007/F0007-S0007-renewal-activity-timeline-and-audit-trail.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:work-queue-create
+    label: POST /work-queues
+    method: POST
+    related_nodes:
+      - capability:operations-routing
+      - entity:activity-timeline-event
+      - entity:work-queue
+      - policy_rule:queue-manage
+    route: /work-queues
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - id: endpoint:work-queue-items-list
+    label: GET /work-queues/{queueId}/items
+    method: GET
+    related_nodes:
+      - capability:operations-routing
+      - entity:queue-work-item
+      - entity:task-item
+      - policy_rule:queue-read
+      - workflow:renewal
+      - workflow:submission
+    route: /work-queues/{queueId}/items
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - id: endpoint:work-queue-list
+    label: GET /work-queues
+    method: GET
+    related_nodes:
+      - capability:operations-routing
+      - entity:work-queue
+      - policy_rule:queue-read
+    route: /work-queues
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - id: endpoint:work-queue-rebalance
+    label: POST /work-queues/{queueId}/rebalance
+    method: POST
+    related_nodes:
+      - capability:operations-routing
+      - entity:activity-timeline-event
+      - entity:queue-work-item
+      - entity:routing-decision-log
+      - policy_rule:queue-assign
+    route: /work-queues/{queueId}/rebalance
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - id: endpoint:workflow-aging-report
+    label: GET /operational-reports/workflow-aging
+    method: GET
+    related_nodes:
+      - capability:operational-reporting
+      - entity:operational-report-projection
+      - policy_rule:operational-report-read
+      - workflow:renewal
+      - workflow:submission
+    route: /operational-reports/workflow-aging
+    source_docs:
+      - F0023/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml

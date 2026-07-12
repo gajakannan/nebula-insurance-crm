@@ -1,0 +1,10 @@
+id: capability:idp-foundation
+label: Identity Provider Foundation
+rationale:
+  - adr: adr:006
+    section: Decision Drivers
+    summary: Pre-production window to switch from Keycloak to authentik for operational simplicity and
+      to introduce a stable internal UserId layer that makes the app IdP-agnostic.
+source_docs:
+  - F0005/README.md
+  - planning-mds/architecture/decisions/ADR-006-authentik-idp-migration.md

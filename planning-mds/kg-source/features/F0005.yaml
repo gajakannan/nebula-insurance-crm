@@ -1,0 +1,67 @@
+status: archived-done
+id: feature:F0005
+name: 'IdP Migration: Keycloak → authentik'
+path: planning-mds/features/archive/F0005-idp-migration
+affects:
+  - capability:authentication
+  - capability:claims-principal-normalization
+  - capability:idp-foundation
+  - capability:principal-key-normalization
+  - config_key:authentication-audience
+  - config_key:authentication-authority
+  - config_key:oidc-authority
+  - config_key:oidc-client-id
+  - config_key:oidc-redirect-uri
+  - entity:user-profile
+  - migration:f0005-idp-principal-refactor
+archived_date: '2026-03-07'
+completion_state: Done and archived
+governed_by:
+  - adr:006
+phase: Foundation
+roadmap_order: 26
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0005-S0001
+    path: planning-mds/features/archive/F0005-idp-migration/F0005-S0001-replace-authentik-infra.md
+    affects:
+      - capability:authentication
+      - capability:idp-foundation
+      - config_key:authentication-audience
+      - config_key:authentication-authority
+    governed_by:
+      - adr:006
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0005-S0002
+    path: planning-mds/features/archive/F0005-idp-migration/F0005-S0002-claims-normalization-backend.md
+    affects:
+      - capability:claims-principal-normalization
+      - capability:idp-foundation
+      - entity:user-profile
+    governed_by:
+      - adr:006
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0005-S0003
+    path: planning-mds/features/archive/F0005-idp-migration/F0005-S0003-frontend-oidc-flow.md
+    affects:
+      - capability:authentication
+      - capability:oidc-login-and-session
+      - config_key:oidc-authority
+      - config_key:oidc-client-id
+      - config_key:oidc-redirect-uri
+    governed_by:
+      - adr:006
+      - adr:auth-token-storage
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0005-S0004
+    path: planning-mds/features/archive/F0005-idp-migration/F0005-S0004-principal-key-data-model.md
+    affects:
+      - capability:principal-key-normalization
+      - entity:user-profile
+    governed_by:
+      - adr:006
+uses_api_contract:
+  - api:nebula-rest

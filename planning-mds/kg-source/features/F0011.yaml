@@ -1,0 +1,92 @@
+status: archived-done
+id: feature:F0011
+name: Dashboard Opportunities Flow-First Modernization (Connected Pipeline + Terminal Outcomes)
+path: planning-mds/features/archive/F0011-dashboard-opportunities-flow-modernization
+reason: Superseded by F0013 framed storytelling canvas approach
+affects:
+  - capability:dashboard-home
+  - capability:dashboard-opportunity-analytics
+  - capability:dashboard-pipeline-visualization
+  - endpoint:dashboard-opportunity-flow
+  - ui_route:dashboard-home
+  - workflow:renewal
+  - workflow:submission
+depends_on:
+  - feature:F0001
+governed_by:
+  - adr:002
+  - adr:004
+rationale: F0011's connected flow and terminal outcomes concepts live on in F0013 but with a fundamentally
+  different visual approach (vertical timeline + narrative callouts instead of connected flow cells).
+retired_date: '2026-03-14'
+roadmap_order: 1
+roadmap_section: Abandoned
+story_mappings:
+  - id: story:F0011-S0001
+    path: planning-mds/features/archive/F0011-dashboard-opportunities-flow-modernization/F0011-S0001-replace-pipeline-board-with-connected-flow-default.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-opportunity-analytics
+      - capability:dashboard-pipeline-visualization
+      - endpoint:dashboard-opportunity-flow
+      - ui_route:dashboard-home
+      - workflow:renewal
+      - workflow:submission
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:opportunity-flow
+      - schema:opportunity-flow-link
+      - schema:opportunity-flow-node
+  - id: story:F0011-S0002
+    path: planning-mds/features/archive/F0011-dashboard-opportunities-flow-modernization/F0011-S0002-add-terminal-outcomes-rail-and-drilldowns.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-opportunity-analytics
+      - endpoint:dashboard-opportunity-flow
+      - ui_route:dashboard-home
+      - workflow:renewal
+      - workflow:submission
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:opportunity-flow
+      - schema:opportunity-flow-link
+      - schema:pipeline-mini-card
+  - id: story:F0011-S0003
+    path: planning-mds/features/archive/F0011-dashboard-opportunities-flow-modernization/F0011-S0003-apply-modern-opportunities-visual-system.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-opportunity-analytics
+      - capability:dashboard-pipeline-visualization
+      - ui_route:dashboard-home
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0011-S0004
+    path: planning-mds/features/archive/F0011-dashboard-opportunities-flow-modernization/F0011-S0004-rebalance-secondary-insights-as-mini-views.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-opportunity-analytics
+      - ui_route:dashboard-home
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:pipeline-mini-card
+  - id: story:F0011-S0005
+    path: planning-mds/features/archive/F0011-dashboard-opportunities-flow-modernization/F0011-S0005-ensure-responsive-and-accessibility-parity.md
+    affects:
+      - capability:dashboard-home
+      - capability:dashboard-pipeline-visualization
+      - ui_route:dashboard-home
+    uses_api_contract:
+      - api:nebula-rest
+superseded_by: feature:F0013
+supersedes:
+  - feature:F0010
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:opportunity-flow
+  - schema:opportunity-flow-link
+  - schema:opportunity-flow-node
+  - schema:pipeline-mini-card

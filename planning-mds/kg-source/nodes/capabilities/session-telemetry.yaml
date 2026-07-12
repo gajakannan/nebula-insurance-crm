@@ -1,0 +1,13 @@
+id: capability:session-telemetry
+label: Session Continuity Telemetry
+rationale:
+  - adr: adr:024
+    section: Decision §5
+    summary: '9 event types emitted fire-and-forget to Serilog category Nebula.Session.Continuity. Hard
+      PII boundary: UserId + session_id only; no email/name/IP/raw tokens/broker_tenant_id/role list/form
+      contents.'
+related_nodes:
+  - capability:session-continuity
+source_docs:
+  - F0035/F0035-S0005-session-telemetry-events.md
+  - planning-mds/architecture/decisions/ADR-024-session-continuity-and-token-refresh.md

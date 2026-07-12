@@ -1,0 +1,17 @@
+id: entity:policy
+label: Policy
+rationale:
+  - adr: adr:018
+    section: Decision §1
+    summary: Policy aggregate is a mutable parent row (lifecycle state + denormalized context) plus immutable
+      PolicyVersion snapshots and materialized PolicyCoverageLine rows; endorsements and reinstatements
+      produce new versions rather than mutating history.
+  - adr: adr:020
+    section: Decision
+    summary: Policy is not an independent LOB attribute carrier; current product attributes are read through
+      CurrentVersionId -> PolicyVersion.
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
+  - planning-mds/domain/glossary.md

@@ -1,0 +1,15 @@
+id: capability:global-search
+label: Global Search
+rationale:
+  - adr: adr:014-search
+    section: Search Index Design
+    summary: Global search reads a PostgreSQL-backed SearchDocument projection and applies source-record
+      authorization before rows, snippets, facets, or counts are returned.
+related_nodes:
+  - capability:authorization-enforcement
+  - entity:search-document
+source_docs:
+  - F0023/README.md
+  - F0023/feature-assembly-plan.md
+  - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
+  - planning-mds/schemas/global-search-response.schema.json

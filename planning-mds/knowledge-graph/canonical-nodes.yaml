@@ -270,30 +270,43 @@ capabilities:
     source_docs:
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
       - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/README.md
-  - id: capability:distribution-rollup-reporting
-    label: Distribution Rollup Reporting
-    rationale:
-      - adr: adr:014-search
-        section: Operational Report Projection Design
-        summary: F0037 rollups reuse permission-filtered projection rows rather than introducing a
-          separate reporting store, preserving the predicate-before-aggregation invariant.
-      - adr: adr:026
-        section: Decision
-        summary: F0017 hierarchy, producer ownership, and territory effective dates define the dimensions
-          used for point-in-time rollup grouping.
+  - id: capability:document-classification
+    label: Classification-based document access control
     related_nodes:
-      - capability:authorization-enforcement
-      - capability:distribution-hierarchy-management
-      - capability:operational-reporting
-      - capability:producer-ownership-management
-      - capability:territory-management
-      - entity:operational-report-projection
-      - policy_rule:distribution-rollup-read
+      - entity:document
+      - entity:document-template
     source_docs:
-      - planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/PRD.md
-      - planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/feature-assembly-plan.md
-      - planning-mds/api/nebula-api.yaml
-      - planning-mds/schemas/distribution-rollup-report.schema.json
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
+      - planning-mds/security/authorization-matrix.md
+  - id: capability:document-completeness-signal
+    label: Document completeness signal (read-only summary)
+    related_nodes:
+      - entity:document
+    source_docs:
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
+  - id: capability:document-management
+    label: Document Management
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
+  - id: capability:document-retention
+    label: Document retention policy and scheduled cleanup
+    related_nodes:
+      - entity:document
+      - workflow:document-ingest
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
+  - id: capability:document-templates
+    label: Document Templates Library
+    related_nodes:
+      - entity:document
+      - entity:document-template
+    source_docs:
+      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
   - id: capability:dynamic-attribute-panel
     label: Dynamic Attribute Panel
     related_nodes:
@@ -550,6 +563,18 @@ capabilities:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
       - planning-mds/features/archive/F0022-work-queues-assignment-rules-and-coverage-management/PRD.md
+  - id: capability:outbound-document-generation
+    label: Outbound Document Generation
+    related_nodes:
+      - capability:document-management
+      - capability:document-templates
+      - entity:document
+      - entity:document-template
+      - entity:generated-document-artifact
+      - entity:submission-quote-packet
+    source_docs:
+      - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
+      - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/PRD.md
   - id: capability:principal-key-normalization
     label: Principal Key Normalization
     source_docs:
@@ -1569,19 +1594,6 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md
-  - id: endpoint:distribution-rollup-report
-    label: GET /operational-reports/distribution-rollups
-    method: GET
-    related_nodes:
-      - capability:distribution-rollup-reporting
-      - capability:operational-reporting
-      - entity:operational-report-projection
-      - policy_rule:distribution-rollup-read
-      - schema:distribution-rollup-report
-    route: /operational-reports/distribution-rollups
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/feature-assembly-plan.md
   - id: endpoint:outbound-documents-issue
     label: POST /outbound-documents/issue
     method: POST
@@ -3089,55 +3101,6 @@ evidence:
       - workflow:renewal
       - workflow:submission
 glossary_terms:
-  - id: capability:document-classification
-    label: Classification-based document access control
-    related_nodes:
-      - entity:document
-      - entity:document-template
-    source_docs:
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0009-classification-based-access-control.md
-      - planning-mds/security/authorization-matrix.md
-  - id: capability:document-completeness-signal
-    label: Document completeness signal (read-only summary)
-    related_nodes:
-      - entity:document
-    source_docs:
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0010-document-completeness-signal-endpoint.md
-  - id: capability:document-management
-    label: Document Management
-    related_nodes:
-      - entity:document
-      - workflow:document-ingest
-    source_docs:
-      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/PRD.md
-  - id: capability:document-retention
-    label: Document retention policy and scheduled cleanup
-    related_nodes:
-      - entity:document
-      - workflow:document-ingest
-    source_docs:
-      - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0011-retention-policy-yaml-and-scheduled-cleanup.md
-  - id: capability:document-templates
-    label: Document Templates Library
-    related_nodes:
-      - entity:document
-      - entity:document-template
-    source_docs:
-      - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
-  - id: capability:outbound-document-generation
-    label: Outbound Document Generation
-    related_nodes:
-      - capability:document-management
-      - capability:document-templates
-      - entity:document
-      - entity:document-template
-      - entity:generated-document-artifact
-      - entity:submission-quote-packet
-    source_docs:
-      - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
-      - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/PRD.md
   - id: glossary_term:acord-form
     label: ACORD Form
     related_nodes:
@@ -4336,27 +4299,6 @@ policy_rules:
     resource: operational_report
     source_docs:
       - planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
-  - id: policy_rule:distribution-rollup-read
-    label: distribution_rollup:read
-    action: read
-    allowed_roles:
-      - role:admin
-      - role:distribution-manager
-      - role:program-manager
-      - role:relationship-manager
-    notes: Leader/relationship rollup read gate. Effective scope is further narrowed by F0037 hierarchy,
-      territory, producer ownership, source-record visibility, and as-of-date predicates before totals
-      or drilldowns are materialized. BrokerUser and ExternalUser have no policy rows.
-    related_nodes:
-      - capability:authorization-enforcement
-      - capability:distribution-rollup-reporting
-      - capability:operational-reporting
-      - entity:operational-report-projection
-    resource: distribution_rollup
-    source_docs:
-      - planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/feature-assembly-plan.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
   - id: policy_rule:outbound-document-issue
@@ -5681,13 +5623,6 @@ schemas:
     related_nodes:
       - capability:operational-reporting
       - entity:operational-report-projection
-  - id: schema:distribution-rollup-report
-    path: planning-mds/schemas/distribution-rollup-report.schema.json
-    related_nodes:
-      - capability:distribution-rollup-reporting
-      - capability:operational-reporting
-      - entity:operational-report-projection
-      - endpoint:distribution-rollup-report
   - id: schema:opportunity-aging
     path: planning-mds/schemas/opportunity-aging.schema.json
     related_nodes:

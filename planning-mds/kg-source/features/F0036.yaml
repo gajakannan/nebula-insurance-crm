@@ -1,0 +1,52 @@
+status: archived-done
+id: feature:F0036
+name: Form Engine and Form-State Preservation (RHF + AJV + Widget Registry)
+path: planning-mds/features/archive/F0036-dynamic-product-attribute-form-engine
+affects:
+  - capability:dynamic-attribute-panel
+  - capability:dynamic-lob-attributes
+  - capability:session-context-restore
+  - capability:validator-equivalence
+archived_date: '2026-05-30'
+completion_state: 'Done and archived (2026-05-30) — 8 stories: engine skeleton + deps, MVP widget vocabulary,
+  schema render + AJV parity, pin-during-edit, replace Cyber panel, attr-form preservation, controlled-form
+  dirty-tracker + shared helper, CRUD preservation/restore'
+depends_on:
+  - feature:F0019
+  - feature:F0034
+  - feature:F0035
+governed_by:
+  - adr:020
+  - adr:021
+  - adr:022
+  - adr:024
+notes:
+  - Frontend-only feature (plan run 2026-05-25-51ff2a92). No backend, schema, or bundle changes — the
+    Cyber cyber/1.0.0 bundle (data-schema.json, ui-schema.json, rules.json) and lob-schema-bundle.schema.json
+    are consumed as-is; backend validation stays authoritative.
+  - 'Realizes ADR-021 (capability:dynamic-attribute-panel): RHF field state + AJV client validation +
+    an explicit shadcn-style widget registry for LOB product attributes (Cyber pilot). ADR-021 amended
+    2026-05-25 and §3/§4 reworked 2026-05-26 (plan-review 2026-05-26-aaa8bd7c): widgets derive from data-schema.json
+    (ui-schema.json is layout-only). Client validates the data-schema with AJV and parity is measured
+    against the actual backend (capability:validator-equivalence, ADR-022); cross-field rules stay backend-authoritative
+    (surfaced via lobErrors[]), so F0036 does NOT depend on ADR-023 / capability:lob-rules-governance
+    — that binding was dropped. Conditional gating uses an engine-level UI-conditional map (frontend config,
+    not the bundle).'
+  - 'Workstream B keeps the hand-rolled CRUD forms controlled and wires the exhaustive ~11-component create+edit
+    inventory in F0036-S0007 (broker, account incl. account-contact, contact, task create + inline edit,
+    submission native, policy create native, renewal create — original create-centric list of 6 expanded
+    by the 2026-05-26 PR-M1 sweep, operator-confirmed full set with no deferrals) through a controlled-form
+    dirty-tracker adapter plus the library-agnostic F0035 registration helper. All in-scope mutation forms
+    — product-attribute and CRUD — register with the F0035 form-state preservation registry (capability:session-context-restore,
+    ADR-024), closing F0035 finding #1. CRUD forms stay fixed-shape: no schema engine, no field-state-library
+    change, no validation or submit-path reshape. The F0035 operator-mandated no-mutation-auto-replay
+    invariant is inherited. No new canonical nodes: F0036 reuses and generalizes existing shared semantics.'
+phase: Platform Foundation / CRM Release MVP Enabler
+roadmap_order: 10
+roadmap_section: Completed
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:lob-attribute-envelope
+  - schema:lob-schema-bundle
+  - schema:lob-validation-problem-details

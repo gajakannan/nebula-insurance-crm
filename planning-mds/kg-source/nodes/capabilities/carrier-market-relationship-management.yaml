@@ -1,0 +1,16 @@
+id: capability:carrier-market-relationship-management
+label: Carrier Market Relationship Management
+notes: Internal-only market directory, carrier profile, contact, appetite, appointment, and related-work
+  context for F0028.
+related_nodes:
+  - capability:authorization-enforcement
+  - capability:global-search
+  - entity:carrier-appetite-note
+  - entity:carrier-appointment
+  - entity:carrier-market
+  - entity:carrier-market-activity-link
+  - entity:carrier-market-contact
+source_docs:
+  - F0028/ARCHITECTURE.md
+  - F0028/PRD.md
+  - planning-mds/api/nebula-api.yaml

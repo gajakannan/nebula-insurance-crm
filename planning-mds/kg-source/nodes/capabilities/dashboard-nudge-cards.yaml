@@ -1,0 +1,10 @@
+id: capability:dashboard-nudge-cards
+label: Dashboard Nudge Cards
+rationale:
+  - adr: adr:003
+    section: Decision
+    summary: Backend nudge computation aggregates overdue tasks, stale submissions, and upcoming renewals
+      into a prioritized list; keeps nudge logic server-side for ABAC enforcement and p95 < 500ms budget.
+source_docs:
+  - F0001/README.md
+  - planning-mds/architecture/decisions/ADR-003-task-entity-nudge-engine.md

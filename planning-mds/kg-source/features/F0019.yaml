@@ -1,0 +1,188 @@
+status: archived-done
+id: feature:F0019
+name: Submission Quoting, Proposal & Approval Workflow
+path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval
+affects:
+  - capability:submission-workflow
+  - endpoint:submission-approval
+  - endpoint:submission-archive
+  - endpoint:submission-bind-confirmation
+  - endpoint:submission-bind-request
+  - endpoint:submission-quote-packet-read
+  - endpoint:submission-quote-packet-update
+  - endpoint:submission-reactivate
+  - entity:activity-timeline-event
+  - entity:document
+  - entity:policy
+  - entity:submission
+  - entity:submission-approval-decision
+  - entity:submission-bind-handoff
+  - entity:submission-quote-packet
+  - entity:workflow-transition
+  - event:submission-approval-declined
+  - event:submission-approval-granted
+  - event:submission-archived
+  - event:submission-packet-updated
+  - event:submission-reactivated
+  - state:submission:bind-requested
+  - state:submission:bound
+  - state:submission:declined
+  - state:submission:in-review
+  - state:submission:quoted
+  - state:submission:withdrawn
+  - workflow:submission
+archived_date: '2026-06-03'
+completion_state: 'Done and archived (2026-06-03) — 8 stories: downstream workflow activation, quote/proposal
+  packet, underwriting approval, bind handoff, decline/withdraw, archive/reactivate, pipeline visibility,
+  timeline/audit'
+depends_on:
+  - feature:F0006
+  - id: feature:F0018
+    confidence: 1.0
+    note: Bind emits policy-creation handoff/correlation to F0018 (ADR-025 §4)
+    provenance: extracted
+  - id: feature:F0020
+    confidence: 1.0
+    note: Quote packet links submission-parented documents (ADR-012 / ADR-025 §2)
+    provenance: extracted
+  - id: feature:F0034
+    confidence: 1.0
+    note: Structured coverage/product attributes reused from product-schema registry (F0034-S0007 handoff)
+    provenance: extracted
+enforced_by_policy:
+  - policy_rule:submission-approve
+  - policy_rule:submission-archive
+  - policy_rule:submission-transition
+governed_by:
+  - adr:011
+  - adr:012
+  - adr:025
+notes:
+  - 'Closed 2026-06-03 with feature evidence run 2026-06-03-7e8e0ddc. Scope stays CRM workflow coordination:
+    quote figures are recorded reference values, never rating/pricing/scoring computations.'
+phase: CRM Release MVP
+restricted_to_role:
+  - role:distribution-user
+  - role:underwriter
+roadmap_order: 9
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0019-S0001
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0001-activate-downstream-submission-workflow.md
+    affects:
+      - entity:activity-timeline-event
+      - entity:submission
+      - entity:workflow-transition
+      - state:submission:in-review
+      - workflow:submission
+    enforced_by_policy:
+      - policy_rule:submission-transition
+    governed_by:
+      - adr:011
+      - adr:025
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0019-S0002
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0002-submission-quote-proposal-packet-lifecycle.md
+    affects:
+      - entity:document
+      - entity:submission
+      - entity:submission-quote-packet
+      - state:submission:quoted
+    depends_on:
+      - feature:F0020
+      - feature:F0034
+    enforced_by_policy:
+      - policy_rule:submission-update
+    governed_by:
+      - adr:012
+      - adr:025
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:submission
+  - id: story:F0019-S0003
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0003-underwriting-approval-checkpoint.md
+    affects:
+      - entity:submission
+      - entity:submission-approval-decision
+      - workflow:submission
+    enforced_by_policy:
+      - policy_rule:submission-approve
+    governed_by:
+      - adr:025
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0019-S0004
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0004-bind-decision-and-policy-handoff.md
+    affects:
+      - entity:policy
+      - entity:submission
+      - entity:workflow-transition
+      - state:submission:bind-requested
+      - state:submission:bound
+    depends_on:
+      - feature:F0018
+    enforced_by_policy:
+      - policy_rule:submission-transition
+    governed_by:
+      - adr:011
+      - adr:025
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0019-S0005
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0005-decline-and-withdraw-terminal-decisions.md
+    affects:
+      - entity:submission
+      - entity:workflow-transition
+      - state:submission:declined
+      - state:submission:withdrawn
+    enforced_by_policy:
+      - policy_rule:submission-transition
+    governed_by:
+      - adr:011
+      - adr:025
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0019-S0006
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0006-submission-archive-and-deactivate.md
+    affects:
+      - entity:submission
+      - workflow:submission
+    enforced_by_policy:
+      - policy_rule:submission-archive
+    governed_by:
+      - adr:025
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0019-S0007
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0007-downstream-submission-pipeline-list-and-workflow-visibility.md
+    affects:
+      - entity:submission
+      - workflow:submission
+    enforced_by_policy:
+      - policy_rule:submission-read
+    governed_by:
+      - adr:025
+    uses_api_contract:
+      - api:nebula-rest
+  - id: story:F0019-S0008
+    path: planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/F0019-S0008-downstream-submission-workflow-timeline-and-audit-trail.md
+    affects:
+      - entity:activity-timeline-event
+      - entity:submission
+      - entity:workflow-transition
+    enforced_by_policy:
+      - policy_rule:submission-read
+    governed_by:
+      - adr:011
+      - adr:025
+    uses_api_contract:
+      - api:nebula-rest
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:activity-event-payloads
+  - schema:line-of-business
+  - schema:submission
+  - schema:submission-transition-request

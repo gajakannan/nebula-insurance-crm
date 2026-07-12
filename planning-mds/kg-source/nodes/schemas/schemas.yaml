@@ -1,0 +1,763 @@
+schemas:
+  - id: schema:account
+    path: planning-mds/schemas/account.schema.json
+    related_nodes:
+      - entity:account
+      - workflow:account-lifecycle
+  - id: schema:account-contact
+    path: planning-mds/schemas/account-contact.schema.json
+    related_nodes:
+      - entity:account
+      - entity:contact
+  - id: schema:account-contact-request
+    path: planning-mds/schemas/account-contact-request.schema.json
+    related_nodes:
+      - entity:account
+      - entity:contact
+  - id: schema:account-create-request
+    path: planning-mds/schemas/account-create-request.schema.json
+    related_nodes:
+      - entity:account
+  - id: schema:account-lifecycle-request
+    path: planning-mds/schemas/account-lifecycle-request.schema.json
+    related_nodes:
+      - entity:account
+      - entity:workflow-transition
+      - workflow:account-lifecycle
+  - id: schema:account-list-item
+    path: planning-mds/schemas/account-list-item.schema.json
+    related_nodes:
+      - entity:account
+      - workflow:account-lifecycle
+  - id: schema:account-merge-request
+    path: planning-mds/schemas/account-merge-request.schema.json
+    related_nodes:
+      - entity:account
+      - workflow:account-lifecycle
+  - id: schema:account-relationship-request
+    path: planning-mds/schemas/account-relationship-request.schema.json
+    related_nodes:
+      - entity:account
+      - entity:broker
+  - id: schema:account-summary
+    path: planning-mds/schemas/account-summary.schema.json
+    related_nodes:
+      - entity:account
+  - id: schema:account-update-request
+    path: planning-mds/schemas/account-update-request.schema.json
+    related_nodes:
+      - entity:account
+  - id: schema:activity-event-payloads
+    path: planning-mds/schemas/activity-event-payloads.schema.json
+    related_nodes:
+      - entity:activity-timeline-event
+  - id: schema:assignment-rule
+    path: planning-mds/schemas/assignment-rule.schema.json
+    related_nodes:
+      - capability:operations-routing
+      - entity:assignment-rule
+      - entity:work-queue
+  - id: schema:assignment-rule-upsert-request
+    path: planning-mds/schemas/assignment-rule-upsert-request.schema.json
+    related_nodes:
+      - capability:operations-routing
+      - entity:assignment-rule
+      - entity:work-queue
+  - id: schema:broker
+    path: planning-mds/schemas/broker.schema.json
+    related_nodes:
+      - entity:broker
+  - id: schema:broker-create-request
+    path: planning-mds/schemas/broker-create-request.schema.json
+    related_nodes:
+      - entity:broker
+  - id: schema:broker-insight-benchmark
+    path: planning-mds/schemas/broker-insight-benchmark.schema.json
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+  - id: schema:broker-insight-scorecard
+    path: planning-mds/schemas/broker-insight-scorecard.schema.json
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+  - id: schema:broker-insight-snapshot
+    path: planning-mds/schemas/broker-insight-snapshot.schema.json
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - entity:search-document
+  - id: schema:broker-insight-trend
+    path: planning-mds/schemas/broker-insight-trend.schema.json
+    related_nodes:
+      - capability:broker-insights
+      - entity:broker-insight-projection
+      - entity:search-document
+  - id: schema:broker-search-query
+    path: planning-mds/schemas/broker-search-query.schema.json
+    related_nodes:
+      - entity:broker
+  - id: schema:broker-update-request
+    path: planning-mds/schemas/broker-update-request.schema.json
+    related_nodes:
+      - entity:broker
+  - id: schema:carrier-appetite-note
+    path: planning-mds/schemas/carrier-appetite-note.schema.json
+    related_nodes:
+      - entity:carrier-appetite-note
+      - entity:carrier-market
+  - id: schema:carrier-appointment
+    path: planning-mds/schemas/carrier-appointment.schema.json
+    related_nodes:
+      - entity:carrier-appointment
+      - entity:carrier-market
+  - id: schema:carrier-market
+    path: planning-mds/schemas/carrier-market.schema.json
+    related_nodes:
+      - capability:carrier-market-relationship-management
+      - entity:carrier-market
+  - id: schema:carrier-market-activity-link
+    path: planning-mds/schemas/carrier-market-activity-link.schema.json
+    related_nodes:
+      - entity:carrier-market
+      - entity:carrier-market-activity-link
+      - entity:policy
+      - entity:submission
+  - id: schema:carrier-market-contact
+    path: planning-mds/schemas/carrier-market-contact.schema.json
+    related_nodes:
+      - entity:carrier-market
+      - entity:carrier-market-contact
+  - id: schema:carrier-market-upsert-request
+    path: planning-mds/schemas/carrier-market-upsert-request.schema.json
+    related_nodes:
+      - capability:carrier-market-relationship-management
+      - entity:carrier-market
+  - id: schema:carrier-ref
+    path: planning-mds/schemas/carrier-ref.schema.json
+    related_nodes:
+      - entity:carrier-ref
+      - entity:policy
+  - id: schema:communication-event
+    path: planning-mds/schemas/communication-event.schema.json
+    related_nodes:
+      - entity:communication-event
+      - entity:communication-link
+      - entity:communication-participant
+  - id: schema:communication-event-correction-request
+    path: planning-mds/schemas/communication-event-correction-request.schema.json
+    related_nodes:
+      - entity:communication-event
+  - id: schema:communication-event-create-request
+    path: planning-mds/schemas/communication-event-create-request.schema.json
+    related_nodes:
+      - entity:communication-event
+      - entity:communication-link
+      - entity:communication-participant
+  - id: schema:communication-event-follow-up-request
+    path: planning-mds/schemas/communication-event-follow-up-request.schema.json
+    related_nodes:
+      - entity:communication-event
+      - entity:task-item
+  - id: schema:contact
+    path: planning-mds/schemas/contact.schema.json
+    related_nodes:
+      - entity:account
+      - entity:broker
+      - entity:contact
+  - id: schema:contact-create-request
+    path: planning-mds/schemas/contact-create-request.schema.json
+    related_nodes:
+      - entity:account
+      - entity:broker
+      - entity:contact
+  - id: schema:contact-update-request
+    path: planning-mds/schemas/contact-update-request.schema.json
+    related_nodes:
+      - entity:account
+      - entity:broker
+      - entity:contact
+  - id: schema:coverage-window
+    path: planning-mds/schemas/coverage-window.schema.json
+    related_nodes:
+      - capability:operations-routing
+      - entity:coverage-window
+      - entity:user-profile
+      - entity:work-queue
+  - id: schema:coverage-window-upsert-request
+    path: planning-mds/schemas/coverage-window-upsert-request.schema.json
+    related_nodes:
+      - capability:operations-routing
+      - entity:coverage-window
+      - entity:user-profile
+      - entity:work-queue
+  - id: schema:dashboard-kpis
+    path: planning-mds/schemas/dashboard-kpis.schema.json
+    related_nodes:
+      - entity:task-item
+      - workflow:submission
+  - id: schema:dashboard-pipeline
+    path: planning-mds/schemas/dashboard-pipeline.schema.json
+    related_nodes:
+      - workflow:submission
+  - id: schema:distribution-node
+    path: planning-mds/schemas/distribution-node.schema.json
+    related_nodes:
+      - capability:distribution-hierarchy-management
+      - entity:broker
+      - entity:mga
+      - entity:producer
+  - id: schema:distribution-node-ancestors-response
+    path: planning-mds/schemas/distribution-node-ancestors-response.schema.json
+    related_nodes:
+      - capability:distribution-hierarchy-management
+      - entity:broker
+      - entity:mga
+      - entity:producer
+  - id: schema:distribution-node-parent-request
+    path: planning-mds/schemas/distribution-node-parent-request.schema.json
+    related_nodes:
+      - capability:distribution-hierarchy-management
+      - entity:broker
+      - entity:mga
+      - entity:producer
+  - id: schema:document-classification-policy
+    path: planning-mds/schemas/document-classification-policy.schema.json
+    related_nodes:
+      - capability:document-classification
+      - config_key:document-classification-policy
+      - entity:document
+      - entity:document-template
+  - id: schema:document-completeness
+    path: planning-mds/schemas/document-completeness.schema.json
+    related_nodes:
+      - capability:document-completeness-signal
+      - entity:document
+  - id: schema:document-detail
+    path: planning-mds/schemas/document-detail.schema.json
+    related_nodes:
+      - entity:document
+  - id: schema:document-list-item
+    path: planning-mds/schemas/document-list-item.schema.json
+    related_nodes:
+      - entity:document
+  - id: schema:document-metadata-schema-registry
+    path: planning-mds/schemas/document-metadata-schema-registry.schema.json
+    related_nodes:
+      - config_key:document-metadata-schema-registry
+      - entity:document
+      - entity:document-template
+  - id: schema:document-retention-policy
+    path: planning-mds/schemas/document-retention-policy.schema.json
+    related_nodes:
+      - config_key:document-retention-policies
+      - entity:document
+      - workflow:document-ingest
+  - id: schema:document-sidecar
+    path: planning-mds/schemas/document-sidecar.schema.json
+    related_nodes:
+      - config_key:document-metadata-schema-registry
+      - entity:document
+      - entity:document-template
+      - workflow:document-ingest
+  - id: schema:document-template
+    path: planning-mds/schemas/document-template.schema.json
+    related_nodes:
+      - entity:document-template
+  - id: schema:generated-document-issue-response
+    path: planning-mds/schemas/generated-document-issue-response.schema.json
+    related_nodes:
+      - capability:outbound-document-generation
+      - entity:document
+      - entity:generated-document-artifact
+  - id: schema:generated-document-preview-response
+    path: planning-mds/schemas/generated-document-preview-response.schema.json
+    related_nodes:
+      - capability:outbound-document-generation
+      - entity:document-template
+  - id: schema:generated-document-request
+    path: planning-mds/schemas/generated-document-request.schema.json
+    related_nodes:
+      - capability:outbound-document-generation
+      - entity:document-template
+      - entity:generated-document-artifact
+  - id: schema:global-search-response
+    path: planning-mds/schemas/global-search-response.schema.json
+    related_nodes:
+      - capability:global-search
+      - entity:search-document
+  - id: schema:global-search-result
+    path: planning-mds/schemas/global-search-result.schema.json
+    related_nodes:
+      - capability:global-search
+      - entity:search-document
+  - id: schema:line-of-business
+    path: planning-mds/schemas/line-of-business.schema.json
+    related_nodes:
+      - entity:policy
+      - entity:renewal
+      - entity:submission
+  - id: schema:lob-attribute-envelope
+    path: planning-mds/schemas/lob-attribute-envelope.schema.json
+    related_nodes:
+      - capability:dynamic-lob-attributes
+      - entity:policy-endorsement
+      - entity:policy-version
+      - entity:renewal
+      - entity:submission
+  - id: schema:lob-schema-bundle
+    path: planning-mds/schemas/lob-schema-bundle.schema.json
+    related_nodes:
+      - capability:product-schema-registry
+      - entity:lob-product
+      - entity:lob-product-version
+      - entity:lob-schema-bundle
+  - id: schema:lob-validation-problem-details
+    path: planning-mds/schemas/lob-validation-problem-details.schema.json
+    related_nodes:
+      - capability:dynamic-lob-attributes
+      - capability:validator-equivalence
+  - id: schema:neuron-agent-card
+    path: planning-mds/schemas/neuron-agent-card.schema.json
+    related_nodes:
+      - capability:neuron-orchestration-runtime
+  - id: schema:neuron-companion-telemetry-event
+    path: planning-mds/schemas/neuron-companion-telemetry-event.schema.json
+    related_nodes:
+      - capability:neuron-companion-telemetry
+  - id: schema:neuron-message-envelope
+    path: planning-mds/schemas/neuron-message-envelope.schema.json
+    related_nodes:
+      - capability:neuron-message-envelope
+  - id: schema:neuron-orchestration-plan
+    path: planning-mds/schemas/neuron-orchestration-plan.schema.json
+    related_nodes:
+      - capability:neuron-orchestration-runtime
+  - id: schema:neuron-zone-payload
+    path: planning-mds/schemas/neuron-zone-payload.schema.json
+    related_nodes:
+      - capability:neuron-day-at-a-glance-shell
+      - capability:neuron-zone-dispatch
+  - id: schema:nudge-card
+    path: planning-mds/schemas/nudge-card.schema.json
+    related_nodes:
+      - entity:task-item
+      - workflow:renewal
+      - workflow:submission
+  - id: schema:operational-workload-report
+    path: planning-mds/schemas/operational-workload-report.schema.json
+    related_nodes:
+      - capability:operational-reporting
+      - entity:operational-report-projection
+  - id: schema:opportunity-aging
+    path: planning-mds/schemas/opportunity-aging.schema.json
+    related_nodes:
+      - entity:workflow-sla-threshold
+      - workflow:submission
+  - id: schema:opportunity-aging-bucket
+    path: planning-mds/schemas/opportunity-aging-bucket.schema.json
+    related_nodes:
+      - workflow:submission
+  - id: schema:opportunity-aging-sla
+    path: planning-mds/schemas/opportunity-aging-sla.schema.json
+    related_nodes:
+      - entity:workflow-sla-threshold
+  - id: schema:opportunity-aging-status
+    path: planning-mds/schemas/opportunity-aging-status.schema.json
+    related_nodes:
+      - workflow:submission
+  - id: schema:opportunity-breakdown
+    path: planning-mds/schemas/opportunity-breakdown.schema.json
+    related_nodes:
+      - workflow:submission
+  - id: schema:opportunity-breakdown-group
+    path: planning-mds/schemas/opportunity-breakdown-group.schema.json
+    related_nodes:
+      - workflow:submission
+  - id: schema:opportunity-flow
+    path: planning-mds/schemas/opportunity-flow.schema.json
+    related_nodes:
+      - workflow:submission
+  - id: schema:opportunity-flow-link
+    path: planning-mds/schemas/opportunity-flow-link.schema.json
+    related_nodes:
+      - workflow:submission
+  - id: schema:opportunity-flow-node
+    path: planning-mds/schemas/opportunity-flow-node.schema.json
+    related_nodes:
+      - workflow:submission
+  - id: schema:opportunity-hierarchy
+    path: planning-mds/schemas/opportunity-hierarchy.schema.json
+    related_nodes:
+      - workflow:submission
+  - id: schema:opportunity-hierarchy-node
+    path: planning-mds/schemas/opportunity-hierarchy-node.schema.json
+    related_nodes:
+      - workflow:submission
+  - id: schema:paginated-broker-list
+    path: planning-mds/schemas/paginated-broker-list.schema.json
+    related_nodes:
+      - entity:broker
+  - id: schema:paginated-distribution-node-list
+    path: planning-mds/schemas/paginated-distribution-node-list.schema.json
+    related_nodes:
+      - capability:distribution-hierarchy-management
+      - entity:broker
+      - entity:mga
+      - entity:producer
+  - id: schema:paginated-document-list
+    path: planning-mds/schemas/paginated-document-list.schema.json
+    related_nodes:
+      - entity:document
+  - id: schema:paginated-service-case-list
+    path: planning-mds/schemas/paginated-service-case-list.schema.json
+    related_nodes:
+      - entity:service-case
+  - id: schema:paginated-territory-assignment-list
+    path: planning-mds/schemas/paginated-territory-assignment-list.schema.json
+    related_nodes:
+      - capability:territory-management
+      - entity:territory
+      - entity:territory-assignment
+  - id: schema:pipeline-mini-card
+    path: planning-mds/schemas/pipeline-mini-card.schema.json
+    related_nodes:
+      - workflow:renewal
+      - workflow:submission
+  - id: schema:pipeline-status-count
+    path: planning-mds/schemas/pipeline-status-count.schema.json
+    related_nodes:
+      - workflow:renewal
+      - workflow:submission
+  - id: schema:policy
+    path: planning-mds/schemas/policy.schema.json
+    related_nodes:
+      - entity:policy
+      - workflow:policy
+  - id: schema:policy-account-summary
+    path: planning-mds/schemas/policy-account-summary.schema.json
+    related_nodes:
+      - entity:account
+      - entity:policy
+  - id: schema:policy-cancel-request
+    path: planning-mds/schemas/policy-cancel-request.schema.json
+    related_nodes:
+      - entity:policy
+      - entity:workflow-sla-threshold
+      - workflow:policy
+  - id: schema:policy-coverage-line
+    path: planning-mds/schemas/policy-coverage-line.schema.json
+    related_nodes:
+      - entity:policy
+      - entity:policy-coverage-line
+      - entity:policy-version
+  - id: schema:policy-create-request
+    path: planning-mds/schemas/policy-create-request.schema.json
+    related_nodes:
+      - entity:policy
+      - workflow:policy
+  - id: schema:policy-endorsement
+    path: planning-mds/schemas/policy-endorsement.schema.json
+    related_nodes:
+      - entity:policy
+      - entity:policy-endorsement
+      - entity:policy-version
+  - id: schema:policy-endorsement-request
+    path: planning-mds/schemas/policy-endorsement-request.schema.json
+    related_nodes:
+      - entity:policy
+      - entity:policy-endorsement
+      - entity:policy-version
+  - id: schema:policy-from-bind-request
+    path: planning-mds/schemas/policy-from-bind-request.schema.json
+    related_nodes:
+      - entity:policy
+      - entity:submission
+  - id: schema:policy-import-request
+    path: planning-mds/schemas/policy-import-request.schema.json
+    related_nodes:
+      - entity:policy
+  - id: schema:policy-issue-request
+    path: planning-mds/schemas/policy-issue-request.schema.json
+    related_nodes:
+      - entity:policy
+      - entity:policy-version
+      - workflow:policy
+  - id: schema:policy-list-item
+    path: planning-mds/schemas/policy-list-item.schema.json
+    related_nodes:
+      - entity:policy
+      - workflow:policy
+  - id: schema:policy-reinstate-request
+    path: planning-mds/schemas/policy-reinstate-request.schema.json
+    related_nodes:
+      - entity:policy
+      - entity:workflow-sla-threshold
+      - workflow:policy
+  - id: schema:policy-summary
+    path: planning-mds/schemas/policy-summary.schema.json
+    related_nodes:
+      - entity:policy
+      - workflow:policy
+  - id: schema:policy-update-request
+    path: planning-mds/schemas/policy-update-request.schema.json
+    related_nodes:
+      - entity:policy
+      - workflow:policy
+  - id: schema:policy-version
+    path: planning-mds/schemas/policy-version.schema.json
+    related_nodes:
+      - entity:policy
+      - entity:policy-version
+  - id: schema:problem-details
+    path: planning-mds/schemas/problem-details.schema.json
+    related_nodes: []
+  - id: schema:producer-ownership
+    path: planning-mds/schemas/producer-ownership.schema.json
+    related_nodes:
+      - capability:producer-ownership-management
+      - entity:producer
+      - entity:producer-ownership
+  - id: schema:producer-ownership-assignment-request
+    path: planning-mds/schemas/producer-ownership-assignment-request.schema.json
+    related_nodes:
+      - capability:producer-ownership-management
+      - entity:producer
+      - entity:producer-ownership
+  - id: schema:producer-ownership-lookup-response
+    path: planning-mds/schemas/producer-ownership-lookup-response.schema.json
+    related_nodes:
+      - capability:producer-ownership-management
+      - entity:producer
+      - entity:producer-ownership
+  - id: schema:queue-member-upsert-request
+    path: planning-mds/schemas/queue-member-upsert-request.schema.json
+    related_nodes:
+      - capability:operations-routing
+      - entity:user-profile
+      - entity:work-queue
+      - entity:work-queue-member
+  - id: schema:queue-reassignment-request
+    path: planning-mds/schemas/queue-reassignment-request.schema.json
+    related_nodes:
+      - capability:operations-routing
+      - entity:queue-work-item
+      - entity:user-profile
+  - id: schema:queue-rebalance-request
+    path: planning-mds/schemas/queue-rebalance-request.schema.json
+    related_nodes:
+      - capability:operations-routing
+      - entity:queue-work-item
+      - entity:user-profile
+  - id: schema:queue-work-item
+    path: planning-mds/schemas/queue-work-item.schema.json
+    related_nodes:
+      - capability:operations-routing
+      - entity:queue-work-item
+      - entity:task-item
+      - entity:work-queue
+      - workflow:renewal
+      - workflow:submission
+  - id: schema:renewal
+    path: planning-mds/schemas/renewal.schema.json
+    related_nodes:
+      - entity:renewal
+      - workflow:renewal
+  - id: schema:renewal-assignment-request
+    path: planning-mds/schemas/renewal-assignment-request.schema.json
+    related_nodes:
+      - entity:renewal
+      - entity:user-profile
+  - id: schema:renewal-create-request
+    path: planning-mds/schemas/renewal-create-request.schema.json
+    related_nodes:
+      - entity:policy
+      - entity:renewal
+      - workflow:renewal
+  - id: schema:renewal-list-item
+    path: planning-mds/schemas/renewal-list-item.schema.json
+    related_nodes:
+      - entity:renewal
+      - workflow:renewal
+  - id: schema:renewal-needs-attention-item
+    path: planning-mds/schemas/renewal-needs-attention-item.schema.json
+    related_nodes:
+      - capability:neuron-renewals-head
+      - entity:renewal
+  - id: schema:renewal-outreach-draft-request
+    path: planning-mds/schemas/renewal-outreach-draft-request.schema.json
+    related_nodes:
+      - capability:neuron-outreach-drafter
+      - entity:activity-timeline-event
+      - entity:renewal
+  - id: schema:renewal-outreach-mock-send-request
+    path: planning-mds/schemas/renewal-outreach-mock-send-request.schema.json
+    related_nodes:
+      - capability:neuron-outreach-drafter
+      - entity:renewal
+      - entity:workflow-transition
+  - id: schema:renewal-transition-request
+    path: planning-mds/schemas/renewal-transition-request.schema.json
+    related_nodes:
+      - entity:renewal
+      - workflow:renewal
+  - id: schema:renewal-update-request
+    path: planning-mds/schemas/renewal-update-request.schema.json
+    related_nodes:
+      - entity:renewal
+      - workflow:renewal
+  - id: schema:routing-event
+    path: planning-mds/schemas/routing-event.schema.json
+    related_nodes:
+      - capability:operations-routing
+      - entity:queue-work-item
+      - entity:routing-decision-log
+  - id: schema:saved-view
+    path: planning-mds/schemas/saved-view.schema.json
+    related_nodes:
+      - capability:saved-views
+      - entity:saved-view
+  - id: schema:saved-view-upsert-request
+    path: planning-mds/schemas/saved-view-upsert-request.schema.json
+    related_nodes:
+      - capability:saved-views
+      - entity:saved-view
+  - id: schema:service-case
+    path: planning-mds/schemas/service-case.schema.json
+    related_nodes:
+      - entity:service-case
+      - entity:service-case-claim-reference
+      - entity:service-case-transition
+  - id: schema:service-case-claim-reference-update-request
+    path: planning-mds/schemas/service-case-claim-reference-update-request.schema.json
+    related_nodes:
+      - entity:service-case
+      - entity:service-case-claim-reference
+  - id: schema:service-case-communication-link-request
+    path: planning-mds/schemas/service-case-communication-link-request.schema.json
+    related_nodes:
+      - entity:communication-event
+      - entity:service-case
+  - id: schema:service-case-create-request
+    path: planning-mds/schemas/service-case-create-request.schema.json
+    related_nodes:
+      - entity:service-case
+      - entity:service-case-claim-reference
+  - id: schema:service-case-follow-up-task-request
+    path: planning-mds/schemas/service-case-follow-up-task-request.schema.json
+    related_nodes:
+      - entity:service-case
+      - entity:task-item
+  - id: schema:service-case-transition-request
+    path: planning-mds/schemas/service-case-transition-request.schema.json
+    related_nodes:
+      - entity:service-case
+      - entity:service-case-transition
+  - id: schema:service-case-update-request
+    path: planning-mds/schemas/service-case-update-request.schema.json
+    related_nodes:
+      - entity:service-case
+  - id: schema:session-continuity-event
+    path: planning-mds/schemas/session-continuity-event.schema.json
+    related_nodes:
+      - capability:session-continuity
+      - capability:session-telemetry
+  - id: schema:submission
+    path: planning-mds/schemas/submission.schema.json
+    related_nodes:
+      - entity:submission
+      - workflow:submission
+  - id: schema:submission-assignment-request
+    path: planning-mds/schemas/submission-assignment-request.schema.json
+    related_nodes:
+      - entity:submission
+      - entity:user-profile
+  - id: schema:submission-completeness
+    path: planning-mds/schemas/submission-completeness.schema.json
+    related_nodes:
+      - entity:document
+      - entity:submission
+  - id: schema:submission-create-request
+    path: planning-mds/schemas/submission-create-request.schema.json
+    related_nodes:
+      - entity:submission
+      - workflow:submission
+  - id: schema:submission-list-item
+    path: planning-mds/schemas/submission-list-item.schema.json
+    related_nodes:
+      - entity:submission
+      - workflow:submission
+  - id: schema:submission-transition-request
+    path: planning-mds/schemas/submission-transition-request.schema.json
+    related_nodes:
+      - entity:submission
+      - workflow:submission
+  - id: schema:submission-update-request
+    path: planning-mds/schemas/submission-update-request.schema.json
+    related_nodes:
+      - entity:submission
+      - workflow:submission
+  - id: schema:task
+    path: planning-mds/schemas/task.schema.json
+    related_nodes:
+      - entity:task-item
+  - id: schema:task-create-request
+    path: planning-mds/schemas/task-create-request.schema.json
+    related_nodes:
+      - entity:task-item
+  - id: schema:task-summary
+    path: planning-mds/schemas/task-summary.schema.json
+    related_nodes:
+      - entity:task-item
+  - id: schema:task-update-request
+    path: planning-mds/schemas/task-update-request.schema.json
+    related_nodes:
+      - entity:task-item
+  - id: schema:territory
+    path: planning-mds/schemas/territory.schema.json
+    related_nodes:
+      - capability:territory-management
+      - entity:territory
+  - id: schema:territory-assignment
+    path: planning-mds/schemas/territory-assignment.schema.json
+    related_nodes:
+      - capability:territory-management
+      - entity:territory
+      - entity:territory-assignment
+  - id: schema:territory-assignment-lookup-response
+    path: planning-mds/schemas/territory-assignment-lookup-response.schema.json
+    related_nodes:
+      - capability:territory-management
+      - entity:territory-assignment
+  - id: schema:territory-create-request
+    path: planning-mds/schemas/territory-create-request.schema.json
+    related_nodes:
+      - capability:territory-management
+      - entity:territory
+  - id: schema:territory-member-assignment-request
+    path: planning-mds/schemas/territory-member-assignment-request.schema.json
+    related_nodes:
+      - capability:territory-management
+      - entity:territory
+      - entity:territory-assignment
+  - id: schema:timeline-event
+    path: planning-mds/schemas/timeline-event.schema.json
+    related_nodes:
+      - entity:activity-timeline-event
+  - id: schema:work-queue
+    path: planning-mds/schemas/work-queue.schema.json
+    related_nodes:
+      - capability:operations-routing
+      - entity:work-queue
+  - id: schema:work-queue-upsert-request
+    path: planning-mds/schemas/work-queue-upsert-request.schema.json
+    related_nodes:
+      - capability:operations-routing
+      - entity:work-queue
+  - id: schema:workflow-aging-report
+    path: planning-mds/schemas/workflow-aging-report.schema.json
+    related_nodes:
+      - capability:operational-reporting
+      - entity:operational-report-projection
+      - workflow:renewal
+      - workflow:submission

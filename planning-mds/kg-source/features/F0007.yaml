@@ -1,0 +1,258 @@
+status: architecture-complete
+id: feature:F0007
+name: Renewal Pipeline
+path: planning-mds/features/archive/F0007-renewal-pipeline
+affects:
+  - config_key:workflow-sla-thresholds
+  - endpoint:renewal-assignment
+  - endpoint:renewal-create
+  - endpoint:renewal-detail
+  - endpoint:renewal-list
+  - endpoint:renewal-timeline
+  - endpoint:renewal-transition
+  - entity:account
+  - entity:activity-timeline-event
+  - entity:broker
+  - entity:policy
+  - entity:renewal
+  - entity:workflow-sla-threshold
+  - entity:workflow-transition
+  - event:renewal-transitioned
+  - glossary_term:line-of-business
+  - migration:f0007-renewal-entity-shape-reconcile
+  - migration:f0007-renewal-workflow-states-reconcile
+  - workflow:renewal
+archived_date: '2026-04-12'
+completion_state: 'Done and archived (2026-04-12) — 7 stories: pipeline list, detail view, transitions,
+  assignment, overdue visibility, create from policy, timeline'
+depends_on:
+  - id: feature:F0016
+    confidence: 0.7
+    provenance: inferred
+  - id: feature:F0018
+    confidence: 0.9
+    provenance: inferred
+enforced_by_policy:
+  - policy_rule:dashboard-nudge-read
+  - policy_rule:renewal-assign
+  - policy_rule:renewal-create
+  - policy_rule:renewal-read
+  - policy_rule:renewal-transition
+  - policy_rule:timeline-event-read
+governed_by:
+  - adr:010
+  - adr:011
+  - adr:014-workflow-sla
+phase: CRM Release MVP
+restricted_to_role:
+  - role:distribution-manager
+  - role:distribution-user
+  - role:underwriter
+roadmap_order: 16
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0007-S0001
+    path: planning-mds/features/archive/F0007-renewal-pipeline/F0007-S0001-renewal-pipeline-list-with-due-window-filtering.md
+    affects:
+      - config_key:workflow-sla-thresholds
+      - endpoint:renewal-list
+      - entity:account
+      - entity:broker
+      - entity:policy
+      - entity:renewal
+      - entity:workflow-sla-threshold
+      - workflow:renewal
+    depends_on:
+      - story:F0007-S0006
+    enforced_by_policy:
+      - policy_rule:renewal-read
+    governed_by:
+      - adr:014-workflow-sla
+    restricted_to_role:
+      - role:distribution-manager
+      - role:distribution-user
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:line-of-business
+      - schema:renewal-list-item
+  - id: story:F0007-S0002
+    path: planning-mds/features/archive/F0007-renewal-pipeline/F0007-S0002-renewal-detail-view-with-policy-context.md
+    affects:
+      - endpoint:renewal-detail
+      - endpoint:renewal-timeline
+      - entity:account
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:policy
+      - entity:renewal
+      - workflow:renewal
+    depends_on:
+      - story:F0007-S0001
+      - story:F0007-S0007
+      - id: feature:F0018
+        confidence: 0.9
+        provenance: inferred
+    enforced_by_policy:
+      - policy_rule:renewal-read
+      - policy_rule:timeline-event-read
+    restricted_to_role:
+      - role:distribution-user
+      - role:underwriter
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:renewal
+      - schema:timeline-event
+  - id: story:F0007-S0003
+    path: planning-mds/features/archive/F0007-renewal-pipeline/F0007-S0003-renewal-status-transitions.md
+    affects:
+      - endpoint:renewal-transition
+      - entity:activity-timeline-event
+      - entity:renewal
+      - entity:workflow-transition
+      - event:renewal-transitioned
+      - workflow:renewal
+    enforced_by_policy:
+      - policy_rule:renewal-transition
+    governed_by:
+      - adr:010
+      - adr:011
+      - adr:014-workflow-sla
+    restricted_to_role:
+      - role:distribution-user
+      - role:underwriter
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:renewal
+      - schema:renewal-transition-request
+    validated_by:
+      - evidence:workflow-endpoint-integration-tests
+      - evidence:workflow-state-machine-tests
+    workflow_states:
+      - state:renewal:completed
+      - state:renewal:identified
+      - state:renewal:in-review
+      - state:renewal:lost
+      - state:renewal:outreach
+      - state:renewal:quoted
+  - id: story:F0007-S0004
+    path: planning-mds/features/archive/F0007-renewal-pipeline/F0007-S0004-renewal-ownership-assignment-and-handoff.md
+    affects:
+      - endpoint:renewal-assignment
+      - entity:activity-timeline-event
+      - entity:renewal
+      - entity:user-profile
+      - workflow:renewal
+    depends_on:
+      - feature:F0004
+      - story:F0007-S0006
+    enforced_by_policy:
+      - policy_rule:renewal-assign
+      - policy_rule:user-search
+    restricted_to_role:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:renewal-assignment-request
+      - schema:timeline-event
+  - id: story:F0007-S0005
+    path: planning-mds/features/archive/F0007-renewal-pipeline/F0007-S0005-overdue-renewal-visibility-and-escalation-flags.md
+    affects:
+      - capability:dashboard-nudge-cards
+      - config_key:workflow-sla-thresholds
+      - endpoint:dashboard-nudges
+      - entity:renewal
+      - entity:workflow-sla-threshold
+      - workflow:renewal
+    depends_on:
+      - feature:F0001
+      - story:F0007-S0001
+      - story:F0007-S0006
+    enforced_by_policy:
+      - policy_rule:dashboard-nudge-read
+      - policy_rule:renewal-read
+    governed_by:
+      - adr:009
+      - adr:014-workflow-sla
+    restricted_to_role:
+      - role:distribution-manager
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:nudge-card
+      - schema:renewal-list-item
+  - id: story:F0007-S0006
+    path: planning-mds/features/archive/F0007-renewal-pipeline/F0007-S0006-create-renewal-from-expiring-policy.md
+    affects:
+      - config_key:workflow-sla-thresholds
+      - endpoint:renewal-create
+      - entity:activity-timeline-event
+      - entity:policy
+      - entity:renewal
+      - entity:workflow-sla-threshold
+      - entity:workflow-transition
+      - migration:f0007-renewal-entity-shape-reconcile
+      - workflow:renewal
+    depends_on:
+      - id: feature:F0018
+        confidence: 0.9
+        provenance: inferred
+    enforced_by_policy:
+      - policy_rule:renewal-create
+    governed_by:
+      - adr:009
+      - adr:010
+      - adr:011
+    restricted_to_role:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:renewal
+      - schema:renewal-create-request
+    workflow_states:
+      - state:renewal:identified
+  - id: story:F0007-S0007
+    path: planning-mds/features/archive/F0007-renewal-pipeline/F0007-S0007-renewal-activity-timeline-and-audit-trail.md
+    affects:
+      - endpoint:renewal-timeline
+      - entity:activity-timeline-event
+      - entity:renewal
+      - entity:workflow-transition
+    depends_on:
+      - story:F0007-S0003
+      - story:F0007-S0004
+      - story:F0007-S0006
+    enforced_by_policy:
+      - policy_rule:renewal-read
+      - policy_rule:timeline-event-read
+    restricted_to_role:
+      - role:distribution-manager
+      - role:distribution-user
+      - role:underwriter
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:timeline-event
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:activity-event-payloads
+  - schema:line-of-business
+  - schema:renewal
+  - schema:renewal-assignment-request
+  - schema:renewal-create-request
+  - schema:renewal-list-item
+  - schema:renewal-transition-request
+  - schema:renewal-update-request
+  - schema:timeline-event
