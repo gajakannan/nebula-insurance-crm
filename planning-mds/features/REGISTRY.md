@@ -30,7 +30,6 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 <!-- generated:begin registry:planned -->
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
-| F0025 | Commission, Producer Splits & Revenue Tracking | Planned | Brokerage Platform Expansion | `F0025-commission-producer-splits-and-revenue-tracking/` |
 | F0026 | Billing, Invoicing & Reconciliation | Planned | Brokerage Platform Expansion | `F0026-billing-invoicing-and-reconciliation/` |
 | F0029 | External Broker Collaboration Portal | Planned | Brokerage Platform Expansion | `F0029-external-broker-collaboration-portal/` |
 | F0030 | Integration Hub & Data Exchange | Planned | Brokerage Platform Expansion | `F0030-integration-hub-and-data-exchange/` |
@@ -44,6 +43,7 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 <!-- generated:begin registry:archived -->
 | Feature ID | Name | Archived Date | Folder |
 |------------|------|---------------|--------|
+| F0025 | Commission, Producer Splits & Revenue Tracking | 2026-07-07 | `archive/F0025-commission-producer-splits-and-revenue-tracking/` |
 | F0037 | Hierarchy-Aware Access Scoping & Distribution Rollups | 2026-07-06 | `archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/` |
 | F0032 | Admin Configuration & Reference Data Console | 2026-07-06 | `archive/F0032-admin-configuration-and-reference-data-console/` |
 | F0028 | Carrier & Market Relationship Management | 2026-07-03 | `archive/F0028-carrier-and-market-relationship-management/` |

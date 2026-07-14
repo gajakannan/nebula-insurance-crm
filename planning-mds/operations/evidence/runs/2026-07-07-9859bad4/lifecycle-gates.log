@@ -1,0 +1,103 @@
+# Lifecycle Gates Log - F0025-commission-producer-splits-and-revenue-tracking run 2026-07-07-9859bad4
+
+## Lifecycle Gate Run
+
+G0 feature evidence validation executed.
+
+## Command
+
+`python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /Users/msig4/Documents/NEBULA/nebula-insurance-crm --feature F0025 --run-id 2026-07-07-9859bad4 --stage G0`
+
+## Stage
+
+G0
+
+## Exit Code
+
+0
+
+## Result
+
+PASS
+
+## Output References
+
+- `g0-assembly-plan-validation.md`
+- `commands.log`
+
+## Skipped Gates
+
+- None.
+
+### G1
+Command: docker compose ps; dotnet --info; pnpm --dir experience --version; test -d experience/node_modules; docker compose up -d db authentik-server authentik-worker api; docker compose ps
+Stage: G1
+Exit Code: 0
+Result: PASS
+Output References: g1-runtime-preflight.md
+Skipped Gates: -
+
+### G2
+Command: dotnet build; dotnet test focused F0025 filters; pnpm lint; pnpm lint:theme; pnpm build; pnpm exec vitest run src/features/commissions/tests/CommissionsPage.test.tsx; .venv/bin/python scripts/kg/validate.py --write-coverage-report
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: g2-self-review.md; test-plan.md; test-execution-report.md; coverage-report.md; deployability-check.md
+Skipped Gates: -
+
+### G3
+Command: security scan wrappers; source-record authorization patch; dotnet build; dotnet test focused F0025 filters; code/security review reports; validate-feature-evidence --stage G3
+Stage: G3
+Exit Code: 0
+Result: PASS WITH RECOMMENDATIONS
+Output References: code-review-report.md; security-review-report.md; artifacts/security/*
+Skipped Gates: -
+
+### G4
+Command: validate-feature-evidence --stage G4
+Stage: G4
+Exit Code: 0
+Result: PASS
+Output References: gate-decisions.md
+Skipped Gates: -
+
+### G5
+Command: STATUS.md signoff rows; signoff-ledger.md; validate-feature-evidence --stage G5
+Stage: G5
+Exit Code: 0
+Result: PASS
+Output References: signoff-ledger.md; STATUS.md
+Skipped Gates: -
+
+### G6
+Command: feature-action-execution.md; validate-feature-evidence --stage G6; validate-trackers.py --feature F0025 --run-id 2026-07-07-9859bad4
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: feature-action-execution.md; lifecycle-gates.log
+Skipped Gates: -
+
+### G7
+Command: .venv/bin/python scripts/kg/validate.py --regenerate-symbols --check-symbols --regenerate-decisions --check-decisions; .venv/bin/python scripts/kg/validate.py --check-drift
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: kg-reconciliation.md; planning-mds/knowledge-graph/symbol-index.yaml; planning-mds/knowledge-graph/unbound-but-referenced.yaml; planning-mds/knowledge-graph/decisions-index.yaml
+Skipped Gates: -
+
+### G8
+Command: archive feature folder; generate-story-index.py; patch-prior-manifest.py; latest-run.json publish; validate-feature-evidence --stage closeout; validate-trackers.py --feature F0025 --run-id 2026-07-07-9859bad4; .venv/bin/python scripts/kg/validate.py --write-coverage-report; .venv/bin/python scripts/kg/validate.py --check-drift; .venv/bin/python agents/scripts/validate_templates.py
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: pm-closeout.md; latest-run.json; REGISTRY.md; ROADMAP.md; STORY-INDEX.md; BLUEPRINT.md; coverage-report.yaml
+Skipped Gates: -
+
+### Post-Closeout Validation 2026-07-07
+Command: runtime preflight; closeout evidence validation; tracker validation; backend build; focused backend tests; frontend lint/theme/build/Vitest; KG drift/coverage; template validation; security scanner wrappers
+Stage: Post-closeout validation
+Exit Code: 1
+Result: PASS WITH SECURITY FOLLOW-UPS
+Output References: post-closeout-validation-2026-07-07.md
+Skipped Gates: -
+Notes: Core backend/frontend/KG/template validation passed. Frontend dependency audit found 61 advisories, while secrets/SAST/DAST were blocked by missing local scanner tools or unavailable ZAP image.

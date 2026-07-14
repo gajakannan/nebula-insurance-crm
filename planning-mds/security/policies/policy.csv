@@ -728,6 +728,37 @@ p, RelationshipManager, operational_report, read, true
 p, ProgramManager,      operational_report, read, true
 p, Admin,               operational_report, read, true
 
+# F0025 Commission, Producer Splits, and Revenue Tracking — internal economic data.
+# Query layer must filter source records before rows, counts, totals, facets, or drilldowns are returned.
+p, Admin,               commission, read,               true
+p, Admin,               commission, schedule_manage,    true
+p, Admin,               commission, split_assign,       true
+p, Admin,               commission, calculate,          true
+p, Admin,               commission, adjustment_request, true
+p, Admin,               commission, adjustment_approve, true
+p, Admin,               commission, rollup_read,        true
+
+p, DistributionManager, commission, read,               true
+p, DistributionManager, commission, split_assign,       true
+p, DistributionManager, commission, calculate,          true
+p, DistributionManager, commission, adjustment_request, true
+p, DistributionManager, commission, adjustment_approve, true
+p, DistributionManager, commission, rollup_read,        true
+
+p, DistributionUser,    commission, read,               true
+p, DistributionUser,    commission, adjustment_request, true
+p, DistributionUser,    commission, rollup_read,        true
+
+p, Underwriter,         commission, read,               true
+
+p, RelationshipManager, commission, read,               true
+p, RelationshipManager, commission, schedule_manage,    true
+p, RelationshipManager, commission, calculate,          true
+p, RelationshipManager, commission, rollup_read,        true
+
+p, ProgramManager,      commission, read,               true
+p, ProgramManager,      commission, rollup_read,        true
+
 # F0008 Broker Insights — read-only internal analytics.
 # Query layer must filter source records before counts, trends, peer sets, ranks, and links are returned.
 p, DistributionUser,    broker_insight, read, true

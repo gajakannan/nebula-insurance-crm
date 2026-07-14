@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/revenue-attribution-rollup-response.schema.json",
+  "title": "RevenueAttributionRollupResponse",
+  "type": "object",
+  "required": ["generatedAt", "groupBy", "rows"],
+  "properties": {
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "groupBy": { "type": "string", "enum": ["Producer", "Broker", "Territory", "CarrierMarket", "PolicyPeriod"] },
+    "rows": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/row" }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "row": {
+      "type": "object",
+      "required": ["dimensionId", "dimensionLabel", "expectedGrossCommissionAmount", "approvedAdjustmentAmount", "adjustedExpectedCommissionAmount", "exceptionCount", "sourceRecordCount"],
+      "properties": {
+        "dimensionId": { "type": ["string", "null"] },
+        "dimensionLabel": { "type": "string" },
+        "expectedGrossCommissionAmount": { "type": "number" },
+        "approvedAdjustmentAmount": { "type": "number" },
+        "adjustedExpectedCommissionAmount": { "type": "number" },
+        "exceptionCount": { "type": "integer", "minimum": 0 },
+        "sourceRecordCount": { "type": "integer", "minimum": 0 },
+        "lastSourceUpdatedAt": { "type": ["string", "null"], "format": "date-time" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

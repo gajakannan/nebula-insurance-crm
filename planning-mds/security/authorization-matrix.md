@@ -640,6 +640,32 @@ criteria only and never grant source-record access.
 
 ---
 
+### 2.10b.1 Commission, Producer Splits, and Revenue Tracking (F0025)
+
+F0025 economic data is InternalOnly. All ALLOW decisions below must also pass
+source-record read checks for linked policy, carrier/market, producer ownership,
+territory, and broker/account context before rows, counts, totals, facets, or
+drilldowns are returned.
+
+| Role | Resource | Action(s) | Decision | Conditions | Stories |
+|------|----------|-----------|----------|------------|---------|
+| DistributionUser | commission | read / adjustment_request / rollup_read | **ALLOW** | Own/assigned source-record scope only; no schedule or split mutation. | F0025-S0001, S0005, S0006 |
+| DistributionManager | commission | read / split_assign / calculate / adjustment_request / adjustment_approve / rollup_read | **ALLOW** | Region/team source-record scope; same-user request and approval is denied. | F0025-S0001 through S0006 |
+| Underwriter | commission | read | **ALLOW** | Read-only expected commission context for visible policies. No rollup totals or economic mutation. | F0025-S0001, S0004 |
+| RelationshipManager | commission | read / schedule_manage / calculate / rollup_read | **ALLOW** | Carrier/market and managed-relationship scope; no adjustment approval. | F0025-S0001, S0002, S0004, S0006 |
+| ProgramManager | commission | read / rollup_read | **ALLOW** | Program-scoped source records only. No economic mutation. | F0025-S0001, S0006 |
+| Admin | commission | all | **ALLOW** | Unscoped internal administration; validation, concurrency, and audit rules still apply. | F0025-S0001 through S0006 |
+| BrokerUser / ExternalUser | commission | all | **DENY** | External compensation visibility is out of scope. | F0025 PRD non-goals |
+
+**Constraints applying to all F0025 ALLOW decisions:**
+- Schedule, split, calculation, adjustment, and projection refresh mutations emit immutable `ActivityTimelineEvent` rows.
+- Schedule and split mutations require `If-Match` when updating existing rows and reject stale row versions with `precondition_failed`.
+- Active producer split percentages must total exactly 100.0000 before an assignment can be activated.
+- Adjustment approval requires a different approver from the requester in MVP.
+- Rollup totals are computed after authorization filtering; hidden source rows are not surfaced as hidden counts.
+
+---
+
 ### 2.10c Broker Insights (F0008)
 
 F0008 is internal-only and read-only. Broker scorecards, trends, benchmarks,

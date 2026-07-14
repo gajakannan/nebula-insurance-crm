@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/commission-adjustment.schema.json",
+  "title": "CommissionAdjustment",
+  "type": "object",
+  "required": ["id", "expectedCommissionId", "adjustmentAmount", "reason", "effectiveDate", "status", "requestedByUserId", "requestedAt", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "expectedCommissionId": { "type": "string", "format": "uuid" },
+    "adjustmentAmount": { "type": "number" },
+    "reason": { "type": "string", "maxLength": 1000 },
+    "effectiveDate": { "type": "string", "format": "date" },
+    "status": { "type": "string", "enum": ["Pending", "Approved", "Rejected"] },
+    "requestedByUserId": { "type": "string", "format": "uuid" },
+    "requestedAt": { "type": "string", "format": "date-time" },
+    "decisionByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "decisionAt": { "type": ["string", "null"], "format": "date-time" },
+    "decisionNote": { "type": ["string", "null"], "maxLength": 1000 },
+    "rowVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

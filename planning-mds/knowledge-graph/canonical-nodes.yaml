@@ -104,6 +104,9 @@ adrs:
   - id: adr:032
     label: Admin Configuration Console Contract
     path: planning-mds/architecture/decisions/ADR-032-admin-configuration-console-contract.md
+  - id: adr:033
+    label: Commission, Producer Splits, And Revenue Tracking
+    path: planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
   - id: adr:auth-token-storage
     label: Auth Token Storage
     path: planning-mds/architecture/decisions/ADR-Auth-Token-Storage.md
@@ -236,6 +239,31 @@ capabilities:
       - planning-mds/architecture/SOLUTION-PATTERNS.md
       - planning-mds/architecture/decisions/ADR-006-authentik-idp-migration.md
       - planning-mds/features/archive/F0005-idp-migration/README.md
+  - id: capability:commission-revenue-tracking
+    label: Commission Revenue Tracking
+    notes: Internal-only expected commission, producer split attribution, adjustment, and revenue rollup
+      visibility for F0025; explicitly excludes settlement, billing, payments, reconciliation, statements,
+      tax, and producer payout execution.
+    rationale:
+      - adr: adr:032
+        section: Decision
+        summary: F0025 introduces a CommissionRevenue module that persists expected commission review
+          records with source snapshots, effective-dated schedules/splits, single-step adjustments, and
+          source-authorized rollup projections.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:carrier-market-relationship-management
+      - capability:operational-reporting
+      - capability:producer-ownership-management
+      - capability:territory-management
+      - entity:commission-adjustment
+      - entity:commission-schedule
+      - entity:expected-commission
+      - entity:producer-split-assignment
+      - entity:revenue-attribution-projection
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+      - planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/PRD.md
   - id: capability:dashboard-broker-activity-feed
     label: Dashboard Broker Activity Feed
     source_docs:
@@ -1342,6 +1370,42 @@ endpoints:
     route: /carrier-markets/{carrierMarketId}
     source_docs:
       - planning-mds/api/nebula-api.yaml
+  - id: endpoint:commission-adjustment-decision
+    label: POST /commission-adjustments/{adjustmentId}/decision
+    method: POST
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:activity-timeline-event
+      - entity:commission-adjustment
+      - entity:expected-commission
+      - policy_rule:commission-adjustment-approve
+    route: /commission-adjustments/{adjustmentId}/decision
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:commission-schedule-list-create
+    label: GET/POST /commission-schedules
+    method: MULTI
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:activity-timeline-event
+      - entity:carrier-market
+      - entity:commission-schedule
+      - policy_rule:commission-read
+      - policy_rule:commission-schedule-manage
+    route: /commission-schedules
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:commission-schedule-update
+    label: PUT /commission-schedules/{scheduleId}
+    method: PUT
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:activity-timeline-event
+      - entity:commission-schedule
+      - policy_rule:commission-schedule-manage
+    route: /commission-schedules/{scheduleId}
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
   - id: endpoint:communication-correction
     label: POST /communications/{communicationId}/corrections
     method: POST
@@ -1597,6 +1661,40 @@ endpoints:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0001-upload-single-document-with-metadata.md
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0002-bulk-multi-file-upload.md
+  - id: endpoint:expected-commission-adjustments
+    label: GET/POST /expected-commissions/{expectedCommissionId}/adjustments
+    method: MULTI
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:activity-timeline-event
+      - entity:commission-adjustment
+      - entity:expected-commission
+      - policy_rule:commission-adjustment-request
+      - policy_rule:commission-read
+    route: /expected-commissions/{expectedCommissionId}/adjustments
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:expected-commission-calculate
+    label: POST /expected-commissions/{expectedCommissionId}/calculate
+    method: POST
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:activity-timeline-event
+      - entity:expected-commission
+      - policy_rule:commission-calculate
+    route: /expected-commissions/{expectedCommissionId}/calculate
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:expected-commission-list
+    label: GET /expected-commissions
+    method: GET
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:expected-commission
+      - policy_rule:commission-read
+    route: /expected-commissions
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
   - id: endpoint:global-search-results
     label: GET /search-results
     method: GET
@@ -1746,6 +1844,17 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/ARCHITECTURE.md
+  - id: endpoint:policy-producer-splits
+    label: GET /policies/{policyId}/producer-splits
+    method: GET
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:policy
+      - entity:producer-split-assignment
+      - policy_rule:commission-read
+    route: /policies/{policyId}/producer-splits
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
   - id: endpoint:policy-timeline
     label: GET /policies/{policyId}/timeline
     method: GET
@@ -1784,6 +1893,19 @@ endpoints:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
       - planning-mds/features/archive/F0017-broker-mga-hierarchy-and-producer-ownership/F0017-S0003-producer-ownership-effective-dated.md
+  - id: endpoint:producer-splits-upsert
+    label: POST /producer-splits
+    method: POST
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:activity-timeline-event
+      - entity:policy
+      - entity:producer-split-assignment
+      - entity:producer-split-participant
+      - policy_rule:commission-split-assign
+    route: /producer-splits
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
   - id: endpoint:queue-work-item-reassign
     label: PUT /queue-work-items/{queueItemId}/assignment
     method: PUT
@@ -1920,6 +2042,17 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
+  - id: endpoint:revenue-attribution-rollups
+    label: GET /revenue-attribution/rollups
+    method: GET
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - capability:operational-reporting
+      - entity:revenue-attribution-projection
+      - policy_rule:commission-rollup-read
+    route: /revenue-attribution/rollups
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
   - id: endpoint:routing-events-list
     label: GET /routing-events
     method: GET
@@ -2503,6 +2636,35 @@ entities:
     source_docs:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-018-policy-aggregate-versioning-and-reinstatement-window.md
+  - id: entity:commission-adjustment
+    label: CommissionAdjustment
+    rationale:
+      - adr: adr:032
+        section: Decision §5
+        summary: Adjustments are a single-step request/decision workflow; approved adjustments affect
+          expected commission totals and rollups without mutating policy, schedule, or split source data.
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:expected-commission
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+      - planning-mds/schemas/commission-adjustment.schema.json
+  - id: entity:commission-schedule
+    label: CommissionSchedule
+    rationale:
+      - adr: adr:032
+        section: Decision §3
+        summary: Effective-dated schedule rows scope rate basis to carrier/market, line of business, optional
+          state/product, and non-overlapping effective periods.
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:carrier-market
+      - entity:expected-commission
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+      - planning-mds/schemas/commission-schedule.schema.json
   - id: entity:communication-event
     label: CommunicationEvent
     notes: Durable source record for structured notes, calls, meetings, and email-linked references; projected
@@ -2611,6 +2773,24 @@ entities:
     source_docs:
       - planning-mds/architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md
       - planning-mds/features/archive/F0020-document-management-and-acord-intake/F0020-S0012-document-templates-library.md
+  - id: entity:expected-commission
+    label: ExpectedCommission
+    rationale:
+      - adr: adr:032
+        section: Decision §2
+        summary: Expected commission is persisted as a CRM review record with source snapshots, exception
+          status, and derived amounts; it is not a ledger or payment record.
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:carrier-market
+      - entity:commission-adjustment
+      - entity:commission-schedule
+      - entity:policy
+      - entity:producer-split-assignment
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+      - planning-mds/schemas/expected-commission.schema.json
   - id: entity:generated-document-artifact
     label: GeneratedDocumentArtifact
     rationale:
@@ -2758,6 +2938,31 @@ entities:
     source_docs:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: entity:producer-split-assignment
+    label: ProducerSplitAssignment
+    rationale:
+      - adr: adr:032
+        section: Decision §4
+        summary: Producer splits are policy-scoped, effective-dated assignments whose active participants
+          total exactly 100.0000 percent.
+    related_nodes:
+      - entity:activity-timeline-event
+      - entity:expected-commission
+      - entity:policy
+      - entity:producer
+      - entity:producer-split-participant
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+      - planning-mds/schemas/producer-split-assignment.schema.json
+  - id: entity:producer-split-participant
+    label: ProducerSplitParticipant
+    related_nodes:
+      - entity:producer
+      - entity:producer-split-assignment
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/schemas/producer-split-assignment.schema.json
   - id: entity:program
     label: Program
     source_docs:
@@ -2800,6 +3005,25 @@ entities:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
       - planning-mds/domain/glossary.md
+  - id: entity:revenue-attribution-projection
+    label: RevenueAttributionProjection
+    rationale:
+      - adr: adr:032
+        section: Decision §6
+        summary: Revenue rollups are read-side projections over expected commission and approved adjustments;
+          query-layer authorization filters source rows before totals or drilldowns are returned.
+    related_nodes:
+      - capability:operational-reporting
+      - entity:broker
+      - entity:carrier-market
+      - entity:expected-commission
+      - entity:policy
+      - entity:producer
+      - entity:territory
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+      - planning-mds/schemas/revenue-attribution-rollup-response.schema.json
   - id: entity:routing-decision-log
     label: RoutingDecisionLog
     rationale:
@@ -3959,6 +4183,116 @@ policy_rules:
       - entity:activity-timeline-event
       - entity:carrier-market
     resource: carrier_market
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-adjustment-approve
+    label: commission:adjustment_approve
+    action: adjustment_approve
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: Same-user request and approval is denied in MVP.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+      - entity:commission-adjustment
+    resource: commission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-adjustment-request
+    label: commission:adjustment_request
+    action: adjustment_request
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+      - entity:commission-adjustment
+    resource: commission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-calculate
+    label: commission:calculate
+    action: calculate
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+      - entity:expected-commission
+    resource: commission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-read
+    label: commission:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Application layer must also enforce source-record policy/carrier/producer/territory visibility.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+    resource: commission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-rollup-read
+    label: commission:rollup_read
+    action: rollup_read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+    notes: Rollup totals are computed after authorization filtering; hidden rows are not surfaced as hidden
+      counts.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+      - entity:revenue-attribution-projection
+    resource: commission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-schedule-manage
+    label: commission:schedule_manage
+    action: schedule_manage
+    allowed_roles:
+      - role:admin
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+      - entity:commission-schedule
+    resource: commission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-split-assign
+    label: commission:split_assign
+    action: split_assign
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+      - entity:producer-split-assignment
+    resource: commission
     source_docs:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
@@ -5725,6 +6059,30 @@ schemas:
     related_nodes:
       - entity:carrier-ref
       - entity:policy
+  - id: schema:commission-adjustment
+    path: planning-mds/schemas/commission-adjustment.schema.json
+    related_nodes:
+      - entity:commission-adjustment
+      - entity:expected-commission
+  - id: schema:commission-adjustment-decision-request
+    path: planning-mds/schemas/commission-adjustment-decision-request.schema.json
+    related_nodes:
+      - entity:commission-adjustment
+  - id: schema:commission-adjustment-request
+    path: planning-mds/schemas/commission-adjustment-request.schema.json
+    related_nodes:
+      - entity:commission-adjustment
+      - entity:expected-commission
+  - id: schema:commission-schedule
+    path: planning-mds/schemas/commission-schedule.schema.json
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:commission-schedule
+  - id: schema:commission-schedule-upsert-request
+    path: planning-mds/schemas/commission-schedule-upsert-request.schema.json
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:commission-schedule
   - id: schema:communication-event
     path: planning-mds/schemas/communication-event.schema.json
     related_nodes:
@@ -5851,6 +6209,11 @@ schemas:
     path: planning-mds/schemas/document-template.schema.json
     related_nodes:
       - entity:document-template
+  - id: schema:expected-commission
+    path: planning-mds/schemas/expected-commission.schema.json
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:expected-commission
   - id: schema:generated-document-issue-response
     path: planning-mds/schemas/generated-document-issue-response.schema.json
     related_nodes:
@@ -6117,6 +6480,18 @@ schemas:
       - capability:producer-ownership-management
       - entity:producer
       - entity:producer-ownership
+  - id: schema:producer-split-assignment
+    path: planning-mds/schemas/producer-split-assignment.schema.json
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:producer-split-assignment
+      - entity:producer-split-participant
+  - id: schema:producer-split-assignment-upsert-request
+    path: planning-mds/schemas/producer-split-assignment-upsert-request.schema.json
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:producer-split-assignment
+      - entity:producer-split-participant
   - id: schema:queue-member-upsert-request
     path: planning-mds/schemas/queue-member-upsert-request.schema.json
     related_nodes:
@@ -6193,6 +6568,11 @@ schemas:
     related_nodes:
       - entity:renewal
       - workflow:renewal
+  - id: schema:revenue-attribution-rollup-response
+    path: planning-mds/schemas/revenue-attribution-rollup-response.schema.json
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:revenue-attribution-projection
   - id: schema:routing-event
     path: planning-mds/schemas/routing-event.schema.json
     related_nodes:
@@ -6488,6 +6868,31 @@ workflows:
         label: Merged
       - id: state:account:deleted
         label: Deleted
+  - id: workflow:commission-adjustment
+    label: Commission Adjustment Workflow
+    rationale:
+      - adr: adr:032
+        section: Decision §5
+        summary: Commission adjustments use a single-step request/decision workflow; Pending transitions
+          to Approved or Rejected, and same-user request/approval is denied.
+    related_entities:
+      - entity:activity-timeline-event
+      - entity:commission-adjustment
+      - entity:expected-commission
+    source_docs:
+      - planning-mds/architecture/data-model.md
+      - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+      - planning-mds/schemas/commission-adjustment.schema.json
+    states:
+      - id: state:commission-adjustment:pending
+        label: Pending
+        transitions_to:
+          - state:commission-adjustment:approved
+          - state:commission-adjustment:rejected
+      - id: state:commission-adjustment:approved
+        label: Approved
+      - id: state:commission-adjustment:rejected
+        label: Rejected
   - id: workflow:document-ingest
     label: Document ingest pipeline (quarantine then promote)
     notes: 'Every uploaded binary (single, bulk, replace, template materialise) is held in <docroot>/quarantine/{upload-id}

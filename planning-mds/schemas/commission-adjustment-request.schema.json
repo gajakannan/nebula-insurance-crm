@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/commission-adjustment-request.schema.json",
+  "title": "CommissionAdjustmentRequest",
+  "type": "object",
+  "required": ["expectedCommissionId", "adjustmentAmount", "reason", "effectiveDate"],
+  "properties": {
+    "expectedCommissionId": { "type": "string", "format": "uuid" },
+    "adjustmentAmount": { "type": "number" },
+    "reason": { "type": "string", "minLength": 1, "maxLength": 1000 },
+    "effectiveDate": { "type": "string", "format": "date" }
+  },
+  "additionalProperties": false
+}

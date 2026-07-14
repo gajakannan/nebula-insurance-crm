@@ -1,0 +1,17 @@
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-agents","cmd":"sed -n '1,260p' agents/docs/AGENT-USE.md","exit_code":0,"artifact":"action-context.md"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-agents","cmd":"sed -n '1,260p' agents/actions/README.md","exit_code":0,"artifact":"action-context.md"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-agents","cmd":"sed -n '1,220p' CONSUMER-CONTRACT.md","exit_code":0,"artifact":"artifact-trace.md"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-agents","cmd":"sed -n '1,220p' agents/ROUTER.md","exit_code":0,"artifact":"artifact-trace.md"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-insurance-crm","cmd":"test -f .agentignore && sed -n '1,220p' .agentignore || true","exit_code":0,"artifact":"action-context.md"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-insurance-crm","cmd":"sed -n '1,220p' lifecycle-stage.yaml","exit_code":0,"artifact":"action-context.md"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-insurance-crm","cmd":"sed -n '1,220p' planning-mds/features/ROADMAP.md","exit_code":0,"artifact":"action-context.md"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-insurance-crm","cmd":"sed -n '1,220p' planning-mds/features/REGISTRY.md","exit_code":0,"artifact":"action-context.md"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-agents","cmd":"sed -n '1,220p' agents/actions/validate.md","exit_code":0,"artifact":"artifact-trace.md"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-agents","cmd":"sed -n '1,620p' agents/product-manager/SKILL.md","exit_code":0,"artifact":"artifact-trace.md"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-agents","cmd":"sed -n '1,650p' agents/architect/SKILL.md","exit_code":0,"artifact":"artifact-trace.md"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-insurance-crm","cmd":".venv/bin/python scripts/kg/validate.py","exit_code":1,"artifact":"kg-validate.txt"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-insurance-crm","cmd":".venv/bin/python planning-mds/testing/validate-nebula-api-contract.py planning-mds/api/nebula-api.yaml","exit_code":0,"artifact":"api-contract.txt"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-insurance-crm","cmd":".venv/bin/python planning-mds/testing/validate-frontend-quality-gate.py planning-mds/operations/evidence/frontend-quality/latest-run.json","exit_code":1,"artifact":"frontend-quality.txt"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-agents","cmd":".venv/bin/python agents/scripts/validate_templates.py","exit_code":0,"artifact":"framework-templates.txt"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-agents","cmd":".venv/bin/python agents/product-manager/scripts/validate-trackers.py --product-root /Users/msig4/Documents/NEBULA/nebula-insurance-crm","exit_code":0,"artifact":"trackers.txt"}
+{"ts":"2026-07-07T12:44:19+05:30","cwd":"/Users/msig4/Documents/NEBULA/nebula-agents","cmd":".venv/bin/python agents/product-manager/scripts/validate-stories.py --product-root /Users/msig4/Documents/NEBULA/nebula-insurance-crm","exit_code":1,"artifact":"stories.txt"}

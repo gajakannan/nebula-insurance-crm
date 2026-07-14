@@ -81,6 +81,12 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<SavedViewAuditEvent> SavedViewAuditEvents => Set<SavedViewAuditEvent>();
     public DbSet<OperationalReportProjection> OperationalReportProjections => Set<OperationalReportProjection>();
     public DbSet<BrokerInsightProjection> BrokerInsightProjections => Set<BrokerInsightProjection>();
+    public DbSet<CommissionSchedule> CommissionSchedules => Set<CommissionSchedule>();
+    public DbSet<ProducerSplitAssignment> ProducerSplitAssignments => Set<ProducerSplitAssignment>();
+    public DbSet<ProducerSplitParticipant> ProducerSplitParticipants => Set<ProducerSplitParticipant>();
+    public DbSet<ExpectedCommission> ExpectedCommissions => Set<ExpectedCommission>();
+    public DbSet<CommissionAdjustment> CommissionAdjustments => Set<CommissionAdjustment>();
+    public DbSet<RevenueAttributionProjection> RevenueAttributionProjections => Set<RevenueAttributionProjection>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

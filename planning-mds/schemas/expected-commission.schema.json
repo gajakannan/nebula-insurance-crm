@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/expected-commission.schema.json",
+  "title": "ExpectedCommission",
+  "type": "object",
+  "required": ["id", "policyId", "carrierMarketId", "calculationStatus", "approvedAdjustmentAmount", "createdAt", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "policyId": { "type": "string", "format": "uuid" },
+    "policyVersionId": { "type": ["string", "null"], "format": "uuid" },
+    "carrierMarketId": { "type": "string", "format": "uuid" },
+    "commissionScheduleId": { "type": ["string", "null"], "format": "uuid" },
+    "producerSplitAssignmentId": { "type": ["string", "null"], "format": "uuid" },
+    "premiumBasisAmount": { "type": ["number", "null"] },
+    "expectedGrossCommissionAmount": { "type": ["number", "null"] },
+    "approvedAdjustmentAmount": { "type": "number" },
+    "adjustedExpectedCommissionAmount": { "type": ["number", "null"] },
+    "calculationStatus": { "type": "string", "enum": ["ReviewReady", "MissingSchedule", "MissingSplit", "MissingPremium", "ConflictingEffectiveDates", "StaleSource"] },
+    "sourceSnapshotHash": { "type": ["string", "null"], "maxLength": 80 },
+    "calculatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "calculatedByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "rowVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

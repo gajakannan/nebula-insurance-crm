@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0025",
+  "feature_slug": "commission-producer-splits-and-revenue-tracking",
+  "run_id": "2026-07-07-9859bad4",
+  "status": "approved",
+  "recorded_on": "2026-07-07",
+  "contract_effective_date": "2026-07-07",
+  "feature_path_at_run_start": "planning-mds/features/F0025-commission-producer-splits-and-revenue-tracking",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking",
+  "feature_state": "archived-done",
+  "rerun_of": null,
+  "changed_paths": [
+    "engine/src/Nebula.Api/Endpoints/CommissionEndpoints.cs",
+    "engine/src/Nebula.Api/Program.cs",
+    "engine/src/Nebula.Application/DTOs/CommissionDtos.cs",
+    "engine/src/Nebula.Application/Interfaces/ICommissionRepository.cs",
+    "engine/src/Nebula.Application/Interfaces/IRevenueAttributionRepository.cs",
+    "engine/src/Nebula.Application/Services/CommissionRevenueService.cs",
+    "engine/src/Nebula.Application/Validators/CommissionValidators.cs",
+    "engine/src/Nebula.Domain/Entities/CommissionAdjustment.cs",
+    "engine/src/Nebula.Domain/Entities/CommissionSchedule.cs",
+    "engine/src/Nebula.Domain/Entities/ExpectedCommission.cs",
+    "engine/src/Nebula.Domain/Entities/ProducerSplitAssignment.cs",
+    "engine/src/Nebula.Domain/Entities/ProducerSplitParticipant.cs",
+    "engine/src/Nebula.Domain/Entities/RevenueAttributionProjection.cs",
+    "engine/src/Nebula.Infrastructure/DependencyInjection.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/AppDbContext.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/CommissionConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Migrations/20260707150000_F0025_CommissionRevenue.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/CommissionRepository.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/RevenueAttributionRepository.cs",
+    "engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs",
+    "engine/tests/Nebula.Tests/Unit/CommissionRevenue/CommissionValidatorsTests.cs",
+    "experience/src/App.tsx",
+    "experience/src/components/layout/Sidebar.tsx",
+    "experience/src/features/commissions/hooks.ts",
+    "experience/src/features/commissions/index.ts",
+    "experience/src/features/commissions/tests/CommissionsPage.test.tsx",
+    "experience/src/features/commissions/types.ts",
+    "experience/src/pages/CommissionDetailPage.tsx",
+    "experience/src/pages/CommissionsPage.tsx",
+    "planning-mds/features/F0025-commission-producer-splits-and-revenue-tracking/feature-assembly-plan.md",
+    "planning-mds/architecture/feature-assembly-plan.md",
+    "planning-mds/knowledge-graph/code-index.yaml",
+    "planning-mds/knowledge-graph/coverage-report.yaml",
+    "planning-mds/operations/evidence/runs/2026-07-07-9859bad4",
+    "planning-mds/operations/evidence/runs/2026-07-07-9859bad4/code-review-report.md",
+    "planning-mds/operations/evidence/runs/2026-07-07-9859bad4/security-review-report.md",
+    "planning-mds/operations/evidence/runs/2026-07-07-9859bad4/signoff-ledger.md",
+    "planning-mds/operations/evidence/runs/2026-07-07-9859bad4/feature-action-execution.md",
+    "planning-mds/operations/evidence/runs/2026-07-07-9859bad4/kg-reconciliation.md",
+    "planning-mds/operations/evidence/runs/2026-07-07-9859bad4/pm-closeout.md",
+    "planning-mds/operations/evidence/runs/2026-07-07-9859bad4/post-closeout-validation-2026-07-07.md",
+    "planning-mds/operations/evidence/runs/2026-07-07-9859bad4/artifacts/security",
+    "planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking",
+    "planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/STATUS.md",
+    "planning-mds/features/STORY-INDEX.md",
+    "planning-mds/features/REGISTRY.md",
+    "planning-mds/features/ROADMAP.md",
+    "planning-mds/BLUEPRINT.md",
+    "planning-mds/knowledge-graph/feature-mappings.yaml",
+    "planning-mds/knowledge-graph/canonical-nodes.yaml",
+    "planning-mds/operations/evidence/features/F0025-commission-producer-splits-and-revenue-tracking/latest-run.json",
+    "engine/tests/Nebula.Tests/TestResults/c2752c46-a1ce-4801-9524-4d2d3408e3d8/coverage.cobertura.xml",
+    "engine/tests/Nebula.Tests/TestResults/56c77996-b2c0-489e-bfa9-f7adec376ead/coverage.cobertura.xml",
+    "planning-mds/knowledge-graph/symbol-index.yaml",
+    "planning-mds/knowledge-graph/unbound-but-referenced.yaml",
+    "planning-mds/knowledge-graph/decisions-index.yaml"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feature/F0025-commission-producer-splits-revenue-tracking",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": true,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Architect",
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer",
+    "DevOps"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g2-self-review.md"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "signoff-ledger.md"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED",
+      "artifact": "pm-closeout.md"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "lifecycle-gates.log"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md"
+  },
+  "role_results": {
+    "Architect": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md"
+      ],
+      "verdict_artifact": "g0-assembly-plan-validation.md"
+    },
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "DevOps": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ],
+      "verdict_artifact": "deployability-check.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "result": "APPROVED WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "verdict_artifact": "security-review-report.md"
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": false,
+      "result": "not_run",
+      "artifact": null,
+      "waiver": {
+        "reason": "Local network restrictions blocked npm advisory lookup and backend dotnet vulnerability lookup hung; raw attempt captured in artifacts/security/dependency-scan.txt. Rerun in CI/staging before production.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-07"
+      }
+    },
+    "secrets": {
+      "ran": false,
+      "result": "not_run",
+      "artifact": null,
+      "waiver": {
+        "reason": "gitleaks is not installed in the local review environment; raw attempt captured in artifacts/security/secrets-scan.txt. Rerun in CI/staging before production.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-07"
+      }
+    },
+    "sast": {
+      "ran": false,
+      "result": "not_run",
+      "artifact": null,
+      "waiver": {
+        "reason": "semgrep is not installed in the local review environment; raw attempt captured in artifacts/security/sast-scan.txt. Rerun in CI/staging before production.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-07"
+      }
+    },
+    "dast": {
+      "ran": false,
+      "result": "not_run",
+      "artifact": null,
+      "waiver": {
+        "reason": "OWASP ZAP docker image was unavailable/pull denied locally; raw attempt captured in artifacts/security/dast-scan.txt. Rerun against staging before production.",
+        "owner": "Security Reviewer",
+        "approved_on": "2026-07-07"
+      }
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {}
+}

@@ -1,0 +1,35 @@
+# Lifecycle Gate Run
+
+## Command
+
+Product-local gate commands from `lifecycle-stage.yaml` were run individually.
+
+## Stage
+
+`implementation`
+
+## Exit Code
+
+- `knowledge_graph_sync`: 1
+- `solution_contract`: 0
+- `frontend_quality`: 1
+
+## Result
+
+`FAIL`
+
+## Output References
+
+- `knowledge_graph_sync`: `python3 scripts/kg/validate.py`
+  - Features mapped: 33
+  - Stories mapped: 164
+  - Code bindings: 216
+  - Error: `coverage-report.yaml is stale (run python3 scripts/kg/validate.py --write-coverage-report)`
+- `solution_contract`: `python3 planning-mds/testing/validate-nebula-api-contract.py planning-mds/api/nebula-api.yaml`
+  - Result: PASS
+- `frontend_quality`: `python3 planning-mds/testing/validate-frontend-quality-gate.py planning-mds/operations/evidence/frontend-quality/latest-run.json`
+  - Error: missing visual artifact `planning-mds/operations/evidence/f0015/artifacts/playwright-report/index.html`
+
+## Skipped Gates
+
+None.

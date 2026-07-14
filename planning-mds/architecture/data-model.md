@@ -1400,7 +1400,115 @@ Optional 1:1 child record for claim-reference context only.
 3. Seed Casbin `service_case` policy rows and update schema/API contract artifacts.
 4. Add timeline payload definitions for service-case events.
 
-## 12. Broker Insights Read Model (F0008)
+## 13. Commission, Producer Splits, And Revenue Tracking (F0025)
+
+Governed by [ADR-032](decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md).
+F0025 introduces CRM-side expected commission and revenue attribution records.
+It does not create ledger, invoice, payment, producer-payout, tax, statement, or
+reconciliation records.
+
+### 13.1 CommissionSchedule
+
+Effective-dated rate reference row used to calculate expected commission.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid | schedule row identity |
+| `CarrierMarketId` | uuid | FK -> CarrierMarket |
+| `LineOfBusiness` | varchar(80) | schedule scope |
+| `State` | varchar(2), nullable | optional US state scope |
+| `ProductCode` | varchar(80), nullable | optional product/program scope |
+| `RateType` | varchar(40) | PercentOfPremium or FlatAmount |
+| `RateValue` | numeric(18,6) | percent or currency amount depending on `RateType` |
+| `Basis` | varchar(40) | WrittenPremium, AnnualizedPremium, or ManualBasis |
+| `EffectiveFrom` / `EffectiveTo` | date | effective period; `EffectiveTo` nullable for current |
+| `SourceNote` | varchar(500), nullable | internal reference to source agreement or note |
+| `CreatedAt`, `CreatedByUserId`, `UpdatedAt`, `UpdatedByUserId`, `RowVersion`, `DeletedAt` | audit/concurrency | standard audit pattern |
+
+Active schedules must not overlap for the same carrier/LOB/state/product scope.
+
+### 13.2 ProducerSplitAssignment And Participants
+
+Policy-scoped effective-dated producer split configuration.
+
+`ProducerSplitAssignment`
+- Fields: `Id`, `PolicyId`, `PolicyVersionId`, `EffectiveFrom`, `EffectiveTo`, `Basis`, `Status`, `CreatedAt`, `CreatedByUserId`, `UpdatedAt`, `UpdatedByUserId`, `RowVersion`, `DeletedAt`.
+- `Status` values: Draft, Active, Superseded, Archived.
+- At most one active assignment may cover the same policy/effective date.
+
+`ProducerSplitParticipant`
+- Fields: `Id`, `SplitAssignmentId`, `ProducerNodeId`, `ProducerDisplayNameSnapshot`, `SplitPercent numeric(9,4)`, `Role`, `CreatedAt`, `CreatedByUserId`.
+- Active assignment participants must total exactly 100.0000.
+
+### 13.3 ExpectedCommission
+
+Persisted CRM review record for expected commission and exceptions.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid | expected commission record identity |
+| `PolicyId` / `PolicyVersionId` | uuid | source policy and version |
+| `CarrierMarketId` | uuid | carrier/market context |
+| `CommissionScheduleId` | uuid, nullable | selected schedule; null when missing |
+| `ProducerSplitAssignmentId` | uuid, nullable | selected split; null when missing |
+| `PremiumBasisAmount` | numeric(18,2), nullable | source premium used for review |
+| `ExpectedGrossCommissionAmount` | numeric(18,2), nullable | derived before adjustments |
+| `ApprovedAdjustmentAmount` | numeric(18,2) | sum of approved adjustments |
+| `AdjustedExpectedCommissionAmount` | numeric(18,2), nullable | expected gross plus approved adjustments |
+| `CalculationStatus` | varchar(40) | ReviewReady, MissingSchedule, MissingSplit, MissingPremium, ConflictingEffectiveDates, StaleSource |
+| `SourceSnapshotHash` | varchar(80) | hash of policy/schedule/split source inputs |
+| `CalculatedAt` / `CalculatedByUserId` | audit | calculation provenance |
+| `CreatedAt`, `CreatedByUserId`, `UpdatedAt`, `UpdatedByUserId`, `RowVersion` | audit/concurrency | standard audit pattern |
+
+The source policy, schedule, and split rows remain authoritative; the expected
+commission record stores review output and source provenance only.
+
+### 13.4 CommissionAdjustment
+
+Single-step request/decision workflow.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid | adjustment identity |
+| `ExpectedCommissionId` | uuid | FK -> ExpectedCommission |
+| `AdjustmentAmount` | numeric(18,2) | positive or negative currency delta |
+| `Reason` | varchar(1000) | requester reason |
+| `EffectiveDate` | date | date the adjustment applies |
+| `Status` | varchar(40) | Pending, Approved, Rejected |
+| `RequestedByUserId` / `RequestedAt` | audit | request provenance |
+| `DecisionByUserId` / `DecisionAt` | audit nullable | decision provenance |
+| `DecisionNote` | varchar(1000), nullable | required for approve/reject |
+| `RowVersion` | string | concurrency token |
+
+Same-user request and approval is disallowed in MVP. Approved adjustments update
+the related expected commission totals and rollup projection; rejected
+adjustments remain visible as history.
+
+### 13.5 RevenueAttributionProjection
+
+Read-side projection used by management rollups and drilldowns.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid | projection row identity |
+| `ExpectedCommissionId` | uuid | source review record |
+| `PolicyId` / `PolicyPeriodStart` / `PolicyPeriodEnd` | policy dimensions | policy period grouping |
+| `ProducerNodeId`, `BrokerId`, `TerritoryId`, `CarrierMarketId` | uuid nullable | attribution dimensions |
+| `LineOfBusiness`, `Region` | varchar nullable | report filters |
+| `ExpectedGrossCommissionAmount`, `ApprovedAdjustmentAmount`, `AdjustedExpectedCommissionAmount`, `ProducerAllocationAmount` | numeric(18,2) | rollup facts |
+| `ExceptionStatus` | varchar(40) | exception grouping |
+| `LastSourceUpdatedAt`, `ProjectedAt` | timestamptz | freshness |
+
+Rollup APIs aggregate only after source-record authorization filtering.
+
+### 13.6 Migration Order (F0025)
+
+1. Create commission schedule, split assignment, split participant, expected commission, adjustment, and revenue attribution projection tables.
+2. Add indexes for carrier/LOB/effective-date schedule lookup, policy/effective-date split lookup, expected-commission status, adjustment status, and rollup dimensions.
+3. Seed Casbin `commission` policy rows and timeline payload templates.
+4. Backfill initial expected commission exceptions as `MissingSchedule` or `MissingSplit` where policy context exists but economic inputs are absent.
+
+## 14. Broker Insights Read Model (F0008)
 
 Governed by [ADR-031](decisions/ADR-031-broker-insights-read-models.md).
 F0008 introduces a read-only broker analytics surface over existing source data.
@@ -1617,6 +1725,8 @@ Append-only audit row for all configuration actions.
 - [ADR-023: JsonLogic Rules Governance](decisions/ADR-023-rules-governance-jsonlogic.md) — Rule envelope and op governance
 
 ---
+
+**Version:** 9.0 — 2026-07-07: Added §13 F0025 commission schedules, producer splits, expected commission records, adjustments, and revenue attribution projections (ADR-032).
 
 **Version:** 8.0 — 2026-07-03: Added §12 F0008 BrokerInsightProjection read model for permission-safe broker scorecards, trends, benchmarks, and review snapshots (ADR-031).
 

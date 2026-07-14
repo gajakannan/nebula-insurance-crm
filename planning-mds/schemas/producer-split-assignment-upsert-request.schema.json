@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/producer-split-assignment-upsert-request.schema.json",
+  "title": "ProducerSplitAssignmentUpsertRequest",
+  "type": "object",
+  "required": ["policyId", "effectiveFrom", "basis", "participants"],
+  "properties": {
+    "policyId": { "type": "string", "format": "uuid" },
+    "policyVersionId": { "type": ["string", "null"], "format": "uuid" },
+    "effectiveFrom": { "type": "string", "format": "date" },
+    "effectiveTo": { "type": ["string", "null"], "format": "date" },
+    "basis": { "type": "string", "enum": ["NewBusiness", "Renewal", "Manual"] },
+    "activate": { "type": "boolean", "default": true },
+    "participants": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "producer-split-assignment.schema.json#/definitions/participant" }
+    }
+  },
+  "additionalProperties": false
+}

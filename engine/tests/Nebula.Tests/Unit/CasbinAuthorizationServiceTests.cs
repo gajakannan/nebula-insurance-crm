@@ -110,6 +110,31 @@ public class CasbinAuthorizationServiceTests
         result.ShouldBe(expected, $"{role} should {(expected ? "be allowed" : "be denied")} {resource}:{action}");
     }
 
+    [Theory]
+    [InlineData("Admin", "read", true)]
+    [InlineData("Admin", "schedule_manage", true)]
+    [InlineData("Admin", "split_assign", true)]
+    [InlineData("Admin", "calculate", true)]
+    [InlineData("Admin", "adjustment_request", true)]
+    [InlineData("Admin", "adjustment_approve", true)]
+    [InlineData("Admin", "rollup_read", true)]
+    [InlineData("DistributionManager", "split_assign", true)]
+    [InlineData("DistributionManager", "adjustment_approve", true)]
+    [InlineData("DistributionUser", "schedule_manage", false)]
+    [InlineData("DistributionUser", "adjustment_request", true)]
+    [InlineData("Underwriter", "read", true)]
+    [InlineData("Underwriter", "rollup_read", false)]
+    [InlineData("RelationshipManager", "schedule_manage", true)]
+    [InlineData("RelationshipManager", "split_assign", false)]
+    [InlineData("ProgramManager", "rollup_read", true)]
+    [InlineData("BrokerUser", "read", false)]
+    [InlineData("ExternalUser", "read", false)]
+    public async Task CommissionPolicy_MatchesPolicyCsv(string role, string action, bool expected)
+    {
+        var result = await _sut.AuthorizeAsync(role, "commission", action);
+        result.ShouldBe(expected, $"{role} should {(expected ? "be allowed" : "be denied")} commission:{action}");
+    }
+
     // ═══════════════════════════════════════════════════════════════════════
     // §3 — Timeline event policy matrix
     // ═══════════════════════════════════════════════════════════════════════

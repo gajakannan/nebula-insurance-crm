@@ -209,7 +209,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 - [F0037: Hierarchy-Aware Access Scoping & Distribution Rollups](features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/PRD.md) - Done and archived (2026-07-06, feature run `2026-07-06-76799554`; 6 stories: current-user distribution scope, hierarchy-aware read scoping, scoped search/views/insights/reports, distribution rollups, rollup filters/drilldowns/no-leak states, security evidence and reconciliation)
 
 **Brokerage Platform Expansion (Planned):**
-- F0025: Commission, Producer Splits & Revenue Tracking - Planned
+- [F0025: Commission, Producer Splits & Revenue Tracking](features/archive/F0025-commission-producer-splits-and-revenue-tracking/PRD.md) - Done (Archived 2026-07-07; feature run `2026-07-07-9859bad4`; 6 stories: commission workspace search, schedule maintenance, producer split assignment, expected commission review, adjustment approval, revenue rollups)
 - F0026: Billing, Invoicing & Reconciliation - Planned
 - F0029: External Broker Collaboration Portal - Planned
 - F0030: Integration Hub & Data Exchange - Planned
@@ -459,6 +459,7 @@ This section defines the build-ready technical baseline for the reference implem
 - [ADR-023](architecture/decisions/ADR-023-rules-governance-jsonlogic.md) — JsonLogic rules governance (F0034)
 - [ADR-014](architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) — Search index, saved views, and operational reporting projections (F0023)
 - [ADR-032](architecture/decisions/ADR-032-admin-configuration-console-contract.md) — Admin configuration console contract (F0032)
+- [ADR-033](architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md) — Commission, producer splits, and revenue tracking (F0025)
 
 **F0023 addendum status:** Approved 2026-06-19 in plan run `2026-06-19-2f180001`.
 
@@ -503,6 +504,12 @@ This section defines the build-ready technical baseline for the reference implem
   - Provides global search, saved-view CRUD/defaults, and operational-report endpoints.
   - Enforces high-level Casbin feature actions and mandatory query-layer source-record authorization before returning rows, snippets, facets, counts, or drilldowns.
   - Uses PostgreSQL full-text search and read-side projections for MVP; no external search engine is introduced.
+- CommissionRevenue module (F0025):
+  - Owns CommissionSchedule, ProducerSplitAssignment, ProducerSplitParticipant, ExpectedCommission, CommissionAdjustment, and RevenueAttributionProjection.
+  - Reads policy premium/version context from Policy, carrier/market context from CarrierMarkets, and producer/territory attribution from F0017 modules.
+  - Persists expected commission as CRM review data with source snapshots; it does not own ledger, payment, payout, billing, reconciliation, tax, or statement records.
+  - Emits ActivityTimelineEvent records for every schedule, split, calculation, adjustment, and projection mutation.
+  - Filters rows, totals, counts, facets, and drilldowns through source-record authorization before returning economic data.
 - OperationsRouting module (F0022):
   - Owns WorkQueue, WorkQueueMember, AssignmentRule, CoverageWindow, QueueWorkItem, and RoutingDecisionLog.
   - Routes tasks, submissions, and renewals through deterministic rule precedence: manual override, coverage, territory/ownership, workload, fallback.
@@ -609,6 +616,22 @@ Core entities (minimum baseline):
 - ConfigurationRefreshStatus and ConfigurationAuditEvent (F0032)
   - RefreshStatus records consumer cache/refresh handshake
   - AuditEvent records Created, Updated, Validated, Published, RolledBack, RefreshSucceeded, and RefreshFailed actions
+- CommissionSchedule (F0025)
+  - Id, CarrierMarketId, LineOfBusiness, State/ProductCode optional scope, RateType, RateValue, Basis, EffectiveFrom/EffectiveTo, SourceNote, RowVersion
+  - Active schedules must not overlap for the same carrier/LOB/state/product scope.
+- ProducerSplitAssignment and ProducerSplitParticipant (F0025)
+  - Assignment: Id, PolicyId, PolicyVersionId, EffectiveFrom/EffectiveTo, Basis, Status, RowVersion
+  - Participant: SplitAssignmentId, ProducerNodeId, ProducerDisplayNameSnapshot, SplitPercent, Role
+  - Active participant percentages must total exactly 100.0000.
+- ExpectedCommission (F0025)
+  - Id, PolicyId, PolicyVersionId, CarrierMarketId, CommissionScheduleId, ProducerSplitAssignmentId, PremiumBasisAmount, ExpectedGrossCommissionAmount, ApprovedAdjustmentAmount, AdjustedExpectedCommissionAmount, CalculationStatus, SourceSnapshotHash, CalculatedAt/By, RowVersion
+  - Source policy, schedule, and split rows remain authoritative; expected commission is review output with provenance.
+- CommissionAdjustment (F0025)
+  - Id, ExpectedCommissionId, AdjustmentAmount, Reason, EffectiveDate, Status, RequestedBy/At, DecisionBy/At, DecisionNote, RowVersion
+  - Pending -> Approved/Rejected single-step workflow; same-user request and approval is denied.
+- RevenueAttributionProjection (F0025)
+  - Id, ExpectedCommissionId, policy period dimensions, ProducerNodeId, BrokerId, TerritoryId, CarrierMarketId, LineOfBusiness, Region, expected/adjusted/allocation amounts, exception status, LastSourceUpdatedAt, ProjectedAt
+  - Rollup APIs aggregate only after source-record authorization filtering.
 
 F0034 attribute-carrier additions:
 - Submission, Renewal, PolicyVersion, and PolicyEndorsement carry `LobProductVersionId` plus `AttributesJson`.
@@ -698,6 +721,13 @@ Policy baseline:
   - `admin_configuration:publish` and `admin_configuration:rollback` for Admin only.
   - `admin_configuration:audit` for Admin and ComplianceQualityLead.
 - F0032 audit queries must redact domain payload fragments when the caller has audit access but lacks the source module's read policy.
+- F0025 high-level resources:
+  - `commission:read` for authorized internal roles only.
+  - `commission:schedule_manage` for Admin and RelationshipManager.
+  - `commission:split_assign`, `commission:calculate`, and `commission:adjustment_approve` for DistributionManager and Admin.
+  - `commission:adjustment_request` for DistributionUser, DistributionManager, and Admin.
+  - `commission:rollup_read` for authorized internal management/reporting roles only.
+- F0025 source-record authorization is mandatory for economic rows, totals, counts, facets, and drilldowns. BrokerUser and ExternalUser have no F0025 policy lines.
 
 ### 4.5 API Contracts
 
@@ -763,6 +793,12 @@ F0032 admin configuration endpoints:
 - POST `/admin/configuration-drafts/{draftId}/publish` — publish validated draft
 - POST `/admin/configuration-domains/{domainKey}/rollback` — publish rollback snapshot
 - GET `/admin/configuration-audit-events` — permission-safe audit search
+F0025 commission/revenue endpoints:
+- GET/POST `/commission-schedules` and PUT `/commission-schedules/{scheduleId}` — effective-dated schedule management
+- POST `/producer-splits` and GET `/policies/{policyId}/producer-splits` — policy split assignment and lookup
+- GET `/expected-commissions` and POST `/expected-commissions/{expectedCommissionId}/calculate` — commission workspace search and recalculation
+- GET/POST `/expected-commissions/{expectedCommissionId}/adjustments` and POST `/commission-adjustments/{adjustmentId}/decision` — adjustment request and decision
+- GET `/revenue-attribution/rollups` — authorized revenue rollups by producer, broker, territory, carrier market, or policy period
 
 Error contract:
 - All non-success responses return RFC 7807 `ProblemDetails` with `type`, `title`, `status`, plus extension fields `code`, `traceId`, and optional `detail`/`errors`.
@@ -786,6 +822,9 @@ Performance:
 - F0032 catalog/domain reads: p95 < 500ms for up to 25 supported configuration domains.
 - F0032 validation: p95 < 2 seconds for first-release domains with up to 250 queue/routing rules or SLA rows per domain.
 - F0032 audit search: p95 < 750ms for filtered first-page queries.
+- F0025 commission workspace list/detail reads: p95 < 500ms for bounded queries.
+- F0025 schedule/split/calculation/adjustment mutations: p95 < 700ms under nominal load.
+- F0025 revenue rollups: p95 < 750ms for bounded filters and projection freshness visible through `lastSourceUpdatedAt`.
 
 Security:
 - OIDC JWT validation against authentik issuer/audience (see ADR-006).
@@ -793,6 +832,7 @@ Security:
 - Any secondary access channel (for example MCP/agent tools) must enforce the same ABAC policies and tenant filters as API endpoints; no raw SQL access paths.
 - F0009 Phase 1: RLS is not required; compensating controls are mandatory (tenant-scoped queries, ABAC checks, server-side field filtering, audit logging).
 - F0023 counts, facets, snippets, saved-view previews, reports, and drilldowns are computed after authorization filtering; unauthorized matches are not surfaced as hidden-record counts.
+- F0025 economic totals, adjustment history, exception counts, rollups, and drilldowns are computed after authorization filtering; unauthorized source rows are not surfaced as hidden-record counts.
 - Secrets via environment variables; no hardcoded credentials in code or config.
 - Immutable audit trail for every mutation and transition.
 - Saved-view mutations append immutable `SavedViewAuditEvent` rows.

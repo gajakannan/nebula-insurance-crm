@@ -1,0 +1,14 @@
+Knowledge graph validation
+------------------------------------------------------------
+Features mapped:   33
+Stories mapped:    164
+Feature coverage:  33 mapped, 7 excluded, 0 uncovered
+Code bindings:     216
+Symbol index:      4656 symbols, 4656 on bound nodes (csharp: 3199, python: 391, typescript: 1066)
+Decision markers: 8 markers, 8 WHY (WHY: 8)
+
+Warnings:
+- Low-confidence inferred edge (0.4) on feature:F0028 in feature:F0018.depends_on
+
+Errors:
+- coverage-report.yaml is stale (run python3 scripts/kg/validate.py --write-coverage-report)

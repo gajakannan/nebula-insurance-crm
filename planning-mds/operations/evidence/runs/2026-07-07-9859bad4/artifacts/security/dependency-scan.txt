@@ -1,0 +1,14 @@
+=== Dependency Vulnerability Scan ===
+--- Frontend ---
+Running pnpm audit (level: high).
+[WARN] POST https://registry.npmjs.org/-/npm/v1/security/advisories/bulk error (ENOTFOUND). Will retry in 10 seconds. 2 retries left.
+[WARN] POST https://registry.npmjs.org/-/npm/v1/security/advisories/bulk error (ENOTFOUND). Will retry in 1 minute. 1 retries left.
+[ERROR] fetch failed
+
+TypeError: fetch failed
+    at Object.processResponse (file:///opt/homebrew/lib/node_modules/pnpm/dist/pnpm.mjs:26545:20)
+    at file:///opt/homebrew/lib/node_modules/pnpm/dist/pnpm.mjs:26926:23
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+FAIL (frontend): dependency scan failed (exit 1).
+--- Backend ---
+Running dotnet dependency vulnerability scan on engine/tests/Nebula.Tests/Nebula.Tests.csproj.

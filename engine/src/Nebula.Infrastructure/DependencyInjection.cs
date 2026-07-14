@@ -27,6 +27,8 @@ public static class DependencyInjection
         services.AddScoped<ISubmissionBindHandoffRepository, SubmissionBindHandoffRepository>();
         services.AddScoped<IPolicyRepository, PolicyRepository>();
         services.AddScoped<ICarrierMarketRepository, CarrierMarketRepository>();
+        services.AddScoped<ICommissionRepository, CommissionRepository>();
+        services.AddScoped<IRevenueAttributionRepository, RevenueAttributionRepository>();
         services.AddScoped<IRenewalRepository, RenewalRepository>();
         services.AddScoped<ILobSchemaRepository, LobSchemaRepository>();
         services.AddScoped<ITaskRepository, TaskRepository>();

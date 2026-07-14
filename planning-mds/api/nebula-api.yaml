@@ -73,6 +73,8 @@ tags:
     description: Personal and team saved criteria for search and operational reports (F0023)
   - name: OperationalReports
     description: ABAC-scoped workload and workflow aging report endpoints (F0023)
+  - name: Commissions
+    description: Commission schedules, producer splits, expected commission review, adjustments, and revenue attribution rollups (F0025)
   - name: BrokerInsights
     description: Permission-filtered broker scorecards, trends, benchmarks, and review snapshots (F0008)
   - name: Timeline
@@ -733,6 +735,331 @@ paths:
           $ref: "#/components/responses/PreconditionFailed"
         "422":
           $ref: "#/components/responses/UnprocessableContent"
+
+  /commission-schedules:
+    get:
+      operationId: listCommissionSchedules
+      summary: List commission schedules
+      description: Returns effective-dated commission schedules filtered by carrier market, line of business, state, product code, and as-of date.
+      tags: [Commissions]
+      parameters:
+        - name: carrierMarketId
+          in: query
+          schema: { type: string, format: uuid }
+        - name: lineOfBusiness
+          in: query
+          schema: { type: string, maxLength: 80 }
+        - name: state
+          in: query
+          schema: { type: string, pattern: "^[A-Z]{2}$" }
+        - name: productCode
+          in: query
+          schema: { type: string, maxLength: 80 }
+        - name: asOf
+          in: query
+          schema: { type: string, format: date }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Commission schedules
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/CommissionSchedule" }
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+                  totalPages: { type: integer }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createCommissionSchedule
+      summary: Create commission schedule
+      description: Creates an effective-dated commission schedule. Overlapping active schedules for the same scope return `commission_schedule_overlap` (409). Successful creates emit timeline events.
+      tags: [Commissions]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CommissionScheduleUpsertRequest" }
+      responses:
+        "201":
+          description: Commission schedule created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CommissionSchedule" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /commission-schedules/{scheduleId}:
+    parameters:
+      - name: scheduleId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    put:
+      operationId: updateCommissionSchedule
+      summary: Update commission schedule
+      description: Updates a commission schedule with `If-Match` row-version protection. Successful updates emit timeline events.
+      tags: [Commissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CommissionScheduleUpsertRequest" }
+      responses:
+        "200":
+          description: Commission schedule updated
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CommissionSchedule" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /producer-splits:
+    post:
+      operationId: upsertProducerSplitAssignment
+      summary: Create or replace producer split assignment
+      description: Creates an effective-dated policy split assignment. Active assignments must total 100.0000 percent and cannot overlap the same policy/effective period. Successful mutations emit timeline events.
+      tags: [Commissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProducerSplitAssignmentUpsertRequest" }
+      responses:
+        "201":
+          description: Producer split assignment created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ProducerSplitAssignment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /policies/{policyId}/producer-splits:
+    parameters:
+      - $ref: "#/components/parameters/PolicyId"
+    get:
+      operationId: listPolicyProducerSplits
+      summary: List producer split assignments for a policy
+      tags: [Commissions]
+      parameters:
+        - name: asOf
+          in: query
+          schema: { type: string, format: date }
+      responses:
+        "200":
+          description: Producer split assignments
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/ProducerSplitAssignment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /expected-commissions:
+    get:
+      operationId: listExpectedCommissions
+      summary: Search expected commission records
+      description: Returns source-record-authorized expected commission records for the commission workspace.
+      tags: [Commissions]
+      parameters:
+        - name: policyId
+          in: query
+          schema: { type: string, format: uuid }
+        - name: carrierMarketId
+          in: query
+          schema: { type: string, format: uuid }
+        - name: producerNodeId
+          in: query
+          schema: { type: string, format: uuid }
+        - name: calculationStatus
+          in: query
+          schema: { $ref: "#/components/schemas/CommissionCalculationStatus" }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Expected commission records
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, page, pageSize, totalCount, totalPages]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/ExpectedCommission" }
+                  page: { type: integer }
+                  pageSize: { type: integer }
+                  totalCount: { type: integer }
+                  totalPages: { type: integer }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /expected-commissions/{expectedCommissionId}/calculate:
+    parameters:
+      - name: expectedCommissionId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    post:
+      operationId: calculateExpectedCommission
+      summary: Recalculate expected commission
+      description: Recalculates expected commission from policy premium, schedule, and split source data. Missing inputs produce named exception statuses rather than zero amounts.
+      tags: [Commissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      responses:
+        "201":
+          description: Expected commission recalculated
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ExpectedCommission" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+
+  /expected-commissions/{expectedCommissionId}/adjustments:
+    parameters:
+      - name: expectedCommissionId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      operationId: listCommissionAdjustments
+      summary: List commission adjustments
+      tags: [Commissions]
+      responses:
+        "200":
+          description: Commission adjustments
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/CommissionAdjustment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      operationId: requestCommissionAdjustment
+      summary: Request commission adjustment
+      description: Creates a pending commission adjustment request and emits a timeline event.
+      tags: [Commissions]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CommissionAdjustmentRequest" }
+      responses:
+        "201":
+          description: Commission adjustment requested
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CommissionAdjustment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /commission-adjustments/{adjustmentId}/decision:
+    parameters:
+      - name: adjustmentId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    post:
+      operationId: decideCommissionAdjustment
+      summary: Approve or reject commission adjustment
+      description: Records an approval or rejection decision. Same-user request and approval returns `commission_adjustment_self_approval_denied` (403).
+      tags: [Commissions]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CommissionAdjustmentDecisionRequest" }
+      responses:
+        "201":
+          description: Commission adjustment decision recorded
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CommissionAdjustment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /revenue-attribution/rollups:
+    get:
+      operationId: getRevenueAttributionRollups
+      summary: Get revenue attribution rollups
+      description: Returns source-record-authorized revenue attribution totals by producer, broker, territory, carrier market, or policy period.
+      tags: [Commissions]
+      parameters:
+        - name: groupBy
+          in: query
+          required: true
+          schema: { type: string, enum: [Producer, Broker, Territory, CarrierMarket, PolicyPeriod] }
+        - name: periodStart
+          in: query
+          schema: { type: string, format: date }
+        - name: periodEnd
+          in: query
+          schema: { type: string, format: date }
+        - name: carrierMarketId
+          in: query
+          schema: { type: string, format: uuid }
+        - name: producerNodeId
+          in: query
+          schema: { type: string, format: uuid }
+        - name: territoryId
+          in: query
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Revenue attribution rollup response
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/RevenueAttributionRollupResponse" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
 
   /territories:
     post:
@@ -7339,6 +7666,178 @@ components:
         relatedEntityId: { type: string, format: uuid }
         relationshipKind: { type: string, enum: [Marketed, Quoted, Bound, Declined, AppointedContext, GeneralReference] }
         note: { type: string, nullable: true, maxLength: 1000 }
+
+    CommissionSchedule:
+      type: object
+      required: [id, carrierMarketId, lineOfBusiness, rateType, rateValue, basis, effectiveFrom, createdAt, rowVersion]
+      additionalProperties: false
+      properties:
+        id: { type: string, format: uuid }
+        carrierMarketId: { type: string, format: uuid }
+        lineOfBusiness: { type: string, minLength: 1, maxLength: 80 }
+        state: { type: string, nullable: true, pattern: "^[A-Z]{2}$" }
+        productCode: { type: string, nullable: true, maxLength: 80 }
+        rateType: { type: string, enum: [PercentOfPremium, FlatAmount] }
+        rateValue: { type: number, minimum: 0 }
+        basis: { type: string, enum: [WrittenPremium, AnnualizedPremium, ManualBasis] }
+        effectiveFrom: { type: string, format: date }
+        effectiveTo: { type: string, format: date, nullable: true }
+        sourceNote: { type: string, nullable: true, maxLength: 500 }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+        rowVersion: { type: string }
+
+    CommissionScheduleUpsertRequest:
+      type: object
+      required: [carrierMarketId, lineOfBusiness, rateType, rateValue, basis, effectiveFrom]
+      additionalProperties: false
+      properties:
+        carrierMarketId: { type: string, format: uuid }
+        lineOfBusiness: { type: string, minLength: 1, maxLength: 80 }
+        state: { type: string, nullable: true, pattern: "^[A-Z]{2}$" }
+        productCode: { type: string, nullable: true, maxLength: 80 }
+        rateType: { type: string, enum: [PercentOfPremium, FlatAmount] }
+        rateValue: { type: number, minimum: 0 }
+        basis: { type: string, enum: [WrittenPremium, AnnualizedPremium, ManualBasis] }
+        effectiveFrom: { type: string, format: date }
+        effectiveTo: { type: string, format: date, nullable: true }
+        sourceNote: { type: string, nullable: true, maxLength: 500 }
+
+    ProducerSplitParticipant:
+      type: object
+      required: [producerNodeId, splitPercent]
+      additionalProperties: false
+      properties:
+        producerNodeId: { type: string, format: uuid }
+        producerDisplayNameSnapshot: { type: string, nullable: true, maxLength: 255 }
+        splitPercent: { type: number, minimum: 0, maximum: 100 }
+        role: { type: string, nullable: true, maxLength: 80 }
+
+    ProducerSplitAssignment:
+      type: object
+      required: [id, policyId, effectiveFrom, basis, status, participants, createdAt, rowVersion]
+      additionalProperties: false
+      properties:
+        id: { type: string, format: uuid }
+        policyId: { type: string, format: uuid }
+        policyVersionId: { type: string, format: uuid, nullable: true }
+        effectiveFrom: { type: string, format: date }
+        effectiveTo: { type: string, format: date, nullable: true }
+        basis: { type: string, enum: [NewBusiness, Renewal, Manual] }
+        status: { type: string, enum: [Draft, Active, Superseded, Archived] }
+        participants:
+          type: array
+          minItems: 1
+          items: { $ref: "#/components/schemas/ProducerSplitParticipant" }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid, nullable: true }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        updatedByUserId: { type: string, format: uuid, nullable: true }
+        rowVersion: { type: string }
+
+    ProducerSplitAssignmentUpsertRequest:
+      type: object
+      required: [policyId, effectiveFrom, basis, participants]
+      additionalProperties: false
+      properties:
+        policyId: { type: string, format: uuid }
+        policyVersionId: { type: string, format: uuid, nullable: true }
+        effectiveFrom: { type: string, format: date }
+        effectiveTo: { type: string, format: date, nullable: true }
+        basis: { type: string, enum: [NewBusiness, Renewal, Manual] }
+        activate: { type: boolean, default: true }
+        participants:
+          type: array
+          minItems: 1
+          items: { $ref: "#/components/schemas/ProducerSplitParticipant" }
+
+    CommissionCalculationStatus:
+      type: string
+      description: Expected commission review status derived from schedule, split, premium, and source freshness checks.
+      enum: [ReviewReady, MissingSchedule, MissingSplit, MissingPremium, ConflictingEffectiveDates, StaleSource]
+
+    ExpectedCommission:
+      type: object
+      required: [id, policyId, carrierMarketId, calculationStatus, approvedAdjustmentAmount, createdAt, rowVersion]
+      additionalProperties: false
+      properties:
+        id: { type: string, format: uuid }
+        policyId: { type: string, format: uuid }
+        policyVersionId: { type: string, format: uuid, nullable: true }
+        carrierMarketId: { type: string, format: uuid }
+        commissionScheduleId: { type: string, format: uuid, nullable: true }
+        producerSplitAssignmentId: { type: string, format: uuid, nullable: true }
+        premiumBasisAmount: { type: number, nullable: true }
+        expectedGrossCommissionAmount: { type: number, nullable: true }
+        approvedAdjustmentAmount: { type: number }
+        adjustedExpectedCommissionAmount: { type: number, nullable: true }
+        calculationStatus: { $ref: "#/components/schemas/CommissionCalculationStatus" }
+        sourceSnapshotHash: { type: string, nullable: true, maxLength: 80 }
+        calculatedAt: { type: string, format: date-time, nullable: true }
+        calculatedByUserId: { type: string, format: uuid, nullable: true }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time, nullable: true }
+        rowVersion: { type: string }
+
+    CommissionAdjustmentRequest:
+      type: object
+      required: [expectedCommissionId, adjustmentAmount, reason, effectiveDate]
+      additionalProperties: false
+      properties:
+        expectedCommissionId: { type: string, format: uuid }
+        adjustmentAmount: { type: number }
+        reason: { type: string, minLength: 1, maxLength: 1000 }
+        effectiveDate: { type: string, format: date }
+
+    CommissionAdjustmentDecisionRequest:
+      type: object
+      required: [decision, decisionNote]
+      additionalProperties: false
+      properties:
+        decision: { type: string, enum: [Approved, Rejected] }
+        decisionNote: { type: string, minLength: 1, maxLength: 1000 }
+
+    CommissionAdjustment:
+      type: object
+      required: [id, expectedCommissionId, adjustmentAmount, reason, effectiveDate, status, requestedByUserId, requestedAt, rowVersion]
+      additionalProperties: false
+      properties:
+        id: { type: string, format: uuid }
+        expectedCommissionId: { type: string, format: uuid }
+        adjustmentAmount: { type: number }
+        reason: { type: string, maxLength: 1000 }
+        effectiveDate: { type: string, format: date }
+        status: { type: string, enum: [Pending, Approved, Rejected] }
+        requestedByUserId: { type: string, format: uuid }
+        requestedAt: { type: string, format: date-time }
+        decisionByUserId: { type: string, format: uuid, nullable: true }
+        decisionAt: { type: string, format: date-time, nullable: true }
+        decisionNote: { type: string, nullable: true, maxLength: 1000 }
+        rowVersion: { type: string }
+
+    RevenueAttributionRollupResponse:
+      type: object
+      required: [generatedAt, groupBy, rows]
+      additionalProperties: false
+      properties:
+        generatedAt: { type: string, format: date-time }
+        groupBy: { type: string, enum: [Producer, Broker, Territory, CarrierMarket, PolicyPeriod] }
+        rows:
+          type: array
+          items:
+            type: object
+            required: [dimensionId, dimensionLabel, expectedGrossCommissionAmount, approvedAdjustmentAmount, adjustedExpectedCommissionAmount, exceptionCount, sourceRecordCount]
+            properties:
+              dimensionId: { type: string, nullable: true }
+              dimensionLabel: { type: string }
+              expectedGrossCommissionAmount: { type: number }
+              approvedAdjustmentAmount: { type: number }
+              adjustedExpectedCommissionAmount: { type: number }
+              exceptionCount: { type: integer, minimum: 0 }
+              sourceRecordCount: { type: integer, minimum: 0 }
+              lastSourceUpdatedAt: { type: string, format: date-time, nullable: true }
 
     ProducerOwnershipScopeType:
       type: string

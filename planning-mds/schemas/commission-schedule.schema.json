@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/commission-schedule.schema.json",
+  "title": "CommissionSchedule",
+  "type": "object",
+  "required": ["id", "carrierMarketId", "lineOfBusiness", "rateType", "rateValue", "basis", "effectiveFrom", "createdAt", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "carrierMarketId": { "type": "string", "format": "uuid" },
+    "lineOfBusiness": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "state": { "type": ["string", "null"], "pattern": "^[A-Z]{2}$" },
+    "productCode": { "type": ["string", "null"], "maxLength": 80 },
+    "rateType": { "type": "string", "enum": ["PercentOfPremium", "FlatAmount"] },
+    "rateValue": { "type": "number", "minimum": 0 },
+    "basis": { "type": "string", "enum": ["WrittenPremium", "AnnualizedPremium", "ManualBasis"] },
+    "effectiveFrom": { "type": "string", "format": "date" },
+    "effectiveTo": { "type": ["string", "null"], "format": "date" },
+    "sourceNote": { "type": ["string", "null"], "maxLength": 500 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "createdByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "updatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "updatedByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "rowVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

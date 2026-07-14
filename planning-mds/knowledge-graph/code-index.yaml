@@ -119,6 +119,32 @@ node_bindings:
           - experience/src/pages/BrokerDetailPage.tsx
           - experience/src/pages/BrokerListPage.tsx
           - experience/src/pages/CreateBrokerPage.tsx
+  - id: capability:commission-revenue-tracking
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/CommissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/CommissionDtos.cs
+          - engine/src/Nebula.Application/Interfaces/ICommissionRepository.cs
+          - engine/src/Nebula.Application/Interfaces/IRevenueAttributionRepository.cs
+          - engine/src/Nebula.Application/Services/CommissionRevenueService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/CommissionConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Repositories/CommissionRepository.cs
+          - engine/src/Nebula.Infrastructure/Repositories/RevenueAttributionRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/CommissionRevenue/**
+      frontend:
+        feature:
+          - experience/src/features/commissions/**
+        app:
+          - experience/src/App.tsx
+        pages:
+          - experience/src/pages/CommissionDetailPage.tsx
+          - experience/src/pages/CommissionsPage.tsx
+        tests:
+          - experience/src/features/commissions/tests/**
   - id: capability:dashboard-home
     paths:
       backend:

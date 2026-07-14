@@ -40,7 +40,6 @@ This document is the working prioritization view for feature sequencing.
 <!-- generated:begin roadmap:later -->
 | Feature | Phase | Why Later |
 |---------|-------|-----------|
-| [F0025 — Commission, Producer Splits & Revenue Tracking](./F0025-commission-producer-splits-and-revenue-tracking/README.md) | Brokerage Platform Expansion | Moves Nebula from CRM into brokerage economics and compensation operations. |
 | [F0026 — Billing, Invoicing & Reconciliation](./F0026-billing-invoicing-and-reconciliation/README.md) | Brokerage Platform Expansion | Pushes the product deeper into agency management and finance operations. |
 | [F0030 — Integration Hub & Data Exchange](./F0030-integration-hub-and-data-exchange/README.md) | Brokerage Platform Expansion | Needed for scalable connectivity across email, carriers, accounting, and document systems. |
 | [F0029 — External Broker Collaboration Portal](./F0029-external-broker-collaboration-portal/README.md) | Brokerage Platform Expansion | External collaboration remains intentionally post-MVP until internal workflows, integration boundaries, and broker-safe visibility controls are mature. |
@@ -60,6 +59,7 @@ This document is the working prioritization view for feature sequencing.
 <!-- generated:begin roadmap:completed -->
 | Feature | Phase | Completion State |
 |---------|-------|------------------|
+| [F0025 — Commission, Producer Splits & Revenue Tracking](./archive/F0025-commission-producer-splits-and-revenue-tracking/README.md) | Brokerage Platform Expansion | Done and archived (2026-07-07, feature run `2026-07-07-9859bad4`) — 6 stories: commission workspace search, schedule maintenance, producer split assignment, expected commission calculation review, adjustment approval, revenue attribution rollups |
 | [F0037 — Hierarchy-Aware Access Scoping & Distribution Rollups](./archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/README.md) | CRM Release MVP+ | Done and archived (2026-07-06); delivered via PR #56 and the PR #60 review-fix supersede. As-built ontology mapping is deferred to a follow-up plan run, so the feature remains coverage-excluded. |
 | [F0038 — Neuron Day-at-a-Glance Shell (Renewals live + draft outreach + mock-send)](./archive/F0038-neuron-day-at-a-glance-shell/README.md) | Neuron Companion | Done and archived (2026-07-02, feature run `2026-07-01-90a75ace`) — 8 stories: service bootstrap, Day-at-a-Glance shell + zone-dispatch + message envelope, live Renewals zone (needs-attention + drill), inert stub zones, renewal outreach draft, mock-send + workflow transition, CRM scope guard, companion telemetry. First slice of the Neuron Companion epic; gates G0–G8 all PASS. |
 | [F0024 — Claims & Service Case Tracking](./archive/F0024-claims-and-service-case-tracking/README.md) | CRM Release MVP+ | Done and archived (2026-07-03; feature runs `2026-07-03-ba011af8`, `2026-07-03-72f49d29`) — 6 stories: service case intake, contextual visibility, ownership/follow-up, status transitions, claim-reference context, permission-safe audit history |

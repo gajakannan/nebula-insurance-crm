@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/producer-split-assignment.schema.json",
+  "title": "ProducerSplitAssignment",
+  "type": "object",
+  "required": ["id", "policyId", "effectiveFrom", "basis", "status", "participants", "createdAt", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "policyId": { "type": "string", "format": "uuid" },
+    "policyVersionId": { "type": ["string", "null"], "format": "uuid" },
+    "effectiveFrom": { "type": "string", "format": "date" },
+    "effectiveTo": { "type": ["string", "null"], "format": "date" },
+    "basis": { "type": "string", "enum": ["NewBusiness", "Renewal", "Manual"] },
+    "status": { "type": "string", "enum": ["Draft", "Active", "Superseded", "Archived"] },
+    "participants": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/participant" }
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "createdByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "updatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "updatedByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "rowVersion": { "type": "string" }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "participant": {
+      "type": "object",
+      "required": ["producerNodeId", "splitPercent"],
+      "properties": {
+        "producerNodeId": { "type": "string", "format": "uuid" },
+        "producerDisplayNameSnapshot": { "type": ["string", "null"], "maxLength": 255 },
+        "splitPercent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "role": { "type": ["string", "null"], "maxLength": 80 }
+      },
+      "additionalProperties": false
+    }
+  }
+}

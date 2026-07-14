@@ -7,9 +7,6 @@ coverage_note: 'This file intentionally expands shared coverage in phases. Core 
   '
 coverage:
   excluded_features:
-    - id: feature:F0025
-      path: planning-mds/features/F0025-commission-producer-splits-and-revenue-tracking
-      reason: Planned feature folder exists but ontology mapping backfill has not started.
     - id: feature:F0026
       path: planning-mds/features/F0026-billing-invoicing-and-reconciliation
       reason: Planned feature folder exists but ontology mapping backfill has not started.
@@ -1058,6 +1055,79 @@ features:
       - schema:task
       - schema:task-create-request
       - schema:timeline-event
+  - status: archived-done
+    id: feature:F0025
+    path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking
+    affects:
+      - capability:carrier-market-relationship-management
+      - capability:commission-revenue-tracking
+      - capability:global-search
+      - capability:operational-reporting
+      - capability:producer-ownership-management
+      - capability:territory-management
+      - endpoint:commission-adjustment-decision
+      - endpoint:commission-schedule-list-create
+      - endpoint:commission-schedule-update
+      - endpoint:expected-commission-adjustments
+      - endpoint:expected-commission-calculate
+      - endpoint:expected-commission-list
+      - endpoint:policy-producer-splits
+      - endpoint:producer-splits-upsert
+      - endpoint:revenue-attribution-rollups
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:carrier-market
+      - entity:commission-adjustment
+      - entity:commission-schedule
+      - entity:expected-commission
+      - entity:policy
+      - entity:producer
+      - entity:producer-ownership
+      - entity:producer-split-assignment
+      - entity:producer-split-participant
+      - entity:revenue-attribution-projection
+      - entity:territory
+      - entity:territory-assignment
+      - policy_rule:carrier-market-read
+      - policy_rule:commission-adjustment-approve
+      - policy_rule:commission-adjustment-request
+      - policy_rule:commission-calculate
+      - policy_rule:commission-read
+      - policy_rule:commission-rollup-read
+      - policy_rule:commission-schedule-manage
+      - policy_rule:commission-split-assign
+      - policy_rule:global-search-read
+      - policy_rule:operational-report-read
+      - policy_rule:policy-read
+      - policy_rule:producer-ownership-read
+      - policy_rule:territory-read
+      - workflow:commission-adjustment
+    depends_on:
+      - feature:F0017
+      - feature:F0018
+      - feature:F0028
+    governed_by:
+      - adr:033
+    notes:
+      - Phase A refined on 2026-07-07 via plan run 2026-07-07-8a9b2629. F0025 is bounded to expected commission
+        visibility, producer split attribution, adjustment capture, and management rollups; full accounting,
+        payments, billing, reconciliation, payouts, tax, statements, GL export, and external compensation
+        portals remain out of scope.
+      - Phase B architecture drafted on 2026-07-07 via plan run 2026-07-07-8a9b2629. ADR-032 defines the
+        CommissionRevenue module, persisted expected commission review records, effective-dated schedules/splits,
+        single-step adjustment approval, source-authorized rollups, and timeline audit.
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:commission-adjustment
+      - schema:commission-adjustment-decision-request
+      - schema:commission-adjustment-request
+      - schema:commission-schedule
+      - schema:commission-schedule-upsert-request
+      - schema:expected-commission
+      - schema:producer-split-assignment
+      - schema:producer-split-assignment-upsert-request
+      - schema:revenue-attribution-rollup-response
   - status: archived
     id: feature:F0027
     path: planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation
@@ -4077,6 +4147,199 @@ stories:
       - schema:service-case
       - schema:service-case-communication-link-request
       - schema:timeline-event
+  - id: story:F0025-S0001
+    feature: feature:F0025
+    path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0001-commission-workspace-search-and-policy-context.md
+    affects:
+      - capability:carrier-market-relationship-management
+      - capability:commission-revenue-tracking
+      - capability:global-search
+      - capability:producer-ownership-management
+      - endpoint:expected-commission-list
+      - entity:broker
+      - entity:carrier-market
+      - entity:expected-commission
+      - entity:policy
+      - entity:producer
+      - entity:producer-ownership
+    depends_on:
+      - feature:F0017
+      - feature:F0018
+      - feature:F0028
+    enforced_by_policy:
+      - policy_rule:carrier-market-read
+      - policy_rule:commission-read
+      - policy_rule:global-search-read
+      - policy_rule:policy-read
+      - policy_rule:producer-ownership-read
+    governed_by:
+      - adr:033
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:expected-commission
+  - id: story:F0025-S0002
+    feature: feature:F0025
+    path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0002-commission-schedule-maintenance.md
+    affects:
+      - capability:carrier-market-relationship-management
+      - capability:commission-revenue-tracking
+      - endpoint:commission-schedule-list-create
+      - endpoint:commission-schedule-update
+      - entity:activity-timeline-event
+      - entity:carrier-market
+      - entity:commission-schedule
+      - entity:policy
+    depends_on:
+      - feature:F0018
+      - feature:F0028
+    enforced_by_policy:
+      - policy_rule:carrier-market-read
+      - policy_rule:commission-schedule-manage
+      - policy_rule:policy-read
+    governed_by:
+      - adr:033
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:commission-schedule
+      - schema:commission-schedule-upsert-request
+  - id: story:F0025-S0003
+    feature: feature:F0025
+    path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0003-producer-split-assignment.md
+    affects:
+      - capability:commission-revenue-tracking
+      - capability:producer-ownership-management
+      - capability:territory-management
+      - endpoint:policy-producer-splits
+      - endpoint:producer-splits-upsert
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:policy
+      - entity:producer
+      - entity:producer-ownership
+      - entity:producer-split-assignment
+      - entity:producer-split-participant
+      - entity:territory
+      - entity:territory-assignment
+    depends_on:
+      - feature:F0017
+      - feature:F0018
+    enforced_by_policy:
+      - policy_rule:commission-read
+      - policy_rule:commission-split-assign
+      - policy_rule:policy-read
+      - policy_rule:producer-ownership-read
+      - policy_rule:territory-read
+    governed_by:
+      - adr:033
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:producer-split-assignment
+      - schema:producer-split-assignment-upsert-request
+  - id: story:F0025-S0004
+    feature: feature:F0025
+    path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0004-expected-commission-calculation-review.md
+    affects:
+      - capability:carrier-market-relationship-management
+      - capability:commission-revenue-tracking
+      - capability:producer-ownership-management
+      - endpoint:expected-commission-calculate
+      - endpoint:expected-commission-list
+      - entity:carrier-market
+      - entity:commission-schedule
+      - entity:expected-commission
+      - entity:policy
+      - entity:producer
+      - entity:producer-ownership
+      - entity:producer-split-assignment
+    depends_on:
+      - feature:F0017
+      - feature:F0018
+      - feature:F0028
+    enforced_by_policy:
+      - policy_rule:carrier-market-read
+      - policy_rule:commission-calculate
+      - policy_rule:commission-read
+      - policy_rule:policy-read
+      - policy_rule:producer-ownership-read
+    governed_by:
+      - adr:033
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:expected-commission
+  - id: story:F0025-S0005
+    feature: feature:F0025
+    path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0005-commission-adjustment-and-approval.md
+    affects:
+      - capability:commission-revenue-tracking
+      - endpoint:commission-adjustment-decision
+      - endpoint:expected-commission-adjustments
+      - entity:activity-timeline-event
+      - entity:commission-adjustment
+      - entity:expected-commission
+      - entity:policy
+      - entity:producer
+      - entity:producer-ownership
+    depends_on:
+      - feature:F0017
+      - feature:F0018
+    enforced_by_policy:
+      - policy_rule:commission-adjustment-approve
+      - policy_rule:commission-adjustment-request
+      - policy_rule:commission-read
+      - policy_rule:policy-read
+      - policy_rule:producer-ownership-read
+      - policy_rule:timeline-event-read
+      - workflow:commission-adjustment
+    governed_by:
+      - adr:033
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:commission-adjustment
+      - schema:commission-adjustment-decision-request
+      - schema:commission-adjustment-request
+      - schema:timeline-event
+  - id: story:F0025-S0006
+    feature: feature:F0025
+    path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0006-revenue-attribution-rollups.md
+    affects:
+      - capability:carrier-market-relationship-management
+      - capability:commission-revenue-tracking
+      - capability:operational-reporting
+      - capability:producer-ownership-management
+      - capability:territory-management
+      - endpoint:revenue-attribution-rollups
+      - entity:broker
+      - entity:carrier-market
+      - entity:expected-commission
+      - entity:policy
+      - entity:producer
+      - entity:producer-ownership
+      - entity:revenue-attribution-projection
+      - entity:territory
+      - entity:territory-assignment
+    depends_on:
+      - feature:F0017
+      - feature:F0018
+      - feature:F0028
+    enforced_by_policy:
+      - policy_rule:carrier-market-read
+      - policy_rule:commission-rollup-read
+      - policy_rule:operational-report-read
+      - policy_rule:policy-read
+      - policy_rule:producer-ownership-read
+      - policy_rule:territory-read
+    governed_by:
+      - adr:033
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:revenue-attribution-rollup-response
   - id: story:F0027-S0001
     feature: feature:F0027
     path: planning-mds/features/archive/F0027-coi-acord-and-outbound-document-generation/F0027-S0001-template-library-governance.md

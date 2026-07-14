@@ -37,6 +37,29 @@ Define the build order, role handoffs, and integration checkpoints for implement
 3. Minimal API endpoints, Casbin enforcement, ProblemDetails, and contract/schema parity.
 4. Frontend Admin Configuration route, workspace, catalog, detail, editor, compare drawer, publish/rollback dialog, and audit workspace.
 5. G2-G8 quality, code/security review, DevOps deployability, signoff, KG reconciliation, and PM closeout.
+## F0025 - Commission, Producer Splits & Revenue Tracking
+
+**Added:** 2026-07-07 - Feature action Step 0 authored the feature-local implementation execution plan after Phase B plan approval and operator G5 approval in plan run `2026-07-07-8a9b2629`.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0025-commission-producer-splits-and-revenue-tracking/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, commission entity and service signatures, endpoint authorization gates, mutation traceability, security-sensitive economic-data guardrails, and validation checkpoints for commission revenue tracking.
+
+### Dependencies
+
+| Dependency | Source | What F0025 Needs | Status |
+|------------|--------|------------------|--------|
+| Producer ownership and territory context | F0017 / ADR-026 | Producer, ownership, hierarchy, and territory attribution inputs | Done and archived |
+| Policy lifecycle and premium context | F0018 / ADR-018 | Policy, policy version, premium, lifecycle, and source snapshot inputs | Done and archived |
+| Carrier and market context | F0028 | Carrier/market scope for commission schedules and rollups | Done and archived |
+| Search/reporting patterns | F0023 / ADR-014-search | Source-authorized filtering, saved workspace/drilldown behavior, and reporting precedent | Done and archived |
+| Commission architecture | ADR-032 | CommissionRevenue boundary, persisted expected commission review records, schedules/splits, adjustments, rollups, auth, and audit | Accepted |
+
+### Assembly Slice Order
+
+1. Backend commission entities, EF configurations, migration, repositories, and overlap constraints.
+2. CommissionRevenue service, validators, source-record authorization checks, timeline events, and Minimal API endpoints.
+3. Frontend commission workspace/detail/rollup pages, feature hooks, mutation panels, and route/nav integration.
+4. QE/security/deployability evidence focused on hidden-row leakage, economic-data authorization, reload persistence, and migration runtime health.
+5. G7 KG reconciliation and G8 PM closeout.
 
 ### Signoff Role Matrix
 
@@ -80,6 +103,11 @@ Define the build order, role handoffs, and integration checkpoints for implement
 | Security Reviewer | Yes | F0037 introduces hierarchy/territory/producer access-control enforcement and no-leak direct-access behavior. |
 | DevOps | Conditional | Required only if Phase B/G5 later approves materialized rollup jobs, background recomputation, or new runtime infrastructure. |
 | Architect | Yes | G5 approval and G7 as-built KG reconciliation are required before and after implementation. |
+| Quality Engineer | Yes | Calculation, attribution, adjustment, rollup, reload, and hidden-row behavior need acceptance evidence. |
+| Code Reviewer | Yes | Economic logic, source authorization, persistence, and frontend mutation flows need independent review. |
+| Security Reviewer | Yes | Commission, split, adjustment, and revenue rollup data are internal economic data. |
+| DevOps | Yes | New persisted entities, migration/indexes, runtime policy sync, and deployability evidence are required. |
+| Architect | Yes | G0 assembly plan validation and G7 as-built KG reconciliation are required. |
 
 ---
 

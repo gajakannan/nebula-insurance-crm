@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/commission-adjustment-decision-request.schema.json",
+  "title": "CommissionAdjustmentDecisionRequest",
+  "type": "object",
+  "required": ["decision", "decisionNote"],
+  "properties": {
+    "decision": { "type": "string", "enum": ["Approved", "Rejected"] },
+    "decisionNote": { "type": "string", "minLength": 1, "maxLength": 1000 }
+  },
+  "additionalProperties": false
+}

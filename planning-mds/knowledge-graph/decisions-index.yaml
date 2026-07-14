@@ -1,4 +1,5 @@
 version: 0
+generated_at: '2026-07-13T14:27:05+00:00'
 summary:
   total_decisions: 9
   by_kind:
@@ -7,7 +8,7 @@ summary:
     TRADEOFF: 0
     WHY: 9
   resolved_node_count: 3
-  resolved_symbol_count: 8
+  resolved_symbol_count: 7
   ambiguous_count: 0
 decisions:
 - id: decision:experience-src-features-neuron-registry-componentregistry-l52-why
@@ -17,7 +18,6 @@ decisions:
   text: "renders a static note only \u2014 never echoes the untrusted component id/props\
     \ into"
   resolved_node: capability:neuron-message-envelope
-  resolved_symbol: symbol:capability-neuron-message-envelope:component-registry.safe-fallback
 - id: decision:experience-src-features-reports-components-distributionrollupreportview-l8-why
   file: experience/src/features/reports/components/DistributionRollupReportView.tsx
   line: 8

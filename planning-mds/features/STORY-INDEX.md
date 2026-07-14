@@ -2,7 +2,7 @@
 
 Auto-generated index of all user stories across feature folders.
 
-**Total Stories:** 207
+**Total Stories:** 213
 
 ---
 
@@ -325,6 +325,19 @@ Auto-generated index of all user stories across feature folders.
 
 ---
 
+## F0025 — Commission, Producer Splits & Revenue Tracking
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0025-S0001](./archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0001-commission-workspace-search-and-policy-context.md) | Commission workspace search and policy context | Critical | Brokerage Platform Expansion | distribution leader |
+| [F0025-S0002](./archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0002-commission-schedule-maintenance.md) | Commission schedule maintenance | Critical | Brokerage Platform Expansion | finance operations user |
+| [F0025-S0003](./archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0003-producer-split-assignment.md) | Producer split assignment | Critical | Brokerage Platform Expansion | producer manager |
+| [F0025-S0004](./archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0004-expected-commission-calculation-review.md) | Expected commission calculation review | High | Brokerage Platform Expansion | finance operations user |
+| [F0025-S0005](./archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0005-commission-adjustment-and-approval.md) | Commission adjustment and approval | High | Brokerage Platform Expansion | finance operations user |
+| [F0025-S0006](./archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0006-revenue-attribution-rollups.md) | Revenue attribution rollups | High | Brokerage Platform Expansion | distribution leader |
+
+---
+
 ## F0027 — COI, ACORD & Outbound Document Generation
 
 | Story ID | Title | Priority | Phase | Persona |
@@ -448,6 +461,7 @@ Auto-generated index of all user stories across feature folders.
 
 | Phase | Count |
 |-------|-------|
+| Brokerage Platform Expansion | 6 |
 | CRM Release MVP | 57 |
 | CRM Release MVP+ | 17 |
 | Future | 1 |
@@ -465,8 +479,8 @@ Auto-generated index of all user stories across feature folders.
 
 | Priority | Count |
 |----------|-------|
-| Critical | 81 |
-| High | 105 |
+| Critical | 84 |
+| High | 108 |
 | Medium | 17 |
 
 ---
