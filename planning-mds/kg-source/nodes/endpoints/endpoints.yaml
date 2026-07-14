@@ -181,6 +181,100 @@ endpoints:
     source_docs:
       - F0016/README.md
       - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-audit-events
+    label: GET /admin/configuration-audit-events
+    method: GET
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-audit-event
+      - policy_rule:admin-configuration-audit
+    route: /admin/configuration-audit-events
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-compare-draft
+    label: GET /admin/configuration-drafts/{draftId}/comparison
+    method: GET
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+      - entity:configuration-validation-result
+      - policy_rule:admin-configuration-validate
+    route: /admin/configuration-drafts/{draftId}/comparison
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-create-draft
+    label: POST /admin/configuration-domains/{domainKey}/drafts
+    method: POST
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-domain
+      - entity:configuration-draft
+      - policy_rule:admin-configuration-draft
+    route: /admin/configuration-domains/{domainKey}/drafts
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-domain-detail
+    label: GET /admin/configuration-domains/{domainKey}
+    method: GET
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-domain
+      - policy_rule:admin-configuration-read
+    route: /admin/configuration-domains/{domainKey}
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-domains
+    label: GET /admin/configuration-domains
+    method: GET
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-domain
+      - policy_rule:admin-configuration-read
+    route: /admin/configuration-domains
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-publish-draft
+    label: POST /admin/configuration-drafts/{draftId}/publish
+    method: POST
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+      - entity:published-operational-configuration-set
+      - policy_rule:admin-configuration-publish
+    route: /admin/configuration-drafts/{draftId}/publish
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-rollback-domain
+    label: POST /admin/configuration-domains/{domainKey}/rollback
+    method: POST
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:published-operational-configuration-set
+      - policy_rule:admin-configuration-rollback
+    route: /admin/configuration-domains/{domainKey}/rollback
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-update-draft
+    label: PATCH /admin/configuration-drafts/{draftId}
+    method: PATCH
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+      - policy_rule:admin-configuration-draft
+    route: /admin/configuration-drafts/{draftId}
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:admin-configuration-validate-draft
+    label: POST /admin/configuration-drafts/{draftId}/validation
+    method: POST
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+      - entity:configuration-validation-result
+      - policy_rule:admin-configuration-validate
+    route: /admin/configuration-drafts/{draftId}/validation
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
   - id: endpoint:assignment-rule-upsert
     label: POST/PUT /assignment-rules
     method: POST|PUT
@@ -353,6 +447,42 @@ endpoints:
       - entity:carrier-market
       - policy_rule:carrier-market-update
     route: /carrier-markets/{carrierMarketId}
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:commission-adjustment-decision
+    label: POST /commission-adjustments/{adjustmentId}/decision
+    method: POST
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:activity-timeline-event
+      - entity:commission-adjustment
+      - entity:expected-commission
+      - policy_rule:commission-adjustment-approve
+    route: /commission-adjustments/{adjustmentId}/decision
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:commission-schedule-list-create
+    label: GET/POST /commission-schedules
+    method: MULTI
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:activity-timeline-event
+      - entity:carrier-market
+      - entity:commission-schedule
+      - policy_rule:commission-read
+      - policy_rule:commission-schedule-manage
+    route: /commission-schedules
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:commission-schedule-update
+    label: PUT /commission-schedules/{scheduleId}
+    method: PUT
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:activity-timeline-event
+      - entity:commission-schedule
+      - policy_rule:commission-schedule-manage
+    route: /commission-schedules/{scheduleId}
     source_docs:
       - planning-mds/api/nebula-api.yaml
   - id: endpoint:communication-correction
@@ -610,6 +740,40 @@ endpoints:
       - F0020/F0020-S0001-upload-single-document-with-metadata.md
       - F0020/F0020-S0002-bulk-multi-file-upload.md
       - planning-mds/api/nebula-api.yaml
+  - id: endpoint:expected-commission-adjustments
+    label: GET/POST /expected-commissions/{expectedCommissionId}/adjustments
+    method: MULTI
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:activity-timeline-event
+      - entity:commission-adjustment
+      - entity:expected-commission
+      - policy_rule:commission-adjustment-request
+      - policy_rule:commission-read
+    route: /expected-commissions/{expectedCommissionId}/adjustments
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:expected-commission-calculate
+    label: POST /expected-commissions/{expectedCommissionId}/calculate
+    method: POST
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:activity-timeline-event
+      - entity:expected-commission
+      - policy_rule:commission-calculate
+    route: /expected-commissions/{expectedCommissionId}/calculate
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:expected-commission-list
+    label: GET /expected-commissions
+    method: GET
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:expected-commission
+      - policy_rule:commission-read
+    route: /expected-commissions
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
   - id: endpoint:global-search-results
     label: GET /search-results
     method: GET
@@ -759,6 +923,17 @@ endpoints:
     source_docs:
       - F0027/ARCHITECTURE.md
       - planning-mds/api/nebula-api.yaml
+  - id: endpoint:policy-producer-splits
+    label: GET /policies/{policyId}/producer-splits
+    method: GET
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:policy
+      - entity:producer-split-assignment
+      - policy_rule:commission-read
+    route: /policies/{policyId}/producer-splits
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
   - id: endpoint:policy-timeline
     label: GET /policies/{policyId}/timeline
     method: GET
@@ -797,6 +972,19 @@ endpoints:
       - F0017/F0017-S0003-producer-ownership-effective-dated.md
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md
+  - id: endpoint:producer-splits-upsert
+    label: POST /producer-splits
+    method: POST
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:activity-timeline-event
+      - entity:policy
+      - entity:producer-split-assignment
+      - entity:producer-split-participant
+      - policy_rule:commission-split-assign
+    route: /producer-splits
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
   - id: endpoint:queue-work-item-reassign
     label: PUT /queue-work-items/{queueItemId}/assignment
     method: PUT
@@ -933,6 +1121,17 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md
+  - id: endpoint:revenue-attribution-rollups
+    label: GET /revenue-attribution/rollups
+    method: GET
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - capability:operational-reporting
+      - entity:revenue-attribution-projection
+      - policy_rule:commission-rollup-read
+    route: /revenue-attribution/rollups
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
   - id: endpoint:routing-events-list
     label: GET /routing-events
     method: GET
@@ -1406,98 +1605,4 @@ endpoints:
     route: /operational-reports/workflow-aging
     source_docs:
       - F0023/feature-assembly-plan.md
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-audit-events
-    label: GET /admin/configuration-audit-events
-    method: GET
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-audit-event
-      - policy_rule:admin-configuration-audit
-    route: /admin/configuration-audit-events
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-compare-draft
-    label: GET /admin/configuration-drafts/{draftId}/comparison
-    method: GET
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-draft
-      - entity:configuration-validation-result
-      - policy_rule:admin-configuration-validate
-    route: /admin/configuration-drafts/{draftId}/comparison
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-create-draft
-    label: POST /admin/configuration-domains/{domainKey}/drafts
-    method: POST
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-domain
-      - entity:configuration-draft
-      - policy_rule:admin-configuration-draft
-    route: /admin/configuration-domains/{domainKey}/drafts
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-domain-detail
-    label: GET /admin/configuration-domains/{domainKey}
-    method: GET
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-domain
-      - policy_rule:admin-configuration-read
-    route: /admin/configuration-domains/{domainKey}
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-domains
-    label: GET /admin/configuration-domains
-    method: GET
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-domain
-      - policy_rule:admin-configuration-read
-    route: /admin/configuration-domains
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-publish-draft
-    label: POST /admin/configuration-drafts/{draftId}/publish
-    method: POST
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-draft
-      - entity:published-operational-configuration-set
-      - policy_rule:admin-configuration-publish
-    route: /admin/configuration-drafts/{draftId}/publish
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-rollback-domain
-    label: POST /admin/configuration-domains/{domainKey}/rollback
-    method: POST
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:published-operational-configuration-set
-      - policy_rule:admin-configuration-rollback
-    route: /admin/configuration-domains/{domainKey}/rollback
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-update-draft
-    label: PATCH /admin/configuration-drafts/{draftId}
-    method: PATCH
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-draft
-      - policy_rule:admin-configuration-draft
-    route: /admin/configuration-drafts/{draftId}
-    source_docs:
-      - planning-mds/api/nebula-api.yaml
-  - id: endpoint:admin-configuration-validate-draft
-    label: POST /admin/configuration-drafts/{draftId}/validation
-    method: POST
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-draft
-      - entity:configuration-validation-result
-      - policy_rule:admin-configuration-validate
-    route: /admin/configuration-drafts/{draftId}/validation
-    source_docs:
       - planning-mds/api/nebula-api.yaml

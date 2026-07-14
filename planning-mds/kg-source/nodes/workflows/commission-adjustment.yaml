@@ -1,0 +1,25 @@
+id: workflow:commission-adjustment
+label: Commission Adjustment Workflow
+rationale:
+  - adr: adr:032
+    section: Decision §5
+    summary: Commission adjustments use a single-step request/decision workflow; Pending transitions to
+      Approved or Rejected, and same-user request/approval is denied.
+related_entities:
+  - entity:activity-timeline-event
+  - entity:commission-adjustment
+  - entity:expected-commission
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+  - planning-mds/schemas/commission-adjustment.schema.json
+states:
+  - id: state:commission-adjustment:pending
+    label: Pending
+    transitions_to:
+      - state:commission-adjustment:approved
+      - state:commission-adjustment:rejected
+  - id: state:commission-adjustment:approved
+    label: Approved
+  - id: state:commission-adjustment:rejected
+    label: Rejected

@@ -51,6 +51,31 @@ schemas:
     path: planning-mds/schemas/activity-event-payloads.schema.json
     related_nodes:
       - entity:activity-timeline-event
+  - id: schema:admin-configuration-audit-event
+    path: planning-mds/schemas/admin-configuration-audit-event.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-audit-event
+  - id: schema:admin-configuration-domain
+    path: planning-mds/schemas/admin-configuration-domain.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-domain
+  - id: schema:admin-configuration-draft
+    path: planning-mds/schemas/admin-configuration-draft.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+  - id: schema:admin-configuration-publish-request
+    path: planning-mds/schemas/admin-configuration-publish-request.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:published-operational-configuration-set
+  - id: schema:admin-configuration-validation-result
+    path: planning-mds/schemas/admin-configuration-validation-result.schema.json
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-validation-result
   - id: schema:assignment-rule
     path: planning-mds/schemas/assignment-rule.schema.json
     related_nodes:
@@ -138,6 +163,30 @@ schemas:
     related_nodes:
       - entity:carrier-ref
       - entity:policy
+  - id: schema:commission-adjustment
+    path: planning-mds/schemas/commission-adjustment.schema.json
+    related_nodes:
+      - entity:commission-adjustment
+      - entity:expected-commission
+  - id: schema:commission-adjustment-decision-request
+    path: planning-mds/schemas/commission-adjustment-decision-request.schema.json
+    related_nodes:
+      - entity:commission-adjustment
+  - id: schema:commission-adjustment-request
+    path: planning-mds/schemas/commission-adjustment-request.schema.json
+    related_nodes:
+      - entity:commission-adjustment
+      - entity:expected-commission
+  - id: schema:commission-schedule
+    path: planning-mds/schemas/commission-schedule.schema.json
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:commission-schedule
+  - id: schema:commission-schedule-upsert-request
+    path: planning-mds/schemas/commission-schedule-upsert-request.schema.json
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:commission-schedule
   - id: schema:communication-event
     path: planning-mds/schemas/communication-event.schema.json
     related_nodes:
@@ -264,6 +313,11 @@ schemas:
     path: planning-mds/schemas/document-template.schema.json
     related_nodes:
       - entity:document-template
+  - id: schema:expected-commission
+    path: planning-mds/schemas/expected-commission.schema.json
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:expected-commission
   - id: schema:generated-document-issue-response
     path: planning-mds/schemas/generated-document-issue-response.schema.json
     related_nodes:
@@ -530,6 +584,18 @@ schemas:
       - capability:producer-ownership-management
       - entity:producer
       - entity:producer-ownership
+  - id: schema:producer-split-assignment
+    path: planning-mds/schemas/producer-split-assignment.schema.json
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:producer-split-assignment
+      - entity:producer-split-participant
+  - id: schema:producer-split-assignment-upsert-request
+    path: planning-mds/schemas/producer-split-assignment-upsert-request.schema.json
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:producer-split-assignment
+      - entity:producer-split-participant
   - id: schema:queue-member-upsert-request
     path: planning-mds/schemas/queue-member-upsert-request.schema.json
     related_nodes:
@@ -606,6 +672,11 @@ schemas:
     related_nodes:
       - entity:renewal
       - workflow:renewal
+  - id: schema:revenue-attribution-rollup-response
+    path: planning-mds/schemas/revenue-attribution-rollup-response.schema.json
+    related_nodes:
+      - capability:commission-revenue-tracking
+      - entity:revenue-attribution-projection
   - id: schema:routing-event
     path: planning-mds/schemas/routing-event.schema.json
     related_nodes:
@@ -761,28 +832,3 @@ schemas:
       - entity:operational-report-projection
       - workflow:renewal
       - workflow:submission
-  - id: schema:admin-configuration-audit-event
-    path: planning-mds/schemas/admin-configuration-audit-event.schema.json
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-audit-event
-  - id: schema:admin-configuration-domain
-    path: planning-mds/schemas/admin-configuration-domain.schema.json
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-domain
-  - id: schema:admin-configuration-draft
-    path: planning-mds/schemas/admin-configuration-draft.schema.json
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-draft
-  - id: schema:admin-configuration-publish-request
-    path: planning-mds/schemas/admin-configuration-publish-request.schema.json
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:published-operational-configuration-set
-  - id: schema:admin-configuration-validation-result
-    path: planning-mds/schemas/admin-configuration-validation-result.schema.json
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-validation-result

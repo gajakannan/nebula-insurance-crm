@@ -1,4 +1,62 @@
 node_bindings:
+  - id: capability:admin-configuration-governance
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
+          - engine/src/Nebula.Api/Program.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/AdminConfigurationDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IAdminConfigurationDomainAdapter.cs
+          - engine/src/Nebula.Application/Interfaces/IAdminConfigurationRepository.cs
+          - engine/src/Nebula.Application/Services/AdminConfigurationService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ConfigurationAuditEvent.cs
+          - engine/src/Nebula.Domain/Entities/ConfigurationDomain.cs
+          - engine/src/Nebula.Domain/Entities/ConfigurationDraft.cs
+          - engine/src/Nebula.Domain/Entities/ConfigurationRefreshStatus.cs
+          - engine/src/Nebula.Domain/Entities/ConfigurationValidationResult.cs
+          - engine/src/Nebula.Domain/Entities/PublishedOperationalConfigurationSet.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/DependencyInjection.cs
+          - engine/src/Nebula.Infrastructure/Persistence/AppDbContext.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationAuditEventConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationDomainConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationDraftConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationRefreshStatusConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationValidationResultConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/PublishedOperationalConfigurationSetConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Repositories/AdminConfigurationRepository.cs
+          - engine/src/Nebula.Infrastructure/Services/AdminConfigurationDomainAdapters.cs
+        migrations:
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260706140000_F0032_AdminConfiguration.cs
+      frontend:
+        feature:
+          - experience/src/features/admin-configuration/**
+        routes:
+          - experience/src/App.tsx
+          - experience/src/components/layout/Sidebar.tsx
+          - experience/src/pages/AdminConfigurationPage.tsx
+      planning:
+        feature:
+          - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+          - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
+          - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/README.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+        architecture:
+          - planning-mds/architecture/data-model.md
+          - planning-mds/architecture/decisions/ADR-016-published-operational-configuration-governance.md
+          - planning-mds/architecture/decisions/ADR-032-admin-configuration-console-contract.md
+        schemas:
+          - planning-mds/schemas/admin-configuration-audit-event.schema.json
+          - planning-mds/schemas/admin-configuration-domain.schema.json
+          - planning-mds/schemas/admin-configuration-draft.schema.json
+          - planning-mds/schemas/admin-configuration-publish-request.schema.json
+          - planning-mds/schemas/admin-configuration-validation-result.schema.json
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
   - id: capability:authorization-enforcement
     paths:
       backend:
@@ -54,6 +112,32 @@ node_bindings:
           - experience/src/pages/BrokerDetailPage.tsx
           - experience/src/pages/BrokerListPage.tsx
           - experience/src/pages/CreateBrokerPage.tsx
+  - id: capability:commission-revenue-tracking
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/CommissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/CommissionDtos.cs
+          - engine/src/Nebula.Application/Interfaces/ICommissionRepository.cs
+          - engine/src/Nebula.Application/Interfaces/IRevenueAttributionRepository.cs
+          - engine/src/Nebula.Application/Services/CommissionRevenueService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/CommissionConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Repositories/CommissionRepository.cs
+          - engine/src/Nebula.Infrastructure/Repositories/RevenueAttributionRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/CommissionRevenue/**
+      frontend:
+        feature:
+          - experience/src/features/commissions/**
+        app:
+          - experience/src/App.tsx
+        pages:
+          - experience/src/pages/CommissionDetailPage.tsx
+          - experience/src/pages/CommissionsPage.tsx
+        tests:
+          - experience/src/features/commissions/tests/**
   - id: capability:dashboard-home
     paths:
       backend:
@@ -3186,61 +3270,3 @@ node_bindings:
       frontend:
         feature:
           - experience/src/features/submissions/**
-  - id: capability:admin-configuration-governance
-    paths:
-      backend:
-        api:
-          - engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
-          - engine/src/Nebula.Api/Program.cs
-        application:
-          - engine/src/Nebula.Application/DTOs/AdminConfigurationDtos.cs
-          - engine/src/Nebula.Application/Interfaces/IAdminConfigurationDomainAdapter.cs
-          - engine/src/Nebula.Application/Interfaces/IAdminConfigurationRepository.cs
-          - engine/src/Nebula.Application/Services/AdminConfigurationService.cs
-        domain:
-          - engine/src/Nebula.Domain/Entities/ConfigurationAuditEvent.cs
-          - engine/src/Nebula.Domain/Entities/ConfigurationDomain.cs
-          - engine/src/Nebula.Domain/Entities/ConfigurationDraft.cs
-          - engine/src/Nebula.Domain/Entities/ConfigurationRefreshStatus.cs
-          - engine/src/Nebula.Domain/Entities/ConfigurationValidationResult.cs
-          - engine/src/Nebula.Domain/Entities/PublishedOperationalConfigurationSet.cs
-        infrastructure:
-          - engine/src/Nebula.Infrastructure/DependencyInjection.cs
-          - engine/src/Nebula.Infrastructure/Persistence/AppDbContext.cs
-          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationAuditEventConfiguration.cs
-          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationDomainConfiguration.cs
-          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationDraftConfiguration.cs
-          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationRefreshStatusConfiguration.cs
-          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationValidationResultConfiguration.cs
-          - engine/src/Nebula.Infrastructure/Persistence/Configurations/PublishedOperationalConfigurationSetConfiguration.cs
-          - engine/src/Nebula.Infrastructure/Repositories/AdminConfigurationRepository.cs
-          - engine/src/Nebula.Infrastructure/Services/AdminConfigurationDomainAdapters.cs
-        migrations:
-          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260706140000_F0032_AdminConfiguration.cs
-      frontend:
-        feature:
-          - experience/src/features/admin-configuration/**
-        routes:
-          - experience/src/App.tsx
-          - experience/src/pages/AdminConfigurationPage.tsx
-          - experience/src/components/layout/Sidebar.tsx
-      planning:
-        feature:
-          - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
-          - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/README.md
-          - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
-        api:
-          - planning-mds/api/nebula-api.yaml
-        architecture:
-          - planning-mds/architecture/data-model.md
-          - planning-mds/architecture/decisions/ADR-016-published-operational-configuration-governance.md
-          - planning-mds/architecture/decisions/ADR-032-admin-configuration-console-contract.md
-        schemas:
-          - planning-mds/schemas/admin-configuration-audit-event.schema.json
-          - planning-mds/schemas/admin-configuration-domain.schema.json
-          - planning-mds/schemas/admin-configuration-draft.schema.json
-          - planning-mds/schemas/admin-configuration-publish-request.schema.json
-          - planning-mds/schemas/admin-configuration-validation-result.schema.json
-        security:
-          - planning-mds/security/authorization-matrix.md
-          - planning-mds/security/policies/policy.csv

@@ -1,0 +1,25 @@
+id: capability:commission-revenue-tracking
+label: Commission Revenue Tracking
+notes: Internal-only expected commission, producer split attribution, adjustment, and revenue rollup visibility
+  for F0025; explicitly excludes settlement, billing, payments, reconciliation, statements, tax, and producer
+  payout execution.
+rationale:
+  - adr: adr:032
+    section: Decision
+    summary: F0025 introduces a CommissionRevenue module that persists expected commission review records
+      with source snapshots, effective-dated schedules/splits, single-step adjustments, and source-authorized
+      rollup projections.
+related_nodes:
+  - capability:authorization-enforcement
+  - capability:carrier-market-relationship-management
+  - capability:operational-reporting
+  - capability:producer-ownership-management
+  - capability:territory-management
+  - entity:commission-adjustment
+  - entity:commission-schedule
+  - entity:expected-commission
+  - entity:producer-split-assignment
+  - entity:revenue-attribution-projection
+source_docs:
+  - F0025/PRD.md
+  - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md

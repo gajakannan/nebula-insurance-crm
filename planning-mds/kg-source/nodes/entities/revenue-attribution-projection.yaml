@@ -1,0 +1,19 @@
+id: entity:revenue-attribution-projection
+label: RevenueAttributionProjection
+rationale:
+  - adr: adr:032
+    section: Decision §6
+    summary: Revenue rollups are read-side projections over expected commission and approved adjustments;
+      query-layer authorization filters source rows before totals or drilldowns are returned.
+related_nodes:
+  - capability:operational-reporting
+  - entity:broker
+  - entity:carrier-market
+  - entity:expected-commission
+  - entity:policy
+  - entity:producer
+  - entity:territory
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+  - planning-mds/schemas/revenue-attribution-rollup-response.schema.json

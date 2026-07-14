@@ -1,0 +1,18 @@
+id: entity:expected-commission
+label: ExpectedCommission
+rationale:
+  - adr: adr:032
+    section: Decision §2
+    summary: Expected commission is persisted as a CRM review record with source snapshots, exception
+      status, and derived amounts; it is not a ledger or payment record.
+related_nodes:
+  - entity:activity-timeline-event
+  - entity:carrier-market
+  - entity:commission-adjustment
+  - entity:commission-schedule
+  - entity:policy
+  - entity:producer-split-assignment
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+  - planning-mds/schemas/expected-commission.schema.json

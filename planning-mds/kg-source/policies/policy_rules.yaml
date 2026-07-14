@@ -146,6 +146,85 @@ policy_rules:
     source_docs:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-audit
+    label: admin-configuration:audit
+    action: audit
+    allowed_roles:
+      - role:admin
+      - role:compliance-quality-lead
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-audit-event
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-draft
+    label: admin-configuration:draft
+    action: draft
+    allowed_roles:
+      - role:admin
+      - role:configuration-steward
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-draft
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-publish
+    label: admin-configuration:publish
+    action: publish
+    allowed_roles:
+      - role:admin
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:published-operational-configuration-set
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-read
+    label: admin-configuration:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:compliance-quality-lead
+      - role:configuration-steward
+      - role:operations-manager
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-domain
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-rollback
+    label: admin-configuration:rollback
+    action: rollback
+    allowed_roles:
+      - role:admin
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:published-operational-configuration-set
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:admin-configuration-validate
+    label: admin-configuration:validate
+    action: validate
+    allowed_roles:
+      - role:admin
+      - role:configuration-steward
+      - role:operations-manager
+    related_nodes:
+      - capability:admin-configuration-governance
+      - entity:configuration-validation-result
+    resource: admin-configuration
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
   - id: policy_rule:broker-create
     label: broker:create
     action: create
@@ -403,6 +482,116 @@ policy_rules:
       - entity:activity-timeline-event
       - entity:carrier-market
     resource: carrier_market
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-adjustment-approve
+    label: commission:adjustment_approve
+    action: adjustment_approve
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    notes: Same-user request and approval is denied in MVP.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+      - entity:commission-adjustment
+    resource: commission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-adjustment-request
+    label: commission:adjustment_request
+    action: adjustment_request
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+      - entity:commission-adjustment
+    resource: commission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-calculate
+    label: commission:calculate
+    action: calculate
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+      - entity:expected-commission
+    resource: commission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-read
+    label: commission:read
+    action: read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    notes: Application layer must also enforce source-record policy/carrier/producer/territory visibility.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+    resource: commission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-rollup-read
+    label: commission:rollup_read
+    action: rollup_read
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+    notes: Rollup totals are computed after authorization filtering; hidden rows are not surfaced as hidden
+      counts.
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+      - entity:revenue-attribution-projection
+    resource: commission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-schedule-manage
+    label: commission:schedule_manage
+    action: schedule_manage
+    allowed_roles:
+      - role:admin
+      - role:relationship-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+      - entity:commission-schedule
+    resource: commission
+    source_docs:
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: policy_rule:commission-split-assign
+    label: commission:split_assign
+    action: split_assign
+    allowed_roles:
+      - role:admin
+      - role:distribution-manager
+    related_nodes:
+      - capability:authorization-enforcement
+      - capability:commission-revenue-tracking
+      - entity:producer-split-assignment
+    resource: commission
     source_docs:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
@@ -1911,85 +2100,6 @@ policy_rules:
       - capability:authorization-enforcement
       - entity:user-profile
     resource: user
-    source_docs:
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
-  - id: policy_rule:admin-configuration-audit
-    label: admin-configuration:audit
-    action: audit
-    allowed_roles:
-      - role:admin
-      - role:compliance-quality-lead
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-audit-event
-    resource: admin-configuration
-    source_docs:
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
-  - id: policy_rule:admin-configuration-draft
-    label: admin-configuration:draft
-    action: draft
-    allowed_roles:
-      - role:admin
-      - role:configuration-steward
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-draft
-    resource: admin-configuration
-    source_docs:
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
-  - id: policy_rule:admin-configuration-publish
-    label: admin-configuration:publish
-    action: publish
-    allowed_roles:
-      - role:admin
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:published-operational-configuration-set
-    resource: admin-configuration
-    source_docs:
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
-  - id: policy_rule:admin-configuration-read
-    label: admin-configuration:read
-    action: read
-    allowed_roles:
-      - role:admin
-      - role:compliance-quality-lead
-      - role:configuration-steward
-      - role:operations-manager
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-domain
-    resource: admin-configuration
-    source_docs:
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
-  - id: policy_rule:admin-configuration-rollback
-    label: admin-configuration:rollback
-    action: rollback
-    allowed_roles:
-      - role:admin
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:published-operational-configuration-set
-    resource: admin-configuration
-    source_docs:
-      - planning-mds/security/authorization-matrix.md
-      - planning-mds/security/policies/policy.csv
-  - id: policy_rule:admin-configuration-validate
-    label: admin-configuration:validate
-    action: validate
-    allowed_roles:
-      - role:admin
-      - role:configuration-steward
-      - role:operations-manager
-    related_nodes:
-      - capability:admin-configuration-governance
-      - entity:configuration-validation-result
-    resource: admin-configuration
     source_docs:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv

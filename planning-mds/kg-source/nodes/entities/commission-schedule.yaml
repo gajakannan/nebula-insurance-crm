@@ -1,0 +1,15 @@
+id: entity:commission-schedule
+label: CommissionSchedule
+rationale:
+  - adr: adr:032
+    section: Decision §3
+    summary: Effective-dated schedule rows scope rate basis to carrier/market, line of business, optional
+      state/product, and non-overlapping effective periods.
+related_nodes:
+  - entity:activity-timeline-event
+  - entity:carrier-market
+  - entity:expected-commission
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+  - planning-mds/schemas/commission-schedule.schema.json
