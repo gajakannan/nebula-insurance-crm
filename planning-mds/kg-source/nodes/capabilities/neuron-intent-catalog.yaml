@@ -1,0 +1,14 @@
+id: capability:neuron-intent-catalog
+label: Intent Catalog, Prompt Registry, and Composed Resolution Contract
+notes: 'Code-reviewed intent-catalog.yaml (active domains/actions -> registered heads, startup cross-checked),
+  versioned prompt fragments + composed resolver prompt loaded with hashes, and the scope/intent/resolution
+  JSON schemas + deterministic invariants. Invalid catalog/prompt/schema prevents readiness. The observed
+  redirect+renewals.list_attention and invented show_renewals_needing_attention are regression fixtures.
+
+  '
+source_docs:
+  - F0039/F0039-S0005-catalog-prompt-registry-resolution-contract.md
+  - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
+  - planning-mds/schemas/neuron-scope-decision.schema.json
+  - planning-mds/schemas/neuron-intent-decision.schema.json
+  - planning-mds/schemas/neuron-intent-resolution.schema.json

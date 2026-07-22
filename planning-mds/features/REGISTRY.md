@@ -33,7 +33,7 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 | F0029 | External Broker Collaboration Portal | Planned | Brokerage Platform Expansion | `F0029-external-broker-collaboration-portal/` |
 | F0030 | Integration Hub & Data Exchange | Planned | Brokerage Platform Expansion | `F0030-integration-hub-and-data-exchange/` |
 | F0031 | Data Import, Deduplication & Go-Live Migration | Planned | Release Enablement | `F0031-data-import-deduplication-and-go-live-migration/` |
-| F0039 | Neuron Multi-Thread Conversations | Planned (provisional) | Neuron Companion | `F0039-neuron-multi-thread-conversations/` |
+| F0039 | Neuron Durable Conversations & Local Phi Intent Resolution | Planned | Neuron Companion | `F0039-neuron-multi-thread-conversations/` |
 | F0040 | Neuron Second Specialist Head | Planned (provisional) | Neuron Companion | `F0040-neuron-second-specialist-head/` |
 <!-- generated:end registry:planned -->
 

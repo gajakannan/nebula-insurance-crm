@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/neuron-intent-decision.schema.json",
+  "title": "NeuronIntentDecision",
+  "description": "Intent section of the composed Phi direct resolver (F0039, spec §11.4). Maps a CRM-scoped message to a registered domain, one or more registered actions, and explicitly-present candidate entities, and flags whether context or clarification/adjudication is needed. It executes NO action. JSON Schema cannot enumerate dynamic domains/actions loaded from intent-catalog.yaml — dynamic membership, active-state, required-entity, confirmation policy, and trusted-head resolution are validated deterministically AFTER schema validation (§11.5). Entities are only candidate inputs; the engine still resolves/authorizes records.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "decision", "domain", "actions", "entities", "needs_context", "needs_adjudication", "clarification_code"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "decision": { "enum": ["route", "clarify", "redirect", "adjudicate"] },
+    "domain": { "type": ["string", "null"] },
+    "actions": {
+      "type": "array",
+      "maxItems": 4,
+      "items": { "type": "string" }
+    },
+    "secondary_domains": {
+      "type": "array",
+      "maxItems": 3,
+      "items": { "type": "string" }
+    },
+    "entities": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "account_name": { "type": ["string", "null"], "maxLength": 200 },
+        "policy_number": { "type": ["string", "null"], "maxLength": 100 },
+        "renewal_id": { "type": ["string", "null"], "maxLength": 100 },
+        "submission_number": { "type": ["string", "null"], "maxLength": 100 },
+        "broker_name": { "type": ["string", "null"], "maxLength": 200 },
+        "task_id": { "type": ["string", "null"], "maxLength": 100 },
+        "date_expression": { "type": ["string", "null"], "maxLength": 200 },
+        "context_reference": { "type": ["string", "null"], "maxLength": 200 }
+      }
+    },
+    "needs_context": { "type": "boolean" },
+    "needs_adjudication": { "type": "boolean" },
+    "clarification_code": {
+      "type": ["string", "null"],
+      "enum": [
+        null,
+        "missing_domain",
+        "missing_action",
+        "missing_entity",
+        "multiple_domains",
+        "multiple_candidate_records",
+        "unclear_reference",
+        "unsupported_action"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+id: capability:neuron-conversation-store
+label: Durable Neuron Conversation Store (Postgres, server sequence, idempotency)
+notes: 'F0039 makes the neuron.* operation store durable: Postgres-backed NeuronRepository, the 0001 scaffold
+  applied + a 0002 forward migration adding a server-assigned message sequence, unique (thread_id, sequence),
+  and scoped idempotency keys. Restart-durable; ordered by sequence; a persistence failure fails safe before
+  routing. Neuron owns/writes neuron.* directly (ADR-028); a bounded async pool never blocks the event loop.
+
+  '
+rationale:
+  - adr: adr:035
+    section: Decision §1
+    summary: Extends ADR-028 §1 with a server sequence + scoped idempotency and short transactions (no
+      Postgres transaction held across a Phi/engine network call).
+source_docs:
+  - F0039/F0039-S0001-durable-neuron-conversation-store.md
+  - F0039/feature-assembly-plan.md
+  - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md

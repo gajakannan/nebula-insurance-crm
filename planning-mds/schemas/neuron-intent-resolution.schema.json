@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/neuron-intent-resolution.schema.json",
+  "title": "NeuronIntentResolution",
+  "description": "Composed output of the single Phi crm.intent_resolver call (F0039, spec §11.8). One physical generation returns separate, independently-validated scope and intent sections so the local latency budget is spent once while logical stages keep distinct contracts, telemetry, and failure rules. After schema validation, the application applies the scope invariants (§10.4), the intent registry/route validation (§11.5), and cross-section consistency, then resolves the specialist head from the trusted catalog (never from model output) or fails closed to a bounded redirect/clarify (reliability matrix §27). The model owns no authorization; the engine still authorizes every read/write as the user.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "scope", "intent"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "scope": { "$ref": "https://nebula.local/schemas/neuron-scope-decision.schema.json" },
+    "intent": { "$ref": "https://nebula.local/schemas/neuron-intent-decision.schema.json" }
+  }
+}

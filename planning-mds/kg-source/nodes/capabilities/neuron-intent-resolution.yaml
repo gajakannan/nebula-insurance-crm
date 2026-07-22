@@ -1,0 +1,18 @@
+id: capability:neuron-intent-resolution
+label: Deterministic Preflight + One-Call Phi Direct Resolver (Fail-Closed)
+notes: 'Deterministic preflight (size/encoding/NFKC/high-certainty markers) then one composed Phi scope-and-intent
+  call, validated JSON Schema -> invariants -> registry membership -> required-entity/confirmation ->
+  trusted-head resolution. Only registered active domains/actions route; heads resolve from the trusted catalog
+  (never model output); any failure fails closed with no engine call. The model owns no authorization
+  (spec §7.3); the engine remains the boundary.
+
+  '
+rationale:
+  - adr: adr:035
+    section: Decision §2,§3
+    summary: One physical model / logically separate capabilities; deterministic authority boundaries plus
+      fail-closed validation on every model output (reliability matrix §27).
+source_docs:
+  - F0039/F0039-S0006-preflight-and-one-call-direct-resolver.md
+  - F0039/F0039-S0007-dispatcher-persistence-provenance-integration.md
+  - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md

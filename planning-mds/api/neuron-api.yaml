@@ -9,13 +9,22 @@ info:
     (forwarded authentik bearer token) and owns only its `neuron.*` operation
     store (threads, messages, message parts, agent runs, tool calls, provenance).
 
-    Governed by ADR-027 (A2A-aligned orchestration) and ADR-028 (persistence
-    schema, cross-store write consistency, outreach authorization). Responses use
-    the versioned multi-part message envelope
+    Governed by ADR-027 (A2A-aligned orchestration), ADR-028 (persistence
+    schema, cross-store write consistency, outreach authorization), and ADR-035
+    (F0039 durable conversations + local Phi structured intent resolution).
+    Responses use the versioned multi-part message envelope
     (schemas/neuron-message-envelope.schema.json); the React host renders only
     registered components from validated props — Neuron never returns executable
     markup. Public A2A endpoints, public Agent Cards, and MCP-UI external-host
     surfaces are deferred (not in this contract).
+
+    F0039 adds the owner-scoped thread/history surface (/v1/threads*) and makes
+    conversations durable + server-replayable. `owner_user_id` is always derived
+    from the authenticated token — never accepted from a request body or query.
+    A missing, soft-deleted, or other-user thread returns the SAME not-found
+    response. The intent resolver behind POST /v1/messages is a local Phi
+    structured scope-and-intent classifier whose output is deterministically
+    schema/registry-validated and fails closed; it never grants authorization.
 servers:
   - url: https://neuron.nebula.local
 security:
@@ -23,6 +32,8 @@ security:
 tags:
   - name: Companion
     description: Chat message send, component action callbacks, and Day-at-a-Glance assembly
+  - name: Threads
+    description: Owner-scoped durable conversation threads and replayable message history (F0039)
   - name: Health
     description: Liveness/readiness for the stateless Neuron runtime
 paths:
@@ -86,8 +97,18 @@ paths:
               required: [text]
               additionalProperties: false
               properties:
-                thread_id: { type: string, format: uuid, description: Omit to start the single v1 glance thread. }
+                thread_id: { type: string, format: uuid, description: Owner-scoped thread to append to; omit to open/resume the default thread. }
                 text: { type: string, minLength: 1, maxLength: 4000 }
+                client_message_id:
+                  type: string
+                  maxLength: 100
+                  description: >
+                    F0039: client-generated idempotency key, unique within the thread. A retry with the same
+                    key returns/ resumes the existing turn instead of duplicating it. A replay control, not an
+                    authorization credential. Required once F0039 durable persistence is enabled.
+                in_reply_to_message_id:
+                  type: string
+                  description: F0039 optional; must reference a message in the same owner-visible thread.
       responses:
         "200":
           description: Companion response as a versioned message envelope.
@@ -144,6 +165,166 @@ paths:
             application/problem+json:
               schema: { $ref: "#/components/schemas/ProblemDetails" }
         "502": { $ref: "#/components/responses/UpstreamUnavailable" }
+  /v1/threads:
+    post:
+      operationId: createThread
+      summary: Create an owner-scoped conversation thread (F0039)
+      description: >
+        Creates a durable thread owned by the authenticated user. The anchor
+        (free-form / domain / record) is IMMUTABLE after creation. A deterministic
+        initial title is used ("New conversation", a domain label, or a bounded
+        first-message excerpt) — no Phi call is made solely for auto-titling.
+      tags: [Threads]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [anchor_type]
+              additionalProperties: false
+              properties:
+                anchor_type: { type: string, enum: [free_form, domain, record] }
+                anchor_ref: { type: string, maxLength: 200, description: Required for domain/record anchors (e.g. a renewal id); omit for free_form. }
+                title: { type: string, maxLength: 120, description: Optional; control chars rejected. Defaults to a deterministic initial title. }
+                thread_idempotency_key: { type: string, maxLength: 100, description: Owner-scoped replay key (e.g. Daily Brief owner/date). }
+      responses:
+        "201":
+          description: Thread created.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NeuronThread" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+    get:
+      operationId: listThreads
+      summary: List the caller's threads (F0039)
+      description: >
+        Lists the authenticated user's non-deleted threads ordered by
+        (updated_at DESC, id DESC), paginated with an opaque cursor. Never returns
+        another user's threads.
+      tags: [Threads]
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+        - name: cursor
+          in: query
+          required: false
+          schema: { type: string }
+          description: Opaque forward cursor from a prior page.
+      responses:
+        "200":
+          description: A page of the caller's threads.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                additionalProperties: false
+                properties:
+                  data: { type: array, items: { $ref: "#/components/schemas/NeuronThread" } }
+                  next_cursor: { type: [string, "null"], description: Null on the last page. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+  /v1/threads/{thread_id}:
+    parameters:
+      - name: thread_id
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      operationId: getThread
+      summary: Get one owner-scoped thread (F0039)
+      tags: [Threads]
+      responses:
+        "200":
+          description: The thread.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NeuronThread" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/ThreadNotFound" }
+    patch:
+      operationId: renameThread
+      summary: Rename a thread — title only (F0039)
+      description: >
+        Changes the title only; the anchor is immutable. Titles are normalized,
+        control characters rejected, max 120 chars. Owner-scoped.
+      tags: [Threads]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title]
+              additionalProperties: false
+              properties:
+                title: { type: string, minLength: 1, maxLength: 120 }
+      responses:
+        "200":
+          description: Updated thread.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NeuronThread" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/ThreadNotFound" }
+    delete:
+      operationId: deleteThread
+      summary: Soft-delete a thread (F0039)
+      description: >
+        Soft-delete: the thread is immediately removed from normal reads/writes.
+        Rows are purged only under an approved retention job (ActivityTimelineEvent
+        policy). Owner-scoped.
+      tags: [Threads]
+      responses:
+        "204":
+          description: Soft-deleted (no content).
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/ThreadNotFound" }
+  /v1/threads/{thread_id}/messages:
+    get:
+      operationId: getThreadHistory
+      summary: Replay a thread's message history in server-sequence order (F0039)
+      description: >
+        Returns the thread's messages as versioned message envelopes (not
+        persistence row shapes), ordered by the server-assigned sequence and
+        cursor-paginated via `after` with a bounded default/maximum page size.
+        Owner-scoped.
+      tags: [Threads]
+      parameters:
+        - name: thread_id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+        - name: after
+          in: query
+          required: false
+          schema: { type: integer, minimum: 0 }
+          description: Return messages with a server sequence greater than this value.
+      responses:
+        "200":
+          description: Ordered page of message envelopes.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "https://nebula.local/schemas/neuron-message-envelope.schema.json"
+                  next_after: { type: [integer, "null"], description: Next sequence cursor, or null when exhausted. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/ThreadNotFound" }
   /health:
     get:
       operationId: neuronHealth
@@ -197,7 +378,27 @@ components:
       content:
         application/problem+json:
           schema: { $ref: "#/components/schemas/ProblemDetails" }
+    ThreadNotFound:
+      description: >
+        Thread not found. Returned identically for a missing, soft-deleted, or
+        other-user thread so existence/ownership is never disclosed (F0039).
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/ProblemDetails" }
   schemas:
+    NeuronThread:
+      type: object
+      description: An owner-scoped conversation thread (F0039). owner_user_id is server-derived and not exposed.
+      required: [thread_id, anchor_type, title, created_at, updated_at]
+      additionalProperties: false
+      properties:
+        thread_id: { type: string, format: uuid }
+        anchor_type: { type: string, enum: [free_form, domain, record] }
+        anchor_ref: { type: [string, "null"], maxLength: 200, description: Immutable after creation; null for free_form. }
+        title: { type: string, maxLength: 120 }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+        last_sequence: { type: integer, minimum: 0, description: Highest server-assigned message sequence in the thread. }
     ProblemDetails:
       type: object
       description: RFC 7807 problem details (aligned with the engine's ProblemDetails).

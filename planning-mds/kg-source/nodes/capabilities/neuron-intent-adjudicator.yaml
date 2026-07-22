@@ -1,0 +1,11 @@
+id: capability:neuron-intent-adjudicator
+label: Gated Contextual Intent Adjudicator
+notes: 'GATED bounded second Phi call, enabled only after durable-context + direct-routing gates pass.
+  Sanitized <=4 recent turns / <=6000 chars / whole call <=4096 tokens; trusted UI anchors revalidated,
+  unauthorized data excluded; a final result may route/clarify/redirect but not re-adjudicate; write-like
+  ambiguity clarifies. Distinct telemetry label + separate physical call.
+
+  '
+source_docs:
+  - F0039/F0039-S0009-contextual-adjudicator-gated.md
+  - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md

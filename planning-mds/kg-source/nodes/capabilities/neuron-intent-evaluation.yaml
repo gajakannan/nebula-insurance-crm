@@ -1,0 +1,11 @@
+id: capability:neuron-intent-evaluation
+label: Intent Evaluation, Shadow Mode, and Gated Rollout
+notes: 'Labeled direct/adversarial/contradiction datasets + a versioned eval command with full provenance;
+  shadow mode records Phi decisions without executing them (no extra engine call, no user-visible prose); the
+  §30.4 acceptance gates must pass before enabling direct routing; a tested rollback to the deterministic
+  resolver (no schema/DB reversal). Load tests at 1/2/4 concurrent.
+
+  '
+source_docs:
+  - F0039/F0039-S0008-evaluation-shadow-mode-and-rollout.md
+  - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md

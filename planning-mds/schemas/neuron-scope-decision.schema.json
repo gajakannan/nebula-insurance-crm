@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/neuron-scope-decision.schema.json",
+  "title": "NeuronScopeDecision",
+  "description": "Scope section of the composed Phi direct resolver (F0039, spec §10.3). Decides whether the current message is in the permitted CRM scope, clearly out of scope, suspicious/instruction-manipulating, or ambiguous. It selects NO specialist action (that is the sibling intent decision). JSON Schema controls shape only; deterministic cross-field invariants (§10.4) and fail-closed validation are enforced in code — a violation maps to a safe redirect. `allow` means only 'eligible to continue through bounded CRM routing'; it grants no authorization.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "decision", "scope", "reason_code", "requires_intent_resolution"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "decision": {
+      "enum": ["allow", "clarify", "redirect"],
+      "description": "allow requires scope=crm + requires_intent_resolution=true + clarification_code=null; redirect requires scope in {non_crm, suspicious} + requires_intent_resolution=false; clarify requires scope=ambiguous + non-null clarification_code."
+    },
+    "scope": { "enum": ["crm", "non_crm", "suspicious", "ambiguous"] },
+    "reason_code": {
+      "enum": [
+        "in_scope",
+        "out_of_scope",
+        "instruction_override",
+        "prompt_disclosure",
+        "tool_manipulation",
+        "data_exfiltration",
+        "identity_override",
+        "ambiguous"
+      ]
+    },
+    "requires_intent_resolution": { "type": "boolean" },
+    "clarification_code": {
+      "type": ["string", "null"],
+      "enum": [null, "ask_crm_area", "ask_user_goal"]
+    }
+  }
+}
