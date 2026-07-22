@@ -1,0 +1,78 @@
+{
+  "action": "plan",
+  "contract_version": "2026-07-11",
+  "run_id": "2026-07-21-6eeb172f",
+  "schema_version": 1,
+  "stages": {
+    "G1": {
+      "attestations": [],
+      "completed_operations": [],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G2": {
+      "attestations": [],
+      "completed_operations": [],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G3": {
+      "attestations": [
+        {
+          "actor": "operator",
+          "checkpoint_id": "approve-phase-a",
+          "evidence": [
+            {
+              "path": "gate-decisions.md",
+              "sha256": "c265c9580cbd6125e7f0142377a289b2e1c9ac681e031ec551514ba1d5dc20f5"
+            }
+          ],
+          "note": "Phase A approved by operator: PRD + 9 stories S0001-S0009 (S0009 gated); trackers synced",
+          "role": "product-manager",
+          "timestamp": "2026-07-21T23:46:51-04:00"
+        }
+      ],
+      "completed_operations": [
+        "checkpoint:approve-phase-a"
+      ],
+      "pending_checkpoint": null,
+      "status": "pending-checkpoint"
+    },
+    "G4": {
+      "attestations": [],
+      "completed_operations": [
+        "kg-check-drift"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G5": {
+      "attestations": [
+        {
+          "actor": "operator",
+          "checkpoint_id": "approve-phase-b",
+          "evidence": [
+            {
+              "path": "gate-decisions.md",
+              "sha256": "561ef2ff68728c7ea781883137bff16dc2c945440dfd0dd9ce4795051d2e9d3d"
+            }
+          ],
+          "note": "Phase B architecture approved by operator: ADR-035 + assembly plan + neuron-api.yaml/schemas + KG bindings; exit validation green",
+          "role": "architect",
+          "timestamp": "2026-07-22T00:09:52-04:00"
+        }
+      ],
+      "completed_operations": [
+        "validate-stories",
+        "generate-story-index",
+        "validate-trackers",
+        "kg-write-coverage",
+        "kg-check-drift-exit",
+        "validate-templates",
+        "checkpoint:approve-phase-b"
+      ],
+      "pending_checkpoint": null,
+      "status": "pending-checkpoint"
+    }
+  }
+}

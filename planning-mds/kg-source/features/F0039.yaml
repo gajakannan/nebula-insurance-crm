@@ -1,13 +1,175 @@
-status: planned-provisional
+status: planned
 id: feature:F0039
-name: Neuron Multi-Thread Conversations
+name: Neuron Durable Conversations & Local Phi Intent Resolution
 path: planning-mds/features/F0039-neuron-multi-thread-conversations
-coverage_excluded:
-  reason: Neuron Companion epic; provisional skeleton. Ontology mapping deferred until F0038 lands and
-    F0039 runs its own plan.
+affects:
+  - capability:neuron-companion
+  - capability:neuron-conversation-store
+  - capability:neuron-intent-adjudicator
+  - capability:neuron-intent-catalog
+  - capability:neuron-intent-evaluation
+  - capability:neuron-intent-resolution
+  - capability:neuron-message-envelope
+  - capability:neuron-operation-persistence
+  - capability:neuron-orchestration-runtime
+  - capability:neuron-renewals-head
+  - capability:neuron-scope-guard
+  - capability:neuron-structured-model-provider
+  - capability:neuron-thread-management
+  - endpoint:neuron-message-send
+  - endpoint:neuron-thread-create
+  - endpoint:neuron-thread-delete
+  - endpoint:neuron-thread-get
+  - endpoint:neuron-thread-history
+  - endpoint:neuron-thread-list
+  - endpoint:neuron-thread-rename
+  - entity:activity-timeline-event
+  - entity:renewal
+depends_on:
+  - feature:F0038
+governed_by:
+  - adr:027
+  - adr:028
+  - adr:035
+notes:
+  - 'F0039 re-derived (plan run 2026-07-21-6eeb172f) from the F0038 as-built seams + the authored design
+    spec (neuron-phi-intent-security-implementation-spec.md; local Phi runtime verified 2026-07-21). Two
+    halves: durable owner-scoped conversations (ADR-028 §1 extended with a server message sequence +
+    idempotency) and a local Phi structured scope-and-intent resolver behind deterministic fail-closed
+    validation (ADR-035). The engine remains the sole authorization boundary; the model owns no
+    auth/registration/validation (spec §7.3).'
+  - 'S0009 (contextual adjudicator) is GATED — enabled only after S0001–S0008 direct-routing + context
+    gates pass. An open-ended crm.response_composer is explicitly out of scope (a later feature).'
+  - 'code-index.yaml bindings intentionally deferred: no neuron/ implementation code exists at plan; the
+    F0039 feature action binds the as-built neuron/ + experience/ paths.'
 phase: Neuron Companion
-rationale: Implements the real conversation store + thread management UX on F0038's reserved persistence/envelope
-  seams. **Provisional skeleton** — re-derived in its own `plan` run after F0038 lands. Depends on F0038's
-  persistence ADR.
+rationale: Durable owner-scoped conversation store + thread-management UX **and** a local Microsoft Phi
+  structured scope-and-intent resolver (behind deterministic fail-closed validation) replacing the F0038
+  mock/deterministic seam. Requirements committed + architecture authored in plan run `2026-07-21-6eeb172f`
+  (9 stories, S0009 gated). Depends on F0038's persistence ADR (ADR-028) + as-built seams.
+restricted_to_role:
+  - role:underwriter
 roadmap_order: 3
 roadmap_section: Next
+story_mappings:
+  - id: story:F0039-S0001
+    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0001-durable-neuron-conversation-store.md
+    affects:
+      - capability:neuron-conversation-store
+      - capability:neuron-operation-persistence
+    governed_by:
+      - adr:028
+      - adr:035
+    uses_api_contract:
+      - api:neuron-rest
+  - id: story:F0039-S0002
+    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0002-owner-scoped-thread-and-history-api.md
+    affects:
+      - capability:neuron-conversation-store
+      - capability:neuron-thread-management
+      - endpoint:neuron-thread-create
+      - endpoint:neuron-thread-delete
+      - endpoint:neuron-thread-get
+      - endpoint:neuron-thread-history
+      - endpoint:neuron-thread-list
+      - endpoint:neuron-thread-rename
+    depends_on:
+      - story:F0039-S0001
+    governed_by:
+      - adr:028
+      - adr:035
+    uses_api_contract:
+      - api:neuron-rest
+    uses_schema:
+      - schema:problem-details
+  - id: story:F0039-S0003
+    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0003-conversation-first-neuron-panel.md
+    affects:
+      - capability:neuron-message-envelope
+      - capability:neuron-thread-management
+    depends_on:
+      - story:F0039-S0002
+    governed_by:
+      - adr:027
+      - adr:035
+    uses_api_contract:
+      - api:neuron-rest
+    uses_schema:
+      - schema:neuron-message-envelope
+  - id: story:F0039-S0004
+    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0004-structured-provider-and-local-phi-profile.md
+    affects:
+      - capability:neuron-structured-model-provider
+    governed_by:
+      - adr:035
+  - id: story:F0039-S0005
+    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0005-catalog-prompt-registry-resolution-contract.md
+    affects:
+      - capability:neuron-intent-catalog
+    depends_on:
+      - story:F0039-S0004
+    governed_by:
+      - adr:035
+    uses_schema:
+      - schema:neuron-intent-decision
+      - schema:neuron-intent-resolution
+      - schema:neuron-scope-decision
+  - id: story:F0039-S0006
+    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0006-preflight-and-one-call-direct-resolver.md
+    affects:
+      - capability:neuron-intent-catalog
+      - capability:neuron-intent-resolution
+    depends_on:
+      - story:F0039-S0004
+      - story:F0039-S0005
+    governed_by:
+      - adr:035
+    uses_schema:
+      - schema:neuron-intent-decision
+      - schema:neuron-intent-resolution
+      - schema:neuron-scope-decision
+  - id: story:F0039-S0007
+    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0007-dispatcher-persistence-provenance-integration.md
+    affects:
+      - capability:neuron-conversation-store
+      - capability:neuron-intent-resolution
+      - endpoint:neuron-message-send
+    depends_on:
+      - story:F0039-S0001
+      - story:F0039-S0002
+      - story:F0039-S0006
+    governed_by:
+      - adr:027
+      - adr:028
+      - adr:035
+    uses_api_contract:
+      - api:neuron-rest
+    uses_schema:
+      - schema:neuron-message-envelope
+  - id: story:F0039-S0008
+    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0008-evaluation-shadow-mode-and-rollout.md
+    affects:
+      - capability:neuron-intent-evaluation
+      - capability:neuron-intent-resolution
+    depends_on:
+      - story:F0039-S0006
+      - story:F0039-S0007
+    governed_by:
+      - adr:035
+  - id: story:F0039-S0009
+    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0009-contextual-adjudicator-gated.md
+    affects:
+      - capability:neuron-intent-adjudicator
+    depends_on:
+      - story:F0039-S0006
+      - story:F0039-S0008
+    governed_by:
+      - adr:035
+uses_api_contract:
+  - api:neuron-rest
+uses_schema:
+  - schema:neuron-intent-decision
+  - schema:neuron-intent-resolution
+  - schema:neuron-message-envelope
+  - schema:neuron-scope-decision
+  - schema:problem-details

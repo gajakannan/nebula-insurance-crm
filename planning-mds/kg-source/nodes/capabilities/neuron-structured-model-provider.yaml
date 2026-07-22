@@ -1,0 +1,16 @@
+id: capability:neuron-structured-model-provider
+label: Structured Model Provider Seam + Local Phi Profile
+notes: 'Async complete_structured provider contract (JSON-Schema-constrained) with mock/scripted/OpenAI-compatible
+  implementations and a verified local microsoft/Phi-4-mini-instruct vLLM profile. Runtime-neutral; a separate
+  local inference service; provenance as hashes+counts with no raw-content logging; Phi is never browser-exposed
+  and no user token/PII is sent to the model.
+
+  '
+rationale:
+  - adr: adr:035
+    section: Decision §4
+    summary: Runtime-neutral provider seam; Phi runs as a separate OpenAI-compatible service so model
+      lifecycle/GPU/health stay independent and no heavy ML dependency enters Neuron.
+source_docs:
+  - F0039/F0039-S0004-structured-provider-and-local-phi-profile.md
+  - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md

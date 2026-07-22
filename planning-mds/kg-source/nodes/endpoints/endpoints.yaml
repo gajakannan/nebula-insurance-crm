@@ -1,4 +1,60 @@
 endpoints:
+  - id: endpoint:neuron-thread-create
+    label: POST /v1/threads (Neuron service)
+    method: POST
+    related_nodes:
+      - capability:neuron-thread-management
+      - capability:neuron-conversation-store
+    route: /v1/threads
+    source_docs:
+      - planning-mds/api/neuron-api.yaml
+      - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
+  - id: endpoint:neuron-thread-delete
+    label: DELETE /v1/threads/{thread_id} (Neuron service)
+    method: DELETE
+    related_nodes:
+      - capability:neuron-thread-management
+    route: /v1/threads/{thread_id}
+    source_docs:
+      - planning-mds/api/neuron-api.yaml
+      - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
+  - id: endpoint:neuron-thread-get
+    label: GET /v1/threads/{thread_id} (Neuron service)
+    method: GET
+    related_nodes:
+      - capability:neuron-thread-management
+    route: /v1/threads/{thread_id}
+    source_docs:
+      - planning-mds/api/neuron-api.yaml
+      - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
+  - id: endpoint:neuron-thread-history
+    label: GET /v1/threads/{thread_id}/messages (Neuron service)
+    method: GET
+    related_nodes:
+      - capability:neuron-thread-management
+      - capability:neuron-conversation-store
+    route: /v1/threads/{thread_id}/messages
+    source_docs:
+      - planning-mds/api/neuron-api.yaml
+      - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
+  - id: endpoint:neuron-thread-list
+    label: GET /v1/threads (Neuron service)
+    method: GET
+    related_nodes:
+      - capability:neuron-thread-management
+    route: /v1/threads
+    source_docs:
+      - planning-mds/api/neuron-api.yaml
+      - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
+  - id: endpoint:neuron-thread-rename
+    label: PATCH /v1/threads/{thread_id} (Neuron service)
+    method: PATCH
+    related_nodes:
+      - capability:neuron-thread-management
+    route: /v1/threads/{thread_id}
+    source_docs:
+      - planning-mds/api/neuron-api.yaml
+      - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
   - id: endpoint:account-contact-create
     label: POST /accounts/{accountId}/contacts
     method: POST

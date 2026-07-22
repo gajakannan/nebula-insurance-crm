@@ -1,0 +1,11 @@
+id: capability:neuron-thread-management
+label: Owner-Scoped Thread Management + Conversation-First Panel
+notes: 'Owner-scoped thread lifecycle (create/list/get/rename/soft-delete/resume) with immutable anchors and
+  cursor-paginated replayable history, plus the conversation-first React panel (thread list, server-rehydrated
+  transcript, Daily Brief as a persisted assistant envelope). Cross-user access fails closed.
+
+  '
+source_docs:
+  - F0039/F0039-S0002-owner-scoped-thread-and-history-api.md
+  - F0039/F0039-S0003-conversation-first-neuron-panel.md
+  - planning-mds/api/neuron-api.yaml

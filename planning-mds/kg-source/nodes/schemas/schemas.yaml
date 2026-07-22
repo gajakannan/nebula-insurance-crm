@@ -1,4 +1,19 @@
 schemas:
+  - id: schema:neuron-intent-decision
+    path: planning-mds/schemas/neuron-intent-decision.schema.json
+    related_nodes:
+      - capability:neuron-intent-catalog
+      - capability:neuron-intent-resolution
+  - id: schema:neuron-intent-resolution
+    path: planning-mds/schemas/neuron-intent-resolution.schema.json
+    related_nodes:
+      - capability:neuron-intent-catalog
+      - capability:neuron-intent-resolution
+  - id: schema:neuron-scope-decision
+    path: planning-mds/schemas/neuron-scope-decision.schema.json
+    related_nodes:
+      - capability:neuron-intent-catalog
+      - capability:neuron-intent-resolution
   - id: schema:account
     path: planning-mds/schemas/account.schema.json
     related_nodes:
