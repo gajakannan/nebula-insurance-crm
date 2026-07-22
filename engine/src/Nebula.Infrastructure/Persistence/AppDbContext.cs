@@ -87,6 +87,13 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<ExpectedCommission> ExpectedCommissions => Set<ExpectedCommission>();
     public DbSet<CommissionAdjustment> CommissionAdjustments => Set<CommissionAdjustment>();
     public DbSet<RevenueAttributionProjection> RevenueAttributionProjections => Set<RevenueAttributionProjection>();
+    public DbSet<BillingInvoice> BillingInvoices => Set<BillingInvoice>();
+    public DbSet<PaymentReceipt> PaymentReceipts => Set<PaymentReceipt>();
+    public DbSet<PaymentReceiptImportBatch> PaymentReceiptImportBatches => Set<PaymentReceiptImportBatch>();
+    public DbSet<PaymentReceiptImportRowOutcome> PaymentReceiptImportRowOutcomes => Set<PaymentReceiptImportRowOutcome>();
+    public DbSet<PaymentApplication> PaymentApplications => Set<PaymentApplication>();
+    public DbSet<ReconciliationException> ReconciliationExceptions => Set<ReconciliationException>();
+    public DbSet<BillingCorrection> BillingCorrections => Set<BillingCorrection>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

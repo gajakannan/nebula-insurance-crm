@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/billing-invoice-detail.schema.json",
+  "title": "BillingInvoiceDetail",
+  "type": "object",
+  "required": ["invoice", "applications", "receipts", "exceptions", "auditEvents"],
+  "properties": {
+    "invoice": { "$ref": "https://nebula.local/schemas/billing-invoice.schema.json" },
+    "applications": {
+      "type": "array",
+      "items": { "$ref": "https://nebula.local/schemas/payment-application.schema.json" }
+    },
+    "receipts": {
+      "type": "array",
+      "items": { "$ref": "https://nebula.local/schemas/payment-receipt.schema.json" }
+    },
+    "exceptions": {
+      "type": "array",
+      "items": { "$ref": "https://nebula.local/schemas/reconciliation-exception.schema.json" }
+    },
+    "auditEvents": {
+      "type": "array",
+      "items": { "$ref": "https://nebula.local/schemas/timeline-event.schema.json" }
+    }
+  },
+  "additionalProperties": false
+}

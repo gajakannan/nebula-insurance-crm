@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="11" failures="0" errors="0" time="1.476">
+    <testsuite name="src/features/auth/tests/LoginPage.a11y.test.tsx" timestamp="2026-07-19T22:51:59.111Z" hostname="b8e78d562b0f" tests="1" failures="0" errors="0" skipped="0" time="0.068425714">
+        <testcase classname="src/features/auth/tests/LoginPage.a11y.test.tsx" name="LoginPage accessibility &gt; has no detectable accessibility violations in oidc mode" time="0.066554263">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/billing/tests/BillingPages.test.tsx" timestamp="2026-07-19T22:51:59.112Z" hostname="b8e78d562b0f" tests="3" failures="0" errors="0" skipped="0" time="0.20604895">
+        <testcase classname="src/features/billing/tests/BillingPages.test.tsx" name="F0026 billing UI &gt; renders accessible source-authorized invoices and capture workflows" time="0.160088434">
+        </testcase>
+        <testcase classname="src/features/billing/tests/BillingPages.test.tsx" name="F0026 billing UI &gt; wires explicit exact application with selected receipt context" time="0.013377806">
+        </testcase>
+        <testcase classname="src/features/billing/tests/BillingPages.test.tsx" name="F0026 billing UI &gt; wires reference correction and manager decision as separate flows" time="0.030956427">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/brokers/tests/BrokerListPage.a11y.test.tsx" timestamp="2026-07-19T22:51:59.113Z" hostname="b8e78d562b0f" tests="1" failures="0" errors="0" skipped="0" time="0.239472784">
+        <testcase classname="src/features/brokers/tests/BrokerListPage.a11y.test.tsx" name="BrokerListPage accessibility &gt; has no detectable accessibility violations for the broker directory route" time="0.237969681">
+            <system-err>
+[MSW] Error: intercepted a request without a matching request handler:
+
+  • GET /neuron/v1/glance
+
+If you still wish to intercept this unhandled request, please create a request handler for it.
+Read more: https://mswjs.io/docs/http/intercepting-requests
+
+            </system-err>
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/IdleWarningModal.a11y.test.tsx" timestamp="2026-07-19T22:51:59.114Z" hostname="b8e78d562b0f" tests="1" failures="0" errors="0" skipped="0" time="0.071234971">
+        <testcase classname="src/features/session-continuity/tests/IdleWarningModal.a11y.test.tsx" name="IdleWarningModal accessibility &gt; has no axe violations when open" time="0.069608677">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/widgets.a11y.test.tsx" timestamp="2026-07-19T22:51:59.115Z" hostname="b8e78d562b0f" tests="5" failures="0" errors="0" skipped="0" time="0.171284683">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.a11y.test.tsx" name="MVP widget accessibility (F0036-S0002) &gt; has no axe violations in the light theme" time="0.113886293">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.a11y.test.tsx" name="MVP widget accessibility (F0036-S0002) &gt; has no axe violations in the dark theme (theme smoke)" time="0.031286885">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.a11y.test.tsx" name="MVP widget accessibility (F0036-S0002) &gt; labels are programmatically associated for every control" time="0.009516955">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.a11y.test.tsx" name="MVP widget accessibility (F0036-S0002) &gt; controls are keyboard focusable (tab order / focus-visible)" time="0.010842843">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.a11y.test.tsx" name="MVP widget accessibility (F0036-S0002) &gt; error message is announced via role=alert and aria-describedby" time="0.003600152">
+        </testcase>
+    </testsuite>
+</testsuites>

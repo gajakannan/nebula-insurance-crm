@@ -1,0 +1,604 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for pages/BillingPage.tsx</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">pages</a> BillingPage.tsx</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">90.57% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>125/138</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">28.57% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>4/14</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">12% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>3/25</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">90.57% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>125/138</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FormEvent, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { ArrowUpRight, FileUp, Plus, Search } from 'lucide-react'
+import { DashboardLayout } from '@/components/layout/DashboardLayout'
+import { Badge } from '@/components/ui/Badge'
+import { Card, CardHeader, CardTitle } from '@/components/ui/Card'
+import { ErrorFallback } from '@/components/ui/ErrorFallback'
+import { Skeleton } from '@/components/ui/Skeleton'
+import { useDebounce } from '@/hooks/useDebounce'
+import {
+  useBillingInvoices,
+  useCreateBillingInvoice,
+  useCreatePaymentReceipt,
+  useImportPaymentReceipts,
+} from '@/features/billing'
+import type { BillingInvoiceCreateRequest, PaymentReceiptCreateRequest } from '@/features/billing'
+import {
+  MutationFeedback,
+  SelectField,
+  TextField,
+} from '@/features/billing/components/BillingUi'
+import { money, primaryButtonClass } from '@/features/billing/presentation'
+&nbsp;
+const today = new Date().toISOString().slice(0, 10)
+&nbsp;
+export default function BillingPage() {
+  const [search, setSearch] = useState('')
+  const [status, setStatus] = useState('All')
+  const [exceptionFilter, setExceptionFilter] = useState('All')
+  const query = useBillingInvoices({
+    q: useDebounce(search),
+    status: status as 'Outstanding' | 'Reconciled' | 'All',
+    hasOpenException: exceptionFilter === 'All' ? <span class="branch-0 cbranch-no" title="branch not covered" >undefined : exceptionFilter === 'Open exception',</span>
+    pageSize: 30,
+  })
+&nbsp;
+  return (
+    &lt;DashboardLayout title="Billing"&gt;
+      &lt;div className="space-y-5"&gt;
+        &lt;Card&gt;
+          &lt;CardHeader&gt;
+            &lt;CardTitle&gt;Agency-Bill Workspace&lt;/CardTitle&gt;
+            &lt;Link to="/billing/reconciliation" className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-text-secondary hover:text-text-primary"&gt;
+              Reconciliation backlog &lt;ArrowUpRight size={16} /&gt;
+            &lt;/Link&gt;
+          &lt;/CardHeader&gt;
+          &lt;div className="grid gap-3 lg:grid-cols-[minmax(260px,1fr)_180px_180px]"&gt;
+            &lt;label className="relative block"&gt;
+              &lt;span className="sr-only"&gt;Search invoices&lt;/span&gt;
+              &lt;Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" /&gt;
+              &lt;input
+                type="search"
+                value={search}
+                onChange={<span class="fstat-no" title="function not covered" >(event) =&gt; setSearch(event.target.value)}</span>
+                placeholder="Invoice, policy, account, or receipt reference"
+                className="h-11 w-full rounded-lg border border-surface-border bg-surface-card px-9 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-nebula-violet"
+              /&gt;
+            &lt;/label&gt;
+            &lt;SelectField label="Invoice status" value={status} options={['All', 'Outstanding', 'Reconciled']} onChange={setStatus} /&gt;
+            &lt;SelectField label="Exception state" value={exceptionFilter} options={['All', 'Open exception', 'No open exception']} onChange={setExceptionFilter} /&gt;
+          &lt;/div&gt;
+        &lt;/Card&gt;
+&nbsp;
+        &lt;Card&gt;
+          &lt;CardHeader&gt;
+            &lt;CardTitle&gt;Invoices&lt;/CardTitle&gt;
+            {query.data &amp;&amp; &lt;span className="text-sm text-text-muted"&gt;{query.data.totalCount} authorized records&lt;/span&gt;}
+          &lt;/CardHeader&gt;
+          {query.<span class="branch-0 cbranch-no" title="branch not covered" >isLoading &amp;&amp; &lt;ListSkeleton /&gt;}</span>
+          {query.<span class="branch-0 cbranch-no" title="branch not covered" >isError &amp;&amp; &lt;ErrorFallback message="Unable to load authorized invoices." onRetry={<span class="fstat-no" title="function not covered" >() =&gt; query.refetch()} /</span>&gt;}</span>
+          {query.data?.data.length === <span class="branch-0 cbranch-no" title="branch not covered" >0 &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >            &lt;div className="py-10 text-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;p className="text-sm text-text-muted"&gt;No invoices match the current source-authorized filters.&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;button type="button" onClick={<span class="fstat-no" title="function not covered" >() =&gt; { setSearch(''); setStatus('All'); setExceptionFilter('All') }} c</span>lassName="mt-3 text-sm font-medium text-nebula-violet"&gt;Clear filters&lt;/button&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
+          )}
+          {query.data &amp;&amp; query.data.data.length &gt; 0 &amp;&amp; (
+            &lt;div className="overflow-hidden rounded-lg border border-surface-border"&gt;
+              &lt;div className="hidden grid-cols-[1.2fr_1fr_1fr_1fr_42px] gap-3 border-b border-surface-border bg-surface-highlight px-3 py-2 text-xs font-medium uppercase text-text-muted lg:grid"&gt;
+                &lt;span&gt;Invoice&lt;/span&gt;&lt;span&gt;Policy&lt;/span&gt;&lt;span&gt;Outstanding&lt;/span&gt;&lt;span&gt;Status&lt;/span&gt;&lt;span className="sr-only"&gt;Open&lt;/span&gt;
+              &lt;/div&gt;
+              {query.data.data.map((invoice) =&gt; (
+                &lt;Link key={invoice.id} to={`/billing/invoices/${invoice.id}`} className="grid gap-3 border-b border-surface-border px-3 py-3 last:border-b-0 hover:bg-surface-card-hover lg:grid-cols-[1.2fr_1fr_1fr_1fr_42px] lg:items-center"&gt;
+                  &lt;div&gt;&lt;p className="text-sm font-medium text-text-primary"&gt;{invoice.invoiceNumber}&lt;/p&gt;&lt;p className="mt-1 text-xs text-text-muted"&gt;Due {invoice.dueDate}&lt;/p&gt;&lt;/div&gt;
+                  &lt;div&gt;&lt;p className="text-sm text-text-primary"&gt;{invoice.policyId.slice(0, 8)}&lt;/p&gt;&lt;p className="mt-1 text-xs text-text-muted"&gt;Version {invoice.policyVersionId.slice(0, 8)}&lt;/p&gt;&lt;/div&gt;
+                  &lt;p className="text-sm font-medium text-text-primary"&gt;{money(invoice.outstandingAmount, invoice.currency)}&lt;/p&gt;
+                  &lt;Badge variant={invoice.status === <span class="branch-0 cbranch-no" title="branch not covered" >'Reconciled' ? 'success' : '</span>warning'}&gt;{invoice.status}&lt;/Badge&gt;
+                  &lt;span className="flex h-9 w-9 items-center justify-center rounded-lg border border-surface-border text-text-muted" aria-hidden="true"&gt;&lt;ArrowUpRight size={16} /&gt;&lt;/span&gt;
+                &lt;/Link&gt;
+              ))}
+            &lt;/div&gt;
+          )}
+        &lt;/Card&gt;
+&nbsp;
+        &lt;div className="grid gap-5 xl:grid-cols-2"&gt;
+          &lt;InvoiceCreateCard /&gt;
+          &lt;ReceiptCaptureCard /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/DashboardLayout&gt;
+  )
+}
+&nbsp;
+function InvoiceCreateCard() {
+  const mutation = useCreateBillingInvoice()
+  const [form, setForm] = useState&lt;BillingInvoiceCreateRequest&gt;({
+    invoiceNumber: '', policyId: '', policyVersionId: '', accountId: '', currency: 'USD', originalAmount: 0,
+    invoiceDate: today, dueDate: today,
+  })
+<span class="fstat-no" title="function not covered" >  function submit(event: FormEvent) {</span>
+<span class="cstat-no" title="statement not covered" >    event.preventDefault()</span>
+<span class="cstat-no" title="statement not covered" >    mutation.mutate(form, { onSuccess: () =&gt; setForm((current) =&gt; ({ ...current, invoiceNumber: '', originalAmount: 0 })) })</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+  return (
+    &lt;Card&gt;
+      &lt;CardHeader&gt;&lt;CardTitle&gt;Create Agency-Bill Invoice&lt;/CardTitle&gt;&lt;Badge variant="info"&gt;Finance operations&lt;/Badge&gt;&lt;/CardHeader&gt;
+      &lt;form className="space-y-3" onSubmit={submit}&gt;
+        &lt;div className="grid gap-3 sm:grid-cols-2"&gt;
+          &lt;TextField label="Invoice number" value={form.invoiceNumber} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, invoiceNumber: value })} r</span>equired /&gt;
+          &lt;TextField label="Policy ID" value={form.policyId} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, policyId: value })} r</span>equired /&gt;
+          &lt;TextField label="Policy version ID" value={form.policyVersionId} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, policyVersionId: value })} r</span>equired /&gt;
+          &lt;TextField label="Account ID" value={form.accountId} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, accountId: value })} r</span>equired /&gt;
+          &lt;TextField label="Currency" value={form.currency} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, currency: value.toUpperCase() })} r</span>equired /&gt;
+          &lt;TextField label="Original amount" type="number" min={0.01} step="0.01" value={form.originalAmount || ''} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, originalAmount: Number(value) })} r</span>equired /&gt;
+          &lt;TextField label="Invoice date" type="date" value={form.invoiceDate} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, invoiceDate: value })} r</span>equired /&gt;
+          &lt;TextField label="Due date" type="date" value={form.dueDate} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, dueDate: value })} r</span>equired /&gt;
+        &lt;/div&gt;
+        &lt;button type="submit" disabled={mutation.isPending} className={primaryButtonClass}&gt;&lt;Plus size={16} /&gt;{mutation.<span class="branch-0 cbranch-no" title="branch not covered" >isPending ? 'Creating invoice' : '</span>Create invoice'}&lt;/button&gt;
+        &lt;MutationFeedback isPending={mutation.isPending} isSuccess={mutation.isSuccess} error={mutation.error} pending="Creating the invoice…" success="Invoice created and available in the workspace." failure="Unable to create the invoice." /&gt;
+      &lt;/form&gt;
+    &lt;/Card&gt;
+  )
+}
+&nbsp;
+function ReceiptCaptureCard() {
+  const create = useCreatePaymentReceipt()
+  const upload = useImportPaymentReceipts()
+  const [file, setFile] = useState&lt;File | null&gt;(null)
+  const [form, setForm] = useState&lt;PaymentReceiptCreateRequest&gt;({ externalReference: '', receivedDate: today, currency: 'USD', amount: 0, invoiceReference: null, memo: null })
+<span class="fstat-no" title="function not covered" >  function submit(event: FormEvent) {</span>
+<span class="cstat-no" title="statement not covered" >    event.preventDefault()</span>
+<span class="cstat-no" title="statement not covered" >    create.mutate(form, { onSuccess: () =&gt; setForm((current) =&gt; ({ ...current, externalReference: '', amount: 0, invoiceReference: null, memo: null })) })</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+  return (
+    &lt;Card&gt;
+      &lt;CardHeader&gt;&lt;CardTitle&gt;Record Payment Receipt&lt;/CardTitle&gt;&lt;Badge variant="info"&gt;Manual or mock CSV&lt;/Badge&gt;&lt;/CardHeader&gt;
+      &lt;form className="space-y-3" onSubmit={submit}&gt;
+        &lt;div className="grid gap-3 sm:grid-cols-2"&gt;
+          &lt;TextField label="External reference" value={form.externalReference} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, externalReference: value })} r</span>equired /&gt;
+          &lt;TextField label="Received date" type="date" value={form.receivedDate} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, receivedDate: value })} r</span>equired /&gt;
+          &lt;TextField label="Currency" value={form.currency} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, currency: value.toUpperCase() })} r</span>equired /&gt;
+          &lt;TextField label="Amount" type="number" min={0.01} step="0.01" value={form.amount || ''} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, amount: Number(value) })} r</span>equired /&gt;
+          &lt;TextField label="Invoice reference (optional)" value={form.invoiceReference ?? ''} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, invoiceReference: value || null })} /</span>&gt;
+          &lt;TextField label="Memo (optional)" value={form.memo ?? ''} onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; setForm({ ...form, memo: value || null })} /</span>&gt;
+        &lt;/div&gt;
+        &lt;button type="submit" disabled={create.isPending} className={primaryButtonClass}&gt;&lt;Plus size={16} /&gt;{create.<span class="branch-0 cbranch-no" title="branch not covered" >isPending ? 'Recording receipt' : '</span>Record manual receipt'}&lt;/button&gt;
+        &lt;MutationFeedback isPending={create.isPending} isSuccess={create.isSuccess} error={create.error} pending="Recording the receipt…" success="Receipt recorded as unapplied." failure="Unable to record the receipt." /&gt;
+      &lt;/form&gt;
+      &lt;div className="mt-5 border-t border-surface-border pt-4"&gt;
+        &lt;label className="grid gap-1 text-xs font-medium text-text-muted"&gt;
+          mock-payment-receipt-row-v1 CSV
+          &lt;input type="file" accept=".csv,text/csv" onChange={<span class="fstat-no" title="function not covered" >(event) =&gt; setFile(event.target.files?.[0] ?? null)} c</span>lassName="block min-h-11 w-full rounded-lg border border-surface-border bg-surface-card p-2 text-sm text-text-primary file:mr-3 file:rounded-md file:border-0 file:bg-surface-highlight file:px-3 file:py-1 file:text-text-primary" /&gt;
+        &lt;/label&gt;
+        &lt;button type="button" onClick={<span class="fstat-no" title="function not covered" >() =&gt; file &amp;&amp; upload.mutate(file)} d</span>isabled={!<span class="branch-0 cbranch-no" title="branch not covered" >file || upload.isPending} c</span>lassName={`${primaryButtonClass} mt-3`}&gt;&lt;FileUp size={16} /&gt;{upload.<span class="branch-0 cbranch-no" title="branch not covered" >isPending ? 'Importing CSV' : '</span>Import mock CSV'}&lt;/button&gt;
+        &lt;MutationFeedback isPending={upload.isPending} isSuccess={upload.isSuccess} error={upload.error} pending="Validating and importing rows…" success={upload.<span class="branch-0 cbranch-no" title="branch not covered" >data ? `Import completed: ${upload.data.createdCount} created, ${upload.data.duplicateCount} duplicate, ${upload.data.rejectedCount} rejected.` : '</span>Import completed.'} failure="Unable to import the CSV." /&gt;
+      &lt;/div&gt;
+    &lt;/Card&gt;
+  )
+}
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >function ListSkeleton() {</span></span>
+<span class="cstat-no" title="statement not covered" >  return &lt;div className="space-y-3"&gt;{Array.from({ length: 5 }).map((_, index) =&gt; &lt;Skeleton key={index} className="h-16 w-full rounded-lg" /&gt;)}&lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-07-20T00:26:04.921Z
+            </div>
+        <script src="../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../sorter.js"></script>
+        <script src="../block-navigation.js"></script>
+    </body>
+</html>
+    

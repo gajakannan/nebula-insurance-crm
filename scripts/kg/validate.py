@@ -433,6 +433,8 @@ ROLE_SLUG_TO_CSV = {
     "mga-user": "MgaUser",
     "operations-manager": "OperationsManager",
     "external-user": "ExternalUser",
+    "finance-manager": "FinanceManager",
+    "finance-operations-analyst": "FinanceOperationsAnalyst",
 }
 
 

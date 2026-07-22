@@ -1,6 +1,6 @@
 # Feature Roadmap (Now / Next / Later)
 
-**Last Reviewed:** 2026-07-06
+**Last Reviewed:** 2026-07-19
 
 This document is the working prioritization view for feature sequencing.
 
@@ -40,7 +40,6 @@ This document is the working prioritization view for feature sequencing.
 <!-- generated:begin roadmap:later -->
 | Feature | Phase | Why Later |
 |---------|-------|-----------|
-| [F0026 — Billing, Invoicing & Reconciliation](./F0026-billing-invoicing-and-reconciliation/README.md) | Brokerage Platform Expansion | Pushes the product deeper into agency management and finance operations. |
 | [F0030 — Integration Hub & Data Exchange](./F0030-integration-hub-and-data-exchange/README.md) | Brokerage Platform Expansion | Needed for scalable connectivity across email, carriers, accounting, and document systems. |
 | [F0029 — External Broker Collaboration Portal](./F0029-external-broker-collaboration-portal/README.md) | Brokerage Platform Expansion | External collaboration remains intentionally post-MVP until internal workflows, integration boundaries, and broker-safe visibility controls are mature. |
 <!-- generated:end roadmap:later -->
@@ -63,6 +62,7 @@ This document is the working prioritization view for feature sequencing.
 | [F0037 — Hierarchy-Aware Access Scoping & Distribution Rollups](./archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/README.md) | CRM Release MVP+ | Done and archived (2026-07-06); delivered via PR #56 and the PR #60 review-fix supersede. As-built ontology mapping is deferred to a follow-up plan run, so the feature remains coverage-excluded. |
 | [F0038 — Neuron Day-at-a-Glance Shell (Renewals live + draft outreach + mock-send)](./archive/F0038-neuron-day-at-a-glance-shell/README.md) | Neuron Companion | Done and archived (2026-07-02, feature run `2026-07-01-90a75ace`) — 8 stories: service bootstrap, Day-at-a-Glance shell + zone-dispatch + message envelope, live Renewals zone (needs-attention + drill), inert stub zones, renewal outreach draft, mock-send + workflow transition, CRM scope guard, companion telemetry. First slice of the Neuron Companion epic; gates G0–G8 all PASS. |
 | [F0024 — Claims & Service Case Tracking](./archive/F0024-claims-and-service-case-tracking/README.md) | CRM Release MVP+ | Done and archived (2026-07-03; feature runs `2026-07-03-ba011af8`, `2026-07-03-72f49d29`) — 6 stories: service case intake, contextual visibility, ownership/follow-up, status transitions, claim-reference context, permission-safe audit history |
+| [F0026 — Billing, Invoicing & Reconciliation](./archive/F0026-billing-invoicing-and-reconciliation/README.md) | Brokerage Platform Expansion | Done and archived (2026-07-19, feature run `2026-07-19-86ad3248`) — 6 stories: billing workspace and policy context, agency-bill invoice creation, manual/mock receipt capture, exact reconciliation, correction approval, and backlog/audit visibility |
 | [F0021 — Communication Hub & Activity Capture](./archive/F0021-communication-hub-and-activity-capture/README.md) | CRM Release MVP | Done and archived (2026-07-02, feature run `2026-07-01-9cee64f0`) — 5 stories: structured communication capture, contextual history, related-record/participant links, follow-up task linkage, correction/redaction audit |
 | [F0032 — Admin Configuration & Reference Data Console](./archive/F0032-admin-configuration-and-reference-data-console/README.md) | Platform Operations | Done and archived (2026-07-06, feature run `2026-07-06-f0ef8526`) — 6 stories: admin configuration catalog, draft reference & SLA configuration, govern queue/routing configuration, validate & compare configuration, publish & rollback configuration, audit & permission-safe admin configuration |
 | [F0022 — Work Queues, Assignment Rules & Coverage Management](./archive/F0022-work-queues-assignment-rules-and-coverage-management/README.md) | CRM Release MVP | Done and archived (2026-07-03, feature run `2026-07-03-b9f40b31`) — 7 stories: queues/memberships, assignment rules, task/submission/renewal routing, coverage windows, queue worklists/aging, reassignment/rebalance, routing audit/permissions |
@@ -96,6 +96,7 @@ This document is the working prioritization view for feature sequencing.
 ## Notes
 
 - This roadmap is the authoritative Now/Next/Later view.
+- Reviewed 2026-07-19 (operator decision) during F0026 plan run `2026-07-19-79477865`: promoted **F0026 — Billing, Invoicing & Reconciliation** from `Later` to `Now` because direct dependencies F0018 and F0025 are complete and the refined agency-bill slice is intended to proceed toward build. The six stories cover agency-bill invoicing, manual/CSV/mock-vendor receipt intake, exact-only reconciliation, manager-approved corrections, and backlog/audit visibility. F0030 remains a deferred integration seam rather than a hard dependency; Phase A and Phase B are approved and the feature is ready for its feature action.
 - Boundary guardrails: F0019 delivered submission-bound quote/proposal workflow while F0027 owns reusable outbound generation; F0022 owns usable queue/routing foundations while F0032 later governs shared configuration; F0008 remains separate but must land after F0023 and F0017.
 - Reviewed 2026-07-06 (plan run `2026-07-06-6e3851ab`): F0037 Phase A refinement drafted six stories for distribution-scope resolution, hierarchy-aware read scoping, scoped search/views/insights/reports, distribution rollups, UI filters/states/drilldowns, and security/reconciliation evidence. G3 requirements approval was recorded by the operator; Phase B drafted the feature assembly plan, hierarchy filter API deltas, distribution rollup schema, policy binding, and KG nodes. Pending G5 architecture approval before feature action/build.
 - Reviewed 2026-07-06 (operator decision): promoted **F0037 — Hierarchy-Aware Access Scoping & Distribution Rollups** from `Next` to `Now` after F0017 and F0023 were completed/archived. This was a planning/refinement-ready promotion only: F0037 required its own `plan` run before any `feature`/build action. ROADMAP-only resequencing — `REGISTRY.md` status (`Planned`) and `BLUEPRINT.md` baseline status were unchanged at promotion time.

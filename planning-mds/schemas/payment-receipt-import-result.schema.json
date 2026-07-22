@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/payment-receipt-import-result.schema.json",
+  "title": "PaymentReceiptImportResult",
+  "type": "object",
+  "required": ["importBatchId", "contractVersion", "fileName", "fileSha256", "status", "submittedCount", "createdCount", "duplicateCount", "rejectedCount", "outcomes"],
+  "properties": {
+    "importBatchId": { "type": "string", "format": "uuid" },
+    "contractVersion": { "type": "string", "const": "mock-payment-receipt-row-v1" },
+    "fileName": { "type": "string", "minLength": 1, "maxLength": 255 },
+    "fileSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "status": { "type": "string", "enum": ["Completed", "Rejected"] },
+    "submittedCount": { "type": "integer", "minimum": 0, "maximum": 1000 },
+    "createdCount": { "type": "integer", "minimum": 0, "maximum": 1000 },
+    "duplicateCount": { "type": "integer", "minimum": 0, "maximum": 1000 },
+    "rejectedCount": { "type": "integer", "minimum": 0, "maximum": 1000 },
+    "outcomes": {
+      "type": "array", "maxItems": 1000,
+      "items": {
+        "type": "object",
+        "required": ["rowNumber", "outcome"],
+        "properties": {
+          "rowNumber": { "type": "integer", "minimum": 1 },
+          "externalReference": { "type": ["string", "null"], "maxLength": 120 },
+          "outcome": { "type": "string", "enum": ["Created", "Duplicate", "Rejected"] },
+          "paymentReceiptId": { "type": ["string", "null"], "format": "uuid" },
+          "reasonCode": { "type": ["string", "null"], "maxLength": 80 },
+          "reasonDetail": { "type": ["string", "null"], "maxLength": 500 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

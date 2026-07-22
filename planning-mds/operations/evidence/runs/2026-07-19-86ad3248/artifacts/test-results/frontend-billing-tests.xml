@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="5" failures="0" errors="0" time="1.199">
+    <testsuite name="src/components/layout/Sidebar.test.tsx" timestamp="2026-07-19T22:29:52.409Z" hostname="41d0f07671c7" tests="2" failures="0" errors="0" skipped="0" time="0.082214541">
+        <testcase classname="src/components/layout/Sidebar.test.tsx" name="Sidebar &gt; links Operational Reports directly to the F0037 rollups tab" time="0.061635593">
+        </testcase>
+        <testcase classname="src/components/layout/Sidebar.test.tsx" name="Sidebar &gt; exposes billing and marks nested billing routes active" time="0.018938776">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/billing/tests/BillingPages.test.tsx" timestamp="2026-07-19T22:29:52.410Z" hostname="41d0f07671c7" tests="3" failures="0" errors="0" skipped="0" time="0.207545263">
+        <testcase classname="src/features/billing/tests/BillingPages.test.tsx" name="F0026 billing UI &gt; renders accessible source-authorized invoices and capture workflows" time="0.161051752">
+        </testcase>
+        <testcase classname="src/features/billing/tests/BillingPages.test.tsx" name="F0026 billing UI &gt; wires explicit exact application with selected receipt context" time="0.013684765">
+        </testcase>
+        <testcase classname="src/features/billing/tests/BillingPages.test.tsx" name="F0026 billing UI &gt; wires reference correction and manager decision as separate flows" time="0.031140951">
+        </testcase>
+    </testsuite>
+</testsuites>

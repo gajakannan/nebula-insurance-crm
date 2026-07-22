@@ -1,0 +1,15 @@
+id: entity:billing-correction
+label: BillingCorrection
+rationale:
+  - adr: adr:034
+    section: Decision §5
+    summary: Balance-affecting operational corrections require a different principal's terminal approve/reject decision with before/after evidence.
+related_nodes:
+  - entity:activity-timeline-event
+  - entity:billing-invoice
+  - entity:reconciliation-exception
+  - workflow:billing-correction
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/schemas/billing-correction.schema.json
+  - planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md

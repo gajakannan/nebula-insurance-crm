@@ -759,6 +759,40 @@ p, RelationshipManager, commission, rollup_read,        true
 p, ProgramManager,      commission, read,               true
 p, ProgramManager,      commission, rollup_read,        true
 
+# F0026 Billing, Invoicing, and Reconciliation — internal agency-bill operations.
+# Application layer must intersect finance actions with linked policy/account source authorization.
+p, FinanceOperationsAnalyst, billing, read,                 true
+p, FinanceOperationsAnalyst, billing, invoice_create,       true
+p, FinanceOperationsAnalyst, billing, receipt_record,       true
+p, FinanceOperationsAnalyst, billing, receipt_import,       true
+p, FinanceOperationsAnalyst, billing, application_apply,    true
+p, FinanceOperationsAnalyst, billing, exception_manage,     true
+p, FinanceOperationsAnalyst, billing, correction_request,   true
+p, FinanceOperationsAnalyst, billing, backlog_read,         true
+p, FinanceOperationsAnalyst, billing, summary_read,         true
+
+p, FinanceManager,          billing, read,                  true
+p, FinanceManager,          billing, correction_approve,    true
+p, FinanceManager,          billing, backlog_read,          true
+p, FinanceManager,          billing, backlog_summary_read,  true
+p, FinanceManager,          billing, summary_read,          true
+
+p, DistributionUser,       billing, summary_read,           true
+p, DistributionManager,    billing, summary_read,           true
+p, RelationshipManager,    billing, summary_read,           true
+
+p, Admin,                  billing, read,                    true
+p, Admin,                  billing, invoice_create,          true
+p, Admin,                  billing, receipt_record,          true
+p, Admin,                  billing, receipt_import,          true
+p, Admin,                  billing, application_apply,       true
+p, Admin,                  billing, exception_manage,        true
+p, Admin,                  billing, correction_request,      true
+p, Admin,                  billing, correction_approve,      true
+p, Admin,                  billing, backlog_read,            true
+p, Admin,                  billing, backlog_summary_read,    true
+p, Admin,                  billing, summary_read,            true
+
 # F0008 Broker Insights — read-only internal analytics.
 # Query layer must filter source records before counts, trends, peer sets, ranks, and links are returned.
 p, DistributionUser,    broker_insight, read, true

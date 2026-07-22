@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/payment-receipt.schema.json",
+  "title": "PaymentReceipt",
+  "type": "object",
+  "required": ["id", "source", "externalReference", "receivedDate", "currency", "amount", "applicationStatus", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "source": { "type": "string", "enum": ["Manual", "MockVendorCsv"] },
+    "externalReference": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "receivedDate": { "type": "string", "format": "date" },
+    "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "amount": { "type": "number", "exclusiveMinimum": 0, "multipleOf": 0.01 },
+    "invoiceReference": { "type": ["string", "null"], "maxLength": 80 },
+    "memo": { "type": ["string", "null"], "maxLength": 500 },
+    "importBatchId": { "type": ["string", "null"], "format": "uuid" },
+    "importRowNumber": { "type": ["integer", "null"], "minimum": 1 },
+    "applicationStatus": { "type": "string", "enum": ["Unapplied", "Applied"] },
+    "rowVersion": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

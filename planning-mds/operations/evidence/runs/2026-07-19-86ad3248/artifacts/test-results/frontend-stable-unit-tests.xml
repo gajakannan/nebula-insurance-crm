@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="271" failures="1" errors="0" time="6.507">
+    <testsuite name="src/App.test.tsx" timestamp="2026-07-19T22:57:44.985Z" hostname="cbf454a3471f" tests="15" failures="0" errors="0" skipped="0" time="0.02071438">
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders / at the correct route" time="0.003215353">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /submissions at the correct route" time="0.001366036">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /submissions/new at the correct route" time="0.00125974">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /submissions/submission-1 at the correct route" time="0.001117043">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /renewals at the correct route" time="0.001241584">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /renewals/renewal-1 at the correct route" time="0.001260531">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /brokers at the correct route" time="0.001243318">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /brokers/new at the correct route" time="0.001203009">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /brokers/broker-1 at the correct route" time="0.001473205">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /carrier-markets at the correct route" time="0.001291161">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /tasks at the correct route" time="0.001200014">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /login at the correct route" time="0.001079058">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /auth/callback at the correct route" time="0.001113275">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /unauthorized at the correct route" time="0.001118054">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /missing-route at the correct route" time="0.00115184">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/hooks/useSidebar.test.tsx" timestamp="2026-07-19T22:57:44.990Z" hostname="cbf454a3471f" tests="3" failures="0" errors="0" skipped="0" time="0.001765924">
+        <testcase classname="src/hooks/useSidebar.test.tsx" name="useSidebarProvider &gt; reads collapsed state from local storage and persists toggles" time="0.000664252">
+        </testcase>
+        <testcase classname="src/hooks/useSidebar.test.tsx" name="useSidebarProvider &gt; opens and closes mobile navigation and resets it on desktop resize" time="0.000500603">
+        </testcase>
+        <testcase classname="src/hooks/useSidebar.test.tsx" name="useSidebarProvider &gt; exposes sidebar state through the context hook" time="0.000431959">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/hooks/useTheme.test.tsx" timestamp="2026-07-19T22:57:44.991Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.001699485">
+        <testcase classname="src/hooks/useTheme.test.tsx" name="useThemeProvider &gt; defaults to dark theme and toggles to light theme" time="0.000959616">
+        </testcase>
+        <testcase classname="src/hooks/useTheme.test.tsx" name="useThemeProvider &gt; reads the initial theme from local storage and exposes it through useTheme" time="0.000418574">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/components/layout/Sidebar.test.tsx" timestamp="2026-07-19T22:57:44.992Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.019841453">
+        <testcase classname="src/components/layout/Sidebar.test.tsx" name="Sidebar &gt; links Operational Reports directly to the F0037 rollups tab" time="0.009440073">
+        </testcase>
+        <testcase classname="src/components/layout/Sidebar.test.tsx" name="Sidebar &gt; exposes billing and marks nested billing routes active" time="0.010242841">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/__tests__/CreateAccountPage.test.tsx" timestamp="2026-07-19T22:57:44.993Z" hostname="cbf454a3471f" tests="3" failures="0" errors="0" skipped="0" time="0.037475636">
+        <testcase classname="src/pages/__tests__/CreateAccountPage.test.tsx" name="CreateAccountPage — S0007 wiring regression &gt; creates an account with the same display name and navigates (unchanged)" time="0.018280149">
+        </testcase>
+        <testcase classname="src/pages/__tests__/CreateAccountPage.test.tsx" name="CreateAccountPage — S0007 wiring regression &gt; blocks submit with a validation error for an empty display name (unchanged)" time="0.012744483">
+        </testcase>
+        <testcase classname="src/pages/__tests__/CreateAccountPage.test.tsx" name="CreateAccountPage — S0007 wiring regression &gt; registers with F0035 so dirty values snapshot on a forced re-auth" time="0.006120802">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/__tests__/CreateBrokerPage.test.tsx" timestamp="2026-07-19T22:57:44.994Z" hostname="cbf454a3471f" tests="3" failures="0" errors="0" skipped="0" time="0.030690156">
+        <testcase classname="src/pages/__tests__/CreateBrokerPage.test.tsx" name="CreateBrokerPage — S0007 wiring regression &gt; creates a broker with the same payload and navigates (unchanged)" time="0.015710839">
+        </testcase>
+        <testcase classname="src/pages/__tests__/CreateBrokerPage.test.tsx" name="CreateBrokerPage — S0007 wiring regression &gt; blocks submit and shows validation errors for empty required fields (unchanged)" time="0.010896849">
+        </testcase>
+        <testcase classname="src/pages/__tests__/CreateBrokerPage.test.tsx" name="CreateBrokerPage — S0007 wiring regression &gt; registers with F0035 so dirty values snapshot on a forced re-auth" time="0.003742328">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/__tests__/CreatePolicyPage.test.tsx" timestamp="2026-07-19T22:57:44.995Z" hostname="cbf454a3471f" tests="1" failures="0" errors="0" skipped="0" time="0.00471047">
+        <testcase classname="src/pages/__tests__/CreatePolicyPage.test.tsx" name="CreatePolicyPage — S0007 wiring regression &gt; registers the native policy form with F0035 so dirty values snapshot" time="0.004548495">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/__tests__/CreateSubmissionPage.test.tsx" timestamp="2026-07-19T22:57:44.995Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.015755778">
+        <testcase classname="src/pages/__tests__/CreateSubmissionPage.test.tsx" name="CreateSubmissionPage — S0007 wiring regression &gt; blocks submit with validation errors for missing required fields (unchanged)" time="0.011708528">
+        </testcase>
+        <testcase classname="src/pages/__tests__/CreateSubmissionPage.test.tsx" name="CreateSubmissionPage — S0007 wiring regression &gt; registers the native submission form with F0035 so dirty values snapshot" time="0.003859385">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/__tests__/RenewalsPage.create.test.tsx" timestamp="2026-07-19T22:57:44.996Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.041918553">
+        <testcase classname="src/pages/__tests__/RenewalsPage.create.test.tsx" name="RenewalsPage create modal — S0007 wiring regression &gt; creates a renewal with the same policyId payload (unchanged)" time="0.027505496">
+        </testcase>
+        <testcase classname="src/pages/__tests__/RenewalsPage.create.test.tsx" name="RenewalsPage create modal — S0007 wiring regression &gt; registers the create form with F0035 so dirty values snapshot on a forced re-auth" time="0.014207077">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/tests/AuthCallbackPage.test.tsx" timestamp="2026-07-19T22:57:44.997Z" hostname="cbf454a3471f" tests="9" failures="0" errors="0" skipped="0" time="0.320290672">
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; redirects broker users to the brokers route after a successful callback" time="0.053309253">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; redirects non-broker users to the dashboard route after a successful callback" time="0.052718744">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; uses the remembered landing route when the exact callback was already completed" time="0.001900667">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; treats an in-flight strict-mode replay as a no-op" time="0.001857461">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; falls back to the remembered landing route when a replayed callback throws after prior success" time="0.00185165">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; clears stale state and redirects to login when the callback fails without a remembered success" time="0.051864565">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; navigates to a safe return_to from OIDC state after draining deferred telemetry" time="0.052083988">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; preserves callback success when deferred telemetry drain fails" time="0.052048991">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; rejects unsafe return_to values and falls back to the role landing route" time="0.052152543">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/components/ui/tests/Modal.test.tsx" timestamp="2026-07-19T22:57:45.000Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.074826489">
+        <testcase classname="src/components/ui/tests/Modal.test.tsx" name="Modal &gt; traps focus and closes on Escape" time="0.072924741">
+        </testcase>
+        <testcase classname="src/components/ui/tests/Modal.test.tsx" name="Modal &gt; closes on backdrop click and does not render when closed" time="0.001741446">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/components/ui/tests/Popover.test.tsx" timestamp="2026-07-19T22:57:45.001Z" hostname="cbf454a3471f" tests="3" failures="0" errors="0" skipped="0" time="0.147553827">
+        <testcase classname="src/components/ui/tests/Popover.test.tsx" name="Popover &gt; opens from a native trigger, traps focus, and closes on Escape" time="0.125169188">
+        </testcase>
+        <testcase classname="src/components/ui/tests/Popover.test.tsx" name="Popover &gt; supports non-native triggers and overlay dismissal on small screens" time="0.012854997">
+        </testcase>
+        <testcase classname="src/components/ui/tests/Popover.test.tsx" name="Popover &gt; closes when clicking outside the popover content" time="0.00932332">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/components/ui/tests/Tabs.test.tsx" timestamp="2026-07-19T22:57:45.002Z" hostname="cbf454a3471f" tests="1" failures="0" errors="0" skipped="0" time="0.02252974">
+        <testcase classname="src/components/ui/tests/Tabs.test.tsx" name="Tabs &gt; changes tabs on click and keyboard navigation" time="0.022373336">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/admin-configuration/components/AdminConfigurationWorkspace.test.tsx" timestamp="2026-07-19T22:57:45.002Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.032832124">
+        <testcase classname="src/features/admin-configuration/components/AdminConfigurationWorkspace.test.tsx" name="AdminConfigurationWorkspace &gt; renders governed domains, validation controls, rollback history, and audit details" time="0.026749616">
+        </testcase>
+        <testcase classname="src/features/admin-configuration/components/AdminConfigurationWorkspace.test.tsx" name="AdminConfigurationWorkspace &gt; shows retry and empty states when domain loading fails or returns no data" time="0.005833965">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/auth/tests/LoginPage.test.tsx" timestamp="2026-07-19T22:57:45.003Z" hostname="cbf454a3471f" tests="7" failures="0" errors="0" skipped="0" time="0.035824744">
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; renders the Sign In button" time="0.009316667">
+        </testcase>
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; shows session_expired notice when reason=session_expired" time="0.002813661">
+        </testcase>
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; shows callback_failed error when error=callback_failed" time="0.002750799">
+        </testcase>
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; shows misconfiguration error when OIDC env vars are missing" time="0.003342034">
+        </testcase>
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; calls oidcUserManager.signinRedirect() when Sign In is clicked" time="0.005868948">
+        </testcase>
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; passes return_to through OIDC state when present" time="0.005062464">
+        </testcase>
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; shows IdP-unavailable error when signinRedirect throws" time="0.006442589">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/auth/tests/ProtectedRoute.test.tsx" timestamp="2026-07-19T22:57:45.006Z" hostname="cbf454a3471f" tests="5" failures="0" errors="0" skipped="0" time="0.062947245">
+        <testcase classname="src/features/auth/tests/ProtectedRoute.test.tsx" name="ProtectedRoute &gt; renders children when session is valid and non-expired" time="0.003670357">
+        </testcase>
+        <testcase classname="src/features/auth/tests/ProtectedRoute.test.tsx" name="ProtectedRoute &gt; redirects to /login when no session exists" time="0.003120277">
+        </testcase>
+        <testcase classname="src/features/auth/tests/ProtectedRoute.test.tsx" name="ProtectedRoute &gt; renews expired sessions before rendering protected content" time="0.002219997">
+        </testcase>
+        <testcase classname="src/features/auth/tests/ProtectedRoute.test.tsx" name="ProtectedRoute &gt; emits forced reauth when expired-session renewal fails" time="0.052488538">
+        </testcase>
+        <testcase classname="src/features/auth/tests/ProtectedRoute.test.tsx" name="ProtectedRoute &gt; renders null during loading (no content flash)" time="0.001153833">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/auth/tests/authModeGuard.test.ts" timestamp="2026-07-19T22:57:45.008Z" hostname="cbf454a3471f" tests="8" failures="0" errors="0" skipped="0" time="0.003888251">
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; throws when VITE_AUTH_MODE=dev AND NODE_ENV=production" time="0.001052847">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; is a no-op when VITE_AUTH_MODE=dev AND NODE_ENV=development" time="0.000342135">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; is a no-op when VITE_AUTH_MODE=oidc AND NODE_ENV=production" time="0.000184369">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; is a no-op when VITE_AUTH_MODE is unset AND NODE_ENV=production" time="0.00013894">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; process.env integration: throws when both env vars match danger combo" time="0.000133039">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; process.env integration: is a no-op when VITE_AUTH_MODE=dev and NODE_ENV=development" time="0.00022581">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; process.env integration: is a no-op when VITE_AUTH_MODE=oidc and NODE_ENV=production" time="0.000185901">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; process.env integration: is a no-op when VITE_AUTH_MODE is unset and NODE_ENV=production" time="0.000171513">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/auth/tests/useCurrentUser.test.tsx" timestamp="2026-07-19T22:57:45.010Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.056111552">
+        <testcase classname="src/features/auth/tests/useCurrentUser.test.tsx" name="useCurrentUser &gt; maps the active oidc profile into the current user model" time="0.051512563">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useCurrentUser.test.tsx" name="useCurrentUser &gt; reacts to oidc user lifecycle events" time="0.0044294">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/auth/tests/useSessionTeardown.test.tsx" timestamp="2026-07-19T22:57:45.011Z" hostname="cbf454a3471f" tests="11" failures="0" errors="0" skipped="0" time="0.039776828">
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: session_expired &gt; redirects to /login?reason=session_expired" time="0.002840243">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: session_expired &gt; clears OIDC state (removeUser + clearStaleState) before redirecting" time="0.0011466">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: session_expired &gt; completes teardown even if POST /auth/logout throws a network error" time="0.002906902">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: session_expired &gt; completes teardown even if POST /auth/logout returns a non-2xx status" time="0.000932373">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: logout &gt; redirects to /login with no query string" time="0.001305138">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: logout &gt; calls oidcUserManager.removeUser() and clearStaleState()" time="0.000813903">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: logout &gt; calls POST /auth/logout with correct method and credentials" time="0.001160287">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: logout &gt; still clears OIDC state and redirects even if logout endpoint call fails" time="0.000859532">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: logout &gt; clears OIDC state before redirecting" time="0.001058358">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useAuthEventHandler — 401 interceptor wiring &gt; triggers teardown with session_expired when auth event is emitted" time="0.004679691">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useAuthEventHandler — 401 interceptor wiring &gt; unsubscribes from auth events on unmount — no teardown after unmount" time="0.021492703">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/billing/tests/BillingPages.test.tsx" timestamp="2026-07-19T22:57:45.014Z" hostname="cbf454a3471f" tests="3" failures="0" errors="0" skipped="0" time="0.117668269">
+        <testcase classname="src/features/billing/tests/BillingPages.test.tsx" name="F0026 billing UI &gt; renders accessible source-authorized invoices and capture workflows" time="0.088723896">
+        </testcase>
+        <testcase classname="src/features/billing/tests/BillingPages.test.tsx" name="F0026 billing UI &gt; wires explicit exact application with selected receipt context" time="0.005282572">
+        </testcase>
+        <testcase classname="src/features/billing/tests/BillingPages.test.tsx" name="F0026 billing UI &gt; wires reference correction and manager decision as separate flows" time="0.023342751">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/broker-insights/tests/BrokerInsightsWorkspace.test.tsx" timestamp="2026-07-19T22:57:45.016Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.009949498">
+        <testcase classname="src/features/broker-insights/tests/BrokerInsightsWorkspace.test.tsx" name="BrokerInsightsWorkspace &gt; renders scorecard, trend, benchmark, and snapshot panels for an authorized broker" time="0.008011189">
+        </testcase>
+        <testcase classname="src/features/broker-insights/tests/BrokerInsightsWorkspace.test.tsx" name="BrokerInsightsWorkspace &gt; passes broker filter changes into the scorecard query" time="0.001739472">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/brokers/tests/ContactFormModal.restore.test.tsx" timestamp="2026-07-19T22:57:45.016Z" hostname="cbf454a3471f" tests="5" failures="0" errors="0" skipped="0" time="0.027755421">
+        <testcase classname="src/features/brokers/tests/ContactFormModal.restore.test.tsx" name="ContactFormModal restore — F0036-S0008 (closes F0035 finding #1) &gt; restores the snapshot on mount (winning over the on-open reset) and does NOT auto-replay" time="0.013522995">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.restore.test.tsx" name="ContactFormModal restore — F0036-S0008 (closes F0035 finding #1) &gt; waits to consume a modal snapshot until the parent reopens the form" time="0.003032697">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.restore.test.tsx" name="ContactFormModal restore — F0036-S0008 (closes F0035 finding #1) &gt; does not restore another user’s snapshot (per-user isolation)" time="0.002532734">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.restore.test.tsx" name="ContactFormModal restore — F0036-S0008 (closes F0035 finding #1) &gt; restores only from its own form_key (no cross-form contamination)" time="0.00280809">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.restore.test.tsx" name="ContactFormModal restore — F0036-S0008 (closes F0035 finding #1) &gt; round-trips: dirty edit -&gt; forced-re-auth snapshot -&gt; remount restores" time="0.005548759">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/brokers/tests/ContactFormModal.test.tsx" timestamp="2026-07-19T22:57:45.018Z" hostname="cbf454a3471f" tests="5" failures="1" errors="0" skipped="0" time="0.217528215">
+        <testcase classname="src/features/brokers/tests/ContactFormModal.test.tsx" name="ContactFormModal — S0007 wiring regression (create + edit preserved) &gt; creates a contact with the same payload as before wiring" time="0.09701502">
+            <failure message="expected &quot;spy&quot; to be called with arguments: [ { brokerId: &apos;b1&apos;, …(4) } ][90m
+
+Received: 
+
+[1m  1st spy call:
+
+[22m[2m  Array [[22m
+[2m    Object {[22m
+[2m      &quot;brokerId&quot;: &quot;b1&quot;,[22m
+[2m      &quot;email&quot;: &quot;jane@example.com&quot;,[22m
+[32m-     &quot;fullName&quot;: &quot;Jane Doe&quot;,[90m
+[31m+     &quot;fullName&quot;: &quot;Jane&quot;,[90m
+[2m      &quot;phone&quot;: &quot;+12025551234&quot;,[22m
+[2m      &quot;role&quot;: undefined,[22m
+[2m    },[22m
+[2m  ][22m
+[39m[90m
+
+Number of calls: [1m1[22m
+[39m" type="AssertionError">
+AssertionError: expected &quot;spy&quot; to be called with arguments: [ { brokerId: &apos;b1&apos;, …(4) } ]
+
+Received: 
+
+  1st spy call:
+
+  Array [
+    Object {
+      &quot;brokerId&quot;: &quot;b1&quot;,
+      &quot;email&quot;: &quot;jane@example.com&quot;,
+-     &quot;fullName&quot;: &quot;Jane Doe&quot;,
++     &quot;fullName&quot;: &quot;Jane&quot;,
+      &quot;phone&quot;: &quot;+12025551234&quot;,
+      &quot;role&quot;: undefined,
+    },
+  ]
+
+
+Number of calls: 1
+
+ ❯ src/features/brokers/tests/ContactFormModal.test.tsx:55:26
+            </failure>
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.test.tsx" name="ContactFormModal — S0007 wiring regression (create + edit preserved) &gt; blocks submit and shows validation errors for empty required fields (unchanged)" time="0.01003825">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.test.tsx" name="ContactFormModal — S0007 wiring regression (create + edit preserved) &gt; edits an existing contact with the same update payload (incl. rowVersion)" time="0.0109023">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.test.tsx" name="ContactFormModal — S0007 wiring regression (create + edit preserved) &gt; still surfaces a server error on submit failure (error path unchanged by wiring)" time="0.09625395">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.test.tsx" name="ContactFormModal — S0007 wiring regression (create + edit preserved) &gt; registers with F0035 so dirty values snapshot on a forced re-auth" time="0.003060151">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/brokers/tests/EditBrokerModal.test.tsx" timestamp="2026-07-19T22:57:45.021Z" hostname="cbf454a3471f" tests="4" failures="0" errors="0" skipped="0" time="0.045915005">
+        <testcase classname="src/features/brokers/tests/EditBrokerModal.test.tsx" name="EditBrokerModal — S0007 wiring regression &gt; updates a broker with the same payload (incl. rowVersion)" time="0.013009468">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/EditBrokerModal.test.tsx" name="EditBrokerModal — S0007 wiring regression &gt; blocks submit with a validation error when legal name is cleared (unchanged)" time="0.012685267">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/EditBrokerModal.test.tsx" name="EditBrokerModal — S0007 wiring regression &gt; still surfaces a server error on submit failure (error path unchanged)" time="0.015360369">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/EditBrokerModal.test.tsx" name="EditBrokerModal — S0007 wiring regression &gt; registers with F0035 so dirty values snapshot on a forced re-auth" time="0.004654601">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/brokers/tests/validation.test.ts" timestamp="2026-07-19T22:57:45.022Z" hostname="cbf454a3471f" tests="3" failures="0" errors="0" skipped="0" time="0.000700963">
+        <testcase classname="src/features/brokers/tests/validation.test.ts" name="broker validation helpers &gt; validates broker creation payloads" time="0.000218926">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/validation.test.ts" name="broker validation helpers &gt; validates broker update payloads" time="0.00018524">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/validation.test.ts" name="broker validation helpers &gt; validates contact payloads" time="0.000139491">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/commissions/tests/CommissionsPage.test.tsx" timestamp="2026-07-19T22:57:45.023Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.020206332">
+        <testcase classname="src/features/commissions/tests/CommissionsPage.test.tsx" name="F0025 commission UI &gt; shows searchable expected commission records and rollup totals" time="0.008734004">
+        </testcase>
+        <testcase classname="src/features/commissions/tests/CommissionsPage.test.tsx" name="F0025 commission UI &gt; wires recalculation from the detail page" time="0.011263513">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/distribution/tests/HierarchyPanel.test.tsx" timestamp="2026-07-19T22:57:45.024Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.003889062">
+        <testcase classname="src/features/distribution/tests/HierarchyPanel.test.tsx" name="HierarchyPanel &gt; renders the root-to-node breadcrumb and the children list" time="0.00176378">
+        </testcase>
+        <testcase classname="src/features/distribution/tests/HierarchyPanel.test.tsx" name="HierarchyPanel &gt; exposes a set-parent control" time="0.001965241">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/documents/tests/ParentDocumentsPanel.test.tsx" timestamp="2026-07-19T22:57:45.025Z" hostname="cbf454a3471f" tests="1" failures="0" errors="0" skipped="0" time="0.033323439">
+        <testcase classname="src/features/documents/tests/ParentDocumentsPanel.test.tsx" name="ParentDocumentsPanel &gt; renders parent-scoped documents and completeness counts" time="0.033141715">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/forms/__tests__/dualBackend.test.tsx" timestamp="2026-07-19T22:57:45.026Z" hostname="cbf454a3471f" tests="4" failures="0" errors="0" skipped="0" time="0.007823313">
+        <testcase classname="src/features/forms/__tests__/dualBackend.test.tsx" name="shared registration helper — dual backend (F0036-S0007) &gt; snapshots both an RHF form and a controlled form through the same helper" time="0.004559185">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/dualBackend.test.tsx" name="shared registration helper — dual backend (F0036-S0007) &gt; restores both backends on mount through the same helper" time="0.001470079">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/dualBackend.test.tsx" name="shared registration helper — dual backend (F0036-S0007) &gt; restores when a modal parent changes the registered form key after mount" time="0.000862136">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/dualBackend.test.tsx" name="shared registration helper — dual backend (F0036-S0007) &gt; does not consume a modal snapshot until registration is enabled" time="0.000725732">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" timestamp="2026-07-19T22:57:45.027Z" hostname="cbf454a3471f" tests="11" failures="0" errors="0" skipped="0" time="0.003770812">
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="deepEqual equality matrix (F0036-S0007) &gt; scalar typed-and-cleared back to initial is equal" time="0.00038072">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="deepEqual equality matrix (F0036-S0007) &gt; treats undefined / null / absent key as equal" time="0.000199708">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="deepEqual equality matrix (F0036-S0007) &gt; compares numbers and Dates by value" time="0.000115975">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="deepEqual equality matrix (F0036-S0007) &gt; nested-object replacement with structurally-equal contents is equal (not reference)" time="0.000198537">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="deepEqual equality matrix (F0036-S0007) &gt; array reorder of identical contents is not dirty by default; order-sensitive flags it" time="0.000172476">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="diffPaths (F0036-S0007) &gt; reports flattened JSON paths for differing leaves" time="0.000140333">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="diffPaths (F0036-S0007) &gt; reports the array path when array contents differ" time="0.000091107">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="diffPaths (F0036-S0007) &gt; reports indexed paths when order-sensitive" time="0.000249244">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="useControlledDirtyTracker (F0036-S0007) &gt; returns the F0035 triple with deep-equality dirty semantics" time="0.000792011">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="useControlledDirtyTracker (F0036-S0007) &gt; excludes sensitiveFieldPaths from getValues and getDirtyFieldPaths" time="0.000537225">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="useControlledDirtyTracker (F0036-S0007) &gt; does not mark a form dirty when only sensitiveFieldPaths changed" time="0.000498068">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/neuron/components/DayAtAGlance.test.tsx" timestamp="2026-07-19T22:57:45.030Z" hostname="cbf454a3471f" tests="11" failures="0" errors="0" skipped="0" time="0.257798032">
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; renders four zones with Renewals live and stubs not-yet-active" time="0.013352414">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; renders the assistant message envelope" time="0.006425975">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; isolates a failing zone to its own slot" time="0.00679289">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; shows a loading state while fetching" time="0.00095151">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; shows a retryable error state on a non-auth failure" time="0.004452838">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; shows an auth-required state (no retry) on 403" time="0.004025759">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; drills a renewal via the View action and renders the returned context" time="0.022759306">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; drafts an outreach and mock-sends the edited draft" time="0.027453174">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; sends a CRM message and renders the scope-guarded reply" time="0.082436462">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; renders a polite CRM redirect for an off-topic message (no general answer)" time="0.070644587">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; does not send an empty message" time="0.018024715">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/neuron/registry/componentRegistry.test.tsx" timestamp="2026-07-19T22:57:45.033Z" hostname="cbf454a3471f" tests="6" failures="0" errors="0" skipped="0" time="0.003895094">
+        <testcase classname="src/features/neuron/registry/componentRegistry.test.tsx" name="componentRegistry (F0038-S0002 rendering contract) &gt; reports registration status" time="0.00025737">
+        </testcase>
+        <testcase classname="src/features/neuron/registry/componentRegistry.test.tsx" name="componentRegistry (F0038-S0002 rendering contract) &gt; renders a safe fallback for an unregistered component id" time="0.000630246">
+        </testcase>
+        <testcase classname="src/features/neuron/registry/componentRegistry.test.tsx" name="componentRegistry (F0038-S0002 rendering contract) &gt; renders a safe fallback when props fail schema validation" time="0.000592272">
+        </testcase>
+        <testcase classname="src/features/neuron/registry/componentRegistry.test.tsx" name="componentRegistry (F0038-S0002 rendering contract) &gt; renders the companion-context drill component" time="0.000769527">
+        </testcase>
+        <testcase classname="src/features/neuron/registry/componentRegistry.test.tsx" name="componentRegistry (F0038-S0002 rendering contract) &gt; renders the outreach draft editor component" time="0.000732585">
+        </testcase>
+        <testcase classname="src/features/neuron/registry/componentRegistry.test.tsx" name="componentRegistry (F0038-S0002 rendering contract) &gt; renders the registered component when props are valid" time="0.000726673">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/notifications/tests/NotificationDropdown.test.tsx" timestamp="2026-07-19T22:57:45.035Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.119519267">
+        <testcase classname="src/features/notifications/tests/NotificationDropdown.test.tsx" name="NotificationDropdown &gt; opens, filters, toggles read state, and clears notifications" time="0.086447512">
+        </testcase>
+        <testcase classname="src/features/notifications/tests/NotificationDropdown.test.tsx" name="NotificationDropdown &gt; supports dismiss, closes on Escape, and closes on outside click" time="0.032844042">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" timestamp="2026-07-19T22:57:45.036Z" hostname="cbf454a3471f" tests="12" failures="0" errors="0" skipped="0" time="0.57793941">
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; renders chapter controls and connected flow canvas" time="0.126399732">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; passes periodDays to KPI hook" time="0.037730381">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; passes the selected period to synchronized story hooks" time="0.029303275">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; filters the canvas to renewals only from the scope dropdown" time="0.048889959">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; supports keyboard chapter navigation with arrow keys" time="0.071364573">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; supports arrow-key navigation across stage nodes" time="0.032168543">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; hides per-stage alternate toggles during chapter override and restores in flow" time="0.080843866">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; restores the previously selected flow mini-view after chapter overrides" time="0.06760991">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; renders the quote preparation stage as a submission versus renewal mix" time="0.03309285">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; enables breakdown requests lazily for the selected stage mini-view" time="0.029567095">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; shows flow error fallback" time="0.002739607">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; renders empty timeline state with no popovers when all stage counts are zero" time="0.016426593">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/opportunities/tests/OpportunityPopovers.test.tsx" timestamp="2026-07-19T22:57:45.040Z" hostname="cbf454a3471f" tests="3" failures="0" errors="0" skipped="0" time="0.004956779">
+        <testcase classname="src/features/opportunities/tests/OpportunityPopovers.test.tsx" name="opportunity popover content &gt; renders loading, error, empty, and populated state for status items" time="0.002213285">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityPopovers.test.tsx" name="opportunity popover content &gt; renders loading, error, empty, and populated state for outcome items" time="0.001761956">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityPopovers.test.tsx" name="opportunity popover content &gt; renders mini cards without amount or assignee details when absent" time="0.000790066">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" timestamp="2026-07-19T22:57:45.041Z" hostname="cbf454a3471f" tests="6" failures="0" errors="0" skipped="0" time="0.048427154">
+        <testcase classname="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" name="opportunity visualizations &gt; renders chart empty, loading, error, and data states" time="0.008280827">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" name="opportunity visualizations &gt; renders the pipeline board empty and populated states" time="0.012189604">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" name="opportunity visualizations &gt; renders heatmap loading, error, empty, and populated states" time="0.004662046">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" name="opportunity visualizations &gt; renders the outcomes rail with all branch styles and supporting popovers" time="0.004828149">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" name="opportunity visualizations &gt; renders the sunburst loading, error, empty, and interactive states" time="0.005134234">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" name="opportunity visualizations &gt; renders the treemap loading, error, empty, and drilldown states" time="0.012900245">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/IdleWarningModal.test.tsx" timestamp="2026-07-19T22:57:45.043Z" hostname="cbf454a3471f" tests="3" failures="0" errors="0" skipped="0" time="0.007382556">
+        <testcase classname="src/features/session-continuity/tests/IdleWarningModal.test.tsx" name="IdleWarningModal &gt; renders the alert dialog with countdown text" time="0.002939746">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/IdleWarningModal.test.tsx" name="IdleWarningModal &gt; calls the selected action handlers" time="0.00285419">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/IdleWarningModal.test.tsx" name="IdleWarningModal &gt; treats Escape as sign out" time="0.001394541">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/authErrorClassifier.test.ts" timestamp="2026-07-19T22:57:45.044Z" hostname="cbf454a3471f" tests="7" failures="0" errors="0" skipped="0" time="0.001749792">
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; uses ProblemDetails as the authoritative token-expired source" time="0.000367745">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; does not mark matching token expired challenge/body pairs as conflicts" time="0.000261048">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; does not mark matching invalid token challenge/body pairs as conflicts" time="0.00021563">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; does not mark matching session revoked challenge/body pairs as conflicts" time="0.000194859">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; marks conflicts when WWW-Authenticate disagrees with ProblemDetails" time="0.000238213">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; falls back to status-only unknown for malformed 401 responses" time="0.000140213">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; classifies 403 responses as authorization denial when no finer code exists" time="0.000136655">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/sessionContinuity.smoke.test.tsx" timestamp="2026-07-19T22:57:45.046Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.010205115">
+        <testcase classname="src/features/session-continuity/tests/sessionContinuity.smoke.test.tsx" name="session continuity smoke path &gt; renews one recoverable GET and retries it with the fresh access token" time="0.003887243">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionContinuity.smoke.test.tsx" name="session continuity smoke path &gt; captures dirty form state and restores the route on forced reauth" time="0.006051343">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/sessionRenewal.test.ts" timestamp="2026-07-19T22:57:45.047Z" hostname="cbf454a3471f" tests="4" failures="0" errors="0" skipped="0" time="0.001342331">
+        <testcase classname="src/features/session-continuity/tests/sessionRenewal.test.ts" name="renewSessionForExpiredToken &gt; coalesces concurrent renewal callers behind one silent sign-in" time="0.000549197">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionRenewal.test.ts" name="renewSessionForExpiredToken &gt; blocks immediate renewal loops after success" time="0.000173607">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionRenewal.test.ts" name="renewSessionForExpiredToken &gt; allows explicit user-initiated renewal to bypass the loop guard" time="0.000166734">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionRenewal.test.ts" name="renewSessionForExpiredToken &gt; maps invalid_grant renewal failures to refresh expiration" time="0.000283812">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/sessionRestore.test.ts" timestamp="2026-07-19T22:57:45.048Z" hostname="cbf454a3471f" tests="4" failures="0" errors="0" skipped="0" time="0.001259609">
+        <testcase classname="src/features/session-continuity/tests/sessionRestore.test.ts" name="session restore helpers &gt; accepts same-origin return paths and rejects unsafe destinations" time="0.000369929">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionRestore.test.ts" name="session restore helpers &gt; stores and consumes a same-user dirty form snapshot once" time="0.000266949">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionRestore.test.ts" name="session restore helpers &gt; lists valid same-user snapshot form keys by prefix without consuming them" time="0.000237111">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionRestore.test.ts" name="session restore helpers &gt; clears snapshots by current user and by other users" time="0.000199317">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/sessionTelemetry.test.ts" timestamp="2026-07-19T22:57:45.050Z" hostname="cbf454a3471f" tests="4" failures="0" errors="0" skipped="0" time="0.001872191">
+        <testcase classname="src/features/session-continuity/tests/sessionTelemetry.test.ts" name="session continuity telemetry &gt; builds events from non-PII session identity claims" time="0.000285565">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionTelemetry.test.ts" name="session continuity telemetry &gt; posts buffered events to the protected telemetry endpoint" time="0.000492889">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionTelemetry.test.ts" name="session continuity telemetry &gt; persists and drains deferred failure-class events by user" time="0.000610247">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionTelemetry.test.ts" name="session continuity telemetry &gt; drops expired deferred events instead of sending them" time="0.000266128">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/useIdleWarning.test.tsx" timestamp="2026-07-19T22:57:45.052Z" hostname="cbf454a3471f" tests="6" failures="0" errors="0" skipped="0" time="0.032863505">
+        <testcase classname="src/features/session-continuity/tests/useIdleWarning.test.tsx" name="useIdleWarning &gt; opens the idle modal at the inactivity threshold and emits shown telemetry" time="0.004225857">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/useIdleWarning.test.tsx" name="useIdleWarning &gt; renews and closes the modal when the user stays signed in" time="0.003198861">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/useIdleWarning.test.tsx" name="useIdleWarning &gt; forces reauth when the grace period expires" time="0.003443025">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/useIdleWarning.test.tsx" name="useIdleWarning &gt; resets the rolling activity window on route changes" time="0.015332224">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/useIdleWarning.test.tsx" name="useIdleWarning &gt; signs out explicitly from the idle modal path" time="0.004127927">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/useIdleWarning.test.tsx" name="useIdleWarning &gt; does not open the idle modal on public auth routes" time="0.002127628">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/communications/components/__tests__/CommunicationPanel.test.tsx" timestamp="2026-07-19T22:57:45.053Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.04788045">
+        <testcase classname="src/features/communications/components/__tests__/CommunicationPanel.test.tsx" name="CommunicationPanel &gt; renders the empty history state for the scoped record" time="0.001682211">
+        </testcase>
+        <testcase classname="src/features/communications/components/__tests__/CommunicationPanel.test.tsx" name="CommunicationPanel &gt; submits a structured communication with primary link and follow-up linkage" time="0.046027688">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.preservation.test.tsx" timestamp="2026-07-19T22:57:45.054Z" hostname="cbf454a3471f" tests="3" failures="0" errors="0" skipped="0" time="0.039210588">
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.preservation.test.tsx" name="DynamicAttributePanel F0035 preservation (F0036-S0006) &gt; snapshots the dirty attribute form on a forced re-auth (registry.snapshotAllDirty)" time="0.01482092">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.preservation.test.tsx" name="DynamicAttributePanel F0035 preservation (F0036-S0006) &gt; rehydrates a prior snapshot on mount and shows the restore notice (no auto-replay)" time="0.013106186">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.preservation.test.tsx" name="DynamicAttributePanel F0035 preservation (F0036-S0006) &gt; does not rehydrate another user’s snapshot (per-user isolation)" time="0.011037914">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" timestamp="2026-07-19T22:57:45.055Z" hostname="cbf454a3471f" tests="8" failures="0" errors="0" skipped="0" time="0.101880482">
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; renders nothing for a non-Cyber line of business (unchanged)" time="0.001846341">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; renders all Cyber fields from the bundle (no hardcoded list) with the Cyber heading" time="0.028925308">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; read-only context renders disabled controls and no host-independent Save button" time="0.016863152">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; preserves MFA-maturity conditional gating (disabled when MFA off, enabled when on)" time="0.017370898">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; round-trips edits back to the flat CyberLobAttributeValues shape" time="0.022373125">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; binds host-supplied (backend) errors to fields by pointer" time="0.011684902">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; renders a controlled error (not a guessed form) when the bundle fails to load" time="0.001672833">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; shows a loading region while the bundle resolves" time="0.000876324">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" timestamp="2026-07-19T22:57:45.058Z" hostname="cbf454a3471f" tests="6" failures="0" errors="0" skipped="0" time="0.071546106">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" name="SchemaDrivenForm (F0036-S0003) &gt; renders fields, sections, and labels entirely from the bundle (no hardcoded list)" time="0.01346332">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" name="SchemaDrivenForm (F0036-S0003) &gt; blocks its own submit affordance while data-schema-invalid and shows an inline error" time="0.012681656">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" name="SchemaDrivenForm (F0036-S0003) &gt; enables submit and calls onSubmit when data-schema-valid" time="0.016992022">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" name="SchemaDrivenForm (F0036-S0003) &gt; binds a backend-authoritative cross-field error to its field by pointer (submit stays enabled)" time="0.010335208">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" name="SchemaDrivenForm (F0036-S0003) &gt; read-only mode renders no submit affordance and disables controls" time="0.010885341">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" name="SchemaDrivenForm (F0036-S0003) &gt; fails closed on a malformed bundle (controlled error, not a guessed render)" time="0.006915228">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" timestamp="2026-07-19T22:57:45.060Z" hostname="cbf454a3471f" tests="6" failures="0" errors="0" skipped="0" time="0.001020354">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" name="deriveSections (F0036-S0003) &gt; derives sections and order from ui-schema (no hardcoded Cyber list)" time="0.000215218">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" name="deriveSections (F0036-S0003) &gt; derives each widget from the data-schema type/enum" time="0.000157296">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" name="deriveSections (F0036-S0003) &gt; binds money-minor widgets to the .amountMinor value path" time="0.000086729">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" name="deriveSections (F0036-S0003) &gt; derives required from the parent schema required[] and labels from ui-schema" time="0.000073804">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" name="deriveSections (F0036-S0003) &gt; derives select options from the data-schema enum" time="0.000071108">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" name="deriveSections (F0036-S0003) &gt; fails closed on a field with no data-schema property" time="0.000240998">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/parity.test.ts" timestamp="2026-07-19T22:57:45.063Z" hostname="cbf454a3471f" tests="11" failures="0" errors="0" skipped="0" time="0.001350375">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; data-schema parity: 0 disagreements for &quot;&apos;valid-baseline&apos;&quot;" time="0.000240648">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; data-schema parity: 0 disagreements for &quot;&apos;missing-required-top-level&apos;&quot;" time="0.000171764">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; data-schema parity: 0 disagreements for &quot;&apos;invalid-enum-and-negative-minimum&apos;&quot;" time="0.000100596">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; data-schema parity: 0 disagreements for &quot;&apos;invalid-enum-nested-control&apos;&quot;" time="0.00006707">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; data-schema parity: 0 disagreements for &quot;&apos;cross-field-only-backend-authoritative&apos;&quot;" time="0.000049135">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; client AJV never duplicates backend-authoritative cross-field rules for &quot;&apos;valid-baseline&apos;&quot;" time="0.000076719">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; client AJV never duplicates backend-authoritative cross-field rules for &quot;&apos;missing-required-top-level&apos;&quot;" time="0.000072902">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; client AJV never duplicates backend-authoritative cross-field rules for &quot;&apos;invalid-enum-and-negative-minimum&apos;&quot;" time="0.000124813">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; client AJV never duplicates backend-authoritative cross-field rules for &quot;&apos;invalid-enum-nested-control&apos;&quot;" time="0.000063844">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; client AJV never duplicates backend-authoritative cross-field rules for &quot;&apos;cross-field-only-backend-authoritative&apos;&quot;" time="0.000037373">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; records at least one parity row per example with no aggregate disagreement" time="0.000139842">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts" timestamp="2026-07-19T22:57:45.066Z" hostname="cbf454a3471f" tests="4" failures="0" errors="0" skipped="0" time="0.000779386">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts" name="flattenDirtyFields (F0036-S0006) &gt; flattens nested RHF dirtyFields into dotted string paths" time="0.000216721">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts" name="flattenDirtyFields (F0036-S0006) &gt; handles array dirty markers" time="0.000122067">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts" name="flattenDirtyFields (F0036-S0006) &gt; returns no paths when nothing is dirty" time="0.000089034">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts" name="rhfDirtyAdapter (F0036-S0006) &gt; builds a DirtyFormRegistration source from an RHF form" time="0.00019035">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts" timestamp="2026-07-19T22:57:45.067Z" hostname="cbf454a3471f" tests="5" failures="0" errors="0" skipped="0" time="0.002303138">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts" name="usePinnedBundle (F0036-S0004) &gt; binds the bundle at open from (productVersionId, stage)" time="0.000531083">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts" name="usePinnedBundle (F0036-S0004) &gt; does NOT rebind when a newer version activates while the form is open" time="0.000411019">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts" name="usePinnedBundle (F0036-S0004) &gt; a new form instance binds the now-active newer version" time="0.000324722">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts" name="usePinnedBundle (F0036-S0004) &gt; resolves an activation race deterministically to the version captured at open" time="0.000460085">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts" name="usePinnedBundle (F0036-S0004) &gt; surfaces a controlled error for an unresolvable pinned version (no silent fallback)" time="0.00039118">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/widgetRegistry.test.ts" timestamp="2026-07-19T22:57:45.069Z" hostname="cbf454a3471f" tests="4" failures="0" errors="0" skipped="0" time="0.000908546">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgetRegistry.test.ts" name="widgetRegistry (F0036-S0001) &gt; resolves a registered widget to its entry" time="0.000219056">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgetRegistry.test.ts" name="widgetRegistry (F0036-S0001) &gt; fails closed: resolving an unregistered widget throws (does not render a fallback)" time="0.00023652">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgetRegistry.test.ts" name="widgetRegistry (F0036-S0001) &gt; fails closed on an unknown option for a widget with an option schema" time="0.0001699">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgetRegistry.test.ts" name="widgetRegistry (F0036-S0001) &gt; allows all options when a widget declares no option schema" time="0.000098261">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" timestamp="2026-07-19T22:57:45.070Z" hostname="cbf454a3471f" tests="11" failures="0" errors="0" skipped="0" time="0.056577167">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; registers all ten MVP widgets" time="0.000357175">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; text widget propagates input to onChange (engine-controlled, not lifted)" time="0.014093725">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; number widget emits a number, empty clears to undefined" time="0.009118051">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; money-minor stores integer minor units while displaying the major unit (round-trip)" time="0.001909503">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; checkbox widget toggles boolean" time="0.007613766">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; select widget renders derived options and emits the chosen value" time="0.010469869">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; multi-select toggles membership in a string array" time="0.008879336">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; required widget exposes a required affordance and renders an inline error slot" time="0.001673885">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; disabled widget renders a non-editable control" time="0.000770849">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; read-only summary renders a value without an editable control" time="0.00093072">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; fails closed: a configured option outside the data-schema enum throws" time="0.000485354">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/reports/components/__tests__/DistributionRollupReportView.test.tsx" timestamp="2026-07-19T22:57:45.074Z" hostname="cbf454a3471f" tests="4" failures="0" errors="0" skipped="0" time="0.007811781">
+        <testcase classname="src/features/reports/components/__tests__/DistributionRollupReportView.test.tsx" name="DistributionRollupReportView &gt; renders authorized rollup metrics and drilldown links" time="0.003633004">
+        </testcase>
+        <testcase classname="src/features/reports/components/__tests__/DistributionRollupReportView.test.tsx" name="DistributionRollupReportView &gt; shows a no-leak empty state for scoped-away rollups" time="0.001257436">
+        </testcase>
+        <testcase classname="src/features/reports/components/__tests__/DistributionRollupReportView.test.tsx" name="DistributionRollupReportView &gt; renders &quot;—&quot; for metrics not applicable to the selected metric family" time="0.001439148">
+        </testcase>
+        <testcase classname="src/features/reports/components/__tests__/DistributionRollupReportView.test.tsx" name="DistributionRollupReportView &gt; renders every metric column for the Workflow family" time="0.001291782">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/search/components/__tests__/SearchOverlay.test.tsx" timestamp="2026-07-19T22:57:45.075Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.028643464">
+        <testcase classname="src/features/search/components/__tests__/SearchOverlay.test.tsx" name="SearchOverlay &gt; navigates to the search workspace on submit" time="0.017948035">
+        </testcase>
+        <testcase classname="src/features/search/components/__tests__/SearchOverlay.test.tsx" name="SearchOverlay &gt; does not navigate for queries under 2 characters" time="0.010497764">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/search/components/__tests__/SearchResultsList.test.tsx" timestamp="2026-07-19T22:57:45.077Z" hostname="cbf454a3471f" tests="3" failures="0" errors="0" skipped="0" time="0.005021905">
+        <testcase classname="src/features/search/components/__tests__/SearchResultsList.test.tsx" name="SearchResultsList &gt; prompts when the query is too short" time="0.000985437">
+        </testcase>
+        <testcase classname="src/features/search/components/__tests__/SearchResultsList.test.tsx" name="SearchResultsList &gt; renders authorized results with a title and authorized-count copy" time="0.003061733">
+        </testcase>
+        <testcase classname="src/features/search/components/__tests__/SearchResultsList.test.tsx" name="SearchResultsList &gt; shows an access-scoped empty state" time="0.000797161">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/service-cases/components/__tests__/ServiceCaseListPanel.test.tsx" timestamp="2026-07-19T22:57:45.078Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.004688627">
+        <testcase classname="src/features/service-cases/components/__tests__/ServiceCaseListPanel.test.tsx" name="ServiceCaseListPanel &gt; renders the empty state for an account without service cases" time="0.001254319">
+        </testcase>
+        <testcase classname="src/features/service-cases/components/__tests__/ServiceCaseListPanel.test.tsx" name="ServiceCaseListPanel &gt; renders service-case rows with status, priority, and detail links" time="0.003243838">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/tasks/components/__tests__/TaskCreateModal.test.tsx" timestamp="2026-07-19T22:57:45.079Z" hostname="cbf454a3471f" tests="3" failures="0" errors="0" skipped="0" time="0.029006816">
+        <testcase classname="src/features/tasks/components/__tests__/TaskCreateModal.test.tsx" name="TaskCreateModal — S0007 wiring regression &gt; creates a task with the same payload as before wiring" time="0.013669977">
+        </testcase>
+        <testcase classname="src/features/tasks/components/__tests__/TaskCreateModal.test.tsx" name="TaskCreateModal — S0007 wiring regression &gt; blocks submit and shows a validation error for an empty title (unchanged)" time="0.011910936">
+        </testcase>
+        <testcase classname="src/features/tasks/components/__tests__/TaskCreateModal.test.tsx" name="TaskCreateModal — S0007 wiring regression &gt; registers with F0035 so dirty values snapshot on a forced re-auth" time="0.003219851">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/tasks/components/__tests__/TaskDetailPanel.test.tsx" timestamp="2026-07-19T22:57:45.080Z" hostname="cbf454a3471f" tests="2" failures="0" errors="0" skipped="0" time="0.035957864">
+        <testcase classname="src/features/tasks/components/__tests__/TaskDetailPanel.test.tsx" name="TaskDetailPanel inline edit — S0007 wiring regression &gt; saves an inline title edit with the same update payload (unchanged)" time="0.023338585">
+        </testcase>
+        <testcase classname="src/features/tasks/components/__tests__/TaskDetailPanel.test.tsx" name="TaskDetailPanel inline edit — S0007 wiring regression &gt; registers the inline edit with F0035 so dirty values snapshot on a forced re-auth" time="0.012452325">
+        </testcase>
+    </testsuite>
+</testsuites>

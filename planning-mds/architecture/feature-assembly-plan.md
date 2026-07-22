@@ -8,6 +8,31 @@
 
 Define the build order, role handoffs, and integration checkpoints for implemented and planned features.
 
+## F0026 - Billing, Invoicing & Reconciliation
+
+**Added:** 2026-07-19 - Plan Phase B and the feature-local implementation execution plan were approved in plan run `2026-07-19-79477865` with explicit operator token `approve`.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0026-billing-invoicing-and-reconciliation/feature-assembly-plan.md) - agency-bill-only module boundary, exact-application transaction, mock CSV profile, correction separation of duties, endpoint/security contract, frontend behavior, and implementation validation checkpoints.
+
+### Dependencies
+
+| Dependency | Source | What F0026 Needs | Status |
+|------------|--------|------------------|--------|
+| Policy lifecycle | F0018 / ADR-018 | Policy/version/account identity, currency/premium context, source authorization | Done/archived; evidence audit pending |
+| Commission revenue | F0025 / ADR-033 | Expected-commission context and billing/reconciliation ownership handoff | Done/archived; approved run `2026-07-07-9859bad4` |
+| Production integration seam | F0030 / ADR-015 | Future connector/outbox/transport only | Planned; not a first-release dependency |
+| Billing architecture | ADR-034 | Persistence, exact match, corrections, auth, audit, CSV, and performance contracts | Accepted 2026-07-19 |
+
+### Assembly Slice Order
+
+1. Billing domain entities, EF configuration, migration, uniqueness/index constraints, and repositories.
+2. DTOs, validators, mock CSV parser, exact-application/correction transactions, source authorization, and timeline events.
+3. Minimal API, JSON Schema/OpenAPI/ProblemDetails parity, Casbin role/action policy, and no-leak query tests.
+4. Billing workspace, invoice detail, reconciliation, import outcome, exception, and backlog frontend slices.
+5. QE/security/code/deployability evidence, then feature-action G7 as-built KG reconciliation and G8 closeout.
+
+---
+
 **Note:** F0010 frontend (Pipeline Board) and F0011 are abandoned — superseded by F0012, then F0013. F0012 is archived — superseded by F0013. Backend endpoints from F0010 and F0012 carry forward into F0013. See individual feature sections for details.
 
 ---

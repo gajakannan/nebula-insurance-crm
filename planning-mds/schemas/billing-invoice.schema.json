@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/billing-invoice.schema.json",
+  "title": "BillingInvoice",
+  "type": "object",
+  "required": ["id", "invoiceNumber", "policyId", "policyVersionId", "accountId", "currency", "originalAmount", "outstandingAmount", "invoiceDate", "dueDate", "status", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "invoiceNumber": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "policyId": { "type": "string", "format": "uuid" },
+    "policyVersionId": { "type": "string", "format": "uuid" },
+    "accountId": { "type": "string", "format": "uuid" },
+    "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "originalAmount": { "type": "number", "exclusiveMinimum": 0, "multipleOf": 0.01 },
+    "outstandingAmount": { "type": "number", "minimum": 0, "multipleOf": 0.01 },
+    "invoiceDate": { "type": "string", "format": "date" },
+    "dueDate": { "type": "string", "format": "date" },
+    "status": { "type": "string", "enum": ["Outstanding", "Reconciled"] },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "createdByUserId": { "type": "string", "format": "uuid" },
+    "rowVersion": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

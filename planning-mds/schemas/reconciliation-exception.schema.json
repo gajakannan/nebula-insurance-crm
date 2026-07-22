@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/reconciliation-exception.schema.json",
+  "title": "ReconciliationException",
+  "type": "object",
+  "required": ["id", "type", "status", "openedAt", "openedByUserId", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "type": { "type": "string", "enum": ["MissingInvoiceReference", "InvoiceReferenceConflict", "AmountMismatch", "CurrencyMismatch", "DuplicateReceipt", "InvalidSourceData"] },
+    "billingInvoiceId": { "type": ["string", "null"], "format": "uuid" },
+    "paymentReceiptId": { "type": ["string", "null"], "format": "uuid" },
+    "importBatchId": { "type": ["string", "null"], "format": "uuid" },
+    "importRowOutcomeId": { "type": ["string", "null"], "format": "uuid" },
+    "status": { "type": "string", "enum": ["Open", "Resolved"] },
+    "openedAt": { "type": "string", "format": "date-time" },
+    "openedByUserId": { "type": "string", "format": "uuid" },
+    "resolvedAt": { "type": ["string", "null"], "format": "date-time" },
+    "resolvedByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "resolutionCode": { "type": ["string", "null"], "maxLength": 80 },
+    "resolutionNote": { "type": ["string", "null"], "maxLength": 1000 },
+    "pendingCorrection": {
+      "anyOf": [
+        { "$ref": "https://nebula.local/schemas/billing-correction.schema.json" },
+        { "type": "null" }
+      ]
+    },
+    "rowVersion": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,78 @@
+{
+  "action": "plan",
+  "contract_version": "2026-07-11",
+  "run_id": "2026-07-19-79477865",
+  "schema_version": 1,
+  "stages": {
+    "G1": {
+      "attestations": [],
+      "completed_operations": [],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G2": {
+      "attestations": [],
+      "completed_operations": [],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G3": {
+      "attestations": [
+        {
+          "actor": "operator",
+          "checkpoint_id": "approve-phase-a",
+          "evidence": [
+            {
+              "path": "gate-decisions.md",
+              "sha256": "13cc149b36f10448c578a7bfa09ce05373591f480fc2c84d47bce414bc8840c9"
+            }
+          ],
+          "note": "Explicit operator token: lets do Phase B",
+          "role": "product-manager",
+          "timestamp": "2026-07-19T14:01:28-04:00"
+        }
+      ],
+      "completed_operations": [
+        "checkpoint:approve-phase-a"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G4": {
+      "attestations": [],
+      "completed_operations": [
+        "kg-check-drift"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G5": {
+      "attestations": [
+        {
+          "actor": "operator",
+          "checkpoint_id": "approve-phase-b",
+          "evidence": [
+            {
+              "path": "gate-decisions.md",
+              "sha256": "abc9cdaa7540a009038eb60ccaf1a81451f3b93ac11c722e7e598ccecd8ad32b"
+            }
+          ],
+          "note": "Explicit operator token: approve",
+          "role": "architect",
+          "timestamp": "2026-07-19T16:15:11-04:00"
+        }
+      ],
+      "completed_operations": [
+        "validate-stories",
+        "generate-story-index",
+        "validate-trackers",
+        "kg-write-coverage",
+        "kg-check-drift-exit",
+        "validate-templates",
+        "checkpoint:approve-phase-b"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    }
+  }
+}

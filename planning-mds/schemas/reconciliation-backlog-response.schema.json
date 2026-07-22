@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/reconciliation-backlog-response.schema.json",
+  "title": "ReconciliationBacklogResponse",
+  "type": "object",
+  "required": ["openCount", "exactApplicationCount", "pendingCorrectionCount", "rejectedImportRowCount", "duplicateImportRowCount", "oldestOpenDays", "byType"],
+  "properties": {
+    "openCount": { "type": "integer", "minimum": 0 },
+    "exactApplicationCount": { "type": "integer", "minimum": 0 },
+    "pendingCorrectionCount": { "type": "integer", "minimum": 0 },
+    "rejectedImportRowCount": { "type": "integer", "minimum": 0 },
+    "duplicateImportRowCount": { "type": "integer", "minimum": 0 },
+    "oldestOpenDays": { "type": ["integer", "null"], "minimum": 0 },
+    "byType": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "count"],
+        "properties": {
+          "type": { "type": "string", "enum": ["MissingInvoiceReference", "InvoiceReferenceConflict", "AmountMismatch", "CurrencyMismatch", "DuplicateReceipt", "InvalidSourceData"] },
+          "count": { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

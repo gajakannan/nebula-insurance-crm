@@ -1,0 +1,15 @@
+id: entity:payment-receipt
+label: PaymentReceipt
+rationale:
+  - adr: adr:034
+    section: Decision §2
+    summary: Manual or mock-vendor receipt provenance is independent and immutable; recording never changes an invoice.
+related_nodes:
+  - entity:activity-timeline-event
+  - entity:payment-application
+  - entity:payment-receipt-import-batch
+  - entity:reconciliation-exception
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/schemas/payment-receipt.schema.json
+  - planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md

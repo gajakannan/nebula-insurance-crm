@@ -30,7 +30,6 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 <!-- generated:begin registry:planned -->
 | Feature ID | Name | Status | Phase | Folder |
 |------------|------|--------|-------|--------|
-| F0026 | Billing, Invoicing & Reconciliation | Planned | Brokerage Platform Expansion | `F0026-billing-invoicing-and-reconciliation/` |
 | F0029 | External Broker Collaboration Portal | Planned | Brokerage Platform Expansion | `F0029-external-broker-collaboration-portal/` |
 | F0030 | Integration Hub & Data Exchange | Planned | Brokerage Platform Expansion | `F0030-integration-hub-and-data-exchange/` |
 | F0031 | Data Import, Deduplication & Go-Live Migration | Planned | Release Enablement | `F0031-data-import-deduplication-and-go-live-migration/` |
@@ -43,6 +42,7 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 <!-- generated:begin registry:archived -->
 | Feature ID | Name | Archived Date | Folder |
 |------------|------|---------------|--------|
+| F0026 | Billing, Invoicing & Reconciliation | 2026-07-19 | `archive/F0026-billing-invoicing-and-reconciliation/` |
 | F0025 | Commission, Producer Splits & Revenue Tracking | 2026-07-07 | `archive/F0025-commission-producer-splits-and-revenue-tracking/` |
 | F0037 | Hierarchy-Aware Access Scoping & Distribution Rollups | 2026-07-06 | `archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/` |
 | F0032 | Admin Configuration & Reference Data Console | 2026-07-06 | `archive/F0032-admin-configuration-and-reference-data-console/` |

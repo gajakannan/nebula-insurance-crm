@@ -16,6 +16,7 @@ export interface CommissionSearchParams {
   search?: string
   status?: string
   exceptionState?: string
+  policyId?: string
   page?: number
   pageSize?: number
 }

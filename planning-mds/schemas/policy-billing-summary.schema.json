@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/policy-billing-summary.schema.json",
+  "title": "PolicyBillingSummary",
+  "type": "object",
+  "required": ["policyId", "currency", "invoiceCount", "outstandingInvoiceCount", "outstandingAmount", "asOf"],
+  "properties": {
+    "policyId": { "type": "string", "format": "uuid" },
+    "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "invoiceCount": { "type": "integer", "minimum": 0 },
+    "outstandingInvoiceCount": { "type": "integer", "minimum": 0 },
+    "outstandingAmount": { "type": "number", "minimum": 0, "multipleOf": 0.01 },
+    "nextDueDate": { "type": ["string", "null"], "format": "date" },
+    "asOf": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

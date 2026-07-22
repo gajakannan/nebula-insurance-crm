@@ -832,3 +832,51 @@ schemas:
       - entity:operational-report-projection
       - workflow:renewal
       - workflow:submission
+  - id: schema:billing-invoice
+    path: planning-mds/schemas/billing-invoice.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice]
+  - id: schema:billing-invoice-detail
+    path: planning-mds/schemas/billing-invoice-detail.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:billing-invoice, entity:payment-application, entity:payment-receipt, entity:reconciliation-exception]
+  - id: schema:billing-invoice-create-request
+    path: planning-mds/schemas/billing-invoice-create-request.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice]
+  - id: schema:payment-receipt
+    path: planning-mds/schemas/payment-receipt.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt]
+  - id: schema:payment-receipt-create-request
+    path: planning-mds/schemas/payment-receipt-create-request.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt]
+  - id: schema:mock-payment-receipt-row
+    path: planning-mds/schemas/mock-payment-receipt-row.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt, entity:payment-receipt-import-batch]
+  - id: schema:payment-receipt-import-result
+    path: planning-mds/schemas/payment-receipt-import-result.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt-import-batch, entity:payment-receipt-import-row-outcome]
+  - id: schema:payment-application-request
+    path: planning-mds/schemas/payment-application-request.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:payment-application, entity:payment-receipt]
+  - id: schema:payment-application
+    path: planning-mds/schemas/payment-application.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-application]
+  - id: schema:reconciliation-exception
+    path: planning-mds/schemas/reconciliation-exception.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception]
+  - id: schema:reconciliation-reference-correction-request
+    path: planning-mds/schemas/reconciliation-reference-correction-request.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception]
+  - id: schema:billing-correction-request
+    path: planning-mds/schemas/billing-correction-request.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+  - id: schema:billing-correction-decision-request
+    path: planning-mds/schemas/billing-correction-decision-request.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+  - id: schema:billing-correction
+    path: planning-mds/schemas/billing-correction.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+  - id: schema:reconciliation-backlog-response
+    path: planning-mds/schemas/reconciliation-backlog-response.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, capability:operational-reporting, entity:reconciliation-exception]
+  - id: schema:policy-billing-summary
+    path: planning-mds/schemas/policy-billing-summary.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:policy]

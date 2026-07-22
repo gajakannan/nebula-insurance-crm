@@ -1,0 +1,14 @@
+id: entity:payment-receipt-import-row-outcome
+label: PaymentReceiptImportRowOutcome
+rationale:
+  - adr: adr:034
+    section: Decision §3
+    summary: Every mock-import row has an immutable Created, Duplicate, or Rejected outcome for deterministic retry evidence.
+related_nodes:
+  - entity:payment-receipt
+  - entity:payment-receipt-import-batch
+  - entity:reconciliation-exception
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/schemas/payment-receipt-import-result.schema.json
+  - planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md

@@ -1,0 +1,421 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="3b2632f9-6b47-4f07-9134-dbf73ca28581" name="@docker-desktop 2026-07-19 22:36:39" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-07-19T22:36:39.4568708+00:00" queuing="2026-07-19T22:36:39.4568709+00:00" start="2026-07-19T22:36:30.5292601+00:00" finish="2026-07-19T22:36:39.4637091+00:00" />
+  <TestSettings name="default" id="b432261e-f5c7-4a42-b80a-909d06028d13">
+    <Deployment runDeploymentRoot="_docker-desktop_2026-07-19_22_36_39" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="995c479d-02b6-4951-84b5-b6607feee92b" testId="58ab4102-48c2-da15-fa76-0a95ccbb9967" testName="Nebula.Tests.Integration.Logging.StructuredLoggingTests.Authorization_header_is_not_logged_in_baseline_events" computerName="docker-desktop" duration="00:00:00.8927997" startTime="2026-07-19T22:36:37.5941978+00:00" endTime="2026-07-19T22:36:38.4702864+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="995c479d-02b6-4951-84b5-b6607feee92b">
+      <Output>
+        <ErrorInfo>
+          <Message>Npgsql.NpgsqlException : Failed to connect to 127.0.0.1:64406
+---- System.Net.Sockets.SocketException : Connection refused</Message>
+          <StackTrace>   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.RawOpen(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.&lt;Open&gt;g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.&lt;Get&gt;g__RentAsync|33_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.&lt;Open&gt;g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlHistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.MigrateAsync(String targetMigration, CancellationToken cancellationToken)
+   at Program.&lt;Main&gt;$(String[] args) in /repo/engine/src/Nebula.Api/Program.cs:line 217
+   at Program.&lt;Main&gt;(String[] args)
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.StartServer()
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()
+   at Nebula.Tests.Integration.Logging.StructuredLoggingTests.Authorization_header_is_not_logged_in_baseline_events() in /repo/engine/tests/Nebula.Tests/Integration/Logging/StructuredLoggingTests.cs:line 94
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ca8b7722-9ee6-4b7a-b648-c53835c1c0ed" testId="1a381c82-af6e-786e-4f69-7906162dc3f1" testName="Nebula.Tests.Integration.Logging.StructuredLoggingTests.Authenticated_request_includes_user_context" computerName="docker-desktop" duration="00:00:00.0475564" startTime="2026-07-19T22:36:38.4935665+00:00" endTime="2026-07-19T22:36:38.5401581+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ca8b7722-9ee6-4b7a-b648-c53835c1c0ed">
+      <Output>
+        <ErrorInfo>
+          <Message>Npgsql.NpgsqlException : Failed to connect to 127.0.0.1:64406
+---- System.Net.Sockets.SocketException : Connection refused</Message>
+          <StackTrace>   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.RawOpen(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.&lt;Open&gt;g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.&lt;Get&gt;g__RentAsync|33_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.&lt;Open&gt;g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlHistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.MigrateAsync(String targetMigration, CancellationToken cancellationToken)
+   at Program.&lt;Main&gt;$(String[] args) in /repo/engine/src/Nebula.Api/Program.cs:line 217
+   at Program.&lt;Main&gt;(String[] args)
+   at InvokeStub_Program.&lt;Main&gt;(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.StartServer()
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()
+   at Nebula.Tests.Integration.Logging.StructuredLoggingTests.Authenticated_request_includes_user_context() in /repo/engine/tests/Nebula.Tests/Integration/Logging/StructuredLoggingTests.cs:line 75
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5704d5a6-2a40-49d6-acec-4886709adba0" testId="f2bf733f-db65-23d1-4a6b-144a22ef4552" testName="Nebula.Tests.Integration.Logging.StructuredLoggingTests.Successful_request_emits_structured_log_with_trace_and_status" computerName="docker-desktop" duration="00:00:00.0067034" startTime="2026-07-19T22:36:38.5409950+00:00" endTime="2026-07-19T22:36:38.5474270+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5704d5a6-2a40-49d6-acec-4886709adba0">
+      <Output>
+        <ErrorInfo>
+          <Message>Npgsql.NpgsqlException : Failed to connect to 127.0.0.1:64406
+---- System.Net.Sockets.SocketException : Connection refused</Message>
+          <StackTrace>   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.RawOpen(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.&lt;Open&gt;g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.&lt;Get&gt;g__RentAsync|33_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.&lt;Open&gt;g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlHistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.MigrateAsync(String targetMigration, CancellationToken cancellationToken)
+   at Program.&lt;Main&gt;$(String[] args) in /repo/engine/src/Nebula.Api/Program.cs:line 217
+   at Program.&lt;Main&gt;(String[] args)
+   at InvokeStub_Program.&lt;Main&gt;(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.StartServer()
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()
+   at Nebula.Tests.Integration.Logging.StructuredLoggingTests.Successful_request_emits_structured_log_with_trace_and_status() in /repo/engine/tests/Nebula.Tests/Integration/Logging/StructuredLoggingTests.cs:line 37
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="aefd6d92-494a-4840-9087-fb1b213adf8f" testId="65df8705-544f-2592-9d35-fe264ed6d51a" testName="Nebula.Tests.Integration.Logging.StructuredLoggingTests.ProblemDetails_traceId_is_present_on_error_response" computerName="docker-desktop" duration="00:00:00.0207263" startTime="2026-07-19T22:36:38.4804846+00:00" endTime="2026-07-19T22:36:38.4917430+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aefd6d92-494a-4840-9087-fb1b213adf8f">
+      <Output>
+        <ErrorInfo>
+          <Message>Npgsql.NpgsqlException : Failed to connect to 127.0.0.1:64406
+---- System.Net.Sockets.SocketException : Connection refused</Message>
+          <StackTrace>   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.RawOpen(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.&lt;Open&gt;g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.&lt;Get&gt;g__RentAsync|33_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.&lt;Open&gt;g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlHistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.MigrateAsync(String targetMigration, CancellationToken cancellationToken)
+   at Program.&lt;Main&gt;$(String[] args) in /repo/engine/src/Nebula.Api/Program.cs:line 217
+   at Program.&lt;Main&gt;(String[] args)
+   at InvokeStub_Program.&lt;Main&gt;(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.StartServer()
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)
+   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()
+   at Nebula.Tests.Integration.Logging.StructuredLoggingTests.ProblemDetails_traceId_is_present_on_error_response() in /repo/engine/tests/Nebula.Tests/Integration/Logging/StructuredLoggingTests.cs:line 55
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Nebula.Tests.Integration.Logging.StructuredLoggingTests.Successful_request_emits_structured_log_with_trace_and_status" storage="/repo/engine/tests/nebula.tests/bin/release/net10.0/nebula.tests.dll" id="f2bf733f-db65-23d1-4a6b-144a22ef4552">
+      <Execution id="5704d5a6-2a40-49d6-acec-4886709adba0" />
+      <TestMethod codeBase="/repo/engine/tests/Nebula.Tests/bin/Release/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Integration.Logging.StructuredLoggingTests" name="Successful_request_emits_structured_log_with_trace_and_status" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Integration.Logging.StructuredLoggingTests.Authenticated_request_includes_user_context" storage="/repo/engine/tests/nebula.tests/bin/release/net10.0/nebula.tests.dll" id="1a381c82-af6e-786e-4f69-7906162dc3f1">
+      <Execution id="ca8b7722-9ee6-4b7a-b648-c53835c1c0ed" />
+      <TestMethod codeBase="/repo/engine/tests/Nebula.Tests/bin/Release/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Integration.Logging.StructuredLoggingTests" name="Authenticated_request_includes_user_context" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Integration.Logging.StructuredLoggingTests.ProblemDetails_traceId_is_present_on_error_response" storage="/repo/engine/tests/nebula.tests/bin/release/net10.0/nebula.tests.dll" id="65df8705-544f-2592-9d35-fe264ed6d51a">
+      <Execution id="aefd6d92-494a-4840-9087-fb1b213adf8f" />
+      <TestMethod codeBase="/repo/engine/tests/Nebula.Tests/bin/Release/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Integration.Logging.StructuredLoggingTests" name="ProblemDetails_traceId_is_present_on_error_response" />
+    </UnitTest>
+    <UnitTest name="Nebula.Tests.Integration.Logging.StructuredLoggingTests.Authorization_header_is_not_logged_in_baseline_events" storage="/repo/engine/tests/nebula.tests/bin/release/net10.0/nebula.tests.dll" id="58ab4102-48c2-da15-fa76-0a95ccbb9967">
+      <Execution id="995c479d-02b6-4951-84b5-b6607feee92b" />
+      <TestMethod codeBase="/repo/engine/tests/Nebula.Tests/bin/Release/net10.0/Nebula.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Nebula.Tests.Integration.Logging.StructuredLoggingTests" name="Authorization_header_is_not_logged_in_baseline_events" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="58ab4102-48c2-da15-fa76-0a95ccbb9967" executionId="995c479d-02b6-4951-84b5-b6607feee92b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1a381c82-af6e-786e-4f69-7906162dc3f1" executionId="ca8b7722-9ee6-4b7a-b648-c53835c1c0ed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f2bf733f-db65-23d1-4a6b-144a22ef4552" executionId="5704d5a6-2a40-49d6-acec-4886709adba0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="65df8705-544f-2592-9d35-fe264ed6d51a" executionId="aefd6d92-494a-4840-9087-fb1b213adf8f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="4" executed="4" passed="0" failed="4" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.10)
+[xUnit.net 00:00:00.06]   Discovering: Nebula.Tests
+[xUnit.net 00:00:00.14]   Discovered:  Nebula.Tests
+[xUnit.net 00:00:00.15]   Starting:    Nebula.Tests
+[testcontainers.org 00:00:00.07] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.5.3
+  Kernel Version: 6.18.33.1-microsoft-standard-WSL2
+  API Version: 1.54
+  Operating System: Docker Desktop
+  Total Memory: 15.18 GB
+  Labels: 
+    com.docker.desktop.address=unix:///var/run/docker-cli.sock
+[testcontainers.org 00:00:00.30] Docker container 9ce8550f5f21 created
+[testcontainers.org 00:00:00.34] Start Docker container 9ce8550f5f21
+[testcontainers.org 00:00:00.55] Wait for Docker container 9ce8550f5f21 to complete readiness checks
+[testcontainers.org 00:00:00.57] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9ce8550f5f21
+[testcontainers.org 00:00:01.67] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9ce8550f5f21
+[testcontainers.org 00:00:02.76] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9ce8550f5f21
+[testcontainers.org 00:00:02.85] Docker container 9ce8550f5f21 ready
+{"@t":"2026-07-19T22:36:38.3081630Z","@m":"Entity '\"Account\"' has a global query filter defined and is the required end of a relationship with the entity '\"AccountRelationshipHistory\"'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.","@i":"c212bf57","@l":"Warning","principalEntityType":"Account","declaringEntityType":"AccountRelationshipHistory","EventId":{"Id":10622,"Name":"Microsoft.EntityFrameworkCore.Model.Validation.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning"},"SourceContext":"Microsoft.EntityFrameworkCore.Model.Validation"}
+{"@t":"2026-07-19T22:36:38.3115487Z","@m":"Entity '\"Broker\"' has a global query filter defined and is the required end of a relationship with the entity '\"BrokerRegion\"'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.","@i":"c212bf57","@l":"Warning","principalEntityType":"Broker","declaringEntityType":"BrokerRegion","EventId":{"Id":10622,"Name":"Microsoft.EntityFrameworkCore.Model.Validation.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning"},"SourceContext":"Microsoft.EntityFrameworkCore.Model.Validation"}
+{"@t":"2026-07-19T22:36:38.3116602Z","@m":"Entity '\"CarrierMarket\"' has a global query filter defined and is the required end of a relationship with the entity '\"CarrierMarketActivityLink\"'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.","@i":"c212bf57","@l":"Warning","principalEntityType":"CarrierMarket","declaringEntityType":"CarrierMarketActivityLink","EventId":{"Id":10622,"Name":"Microsoft.EntityFrameworkCore.Model.Validation.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning"},"SourceContext":"Microsoft.EntityFrameworkCore.Model.Validation"}
+{"@t":"2026-07-19T22:36:38.3117202Z","@m":"Entity '\"CommunicationEvent\"' has a global query filter defined and is the required end of a relationship with the entity '\"CommunicationCorrection\"'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.","@i":"c212bf57","@l":"Warning","principalEntityType":"CommunicationEvent","declaringEntityType":"CommunicationCorrection","EventId":{"Id":10622,"Name":"Microsoft.EntityFrameworkCore.Model.Validation.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning"},"SourceContext":"Microsoft.EntityFrameworkCore.Model.Validation"}
+{"@t":"2026-07-19T22:36:38.3117751Z","@m":"Entity '\"CommunicationEvent\"' has a global query filter defined and is the required end of a relationship with the entity '\"CommunicationFollowUpTaskLink\"'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.","@i":"c212bf57","@l":"Warning","principalEntityType":"CommunicationEvent","declaringEntityType":"CommunicationFollowUpTaskLink","EventId":{"Id":10622,"Name":"Microsoft.EntityFrameworkCore.Model.Validation.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning"},"SourceContext":"Microsoft.EntityFrameworkCore.Model.Validation"}
+{"@t":"2026-07-19T22:36:38.3118027Z","@m":"Entity '\"CommunicationEvent\"' has a global query filter defined and is the required end of a relationship with the entity '\"CommunicationLink\"'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.","@i":"c212bf57","@l":"Warning","principalEntityType":"CommunicationEvent","declaringEntityType":"CommunicationLink","EventId":{"Id":10622,"Name":"Microsoft.EntityFrameworkCore.Model.Validation.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning"},"SourceContext":"Microsoft.EntityFrameworkCore.Model.Validation"}
+{"@t":"2026-07-19T22:36:38.3118504Z","@m":"Entity '\"CommunicationEvent\"' has a global query filter defined and is the required end of a relationship with the entity '\"CommunicationParticipant\"'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.","@i":"c212bf57","@l":"Warning","principalEntityType":"CommunicationEvent","declaringEntityType":"CommunicationParticipant","EventId":{"Id":10622,"Name":"Microsoft.EntityFrameworkCore.Model.Validation.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning"},"SourceContext":"Microsoft.EntityFrameworkCore.Model.Validation"}
+{"@t":"2026-07-19T22:36:38.3119165Z","@m":"Entity '\"BillingInvoice\"' has a global query filter defined and is the required end of a relationship with the entity '\"PaymentApplication\"'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.","@i":"c212bf57","@l":"Warning","principalEntityType":"BillingInvoice","declaringEntityType":"PaymentApplication","EventId":{"Id":10622,"Name":"Microsoft.EntityFrameworkCore.Model.Validation.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning"},"SourceContext":"Microsoft.EntityFrameworkCore.Model.Validation"}
+{"@t":"2026-07-19T22:36:38.3120132Z","@m":"Entity '\"SavedView\"' has a global query filter defined and is the required end of a relationship with the entity '\"SavedViewAuditEvent\"'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.","@i":"c212bf57","@l":"Warning","principalEntityType":"SavedView","declaringEntityType":"SavedViewAuditEvent","EventId":{"Id":10622,"Name":"Microsoft.EntityFrameworkCore.Model.Validation.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning"},"SourceContext":"Microsoft.EntityFrameworkCore.Model.Validation"}
+{"@t":"2026-07-19T22:36:38.3120775Z","@m":"Entity '\"ServiceCase\"' has a global query filter defined and is the required end of a relationship with the entity '\"ServiceCaseClaimReference\"'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.","@i":"c212bf57","@l":"Warning","principalEntityType":"ServiceCase","declaringEntityType":"ServiceCaseClaimReference","EventId":{"Id":10622,"Name":"Microsoft.EntityFrameworkCore.Model.Validation.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning"},"SourceContext":"Microsoft.EntityFrameworkCore.Model.Validation"}
+{"@t":"2026-07-19T22:36:38.3121329Z","@m":"Entity '\"CommunicationEvent\"' has a global query filter defined and is the required end of a relationship with the entity '\"ServiceCaseCommunicationLink\"'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.","@i":"c212bf57","@l":"Warning","principalEntityType":"CommunicationEvent","declaringEntityType":"ServiceCaseCommunicationLink","EventId":{"Id":10622,"Name":"Microsoft.EntityFrameworkCore.Model.Validation.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning"},"SourceContext":"Microsoft.EntityFrameworkCore.Model.Validation"}
+{"@t":"2026-07-19T22:36:38.3121876Z","@m":"Entity '\"ServiceCase\"' has a global query filter defined and is the required end of a relationship with the entity '\"ServiceCaseTaskLink\"'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.","@i":"c212bf57","@l":"Warning","principalEntityType":"ServiceCase","declaringEntityType":"ServiceCaseTaskLink","EventId":{"Id":10622,"Name":"Microsoft.EntityFrameworkCore.Model.Validation.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning"},"SourceContext":"Microsoft.EntityFrameworkCore.Model.Validation"}
+{"@t":"2026-07-19T22:36:38.3122445Z","@m":"Entity '\"ServiceCase\"' has a global query filter defined and is the required end of a relationship with the entity '\"ServiceCaseTransition\"'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.","@i":"c212bf57","@l":"Warning","principalEntityType":"ServiceCase","declaringEntityType":"ServiceCaseTransition","EventId":{"Id":10622,"Name":"Microsoft.EntityFrameworkCore.Model.Validation.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning"},"SourceContext":"Microsoft.EntityFrameworkCore.Model.Validation"}
+{"@t":"2026-07-19T22:36:38.4604593Z","@m":"An error occurred using the connection to database '\"postgres\"' on server '\"tcp://localhost:64406\"'.","@i":"5fc3407c","@l":"Error","database":"postgres","server":"tcp://localhost:64406","EventId":{"Id":20004,"Name":"Microsoft.EntityFrameworkCore.Database.Connection.ConnectionError"},"SourceContext":"Microsoft.EntityFrameworkCore.Database.Connection"}
+[xUnit.net 00:00:03.98]       Npgsql.NpgsqlException : Failed to connect to 127.0.0.1:64406
+[xUnit.net 00:00:03.98]       ---- System.Net.Sockets.SocketException : Connection refused
+[xUnit.net 00:00:03.98]       Stack Trace:
+[xUnit.net 00:00:03.98]            at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at Npgsql.Internal.NpgsqlConnector.RawOpen(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at Npgsql.Internal.NpgsqlConnector.&lt;Open&gt;g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at Npgsql.PoolingDataSource.&lt;Get&gt;g__RentAsync|33_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at Npgsql.NpgsqlConnection.&lt;Open&gt;g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+[xUnit.net 00:00:03.98]            at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlHistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.MigrateAsync(String targetMigration, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]         /repo/engine/src/Nebula.Api/Program.cs(217,0): at Program.&lt;Main&gt;$(String[] args)
+[xUnit.net 00:00:03.98]            at Program.&lt;Main&gt;(String[] args)
+[xUnit.net 00:00:03.98]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+[xUnit.net 00:00:03.98]            at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+[xUnit.net 00:00:03.98]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:03.98]            at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)
+[xUnit.net 00:00:03.98]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)
+[xUnit.net 00:00:03.98]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)
+[xUnit.net 00:00:03.98]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.StartServer()
+[xUnit.net 00:00:03.98]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)
+[xUnit.net 00:00:03.98]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)
+[xUnit.net 00:00:03.98]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)
+[xUnit.net 00:00:03.98]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()
+[xUnit.net 00:00:03.98]         /repo/engine/tests/Nebula.Tests/Integration/Logging/StructuredLoggingTests.cs(94,0): at Nebula.Tests.Integration.Logging.StructuredLoggingTests.Authorization_header_is_not_logged_in_baseline_events()
+[xUnit.net 00:00:03.98]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:03.98]         ----- Inner Stack Trace -----
+[xUnit.net 00:00:03.98]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.98]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+[xUnit.net 00:00:03.98]            at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+{"@t":"2026-07-19T22:36:38.4904796Z","@m":"An error occurred using the connection to database '\"postgres\"' on server '\"tcp://localhost:64406\"'.","@i":"5fc3407c","@l":"Error","database":"postgres","server":"tcp://localhost:64406","EventId":{"Id":20004,"Name":"Microsoft.EntityFrameworkCore.Database.Connection.ConnectionError"},"SourceContext":"Microsoft.EntityFrameworkCore.Database.Connection"}
+[xUnit.net 00:00:04.00]       Npgsql.NpgsqlException : Failed to connect to 127.0.0.1:64406
+[xUnit.net 00:00:04.00]       ---- System.Net.Sockets.SocketException : Connection refused
+[xUnit.net 00:00:04.00]       Stack Trace:
+[xUnit.net 00:00:04.00]            at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at Npgsql.Internal.NpgsqlConnector.RawOpen(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at Npgsql.Internal.NpgsqlConnector.&lt;Open&gt;g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at Npgsql.PoolingDataSource.&lt;Get&gt;g__RentAsync|33_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at Npgsql.NpgsqlConnection.&lt;Open&gt;g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+[xUnit.net 00:00:04.00]            at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlHistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.MigrateAsync(String targetMigration, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]         /repo/engine/src/Nebula.Api/Program.cs(217,0): at Program.&lt;Main&gt;$(String[] args)
+[xUnit.net 00:00:04.00]            at Program.&lt;Main&gt;(String[] args)
+[xUnit.net 00:00:04.00]            at InvokeStub_Program.&lt;Main&gt;(Object, Span`1)
+[xUnit.net 00:00:04.00]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:04.00]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:04.00]            at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)
+[xUnit.net 00:00:04.00]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)
+[xUnit.net 00:00:04.00]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)
+[xUnit.net 00:00:04.00]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.StartServer()
+[xUnit.net 00:00:04.00]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)
+[xUnit.net 00:00:04.00]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)
+[xUnit.net 00:00:04.00]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)
+[xUnit.net 00:00:04.00]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()
+[xUnit.net 00:00:04.00]         /repo/engine/tests/Nebula.Tests/Integration/Logging/StructuredLoggingTests.cs(55,0): at Nebula.Tests.Integration.Logging.StructuredLoggingTests.ProblemDetails_traceId_is_present_on_error_response()
+[xUnit.net 00:00:04.00]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:04.00]         ----- Inner Stack Trace -----
+[xUnit.net 00:00:04.00]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.00]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+[xUnit.net 00:00:04.00]            at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+{"@t":"2026-07-19T22:36:38.5388420Z","@m":"An error occurred using the connection to database '\"postgres\"' on server '\"tcp://localhost:64406\"'.","@i":"5fc3407c","@l":"Error","database":"postgres","server":"tcp://localhost:64406","EventId":{"Id":20004,"Name":"Microsoft.EntityFrameworkCore.Database.Connection.ConnectionError"},"SourceContext":"Microsoft.EntityFrameworkCore.Database.Connection"}
+[xUnit.net 00:00:04.05]       Npgsql.NpgsqlException : Failed to connect to 127.0.0.1:64406
+[xUnit.net 00:00:04.05]       ---- System.Net.Sockets.SocketException : Connection refused
+[xUnit.net 00:00:04.05]       Stack Trace:
+[xUnit.net 00:00:04.05]            at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at Npgsql.Internal.NpgsqlConnector.RawOpen(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at Npgsql.Internal.NpgsqlConnector.&lt;Open&gt;g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at Npgsql.PoolingDataSource.&lt;Get&gt;g__RentAsync|33_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at Npgsql.NpgsqlConnection.&lt;Open&gt;g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+[xUnit.net 00:00:04.05]            at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlHistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.MigrateAsync(String targetMigration, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]         /repo/engine/src/Nebula.Api/Program.cs(217,0): at Program.&lt;Main&gt;$(String[] args)
+[xUnit.net 00:00:04.05]            at Program.&lt;Main&gt;(String[] args)
+[xUnit.net 00:00:04.05]            at InvokeStub_Program.&lt;Main&gt;(Object, Span`1)
+[xUnit.net 00:00:04.05]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:04.05]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:04.05]            at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)
+[xUnit.net 00:00:04.05]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)
+[xUnit.net 00:00:04.05]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)
+[xUnit.net 00:00:04.05]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.StartServer()
+[xUnit.net 00:00:04.05]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)
+[xUnit.net 00:00:04.05]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)
+[xUnit.net 00:00:04.05]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)
+[xUnit.net 00:00:04.05]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()
+[xUnit.net 00:00:04.05]         /repo/engine/tests/Nebula.Tests/Integration/Logging/StructuredLoggingTests.cs(75,0): at Nebula.Tests.Integration.Logging.StructuredLoggingTests.Authenticated_request_includes_user_context()
+[xUnit.net 00:00:04.05]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:04.05]         ----- Inner Stack Trace -----
+[xUnit.net 00:00:04.05]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.05]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+[xUnit.net 00:00:04.05]            at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+{"@t":"2026-07-19T22:36:38.5465625Z","@m":"An error occurred using the connection to database '\"postgres\"' on server '\"tcp://localhost:64406\"'.","@i":"5fc3407c","@l":"Error","database":"postgres","server":"tcp://localhost:64406","EventId":{"Id":20004,"Name":"Microsoft.EntityFrameworkCore.Database.Connection.ConnectionError"},"SourceContext":"Microsoft.EntityFrameworkCore.Database.Connection"}
+[xUnit.net 00:00:04.06]       Npgsql.NpgsqlException : Failed to connect to 127.0.0.1:64406
+[xUnit.net 00:00:04.06]       ---- System.Net.Sockets.SocketException : Connection refused
+[xUnit.net 00:00:04.06]       Stack Trace:
+[xUnit.net 00:00:04.06]            at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at Npgsql.Internal.NpgsqlConnector.RawOpen(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at Npgsql.Internal.NpgsqlConnector.&lt;Open&gt;g__OpenCore|209_0(NpgsqlConnector conn, String username, SslMode sslMode, GssEncryptionMode gssEncMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at Npgsql.PoolingDataSource.&lt;Get&gt;g__RentAsync|33_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at Npgsql.NpgsqlConnection.&lt;Open&gt;g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+[xUnit.net 00:00:04.06]            at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlHistoryRepository.GetAppliedMigrationsAsync(CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.MigrateAsync(String targetMigration, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]         /repo/engine/src/Nebula.Api/Program.cs(217,0): at Program.&lt;Main&gt;$(String[] args)
+[xUnit.net 00:00:04.06]            at Program.&lt;Main&gt;(String[] args)
+[xUnit.net 00:00:04.06]            at InvokeStub_Program.&lt;Main&gt;(Object, Span`1)
+[xUnit.net 00:00:04.06]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+[xUnit.net 00:00:04.06]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:04.06]            at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)
+[xUnit.net 00:00:04.06]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)
+[xUnit.net 00:00:04.06]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)
+[xUnit.net 00:00:04.06]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.StartServer()
+[xUnit.net 00:00:04.06]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(DelegatingHandler[] handlers)
+[xUnit.net 00:00:04.06]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateDefaultClient(Uri baseAddress, DelegatingHandler[] handlers)
+[xUnit.net 00:00:04.06]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient(WebApplicationFactoryClientOptions options)
+[xUnit.net 00:00:04.06]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateClient()
+[xUnit.net 00:00:04.06]         /repo/engine/tests/Nebula.Tests/Integration/Logging/StructuredLoggingTests.cs(37,0): at Nebula.Tests.Integration.Logging.StructuredLoggingTests.Successful_request_emits_structured_log_with_trace_and_status()
+[xUnit.net 00:00:04.06]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:04.06]         ----- Inner Stack Trace -----
+[xUnit.net 00:00:04.06]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+[xUnit.net 00:00:04.06]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+[xUnit.net 00:00:04.06]            at Npgsql.Internal.NpgsqlConnector.ConnectAsync(NpgsqlTimeout timeout, CancellationToken cancellationToken)
+[testcontainers.org 00:00:03.85] Delete Docker container 9ce8550f5f21
+[xUnit.net 00:00:04.44]   Finished:    Nebula.Tests
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="docker-desktop" outcome="Error" timestamp="2026-07-19T22:36:38.4723345+00:00">
+        <Text>[xUnit.net 00:00:03.98]     Nebula.Tests.Integration.Logging.StructuredLoggingTests.Authorization_header_is_not_logged_in_baseline_events [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="docker-desktop" outcome="Error" timestamp="2026-07-19T22:36:38.4920453+00:00">
+        <Text>[xUnit.net 00:00:04.00]     Nebula.Tests.Integration.Logging.StructuredLoggingTests.ProblemDetails_traceId_is_present_on_error_response [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="docker-desktop" outcome="Error" timestamp="2026-07-19T22:36:38.5403948+00:00">
+        <Text>[xUnit.net 00:00:04.05]     Nebula.Tests.Integration.Logging.StructuredLoggingTests.Authenticated_request_includes_user_context [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="docker-desktop" outcome="Error" timestamp="2026-07-19T22:36:38.5476515+00:00">
+        <Text>[xUnit.net 00:00:04.06]     Nebula.Tests.Integration.Logging.StructuredLoggingTests.Successful_request_emits_structured_log_with_trace_and_status [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+    <CollectorDataEntries>
+      <Collector agentName="docker-desktop" uri="datacollector://microsoft/CoverletCodeCoverage/1.0" collectorDisplayName="XPlat code coverage">
+        <UriAttachments>
+          <UriAttachment>
+            <A href="docker-desktop/coverage.cobertura.xml"></A>
+          </UriAttachment>
+        </UriAttachments>
+      </Collector>
+    </CollectorDataEntries>
+  </ResultSummary>
+</TestRun>

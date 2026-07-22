@@ -1,0 +1,641 @@
+node_bindings:
+  - id: capability:admin-configuration-governance
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/AdminConfigurationEndpoints.cs
+          - engine/src/Nebula.Api/Program.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/AdminConfigurationDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IAdminConfigurationDomainAdapter.cs
+          - engine/src/Nebula.Application/Interfaces/IAdminConfigurationRepository.cs
+          - engine/src/Nebula.Application/Services/AdminConfigurationService.cs
+        domain:
+          - engine/src/Nebula.Domain/Entities/ConfigurationAuditEvent.cs
+          - engine/src/Nebula.Domain/Entities/ConfigurationDomain.cs
+          - engine/src/Nebula.Domain/Entities/ConfigurationDraft.cs
+          - engine/src/Nebula.Domain/Entities/ConfigurationRefreshStatus.cs
+          - engine/src/Nebula.Domain/Entities/ConfigurationValidationResult.cs
+          - engine/src/Nebula.Domain/Entities/PublishedOperationalConfigurationSet.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/DependencyInjection.cs
+          - engine/src/Nebula.Infrastructure/Persistence/AppDbContext.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationAuditEventConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationDomainConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationDraftConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationRefreshStatusConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/ConfigurationValidationResultConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/PublishedOperationalConfigurationSetConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Repositories/AdminConfigurationRepository.cs
+          - engine/src/Nebula.Infrastructure/Services/AdminConfigurationDomainAdapters.cs
+        migrations:
+          - engine/src/Nebula.Infrastructure/Persistence/Migrations/20260706140000_F0032_AdminConfiguration.cs
+      frontend:
+        feature:
+          - experience/src/features/admin-configuration/**
+        routes:
+          - experience/src/App.tsx
+          - experience/src/components/layout/Sidebar.tsx
+          - experience/src/pages/AdminConfigurationPage.tsx
+      planning:
+        feature:
+          - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md
+          - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md
+          - planning-mds/features/archive/F0032-admin-configuration-and-reference-data-console/README.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+        architecture:
+          - planning-mds/architecture/data-model.md
+          - planning-mds/architecture/decisions/ADR-016-published-operational-configuration-governance.md
+          - planning-mds/architecture/decisions/ADR-032-admin-configuration-console-contract.md
+        schemas:
+          - planning-mds/schemas/admin-configuration-audit-event.schema.json
+          - planning-mds/schemas/admin-configuration-domain.schema.json
+          - planning-mds/schemas/admin-configuration-draft.schema.json
+          - planning-mds/schemas/admin-configuration-publish-request.schema.json
+          - planning-mds/schemas/admin-configuration-validation-result.schema.json
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: capability:authorization-enforcement
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/Interfaces/IAuthorizationService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Authorization/CasbinAuthorizationService.cs
+          - engine/src/Nebula.Infrastructure/Authorization/PolicyAuthorizationService.cs
+        policies:
+          - planning-mds/security/policies/model.conf
+          - planning-mds/security/policies/policy.csv
+        tests:
+          - engine/tests/Nebula.Tests/Integration/BrokerAuthorizationTests.cs
+          - engine/tests/Nebula.Tests/Integration/BrokerUserAccessTests.cs
+          - engine/tests/Nebula.Tests/Integration/DashboardReadAuthorizationTests.cs
+          - engine/tests/Nebula.Tests/Unit/CasbinAuthorizationServiceTests.cs
+  - id: capability:broker-insights
+    paths:
+      planning:
+        feature:
+          - planning-mds/features/archive/F0008-broker-insights/PRD.md
+          - planning-mds/features/archive/F0008-broker-insights/README.md
+        api:
+          - planning-mds/api/nebula-api.yaml
+        architecture:
+          - planning-mds/architecture/data-model.md
+          - planning-mds/architecture/decisions/ADR-031-broker-insights-read-models.md
+        schemas:
+          - planning-mds/schemas/broker-insight-benchmark.schema.json
+          - planning-mds/schemas/broker-insight-scorecard.schema.json
+          - planning-mds/schemas/broker-insight-snapshot.schema.json
+          - planning-mds/schemas/broker-insight-trend.schema.json
+        security:
+          - planning-mds/security/authorization-matrix.md
+          - planning-mds/security/policies/policy.csv
+  - id: capability:broker-relationship-management
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/BrokerEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Broker*.cs
+          - engine/src/Nebula.Application/Services/Broker*.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/BrokerRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Contracts/BrokerListProviderPactTests.cs
+          - engine/tests/Nebula.Tests/Integration/Broker*.cs
+      frontend:
+        features:
+          - experience/src/features/brokers/**
+        pages:
+          - experience/src/pages/BrokerDetailPage.tsx
+          - experience/src/pages/BrokerListPage.tsx
+          - experience/src/pages/CreateBrokerPage.tsx
+  - id: capability:commission-revenue-tracking
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/CommissionEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/CommissionDtos.cs
+          - engine/src/Nebula.Application/Interfaces/ICommissionRepository.cs
+          - engine/src/Nebula.Application/Interfaces/IRevenueAttributionRepository.cs
+          - engine/src/Nebula.Application/Services/CommissionRevenueService.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Persistence/Configurations/CommissionConfiguration.cs
+          - engine/src/Nebula.Infrastructure/Repositories/CommissionRepository.cs
+          - engine/src/Nebula.Infrastructure/Repositories/RevenueAttributionRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/CommissionRevenue/**
+      frontend:
+        feature:
+          - experience/src/features/commissions/**
+        app:
+          - experience/src/App.tsx
+        pages:
+          - experience/src/pages/CommissionDetailPage.tsx
+          - experience/src/pages/CommissionsPage.tsx
+        tests:
+          - experience/src/features/commissions/tests/**
+  - id: capability:dashboard-home
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/DashboardEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/Dashboard*.cs
+          - engine/src/Nebula.Application/DTOs/Opportunity*.cs
+          - engine/src/Nebula.Application/Interfaces/IDashboardRepository.cs
+          - engine/src/Nebula.Application/Services/DashboardService.cs
+          - engine/src/Nebula.Application/Services/OpportunityFlowNodeEmphasisCalculator.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Repositories/DashboardRepository.cs
+        tests:
+          - engine/tests/Nebula.Tests/Integration/Dashboard*.cs
+          - engine/tests/Nebula.Tests/Unit/Dashboard/*.cs
+      frontend:
+        features:
+          - experience/src/features/kpis/**
+          - experience/src/features/nudges/**
+          - experience/src/features/opportunities/**
+        pages:
+          - experience/src/pages/DashboardPage.tsx
+        tests:
+          - experience/src/features/opportunities/tests/*.tsx
+          - experience/src/pages/tests/DashboardPage.integration.test.tsx
+  - id: capability:document-management
+    paths:
+      backend:
+        api:
+          - engine/src/Nebula.Api/Endpoints/DocumentEndpoints.cs
+        application:
+          - engine/src/Nebula.Application/DTOs/DocumentDtos.cs
+          - engine/src/Nebula.Application/Interfaces/IDocument*.cs
+          - engine/src/Nebula.Application/Services/Document*.cs
+        infrastructure:
+          - engine/src/Nebula.Infrastructure/Documents/**
+        tests:
+          - engine/tests/Nebula.Tests/Unit/DocumentServiceTests.cs
+      frontend:
+        feature:
+          - experience/src/features/documents/**
+        api:
+          - experience/src/services/api.ts
+        pages:
+          - experience/src/pages/AccountDetailPage.tsx
+          - experience/src/pages/PolicyDetailPage.tsx
+          - experience/src/pages/RenewalDetailPage.tsx
+          - experience/src/pages/SubmissionDetailPage.tsx
+        tests:
+          - experience/src/features/documents/tests/ParentDocumentsPanel.test.tsx
+  - id: capability:dynamic-attribute-panel
+    paths:
+      docs:
+        api:
+          - planning-mds/api/nebula-api.yaml
+        architecture:
+          - planning-mds/architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md
+      frontend:
+        feature:
+          - experience/src/features/lob-attributes/**
+        pages:
+          - experience/src/pages/CreatePolicyPage.tsx
+          - experience/src/pages/CreateSubmissionPage.tsx
+          - experience/src/pages/PolicyDetailPage.tsx
+          - experience/src/pages/RenewalDetailPage.tsx
+          - experience/src/pages/SubmissionDetailPage.tsx
+  - id: capability:dynamic-lob-attributes
+    paths:
+      backend:
+        application:
+          - engine/src/Nebula.Application/DTOs/LobAttributeDtos.cs
+          - engine/src/Nebula.Application/Services/LobAttributeService.cs
+          - engine/src/Nebula.Application/Services/LobAttributeStorageResult.cs
+          - engine/src/Nebula.Application/Services/LobSchemaDefaults.cs
+        tests:
+          - engine/tests/Nebula.Tests/Unit/LobAttributes/LobAttributeServiceTests.cs
+      docs:
+        architecture:
+          - planning-mds/architecture/decisions/ADR-020-lob-extensible-attribute-architecture.md
+        schemas:
+          - planning-mds/schemas/lob-attribute-envelope.schema.json
+          - planning-mds/schemas/policy-endorsement.schema.json
+          - planning-mds/schemas/policy-version.schema.json
+          - planning-mds/schemas/policy.schema.json
+          - planning-mds/schemas/renewal.schema.json
+          - planning-mds/schemas/submission.schema.json
+      frontend:
+        feature:
+          - experience/src/features/lob-attributes/**
+      - capability:operations-routing
+      - entity:activity-timeline-event
+      - entity:work-queue
+      - policy_rule:queue-manage
+    route: /work-queues
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - id: endpoint:work-queue-items-list
+    label: GET /work-queues/{queueId}/items
+    method: GET
+    related_nodes:
+      - capability:operations-routing
+      - entity:queue-work-item
+      - entity:task-item
+      - policy_rule:queue-read
+      - workflow:renewal
+      - workflow:submission
+    route: /work-queues/{queueId}/items
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - id: endpoint:work-queue-list
+    label: GET /work-queues
+    method: GET
+    related_nodes:
+      - capability:operations-routing
+      - entity:work-queue
+      - policy_rule:queue-read
+    route: /work-queues
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - id: endpoint:work-queue-rebalance
+    label: POST /work-queues/{queueId}/rebalance
+    method: POST
+    related_nodes:
+      - capability:operations-routing
+      - entity:activity-timeline-event
+      - entity:queue-work-item
+      - entity:routing-decision-log
+      - policy_rule:queue-assign
+    route: /work-queues/{queueId}/rebalance
+    source_docs:
+      - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-013-operational-routing-and-queue-engine.md
+  - id: endpoint:workflow-aging-report
+    label: GET /operational-reports/workflow-aging
+    method: GET
+    related_nodes:
+      - capability:operational-reporting
+      - entity:operational-report-projection
+      - policy_rule:operational-report-read
+      - workflow:renewal
+      - workflow:submission
+    route: /operational-reports/workflow-aging
+    source_docs:
+      - F0023/feature-assembly-plan.md
+      - planning-mds/api/nebula-api.yaml
+  - id: endpoint:billing-invoice-list-create
+    label: GET/POST /billing-invoices
+    method: MULTI
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, policy_rule:billing-invoice-create, policy_rule:billing-read]
+    route: /billing-invoices
+    source_docs: [planning-mds/api/nebula-api.yaml, planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md]
+  - id: endpoint:billing-invoice-detail
+    label: GET /billing-invoices/{invoiceId}
+    method: GET
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, policy_rule:billing-read]
+    route: /billing-invoices/{invoiceId}
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:policy-billing-summary
+    label: GET /policies/{policyId}/billing-summary
+    method: GET
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:policy, policy_rule:billing-summary-read, policy_rule:policy-read]
+    route: /policies/{policyId}/billing-summary
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:payment-receipt-list-create
+    label: GET/POST /payment-receipts
+    method: MULTI
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt, policy_rule:billing-read, policy_rule:billing-receipt-record]
+    route: /payment-receipts
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:payment-receipt-import-create
+    label: POST /payment-receipt-imports
+    method: POST
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt-import-batch, entity:payment-receipt-import-row-outcome, policy_rule:billing-receipt-import]
+    route: /payment-receipt-imports
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:payment-receipt-import-detail
+    label: GET /payment-receipt-imports/{batchId}
+    method: GET
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt-import-batch, policy_rule:billing-read]
+    route: /payment-receipt-imports/{batchId}
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:payment-application-create
+    label: POST /payment-applications
+    method: POST
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:payment-application, entity:payment-receipt, policy_rule:billing-application-apply]
+    route: /payment-applications
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:reconciliation-exception-list
+    label: GET /reconciliation-exceptions
+    method: GET
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception, policy_rule:billing-backlog-read]
+    route: /reconciliation-exceptions
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:reconciliation-reference-correct
+    label: PATCH /reconciliation-exceptions/{exceptionId}/reference
+    method: PATCH
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception, policy_rule:billing-exception-manage]
+    route: /reconciliation-exceptions/{exceptionId}/reference
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:billing-correction-request
+    label: POST /reconciliation-exceptions/{exceptionId}/corrections
+    method: POST
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, entity:reconciliation-exception, policy_rule:billing-correction-request, workflow:billing-correction]
+    route: /reconciliation-exceptions/{exceptionId}/corrections
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:billing-correction-decision
+    label: POST /billing-corrections/{correctionId}/decision
+    method: POST
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, entity:billing-invoice, policy_rule:billing-correction-approve, workflow:billing-correction]
+    route: /billing-corrections/{correctionId}/decision
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:reconciliation-backlog
+    label: GET /reconciliation-backlog
+    method: GET
+    related_nodes: [capability:billing-invoicing-reconciliation, capability:operational-reporting, entity:reconciliation-exception, policy_rule:billing-backlog-summary-read]
+    route: /reconciliation-backlog
+    source_docs: [planning-mds/api/nebula-api.yaml]
+status: planned
+id: feature:F0026
+name: Billing, Invoicing & Reconciliation
+path: planning-mds/features/F0026-billing-invoicing-and-reconciliation
+affects:
+  - capability:authorization-enforcement
+  - capability:billing-invoicing-reconciliation
+  - capability:commission-revenue-tracking
+  - capability:operational-reporting
+  - endpoint:billing-correction-decision
+  - endpoint:billing-correction-request
+  - endpoint:billing-invoice-detail
+  - endpoint:billing-invoice-list-create
+  - endpoint:payment-application-create
+  - endpoint:payment-receipt-import-create
+  - endpoint:payment-receipt-import-detail
+  - endpoint:payment-receipt-list-create
+  - endpoint:policy-billing-summary
+  - endpoint:reconciliation-backlog
+  - endpoint:reconciliation-exception-list
+  - endpoint:reconciliation-reference-correct
+  - entity:activity-timeline-event
+  - entity:billing-correction
+  - entity:billing-invoice
+  - entity:expected-commission
+  - entity:payment-application
+  - entity:payment-receipt
+  - entity:payment-receipt-import-batch
+  - entity:payment-receipt-import-row-outcome
+  - entity:policy
+  - entity:policy-version
+  - entity:reconciliation-exception
+  - event:billing-correction-approved
+  - event:billing-correction-rejected
+  - event:billing-correction-requested
+  - event:billing-invoice-created
+  - event:exact-payment-applied
+  - event:payment-receipt-import-completed
+  - event:payment-receipt-recorded
+  - event:reconciliation-reference-corrected
+  - policy_rule:billing-application-apply
+  - policy_rule:billing-backlog-read
+  - policy_rule:billing-backlog-summary-read
+  - policy_rule:billing-correction-approve
+  - policy_rule:billing-correction-request
+  - policy_rule:billing-exception-manage
+  - policy_rule:billing-invoice-create
+  - policy_rule:billing-read
+  - policy_rule:billing-receipt-import
+  - policy_rule:billing-receipt-record
+  - policy_rule:billing-summary-read
+  - policy_rule:policy-read
+  - role:finance-manager
+  - role:finance-operations-analyst
+  - ui_route:billing-invoice-detail
+  - ui_route:billing-reconciliation
+  - ui_route:billing-workspace
+  - workflow:billing-correction
+depends_on:
+  - feature:F0018
+  - feature:F0025
+governed_by:
+  - adr:034
+notes:
+  - Phase A refined on 2026-07-19 via plan run 2026-07-19-79477865. Operator confirmed agency-bill-only
+    scope, manual and mock-vendor CSV receipts, explicit exact currency/full-outstanding application,
+    no automatic tolerance or write-off, and Finance Operations Analyst/Finance Manager separation
+    of duties.
+  - F0030 is a deferred production integration seam, not a first-release dependency. Direct bill,
+    real bank/payment connectivity, partial/overpayment allocation, ledger, tax, and settlement remain
+    out of scope.
+  - Operator promoted F0026 from Later to Now on 2026-07-19 after confirming that completed F0018 and
+    F0025 satisfy the direct dependency boundary and that the approved plan should proceed toward build.
+  - Phase B approved in plan run 2026-07-19-79477865 with explicit operator token `approve`. ADR-034 defines the in-process BillingReconciliation
+    module, explicit exact-only application, versioned bounded mock CSV profile, source/reference idempotency,
+    Finance Operations Analyst/Finance Manager separation of duties, and permission-safe aggregates.
+phase: Brokerage Platform Expansion
+rationale: Direct dependencies F0018 and F0025 are complete, and the approved agency-bill slice is the next build-ready brokerage platform expansion.
+roadmap_order: 1
+roadmap_section: Now
+story_mappings:
+  - id: story:F0026-S0001
+    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0001-billing-workspace-search-and-policy-context.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:billing-invoicing-reconciliation
+      - capability:commission-revenue-tracking
+      - endpoint:billing-invoice-detail
+      - endpoint:billing-invoice-list-create
+      - endpoint:policy-billing-summary
+      - entity:billing-invoice
+      - entity:expected-commission
+      - entity:policy
+      - entity:policy-version
+      - ui_route:billing-workspace
+    depends_on:
+      - feature:F0018
+      - feature:F0025
+    enforced_by_policy:
+      - policy_rule:billing-read
+      - policy_rule:billing-summary-read
+      - policy_rule:policy-read
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:billing-invoice
+      - schema:policy-billing-summary
+  - id: story:F0026-S0002
+    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0002-create-agency-bill-invoice.md
+    affects:
+      - capability:billing-invoicing-reconciliation
+      - endpoint:billing-invoice-list-create
+      - entity:activity-timeline-event
+      - entity:billing-invoice
+      - entity:policy
+      - entity:policy-version
+      - event:billing-invoice-created
+    depends_on:
+      - feature:F0018
+    enforced_by_policy:
+      - policy_rule:billing-invoice-create
+      - policy_rule:policy-read
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:billing-invoice
+      - schema:billing-invoice-create-request
+  - id: story:F0026-S0003
+    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0003-record-payment-receipts.md
+    affects:
+      - capability:billing-invoicing-reconciliation
+      - endpoint:payment-receipt-import-create
+      - endpoint:payment-receipt-import-detail
+      - endpoint:payment-receipt-list-create
+      - entity:activity-timeline-event
+      - entity:payment-receipt
+      - entity:payment-receipt-import-batch
+      - entity:payment-receipt-import-row-outcome
+      - event:payment-receipt-import-completed
+      - event:payment-receipt-recorded
+    depends_on:
+      - feature:F0018
+    enforced_by_policy:
+      - policy_rule:billing-read
+      - policy_rule:billing-receipt-import
+      - policy_rule:billing-receipt-record
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:mock-payment-receipt-row
+      - schema:payment-receipt
+      - schema:payment-receipt-create-request
+      - schema:payment-receipt-import-result
+  - id: story:F0026-S0004
+    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0004-apply-exact-payment-and-reconcile-invoice.md
+    affects:
+      - capability:billing-invoicing-reconciliation
+      - endpoint:payment-application-create
+      - entity:activity-timeline-event
+      - entity:billing-invoice
+      - entity:payment-application
+      - entity:payment-receipt
+      - entity:policy
+      - entity:reconciliation-exception
+      - event:exact-payment-applied
+      - ui_route:billing-reconciliation
+    depends_on:
+      - feature:F0018
+    enforced_by_policy:
+      - policy_rule:billing-application-apply
+      - policy_rule:policy-read
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:payment-application
+      - schema:payment-application-request
+      - schema:reconciliation-exception
+  - id: story:F0026-S0005
+    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0005-review-exceptions-and-approve-corrections.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:billing-invoicing-reconciliation
+      - endpoint:billing-correction-decision
+      - endpoint:billing-correction-request
+      - endpoint:reconciliation-reference-correct
+      - entity:activity-timeline-event
+      - entity:billing-correction
+      - entity:billing-invoice
+      - entity:expected-commission
+      - entity:policy
+      - entity:reconciliation-exception
+      - event:billing-correction-approved
+      - event:billing-correction-rejected
+      - event:billing-correction-requested
+      - event:reconciliation-reference-corrected
+      - workflow:billing-correction
+    depends_on:
+      - feature:F0018
+      - feature:F0025
+    enforced_by_policy:
+      - policy_rule:billing-correction-approve
+      - policy_rule:billing-correction-request
+      - policy_rule:billing-exception-manage
+      - policy_rule:billing-read
+      - policy_rule:policy-read
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:billing-correction
+      - schema:billing-correction-decision-request
+      - schema:billing-correction-request
+      - schema:reconciliation-exception
+      - schema:reconciliation-reference-correction-request
+  - id: story:F0026-S0006
+    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0006-monitor-reconciliation-backlog-and-audit.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:billing-invoicing-reconciliation
+      - capability:operational-reporting
+      - endpoint:reconciliation-backlog
+      - endpoint:reconciliation-exception-list
+      - entity:activity-timeline-event
+      - entity:policy
+      - entity:reconciliation-exception
+    depends_on:
+      - feature:F0018
+      - feature:F0025
+    enforced_by_policy:
+      - policy_rule:billing-backlog-read
+      - policy_rule:billing-backlog-summary-read
+      - policy_rule:billing-summary-read
+      - policy_rule:policy-read
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:reconciliation-backlog-response
+      - schema:reconciliation-exception
+uses_api_contract:
+  - api:nebula-rest
+832-      - entity:operational-report-projection
+833-      - workflow:renewal
+834-      - workflow:submission
+835:  - id: schema:billing-invoice
+836:    path: planning-mds/schemas/billing-invoice.schema.json
+837-    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice]
+838:  - id: schema:billing-invoice-create-request
+839:    path: planning-mds/schemas/billing-invoice-create-request.schema.json
+840-    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice]
+841-  - id: schema:payment-receipt
+842-    path: planning-mds/schemas/payment-receipt.schema.json
+843-    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt]
+844-  - id: schema:payment-receipt-create-request
+845-    path: planning-mds/schemas/payment-receipt-create-request.schema.json
+846-    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt]
+847-  - id: schema:mock-payment-receipt-row
+--
+862-  - id: schema:reconciliation-reference-correction-request
+863-    path: planning-mds/schemas/reconciliation-reference-correction-request.schema.json
+864-    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception]
+865:  - id: schema:billing-correction-request
+866:    path: planning-mds/schemas/billing-correction-request.schema.json
+867-    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+868:  - id: schema:billing-correction-decision-request
+869:    path: planning-mds/schemas/billing-correction-decision-request.schema.json
+870-    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+871:  - id: schema:billing-correction
+872:    path: planning-mds/schemas/billing-correction.schema.json
+873-    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+874-  - id: schema:reconciliation-backlog-response
+875-    path: planning-mds/schemas/reconciliation-backlog-response.schema.json
+876-    related_nodes: [capability:billing-invoicing-reconciliation, capability:operational-reporting, entity:reconciliation-exception]
+877-  - id: schema:policy-billing-summary
+878:    path: planning-mds/schemas/policy-billing-summary.schema.json
+879-    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:policy]

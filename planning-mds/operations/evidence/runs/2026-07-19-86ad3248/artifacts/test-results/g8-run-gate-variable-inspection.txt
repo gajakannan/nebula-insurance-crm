@@ -1,0 +1,69 @@
+        release_lock(lock)
+
+
+# --------------------------------------------------------------------------- #
+# Run a stage
+# --------------------------------------------------------------------------- #
+def run_stage(*, spec_dir: Path, action: str, stage: str, product_root: Path, feature_id: str,
+              slug: str, run_id: str, run_folder: Path, dry_run: bool = False,
+              from_op: str | None = None, force: bool = False,
+              lock_timeout: float = DEFAULT_LOCK_TIMEOUT) -> dict[str, Any]:
+    policy, spec = _load_spec(spec_dir, action)
+    contract_version = str(policy.contract.get("active_version"))
+    gate = _find_gate(spec, stage)
+    variables = build_variables(product_root=product_root, feature_id=feature_id, slug=slug,
+                                run_id=run_id, run_folder=run_folder, stage=stage)
+    ops = gate.get("operations", []) or []
+    lock = run_folder / LOCK_NAME
+    acquire_lock(lock, lock_timeout)
+    try:
+        journal = load_journal(run_folder, run_id=run_id, action=action, contract_version=contract_version)
+        stage_state = _stage_state(journal, stage)
+
+        if force:
+            stage_state.update(status="pending", completed_operations=[], pending_checkpoint=None)
+        elif stage_state["status"] == "completed":
+            return {"stage": stage, "status": "completed",
+                    "note": "idempotent: stage already completed", "log_refs": []}
+
+        start_index = 0
+        if from_op:
+            indices = [i for i, op in enumerate(ops) if op_id(op, i) == from_op]
+            if not indices:
+                raise GateDriverError("unknown_op", f"no operation {from_op!r} in {stage}")
+            start_index = indices[0]
+            for j in range(start_index):
+                kind, body = op_kind(ops[j])
+                if kind == "checkpoint" and not _verify_attested(stage_state, body.get("id"), run_folder):
+                    raise GateDriverError("cannot_skip_unattested_checkpoint",
+                                          f"--from would skip unattested checkpoint {body.get('id')!r}")
+
+        completed = set(stage_state["completed_operations"])
+        stage_state["status"] = "in-progress"
+        log_refs: list[str] = []
+
+        for i, op in enumerate(ops):
+            oid = op_id(op, i)
+            kind, body = op_kind(op)
+            if i < start_index:
+                continue
+            if oid in completed:
+                # Re-verify an already-attested checkpoint on resume so tampered or
+                # deleted evidence is caught even though the op is marked complete.
+                if kind == "checkpoint":
+                    _verify_attested(stage_state, body.get("id"), run_folder)
+                continue
+
+            if kind == "run":
+                check_constraints(gate, [str(t) for t in body.get("argv", [])], stage)
+                if dry_run:
+                    log_refs.append(f"would-run:{oid}")
+                    continue
+                result = gr.run_operation(op, product_root=product_root, variables=variables,
+                                          run_folder=run_folder, log_path=run_folder / "commands.log")
+                argv = [gr._expand(str(t), variables) for t in body.get("argv", [])]
+                _append_lifecycle_log(run_folder, stage, argv, result)
+                if not result["ok"]:
+agents/scripts/run-gate.py:167:        "FEATURE_SLUG": slug,
+agents/scripts/run-gate.py:170:        "FEATURE_INDEX_ROOT": str(index_root),
+agents/scripts/run-gate.py:273:    variables = build_variables(product_root=product_root, feature_id=feature_id, slug=slug,

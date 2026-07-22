@@ -1,0 +1,186 @@
+Running DAST via DAST_SCAN_CMD against http://127.0.0.1:8080
+Unable to find image 'ghcr.io/zaproxy/zaproxy:stable' locally
+stable: Pulling from zaproxy/zaproxy
+c39ca4def8aa: Pulling fs layer
+caafa78b7273: Pulling fs layer
+453319a711c8: Pulling fs layer
+5eb2bf8c976e: Pulling fs layer
+1767b81f9310: Pulling fs layer
+7606cae03f6e: Pulling fs layer
+53c9ad6c438a: Pulling fs layer
+ec414bd46ce0: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+1eaa7f59b81a: Pulling fs layer
+ed0a2937a253: Pulling fs layer
+c0027f8934f6: Pulling fs layer
+e91ff970ae05: Pulling fs layer
+a97078502c23: Pulling fs layer
+df6b4100852a: Pulling fs layer
+03c1ecc3d88c: Pulling fs layer
+e7214010579b: Pulling fs layer
+4cabeb9f73c8: Pulling fs layer
+ea0e6e3c11d2: Pulling fs layer
+68629629b516: Pulling fs layer
+4f4fb700ef54: Already exists
+5eb2bf8c976e: Download complete
+c0027f8934f6: Download complete
+c39ca4def8aa: Download complete
+453319a711c8: Download complete
+1767b81f9310: Download complete
+ec414bd46ce0: Download complete
+caafa78b7273: Download complete
+1eaa7f59b81a: Download complete
+4cabeb9f73c8: Download complete
+53c9ad6c438a: Download complete
+03c1ecc3d88c: Download complete
+7606cae03f6e: Download complete
+a97078502c23: Download complete
+df6b4100852a: Download complete
+68629629b516: Download complete
+68629629b516: Pull complete
+ed0a2937a253: Download complete
+e91ff970ae05: Download complete
+e7214010579b: Download complete
+e7214010579b: Pull complete
+a97078502c23: Pull complete
+e91ff970ae05: Pull complete
+c0027f8934f6: Pull complete
+df6b4100852a: Pull complete
+4f4fb700ef54: Pull complete
+4cabeb9f73c8: Pull complete
+ea0e6e3c11d2: Download complete
+ea0e6e3c11d2: Pull complete
+ed0a2937a253: Pull complete
+453319a711c8: Pull complete
+1767b81f9310: Pull complete
+caafa78b7273: Pull complete
+1eaa7f59b81a: Pull complete
+7606cae03f6e: Pull complete
+5eb2bf8c976e: Pull complete
+ec414bd46ce0: Pull complete
+53c9ad6c438a: Pull complete
+c39ca4def8aa: Pull complete
+03c1ecc3d88c: Pull complete
+Digest: sha256:8d387b1a63e3425beef4846e39719f5af2a787753af2d8b6558c6257d7a577a2
+Status: Downloaded newer image for ghcr.io/zaproxy/zaproxy:stable
+2026-07-19 23:15:00,057 Number of Imported URLs: 4
+Total of 32 URLs
+PASS: Directory Browsing [0]
+PASS: Vulnerable JS Library (Powered by Retire.js) [10003]
+PASS: In Page Banner Information Leak [10009]
+PASS: Cookie No HttpOnly Flag [10010]
+PASS: Cookie Without Secure Flag [10011]
+PASS: Re-examine Cache-control Directives [10015]
+PASS: Cross-Domain JavaScript Source File Inclusion [10017]
+PASS: Content-Type Header Missing [10019]
+PASS: Anti-clickjacking Header [10020]
+PASS: X-Content-Type-Options Header Missing [10021]
+PASS: Information Disclosure - Debug Error Messages [10023]
+PASS: Information Disclosure - Sensitive Information in URL [10024]
+PASS: Information Disclosure - Sensitive Information in HTTP Referrer Header [10025]
+PASS: HTTP Parameter Override [10026]
+PASS: Information Disclosure - Suspicious Comments [10027]
+PASS: Off-site Redirect [10028]
+PASS: Cookie Poisoning [10029]
+PASS: User Controllable Charset [10030]
+PASS: User Controllable HTML Element Attribute (Potential XSS) [10031]
+PASS: Viewstate [10032]
+PASS: Directory Browsing [10033]
+PASS: Heartbleed OpenSSL Vulnerability (Indicative) [10034]
+PASS: Strict-Transport-Security Header [10035]
+PASS: HTTP Server Response Header [10036]
+PASS: Server Leaks Information via "X-Powered-By" HTTP Response Header Field(s) [10037]
+PASS: Content Security Policy (CSP) Header Not Set [10038]
+PASS: X-Backend-Server Header Information Leak [10039]
+PASS: Secure Pages Include Mixed Content [10040]
+PASS: HTTP to HTTPS Insecure Transition in Form Post [10041]
+PASS: HTTPS to HTTP Insecure Transition in Form Post [10042]
+PASS: User Controllable JavaScript Event (XSS) [10043]
+PASS: Big Redirect Detected (Potential Sensitive Information Leak) [10044]
+PASS: Source Code Disclosure - /WEB-INF Folder [10045]
+PASS: HTTPS Content Available via HTTP [10047]
+PASS: Remote Code Execution - Shell Shock [10048]
+PASS: Content Cacheability [10049]
+PASS: Retrieved from Cache [10050]
+PASS: X-ChromeLogger-Data (XCOLD) Header Information Leak [10052]
+PASS: Cookie without SameSite Attribute [10054]
+PASS: CSP [10055]
+PASS: X-Debug-Token Information Leak [10056]
+PASS: Username Hash Found [10057]
+PASS: GET for POST [10058]
+PASS: X-AspNet-Version Response Header [10061]
+PASS: PII Disclosure [10062]
+PASS: Permissions Policy Header Not Set [10063]
+PASS: Timestamp Disclosure [10096]
+PASS: Hash Disclosure [10097]
+PASS: Cross-Domain Misconfiguration [10098]
+PASS: Source Code Disclosure [10099]
+PASS: User Agent Fuzzer [10104]
+PASS: Weak Authentication Method [10105]
+PASS: HTTP Only Site [10106]
+PASS: Reverse Tabnabbing [10108]
+PASS: Modern Web Application [10109]
+PASS: Dangerous JS Functions [10110]
+PASS: Authentication Request Identified [10111]
+PASS: Session Management Response Identified [10112]
+PASS: Verification Request Identified [10113]
+PASS: Script Served From Malicious Domain (polyfill) [10115]
+PASS: ZAP is Out of Date [10116]
+PASS: Absence of Anti-CSRF Tokens [10202]
+PASS: Private IP Disclosure [2]
+PASS: Heartbleed OpenSSL Vulnerability [20015]
+PASS: Source Code Disclosure - CVE-2012-1823 [20017]
+PASS: Remote Code Execution - CVE-2012-1823 [20018]
+PASS: External Redirect [20019]
+PASS: Session ID in URL Rewrite [3]
+PASS: Buffer Overflow [30001]
+PASS: Format String Error [30002]
+PASS: CRLF Injection [40003]
+PASS: Parameter Tampering [40008]
+PASS: Server Side Include [40009]
+PASS: Cross Site Scripting (Reflected) [40012]
+PASS: Cross Site Scripting (Persistent) [40014]
+PASS: Cross Site Scripting (Persistent) - Prime [40016]
+PASS: Cross Site Scripting (Persistent) - Spider [40017]
+PASS: SQL Injection [40018]
+PASS: SQL Injection - MySQL (Time Based) [40019]
+PASS: SQL Injection - Hypersonic SQL (Time Based) [40020]
+PASS: SQL Injection - Oracle (Time Based) [40021]
+PASS: SQL Injection - PostgreSQL (Time Based) [40022]
+PASS: Cross Site Scripting (DOM Based) [40026]
+PASS: SQL Injection - MsSQL (Time Based) [40027]
+PASS: ELMAH Information Leak [40028]
+PASS: Trace.axd Information Leak [40029]
+PASS: .htaccess Information Leak [40032]
+PASS: .env Information Leak [40034]
+PASS: Hidden File Finder [40035]
+PASS: Spring Actuator Information Leak [40042]
+PASS: Log4Shell [40043]
+PASS: Exponential Entity Expansion (Billion Laughs Attack) [40044]
+PASS: Spring4Shell [40045]
+PASS: Remote Code Execution (React2Shell) [40048]
+PASS: Script Active Scan Rules [50000]
+PASS: Script Passive Scan Rules [50001]
+PASS: Path Traversal [6]
+PASS: Remote File Inclusion [7]
+PASS: Insecure JSF ViewState [90001]
+PASS: Java Serialization Object [90002]
+PASS: Sub Resource Integrity Attribute Missing [90003]
+PASS: Insufficient Site Isolation Against Spectre Vulnerability [90004]
+PASS: Charset Mismatch [90011]
+PASS: XSLT Injection [90017]
+PASS: Server Side Code Injection [90019]
+PASS: Remote OS Command Injection [90020]
+PASS: XPath Injection [90021]
+PASS: Application Error Disclosure [90022]
+PASS: XML External Entity Attack [90023]
+PASS: Generic Padding Oracle [90024]
+PASS: SOAP Action Spoofing [90026]
+PASS: SOAP XML Injection [90029]
+PASS: WSDL File Detection [90030]
+PASS: Loosely Scoped Cookie [90033]
+PASS: Cloud Metadata Potentially Exposed [90034]
+PASS: Server Side Template Injection [90035]
+PASS: Server Side Template Injection (Blind) [90036]
+PASS: Remote OS Command Injection (Time Based) [90037]
+FAIL-NEW: 0	FAIL-INPROG: 0	WARN-NEW: 0	WARN-INPROG: 0	INFO: 0	IGNORE: 0	PASS: 118

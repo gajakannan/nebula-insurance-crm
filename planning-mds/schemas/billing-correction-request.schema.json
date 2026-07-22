@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/billing-correction-request.schema.json",
+  "title": "BillingCorrectionRequest",
+  "type": "object",
+  "required": ["correctionAmount", "proposedOutstandingAmount", "reason", "evidenceNote"],
+  "properties": {
+    "correctionAmount": { "type": "number", "multipleOf": 0.01 },
+    "proposedOutstandingAmount": { "type": "number", "minimum": 0, "multipleOf": 0.01 },
+    "reason": { "type": "string", "minLength": 1, "maxLength": 1000 },
+    "evidenceNote": { "type": "string", "minLength": 1, "maxLength": 1000 }
+  },
+  "additionalProperties": false
+}

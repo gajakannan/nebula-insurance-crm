@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/billing-correction.schema.json",
+  "title": "BillingCorrection",
+  "type": "object",
+  "required": ["id", "reconciliationExceptionId", "billingInvoiceId", "beforeOutstandingAmount", "correctionAmount", "proposedOutstandingAmount", "reason", "evidenceNote", "status", "requestedByUserId", "requestedAt", "rowVersion"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "reconciliationExceptionId": { "type": "string", "format": "uuid" },
+    "billingInvoiceId": { "type": "string", "format": "uuid" },
+    "beforeOutstandingAmount": { "type": "number", "minimum": 0, "multipleOf": 0.01 },
+    "correctionAmount": { "type": "number", "multipleOf": 0.01 },
+    "proposedOutstandingAmount": { "type": "number", "minimum": 0, "multipleOf": 0.01 },
+    "reason": { "type": "string", "minLength": 1, "maxLength": 1000 },
+    "evidenceNote": { "type": "string", "minLength": 1, "maxLength": 1000 },
+    "status": { "type": "string", "enum": ["Pending", "Approved", "Rejected"] },
+    "requestedByUserId": { "type": "string", "format": "uuid" },
+    "requestedAt": { "type": "string", "format": "date-time" },
+    "decisionByUserId": { "type": ["string", "null"], "format": "uuid" },
+    "decisionAt": { "type": ["string", "null"], "format": "date-time" },
+    "decisionNote": { "type": ["string", "null"], "maxLength": 1000 },
+    "rowVersion": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

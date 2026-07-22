@@ -1,0 +1,478 @@
+status: archived-done
+id: feature:F0025
+name: Commission, Producer Splits & Revenue Tracking
+path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking
+affects:
+  - capability:carrier-market-relationship-management
+  - capability:commission-revenue-tracking
+  - capability:global-search
+  - capability:operational-reporting
+  - capability:producer-ownership-management
+  - capability:territory-management
+  - endpoint:commission-adjustment-decision
+  - endpoint:commission-schedule-list-create
+  - endpoint:commission-schedule-update
+  - endpoint:expected-commission-adjustments
+  - endpoint:expected-commission-calculate
+  - endpoint:expected-commission-list
+  - endpoint:policy-producer-splits
+  - endpoint:producer-splits-upsert
+  - endpoint:revenue-attribution-rollups
+  - entity:activity-timeline-event
+  - entity:broker
+  - entity:carrier-market
+  - entity:commission-adjustment
+  - entity:commission-schedule
+  - entity:expected-commission
+  - entity:policy
+  - entity:producer
+  - entity:producer-ownership
+  - entity:producer-split-assignment
+  - entity:producer-split-participant
+  - entity:revenue-attribution-projection
+  - entity:territory
+  - entity:territory-assignment
+  - policy_rule:carrier-market-read
+  - policy_rule:commission-adjustment-approve
+  - policy_rule:commission-adjustment-request
+  - policy_rule:commission-calculate
+  - policy_rule:commission-read
+  - policy_rule:commission-rollup-read
+  - policy_rule:commission-schedule-manage
+  - policy_rule:commission-split-assign
+  - policy_rule:global-search-read
+  - policy_rule:operational-report-read
+  - policy_rule:policy-read
+  - policy_rule:producer-ownership-read
+  - policy_rule:territory-read
+  - workflow:commission-adjustment
+archived_date: '2026-07-07'
+completion_state: 'Done and archived (2026-07-07, feature run `2026-07-07-9859bad4`) — 6 stories: commission
+  workspace search, schedule maintenance, producer split assignment, expected commission calculation review,
+  adjustment approval, revenue attribution rollups'
+depends_on:
+  - feature:F0017
+  - feature:F0018
+  - feature:F0028
+governed_by:
+  - adr:033
+notes:
+  - Phase A refined on 2026-07-07 via plan run 2026-07-07-8a9b2629. F0025 is bounded to expected commission
+    visibility, producer split attribution, adjustment capture, and management rollups; full accounting,
+    payments, billing, reconciliation, payouts, tax, statements, GL export, and external compensation
+    portals remain out of scope.
+  - Phase B architecture drafted on 2026-07-07 via plan run 2026-07-07-8a9b2629. ADR-032 defines the CommissionRevenue
+    module, persisted expected commission review records, effective-dated schedules/splits, single-step
+    adjustment approval, source-authorized rollups, and timeline audit.
+phase: Brokerage Platform Expansion
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0025-S0001
+    path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0001-commission-workspace-search-and-policy-context.md
+    affects:
+      - capability:carrier-market-relationship-management
+      - capability:commission-revenue-tracking
+      - capability:global-search
+      - capability:producer-ownership-management
+      - endpoint:expected-commission-list
+      - entity:broker
+      - entity:carrier-market
+      - entity:expected-commission
+      - entity:policy
+      - entity:producer
+      - entity:producer-ownership
+    depends_on:
+      - feature:F0017
+      - feature:F0018
+      - feature:F0028
+    enforced_by_policy:
+      - policy_rule:carrier-market-read
+      - policy_rule:commission-read
+      - policy_rule:global-search-read
+      - policy_rule:policy-read
+      - policy_rule:producer-ownership-read
+    governed_by:
+      - adr:033
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:expected-commission
+  - id: story:F0025-S0002
+    path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0002-commission-schedule-maintenance.md
+    affects:
+      - capability:carrier-market-relationship-management
+      - capability:commission-revenue-tracking
+      - endpoint:commission-schedule-list-create
+      - endpoint:commission-schedule-update
+      - entity:activity-timeline-event
+      - entity:carrier-market
+      - entity:commission-schedule
+      - entity:policy
+    depends_on:
+      - feature:F0018
+      - feature:F0028
+    enforced_by_policy:
+      - policy_rule:carrier-market-read
+      - policy_rule:commission-schedule-manage
+      - policy_rule:policy-read
+    governed_by:
+      - adr:033
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:commission-schedule
+      - schema:commission-schedule-upsert-request
+  - id: story:F0025-S0003
+    path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0003-producer-split-assignment.md
+    affects:
+      - capability:commission-revenue-tracking
+      - capability:producer-ownership-management
+      - capability:territory-management
+      - endpoint:policy-producer-splits
+      - endpoint:producer-splits-upsert
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:policy
+      - entity:producer
+      - entity:producer-ownership
+      - entity:producer-split-assignment
+      - entity:producer-split-participant
+      - entity:territory
+      - entity:territory-assignment
+    depends_on:
+      - feature:F0017
+      - feature:F0018
+    enforced_by_policy:
+      - policy_rule:commission-read
+      - policy_rule:commission-split-assign
+      - policy_rule:policy-read
+      - policy_rule:producer-ownership-read
+      - policy_rule:territory-read
+    governed_by:
+      - adr:033
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:producer-split-assignment
+      - schema:producer-split-assignment-upsert-request
+  - id: story:F0025-S0004
+    path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0004-expected-commission-calculation-review.md
+    affects:
+      - capability:carrier-market-relationship-management
+      - capability:commission-revenue-tracking
+      - capability:producer-ownership-management
+      - endpoint:expected-commission-calculate
+      - endpoint:expected-commission-list
+      - entity:carrier-market
+      - entity:commission-schedule
+      - entity:expected-commission
+      - entity:policy
+      - entity:producer
+      - entity:producer-ownership
+      - entity:producer-split-assignment
+    depends_on:
+      - feature:F0017
+      - feature:F0018
+      - feature:F0028
+    enforced_by_policy:
+      - policy_rule:carrier-market-read
+      - policy_rule:commission-calculate
+      - policy_rule:commission-read
+      - policy_rule:policy-read
+      - policy_rule:producer-ownership-read
+    governed_by:
+      - adr:033
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:expected-commission
+  - id: story:F0025-S0005
+    path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0005-commission-adjustment-and-approval.md
+    affects:
+      - capability:commission-revenue-tracking
+      - endpoint:commission-adjustment-decision
+      - endpoint:expected-commission-adjustments
+      - entity:activity-timeline-event
+      - entity:commission-adjustment
+      - entity:expected-commission
+      - entity:policy
+      - entity:producer
+      - entity:producer-ownership
+    depends_on:
+      - feature:F0017
+      - feature:F0018
+    enforced_by_policy:
+      - policy_rule:commission-adjustment-approve
+      - policy_rule:commission-adjustment-request
+      - policy_rule:commission-read
+      - policy_rule:policy-read
+      - policy_rule:producer-ownership-read
+      - policy_rule:timeline-event-read
+      - workflow:commission-adjustment
+    governed_by:
+      - adr:033
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:activity-event-payloads
+      - schema:commission-adjustment
+      - schema:commission-adjustment-decision-request
+      - schema:commission-adjustment-request
+      - schema:timeline-event
+  - id: story:F0025-S0006
+    path: planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking/F0025-S0006-revenue-attribution-rollups.md
+    affects:
+      - capability:carrier-market-relationship-management
+      - capability:commission-revenue-tracking
+      - capability:operational-reporting
+      - capability:producer-ownership-management
+      - capability:territory-management
+      - endpoint:revenue-attribution-rollups
+      - entity:broker
+      - entity:carrier-market
+      - entity:expected-commission
+      - entity:policy
+      - entity:producer
+      - entity:producer-ownership
+      - entity:revenue-attribution-projection
+      - entity:territory
+      - entity:territory-assignment
+    depends_on:
+      - feature:F0017
+      - feature:F0018
+      - feature:F0028
+    enforced_by_policy:
+      - policy_rule:carrier-market-read
+      - policy_rule:commission-rollup-read
+      - policy_rule:operational-report-read
+      - policy_rule:policy-read
+      - policy_rule:producer-ownership-read
+      - policy_rule:territory-read
+    governed_by:
+      - adr:033
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:revenue-attribution-rollup-response
+uses_api_contract:
+  - api:nebula-rest
+uses_schema:
+  - schema:commission-adjustment
+  - schema:commission-adjustment-decision-request
+  - schema:commission-adjustment-request
+  - schema:commission-schedule
+  - schema:commission-schedule-upsert-request
+  - schema:expected-commission
+  - schema:producer-split-assignment
+  - schema:producer-split-assignment-upsert-request
+  - schema:revenue-attribution-rollup-response
+# F0026 — Billing, Invoicing & Reconciliation
+
+**Status:** Phase A and Phase B Approved — ready for feature action
+**Priority:** Medium
+**Phase:** Brokerage Platform Expansion
+
+## Overview
+
+Provide an internal agency-bill workflow for policy-linked invoices, manual/CSV mock-vendor receipts, exact reconciliation, controlled correction approval, and backlog visibility. Real bank connectivity, direct bill, tolerance matching, write-offs, and accounting remain out of scope.
+
+## Documents
+
+| Document | Purpose |
+|----------|---------|
+| [PRD.md](./PRD.md) | Approved-boundary product requirements and screen/workflow contract |
+| [acceptance-criteria-checklist.md](./acceptance-criteria-checklist.md) | Phase A story-quality checklist |
+| [STATUS.md](./STATUS.md) | Planning and implementation tracker |
+| [GETTING-STARTED.md](./GETTING-STARTED.md) | Scope, dependencies, and later verification entry points |
+| [feature-assembly-plan.md](./feature-assembly-plan.md) | Architect-owned implementation order, file map, contracts, and checks |
+| [ADR-034](../../architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md) | Agency-bill module, exact application, correction, authorization, and mock-adapter decision |
+| [Finance personas](../../examples/personas/finance-operations-personas.md) | Finance Operations Analyst and Finance Manager archetypes |
+
+## Stories
+
+| ID | Title | Status |
+|----|-------|--------|
+| [F0026-S0001](./F0026-S0001-billing-workspace-search-and-policy-context.md) | Billing workspace search and policy context | Not Started |
+| [F0026-S0002](./F0026-S0002-create-agency-bill-invoice.md) | Create an agency-bill invoice | Not Started |
+| [F0026-S0003](./F0026-S0003-record-payment-receipts.md) | Record manual and mock-vendor payment receipts | Not Started |
+| [F0026-S0004](./F0026-S0004-apply-exact-payment-and-reconcile-invoice.md) | Apply an exact payment and reconcile an invoice | Not Started |
+| [F0026-S0005](./F0026-S0005-review-exceptions-and-approve-corrections.md) | Review exceptions and approve correction adjustments | Not Started |
+| [F0026-S0006](./F0026-S0006-monitor-reconciliation-backlog-and-audit.md) | Monitor reconciliation backlog and audit history | Not Started |
+
+**Total Stories:** 6
+**Completed:** 0 / 6
+
+## Phase B Domain View
+
+```mermaid
+erDiagram
+    Policy ||--o{ BillingInvoice : authorizes
+    PolicyVersion ||--o{ BillingInvoice : anchors
+    BillingInvoice ||--o| PaymentApplication : receives_exact
+    PaymentReceipt ||--o| PaymentApplication : applies_once
+    PaymentReceiptImportBatch ||--o{ PaymentReceiptImportRowOutcome : records
+    PaymentReceiptImportBatch ||--o{ PaymentReceipt : creates
+    BillingInvoice ||--o{ ReconciliationException : exposes
+    PaymentReceipt ||--o{ ReconciliationException : exposes
+    ReconciliationException ||--o{ BillingCorrection : requests
+    BillingInvoice ||--o{ BillingCorrection : changes_operational_balance
+```
+
+`BillingInvoice.OutstandingAmount` is an operational reconciliation value, not a ledger balance. Only an exact application or approved correction may change it.
+# F0026 — Billing, Invoicing & Reconciliation — Status
+
+**Overall Status:** Feature action in progress — G2 candidate assembled
+**Last Updated:** 2026-07-19
+
+## Story Checklist
+
+| Story | Title | Status |
+|-------|-------|--------|
+| F0026-S0001 | Billing workspace search and policy context | In Progress |
+| F0026-S0002 | Create an agency-bill invoice | In Progress |
+| F0026-S0003 | Record manual and mock-vendor payment receipts | In Progress |
+| F0026-S0004 | Apply an exact payment and reconcile an invoice | In Progress |
+| F0026-S0005 | Review exceptions and approve correction adjustments | In Progress |
+| F0026-S0006 | Monitor reconciliation backlog and audit history | In Progress |
+
+## Planning Scope Snapshot
+
+- Roadmap priority is `Now` per the 2026-07-19 operator decision; F0018 and F0025 are complete direct dependencies.
+- Agency bill only; direct bill is deferred.
+- Manual receipt entry plus CSV through a mock bank/payment-vendor adapter.
+- Explicit same-currency/full-outstanding exact application only.
+- No automatic tolerance, partial/overpayment allocation, write-off, real bank connection, ledger, tax, or settlement.
+- Finance Operations Analyst prepares/reconciles; a different Finance Manager decides balance corrections.
+
+**Phase A approval:** Operator token `lets do Phase B`, recorded 2026-07-19 in plan run `2026-07-19-79477865` after F0026 was promoted to `Now`.
+
+**Phase B approval:** Operator token `approve`, recorded 2026-07-19 in plan run `2026-07-19-79477865` after G4 passed and the ordered G5 exit validation was green.
+
+## Required Role Matrix
+
+| Role | Required | Why Required | Set By | Date |
+|------|----------|--------------|--------|------|
+| Quality Engineer | Yes | Exact reconciliation, import outcomes, correction workflow, and UI states require acceptance validation. | Architect | 2026-07-19 |
+| Code Reviewer | Yes | Transaction boundaries, persistence, API contracts, and frontend composition require independent review. | Architect | 2026-07-19 |
+| Security Reviewer | Yes | Finance data, source-scope filtering, separation of duties, and CSV handling are security-sensitive. | Architect | 2026-07-19 |
+| DevOps | Yes | New tables/migration and bounded synchronous import need deployability and resource-limit evidence. | Architect | 2026-07-19 |
+| Architect | Yes | The new finance boundary and as-built KG reconciliation require explicit architectural signoff. | Architect | 2026-07-19 |
+
+## Story Signoff Provenance
+
+| Story | Role | Reviewer | Verdict | Evidence | Date | Notes |
+|-------|------|----------|---------|----------|------|-------|
+| F0026-S0001 | Quality Engineer | - | N/A | - | - | Populate after story breakdown is created. |
+| F0026-S0001 | Code Reviewer | - | N/A | - | - | Populate after story breakdown is created. |
+
+> The two rows above predate this refinement and are retained as append-only provenance history. They are not passing evidence and do not satisfy future signoff.
+
+| F0026-S0001 | Architect | Architect | PASS | g0-assembly-plan-validation.md | 2026-07-19 | Assembly plan, dependencies, contracts, and G3 reconciliation are complete. |
+| F0026-S0001 | Quality Engineer | Quality Engineer | PASS | test-execution-report.md | 2026-07-19 | Workspace, detail, source authorization, accessibility, and runtime evidence pass. |
+| F0026-S0001 | DevOps | DevOps | PASS | deployability-check.md | 2026-07-19 | Runtime health, migration, and deployability checks pass. |
+| F0026-S0001 | Code Reviewer | Code Reviewer | APPROVED | code-review-report.md | 2026-07-19 | Second review cycle has zero open findings. |
+| F0026-S0001 | Security Reviewer | Security Reviewer | PASS | security-review-report.md | 2026-07-19 | Source-scope and all four scan classes pass review. |
+| F0026-S0002 | Architect | Architect | PASS | g0-assembly-plan-validation.md | 2026-07-19 | Invoice context and contract boundaries are approved. |
+| F0026-S0002 | Quality Engineer | Quality Engineer | PASS | test-execution-report.md | 2026-07-19 | Create, persistence, validation, and authorization-order tests pass. |
+| F0026-S0002 | DevOps | DevOps | PASS | deployability-check.md | 2026-07-19 | Migration and live create/reload evidence pass. |
+| F0026-S0002 | Code Reviewer | Code Reviewer | APPROVED | code-review-report.md | 2026-07-19 | Context-before-conflict remediation is approved. |
+| F0026-S0002 | Security Reviewer | Security Reviewer | PASS | security-review-report.md | 2026-07-19 | Unauthorized existence-hint regression passes. |
+| F0026-S0003 | Architect | Architect | PASS | g0-assembly-plan-validation.md | 2026-07-19 | Manual/mock adapter boundary and provenance contract are approved. |
+| F0026-S0003 | Quality Engineer | Quality Engineer | PASS | test-execution-report.md | 2026-07-19 | Manual, duplicate, partial, malformed, and invalid UTF-8 paths pass. |
+| F0026-S0003 | DevOps | DevOps | PASS | deployability-check.md | 2026-07-19 | Import bounds and runtime resource checks pass. |
+| F0026-S0003 | Code Reviewer | Code Reviewer | APPROVED | code-review-report.md | 2026-07-19 | Bounded parser and persistence design are approved. |
+| F0026-S0003 | Security Reviewer | Security Reviewer | PASS | security-review-report.md | 2026-07-19 | CSV limits, byte disposal, logs, SAST, and DAST pass. |
+| F0026-S0004 | Architect | Architect | PASS | g0-assembly-plan-validation.md | 2026-07-19 | Exact-only application and transaction boundary are approved. |
+| F0026-S0004 | Quality Engineer | Quality Engineer | PASS | test-execution-report.md | 2026-07-19 | Exact, mismatch, reference, currency, and precondition paths pass. |
+| F0026-S0004 | DevOps | DevOps | PASS | deployability-check.md | 2026-07-19 | Postgres exact application and reload pass. |
+| F0026-S0004 | Code Reviewer | Code Reviewer | APPROVED | code-review-report.md | 2026-07-19 | Atomic balance/receipt/application behavior is approved. |
+| F0026-S0004 | Security Reviewer | Security Reviewer | PASS | security-review-report.md | 2026-07-19 | Authorized exact-only mutation and bounded audit data pass. |
+| F0026-S0005 | Architect | Architect | PASS | g0-assembly-plan-validation.md | 2026-07-19 | Maker-checker correction workflow and reload contract are approved. |
+| F0026-S0005 | Quality Engineer | Quality Engineer | PASS | test-execution-report.md | 2026-07-19 | Reference correction, self-denial, approval, and reload paths pass. |
+| F0026-S0005 | DevOps | DevOps | PASS | deployability-check.md | 2026-07-19 | Persisted pending correction reload passes in live runtime. |
+| F0026-S0005 | Code Reviewer | Code Reviewer | APPROVED | code-review-report.md | 2026-07-19 | Reloadable pending state and decision UI are approved. |
+| F0026-S0005 | Security Reviewer | Security Reviewer | PASS | security-review-report.md | 2026-07-19 | Different-principal enforcement and evidence minimization pass. |
+| F0026-S0006 | Architect | Architect | PASS | g0-assembly-plan-validation.md | 2026-07-19 | Backlog and audit composition contract are approved. |
+| F0026-S0006 | Quality Engineer | Quality Engineer | PASS | test-execution-report.md | 2026-07-19 | Expanded counts, audit events, hooks, and visual states pass. |
+| F0026-S0006 | DevOps | DevOps | PASS | deployability-check.md | 2026-07-19 | Live backlog and audit response pass after API rebuild. |
+| F0026-S0006 | Code Reviewer | Code Reviewer | APPROVED | code-review-report.md | 2026-07-19 | Source-filtered aggregate and detail implementation are approved. |
+| F0026-S0006 | Security Reviewer | Security Reviewer | PASS | security-review-report.md | 2026-07-19 | Aggregate visibility and audit payload minimization pass. |
+
+## Deferred Non-Blocking Follow-ups
+
+| Follow-up | Why deferred | Tracking link | Owner |
+|-----------|--------------|---------------|-------|
+| Direct-bill carrier statement processing | First release is agency bill only. | Future F0026 follow-up or new feature | Product Manager |
+| Real bank/payment-vendor connectivity | First release uses a mock adapter; production exchange belongs behind the F0030 seam. | F0030 | Product Manager / Architect |
+| Partial/overpayment, tolerance, write-off, refund, chargeback, collections | Explicitly excluded to keep F0026 operational and non-ledger. | Future planning decision | Product Manager |
+
+## Feature Action Progress
+
+- Run `2026-07-19-86ad3248` passed G0 Architect assembly-plan validation and G1 runtime preflight.
+- G2 candidate implements all six stories across API, application/domain, persistence migration/repository, billing UI/routes/navigation, unit/component/accessibility/visual tests, coverage, and deployability evidence.
+- Real compose/PostgreSQL smoke created and reloaded an invoice, created a receipt, enforced `If-Match`, applied the exact full outstanding amount, and reloaded the invoice as reconciled.
+- Scope booleans are reconciled: runtime, deployment/migration, frontend, and security-sensitive scope are all true; all five planned signoff roles remain required.
+- G3 code and security reviews pass after one remediation cycle; G4 approval is ACCEPTABLE under the standard policy; all five required roles signed all six stories at G5.
+
+## Tracker Sync Checklist
+
+- [x] `REGISTRY.md` status/path aligned
+- [x] `ROADMAP.md` section/rationale aligned
+- [x] `STORY-INDEX.md` regenerated
+- [x] `BLUEPRINT.md` feature/story/screen links aligned
+- [x] F0026 KG feature/story stub compiled from `kg-source/features/F0026.yaml`
+planning-mds/operations/evidence/features/F0032-admin-configuration-and-reference-data-console/latest-run.json
+{
+  "schema_version": 1,
+  "feature_id": "F0032",
+  "feature_slug": "admin-configuration-and-reference-data-console",
+  "run_id": "2026-07-06-f0ef8526",
+  "status": "approved",
+  "approved_on": "2026-07-06",
+  "run_path": "planning-mds/operations/evidence/runs/2026-07-06-f0ef8526",
+  "manifest_path": "planning-mds/operations/evidence/runs/2026-07-06-f0ef8526/evidence-manifest.json"
+}
+planning-mds/operations/evidence/features/F0017-broker-mga-hierarchy-and-producer-ownership/latest-run.json
+{
+  "feature_id": "F0017",
+  "run_id": "2026-06-07-771a5ef6",
+  "status": "approved",
+  "run_path": "planning-mds/operations/evidence/runs/2026-06-07-771a5ef6",
+  "manifest_path": "planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/evidence-manifest.json",
+  "updated_on": "2026-07-03",
+  "approved_on": "2026-07-03",
+  "notes": "Canonical F0017 feature evidence run resumed from G2 and advanced through G8 closeout; archive transition completed under the same run."
+}
+planning-mds/operations/evidence/features/F0036-dynamic-product-attribute-form-engine/latest-run.json
+{
+  "schema_version": 1,
+  "feature_id": "F0036",
+  "feature_slug": "dynamic-product-attribute-form-engine",
+  "run_id": "2026-06-30-6974ec2c",
+  "status": "approved",
+  "approved_on": "2026-07-01",
+  "run_path": "planning-mds/operations/evidence/runs/2026-06-30-6974ec2c",
+  "manifest_path": "planning-mds/operations/evidence/runs/2026-06-30-6974ec2c/evidence-manifest.json"
+}
+planning-mds/operations/evidence/features/F0008-broker-insights/latest-run.json
+{
+  "schema_version": 1,
+  "feature_id": "F0008",
+  "feature_slug": "broker-insights",
+  "run_id": "2026-07-03-fd732693",
+  "status": "approved",
+  "approved_on": "2026-07-03",
+  "run_path": "planning-mds/operations/evidence/runs/2026-07-03-fd732693",
+  "manifest_path": "planning-mds/operations/evidence/runs/2026-07-03-fd732693/evidence-manifest.json"
+}
+planning-mds/operations/evidence/features/F0021-communication-hub-and-activity-capture/latest-run.json
+{
+  "schema_version": 1,
+  "feature_id": "F0021",
+  "feature_slug": "communication-hub-and-activity-capture",
+  "run_id": "2026-07-01-9cee64f0",
+  "status": "approved",
+  "approved_on": "2026-07-02",
+  "run_path": "planning-mds/operations/evidence/runs/2026-07-01-9cee64f0",
+  "manifest_path": "planning-mds/operations/evidence/runs/2026-07-01-9cee64f0/evidence-manifest.json"
+}

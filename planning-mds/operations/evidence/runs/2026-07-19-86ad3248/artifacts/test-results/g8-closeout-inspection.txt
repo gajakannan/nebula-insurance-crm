@@ -1,0 +1,272 @@
+# PM Closeout — F####-{slug} run {run-id}
+
+> Required at G8/closeout per §10. PM-owned. Final approval artifact.
+
+## Final Story Status
+
+Per-story final status table. Each row references the STATUS.md current signoff and the evidence path.
+
+| Story | Final Status | Evidence | Notes |
+|-------|--------------|----------|-------|
+| F####-S0001 | Done | test-execution-report.md / code-review-report.md | - |
+
+## Archive Decision
+
+State whether the feature is `Done`, `Completed`, or `Archived`. If archived, note the `Archived Date` (also recorded in `REGISTRY.md`).
+
+## Deferred Follow-ups
+
+Items the PM is explicitly deferring beyond closeout. Each has an owner and a ticket or target date.
+
+## Recommendation Acceptances
+
+Each accepted recommendation uses the §15 PM Acceptance Line Format:
+
+```text
+- Accepted: <identifier> — <type-specific details>
+```
+
+`<identifier>` examples:
+- `coverage` — for a coverage waiver
+- `<rule_id>` — for a validator_defect waiver (mirrored in `Validator Defects` subsection)
+- `<recommendation text or ID>` — for a deferred role-report recommendation
+- `<custom waiver key>` — for a product-specific waiver key
+
+For `high`/`critical` recommendations, details must begin with `mitigation:` (case-insensitive).
+
+## Tracker Updates
+
+Confirm `REGISTRY.md`, `ROADMAP.md`, `STORY-INDEX.md`, `BLUEPRINT.md` were updated. Cite the `validate-trackers.py` invocation in `lifecycle-gates.log`.
+
+## Validator Results
+
+Summarize every validator run for this closeout — tracker, story-index, KG, template, feature-evidence — with exit codes and rule IDs. Mirror `lifecycle-gates.log`.
+
+<!--
+## Validator Defects (conditional)
+
+Activate this subsection only when `manifest.waivers.validator_defect` is present. One acceptance line per affected rule ID:
+
+- Accepted: <rule_id> — defect: <description>; target: YYYY-MM-DD
+-->
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-18-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-19-## Now
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-20-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-21-<!-- generated:begin roadmap:now -->
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-22-| Feature | Phase | Why Now |
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-23-|---------|-------|---------|
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md:24:| [F0026 — Billing, Invoicing & Reconciliation](./F0026-billing-invoicing-and-reconciliation/README.md) | Brokerage Platform Expansion | Direct dependencies F0018 and F0025 are complete, and the approved agency-bill slice is the next build-ready brokerage platform expansion. |
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-25-<!-- generated:end roadmap:now -->
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-26-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-27-**Boundary Notes:** F0017 owns the **structural** distribution model + audit only; hierarchy-aware access enforcement and distribution rollups are owned by F0037. F0019 delivered the submission-bound quote/proposal packet workflow needed to move a submission through approval and bind. F0027 owns reusable COI, ACORD, proposal-template, and outbound document generation capability.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-28-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-29-## Next
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-30-
+--
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-93-| [F0012 — Dashboard Storytelling Infographic Canvas (Flat Canvas + Collapsible Rails)](./archive/F0012-dashboard-storytelling-infographic-canvas/README.md) | MVP | Done and archived |
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-94-<!-- generated:end roadmap:completed -->
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-95-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-96-## Notes
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-97-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-98-- This roadmap is the authoritative Now/Next/Later view.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md:99:- Reviewed 2026-07-19 (operator decision) during F0026 plan run `2026-07-19-79477865`: promoted **F0026 — Billing, Invoicing & Reconciliation** from `Later` to `Now` because direct dependencies F0018 and F0025 are complete and the refined agency-bill slice is intended to proceed toward build. The six stories cover agency-bill invoicing, manual/CSV/mock-vendor receipt intake, exact-only reconciliation, manager-approved corrections, and backlog/audit visibility. F0030 remains a deferred integration seam rather than a hard dependency; Phase A and Phase B are approved and the feature is ready for its feature action.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-100-- Boundary guardrails: F0019 delivered submission-bound quote/proposal workflow while F0027 owns reusable outbound generation; F0022 owns usable queue/routing foundations while F0032 later governs shared configuration; F0008 remains separate but must land after F0023 and F0017.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-101-- Reviewed 2026-07-06 (plan run `2026-07-06-6e3851ab`): F0037 Phase A refinement drafted six stories for distribution-scope resolution, hierarchy-aware read scoping, scoped search/views/insights/reports, distribution rollups, UI filters/states/drilldowns, and security/reconciliation evidence. G3 requirements approval was recorded by the operator; Phase B drafted the feature assembly plan, hierarchy filter API deltas, distribution rollup schema, policy binding, and KG nodes. Pending G5 architecture approval before feature action/build.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-102-- Reviewed 2026-07-06 (operator decision): promoted **F0037 — Hierarchy-Aware Access Scoping & Distribution Rollups** from `Next` to `Now` after F0017 and F0023 were completed/archived. This was a planning/refinement-ready promotion only: F0037 required its own `plan` run before any `feature`/build action. ROADMAP-only resequencing — `REGISTRY.md` status (`Planned`) and `BLUEPRINT.md` baseline status were unchanged at promotion time.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-103-- Reviewed 2026-07-03 after operator request to make F0024 archive-only; removed the active `F0024-claims-and-service-case-tracking/` folder and retained the canonical feature under `archive/F0024-claims-and-service-case-tracking/`.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-104-- Reviewed 2026-07-03 after F0024 closeout (feature run `2026-07-03-ba011af8`); moved F0024 from Now to Completed and archived it after G8 validation. Earlier the same day, operator approval promoted F0024 from Later to Now and approved continuing the harness feature action.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/ROADMAP.md-105-- Reviewed 2026-07-01 (operator decision): promoted **F0021 — Communication Hub & Activity Capture** from `Next` to `Now` to pull the CRM communication system of record forward. F0021 is still a draft shell with no story breakdown, so it needs its own `plan` run before any `feature`/build action. ROADMAP-only resequencing — `REGISTRY.md` status (`Planned`) and `BLUEPRINT.md` baseline status remain unchanged.
+--
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/REGISTRY.md-27-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/REGISTRY.md-28-## Planned (Reserved IDs)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/REGISTRY.md-29-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/REGISTRY.md-30-<!-- generated:begin registry:planned -->
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/REGISTRY.md-31-| Feature ID | Name | Status | Phase | Folder |
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/REGISTRY.md-32-|------------|------|--------|-------|--------|
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/REGISTRY.md:33:| F0026 | Billing, Invoicing & Reconciliation | Planned | Brokerage Platform Expansion | `F0026-billing-invoicing-and-reconciliation/` |
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/REGISTRY.md-34-| F0029 | External Broker Collaboration Portal | Planned | Brokerage Platform Expansion | `F0029-external-broker-collaboration-portal/` |
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/REGISTRY.md-35-| F0030 | Integration Hub & Data Exchange | Planned | Brokerage Platform Expansion | `F0030-integration-hub-and-data-exchange/` |
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/REGISTRY.md-36-| F0031 | Data Import, Deduplication & Go-Live Migration | Planned | Release Enablement | `F0031-data-import-deduplication-and-go-live-migration/` |
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/REGISTRY.md-37-| F0039 | Neuron Multi-Thread Conversations | Planned (provisional) | Neuron Companion | `F0039-neuron-multi-thread-conversations/` |
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/REGISTRY.md-38-| F0040 | Neuron Second Specialist Head | Planned (provisional) | Neuron Companion | `F0040-neuron-second-specialist-head/` |
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/features/REGISTRY.md-39-<!-- generated:end registry:planned -->
+--
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-207-- [F0027: COI, ACORD & Outbound Document Generation](features/archive/F0027-coi-acord-and-outbound-document-generation/PRD.md) - Done (Archived 2026-07-03; feature run `2026-07-02-b9316621`; 5 stories: template library governance, preview generated document, issue generated artifact, regenerate/retrieve artifacts, render proposal from submission packet context)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-208-- F0028: Carrier & Market Relationship Management - Planned
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-209-- [F0037: Hierarchy-Aware Access Scoping & Distribution Rollups](features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/PRD.md) - Done and archived (2026-07-06, feature run `2026-07-06-76799554`; 6 stories: current-user distribution scope, hierarchy-aware read scoping, scoped search/views/insights/reports, distribution rollups, rollup filters/drilldowns/no-leak states, security evidence and reconciliation)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-210-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-211-**Brokerage Platform Expansion (Planned):**
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-212-- [F0025: Commission, Producer Splits & Revenue Tracking](features/archive/F0025-commission-producer-splits-and-revenue-tracking/PRD.md) - Done (Archived 2026-07-07; feature run `2026-07-07-9859bad4`; 6 stories: commission workspace search, schedule maintenance, producer split assignment, expected commission review, adjustment approval, revenue rollups)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:213:- [F0026: Billing, Invoicing & Reconciliation](features/F0026-billing-invoicing-and-reconciliation/PRD.md) - Planned / Now (Phase A and Phase B approved 2026-07-19 in plan run `2026-07-19-79477865`; 6 stories covering policy-linked agency-bill invoices, manual/bounded mock-CSV receipts, explicit exact application, controlled corrections, and permission-safe backlog/audit visibility)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-214-- F0029: External Broker Collaboration Portal - Planned
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-215-- F0030: Integration Hub & Data Exchange - Planned
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-216-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-217-**Release Enablement / Platform Operations (Planned):**
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-218-- F0031: Data Import, Deduplication & Go-Live Migration - Planned
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-219-- [F0032: Admin Configuration & Reference Data Console](features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md) - Planned (Phase A refined 2026-07-06; 6 draft stories: admin configuration catalog, reference/SLA drafts, queue/routing drafts, validate/compare, publish/rollback, audit/permission-safe behavior)
+--
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-326-- [F0028-S0002: Carrier and market profile management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0002-carrier-market-profile-management.md) - Done (Archived)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-327-- [F0028-S0003: Underwriter and market contact management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0003-underwriter-contact-management.md) - Done (Archived)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-328-- [F0028-S0004: Appetite note capture and freshness](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0004-appetite-note-capture.md) - Done (Archived)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-329-- [F0028-S0005: Appointment context management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0005-appointment-context-management.md) - Done (Archived)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-330-- [F0028-S0006: Market activity and related work visibility](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0006-market-activity-and-related-work.md) - Done (Archived)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-331-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:332:**Brokerage Platform Expansion Stories (Feature F0026: Billing, Invoicing & Reconciliation):**
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:333:- [F0026-S0001: Billing workspace search and policy context](features/F0026-billing-invoicing-and-reconciliation/F0026-S0001-billing-workspace-search-and-policy-context.md) - Draft
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:334:- [F0026-S0002: Create an agency-bill invoice](features/F0026-billing-invoicing-and-reconciliation/F0026-S0002-create-agency-bill-invoice.md) - Draft
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:335:- [F0026-S0003: Record payment receipts](features/F0026-billing-invoicing-and-reconciliation/F0026-S0003-record-payment-receipts.md) - Draft
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:336:- [F0026-S0004: Apply an exact payment and reconcile an invoice](features/F0026-billing-invoicing-and-reconciliation/F0026-S0004-apply-exact-payment-and-reconcile-invoice.md) - Draft
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:337:- [F0026-S0005: Review exceptions and approve corrections](features/F0026-billing-invoicing-and-reconciliation/F0026-S0005-review-exceptions-and-approve-corrections.md) - Draft
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:338:- [F0026-S0006: Monitor reconciliation backlog and audit history](features/F0026-billing-invoicing-and-reconciliation/F0026-S0006-monitor-reconciliation-backlog-and-audit.md) - Draft
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-339-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-340-**CRM Release MVP+ Stories (Feature F0008: Broker Insights):**
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-341-- [F0008-S0001: Broker scorecard overview](features/archive/F0008-broker-insights/F0008-S0001-broker-scorecard-overview.md) - Done (Archived)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-342-- [F0008-S0002: Trend drilldown and source record navigation](features/archive/F0008-broker-insights/F0008-S0002-trend-drilldown-source-records.md) - Done (Archived)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-343-- [F0008-S0003: Authorized benchmark comparison](features/archive/F0008-broker-insights/F0008-S0003-authorized-benchmark-comparison.md) - Done (Archived)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-344-- [F0008-S0004: Broker review snapshot](features/archive/F0008-broker-insights/F0008-S0004-review-snapshot.md) - Done (Archived)
+--
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-420-- Configuration Audit Workspace (F0032)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-421-- Broker Insights Workspace (F0008)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-422-- Broker Scorecard Panel (F0008)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-423-- Trend Drilldown Drawer (F0008)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-424-- Benchmark Comparison View (F0008)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-425-- Review Snapshot View (F0008)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:426:- Billing Workspace (F0026)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:427:- Agency-Bill Invoice Create (F0026)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:428:- Invoice Detail (F0026)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:429:- Payment Receipt Drawer (F0026)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:430:- Reconciliation Workspace (F0026)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:431:- Exception Review Panel (F0026)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:432:- Reconciliation Backlog (F0026)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-433-- Admin minimal (roles/policies optional MVP)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-434-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-435-Screen baseline details:
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-436-- Navigation Shell: authenticated app shell, role-aware navigation, global search entry, notifications placeholder.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-437-- Dashboard: role-aware landing screen with five widgets — nudge cards (dismissible action prompts for time-sensitive items), KPI metrics cards, pipeline summary (mini-Kanban with status pills and expandable card previews), my tasks & reminders, and broker activity feed. All widgets enforce ABAC scope and degrade gracefully when upstream entities are unavailable.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-438-- Broker List: sortable/filterable list, quick search, create action, status tags.
+--
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-479-- [ADR-021](architecture/decisions/ADR-021-form-engine-rhf-ajv-shadcn-registry.md) — Dynamic form engine with RHF, AJV, and shadcn widget registry (F0034)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-480-- [ADR-022](architecture/decisions/ADR-022-validator-equivalence-restricted-profile.md) — Validator equivalence and restricted JSON Schema profile (F0034)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-481-- [ADR-023](architecture/decisions/ADR-023-rules-governance-jsonlogic.md) — JsonLogic rules governance (F0034)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-482-- [ADR-014](architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) — Search index, saved views, and operational reporting projections (F0023)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-483-- [ADR-032](architecture/decisions/ADR-032-admin-configuration-console-contract.md) — Admin configuration console contract (F0032)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-484-- [ADR-033](architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md) — Commission, producer splits, and revenue tracking (F0025)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:485:- [ADR-034](architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md) — Agency-bill invoicing, mock/manual receipts, exact reconciliation, and correction separation of duties (F0026; accepted 2026-07-19)
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-486-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-487-**F0023 addendum status:** Approved 2026-06-19 in plan run `2026-06-19-2f180001`.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-488-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:489:**Data Model Supplement:** See `planning-mds/architecture/data-model.md` for Task entity, dashboard indexes, query patterns, F0017 hierarchy/territory, F0034 product schema registry, F0023 search/reporting read models, F0032 admin configuration records, and F0026 operational invoice/receipt/application/exception/correction records. F0020 documents are filesystem-first (no relational entity in MVP); see `planning-mds/features/archive/F0020-document-management-and-acord-intake/README.md` for the on-disk layout and the `IDocumentRepository` boundary.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-490-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-491-### 4.1 Service boundaries
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-492-
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-493-- Architecture shape: modular monolith (single deployable) with clean module boundaries and internal APIs.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-494-- **Dashboard module (F0001):**
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-495-  - Owns dashboard-specific read endpoints (KPIs, pipeline summary, nudges).
+--
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-513-- Renewal module:
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-514-  - Owns Renewal aggregate and Renewal workflow operations.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-515-  - Tracks outreach and renewal-specific lifecycle.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-516-- TimelineAudit module:
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-517-  - Owns ActivityTimelineEvent and WorkflowTransition append-only records.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-518-  - Provides timeline query/read APIs (including `GET /timeline/events` for dashboard activity feed).
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:519:- BillingReconciliation module (F0026):
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-520-  - Owns agency-bill invoices, manual/mock-CSV receipt provenance, immutable exact applications, reconciliation exceptions, and controlled operational balance corrections.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-521-  - Intersects `billing` actions with F0018 policy/account visibility before rows, counts, totals, or drilldowns; bounded policy summaries expose no finance detail.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-522-  - Does not own policy premium, expected commission, ledger, bank settlement, tax, direct bill, tolerances, write-offs, or production F0030 transport.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md:523:  - See [ADR-034](architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md) and the [feature assembly plan](features/F0026-billing-invoicing-and-reconciliation/feature-assembly-plan.md).
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-524-- ProductSchemaRegistry module (F0034):
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-525-  - Owns LobProduct, LobProductVersion, LobSchemaBundle, and LobBundleActivationEvent.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-526-  - Serves active and direct schema-bundle reads for dynamic product attributes.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-527-  - Enforces bundle signatures, deterministic product-version ids, restricted schema profile, OpenAPI projection compatibility, and activation audit.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-528-  - Does not own lifecycle rows; Submission, Renewal, PolicyVersion, and PolicyEndorsement pin product versions and carry attributes.
+/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/BLUEPRINT.md-529-- SearchReporting module (F0023):
+# PM Closeout - F0025-commission-producer-splits-and-revenue-tracking run 2026-07-07-9859bad4
+
+> Required at G8/closeout per the feature evidence contract. PM-owned final approval artifact.
+
+## Final Story Status
+
+| Story | Final Status | Evidence | Notes |
+|-------|--------------|----------|-------|
+| F0025-S0001 | Done | signoff-ledger.md / test-execution-report.md / code-review-report.md / security-review-report.md | Commission workspace search and policy context delivered. |
+| F0025-S0002 | Done | signoff-ledger.md / test-execution-report.md / code-review-report.md / security-review-report.md | Commission schedule maintenance delivered. |
+| F0025-S0003 | Done | signoff-ledger.md / test-execution-report.md / code-review-report.md / security-review-report.md | Producer split assignment delivered. |
+| F0025-S0004 | Done | signoff-ledger.md / test-execution-report.md / code-review-report.md / security-review-report.md | Expected commission calculation review delivered. |
+| F0025-S0005 | Done | signoff-ledger.md / test-execution-report.md / code-review-report.md / security-review-report.md | Commission adjustment request and approval delivered. |
+| F0025-S0006 | Done | signoff-ledger.md / test-execution-report.md / code-review-report.md / security-review-report.md | Revenue attribution rollups delivered. |
+
+## Archive Decision
+
+F0025 is Done and archived on 2026-07-07.
+
+- Active path at run start: `planning-mds/features/F0025-commission-producer-splits-and-revenue-tracking`
+- Archived path at closeout: `planning-mds/features/archive/F0025-commission-producer-splits-and-revenue-tracking`
+- Approved run: `2026-07-07-9859bad4`
+
+## Deferred Follow-ups
+
+| Follow-up | Owner | Target |
+|-----------|-------|--------|
+| Add dedicated source-scope regression tests for cross-policy expected commissions, adjustments, splits, and rollup totals. | Quality Engineer + Backend Developer | Before production release hardening |
+| Rerun dependency, secrets, SAST, and DAST scanner classes in CI/staging. | Security Reviewer + DevOps | Before production release hardening |
+| Confirm whether multi-participant revenue attribution needs one projection row per participant rather than one row per expected commission. | Product Manager + Architect | Before expanding compensation analytics |
+| Rerun staging DAST with deployed frontend/API and authenticated paths where feasible. | Security Reviewer + DevOps | Before production release hardening |
+| Track unrelated broad frontend localStorage suite failures outside F0025. | Quality Engineer | Separate test-environment cleanup |
+| Confirm whether schedule-list reads need finer carrier-market scoping beyond `commission:read`. | Product Manager + Security Reviewer | Future hardening story if required |
+
+## Recommendation Acceptances
+
+- Accepted: F0025-S0001 - PM accepts the Code Reviewer and Security Reviewer `WITH RECOMMENDATIONS` signoff for this story because no Critical or High findings remain; deferred follow-ups are listed above.
+- Accepted: F0025-S0002 - PM accepts the Code Reviewer and Security Reviewer `WITH RECOMMENDATIONS` signoff for this story because no Critical or High findings remain; deferred follow-ups are listed above.
+- Accepted: F0025-S0003 - PM accepts the Code Reviewer and Security Reviewer `WITH RECOMMENDATIONS` signoff for this story because no Critical or High findings remain; deferred follow-ups are listed above.
+- Accepted: F0025-S0004 - PM accepts the Code Reviewer and Security Reviewer `WITH RECOMMENDATIONS` signoff for this story because no Critical or High findings remain; deferred follow-ups are listed above.
+- Accepted: F0025-S0005 - PM accepts the Code Reviewer and Security Reviewer `WITH RECOMMENDATIONS` signoff for this story because no Critical or High findings remain; deferred follow-ups are listed above.
+- Accepted: F0025-S0006 - PM accepts the Code Reviewer and Security Reviewer `WITH RECOMMENDATIONS` signoff for this story because no Critical or High findings remain; deferred follow-ups are listed above.
+
+## Tracker Updates
+
+- `REGISTRY.md`: F0025 moved from Planned to Archived Features with archive date 2026-07-07.
+- `ROADMAP.md`: F0025 moved from Now to Completed.
+- `BLUEPRINT.md`: F0025 baseline status updated to Done with archived path.
+- `STORY-INDEX.md`: regenerated after the archive move.
+- `feature-mappings.yaml`: F0025 feature/story paths updated to archived paths and status set to `archived-done`.
+- Scoped tracker validation: `validate-trackers.py --product-root /Users/msig4/Documents/NEBULA/nebula-insurance-crm --feature F0025 --run-id 2026-07-07-9859bad4` passed at G6 and will be rerun after closeout publication.
+
+## Validator Results
+
+| Gate / Check | Command | Exit Code | Result |
+|--------------|---------|-----------|--------|
+| G0 evidence | `validate-feature-evidence.py --stage G0` | 0 | PASS |
+| G1 evidence | `validate-feature-evidence.py --stage G1` | 0 | PASS |
+| G2 evidence | `validate-feature-evidence.py --stage G2` | 0 | PASS |
+| G3 evidence | `validate-feature-evidence.py --stage G3` | 0 | PASS |
+| G4 approval | `validate-feature-evidence.py --stage G4` | 0 | PASS |
+| G5 signoff | `validate-feature-evidence.py --stage G5` | 0 | PASS |
+| G6 candidate | `validate-feature-evidence.py --stage G6` | 0 | PASS |
+| G6 trackers | `validate-trackers.py --feature F0025 --run-id 2026-07-07-9859bad4` | 0 | PASS |
+| G7 KG symbol/decision regeneration | `.venv/bin/python scripts/kg/validate.py --regenerate-symbols --check-symbols --regenerate-decisions --check-decisions` | 0 | PASS |
+| G7 KG drift | `.venv/bin/python scripts/kg/validate.py --check-drift` | 0 | PASS |
+| G8 story index | `generate-story-index.py /Users/msig4/Documents/NEBULA/nebula-insurance-crm/planning-mds/features/` | 0 | PASS |
+| G8 prior manifest patch | `patch-prior-manifest.py --feature F0025 --new-run-id 2026-07-07-9859bad4` | 0 | PASS; no prior approved manifests |
+| G8 closeout evidence | `validate-feature-evidence.py --feature F0025 --stage closeout` | 1 then 0 | PASS after repairing archived artifact paths and PM acceptance identifiers |
+| G8 tracker validation | `validate-trackers.py --feature F0025 --run-id 2026-07-07-9859bad4` | 1 then 0 | PASS after appending final accepted STATUS signoff rows |
+| G8 KG coverage | `.venv/bin/python scripts/kg/validate.py --write-coverage-report` | 1 then 0 | PASS after updating stale F0025 PRD source path in `canonical-nodes.yaml` |
+| G8 KG drift | `.venv/bin/python scripts/kg/validate.py --check-drift` | 0 | PASS |
+| G8 template validation | `/Users/msig4/Documents/NEBULA/nebula-insurance-crm/.venv/bin/python agents/scripts/validate_templates.py` | 0 | PASS |
+
+Final closeout validator results are mirrored in `commands.log` and `lifecycle-gates.log`.
+jq: error: Could not open file /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/operations/evidence/features/F0025-commission-revenue-tracking/latest-run.json: No such file or directory
+active=yes
+archive=no
+latest=no
+[product-root] /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm (source: --product-root)
+{
+  "completed_operations": [
+    "kg-compile",
+    "kg-symbols-decisions",
+    "kg-check-drift"
+  ],
+  "log_refs": [],
+  "stage": "G7",
+  "status": "pass"
+}

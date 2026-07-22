@@ -82,6 +82,20 @@
 | `routing_no_match` | 409 | Route evaluation produced no assignable target and must use fallback queue. | F0022 |
 | `queue_item_closed` | 409 | Reassignment or rebalance attempted to mutate a closed/skipped queue item. | F0022 |
 
+| `precondition_required` | 428 | A mutable F0026 aggregate request omitted the required `If-Match` precondition. | F0026 / ADR-034 |
+| `billing_invoice_duplicate` | 409 | The normalized agency-bill invoice number already exists. | F0026-S0002 |
+| `billing_policy_context_invalid` | 422 | Policy, immutable version, account, or currency context is missing, mismatched, or not eligible for the invoice. | F0026-S0002 |
+| `payment_receipt_duplicate` | 409 | A receipt already exists for the source/external-reference pair. | F0026-S0003 |
+| `payment_import_invalid` | 422 | The mock CSV header, encoding, quoting, contract version, or file-level structure is invalid. | F0026-S0003 |
+| `payment_import_limit_exceeded` | 413 | The mock CSV exceeds 1 MiB or 1,000 data rows. | F0026-S0003 / ADR-034 |
+| `payment_application_not_exact` | 409 | Receipt currency/amount does not exactly equal the selected invoice's full operational outstanding amount; no balance changed. | F0026-S0004 |
+| `payment_receipt_already_applied` | 409 | The selected receipt already has an immutable payment application. | F0026-S0004 |
+| `billing_invoice_already_reconciled` | 409 | The selected invoice has zero operational outstanding or already has an immutable exact application. | F0026-S0004 |
+| `reconciliation_reference_correction_ineligible` | 409 | The exception type/state does not permit a non-balance reference correction. | F0026-S0005 |
+| `billing_correction_pending_exists` | 409 | The exception already has a current pending balance correction. | F0026-S0005 |
+| `billing_correction_self_approval_denied` | 403 | The correction requester attempted to approve or reject the same request. | F0026-S0005 |
+| `billing_correction_terminal` | 409 | A decision was attempted for an already Approved or Rejected correction. | F0026-S0005 |
+
 ## Notes
 
 - Add new codes here when new stories introduce deterministic error cases.

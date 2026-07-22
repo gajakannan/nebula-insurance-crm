@@ -1,0 +1,16 @@
+id: entity:reconciliation-exception
+label: ReconciliationException
+rationale:
+  - adr: adr:034
+    section: Decision §4-5
+    summary: Non-exact, missing/conflicting reference, duplicate, and invalid-source conditions remain actionable without implicit balance mutation.
+related_nodes:
+  - entity:activity-timeline-event
+  - entity:billing-correction
+  - entity:billing-invoice
+  - entity:payment-receipt
+  - entity:payment-receipt-import-row-outcome
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/schemas/reconciliation-exception.schema.json
+  - planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md

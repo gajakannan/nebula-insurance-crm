@@ -1,0 +1,5946 @@
+{
+  "query": {
+    "feature_or_story": "feature:F0026",
+    "canonical_nodes": [
+      "adr:034",
+      "api:nebula-rest",
+      "capability:authorization-enforcement",
+      "capability:billing-invoicing-reconciliation",
+      "capability:commission-revenue-tracking",
+      "capability:operational-reporting",
+      "endpoint:billing-correction-decision",
+      "endpoint:billing-correction-request",
+      "endpoint:billing-invoice-detail",
+      "endpoint:billing-invoice-list-create",
+      "endpoint:payment-application-create",
+      "endpoint:payment-receipt-import-create",
+      "endpoint:payment-receipt-import-detail",
+      "endpoint:payment-receipt-list-create",
+      "endpoint:policy-billing-summary",
+      "endpoint:reconciliation-backlog",
+      "endpoint:reconciliation-exception-list",
+      "endpoint:reconciliation-reference-correct",
+      "entity:activity-timeline-event",
+      "entity:billing-correction",
+      "entity:billing-invoice",
+      "entity:expected-commission",
+      "entity:payment-application",
+      "entity:payment-receipt",
+      "entity:payment-receipt-import-batch",
+      "entity:payment-receipt-import-row-outcome",
+      "entity:policy",
+      "entity:policy-version",
+      "entity:reconciliation-exception",
+      "event:billing-correction-approved",
+      "event:billing-correction-rejected",
+      "event:billing-correction-requested",
+      "event:billing-invoice-created",
+      "event:exact-payment-applied",
+      "event:payment-receipt-import-completed",
+      "event:payment-receipt-recorded",
+      "event:reconciliation-reference-corrected",
+      "feature:F0018",
+      "feature:F0025",
+      "policy_rule:billing-application-apply",
+      "policy_rule:billing-backlog-read",
+      "policy_rule:billing-backlog-summary-read",
+      "policy_rule:billing-correction-approve",
+      "policy_rule:billing-correction-request",
+      "policy_rule:billing-exception-manage",
+      "policy_rule:billing-invoice-create",
+      "policy_rule:billing-read",
+      "policy_rule:billing-receipt-import",
+      "policy_rule:billing-receipt-record",
+      "policy_rule:billing-summary-read",
+      "policy_rule:policy-read",
+      "role:finance-manager",
+      "role:finance-operations-analyst",
+      "ui_route:billing-invoice-detail",
+      "ui_route:billing-reconciliation",
+      "ui_route:billing-workspace",
+      "workflow:billing-correction"
+    ]
+  },
+  "mode": "node",
+  "score": 8,
+  "band": "high",
+  "signals": {
+    "blast_count": 1.0,
+    "hotspot_score": 0.31,
+    "cochange_density": 1.0,
+    "ownership_concentration": 1.0,
+    "test_gap": 0.89
+  },
+  "raw": {
+    "blast": {
+      "direct_node_count": 57,
+      "neighbor_node_count": 222,
+      "feature_count": 34,
+      "indirect_feature_count": 0,
+      "story_count": 167,
+      "indirect_story_count": 6,
+      "policy_rule_count": 132,
+      "resolved_file_count": 106
+    },
+    "hotspot": {
+      "hotspot_rank": 15,
+      "hotspot_score": 0.31,
+      "primary_owner": "gajapathi.kannan@live.com",
+      "primary_owner_pct": 100,
+      "bus_factor_flag": true,
+      "last_modified": "2026-07-19"
+    },
+    "cochange": {
+      "partners": [
+        {
+          "node": "entity:account",
+          "co_commits": 12
+        },
+        {
+          "node": "entity:document",
+          "co_commits": 12
+        },
+        {
+          "node": "endpoint:account-detail",
+          "co_commits": 11
+        },
+        {
+          "node": "endpoint:account-renewals",
+          "co_commits": 11
+        },
+        {
+          "node": "capability:document-management",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:account-create",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:account-lifecycle",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:account-merge",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:account-policies",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:account-relationship-change",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:account-submissions",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:account-summary",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:account-timeline",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:account-update",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:submission-approval",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:submission-archive",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:submission-bind-confirmation",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:submission-bind-request",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:submission-quote-packet-read",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:submission-quote-packet-update",
+          "co_commits": 10
+        },
+        {
+          "node": "endpoint:submission-reactivate",
+          "co_commits": 10
+        },
+        {
+          "node": "entity:submission",
+          "co_commits": 10
+        },
+        {
+          "node": "entity:submission-approval-decision",
+          "co_commits": 10
+        },
+        {
+          "node": "entity:submission-bind-handoff",
+          "co_commits": 10
+        },
+        {
+          "node": "entity:submission-quote-packet",
+          "co_commits": 10
+        },
+        {
+          "node": "ui_route:submission-detail",
+          "co_commits": 10
+        },
+        {
+          "node": "workflow:account-lifecycle",
+          "co_commits": 10
+        },
+        {
+          "node": "capability:admin-configuration-governance",
+          "co_commits": 9
+        },
+        {
+          "node": "capability:dynamic-attribute-panel",
+          "co_commits": 9
+        },
+        {
+          "node": "capability:session-continuity",
+          "co_commits": 9
+        },
+        {
+          "node": "endpoint:account-contact-create",
+          "co_commits": 9
+        },
+        {
+          "node": "endpoint:account-contact-delete",
+          "co_commits": 9
+        },
+        {
+          "node": "endpoint:account-contact-list",
+          "co_commits": 9
+        },
+        {
+          "node": "endpoint:account-contact-update",
+          "co_commits": 9
+        },
+        {
+          "node": "endpoint:internal-telemetry-session-continuity",
+          "co_commits": 9
+        },
+        {
+          "node": "entity:communication-event",
+          "co_commits": 9
+        },
+        {
+          "node": "entity:service-case",
+          "co_commits": 9
+        },
+        {
+          "node": "capability:outbound-document-generation",
+          "co_commits": 8
+        },
+        {
+          "node": "config_key:authentication-audience",
+          "co_commits": 8
+        },
+        {
+          "node": "config_key:authentication-authority",
+          "co_commits": 8
+        },
+        {
+          "node": "endpoint:account-list",
+          "co_commits": 8
+        },
+        {
+          "node": "endpoint:submission-detail",
+          "co_commits": 8
+        },
+        {
+          "node": "endpoint:submission-timeline",
+          "co_commits": 8
+        },
+        {
+          "node": "policy_rule:renewal-create",
+          "co_commits": 8
+        },
+        {
+          "node": "policy_rule:renewal-read",
+          "co_commits": 8
+        },
+        {
+          "node": "policy_rule:renewal-transition",
+          "co_commits": 8
+        },
+        {
+          "node": "ui_route:account-detail",
+          "co_commits": 8
+        },
+        {
+          "node": "ui_route:submission-create",
+          "co_commits": 8
+        },
+        {
+          "node": "policy_rule:account-create",
+          "co_commits": 7
+        },
+        {
+          "node": "policy_rule:account-deactivate",
+          "co_commits": 7
+        },
+        {
+          "node": "policy_rule:account-delete",
+          "co_commits": 7
+        },
+        {
+          "node": "policy_rule:account-merge",
+          "co_commits": 7
+        },
+        {
+          "node": "policy_rule:account-reactivate",
+          "co_commits": 7
+        },
+        {
+          "node": "policy_rule:account-read",
+          "co_commits": 7
+        },
+        {
+          "node": "policy_rule:account-relationship-change",
+          "co_commits": 7
+        },
+        {
+          "node": "policy_rule:account-update",
+          "co_commits": 7
+        },
+        {
+          "node": "ui_route:account-create",
+          "co_commits": 7
+        },
+        {
+          "node": "ui_route:broker-create",
+          "co_commits": 7
+        },
+        {
+          "node": "ui_route:broker-detail",
+          "co_commits": 7
+        },
+        {
+          "node": "capability:broker-insights",
+          "co_commits": 6
+        },
+        {
+          "node": "capability:operational-reporting",
+          "co_commits": 6
+        },
+        {
+          "node": "capability:operations-routing",
+          "co_commits": 6
+        },
+        {
+          "node": "capability:product-schema-registry",
+          "co_commits": 6
+        },
+        {
+          "node": "capability:saved-views",
+          "co_commits": 6
+        },
+        {
+          "node": "endpoint:lob-schema-activate",
+          "co_commits": 6
+        },
+        {
+          "node": "endpoint:lob-schema-bundle-detail",
+          "co_commits": 6
+        },
+        {
+          "node": "endpoint:lob-schemas-active",
+          "co_commits": 6
+        },
+        {
+          "node": "endpoint:submission-create",
+          "co_commits": 6
+        },
+        {
+          "node": "entity:renewal",
+          "co_commits": 6
+        },
+        {
+          "node": "entity:saved-view",
+          "co_commits": 6
+        },
+        {
+          "node": "entity:workflow-transition",
+          "co_commits": 6
+        },
+        {
+          "node": "event:submission-approval-declined",
+          "co_commits": 6
+        },
+        {
+          "node": "event:submission-approval-granted",
+          "co_commits": 6
+        },
+        {
+          "node": "event:submission-archived",
+          "co_commits": 6
+        },
+        {
+          "node": "event:submission-packet-updated",
+          "co_commits": 6
+        },
+        {
+          "node": "event:submission-reactivated",
+          "co_commits": 6
+        },
+        {
+          "node": "policy_rule:account-contact-manage",
+          "co_commits": 6
+        },
+        {
+          "node": "policy_rule:renewal-assign",
+          "co_commits": 6
+        },
+        {
+          "node": "ui_route:submissions-list",
+          "co_commits": 6
+        },
+        {
+          "node": "ui_route:task-center",
+          "co_commits": 6
+        },
+        {
+          "node": "workflow:renewal",
+          "co_commits": 6
+        },
+        {
+          "node": "workflow:submission",
+          "co_commits": 6
+        },
+        {
+          "node": "capability:commission-revenue-tracking",
+          "co_commits": 5
+        },
+        {
+          "node": "endpoint:renewal-transition",
+          "co_commits": 5
+        },
+        {
+          "node": "endpoint:submission-transition",
+          "co_commits": 5
+        },
+        {
+          "node": "event:renewal-transitioned",
+          "co_commits": 5
+        },
+        {
+          "node": "event:submission-transitioned",
+          "co_commits": 5
+        },
+        {
+          "node": "policy_rule:dashboard-nudge-read",
+          "co_commits": 5
+        },
+        {
+          "node": "ui_route:accounts-list",
+          "co_commits": 5
+        },
+        {
+          "node": "ui_route:brokers-list",
+          "co_commits": 5
+        },
+        {
+          "node": "ui_route:dashboard-home",
+          "co_commits": 5
+        },
+        {
+          "node": "ui_route:login",
+          "co_commits": 5
+        },
+        {
+          "node": "capability:authorization-enforcement",
+          "co_commits": 4
+        },
+        {
+          "node": "capability:broker-relationship-management",
+          "co_commits": 4
+        },
+        {
+          "node": "capability:neuron-renewals-head",
+          "co_commits": 4
+        },
+        {
+          "node": "capability:task-center",
+          "co_commits": 4
+        },
+        {
+          "node": "config_key:document-metadata-schema-registry",
+          "co_commits": 4
+        },
+        {
+          "node": "endpoint:renewal-assignment",
+          "co_commits": 4
+        },
+        {
+          "node": "endpoint:renewal-create",
+          "co_commits": 4
+        },
+        {
+          "node": "endpoint:renewal-detail",
+          "co_commits": 4
+        },
+        {
+          "node": "endpoint:renewal-list",
+          "co_commits": 4
+        },
+        {
+          "node": "endpoint:renewal-timeline",
+          "co_commits": 4
+        },
+        {
+          "node": "endpoint:submission-assignment",
+          "co_commits": 4
+        },
+        {
+          "node": "endpoint:submission-list",
+          "co_commits": 4
+        },
+        {
+          "node": "entity:broker",
+          "co_commits": 4
+        },
+        {
+          "node": "entity:broker-insight-projection",
+          "co_commits": 4
+        },
+        {
+          "node": "entity:document-template",
+          "co_commits": 4
+        },
+        {
+          "node": "entity:operational-report-projection",
+          "co_commits": 4
+        },
+        {
+          "node": "entity:search-document",
+          "co_commits": 4
+        },
+        {
+          "node": "entity:task-item",
+          "co_commits": 4
+        },
+        {
+          "node": "event:submission-created",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:broker-insight-read",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:broker-read",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:broker-search",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:contact-read",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:global-search-read",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:operational-report-read",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:saved-view-default",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:saved-view-manage",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:saved-view-read",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:task-create",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:task-delete",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:task-read",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:task-update",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:timeline-event-read",
+          "co_commits": 4
+        },
+        {
+          "node": "policy_rule:user-search",
+          "co_commits": 4
+        },
+        {
+          "node": "role:admin",
+          "co_commits": 4
+        },
+        {
+          "node": "role:broker-user",
+          "co_commits": 4
+        },
+        {
+          "node": "role:distribution-manager",
+          "co_commits": 4
+        },
+        {
+          "node": "role:distribution-user",
+          "co_commits": 4
+        },
+        {
+          "node": "role:external-user",
+          "co_commits": 4
+        },
+        {
+          "node": "role:program-manager",
+          "co_commits": 4
+        },
+        {
+          "node": "role:relationship-manager",
+          "co_commits": 4
+        },
+        {
+          "node": "role:underwriter",
+          "co_commits": 4
+        },
+        {
+          "node": "capability:dashboard-home",
+          "co_commits": 3
+        },
+        {
+          "node": "capability:dynamic-lob-attributes",
+          "co_commits": 3
+        },
+        {
+          "node": "capability:global-search",
+          "co_commits": 3
+        },
+        {
+          "node": "capability:neuron-companion",
+          "co_commits": 3
+        },
+        {
+          "node": "capability:session-context-restore",
+          "co_commits": 3
+        },
+        {
+          "node": "config_key:workflow-sla-thresholds",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:broker-create",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:broker-detail",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:broker-insight-benchmarks",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:broker-insight-scorecards",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:broker-insight-snapshot",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:broker-insight-trends",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:global-search-results",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:operational-workload-report",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:saved-view-archive",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:saved-view-create",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:saved-view-default",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:saved-view-detail",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:saved-view-list",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:saved-view-update",
+          "co_commits": 3
+        },
+        {
+          "node": "endpoint:workflow-aging-report",
+          "co_commits": 3
+        },
+        {
+          "node": "entity:carrier-market",
+          "co_commits": 3
+        },
+        {
+          "node": "entity:user-profile",
+          "co_commits": 3
+        },
+        {
+          "node": "migration:f0006-submission-intake-columns",
+          "co_commits": 3
+        },
+        {
+          "node": "migration:f0016-dependent-fallback-denormalization",
+          "co_commits": 3
+        },
+        {
+          "node": "capability:neuron-day-at-a-glance-shell",
+          "co_commits": 2
+        },
+        {
+          "node": "capability:neuron-outreach-drafter",
+          "co_commits": 2
+        },
+        {
+          "node": "capability:validator-equivalence",
+          "co_commits": 2
+        },
+        {
+          "node": "config_key:oidc-authority",
+          "co_commits": 2
+        },
+        {
+          "node": "config_key:oidc-client-id",
+          "co_commits": 2
+        },
+        {
+          "node": "config_key:oidc-redirect-uri",
+          "co_commits": 2
+        },
+        {
+          "node": "endpoint:dashboard-kpis",
+          "co_commits": 2
+        },
+        {
+          "node": "endpoint:dashboard-nudges",
+          "co_commits": 2
+        },
+        {
+          "node": "endpoint:dashboard-opportunity-flow",
+          "co_commits": 2
+        },
+        {
+          "node": "endpoint:task-detail",
+          "co_commits": 2
+        },
+        {
+          "node": "endpoint:task-list",
+          "co_commits": 2
+        },
+        {
+          "node": "endpoint:task-my-list",
+          "co_commits": 2
+        },
+        {
+          "node": "entity:mga",
+          "co_commits": 2
+        },
+        {
+          "node": "entity:saved-view-audit-event",
+          "co_commits": 2
+        },
+        {
+          "node": "evidence:workflow-state-machine-tests",
+          "co_commits": 2
+        },
+        {
+          "node": "migration:f0007-renewal-entity-shape-reconcile",
+          "co_commits": 2
+        }
+      ],
+      "density": 1.0,
+      "partner_count": 175,
+      "node_commit_count": 12
+    },
+    "test_gap": {
+      "test_files": 4,
+      "impl_files": 36,
+      "test_gap": 0.89
+    }
+  },
+  "primary_node": "entity:policy",
+  "per_node": [
+    {
+      "node": "entity:policy",
+      "score": 8,
+      "band": "high",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.31,
+        "cochange_density": 1.0,
+        "ownership_concentration": 1.0,
+        "test_gap": 0.89
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": 15,
+          "hotspot_score": 0.31,
+          "primary_owner": "gajapathi.kannan@live.com",
+          "primary_owner_pct": 100,
+          "bus_factor_flag": true,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [
+            {
+              "node": "entity:account",
+              "co_commits": 12
+            },
+            {
+              "node": "entity:document",
+              "co_commits": 12
+            },
+            {
+              "node": "endpoint:account-detail",
+              "co_commits": 11
+            },
+            {
+              "node": "endpoint:account-renewals",
+              "co_commits": 11
+            },
+            {
+              "node": "capability:document-management",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:account-create",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:account-lifecycle",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:account-merge",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:account-policies",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:account-relationship-change",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:account-submissions",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:account-summary",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:account-timeline",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:account-update",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:submission-approval",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:submission-archive",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:submission-bind-confirmation",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:submission-bind-request",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:submission-quote-packet-read",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:submission-quote-packet-update",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:submission-reactivate",
+              "co_commits": 10
+            },
+            {
+              "node": "entity:submission",
+              "co_commits": 10
+            },
+            {
+              "node": "entity:submission-approval-decision",
+              "co_commits": 10
+            },
+            {
+              "node": "entity:submission-bind-handoff",
+              "co_commits": 10
+            },
+            {
+              "node": "entity:submission-quote-packet",
+              "co_commits": 10
+            },
+            {
+              "node": "ui_route:submission-detail",
+              "co_commits": 10
+            },
+            {
+              "node": "workflow:account-lifecycle",
+              "co_commits": 10
+            },
+            {
+              "node": "capability:admin-configuration-governance",
+              "co_commits": 9
+            },
+            {
+              "node": "capability:dynamic-attribute-panel",
+              "co_commits": 9
+            },
+            {
+              "node": "capability:session-continuity",
+              "co_commits": 9
+            },
+            {
+              "node": "endpoint:account-contact-create",
+              "co_commits": 9
+            },
+            {
+              "node": "endpoint:account-contact-delete",
+              "co_commits": 9
+            },
+            {
+              "node": "endpoint:account-contact-list",
+              "co_commits": 9
+            },
+            {
+              "node": "endpoint:account-contact-update",
+              "co_commits": 9
+            },
+            {
+              "node": "endpoint:internal-telemetry-session-continuity",
+              "co_commits": 9
+            },
+            {
+              "node": "entity:communication-event",
+              "co_commits": 9
+            },
+            {
+              "node": "entity:service-case",
+              "co_commits": 9
+            },
+            {
+              "node": "capability:outbound-document-generation",
+              "co_commits": 8
+            },
+            {
+              "node": "config_key:authentication-audience",
+              "co_commits": 8
+            },
+            {
+              "node": "config_key:authentication-authority",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:account-list",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:submission-detail",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:submission-timeline",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:renewal-create",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:renewal-read",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:renewal-transition",
+              "co_commits": 8
+            },
+            {
+              "node": "ui_route:account-detail",
+              "co_commits": 8
+            },
+            {
+              "node": "ui_route:submission-create",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:account-create",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:account-deactivate",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:account-delete",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:account-merge",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:account-reactivate",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:account-read",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:account-relationship-change",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:account-update",
+              "co_commits": 7
+            },
+            {
+              "node": "ui_route:account-create",
+              "co_commits": 7
+            },
+            {
+              "node": "ui_route:broker-create",
+              "co_commits": 7
+            },
+            {
+              "node": "ui_route:broker-detail",
+              "co_commits": 7
+            },
+            {
+              "node": "capability:broker-insights",
+              "co_commits": 6
+            },
+            {
+              "node": "capability:operational-reporting",
+              "co_commits": 6
+            },
+            {
+              "node": "capability:operations-routing",
+              "co_commits": 6
+            },
+            {
+              "node": "capability:product-schema-registry",
+              "co_commits": 6
+            },
+            {
+              "node": "capability:saved-views",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:lob-schema-activate",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:lob-schema-bundle-detail",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:lob-schemas-active",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:submission-create",
+              "co_commits": 6
+            },
+            {
+              "node": "entity:renewal",
+              "co_commits": 6
+            },
+            {
+              "node": "entity:saved-view",
+              "co_commits": 6
+            },
+            {
+              "node": "entity:workflow-transition",
+              "co_commits": 6
+            },
+            {
+              "node": "event:submission-approval-declined",
+              "co_commits": 6
+            },
+            {
+              "node": "event:submission-approval-granted",
+              "co_commits": 6
+            },
+            {
+              "node": "event:submission-archived",
+              "co_commits": 6
+            },
+            {
+              "node": "event:submission-packet-updated",
+              "co_commits": 6
+            },
+            {
+              "node": "event:submission-reactivated",
+              "co_commits": 6
+            },
+            {
+              "node": "policy_rule:account-contact-manage",
+              "co_commits": 6
+            },
+            {
+              "node": "policy_rule:renewal-assign",
+              "co_commits": 6
+            },
+            {
+              "node": "ui_route:submissions-list",
+              "co_commits": 6
+            },
+            {
+              "node": "ui_route:task-center",
+              "co_commits": 6
+            },
+            {
+              "node": "workflow:renewal",
+              "co_commits": 6
+            },
+            {
+              "node": "workflow:submission",
+              "co_commits": 6
+            },
+            {
+              "node": "capability:commission-revenue-tracking",
+              "co_commits": 5
+            },
+            {
+              "node": "endpoint:renewal-transition",
+              "co_commits": 5
+            },
+            {
+              "node": "endpoint:submission-transition",
+              "co_commits": 5
+            },
+            {
+              "node": "event:renewal-transitioned",
+              "co_commits": 5
+            },
+            {
+              "node": "event:submission-transitioned",
+              "co_commits": 5
+            },
+            {
+              "node": "policy_rule:dashboard-nudge-read",
+              "co_commits": 5
+            },
+            {
+              "node": "ui_route:accounts-list",
+              "co_commits": 5
+            },
+            {
+              "node": "ui_route:brokers-list",
+              "co_commits": 5
+            },
+            {
+              "node": "ui_route:dashboard-home",
+              "co_commits": 5
+            },
+            {
+              "node": "ui_route:login",
+              "co_commits": 5
+            },
+            {
+              "node": "capability:authorization-enforcement",
+              "co_commits": 4
+            },
+            {
+              "node": "capability:broker-relationship-management",
+              "co_commits": 4
+            },
+            {
+              "node": "capability:neuron-renewals-head",
+              "co_commits": 4
+            },
+            {
+              "node": "capability:task-center",
+              "co_commits": 4
+            },
+            {
+              "node": "config_key:document-metadata-schema-registry",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:renewal-assignment",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:renewal-create",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:renewal-detail",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:renewal-list",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:renewal-timeline",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:submission-assignment",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:submission-list",
+              "co_commits": 4
+            },
+            {
+              "node": "entity:broker",
+              "co_commits": 4
+            },
+            {
+              "node": "entity:broker-insight-projection",
+              "co_commits": 4
+            },
+            {
+              "node": "entity:document-template",
+              "co_commits": 4
+            },
+            {
+              "node": "entity:operational-report-projection",
+              "co_commits": 4
+            },
+            {
+              "node": "entity:search-document",
+              "co_commits": 4
+            },
+            {
+              "node": "entity:task-item",
+              "co_commits": 4
+            },
+            {
+              "node": "event:submission-created",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:broker-insight-read",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:broker-read",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:broker-search",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:contact-read",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:global-search-read",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:operational-report-read",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:saved-view-default",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:saved-view-manage",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:saved-view-read",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:task-create",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:task-delete",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:task-read",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:task-update",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:timeline-event-read",
+              "co_commits": 4
+            },
+            {
+              "node": "policy_rule:user-search",
+              "co_commits": 4
+            },
+            {
+              "node": "role:admin",
+              "co_commits": 4
+            },
+            {
+              "node": "role:broker-user",
+              "co_commits": 4
+            },
+            {
+              "node": "role:distribution-manager",
+              "co_commits": 4
+            },
+            {
+              "node": "role:distribution-user",
+              "co_commits": 4
+            },
+            {
+              "node": "role:external-user",
+              "co_commits": 4
+            },
+            {
+              "node": "role:program-manager",
+              "co_commits": 4
+            },
+            {
+              "node": "role:relationship-manager",
+              "co_commits": 4
+            },
+            {
+              "node": "role:underwriter",
+              "co_commits": 4
+            },
+            {
+              "node": "capability:dashboard-home",
+              "co_commits": 3
+            },
+            {
+              "node": "capability:dynamic-lob-attributes",
+              "co_commits": 3
+            },
+            {
+              "node": "capability:global-search",
+              "co_commits": 3
+            },
+            {
+              "node": "capability:neuron-companion",
+              "co_commits": 3
+            },
+            {
+              "node": "capability:session-context-restore",
+              "co_commits": 3
+            },
+            {
+              "node": "config_key:workflow-sla-thresholds",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:broker-create",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:broker-detail",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:broker-insight-benchmarks",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:broker-insight-scorecards",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:broker-insight-snapshot",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:broker-insight-trends",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:global-search-results",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:operational-workload-report",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:saved-view-archive",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:saved-view-create",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:saved-view-default",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:saved-view-detail",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:saved-view-list",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:saved-view-update",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:workflow-aging-report",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:carrier-market",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:user-profile",
+              "co_commits": 3
+            },
+            {
+              "node": "migration:f0006-submission-intake-columns",
+              "co_commits": 3
+            },
+            {
+              "node": "migration:f0016-dependent-fallback-denormalization",
+              "co_commits": 3
+            },
+            {
+              "node": "capability:neuron-day-at-a-glance-shell",
+              "co_commits": 2
+            },
+            {
+              "node": "capability:neuron-outreach-drafter",
+              "co_commits": 2
+            },
+            {
+              "node": "capability:validator-equivalence",
+              "co_commits": 2
+            },
+            {
+              "node": "config_key:oidc-authority",
+              "co_commits": 2
+            },
+            {
+              "node": "config_key:oidc-client-id",
+              "co_commits": 2
+            },
+            {
+              "node": "config_key:oidc-redirect-uri",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:dashboard-kpis",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:dashboard-nudges",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:dashboard-opportunity-flow",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:task-detail",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:task-list",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:task-my-list",
+              "co_commits": 2
+            },
+            {
+              "node": "entity:mga",
+              "co_commits": 2
+            },
+            {
+              "node": "entity:saved-view-audit-event",
+              "co_commits": 2
+            },
+            {
+              "node": "evidence:workflow-state-machine-tests",
+              "co_commits": 2
+            },
+            {
+              "node": "migration:f0007-renewal-entity-shape-reconcile",
+              "co_commits": 2
+            }
+          ],
+          "density": 1.0,
+          "partner_count": 175,
+          "node_commit_count": 12
+        },
+        "test_gap": {
+          "test_files": 4,
+          "impl_files": 36,
+          "test_gap": 0.89
+        }
+      }
+    },
+    {
+      "node": "capability:commission-revenue-tracking",
+      "score": 7,
+      "band": "high",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.06,
+        "cochange_density": 1.0,
+        "ownership_concentration": 0.92,
+        "test_gap": 0.76
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": 60,
+          "hotspot_score": 0.06,
+          "primary_owner": "vgundaboina@wscs.ai",
+          "primary_owner_pct": 92,
+          "bus_factor_flag": true,
+          "last_modified": "2026-07-14"
+        },
+        "cochange": {
+          "partners": [
+            {
+              "node": "capability:admin-configuration-governance",
+              "co_commits": 11
+            },
+            {
+              "node": "capability:outbound-document-generation",
+              "co_commits": 11
+            },
+            {
+              "node": "capability:session-continuity",
+              "co_commits": 11
+            },
+            {
+              "node": "config_key:authentication-audience",
+              "co_commits": 11
+            },
+            {
+              "node": "config_key:authentication-authority",
+              "co_commits": 11
+            },
+            {
+              "node": "endpoint:account-create",
+              "co_commits": 11
+            },
+            {
+              "node": "endpoint:account-detail",
+              "co_commits": 11
+            },
+            {
+              "node": "endpoint:account-list",
+              "co_commits": 11
+            },
+            {
+              "node": "endpoint:internal-telemetry-session-continuity",
+              "co_commits": 11
+            },
+            {
+              "node": "entity:account",
+              "co_commits": 11
+            },
+            {
+              "node": "entity:document",
+              "co_commits": 11
+            },
+            {
+              "node": "ui_route:account-create",
+              "co_commits": 11
+            },
+            {
+              "node": "ui_route:account-detail",
+              "co_commits": 11
+            },
+            {
+              "node": "ui_route:accounts-list",
+              "co_commits": 11
+            },
+            {
+              "node": "ui_route:broker-create",
+              "co_commits": 11
+            },
+            {
+              "node": "ui_route:broker-detail",
+              "co_commits": 11
+            },
+            {
+              "node": "ui_route:brokers-list",
+              "co_commits": 11
+            },
+            {
+              "node": "ui_route:dashboard-home",
+              "co_commits": 11
+            },
+            {
+              "node": "ui_route:login",
+              "co_commits": 11
+            },
+            {
+              "node": "ui_route:submission-create",
+              "co_commits": 11
+            },
+            {
+              "node": "ui_route:submission-detail",
+              "co_commits": 11
+            },
+            {
+              "node": "ui_route:submissions-list",
+              "co_commits": 11
+            },
+            {
+              "node": "ui_route:task-center",
+              "co_commits": 11
+            },
+            {
+              "node": "capability:dynamic-attribute-panel",
+              "co_commits": 9
+            },
+            {
+              "node": "capability:operational-reporting",
+              "co_commits": 9
+            },
+            {
+              "node": "capability:saved-views",
+              "co_commits": 9
+            },
+            {
+              "node": "entity:communication-event",
+              "co_commits": 9
+            },
+            {
+              "node": "entity:operational-report-projection",
+              "co_commits": 9
+            },
+            {
+              "node": "entity:saved-view",
+              "co_commits": 9
+            },
+            {
+              "node": "entity:search-document",
+              "co_commits": 9
+            },
+            {
+              "node": "entity:service-case",
+              "co_commits": 9
+            },
+            {
+              "node": "capability:broker-insights",
+              "co_commits": 8
+            },
+            {
+              "node": "capability:global-search",
+              "co_commits": 8
+            },
+            {
+              "node": "capability:operations-routing",
+              "co_commits": 8
+            },
+            {
+              "node": "capability:product-schema-registry",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:global-search-results",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:lob-schema-activate",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:lob-schema-bundle-detail",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:lob-schemas-active",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:operational-workload-report",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:saved-view-archive",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:saved-view-create",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:saved-view-default",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:saved-view-detail",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:saved-view-list",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:saved-view-update",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:workflow-aging-report",
+              "co_commits": 8
+            },
+            {
+              "node": "entity:broker-insight-projection",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:account-contact-manage",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:account-create",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:account-deactivate",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:account-delete",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:account-merge",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:account-reactivate",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:account-read",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:account-relationship-change",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:account-update",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:dashboard-nudge-read",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:renewal-assign",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:renewal-create",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:renewal-read",
+              "co_commits": 8
+            },
+            {
+              "node": "policy_rule:renewal-transition",
+              "co_commits": 8
+            },
+            {
+              "node": "capability:authorization-enforcement",
+              "co_commits": 7
+            },
+            {
+              "node": "endpoint:broker-insight-benchmarks",
+              "co_commits": 7
+            },
+            {
+              "node": "endpoint:broker-insight-scorecards",
+              "co_commits": 7
+            },
+            {
+              "node": "endpoint:broker-insight-snapshot",
+              "co_commits": 7
+            },
+            {
+              "node": "endpoint:broker-insight-trends",
+              "co_commits": 7
+            },
+            {
+              "node": "entity:carrier-market",
+              "co_commits": 7
+            },
+            {
+              "node": "entity:saved-view-audit-event",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:broker-insight-read",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:broker-read",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:broker-search",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:contact-read",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:global-search-read",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:operational-report-read",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:saved-view-default",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:saved-view-manage",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:saved-view-read",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:task-create",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:task-delete",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:task-read",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:task-update",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:timeline-event-read",
+              "co_commits": 7
+            },
+            {
+              "node": "policy_rule:user-search",
+              "co_commits": 7
+            },
+            {
+              "node": "role:admin",
+              "co_commits": 7
+            },
+            {
+              "node": "role:broker-user",
+              "co_commits": 7
+            },
+            {
+              "node": "role:distribution-manager",
+              "co_commits": 7
+            },
+            {
+              "node": "role:distribution-user",
+              "co_commits": 7
+            },
+            {
+              "node": "role:external-user",
+              "co_commits": 7
+            },
+            {
+              "node": "role:program-manager",
+              "co_commits": 7
+            },
+            {
+              "node": "role:relationship-manager",
+              "co_commits": 7
+            },
+            {
+              "node": "role:underwriter",
+              "co_commits": 7
+            },
+            {
+              "node": "capability:document-management",
+              "co_commits": 5
+            },
+            {
+              "node": "entity:policy",
+              "co_commits": 5
+            },
+            {
+              "node": "endpoint:account-contact-create",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-contact-delete",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-contact-list",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-contact-update",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-lifecycle",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-merge",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-policies",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-relationship-change",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-renewals",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-submissions",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-summary",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-timeline",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-update",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:f0004-task-and-user-profile-indexes",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:f0005-idp-principal-refactor",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:f0006-submission-intake-columns",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:f0007-renewal-entity-shape-reconcile",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:f0007-renewal-workflow-states-reconcile",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:f0013-workflow-sla-thresholds",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:initial-create",
+              "co_commits": 4
+            },
+            {
+              "node": "workflow:account-lifecycle",
+              "co_commits": 4
+            },
+            {
+              "node": "config_key:document-metadata-schema-registry",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-approval",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-archive",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-bind-confirmation",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-bind-request",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-detail",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-quote-packet-read",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-quote-packet-update",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-reactivate",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-timeline",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:document-template",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:submission",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:submission-approval-decision",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:submission-bind-handoff",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:submission-quote-packet",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:user-profile",
+              "co_commits": 3
+            },
+            {
+              "node": "capability:broker-relationship-management",
+              "co_commits": 2
+            },
+            {
+              "node": "capability:dashboard-home",
+              "co_commits": 2
+            },
+            {
+              "node": "capability:neuron-companion",
+              "co_commits": 2
+            },
+            {
+              "node": "capability:neuron-renewals-head",
+              "co_commits": 2
+            },
+            {
+              "node": "capability:task-center",
+              "co_commits": 2
+            },
+            {
+              "node": "config_key:oidc-authority",
+              "co_commits": 2
+            },
+            {
+              "node": "config_key:oidc-client-id",
+              "co_commits": 2
+            },
+            {
+              "node": "config_key:oidc-redirect-uri",
+              "co_commits": 2
+            },
+            {
+              "node": "config_key:published-configuration-sets",
+              "co_commits": 2
+            },
+            {
+              "node": "config_key:workflow-sla-thresholds",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-assignment",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-create",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-detail",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-list",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-timeline",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-transition",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:submission-assignment",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:submission-create",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:submission-list",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:submission-transition",
+              "co_commits": 2
+            },
+            {
+              "node": "entity:broker",
+              "co_commits": 2
+            },
+            {
+              "node": "entity:mga",
+              "co_commits": 2
+            },
+            {
+              "node": "entity:renewal",
+              "co_commits": 2
+            },
+            {
+              "node": "entity:task-item",
+              "co_commits": 2
+            },
+            {
+              "node": "entity:workflow-transition",
+              "co_commits": 2
+            },
+            {
+              "node": "event:renewal-transitioned",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-approval-declined",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-approval-granted",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-archived",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-created",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-packet-updated",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-reactivated",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-transitioned",
+              "co_commits": 2
+            },
+            {
+              "node": "evidence:workflow-endpoint-integration-tests",
+              "co_commits": 2
+            },
+            {
+              "node": "workflow:renewal",
+              "co_commits": 2
+            },
+            {
+              "node": "workflow:submission",
+              "co_commits": 2
+            }
+          ],
+          "density": 1.0,
+          "partner_count": 167,
+          "node_commit_count": 11
+        },
+        "test_gap": {
+          "test_files": 4,
+          "impl_files": 17,
+          "test_gap": 0.76
+        }
+      }
+    },
+    {
+      "node": "capability:operational-reporting",
+      "score": 7,
+      "band": "high",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.22,
+        "cochange_density": 1.0,
+        "ownership_concentration": 0.79,
+        "test_gap": 0.96
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": 19,
+          "hotspot_score": 0.22,
+          "primary_owner": "gajapathi.kannan@live.com",
+          "primary_owner_pct": 79,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-14"
+        },
+        "cochange": {
+          "partners": [
+            {
+              "node": "capability:admin-configuration-governance",
+              "co_commits": 21
+            },
+            {
+              "node": "capability:saved-views",
+              "co_commits": 21
+            },
+            {
+              "node": "entity:saved-view",
+              "co_commits": 21
+            },
+            {
+              "node": "capability:broker-insights",
+              "co_commits": 20
+            },
+            {
+              "node": "capability:operations-routing",
+              "co_commits": 20
+            },
+            {
+              "node": "capability:product-schema-registry",
+              "co_commits": 20
+            },
+            {
+              "node": "endpoint:internal-telemetry-session-continuity",
+              "co_commits": 20
+            },
+            {
+              "node": "endpoint:lob-schema-activate",
+              "co_commits": 20
+            },
+            {
+              "node": "endpoint:lob-schema-bundle-detail",
+              "co_commits": 20
+            },
+            {
+              "node": "endpoint:lob-schemas-active",
+              "co_commits": 20
+            },
+            {
+              "node": "capability:dynamic-attribute-panel",
+              "co_commits": 19
+            },
+            {
+              "node": "entity:communication-event",
+              "co_commits": 19
+            },
+            {
+              "node": "entity:service-case",
+              "co_commits": 19
+            },
+            {
+              "node": "entity:operational-report-projection",
+              "co_commits": 18
+            },
+            {
+              "node": "entity:search-document",
+              "co_commits": 18
+            },
+            {
+              "node": "policy_rule:account-contact-manage",
+              "co_commits": 18
+            },
+            {
+              "node": "policy_rule:account-create",
+              "co_commits": 18
+            },
+            {
+              "node": "policy_rule:account-deactivate",
+              "co_commits": 18
+            },
+            {
+              "node": "policy_rule:account-delete",
+              "co_commits": 18
+            },
+            {
+              "node": "policy_rule:account-merge",
+              "co_commits": 18
+            },
+            {
+              "node": "policy_rule:account-reactivate",
+              "co_commits": 18
+            },
+            {
+              "node": "policy_rule:account-read",
+              "co_commits": 18
+            },
+            {
+              "node": "policy_rule:account-relationship-change",
+              "co_commits": 18
+            },
+            {
+              "node": "policy_rule:account-update",
+              "co_commits": 18
+            },
+            {
+              "node": "policy_rule:renewal-create",
+              "co_commits": 18
+            },
+            {
+              "node": "policy_rule:renewal-read",
+              "co_commits": 18
+            },
+            {
+              "node": "policy_rule:renewal-transition",
+              "co_commits": 18
+            },
+            {
+              "node": "capability:authorization-enforcement",
+              "co_commits": 17
+            },
+            {
+              "node": "capability:global-search",
+              "co_commits": 17
+            },
+            {
+              "node": "entity:broker-insight-projection",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:broker-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:broker-search",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:contact-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:dashboard-nudge-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:renewal-assign",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:task-create",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:task-delete",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:task-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:task-update",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:timeline-event-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:user-search",
+              "co_commits": 17
+            },
+            {
+              "node": "role:admin",
+              "co_commits": 17
+            },
+            {
+              "node": "role:broker-user",
+              "co_commits": 17
+            },
+            {
+              "node": "role:distribution-manager",
+              "co_commits": 17
+            },
+            {
+              "node": "role:distribution-user",
+              "co_commits": 17
+            },
+            {
+              "node": "role:external-user",
+              "co_commits": 17
+            },
+            {
+              "node": "role:program-manager",
+              "co_commits": 17
+            },
+            {
+              "node": "role:relationship-manager",
+              "co_commits": 17
+            },
+            {
+              "node": "role:underwriter",
+              "co_commits": 17
+            },
+            {
+              "node": "endpoint:broker-insight-benchmarks",
+              "co_commits": 16
+            },
+            {
+              "node": "endpoint:broker-insight-scorecards",
+              "co_commits": 16
+            },
+            {
+              "node": "endpoint:broker-insight-snapshot",
+              "co_commits": 16
+            },
+            {
+              "node": "endpoint:broker-insight-trends",
+              "co_commits": 16
+            },
+            {
+              "node": "entity:carrier-market",
+              "co_commits": 16
+            },
+            {
+              "node": "entity:document",
+              "co_commits": 14
+            },
+            {
+              "node": "capability:session-continuity",
+              "co_commits": 13
+            },
+            {
+              "node": "capability:outbound-document-generation",
+              "co_commits": 12
+            },
+            {
+              "node": "config_key:authentication-audience",
+              "co_commits": 12
+            },
+            {
+              "node": "config_key:authentication-authority",
+              "co_commits": 12
+            },
+            {
+              "node": "endpoint:account-detail",
+              "co_commits": 12
+            },
+            {
+              "node": "entity:account",
+              "co_commits": 12
+            },
+            {
+              "node": "ui_route:submission-detail",
+              "co_commits": 12
+            },
+            {
+              "node": "endpoint:account-create",
+              "co_commits": 11
+            },
+            {
+              "node": "endpoint:account-list",
+              "co_commits": 11
+            },
+            {
+              "node": "entity:saved-view-audit-event",
+              "co_commits": 10
+            },
+            {
+              "node": "ui_route:account-detail",
+              "co_commits": 10
+            },
+            {
+              "node": "ui_route:broker-detail",
+              "co_commits": 10
+            },
+            {
+              "node": "ui_route:submission-create",
+              "co_commits": 10
+            },
+            {
+              "node": "ui_route:submissions-list",
+              "co_commits": 10
+            },
+            {
+              "node": "capability:commission-revenue-tracking",
+              "co_commits": 9
+            },
+            {
+              "node": "ui_route:account-create",
+              "co_commits": 9
+            },
+            {
+              "node": "ui_route:accounts-list",
+              "co_commits": 9
+            },
+            {
+              "node": "ui_route:broker-create",
+              "co_commits": 9
+            },
+            {
+              "node": "ui_route:brokers-list",
+              "co_commits": 9
+            },
+            {
+              "node": "ui_route:dashboard-home",
+              "co_commits": 9
+            },
+            {
+              "node": "ui_route:login",
+              "co_commits": 9
+            },
+            {
+              "node": "ui_route:task-center",
+              "co_commits": 9
+            },
+            {
+              "node": "capability:document-management",
+              "co_commits": 7
+            },
+            {
+              "node": "endpoint:account-contact-create",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:account-contact-delete",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:account-contact-list",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:account-contact-update",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:account-lifecycle",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:account-merge",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:account-policies",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:account-relationship-change",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:account-renewals",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:account-submissions",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:account-summary",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:account-timeline",
+              "co_commits": 6
+            },
+            {
+              "node": "endpoint:account-update",
+              "co_commits": 6
+            },
+            {
+              "node": "entity:policy",
+              "co_commits": 6
+            },
+            {
+              "node": "migration:f0006-submission-intake-columns",
+              "co_commits": 6
+            },
+            {
+              "node": "workflow:account-lifecycle",
+              "co_commits": 6
+            },
+            {
+              "node": "config_key:document-metadata-schema-registry",
+              "co_commits": 5
+            },
+            {
+              "node": "endpoint:submission-approval",
+              "co_commits": 5
+            },
+            {
+              "node": "endpoint:submission-archive",
+              "co_commits": 5
+            },
+            {
+              "node": "endpoint:submission-bind-confirmation",
+              "co_commits": 5
+            },
+            {
+              "node": "endpoint:submission-bind-request",
+              "co_commits": 5
+            },
+            {
+              "node": "endpoint:submission-detail",
+              "co_commits": 5
+            },
+            {
+              "node": "endpoint:submission-quote-packet-read",
+              "co_commits": 5
+            },
+            {
+              "node": "endpoint:submission-quote-packet-update",
+              "co_commits": 5
+            },
+            {
+              "node": "endpoint:submission-reactivate",
+              "co_commits": 5
+            },
+            {
+              "node": "endpoint:submission-timeline",
+              "co_commits": 5
+            },
+            {
+              "node": "entity:submission",
+              "co_commits": 5
+            },
+            {
+              "node": "entity:submission-approval-decision",
+              "co_commits": 5
+            },
+            {
+              "node": "entity:submission-bind-handoff",
+              "co_commits": 5
+            },
+            {
+              "node": "entity:submission-quote-packet",
+              "co_commits": 5
+            },
+            {
+              "node": "migration:f0007-renewal-entity-shape-reconcile",
+              "co_commits": 5
+            },
+            {
+              "node": "capability:broker-relationship-management",
+              "co_commits": 4
+            },
+            {
+              "node": "entity:broker",
+              "co_commits": 4
+            },
+            {
+              "node": "entity:document-template",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:f0004-task-and-user-profile-indexes",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:f0005-idp-principal-refactor",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:f0007-renewal-workflow-states-reconcile",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:f0013-workflow-sla-thresholds",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:initial-create",
+              "co_commits": 4
+            },
+            {
+              "node": "capability:dynamic-lob-attributes",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:renewal-transition",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-assignment",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-create",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-list",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-transition",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:renewal",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:workflow-transition",
+              "co_commits": 3
+            },
+            {
+              "node": "event:renewal-transitioned",
+              "co_commits": 3
+            },
+            {
+              "node": "event:submission-approval-declined",
+              "co_commits": 3
+            },
+            {
+              "node": "event:submission-approval-granted",
+              "co_commits": 3
+            },
+            {
+              "node": "event:submission-archived",
+              "co_commits": 3
+            },
+            {
+              "node": "event:submission-created",
+              "co_commits": 3
+            },
+            {
+              "node": "event:submission-packet-updated",
+              "co_commits": 3
+            },
+            {
+              "node": "event:submission-reactivated",
+              "co_commits": 3
+            },
+            {
+              "node": "event:submission-transitioned",
+              "co_commits": 3
+            },
+            {
+              "node": "migration:f0016-dependent-fallback-denormalization",
+              "co_commits": 3
+            },
+            {
+              "node": "workflow:renewal",
+              "co_commits": 3
+            },
+            {
+              "node": "workflow:submission",
+              "co_commits": 3
+            },
+            {
+              "node": "capability:dashboard-home",
+              "co_commits": 2
+            },
+            {
+              "node": "capability:neuron-companion",
+              "co_commits": 2
+            },
+            {
+              "node": "capability:neuron-renewals-head",
+              "co_commits": 2
+            },
+            {
+              "node": "capability:task-center",
+              "co_commits": 2
+            },
+            {
+              "node": "capability:validator-equivalence",
+              "co_commits": 2
+            },
+            {
+              "node": "config_key:published-configuration-sets",
+              "co_commits": 2
+            },
+            {
+              "node": "config_key:workflow-sla-thresholds",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:broker-detail",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:dashboard-kpis",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:dashboard-nudges",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:dashboard-opportunity-flow",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-assignment",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-create",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-detail",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-list",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-timeline",
+              "co_commits": 2
+            },
+            {
+              "node": "entity:task-item",
+              "co_commits": 2
+            },
+            {
+              "node": "entity:user-profile",
+              "co_commits": 2
+            },
+            {
+              "node": "evidence:workflow-endpoint-integration-tests",
+              "co_commits": 2
+            },
+            {
+              "node": "evidence:workflow-state-machine-tests",
+              "co_commits": 2
+            },
+            {
+              "node": "workflow:document-ingest",
+              "co_commits": 2
+            }
+          ],
+          "density": 1.0,
+          "partner_count": 157,
+          "node_commit_count": 21
+        },
+        "test_gap": {
+          "test_files": 1,
+          "impl_files": 23,
+          "test_gap": 0.96
+        }
+      }
+    },
+    {
+      "node": "entity:activity-timeline-event",
+      "score": 6,
+      "band": "elevated",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.02,
+        "cochange_density": 0.0,
+        "ownership_concentration": 1.0,
+        "test_gap": 1.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": 109,
+          "hotspot_score": 0.02,
+          "primary_owner": "gajapathi.kannan@live.com",
+          "primary_owner_pct": 100,
+          "bus_factor_flag": true,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 1
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 15,
+          "test_gap": 1.0
+        }
+      }
+    },
+    {
+      "node": "capability:authorization-enforcement",
+      "score": 5,
+      "band": "elevated",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.03,
+        "cochange_density": 1.0,
+        "ownership_concentration": 0.82,
+        "test_gap": 0.2
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": 81,
+          "hotspot_score": 0.03,
+          "primary_owner": "gajapathi.kannan@live.com",
+          "primary_owner_pct": 82,
+          "bus_factor_flag": true,
+          "last_modified": "2026-07-14"
+        },
+        "cochange": {
+          "partners": [
+            {
+              "node": "capability:admin-configuration-governance",
+              "co_commits": 17
+            },
+            {
+              "node": "capability:broker-insights",
+              "co_commits": 17
+            },
+            {
+              "node": "capability:operational-reporting",
+              "co_commits": 17
+            },
+            {
+              "node": "capability:operations-routing",
+              "co_commits": 17
+            },
+            {
+              "node": "capability:product-schema-registry",
+              "co_commits": 17
+            },
+            {
+              "node": "capability:saved-views",
+              "co_commits": 17
+            },
+            {
+              "node": "endpoint:lob-schema-activate",
+              "co_commits": 17
+            },
+            {
+              "node": "endpoint:lob-schema-bundle-detail",
+              "co_commits": 17
+            },
+            {
+              "node": "endpoint:lob-schemas-active",
+              "co_commits": 17
+            },
+            {
+              "node": "entity:communication-event",
+              "co_commits": 17
+            },
+            {
+              "node": "entity:saved-view",
+              "co_commits": 17
+            },
+            {
+              "node": "entity:service-case",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:account-contact-manage",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:account-create",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:account-deactivate",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:account-delete",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:account-merge",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:account-reactivate",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:account-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:account-relationship-change",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:account-update",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:broker-insight-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:broker-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:broker-search",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:contact-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:dashboard-nudge-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:global-search-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:operational-report-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:renewal-assign",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:renewal-create",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:renewal-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:renewal-transition",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:saved-view-default",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:saved-view-manage",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:saved-view-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:task-create",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:task-delete",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:task-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:task-update",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:timeline-event-read",
+              "co_commits": 17
+            },
+            {
+              "node": "policy_rule:user-search",
+              "co_commits": 17
+            },
+            {
+              "node": "role:admin",
+              "co_commits": 17
+            },
+            {
+              "node": "role:broker-user",
+              "co_commits": 17
+            },
+            {
+              "node": "role:distribution-manager",
+              "co_commits": 17
+            },
+            {
+              "node": "role:distribution-user",
+              "co_commits": 17
+            },
+            {
+              "node": "role:external-user",
+              "co_commits": 17
+            },
+            {
+              "node": "role:program-manager",
+              "co_commits": 17
+            },
+            {
+              "node": "role:relationship-manager",
+              "co_commits": 17
+            },
+            {
+              "node": "role:underwriter",
+              "co_commits": 17
+            },
+            {
+              "node": "capability:dynamic-attribute-panel",
+              "co_commits": 16
+            },
+            {
+              "node": "endpoint:internal-telemetry-session-continuity",
+              "co_commits": 16
+            },
+            {
+              "node": "entity:broker-insight-projection",
+              "co_commits": 14
+            },
+            {
+              "node": "entity:operational-report-projection",
+              "co_commits": 14
+            },
+            {
+              "node": "entity:search-document",
+              "co_commits": 14
+            },
+            {
+              "node": "capability:global-search",
+              "co_commits": 13
+            },
+            {
+              "node": "endpoint:broker-insight-benchmarks",
+              "co_commits": 13
+            },
+            {
+              "node": "endpoint:broker-insight-scorecards",
+              "co_commits": 13
+            },
+            {
+              "node": "endpoint:broker-insight-snapshot",
+              "co_commits": 13
+            },
+            {
+              "node": "endpoint:broker-insight-trends",
+              "co_commits": 13
+            },
+            {
+              "node": "endpoint:global-search-results",
+              "co_commits": 13
+            },
+            {
+              "node": "endpoint:operational-workload-report",
+              "co_commits": 13
+            },
+            {
+              "node": "endpoint:saved-view-archive",
+              "co_commits": 13
+            },
+            {
+              "node": "endpoint:saved-view-create",
+              "co_commits": 13
+            },
+            {
+              "node": "endpoint:saved-view-default",
+              "co_commits": 13
+            },
+            {
+              "node": "endpoint:saved-view-detail",
+              "co_commits": 13
+            },
+            {
+              "node": "endpoint:saved-view-list",
+              "co_commits": 13
+            },
+            {
+              "node": "endpoint:saved-view-update",
+              "co_commits": 13
+            },
+            {
+              "node": "endpoint:workflow-aging-report",
+              "co_commits": 13
+            },
+            {
+              "node": "entity:carrier-market",
+              "co_commits": 13
+            },
+            {
+              "node": "entity:document",
+              "co_commits": 11
+            },
+            {
+              "node": "capability:outbound-document-generation",
+              "co_commits": 10
+            },
+            {
+              "node": "capability:session-continuity",
+              "co_commits": 10
+            },
+            {
+              "node": "config_key:authentication-audience",
+              "co_commits": 10
+            },
+            {
+              "node": "config_key:authentication-authority",
+              "co_commits": 10
+            },
+            {
+              "node": "endpoint:account-detail",
+              "co_commits": 9
+            },
+            {
+              "node": "entity:account",
+              "co_commits": 9
+            },
+            {
+              "node": "entity:saved-view-audit-event",
+              "co_commits": 9
+            },
+            {
+              "node": "ui_route:submission-detail",
+              "co_commits": 9
+            },
+            {
+              "node": "endpoint:account-create",
+              "co_commits": 8
+            },
+            {
+              "node": "endpoint:account-list",
+              "co_commits": 8
+            },
+            {
+              "node": "ui_route:account-detail",
+              "co_commits": 8
+            },
+            {
+              "node": "ui_route:broker-detail",
+              "co_commits": 8
+            },
+            {
+              "node": "ui_route:submission-create",
+              "co_commits": 8
+            },
+            {
+              "node": "capability:commission-revenue-tracking",
+              "co_commits": 7
+            },
+            {
+              "node": "ui_route:account-create",
+              "co_commits": 7
+            },
+            {
+              "node": "ui_route:accounts-list",
+              "co_commits": 7
+            },
+            {
+              "node": "ui_route:broker-create",
+              "co_commits": 7
+            },
+            {
+              "node": "ui_route:brokers-list",
+              "co_commits": 7
+            },
+            {
+              "node": "ui_route:dashboard-home",
+              "co_commits": 7
+            },
+            {
+              "node": "ui_route:login",
+              "co_commits": 7
+            },
+            {
+              "node": "ui_route:submissions-list",
+              "co_commits": 7
+            },
+            {
+              "node": "ui_route:task-center",
+              "co_commits": 7
+            },
+            {
+              "node": "capability:document-management",
+              "co_commits": 5
+            },
+            {
+              "node": "capability:broker-relationship-management",
+              "co_commits": 4
+            },
+            {
+              "node": "config_key:document-metadata-schema-registry",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-contact-create",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-contact-delete",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-contact-list",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-contact-update",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-lifecycle",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-merge",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-policies",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-relationship-change",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-renewals",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-submissions",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-summary",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-timeline",
+              "co_commits": 4
+            },
+            {
+              "node": "endpoint:account-update",
+              "co_commits": 4
+            },
+            {
+              "node": "entity:broker",
+              "co_commits": 4
+            },
+            {
+              "node": "entity:policy",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:f0006-submission-intake-columns",
+              "co_commits": 4
+            },
+            {
+              "node": "migration:f0007-renewal-entity-shape-reconcile",
+              "co_commits": 4
+            },
+            {
+              "node": "workflow:account-lifecycle",
+              "co_commits": 4
+            },
+            {
+              "node": "capability:dynamic-lob-attributes",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-approval",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-archive",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-bind-confirmation",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-bind-request",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-detail",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-quote-packet-read",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-quote-packet-update",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-reactivate",
+              "co_commits": 3
+            },
+            {
+              "node": "endpoint:submission-timeline",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:document-template",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:submission",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:submission-approval-decision",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:submission-bind-handoff",
+              "co_commits": 3
+            },
+            {
+              "node": "entity:submission-quote-packet",
+              "co_commits": 3
+            },
+            {
+              "node": "migration:f0004-task-and-user-profile-indexes",
+              "co_commits": 3
+            },
+            {
+              "node": "migration:f0005-idp-principal-refactor",
+              "co_commits": 3
+            },
+            {
+              "node": "migration:f0007-renewal-workflow-states-reconcile",
+              "co_commits": 3
+            },
+            {
+              "node": "migration:f0013-workflow-sla-thresholds",
+              "co_commits": 3
+            },
+            {
+              "node": "migration:initial-create",
+              "co_commits": 3
+            },
+            {
+              "node": "capability:dashboard-home",
+              "co_commits": 2
+            },
+            {
+              "node": "capability:neuron-renewals-head",
+              "co_commits": 2
+            },
+            {
+              "node": "capability:task-center",
+              "co_commits": 2
+            },
+            {
+              "node": "capability:validator-equivalence",
+              "co_commits": 2
+            },
+            {
+              "node": "config_key:published-configuration-sets",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:broker-detail",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:dashboard-kpis",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:dashboard-nudges",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:dashboard-opportunity-flow",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-assignment",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-create",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-detail",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-list",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-timeline",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:renewal-transition",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:submission-assignment",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:submission-create",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:submission-list",
+              "co_commits": 2
+            },
+            {
+              "node": "endpoint:submission-transition",
+              "co_commits": 2
+            },
+            {
+              "node": "entity:renewal",
+              "co_commits": 2
+            },
+            {
+              "node": "entity:task-item",
+              "co_commits": 2
+            },
+            {
+              "node": "entity:user-profile",
+              "co_commits": 2
+            },
+            {
+              "node": "entity:workflow-transition",
+              "co_commits": 2
+            },
+            {
+              "node": "event:renewal-transitioned",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-approval-declined",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-approval-granted",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-archived",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-created",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-packet-updated",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-reactivated",
+              "co_commits": 2
+            },
+            {
+              "node": "event:submission-transitioned",
+              "co_commits": 2
+            },
+            {
+              "node": "evidence:workflow-endpoint-integration-tests",
+              "co_commits": 2
+            },
+            {
+              "node": "migration:f0016-dependent-fallback-denormalization",
+              "co_commits": 2
+            },
+            {
+              "node": "workflow:renewal",
+              "co_commits": 2
+            },
+            {
+              "node": "workflow:submission",
+              "co_commits": 2
+            }
+          ],
+          "density": 1.0,
+          "partner_count": 168,
+          "node_commit_count": 17
+        },
+        "test_gap": {
+          "test_files": 4,
+          "impl_files": 5,
+          "test_gap": 0.2
+        }
+      }
+    },
+    {
+      "node": "adr:034",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "api:nebula-rest",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "capability:billing-invoicing-reconciliation",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "endpoint:billing-correction-decision",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "endpoint:billing-correction-request",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "endpoint:billing-invoice-detail",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "endpoint:billing-invoice-list-create",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "endpoint:payment-application-create",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "endpoint:payment-receipt-import-create",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "endpoint:payment-receipt-import-detail",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "endpoint:payment-receipt-list-create",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "endpoint:policy-billing-summary",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "endpoint:reconciliation-backlog",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "endpoint:reconciliation-exception-list",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "endpoint:reconciliation-reference-correct",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "entity:billing-correction",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "entity:billing-invoice",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "entity:expected-commission",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "entity:payment-application",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "entity:payment-receipt",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "entity:payment-receipt-import-batch",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "entity:payment-receipt-import-row-outcome",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "entity:policy-version",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "entity:reconciliation-exception",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "event:billing-correction-approved",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "event:billing-correction-rejected",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "event:billing-correction-requested",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "event:billing-invoice-created",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "event:exact-payment-applied",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "event:payment-receipt-import-completed",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "event:payment-receipt-recorded",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "event:reconciliation-reference-corrected",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "feature:F0018",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": null
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "feature:F0025",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": null
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "policy_rule:billing-application-apply",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "policy_rule:billing-backlog-read",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "policy_rule:billing-backlog-summary-read",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "policy_rule:billing-correction-approve",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "policy_rule:billing-correction-request",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "policy_rule:billing-exception-manage",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "policy_rule:billing-invoice-create",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "policy_rule:billing-read",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "policy_rule:billing-receipt-import",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "policy_rule:billing-receipt-record",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "policy_rule:billing-summary-read",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "policy_rule:policy-read",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-06-15"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "role:finance-manager",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "role:finance-operations-analyst",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "ui_route:billing-invoice-detail",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "ui_route:billing-reconciliation",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "ui_route:billing-workspace",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    },
+    {
+      "node": "workflow:billing-correction",
+      "score": 2,
+      "band": "routine",
+      "signals": {
+        "blast_count": 1.0,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 57,
+          "neighbor_node_count": 222,
+          "feature_count": 34,
+          "indirect_feature_count": 0,
+          "story_count": 167,
+          "indirect_story_count": 6,
+          "policy_rule_count": 132,
+          "resolved_file_count": 106
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    }
+  ],
+  "reviewer_recommendations": [
+    "kg.risk \u2265 7 \u2014 additional reviewer required before merge.",
+    "Bus-factor: loop in gajapathi.kannan@live.com for explicit PR acknowledgement (primary_owner_pct=100).",
+    "Test gap: 4 test file(s) vs 36 impl file(s) \u2014 add coverage before merge.",
+    "Hidden coupling: co-change density 1.00; inspect partners: entity:account (12\u00d7), entity:document (12\u00d7), endpoint:account-detail (11\u00d7).",
+    "Wide blast radius \u2014 run `blast.py` and walk downstream nodes before merging."
+  ],
+  "weights": {
+    "blast_count": 2.0,
+    "hotspot_score": 3.0,
+    "cochange_density": 1.5,
+    "ownership_concentration": 1.5,
+    "test_gap": 2.0
+  }
+}

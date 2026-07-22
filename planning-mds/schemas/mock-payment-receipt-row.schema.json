@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/mock-payment-receipt-row.schema.json",
+  "title": "MockPaymentReceiptRowV1",
+  "description": "Logical row contract for the in-process mock-payment-receipt-row-v1 CSV profile.",
+  "type": "object",
+  "required": ["externalReference", "receivedDate", "currency", "amount"],
+  "properties": {
+    "externalReference": { "type": "string", "minLength": 1, "maxLength": 120, "pattern": "^[^\\x00-\\x1F\\x7F]+$" },
+    "receivedDate": { "type": "string", "format": "date" },
+    "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "amount": { "type": "number", "exclusiveMinimum": 0, "maximum": 9999999999999999.99, "multipleOf": 0.01 },
+    "invoiceReference": { "type": ["string", "null"], "maxLength": 80 },
+    "memo": { "type": ["string", "null"], "maxLength": 500 }
+  },
+  "additionalProperties": false
+}

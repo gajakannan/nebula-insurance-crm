@@ -1,0 +1,66 @@
+                    continue
+                result = gr.run_operation(op, product_root=product_root, variables=variables,
+                                          run_folder=run_folder, log_path=run_folder / "commands.log")
+                argv = [gr._expand(str(t), variables) for t in body.get("argv", [])]
+                _append_lifecycle_log(run_folder, stage, argv, result)
+                if not result["ok"]:
+                    stage_state["status"] = "failed"
+                    _atomic_write_json(run_folder / JOURNAL_NAME, journal)
+                    return {"stage": stage, "status": "fail", "failed_step": oid,
+                            "exit_code": result["exit_code"], "timed_out": result["timed_out"],
+                            "log_refs": log_refs + ["commands.log", "lifecycle-gates.log"]}
+                stage_state["completed_operations"].append(oid)
+                _atomic_write_json(run_folder / JOURNAL_NAME, journal)
+
+            elif kind == "checkpoint":
+                cid = body.get("id")
+                if _find_attestation(stage_state, cid) and _verify_attested(stage_state, cid, run_folder):
+                    if oid not in stage_state["completed_operations"]:
+                        stage_state["completed_operations"].append(oid)
+                        _atomic_write_json(run_folder / JOURNAL_NAME, journal)
+                    continue
+                stage_state["pending_checkpoint"] = {
+                    "id": cid, "description": body.get("description"),
+                    "requires": list(body.get("requires", []) or []),
+                    "produces": list(body.get("produces", []) or []),
+                }
+                stage_state["status"] = "pending-checkpoint"
+                if not dry_run:
+                    _atomic_write_json(run_folder / JOURNAL_NAME, journal)
+                return {"stage": stage, "status": "paused", "pending_checkpoint": cid,
+                        "requires": list(body.get("requires", []) or []),
+                        "message": f"MANUAL: {body.get('description')} — attest with "
+                                   f"--attest-checkpoint {cid}", "log_refs": log_refs}
+
+            elif kind == "write":
+                artifact = body.get("artifact")
+                if (run_folder / artifact).exists():
+                    stage_state["completed_operations"].append(oid)
+                    _atomic_write_json(run_folder / JOURNAL_NAME, journal)
+                    continue
+                stage_state["pending_checkpoint"] = {
+                    "id": oid, "description": f"write {artifact} after {body.get('after')}",
+                    "requires": [], "produces": [artifact]}
+                stage_state["status"] = "pending-checkpoint"
+                if not dry_run:
+                    _atomic_write_json(run_folder / JOURNAL_NAME, journal)
+                return {"stage": stage, "status": "paused", "pending_write": artifact,
+                        "message": f"MANUAL: write {artifact}", "log_refs": log_refs}
+
+        stage_state["status"] = "completed"
+        stage_state["pending_checkpoint"] = None
+        if not dry_run:
+            _atomic_write_json(run_folder / JOURNAL_NAME, journal)
+        return {"stage": stage, "status": "pass" if not dry_run else "dry-run",
+                "completed_operations": stage_state["completed_operations"], "log_refs": log_refs}
+    finally:
+        release_lock(lock)
+
+
+def list_runbook(spec_dir: Path, action: str) -> dict[str, Any]:
+    _, spec = _load_spec(spec_dir, action)
+    stages = []
+    for gate in spec.get("gates", []) or []:
+        ops = []
+        for i, op in enumerate(gate.get("operations", []) or []):
+            kind, body = op_kind(op)

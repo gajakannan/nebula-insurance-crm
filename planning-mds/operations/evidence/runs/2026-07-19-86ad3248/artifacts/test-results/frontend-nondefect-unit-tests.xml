@@ -1,0 +1,1367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="271" failures="1" errors="0" time="6.967">
+    <testsuite name="src/App.test.tsx" timestamp="2026-07-19T22:37:56.952Z" hostname="8f99fdcecc1c" tests="15" failures="0" errors="0" skipped="0" time="0.062779659">
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders / at the correct route" time="0.020734154">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /submissions at the correct route" time="0.003019492">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /submissions/new at the correct route" time="0.003324865">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /submissions/submission-1 at the correct route" time="0.002348349">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /renewals at the correct route" time="0.003470713">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /renewals/renewal-1 at the correct route" time="0.003841728">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /brokers at the correct route" time="0.002588866">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /brokers/new at the correct route" time="0.002421672">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /brokers/broker-1 at the correct route" time="0.003776242">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /carrier-markets at the correct route" time="0.002674392">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /tasks at the correct route" time="0.00213225">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /login at the correct route" time="0.001940458">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /auth/callback at the correct route" time="0.002089026">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /unauthorized at the correct route" time="0.002017226">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App routing &gt; renders /missing-route at the correct route" time="0.004219674">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/hooks/useSidebar.test.tsx" timestamp="2026-07-19T22:37:56.958Z" hostname="8f99fdcecc1c" tests="3" failures="0" errors="0" skipped="0" time="0.046239927">
+        <testcase classname="src/hooks/useSidebar.test.tsx" name="useSidebarProvider &gt; reads collapsed state from local storage and persists toggles" time="0.034152541">
+        </testcase>
+        <testcase classname="src/hooks/useSidebar.test.tsx" name="useSidebarProvider &gt; opens and closes mobile navigation and resets it on desktop resize" time="0.004854966">
+        </testcase>
+        <testcase classname="src/hooks/useSidebar.test.tsx" name="useSidebarProvider &gt; exposes sidebar state through the context hook" time="0.004570062">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/hooks/useTheme.test.tsx" timestamp="2026-07-19T22:37:56.959Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.018986801">
+        <testcase classname="src/hooks/useTheme.test.tsx" name="useThemeProvider &gt; defaults to dark theme and toggles to light theme" time="0.015036457">
+        </testcase>
+        <testcase classname="src/hooks/useTheme.test.tsx" name="useThemeProvider &gt; reads the initial theme from local storage and exposes it through useTheme" time="0.002506862">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/components/layout/Sidebar.test.tsx" timestamp="2026-07-19T22:37:56.960Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.104074153">
+        <testcase classname="src/components/layout/Sidebar.test.tsx" name="Sidebar &gt; links Operational Reports directly to the F0037 rollups tab" time="0.080354973">
+        </testcase>
+        <testcase classname="src/components/layout/Sidebar.test.tsx" name="Sidebar &gt; exposes billing and marks nested billing routes active" time="0.022083935">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/__tests__/CreateAccountPage.test.tsx" timestamp="2026-07-19T22:37:56.961Z" hostname="8f99fdcecc1c" tests="3" failures="0" errors="0" skipped="0" time="0.211740966">
+        <testcase classname="src/pages/__tests__/CreateAccountPage.test.tsx" name="CreateAccountPage — S0007 wiring regression &gt; creates an account with the same display name and navigates (unchanged)" time="0.158192329">
+        </testcase>
+        <testcase classname="src/pages/__tests__/CreateAccountPage.test.tsx" name="CreateAccountPage — S0007 wiring regression &gt; blocks submit with a validation error for an empty display name (unchanged)" time="0.032135354">
+        </testcase>
+        <testcase classname="src/pages/__tests__/CreateAccountPage.test.tsx" name="CreateAccountPage — S0007 wiring regression &gt; registers with F0035 so dirty values snapshot on a forced re-auth" time="0.017497566">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/__tests__/CreateBrokerPage.test.tsx" timestamp="2026-07-19T22:37:56.963Z" hostname="8f99fdcecc1c" tests="3" failures="0" errors="0" skipped="0" time="0.230889714">
+        <testcase classname="src/pages/__tests__/CreateBrokerPage.test.tsx" name="CreateBrokerPage — S0007 wiring regression &gt; creates a broker with the same payload and navigates (unchanged)" time="0.174630225">
+        </testcase>
+        <testcase classname="src/pages/__tests__/CreateBrokerPage.test.tsx" name="CreateBrokerPage — S0007 wiring regression &gt; blocks submit and shows validation errors for empty required fields (unchanged)" time="0.040021449">
+        </testcase>
+        <testcase classname="src/pages/__tests__/CreateBrokerPage.test.tsx" name="CreateBrokerPage — S0007 wiring regression &gt; registers with F0035 so dirty values snapshot on a forced re-auth" time="0.013122761">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/__tests__/CreatePolicyPage.test.tsx" timestamp="2026-07-19T22:37:56.964Z" hostname="8f99fdcecc1c" tests="1" failures="0" errors="0" skipped="0" time="0.110172182">
+        <testcase classname="src/pages/__tests__/CreatePolicyPage.test.tsx" name="CreatePolicyPage — S0007 wiring regression &gt; registers the native policy form with F0035 so dirty values snapshot" time="0.107918336">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/__tests__/CreateSubmissionPage.test.tsx" timestamp="2026-07-19T22:37:56.965Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.162382996">
+        <testcase classname="src/pages/__tests__/CreateSubmissionPage.test.tsx" name="CreateSubmissionPage — S0007 wiring regression &gt; blocks submit with validation errors for missing required fields (unchanged)" time="0.13542117">
+        </testcase>
+        <testcase classname="src/pages/__tests__/CreateSubmissionPage.test.tsx" name="CreateSubmissionPage — S0007 wiring regression &gt; registers the native submission form with F0035 so dirty values snapshot" time="0.024748558">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/__tests__/RenewalsPage.create.test.tsx" timestamp="2026-07-19T22:37:56.966Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.216789952">
+        <testcase classname="src/pages/__tests__/RenewalsPage.create.test.tsx" name="RenewalsPage create modal — S0007 wiring regression &gt; creates a renewal with the same policyId payload (unchanged)" time="0.161727393">
+        </testcase>
+        <testcase classname="src/pages/__tests__/RenewalsPage.create.test.tsx" name="RenewalsPage create modal — S0007 wiring regression &gt; registers the create form with F0035 so dirty values snapshot on a forced re-auth" time="0.052450419">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/tests/AuthCallbackPage.test.tsx" timestamp="2026-07-19T22:37:56.967Z" hostname="8f99fdcecc1c" tests="9" failures="0" errors="0" skipped="0" time="0.368724171">
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; redirects broker users to the brokers route after a successful callback" time="0.07114322">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; redirects non-broker users to the dashboard route after a successful callback" time="0.056692144">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; uses the remembered landing route when the exact callback was already completed" time="0.004337538">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; treats an in-flight strict-mode replay as a no-op" time="0.003612561">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; falls back to the remembered landing route when a replayed callback throws after prior success" time="0.004283548">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; clears stale state and redirects to login when the callback fails without a remembered success" time="0.053210572">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; navigates to a safe return_to from OIDC state after draining deferred telemetry" time="0.054133713">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; preserves callback success when deferred telemetry drain fails" time="0.054089756">
+        </testcase>
+        <testcase classname="src/pages/tests/AuthCallbackPage.test.tsx" name="AuthCallbackPage &gt; rejects unsafe return_to values and falls back to the role landing route" time="0.06510024">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/components/ui/tests/Modal.test.tsx" timestamp="2026-07-19T22:37:56.971Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.194433039">
+        <testcase classname="src/components/ui/tests/Modal.test.tsx" name="Modal &gt; traps focus and closes on Escape" time="0.178721987">
+        </testcase>
+        <testcase classname="src/components/ui/tests/Modal.test.tsx" name="Modal &gt; closes on backdrop click and does not render when closed" time="0.013169097">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/components/ui/tests/Popover.test.tsx" timestamp="2026-07-19T22:37:56.972Z" hostname="8f99fdcecc1c" tests="3" failures="0" errors="0" skipped="0" time="0.328061564">
+        <testcase classname="src/components/ui/tests/Popover.test.tsx" name="Popover &gt; opens from a native trigger, traps focus, and closes on Escape" time="0.251622232">
+            <system-err>
+Warning: An update to Popover inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Popover (/repo/experience/src/components/ui/Popover.tsx:17:20)
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/components/ui/tests/Popover.test.tsx" name="Popover &gt; supports non-native triggers and overlay dismissal on small screens" time="0.037840195">
+            <system-err>
+Warning: An update to Popover inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Popover (/repo/experience/src/components/ui/Popover.tsx:17:20)
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/components/ui/tests/Popover.test.tsx" name="Popover &gt; closes when clicking outside the popover content" time="0.036152907">
+            <system-err>
+Warning: An update to Popover inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Popover (/repo/experience/src/components/ui/Popover.tsx:17:20)
+
+            </system-err>
+        </testcase>
+    </testsuite>
+    <testsuite name="src/components/ui/tests/Tabs.test.tsx" timestamp="2026-07-19T22:37:56.976Z" hostname="8f99fdcecc1c" tests="1" failures="0" errors="0" skipped="0" time="0.108894972">
+        <testcase classname="src/components/ui/tests/Tabs.test.tsx" name="Tabs &gt; changes tabs on click and keyboard navigation" time="0.106565811">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/admin-configuration/components/AdminConfigurationWorkspace.test.tsx" timestamp="2026-07-19T22:37:56.977Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.335674615">
+        <testcase classname="src/features/admin-configuration/components/AdminConfigurationWorkspace.test.tsx" name="AdminConfigurationWorkspace &gt; renders governed domains, validation controls, rollback history, and audit details" time="0.304574305">
+        </testcase>
+        <testcase classname="src/features/admin-configuration/components/AdminConfigurationWorkspace.test.tsx" name="AdminConfigurationWorkspace &gt; shows retry and empty states when domain loading fails or returns no data" time="0.028332306">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/auth/tests/LoginPage.test.tsx" timestamp="2026-07-19T22:37:56.978Z" hostname="8f99fdcecc1c" tests="7" failures="0" errors="0" skipped="0" time="0.27467875">
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; renders the Sign In button" time="0.137857722">
+        </testcase>
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; shows session_expired notice when reason=session_expired" time="0.027296746">
+        </testcase>
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; shows callback_failed error when error=callback_failed" time="0.011589439">
+        </testcase>
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; shows misconfiguration error when OIDC env vars are missing" time="0.022705697">
+        </testcase>
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; calls oidcUserManager.signinRedirect() when Sign In is clicked" time="0.033268493">
+        </testcase>
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; passes return_to through OIDC state when present" time="0.019465181">
+        </testcase>
+        <testcase classname="src/features/auth/tests/LoginPage.test.tsx" name="LoginPage &gt; shows IdP-unavailable error when signinRedirect throws" time="0.020054524">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/auth/tests/ProtectedRoute.test.tsx" timestamp="2026-07-19T22:37:56.981Z" hostname="8f99fdcecc1c" tests="5" failures="0" errors="0" skipped="0" time="0.109052573">
+        <testcase classname="src/features/auth/tests/ProtectedRoute.test.tsx" name="ProtectedRoute &gt; renders children when session is valid and non-expired" time="0.032793222">
+        </testcase>
+        <testcase classname="src/features/auth/tests/ProtectedRoute.test.tsx" name="ProtectedRoute &gt; redirects to /login when no session exists" time="0.009335058">
+        </testcase>
+        <testcase classname="src/features/auth/tests/ProtectedRoute.test.tsx" name="ProtectedRoute &gt; renews expired sessions before rendering protected content" time="0.005525257">
+        </testcase>
+        <testcase classname="src/features/auth/tests/ProtectedRoute.test.tsx" name="ProtectedRoute &gt; emits forced reauth when expired-session renewal fails" time="0.054970166">
+        </testcase>
+        <testcase classname="src/features/auth/tests/ProtectedRoute.test.tsx" name="ProtectedRoute &gt; renders null during loading (no content flash)" time="0.003829575">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/auth/tests/authModeGuard.test.ts" timestamp="2026-07-19T22:37:56.984Z" hostname="8f99fdcecc1c" tests="8" failures="0" errors="0" skipped="0" time="0.005374656">
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; throws when VITE_AUTH_MODE=dev AND NODE_ENV=production" time="0.001253173">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; is a no-op when VITE_AUTH_MODE=dev AND NODE_ENV=development" time="0.000467578">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; is a no-op when VITE_AUTH_MODE=oidc AND NODE_ENV=production" time="0.000372834">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; is a no-op when VITE_AUTH_MODE is unset AND NODE_ENV=production" time="0.000332626">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; process.env integration: throws when both env vars match danger combo" time="0.000342876">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; process.env integration: is a no-op when VITE_AUTH_MODE=dev and NODE_ENV=development" time="0.000383755">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; process.env integration: is a no-op when VITE_AUTH_MODE=oidc and NODE_ENV=production" time="0.000254314">
+        </testcase>
+        <testcase classname="src/features/auth/tests/authModeGuard.test.ts" name="nebula-auth-mode-guard — buildStart hook logic &gt; process.env integration: is a no-op when VITE_AUTH_MODE is unset and NODE_ENV=production" time="0.000227001">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/auth/tests/useCurrentUser.test.tsx" timestamp="2026-07-19T22:37:56.987Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.082658476">
+        <testcase classname="src/features/auth/tests/useCurrentUser.test.tsx" name="useCurrentUser &gt; maps the active oidc profile into the current user model" time="0.0725156">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useCurrentUser.test.tsx" name="useCurrentUser &gt; reacts to oidc user lifecycle events" time="0.0076724">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/auth/tests/useSessionTeardown.test.tsx" timestamp="2026-07-19T22:37:56.988Z" hostname="8f99fdcecc1c" tests="11" failures="0" errors="0" skipped="0" time="0.076747355">
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: session_expired &gt; redirects to /login?reason=session_expired" time="0.02103806">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: session_expired &gt; clears OIDC state (removeUser + clearStaleState) before redirecting" time="0.004176358">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: session_expired &gt; completes teardown even if POST /auth/logout throws a network error" time="0.003060376">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: session_expired &gt; completes teardown even if POST /auth/logout returns a non-2xx status" time="0.002071452">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: logout &gt; redirects to /login with no query string" time="0.002947482">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: logout &gt; calls oidcUserManager.removeUser() and clearStaleState()" time="0.001809772">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: logout &gt; calls POST /auth/logout with correct method and credentials" time="0.001767441">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: logout &gt; still clears OIDC state and redirects even if logout endpoint call fails" time="0.001702485">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useSessionTeardown — reason: logout &gt; clears OIDC state before redirecting" time="0.002697998">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useAuthEventHandler — 401 interceptor wiring &gt; triggers teardown with session_expired when auth event is emitted" time="0.006222978">
+        </testcase>
+        <testcase classname="src/features/auth/tests/useSessionTeardown.test.tsx" name="useAuthEventHandler — 401 interceptor wiring &gt; unsubscribes from auth events on unmount — no teardown after unmount" time="0.021997477">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/billing/tests/BillingPages.test.tsx" timestamp="2026-07-19T22:37:56.993Z" hostname="8f99fdcecc1c" tests="3" failures="0" errors="0" skipped="0" time="0.637463081">
+        <testcase classname="src/features/billing/tests/BillingPages.test.tsx" name="F0026 billing UI &gt; renders accessible source-authorized invoices and capture workflows" time="0.473817599">
+        </testcase>
+        <testcase classname="src/features/billing/tests/BillingPages.test.tsx" name="F0026 billing UI &gt; wires explicit exact application with selected receipt context" time="0.027334641">
+        </testcase>
+        <testcase classname="src/features/billing/tests/BillingPages.test.tsx" name="F0026 billing UI &gt; wires reference correction and manager decision as separate flows" time="0.130385888">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/broker-insights/tests/BrokerInsightsWorkspace.test.tsx" timestamp="2026-07-19T22:37:56.994Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.142401157">
+        <testcase classname="src/features/broker-insights/tests/BrokerInsightsWorkspace.test.tsx" name="BrokerInsightsWorkspace &gt; renders scorecard, trend, benchmark, and snapshot panels for an authorized broker" time="0.125484706">
+        </testcase>
+        <testcase classname="src/features/broker-insights/tests/BrokerInsightsWorkspace.test.tsx" name="BrokerInsightsWorkspace &gt; passes broker filter changes into the scorecard query" time="0.013621665">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/brokers/tests/ContactFormModal.restore.test.tsx" timestamp="2026-07-19T22:37:56.995Z" hostname="8f99fdcecc1c" tests="5" failures="0" errors="0" skipped="0" time="0.220761115">
+        <testcase classname="src/features/brokers/tests/ContactFormModal.restore.test.tsx" name="ContactFormModal restore — F0036-S0008 (closes F0035 finding #1) &gt; restores the snapshot on mount (winning over the on-open reset) and does NOT auto-replay" time="0.154259394">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.restore.test.tsx" name="ContactFormModal restore — F0036-S0008 (closes F0035 finding #1) &gt; waits to consume a modal snapshot until the parent reopens the form" time="0.024173231">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.restore.test.tsx" name="ContactFormModal restore — F0036-S0008 (closes F0035 finding #1) &gt; does not restore another user’s snapshot (per-user isolation)" time="0.014101057">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.restore.test.tsx" name="ContactFormModal restore — F0036-S0008 (closes F0035 finding #1) &gt; restores only from its own form_key (no cross-form contamination)" time="0.006676091">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.restore.test.tsx" name="ContactFormModal restore — F0036-S0008 (closes F0035 finding #1) &gt; round-trips: dirty edit -&gt; forced-re-auth snapshot -&gt; remount restores" time="0.017781291">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/brokers/tests/ContactFormModal.test.tsx" timestamp="2026-07-19T22:37:56.997Z" hostname="8f99fdcecc1c" tests="5" failures="1" errors="0" skipped="0" time="1.668752355">
+        <testcase classname="src/features/brokers/tests/ContactFormModal.test.tsx" name="ContactFormModal — S0007 wiring regression (create + edit preserved) &gt; creates a contact with the same payload as before wiring" time="0.310003946">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.test.tsx" name="ContactFormModal — S0007 wiring regression (create + edit preserved) &gt; blocks submit and shows validation errors for empty required fields (unchanged)" time="0.03130284">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.test.tsx" name="ContactFormModal — S0007 wiring regression (create + edit preserved) &gt; edits an existing contact with the same update payload (incl. rowVersion)" time="0.028881017">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.test.tsx" name="ContactFormModal — S0007 wiring regression (create + edit preserved) &gt; still surfaces a server error on submit failure (error path unchanged by wiring)" time="1.27264534">
+            <failure message="Unable to find an element with the text: /modified by another user|Unable to create contact/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m&lt;body[39m
+  [33mstyle[39m=[32m&quot;overflow: hidden;&quot;[39m
+[36m&gt;[39m
+  [36m&lt;div /&gt;[39m
+  [36m&lt;div[39m
+    [33mclass[39m=[32m&quot;fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md&quot;[39m
+  [36m&gt;[39m
+    [36m&lt;div[39m
+      [33maria-labelledby[39m=[32m&quot;:r6:&quot;[39m
+      [33maria-modal[39m=[32m&quot;true&quot;[39m
+      [33mclass[39m=[32m&quot;mx-4 w-full max-w-lg rounded-xl glass-card shadow-2xl&quot;[39m
+      [33mrole[39m=[32m&quot;dialog&quot;[39m
+      [33mtabindex[39m=[32m&quot;-1&quot;[39m
+    [36m&gt;[39m
+      [36m&lt;div[39m
+        [33mclass[39m=[32m&quot;flex items-center justify-between border-b border-surface-border px-5 py-4&quot;[39m
+      [36m&gt;[39m
+        [36m&lt;div[39m
+          [33mclass[39m=[32m&quot;space-y-1 pr-4&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;h2[39m
+            [33mclass[39m=[32m&quot;text-sm font-semibold text-text-primary&quot;[39m
+            [33mid[39m=[32m&quot;:r6:&quot;[39m
+          [36m&gt;[39m
+            [0mAdd Contact[0m
+          [36m&lt;/h2&gt;[39m
+        [36m&lt;/div&gt;[39m
+        [36m&lt;button[39m
+          [33maria-label[39m=[32m&quot;Close dialog&quot;[39m
+          [33mclass[39m=[32m&quot;rounded-md p-1 text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary&quot;[39m
+          [33mtype[39m=[32m&quot;button&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;svg[39m
+            [33mclass[39m=[32m&quot;h-4 w-4&quot;[39m
+            [33mfill[39m=[32m&quot;none&quot;[39m
+            [33mstroke[39m=[32m&quot;currentColor&quot;[39m
+            [33mstroke-width[39m=[32m&quot;2&quot;[39m
+            [33mviewBox[39m=[32m&quot;0 0 24 24&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;path[39m
+              [33md[39m=[32m&quot;M6 18L18 6M6 6l12 12&quot;[39m
+              [33mstroke-linecap[39m=[32m&quot;round&quot;[39m
+              [33mstroke-linejoin[39m=[32m&quot;round&quot;[39m
+            [36m/&gt;[39m
+          [36m&lt;/svg&gt;[39m
+        [36m&lt;/button&gt;[39m
+      [36m&lt;/div&gt;[39m
+      [36m&lt;div[39m
+        [33mclass[39m=[32m&quot;p-5&quot;[39m
+      [36m&gt;[39m
+        [36m&lt;form[39m
+          [33mclass[39m=[32m&quot;space-y-4&quot;[39m
+          [33mnovalidate[39m=[32m&quot;&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;div[39m
+            [33mclass[39m=[32m&quot;space-y-1.5&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;label[39m
+              [33mclass[39m=[32m&quot;block text-xs font-medium text-text-secondary&quot;[39m
+              [33mfor[39m=[32m&quot;full-name&quot;[39m
+            [36m&gt;[39m
+              [0mFull Name[0m
+              [36m&lt;span[39m
+                [33mclass[39m=[32m&quot;ml-0.5 text-status-error&quot;[39m
+              [36m&gt;[39m
+                [0m*[0m
+              [36m&lt;/span&gt;[39m
+            [36m&lt;/label&gt;[39m
+            [36m&lt;input[39m
+              [33mclass[39m=[32m&quot;w-full rounded-lg border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 border-status-error focus:ring-status-error&quot;[39m
+              [33mid[39m=[32m&quot;full-name&quot;[39m
+              [33mrequired[39m=[32m&quot;&quot;[39m
+              [33mvalue[39m=[32m&quot;&quot;[39m
+            [36m/&gt;[39m
+            [36m&lt;p[39m
+              [33mclass[39m=[32m&quot;text-xs text-status-error&quot;[39m
+            [36m&gt;[39m
+              [0mFull name is required.[0m
+            [36m&lt;/p&gt;[39m
+          [36m&lt;/div&gt;[39m
+          [36m&lt;div[39m
+            [33mclass[39m=[32m&quot;space-y-1.5&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;label[39m
+              [33mclass[39m=[32m&quot;block text-xs font-medium text-text-secondary&quot;[39m
+              [33mfor[39m=[32m&quot;email&quot;[39m
+            [36m&gt;[39m
+              [0mEmail[0m
+              [36m&lt;span[39m
+                [33mclass[39m=[32m&quot;ml-0.5 text-status-error&quot;[39m
+              [36m&gt;[39m
+                [0m*[0m
+              [36m&lt;/span&gt;[39m
+            [36m&lt;/label&gt;[39m
+            [36m&lt;input[39m
+              [33mclass[39m=[32m&quot;w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 focus:ring-nebula-violet&quot;[39m
+              [33mid[39m=[32m&quot;email&quot;[39m
+              [33mrequired[39m=[32m&quot;&quot;[39m
+              [33mtype[39m=[32m&quot;email&quot;[39m
+              [33mvalue[39m=[32m&quot;jane@example.com&quot;[39m
+            [36m/&gt;[39m
+          [36m&lt;/div&gt;[39m
+          [36m&lt;div[39m
+            [33mclass[39m=[32m&quot;space-y-1.5&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;label[39m
+              [33mclass[39m=[32m&quot;block text-xs font-medium text-text-secondary&quot;[39m
+              [33mfor[39m=[32m&quot;phone&quot;[39m
+            [36m&gt;[39m
+              [0mPhone[0m
+              [36m&lt;span[39m
+                [33mclass[39m=[32m&quot;ml-0.5 text-status-error&quot;[39m
+              [36m&gt;[39m
+                [0m*[0m
+              [36m&lt;/span&gt;[39m
+            [36m&lt;/label&gt;[39m
+            [36m&lt;input[39m
+              [33mclass[39m=[32m&quot;w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 focus:ring-nebula-violet&quot;[39m
+              [33mid[39m=[32m&quot;phone&quot;[39m
+              [33mplaceholder[39m=[32m&quot;+12025551234&quot;[39m
+              [33mrequired[39m=[32m&quot;&quot;[39m
+              [33mtype[39m=[32m&quot;tel&quot;[39m
+              [33mvalue[39m=[32m&quot;+12025551234&quot;[39m
+            [36m/&gt;[39m
+          [36m&lt;/div&gt;[39m
+          [36m&lt;div[39m
+            [33mclass[39m=[32m&quot;space-y-1.5&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;label[39m
+              [33mclass[39m=[32m&quot;block text-xs font-medium text-text-secondary&quot;[39m
+              [33mfor[39m=[32m&quot;role&quot;[39m
+            [36m&gt;[39m
+              [0mRole[0m
+            [36m&lt;/label&gt;[39m
+            [36m&lt;input[39m
+              [33mclass[39m=[32m&quot;w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 focus:ring-nebula-violet&quot;[39m
+              [33mid[39m=[32m&quot;role&quot;[39m
+              [33mplaceholder[39m=[32m&quot;e.g., Account Manager&quot;[39m
+              [33mvalue[39m=[32m&quot;&quot;[39m
+            [36m/&gt;[39m
+          [36m&lt;/div&gt;[39m
+          [36m&lt;div[39m
+            [33mclass[39m=[32m&quot;flex justify-end gap-3 pt-2&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;button[39m
+              [33mclass[39m=[32m&quot;rounded-lg border border-surface-border bg-surface-card px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary disabled:opacity-50&quot;[39m
+              [33mtype[39m=[32m&quot;button&quot;[39m
+            [36m&gt;[39m
+              [0mCancel[0m
+            [36m&lt;/button&gt;[39m
+            [36m&lt;button[39m
+              [33mclass[39m=[32m&quot;rounded-lg bg-nebula-violet px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-nebula-violet/90 disabled:opacity-50&quot;[39m
+              [33mtype[39m=[32m&quot;submit&quot;[39m
+            [36m&gt;[39m
+              [0mAdd Contact[0m
+            [36m&lt;/button&gt;[39m
+          [36m&lt;/div&gt;[39m
+        [36m&lt;/form&gt;[39m
+      [36m&lt;/div&gt;[39m
+    [36m&lt;/div&gt;[39m
+  [36m&lt;/div&gt;[39m
+[36m&lt;/body&gt;[39m
+
+Ignored nodes: comments, script, style
+[36m&lt;body[39m
+  [33mstyle[39m=[32m&quot;overflow: hidden;&quot;[39m
+[36m&gt;[39m
+  [36m&lt;div /&gt;[39m
+  [36m&lt;div[39m
+    [33mclass[39m=[32m&quot;fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md&quot;[39m
+  [36m&gt;[39m
+    [36m&lt;div[39m
+      [33maria-labelledby[39m=[32m&quot;:r6:&quot;[39m
+      [33maria-modal[39m=[32m&quot;true&quot;[39m
+      [33mclass[39m=[32m&quot;mx-4 w-full max-w-lg rounded-xl glass-card shadow-2xl&quot;[39m
+      [33mrole[39m=[32m&quot;dialog&quot;[39m
+      [33mtabindex[39m=[32m&quot;-1&quot;[39m
+    [36m&gt;[39m
+      [36m&lt;div[39m
+        [33mclass[39m=[32m&quot;flex items-center justify-between border-b border-surface-border px-5 py-4&quot;[39m
+      [36m&gt;[39m
+        [36m&lt;div[39m
+          [33mclass[39m=[32m&quot;space-y-1 pr-4&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;h2[39m
+            [33mclass[39m=[32m&quot;text-sm font-semibold text-text-primary&quot;[39m
+            [33mid[39m=[32m&quot;:r6:&quot;[39m
+          [36m&gt;[39m
+            [0mAdd Contact[0m
+          [36m&lt;/h2&gt;[39m
+        [36m&lt;/div&gt;[39m
+        [36m&lt;button[39m
+          [33maria-label[39m=[32m&quot;Close dialog&quot;[39m
+          [33mclass[39m=[32m&quot;rounded-md p-1 text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary&quot;[39m
+          [33mtype[39m=[32m&quot;button&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;svg[39m
+            [33mclass[39m=[32m&quot;h-4 w-4&quot;[39m
+            [33mfill[39m=[32m&quot;none&quot;[39m
+            [33mstroke[39m=[32m&quot;currentColor&quot;[39m
+            [33mstroke-width[39m=[32m&quot;2&quot;[39m
+            [33mviewBox[39m=[32m&quot;0 0 24 24&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;path[39m
+              [33md[39m=[32m&quot;M6 18L18 6M6 6l12 12&quot;[39m
+              [33mstroke-linecap[39m=[32m&quot;round&quot;[39m
+              [33mstroke-linejoin[39m=[32m&quot;round&quot;[39m
+            [36m/&gt;[39m
+          [36m&lt;/svg&gt;[39m
+        [36m&lt;/button&gt;[39m
+      [36m&lt;/div&gt;[39m
+      [36m&lt;div[39m
+        [33mclass[39m=[32m&quot;p-5&quot;[39m
+      [36m&gt;[39m
+        [36m&lt;form[39m
+          [33mclass[39m=[32m&quot;space-y-4&quot;[39m
+          [33mnovalidate[39m=[32m&quot;&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;div[39m
+            [33mclass[39m=[32m&quot;space-y-1.5&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;label[39m
+              [33mclass[39m=[32m&quot;block text-xs font-medium text-text-secondary&quot;[39m
+              [33mfor[39m=[32m&quot;full-name&quot;[39m
+            [36m&gt;[39m
+              [0mFull Name[0m
+              [36m&lt;span[39m
+                [33mclass[39m=[32m&quot;ml-0.5 text-status-error&quot;[39m
+              [36m&gt;[39m
+                [0m*[0m
+              [36m&lt;/span&gt;[39m
+            [36m&lt;/label&gt;[39m
+            [36m&lt;input[39m
+              [33mclass[39m=[32m&quot;w-full rounded-lg border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 border-status-error focus:ring-status-error&quot;[39m
+              [33mid[39m=[32m&quot;full-name&quot;[39m
+              [33mrequired[39m=[32m&quot;&quot;[39m
+              [33mvalue[39m=[32m&quot;&quot;[39m
+            [36m/&gt;[39m
+            [36m&lt;p[39m
+              [33mclass[39m=[32m&quot;text-xs text-status-error&quot;[39m
+            [36m&gt;[39m
+              [0mFull name is required.[0m
+            [36m&lt;/p&gt;[39m
+          [36m&lt;/div&gt;[39m
+          [36m&lt;div[39m
+            [33mclass[39m=[32m&quot;space-y-1.5&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;label[39m
+              [33mclass[39m=[32m&quot;block text-xs font-medium text-text-secondary&quot;[39m
+              [33mfor[39m=[32m&quot;email&quot;[39m
+            [36m&gt;[39m
+              [0mEmail[0m
+              [36m&lt;span[39m
+                [33mclass[39m=[32m&quot;ml-0.5 text-status-error&quot;[39m
+              [36m&gt;[39m
+                [0m*[0m
+              [36m&lt;/span&gt;[39m
+            [36m&lt;/label&gt;[39m
+            [36m&lt;input[39m
+              [33mclass[39m=[32m&quot;w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 focus:ring-nebula-violet&quot;[39m
+              [33mid[39m=[32m&quot;email&quot;[39m
+              [33mrequired[39m=[32m&quot;&quot;[39m
+              [33mtype[39m=[32m&quot;email&quot;[39m
+              [33mvalue[39m=[32m&quot;jane@example.com&quot;[39m
+            [36m/&gt;[39m
+          [36m&lt;/div&gt;[39m
+          [36m&lt;div[39m
+            [33mclass[39m=[32m&quot;space-y-1.5&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;label[39m
+              [33mclass[39m=[32m&quot;block text-xs font-medium text-text-secondary&quot;[39m
+              [33mfor[39m=[32m&quot;phone&quot;[39m
+            [36m&gt;[39m
+              [0mPhone[0m
+              [36m&lt;span[39m
+                [33mclass[39m=[32m&quot;ml-0.5 text-status-error&quot;[39m
+              [36m&gt;[39m
+                [0m*[0m
+              [36m&lt;/span&gt;[39m
+            [36m&lt;/label&gt;[39m
+            [36m&lt;input[39m
+              [33mclass[39m=[32m&quot;w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 focus:ring-nebula-violet&quot;[39m
+              [33mid[39m=[32m&quot;phone&quot;[39m
+              [33mplaceholder[39m=[32m&quot;+12025551234&quot;[39m
+              [33mrequired[39m=[32m&quot;&quot;[39m
+              [33mtype[39m=[32m&quot;tel&quot;[39m
+              [33mvalue[39m=[32m&quot;+12025551234&quot;[39m
+            [36m/&gt;[39m
+          [36m&lt;/div&gt;[39m
+          [36m&lt;div[39m
+            [33mclass[39m=[32m&quot;space-y-1.5&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;label[39m
+              [33mclass[39m=[32m&quot;block text-xs font-medium text-text-secondary&quot;[39m
+              [33mfor[39m=[32m&quot;role&quot;[39m
+            [36m&gt;[39m
+              [0mRole[0m
+            [36m&lt;/label&gt;[39m
+            [36m&lt;input[39m
+              [33mclass[39m=[32m&quot;w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 focus:ring-nebula-violet&quot;[39m
+              [33mid[39m=[32m&quot;role&quot;[39m
+              [33mplaceholder[39m=[32m&quot;e.g., Account Manager&quot;[39m
+              [33mvalue[39m=[32m&quot;&quot;[39m
+            [36m/&gt;[39m
+          [36m&lt;/div&gt;[39m
+          [36m&lt;div[39m
+            [33mclass[39m=[32m&quot;flex justify-end gap-3 pt-2&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;button[39m
+              [33mclass[39m=[32m&quot;rounded-lg border border-surface-border bg-surface-card px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary disabled:opacity-50&quot;[39m
+              [33mtype[39m=[32m&quot;button&quot;[39m
+            [36m&gt;[39m
+              [0mCancel[0m
+            [36m&lt;/button&gt;[39m
+            [36m&lt;button[39m
+              [33mclass[39m=[32m&quot;rounded-lg bg-nebula-violet px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-nebula-violet/90 disabled:opacity-50&quot;[39m
+              [33mtype[39m=[32m&quot;submit&quot;[39m
+            [36m&gt;[39m
+              [0mAdd Contact[0m
+            [36m&lt;/button&gt;[39m
+          [36m&lt;/div&gt;[39m
+        [36m&lt;/form&gt;[39m
+      [36m&lt;/div&gt;[39m
+    [36m&lt;/div&gt;[39m
+  [36m&lt;/div&gt;[39m
+[36m&lt;/body&gt;[39m" type="TestingLibraryElementError">
+TestingLibraryElementError: Unable to find an element with the text: /modified by another user|Unable to create contact/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body
+  style=&quot;overflow: hidden;&quot;
+&gt;
+  &lt;div /&gt;
+  &lt;div
+    class=&quot;fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md&quot;
+  &gt;
+    &lt;div
+      aria-labelledby=&quot;:r6:&quot;
+      aria-modal=&quot;true&quot;
+      class=&quot;mx-4 w-full max-w-lg rounded-xl glass-card shadow-2xl&quot;
+      role=&quot;dialog&quot;
+      tabindex=&quot;-1&quot;
+    &gt;
+      &lt;div
+        class=&quot;flex items-center justify-between border-b border-surface-border px-5 py-4&quot;
+      &gt;
+        &lt;div
+          class=&quot;space-y-1 pr-4&quot;
+        &gt;
+          &lt;h2
+            class=&quot;text-sm font-semibold text-text-primary&quot;
+            id=&quot;:r6:&quot;
+          &gt;
+            Add Contact
+          &lt;/h2&gt;
+        &lt;/div&gt;
+        &lt;button
+          aria-label=&quot;Close dialog&quot;
+          class=&quot;rounded-md p-1 text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary&quot;
+          type=&quot;button&quot;
+        &gt;
+          &lt;svg
+            class=&quot;h-4 w-4&quot;
+            fill=&quot;none&quot;
+            stroke=&quot;currentColor&quot;
+            stroke-width=&quot;2&quot;
+            viewBox=&quot;0 0 24 24&quot;
+          &gt;
+            &lt;path
+              d=&quot;M6 18L18 6M6 6l12 12&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+            /&gt;
+          &lt;/svg&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div
+        class=&quot;p-5&quot;
+      &gt;
+        &lt;form
+          class=&quot;space-y-4&quot;
+          novalidate=&quot;&quot;
+        &gt;
+          &lt;div
+            class=&quot;space-y-1.5&quot;
+          &gt;
+            &lt;label
+              class=&quot;block text-xs font-medium text-text-secondary&quot;
+              for=&quot;full-name&quot;
+            &gt;
+              Full Name
+              &lt;span
+                class=&quot;ml-0.5 text-status-error&quot;
+              &gt;
+                *
+              &lt;/span&gt;
+            &lt;/label&gt;
+            &lt;input
+              class=&quot;w-full rounded-lg border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 border-status-error focus:ring-status-error&quot;
+              id=&quot;full-name&quot;
+              required=&quot;&quot;
+              value=&quot;&quot;
+            /&gt;
+            &lt;p
+              class=&quot;text-xs text-status-error&quot;
+            &gt;
+              Full name is required.
+            &lt;/p&gt;
+          &lt;/div&gt;
+          &lt;div
+            class=&quot;space-y-1.5&quot;
+          &gt;
+            &lt;label
+              class=&quot;block text-xs font-medium text-text-secondary&quot;
+              for=&quot;email&quot;
+            &gt;
+              Email
+              &lt;span
+                class=&quot;ml-0.5 text-status-error&quot;
+              &gt;
+                *
+              &lt;/span&gt;
+            &lt;/label&gt;
+            &lt;input
+              class=&quot;w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 focus:ring-nebula-violet&quot;
+              id=&quot;email&quot;
+              required=&quot;&quot;
+              type=&quot;email&quot;
+              value=&quot;jane@example.com&quot;
+            /&gt;
+          &lt;/div&gt;
+          &lt;div
+            class=&quot;space-y-1.5&quot;
+          &gt;
+            &lt;label
+              class=&quot;block text-xs font-medium text-text-secondary&quot;
+              for=&quot;phone&quot;
+            &gt;
+              Phone
+              &lt;span
+                class=&quot;ml-0.5 text-status-error&quot;
+              &gt;
+                *
+              &lt;/span&gt;
+            &lt;/label&gt;
+            &lt;input
+              class=&quot;w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 focus:ring-nebula-violet&quot;
+              id=&quot;phone&quot;
+              placeholder=&quot;+12025551234&quot;
+              required=&quot;&quot;
+              type=&quot;tel&quot;
+              value=&quot;+12025551234&quot;
+            /&gt;
+          &lt;/div&gt;
+          &lt;div
+            class=&quot;space-y-1.5&quot;
+          &gt;
+            &lt;label
+              class=&quot;block text-xs font-medium text-text-secondary&quot;
+              for=&quot;role&quot;
+            &gt;
+              Role
+            &lt;/label&gt;
+            &lt;input
+              class=&quot;w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 focus:ring-nebula-violet&quot;
+              id=&quot;role&quot;
+              placeholder=&quot;e.g., Account Manager&quot;
+              value=&quot;&quot;
+            /&gt;
+          &lt;/div&gt;
+          &lt;div
+            class=&quot;flex justify-end gap-3 pt-2&quot;
+          &gt;
+            &lt;button
+              class=&quot;rounded-lg border border-surface-border bg-surface-card px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary disabled:opacity-50&quot;
+              type=&quot;button&quot;
+            &gt;
+              Cancel
+            &lt;/button&gt;
+            &lt;button
+              class=&quot;rounded-lg bg-nebula-violet px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-nebula-violet/90 disabled:opacity-50&quot;
+              type=&quot;submit&quot;
+            &gt;
+              Add Contact
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/form&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+
+Ignored nodes: comments, script, style
+&lt;body
+  style=&quot;overflow: hidden;&quot;
+&gt;
+  &lt;div /&gt;
+  &lt;div
+    class=&quot;fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md&quot;
+  &gt;
+    &lt;div
+      aria-labelledby=&quot;:r6:&quot;
+      aria-modal=&quot;true&quot;
+      class=&quot;mx-4 w-full max-w-lg rounded-xl glass-card shadow-2xl&quot;
+      role=&quot;dialog&quot;
+      tabindex=&quot;-1&quot;
+    &gt;
+      &lt;div
+        class=&quot;flex items-center justify-between border-b border-surface-border px-5 py-4&quot;
+      &gt;
+        &lt;div
+          class=&quot;space-y-1 pr-4&quot;
+        &gt;
+          &lt;h2
+            class=&quot;text-sm font-semibold text-text-primary&quot;
+            id=&quot;:r6:&quot;
+          &gt;
+            Add Contact
+          &lt;/h2&gt;
+        &lt;/div&gt;
+        &lt;button
+          aria-label=&quot;Close dialog&quot;
+          class=&quot;rounded-md p-1 text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary&quot;
+          type=&quot;button&quot;
+        &gt;
+          &lt;svg
+            class=&quot;h-4 w-4&quot;
+            fill=&quot;none&quot;
+            stroke=&quot;currentColor&quot;
+            stroke-width=&quot;2&quot;
+            viewBox=&quot;0 0 24 24&quot;
+          &gt;
+            &lt;path
+              d=&quot;M6 18L18 6M6 6l12 12&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+            /&gt;
+          &lt;/svg&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div
+        class=&quot;p-5&quot;
+      &gt;
+        &lt;form
+          class=&quot;space-y-4&quot;
+          novalidate=&quot;&quot;
+        &gt;
+          &lt;div
+            class=&quot;space-y-1.5&quot;
+          &gt;
+            &lt;label
+              class=&quot;block text-xs font-medium text-text-secondary&quot;
+              for=&quot;full-name&quot;
+            &gt;
+              Full Name
+              &lt;span
+                class=&quot;ml-0.5 text-status-error&quot;
+              &gt;
+                *
+              &lt;/span&gt;
+            &lt;/label&gt;
+            &lt;input
+              class=&quot;w-full rounded-lg border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 border-status-error focus:ring-status-error&quot;
+              id=&quot;full-name&quot;
+              required=&quot;&quot;
+              value=&quot;&quot;
+            /&gt;
+            &lt;p
+              class=&quot;text-xs text-status-error&quot;
+            &gt;
+              Full name is required.
+            &lt;/p&gt;
+          &lt;/div&gt;
+          &lt;div
+            class=&quot;space-y-1.5&quot;
+          &gt;
+            &lt;label
+              class=&quot;block text-xs font-medium text-text-secondary&quot;
+              for=&quot;email&quot;
+            &gt;
+              Email
+              &lt;span
+                class=&quot;ml-0.5 text-status-error&quot;
+              &gt;
+                *
+              &lt;/span&gt;
+            &lt;/label&gt;
+            &lt;input
+              class=&quot;w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 focus:ring-nebula-violet&quot;
+              id=&quot;email&quot;
+              required=&quot;&quot;
+              type=&quot;email&quot;
+              value=&quot;jane@example.com&quot;
+            /&gt;
+          &lt;/div&gt;
+          &lt;div
+            class=&quot;space-y-1.5&quot;
+          &gt;
+            &lt;label
+              class=&quot;block text-xs font-medium text-text-secondary&quot;
+              for=&quot;phone&quot;
+            &gt;
+              Phone
+              &lt;span
+                class=&quot;ml-0.5 text-status-error&quot;
+              &gt;
+                *
+              &lt;/span&gt;
+            &lt;/label&gt;
+            &lt;input
+              class=&quot;w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 focus:ring-nebula-violet&quot;
+              id=&quot;phone&quot;
+              placeholder=&quot;+12025551234&quot;
+              required=&quot;&quot;
+              type=&quot;tel&quot;
+              value=&quot;+12025551234&quot;
+            /&gt;
+          &lt;/div&gt;
+          &lt;div
+            class=&quot;space-y-1.5&quot;
+          &gt;
+            &lt;label
+              class=&quot;block text-xs font-medium text-text-secondary&quot;
+              for=&quot;role&quot;
+            &gt;
+              Role
+            &lt;/label&gt;
+            &lt;input
+              class=&quot;w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-1 focus:ring-nebula-violet&quot;
+              id=&quot;role&quot;
+              placeholder=&quot;e.g., Account Manager&quot;
+              value=&quot;&quot;
+            /&gt;
+          &lt;/div&gt;
+          &lt;div
+            class=&quot;flex justify-end gap-3 pt-2&quot;
+          &gt;
+            &lt;button
+              class=&quot;rounded-lg border border-surface-border bg-surface-card px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-surface-card-hover hover:text-text-primary disabled:opacity-50&quot;
+              type=&quot;button&quot;
+            &gt;
+              Cancel
+            &lt;/button&gt;
+            &lt;button
+              class=&quot;rounded-lg bg-nebula-violet px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-nebula-violet/90 disabled:opacity-50&quot;
+              type=&quot;submit&quot;
+            &gt;
+              Add Contact
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/form&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+ ❯ waitForWrapper node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/features/brokers/tests/ContactFormModal.test.tsx:94:25
+            </failure>
+        </testcase>
+        <testcase classname="src/features/brokers/tests/ContactFormModal.test.tsx" name="ContactFormModal — S0007 wiring regression (create + edit preserved) &gt; registers with F0035 so dirty values snapshot on a forced re-auth" time="0.023253896">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/brokers/tests/EditBrokerModal.test.tsx" timestamp="2026-07-19T22:37:57.001Z" hostname="8f99fdcecc1c" tests="4" failures="0" errors="0" skipped="0" time="0.34619932">
+        <testcase classname="src/features/brokers/tests/EditBrokerModal.test.tsx" name="EditBrokerModal — S0007 wiring regression &gt; updates a broker with the same payload (incl. rowVersion)" time="0.223567445">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/EditBrokerModal.test.tsx" name="EditBrokerModal — S0007 wiring regression &gt; blocks submit with a validation error when legal name is cleared (unchanged)" time="0.037826072">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/EditBrokerModal.test.tsx" name="EditBrokerModal — S0007 wiring regression &gt; still surfaces a server error on submit failure (error path unchanged)" time="0.047845063">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/EditBrokerModal.test.tsx" name="EditBrokerModal — S0007 wiring regression &gt; registers with F0035 so dirty values snapshot on a forced re-auth" time="0.027140133">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/brokers/tests/validation.test.ts" timestamp="2026-07-19T22:37:57.003Z" hostname="8f99fdcecc1c" tests="3" failures="0" errors="0" skipped="0" time="0.018634621">
+        <testcase classname="src/features/brokers/tests/validation.test.ts" name="broker validation helpers &gt; validates broker creation payloads" time="0.012269165">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/validation.test.ts" name="broker validation helpers &gt; validates broker update payloads" time="0.001170342">
+        </testcase>
+        <testcase classname="src/features/brokers/tests/validation.test.ts" name="broker validation helpers &gt; validates contact payloads" time="0.000754465">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/commissions/tests/CommissionsPage.test.tsx" timestamp="2026-07-19T22:37:57.004Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.163797161">
+        <testcase classname="src/features/commissions/tests/CommissionsPage.test.tsx" name="F0025 commission UI &gt; shows searchable expected commission records and rollup totals" time="0.087424869">
+        </testcase>
+        <testcase classname="src/features/commissions/tests/CommissionsPage.test.tsx" name="F0025 commission UI &gt; wires recalculation from the detail page" time="0.073909781">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/distribution/tests/HierarchyPanel.test.tsx" timestamp="2026-07-19T22:37:57.005Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.088361162">
+        <testcase classname="src/features/distribution/tests/HierarchyPanel.test.tsx" name="HierarchyPanel &gt; renders the root-to-node breadcrumb and the children list" time="0.036859545">
+        </testcase>
+        <testcase classname="src/features/distribution/tests/HierarchyPanel.test.tsx" name="HierarchyPanel &gt; exposes a set-parent control" time="0.047427387">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/documents/tests/ParentDocumentsPanel.test.tsx" timestamp="2026-07-19T22:37:57.007Z" hostname="8f99fdcecc1c" tests="1" failures="0" errors="0" skipped="0" time="0.134094497">
+        <testcase classname="src/features/documents/tests/ParentDocumentsPanel.test.tsx" name="ParentDocumentsPanel &gt; renders parent-scoped documents and completeness counts" time="0.132490903">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/forms/__tests__/dualBackend.test.tsx" timestamp="2026-07-19T22:37:57.007Z" hostname="8f99fdcecc1c" tests="4" failures="0" errors="0" skipped="0" time="0.044039009">
+        <testcase classname="src/features/forms/__tests__/dualBackend.test.tsx" name="shared registration helper — dual backend (F0036-S0007) &gt; snapshots both an RHF form and a controlled form through the same helper" time="0.034204224">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/dualBackend.test.tsx" name="shared registration helper — dual backend (F0036-S0007) &gt; restores both backends on mount through the same helper" time="0.004251895">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/dualBackend.test.tsx" name="shared registration helper — dual backend (F0036-S0007) &gt; restores when a modal parent changes the registered form key after mount" time="0.001635996">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/dualBackend.test.tsx" name="shared registration helper — dual backend (F0036-S0007) &gt; does not consume a modal snapshot until registration is enabled" time="0.001632981">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" timestamp="2026-07-19T22:37:57.009Z" hostname="8f99fdcecc1c" tests="11" failures="0" errors="0" skipped="0" time="0.028996774">
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="deepEqual equality matrix (F0036-S0007) &gt; scalar typed-and-cleared back to initial is equal" time="0.006625473">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="deepEqual equality matrix (F0036-S0007) &gt; treats undefined / null / absent key as equal" time="0.0008035">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="deepEqual equality matrix (F0036-S0007) &gt; compares numbers and Dates by value" time="0.000523126">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="deepEqual equality matrix (F0036-S0007) &gt; nested-object replacement with structurally-equal contents is equal (not reference)" time="0.000462669">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="deepEqual equality matrix (F0036-S0007) &gt; array reorder of identical contents is not dirty by default; order-sensitive flags it" time="0.003535834">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="diffPaths (F0036-S0007) &gt; reports flattened JSON paths for differing leaves" time="0.000810093">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="diffPaths (F0036-S0007) &gt; reports the array path when array contents differ" time="0.000392101">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="diffPaths (F0036-S0007) &gt; reports indexed paths when order-sensitive" time="0.000380288">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="useControlledDirtyTracker (F0036-S0007) &gt; returns the F0035 triple with deep-equality dirty semantics" time="0.009512217">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="useControlledDirtyTracker (F0036-S0007) &gt; excludes sensitiveFieldPaths from getValues and getDirtyFieldPaths" time="0.002011034">
+        </testcase>
+        <testcase classname="src/features/forms/__tests__/useControlledDirtyTracker.test.ts" name="useControlledDirtyTracker (F0036-S0007) &gt; does not mark a form dirty when only sensitiveFieldPaths changed" time="0.001340723">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/neuron/components/DayAtAGlance.test.tsx" timestamp="2026-07-19T22:37:57.014Z" hostname="8f99fdcecc1c" tests="11" failures="0" errors="0" skipped="0" time="0.760059469">
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; renders four zones with Renewals live and stubs not-yet-active" time="0.113358308">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; renders the assistant message envelope" time="0.021871512">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; isolates a failing zone to its own slot" time="0.025850307">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; shows a loading state while fetching" time="0.003535023">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; shows a retryable error state on a non-auth failure" time="0.031744199">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; shows an auth-required state (no retry) on 403" time="0.023276561">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; drills a renewal via the View action and renders the returned context" time="0.089867662">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; drafts an outreach and mock-sends the edited draft" time="0.067556195">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; sends a CRM message and renders the scope-guarded reply" time="0.159903862">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; renders a polite CRM redirect for an off-topic message (no general answer)" time="0.156819283">
+        </testcase>
+        <testcase classname="src/features/neuron/components/DayAtAGlance.test.tsx" name="DayAtAGlance (F0038-S0002/S0003 shell) &gt; does not send an empty message" time="0.058360178">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/neuron/registry/componentRegistry.test.tsx" timestamp="2026-07-19T22:37:57.018Z" hostname="8f99fdcecc1c" tests="6" failures="0" errors="0" skipped="0" time="0.043090828">
+        <testcase classname="src/features/neuron/registry/componentRegistry.test.tsx" name="componentRegistry (F0038-S0002 rendering contract) &gt; reports registration status" time="0.006833396">
+        </testcase>
+        <testcase classname="src/features/neuron/registry/componentRegistry.test.tsx" name="componentRegistry (F0038-S0002 rendering contract) &gt; renders a safe fallback for an unregistered component id" time="0.012831977">
+        </testcase>
+        <testcase classname="src/features/neuron/registry/componentRegistry.test.tsx" name="componentRegistry (F0038-S0002 rendering contract) &gt; renders a safe fallback when props fail schema validation" time="0.0023183">
+        </testcase>
+        <testcase classname="src/features/neuron/registry/componentRegistry.test.tsx" name="componentRegistry (F0038-S0002 rendering contract) &gt; renders the companion-context drill component" time="0.00640705">
+        </testcase>
+        <testcase classname="src/features/neuron/registry/componentRegistry.test.tsx" name="componentRegistry (F0038-S0002 rendering contract) &gt; renders the outreach draft editor component" time="0.007148168">
+        </testcase>
+        <testcase classname="src/features/neuron/registry/componentRegistry.test.tsx" name="componentRegistry (F0038-S0002 rendering contract) &gt; renders the registered component when props are valid" time="0.004851584">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/notifications/tests/NotificationDropdown.test.tsx" timestamp="2026-07-19T22:37:57.021Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.541431084">
+        <testcase classname="src/features/notifications/tests/NotificationDropdown.test.tsx" name="NotificationDropdown &gt; opens, filters, toggles read state, and clears notifications" time="0.423534418">
+        </testcase>
+        <testcase classname="src/features/notifications/tests/NotificationDropdown.test.tsx" name="NotificationDropdown &gt; supports dismiss, closes on Escape, and closes on outside click" time="0.115427873">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" timestamp="2026-07-19T22:37:57.022Z" hostname="8f99fdcecc1c" tests="12" failures="0" errors="0" skipped="0" time="1.843691065">
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; renders chapter controls and connected flow canvas" time="0.399965058">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; passes periodDays to KPI hook" time="0.221068165">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; passes the selected period to synchronized story hooks" time="0.128448028">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; filters the canvas to renewals only from the scope dropdown" time="0.160284201">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; supports keyboard chapter navigation with arrow keys" time="0.234116016">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; supports arrow-key navigation across stage nodes" time="0.091554561">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; hides per-stage alternate toggles during chapter override and restores in flow" time="0.233927314">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; restores the previously selected flow mini-view after chapter overrides" time="0.170799666">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; renders the quote preparation stage as a submission versus renewal mix" time="0.081425989">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; enables breakdown requests lazily for the selected stage mini-view" time="0.071700505">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; shows flow error fallback" time="0.004900961">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunitiesSummary.test.tsx" name="OpportunitiesSummary &gt; renders empty timeline state with no popovers when all stage counts are zero" time="0.04210914">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/opportunities/tests/OpportunityPopovers.test.tsx" timestamp="2026-07-19T22:37:57.026Z" hostname="8f99fdcecc1c" tests="3" failures="0" errors="0" skipped="0" time="0.062720848">
+        <testcase classname="src/features/opportunities/tests/OpportunityPopovers.test.tsx" name="opportunity popover content &gt; renders loading, error, empty, and populated state for status items" time="0.0493145">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityPopovers.test.tsx" name="opportunity popover content &gt; renders loading, error, empty, and populated state for outcome items" time="0.008026032">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityPopovers.test.tsx" name="opportunity popover content &gt; renders mini cards without amount or assignee details when absent" time="0.003174172">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" timestamp="2026-07-19T22:37:57.028Z" hostname="8f99fdcecc1c" tests="6" failures="0" errors="0" skipped="0" time="0.252398113">
+        <testcase classname="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" name="opportunity visualizations &gt; renders chart empty, loading, error, and data states" time="0.049642863">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" name="opportunity visualizations &gt; renders the pipeline board empty and populated states" time="0.074048284">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" name="opportunity visualizations &gt; renders heatmap loading, error, empty, and populated states" time="0.021842316">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" name="opportunity visualizations &gt; renders the outcomes rail with all branch styles and supporting popovers" time="0.023473672">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" name="opportunity visualizations &gt; renders the sunburst loading, error, empty, and interactive states" time="0.022304638">
+        </testcase>
+        <testcase classname="src/features/opportunities/tests/OpportunityVisualizations.test.tsx" name="opportunity visualizations &gt; renders the treemap loading, error, empty, and drilldown states" time="0.058100623">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/IdleWarningModal.test.tsx" timestamp="2026-07-19T22:37:57.030Z" hostname="8f99fdcecc1c" tests="3" failures="0" errors="0" skipped="0" time="0.074763512">
+        <testcase classname="src/features/session-continuity/tests/IdleWarningModal.test.tsx" name="IdleWarningModal &gt; renders the alert dialog with countdown text" time="0.056368084">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/IdleWarningModal.test.tsx" name="IdleWarningModal &gt; calls the selected action handlers" time="0.012960145">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/IdleWarningModal.test.tsx" name="IdleWarningModal &gt; treats Escape as sign out" time="0.003455248">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/authErrorClassifier.test.ts" timestamp="2026-07-19T22:37:57.032Z" hostname="8f99fdcecc1c" tests="7" failures="0" errors="0" skipped="0" time="0.013985322">
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; uses ProblemDetails as the authoritative token-expired source" time="0.008279083">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; does not mark matching token expired challenge/body pairs as conflicts" time="0.001173749">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; does not mark matching invalid token challenge/body pairs as conflicts" time="0.000548054">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; does not mark matching session revoked challenge/body pairs as conflicts" time="0.000382042">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; marks conflicts when WWW-Authenticate disagrees with ProblemDetails" time="0.000408814">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; falls back to status-only unknown for malformed 401 responses" time="0.000443872">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/authErrorClassifier.test.ts" name="classifyAuthResponse &gt; classifies 403 responses as authorization denial when no finer code exists" time="0.000312957">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/sessionContinuity.smoke.test.tsx" timestamp="2026-07-19T22:37:57.035Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.049865115">
+        <testcase classname="src/features/session-continuity/tests/sessionContinuity.smoke.test.tsx" name="session continuity smoke path &gt; renews one recoverable GET and retries it with the fresh access token" time="0.013683458">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionContinuity.smoke.test.tsx" name="session continuity smoke path &gt; captures dirty form state and restores the route on forced reauth" time="0.033376508">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/sessionRenewal.test.ts" timestamp="2026-07-19T22:37:57.036Z" hostname="8f99fdcecc1c" tests="4" failures="0" errors="0" skipped="0" time="0.015294593">
+        <testcase classname="src/features/session-continuity/tests/sessionRenewal.test.ts" name="renewSessionForExpiredToken &gt; coalesces concurrent renewal callers behind one silent sign-in" time="0.010619296">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionRenewal.test.ts" name="renewSessionForExpiredToken &gt; blocks immediate renewal loops after success" time="0.001004119">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionRenewal.test.ts" name="renewSessionForExpiredToken &gt; allows explicit user-initiated renewal to bypass the loop guard" time="0.000696643">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionRenewal.test.ts" name="renewSessionForExpiredToken &gt; maps invalid_grant renewal failures to refresh expiration" time="0.000509829">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/sessionRestore.test.ts" timestamp="2026-07-19T22:37:57.038Z" hostname="8f99fdcecc1c" tests="4" failures="0" errors="0" skipped="0" time="0.015236087">
+        <testcase classname="src/features/session-continuity/tests/sessionRestore.test.ts" name="session restore helpers &gt; accepts same-origin return paths and rejects unsafe destinations" time="0.008559628">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionRestore.test.ts" name="session restore helpers &gt; stores and consumes a same-user dirty form snapshot once" time="0.001834763">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionRestore.test.ts" name="session restore helpers &gt; lists valid same-user snapshot form keys by prefix without consuming them" time="0.001626735">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionRestore.test.ts" name="session restore helpers &gt; clears snapshots by current user and by other users" time="0.000663398">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/sessionTelemetry.test.ts" timestamp="2026-07-19T22:37:57.040Z" hostname="8f99fdcecc1c" tests="4" failures="0" errors="0" skipped="0" time="0.019640816">
+        <testcase classname="src/features/session-continuity/tests/sessionTelemetry.test.ts" name="session continuity telemetry &gt; builds events from non-PII session identity claims" time="0.012264216">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionTelemetry.test.ts" name="session continuity telemetry &gt; posts buffered events to the protected telemetry endpoint" time="0.003395001">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionTelemetry.test.ts" name="session continuity telemetry &gt; persists and drains deferred failure-class events by user" time="0.001246029">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/sessionTelemetry.test.ts" name="session continuity telemetry &gt; drops expired deferred events instead of sending them" time="0.00055121">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/session-continuity/tests/useIdleWarning.test.tsx" timestamp="2026-07-19T22:37:57.042Z" hostname="8f99fdcecc1c" tests="6" failures="0" errors="0" skipped="0" time="0.083343681">
+        <testcase classname="src/features/session-continuity/tests/useIdleWarning.test.tsx" name="useIdleWarning &gt; opens the idle modal at the inactivity threshold and emits shown telemetry" time="0.028333091">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/useIdleWarning.test.tsx" name="useIdleWarning &gt; renews and closes the modal when the user stays signed in" time="0.007466667">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/useIdleWarning.test.tsx" name="useIdleWarning &gt; forces reauth when the grace period expires" time="0.00803795">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/useIdleWarning.test.tsx" name="useIdleWarning &gt; resets the rolling activity window on route changes" time="0.028185279">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/useIdleWarning.test.tsx" name="useIdleWarning &gt; signs out explicitly from the idle modal path" time="0.004982834">
+        </testcase>
+        <testcase classname="src/features/session-continuity/tests/useIdleWarning.test.tsx" name="useIdleWarning &gt; does not open the idle modal on public auth routes" time="0.003910112">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/communications/components/__tests__/CommunicationPanel.test.tsx" timestamp="2026-07-19T22:37:57.044Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.276932191">
+        <testcase classname="src/features/communications/components/__tests__/CommunicationPanel.test.tsx" name="CommunicationPanel &gt; renders the empty history state for the scoped record" time="0.026795783">
+        </testcase>
+        <testcase classname="src/features/communications/components/__tests__/CommunicationPanel.test.tsx" name="CommunicationPanel &gt; submits a structured communication with primary link and follow-up linkage" time="0.246351239">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.preservation.test.tsx" timestamp="2026-07-19T22:37:57.046Z" hostname="8f99fdcecc1c" tests="3" failures="0" errors="0" skipped="0" time="0.238195315">
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.preservation.test.tsx" name="DynamicAttributePanel F0035 preservation (F0036-S0006) &gt; snapshots the dirty attribute form on a forced re-auth (registry.snapshotAllDirty)" time="0.125495155">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.preservation.test.tsx" name="DynamicAttributePanel F0035 preservation (F0036-S0006) &gt; rehydrates a prior snapshot on mount and shows the restore notice (no auto-replay)" time="0.059751508">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.preservation.test.tsx" name="DynamicAttributePanel F0035 preservation (F0036-S0006) &gt; does not rehydrate another user’s snapshot (per-user isolation)" time="0.048949738">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" timestamp="2026-07-19T22:37:57.047Z" hostname="8f99fdcecc1c" tests="8" failures="0" errors="0" skipped="0" time="0.451858768">
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; renders nothing for a non-Cyber line of business (unchanged)" time="0.04276217">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; renders all Cyber fields from the bundle (no hardcoded list) with the Cyber heading" time="0.125000555">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; read-only context renders disabled controls and no host-independent Save button" time="0.054998386">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; preserves MFA-maturity conditional gating (disabled when MFA off, enabled when on)" time="0.051434216">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; round-trips edits back to the flat CyberLobAttributeValues shape" time="0.11528348">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; binds host-supplied (backend) errors to fields by pointer" time="0.048624672">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; renders a controlled error (not a guessed form) when the bundle fails to load" time="0.008265812">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/components/__tests__/DynamicAttributePanel.test.tsx" name="DynamicAttributePanel engine swap regression (F0036-S0005) &gt; shows a loading region while the bundle resolves" time="0.002418455">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" timestamp="2026-07-19T22:37:57.050Z" hostname="8f99fdcecc1c" tests="6" failures="0" errors="0" skipped="0" time="0.471831359">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" name="SchemaDrivenForm (F0036-S0003) &gt; renders fields, sections, and labels entirely from the bundle (no hardcoded list)" time="0.141380546">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" name="SchemaDrivenForm (F0036-S0003) &gt; blocks its own submit affordance while data-schema-invalid and shows an inline error" time="0.110728457">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" name="SchemaDrivenForm (F0036-S0003) &gt; enables submit and calls onSubmit when data-schema-valid" time="0.081669613">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" name="SchemaDrivenForm (F0036-S0003) &gt; binds a backend-authoritative cross-field error to its field by pointer (submit stays enabled)" time="0.057300169">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" name="SchemaDrivenForm (F0036-S0003) &gt; read-only mode renders no submit affordance and disables controls" time="0.046577257">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/SchemaDrivenForm.test.tsx" name="SchemaDrivenForm (F0036-S0003) &gt; fails closed on a malformed bundle (controlled error, not a guessed render)" time="0.029732593">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" timestamp="2026-07-19T22:37:57.053Z" hostname="8f99fdcecc1c" tests="6" failures="0" errors="0" skipped="0" time="0.015740269">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" name="deriveSections (F0036-S0003) &gt; derives sections and order from ui-schema (no hardcoded Cyber list)" time="0.010345124">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" name="deriveSections (F0036-S0003) &gt; derives each widget from the data-schema type/enum" time="0.000997937">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" name="deriveSections (F0036-S0003) &gt; binds money-minor widgets to the .amountMinor value path" time="0.000447308">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" name="deriveSections (F0036-S0003) &gt; derives required from the parent schema required[] and labels from ui-schema" time="0.000302507">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" name="deriveSections (F0036-S0003) &gt; derives select options from the data-schema enum" time="0.000410427">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/deriveWidgets.test.ts" name="deriveSections (F0036-S0003) &gt; fails closed on a field with no data-schema property" time="0.000506783">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/parity.test.ts" timestamp="2026-07-19T22:37:57.055Z" hostname="8f99fdcecc1c" tests="11" failures="0" errors="0" skipped="0" time="0.029157867">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; data-schema parity: 0 disagreements for &quot;&apos;valid-baseline&apos;&quot;" time="0.013608379">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; data-schema parity: 0 disagreements for &quot;&apos;missing-required-top-level&apos;&quot;" time="0.006030077">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; data-schema parity: 0 disagreements for &quot;&apos;invalid-enum-and-negative-minimum&apos;&quot;" time="0.000472918">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; data-schema parity: 0 disagreements for &quot;&apos;invalid-enum-nested-control&apos;&quot;" time="0.000260986">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; data-schema parity: 0 disagreements for &quot;&apos;cross-field-only-backend-authoritative&apos;&quot;" time="0.000375919">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; client AJV never duplicates backend-authoritative cross-field rules for &quot;&apos;valid-baseline&apos;&quot;" time="0.000299391">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; client AJV never duplicates backend-authoritative cross-field rules for &quot;&apos;missing-required-top-level&apos;&quot;" time="0.000558154">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; client AJV never duplicates backend-authoritative cross-field rules for &quot;&apos;invalid-enum-and-negative-minimum&apos;&quot;" time="0.000399626">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; client AJV never duplicates backend-authoritative cross-field rules for &quot;&apos;invalid-enum-nested-control&apos;&quot;" time="0.00109714">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; client AJV never duplicates backend-authoritative cross-field rules for &quot;&apos;cross-field-only-backend-authoritative&apos;&quot;" time="0.000346733">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/parity.test.ts" name="Cyber client/backend parity matrix (F0036-S0003, ADR-022) &gt; records at least one parity row per example with no aggregate disagreement" time="0.001160664">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts" timestamp="2026-07-19T22:37:57.060Z" hostname="8f99fdcecc1c" tests="4" failures="0" errors="0" skipped="0" time="0.010034681">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts" name="flattenDirtyFields (F0036-S0006) &gt; flattens nested RHF dirtyFields into dotted string paths" time="0.006305191">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts" name="flattenDirtyFields (F0036-S0006) &gt; handles array dirty markers" time="0.000740588">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts" name="flattenDirtyFields (F0036-S0006) &gt; returns no paths when nothing is dirty" time="0.000307397">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/rhfDirtyAdapter.test.ts" name="rhfDirtyAdapter (F0036-S0006) &gt; builds a DirtyFormRegistration source from an RHF form" time="0.0007263">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts" timestamp="2026-07-19T22:37:57.061Z" hostname="8f99fdcecc1c" tests="5" failures="0" errors="0" skipped="0" time="0.026122996">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts" name="usePinnedBundle (F0036-S0004) &gt; binds the bundle at open from (productVersionId, stage)" time="0.015961969">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts" name="usePinnedBundle (F0036-S0004) &gt; does NOT rebind when a newer version activates while the form is open" time="0.002732454">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts" name="usePinnedBundle (F0036-S0004) &gt; a new form instance binds the now-active newer version" time="0.001497578">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts" name="usePinnedBundle (F0036-S0004) &gt; resolves an activation race deterministically to the version captured at open" time="0.002176165">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/usePinnedBundle.test.ts" name="usePinnedBundle (F0036-S0004) &gt; surfaces a controlled error for an unresolvable pinned version (no silent fallback)" time="0.001228455">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/widgetRegistry.test.ts" timestamp="2026-07-19T22:37:57.064Z" hostname="8f99fdcecc1c" tests="4" failures="0" errors="0" skipped="0" time="0.012217088">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgetRegistry.test.ts" name="widgetRegistry (F0036-S0001) &gt; resolves a registered widget to its entry" time="0.007296415">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgetRegistry.test.ts" name="widgetRegistry (F0036-S0001) &gt; fails closed: resolving an unregistered widget throws (does not render a fallback)" time="0.001471998">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgetRegistry.test.ts" name="widgetRegistry (F0036-S0001) &gt; fails closed on an unknown option for a widget with an option schema" time="0.000659641">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgetRegistry.test.ts" name="widgetRegistry (F0036-S0001) &gt; allows all options when a widget declares no option schema" time="0.000405487">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" timestamp="2026-07-19T22:37:57.065Z" hostname="8f99fdcecc1c" tests="11" failures="0" errors="0" skipped="0" time="0.18634516">
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; registers all ten MVP widgets" time="0.007362289">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; text widget propagates input to onChange (engine-controlled, not lifted)" time="0.077828385">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; number widget emits a number, empty clears to undefined" time="0.018660682">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; money-minor stores integer minor units while displaying the major unit (round-trip)" time="0.007021778">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; checkbox widget toggles boolean" time="0.014042332">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; select widget renders derived options and emits the chosen value" time="0.024132622">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; multi-select toggles membership in a string array" time="0.018842526">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; required widget exposes a required affordance and renders an inline error slot" time="0.007115348">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; disabled widget renders a non-editable control" time="0.002682719">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; read-only summary renders a value without an editable control" time="0.004740052">
+        </testcase>
+        <testcase classname="src/features/lob-attributes/engine/__tests__/widgets.test.tsx" name="MVP widget vocabulary (F0036-S0002) &gt; fails closed: a configured option outside the data-schema enum throws" time="0.000948621">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/reports/components/__tests__/DistributionRollupReportView.test.tsx" timestamp="2026-07-19T22:37:57.070Z" hostname="8f99fdcecc1c" tests="4" failures="0" errors="0" skipped="0" time="0.0918031">
+        <testcase classname="src/features/reports/components/__tests__/DistributionRollupReportView.test.tsx" name="DistributionRollupReportView &gt; renders authorized rollup metrics and drilldown links" time="0.07347407">
+        </testcase>
+        <testcase classname="src/features/reports/components/__tests__/DistributionRollupReportView.test.tsx" name="DistributionRollupReportView &gt; shows a no-leak empty state for scoped-away rollups" time="0.005973658">
+        </testcase>
+        <testcase classname="src/features/reports/components/__tests__/DistributionRollupReportView.test.tsx" name="DistributionRollupReportView &gt; renders &quot;—&quot; for metrics not applicable to the selected metric family" time="0.005311547">
+        </testcase>
+        <testcase classname="src/features/reports/components/__tests__/DistributionRollupReportView.test.tsx" name="DistributionRollupReportView &gt; renders every metric column for the Workflow family" time="0.004114948">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/search/components/__tests__/SearchOverlay.test.tsx" timestamp="2026-07-19T22:37:57.071Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.103325113">
+        <testcase classname="src/features/search/components/__tests__/SearchOverlay.test.tsx" name="SearchOverlay &gt; navigates to the search workspace on submit" time="0.082289222">
+        </testcase>
+        <testcase classname="src/features/search/components/__tests__/SearchOverlay.test.tsx" name="SearchOverlay &gt; does not navigate for queries under 2 characters" time="0.019207952">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/search/components/__tests__/SearchResultsList.test.tsx" timestamp="2026-07-19T22:37:57.073Z" hostname="8f99fdcecc1c" tests="3" failures="0" errors="0" skipped="0" time="0.081661971">
+        <testcase classname="src/features/search/components/__tests__/SearchResultsList.test.tsx" name="SearchResultsList &gt; prompts when the query is too short" time="0.021049386">
+        </testcase>
+        <testcase classname="src/features/search/components/__tests__/SearchResultsList.test.tsx" name="SearchResultsList &gt; renders authorized results with a title and authorized-count copy" time="0.054787316">
+        </testcase>
+        <testcase classname="src/features/search/components/__tests__/SearchResultsList.test.tsx" name="SearchResultsList &gt; shows an access-scoped empty state" time="0.003568798">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/service-cases/components/__tests__/ServiceCaseListPanel.test.tsx" timestamp="2026-07-19T22:37:57.075Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.100583201">
+        <testcase classname="src/features/service-cases/components/__tests__/ServiceCaseListPanel.test.tsx" name="ServiceCaseListPanel &gt; renders the empty state for an account without service cases" time="0.041889987">
+        </testcase>
+        <testcase classname="src/features/service-cases/components/__tests__/ServiceCaseListPanel.test.tsx" name="ServiceCaseListPanel &gt; renders service-case rows with status, priority, and detail links" time="0.056205253">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/tasks/components/__tests__/TaskCreateModal.test.tsx" timestamp="2026-07-19T22:37:57.076Z" hostname="8f99fdcecc1c" tests="3" failures="0" errors="0" skipped="0" time="0.179196137">
+        <testcase classname="src/features/tasks/components/__tests__/TaskCreateModal.test.tsx" name="TaskCreateModal — S0007 wiring regression &gt; creates a task with the same payload as before wiring" time="0.132441503">
+        </testcase>
+        <testcase classname="src/features/tasks/components/__tests__/TaskCreateModal.test.tsx" name="TaskCreateModal — S0007 wiring regression &gt; blocks submit and shows a validation error for an empty title (unchanged)" time="0.0312313">
+        </testcase>
+        <testcase classname="src/features/tasks/components/__tests__/TaskCreateModal.test.tsx" name="TaskCreateModal — S0007 wiring regression &gt; registers with F0035 so dirty values snapshot on a forced re-auth" time="0.012919277">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/features/tasks/components/__tests__/TaskDetailPanel.test.tsx" timestamp="2026-07-19T22:37:57.077Z" hostname="8f99fdcecc1c" tests="2" failures="0" errors="0" skipped="0" time="0.224080201">
+        <testcase classname="src/features/tasks/components/__tests__/TaskDetailPanel.test.tsx" name="TaskDetailPanel inline edit — S0007 wiring regression &gt; saves an inline title edit with the same update payload (unchanged)" time="0.151537096">
+        </testcase>
+        <testcase classname="src/features/tasks/components/__tests__/TaskDetailPanel.test.tsx" name="TaskDetailPanel inline edit — S0007 wiring regression &gt; registers the inline edit with F0035 so dirty values snapshot on a forced re-auth" time="0.070043413">
+        </testcase>
+    </testsuite>
+</testsuites>

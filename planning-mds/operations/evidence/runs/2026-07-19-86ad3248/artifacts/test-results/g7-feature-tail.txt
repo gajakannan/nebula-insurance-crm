@@ -1,0 +1,173 @@
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:payment-application
+      - schema:payment-application-request
+      - schema:reconciliation-exception
+  - id: story:F0026-S0005
+    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0005-review-exceptions-and-approve-corrections.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:billing-invoicing-reconciliation
+      - endpoint:billing-correction-decision
+      - endpoint:billing-correction-request
+      - endpoint:reconciliation-reference-correct
+      - entity:activity-timeline-event
+      - entity:billing-correction
+      - entity:billing-invoice
+      - entity:expected-commission
+      - entity:policy
+      - entity:reconciliation-exception
+      - event:billing-correction-approved
+      - event:billing-correction-rejected
+      - event:billing-correction-requested
+      - event:reconciliation-reference-corrected
+      - workflow:billing-correction
+    depends_on:
+      - feature:F0018
+      - feature:F0025
+    enforced_by_policy:
+      - policy_rule:billing-correction-approve
+      - policy_rule:billing-correction-request
+      - policy_rule:billing-exception-manage
+      - policy_rule:billing-read
+      - policy_rule:policy-read
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:billing-correction
+      - schema:billing-correction-decision-request
+      - schema:billing-correction-request
+      - schema:reconciliation-exception
+      - schema:reconciliation-reference-correction-request
+  - id: story:F0026-S0006
+    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0006-monitor-reconciliation-backlog-and-audit.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:billing-invoicing-reconciliation
+      - capability:operational-reporting
+      - endpoint:reconciliation-backlog
+      - endpoint:reconciliation-exception-list
+      - entity:activity-timeline-event
+      - entity:policy
+      - entity:reconciliation-exception
+    depends_on:
+      - feature:F0018
+      - feature:F0025
+    enforced_by_policy:
+      - policy_rule:billing-backlog-read
+      - policy_rule:billing-backlog-summary-read
+      - policy_rule:billing-summary-read
+      - policy_rule:policy-read
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:reconciliation-backlog-response
+      - schema:reconciliation-exception
+uses_api_contract:
+  - api:nebula-rest
+    related_nodes:
+      - capability:operations-routing
+      - entity:work-queue
+  - id: schema:work-queue-upsert-request
+    path: planning-mds/schemas/work-queue-upsert-request.schema.json
+    related_nodes:
+      - capability:operations-routing
+      - entity:work-queue
+  - id: schema:workflow-aging-report
+    path: planning-mds/schemas/workflow-aging-report.schema.json
+    related_nodes:
+      - capability:operational-reporting
+      - entity:operational-report-projection
+      - workflow:renewal
+      - workflow:submission
+  - id: schema:billing-invoice
+    path: planning-mds/schemas/billing-invoice.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice]
+  - id: schema:billing-invoice-create-request
+    path: planning-mds/schemas/billing-invoice-create-request.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice]
+  - id: schema:payment-receipt
+    path: planning-mds/schemas/payment-receipt.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt]
+  - id: schema:payment-receipt-create-request
+    path: planning-mds/schemas/payment-receipt-create-request.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt]
+  - id: schema:mock-payment-receipt-row
+    path: planning-mds/schemas/mock-payment-receipt-row.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt, entity:payment-receipt-import-batch]
+  - id: schema:payment-receipt-import-result
+    path: planning-mds/schemas/payment-receipt-import-result.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt-import-batch, entity:payment-receipt-import-row-outcome]
+  - id: schema:payment-application-request
+    path: planning-mds/schemas/payment-application-request.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:payment-application, entity:payment-receipt]
+  - id: schema:payment-application
+    path: planning-mds/schemas/payment-application.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-application]
+  - id: schema:reconciliation-exception
+    path: planning-mds/schemas/reconciliation-exception.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception]
+  - id: schema:reconciliation-reference-correction-request
+    path: planning-mds/schemas/reconciliation-reference-correction-request.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception]
+  - id: schema:billing-correction-request
+    path: planning-mds/schemas/billing-correction-request.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+  - id: schema:billing-correction-decision-request
+    path: planning-mds/schemas/billing-correction-decision-request.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+  - id: schema:billing-correction
+    path: planning-mds/schemas/billing-correction.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+  - id: schema:reconciliation-backlog-response
+    path: planning-mds/schemas/reconciliation-backlog-response.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, capability:operational-reporting, entity:reconciliation-exception]
+  - id: schema:policy-billing-summary
+    path: planning-mds/schemas/policy-billing-summary.schema.json
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:policy]
+id: capability:billing-invoicing-reconciliation
+label: Billing, Invoicing, and Reconciliation
+notes: >-
+  Internal agency-bill operational invoicing, manual/mock-CSV receipt capture, explicit exact application,
+  exception handling, controlled balance corrections, and source-filtered backlog visibility. Excludes direct
+  bill, real payment connectivity, tolerance/write-off behavior, ledger, tax, settlement, and statements.
+rationale:
+  - adr: adr:034
+    section: Decision
+    summary: ADR-034 defines a bounded BillingReconciliation vertical slice with exact-only application and a deferred F0030 production seam.
+related_nodes:
+  - capability:authorization-enforcement
+  - capability:commission-revenue-tracking
+  - capability:operational-reporting
+  - entity:billing-correction
+  - entity:billing-invoice
+  - entity:payment-application
+  - entity:payment-receipt
+  - entity:payment-receipt-import-batch
+  - entity:payment-receipt-import-row-outcome
+  - entity:reconciliation-exception
+  - workflow:billing-correction
+source_docs:
+  - F0026/PRD.md
+  - F0026/feature-assembly-plan.md
+  - planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md
+id: entity:billing-invoice
+label: BillingInvoice
+rationale:
+  - adr: adr:034
+    section: Decision §1-2
+    summary: Agency-bill operational invoice linked immutably to policy, policy version, and account; outstanding is not a ledger balance.
+related_nodes:
+  - entity:account
+  - entity:activity-timeline-event
+  - entity:payment-application
+  - entity:policy
+  - entity:policy-version
+  - entity:reconciliation-exception
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/schemas/billing-invoice.schema.json
+  - planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md

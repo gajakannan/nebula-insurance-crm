@@ -1,0 +1,112 @@
+{
+  "action": "feature",
+  "contract_version": "2026-07-11",
+  "run_id": "2026-07-19-86ad3248",
+  "schema_version": 1,
+  "stages": {
+    "G0": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g0"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G1": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g1"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G2": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g2"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G3": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g3"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G4": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g4"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G5": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g5"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G6": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g6",
+        "validate-trackers-g6"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G7": {
+      "attestations": [],
+      "completed_operations": [
+        "kg-compile",
+        "kg-symbols-decisions",
+        "kg-check-drift"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G8": {
+      "attestations": [
+        {
+          "actor": "",
+          "checkpoint_id": "archive-move",
+          "evidence": [
+            {
+              "path": "pm-closeout.md",
+              "sha256": "f4c0e0bbe492fd5e900904a211050e6fa7765168af12ee6cd830bcb5f183713c"
+            },
+            {
+              "path": "signoff-ledger.md",
+              "sha256": "aa190d5435d4c574cd00824d694ddb15d90a4272b6d7add0d57b3668c87ff41c"
+            },
+            {
+              "path": "kg-reconciliation.md",
+              "sha256": "a5b2c817ce8f839cf31fe8771fb27a141bc2ccf1a236a559fccfc03575f31a2c"
+            }
+          ],
+          "note": "",
+          "role": "product-manager",
+          "timestamp": "2026-07-19T21:22:44-04:00"
+        }
+      ],
+      "completed_operations": [
+        "checkpoint:archive-move",
+        "kg-compile-closeout",
+        "patch-prior-manifest",
+        "write:latest-run.json",
+        "kg-write-coverage",
+        "kg-check-drift-closeout",
+        "validate-closeout",
+        "validate-trackers-closeout"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    }
+  }
+}

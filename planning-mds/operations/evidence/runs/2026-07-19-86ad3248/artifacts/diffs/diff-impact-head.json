@@ -1,0 +1,94 @@
+{
+  "range": "HEAD",
+  "depth": 2,
+  "changed_symbols": [
+    {
+      "id": "symbol:capability-admin-configuration-governance:dependency-injection.dependency-injection",
+      "node": "capability:admin-configuration-governance",
+      "file": "engine/src/Nebula.Infrastructure/DependencyInjection.cs",
+      "rename": null
+    },
+    {
+      "id": "symbol:capability-admin-configuration-governance:dependency-injection.add-infrastructure",
+      "node": "capability:admin-configuration-governance",
+      "file": "engine/src/Nebula.Infrastructure/DependencyInjection.cs",
+      "rename": null
+    },
+    {
+      "id": "symbol:capability-admin-configuration-governance:app-db-context.app-db-context",
+      "node": "capability:admin-configuration-governance",
+      "file": "engine/src/Nebula.Infrastructure/Persistence/AppDbContext.cs",
+      "rename": null
+    },
+    {
+      "id": "symbol:capability-admin-configuration-governance:app-db-context.on-model-creating",
+      "node": "capability:admin-configuration-governance",
+      "file": "engine/src/Nebula.Infrastructure/Persistence/AppDbContext.cs",
+      "rename": null
+    },
+    {
+      "id": "symbol:migration-f0004-task-and-user-profile-indexes:app-db-context-model-snapshot.app-db-context-model-snapshot",
+      "node": "migration:f0004-task-and-user-profile-indexes",
+      "file": "engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs",
+      "rename": null
+    },
+    {
+      "id": "symbol:migration-f0004-task-and-user-profile-indexes:app-db-context-model-snapshot.build-model",
+      "node": "migration:f0004-task-and-user-profile-indexes",
+      "file": "engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs",
+      "rename": null
+    }
+  ],
+  "blast_symbols": [],
+  "affected_nodes": [
+    "capability:admin-configuration-governance",
+    "migration:f0004-task-and-user-profile-indexes"
+  ],
+  "renames": [],
+  "unresolved_paths": [
+    "engine/src/Nebula.Api/Program.cs",
+    "experience/src/App.tsx",
+    "experience/src/components/layout/Sidebar.test.tsx",
+    "experience/src/components/layout/Sidebar.tsx",
+    "experience/src/features/commissions/hooks.ts",
+    "experience/src/features/commissions/types.ts",
+    "planning-mds/BLUEPRINT.md",
+    "planning-mds/api/nebula-api.yaml",
+    "planning-mds/architecture/data-model.md",
+    "planning-mds/architecture/error-codes.md",
+    "planning-mds/architecture/feature-architecture-inventory-f0006-f0032.md",
+    "planning-mds/architecture/feature-assembly-plan.md",
+    "planning-mds/features/F0026-billing-invoicing-and-reconciliation/GETTING-STARTED.md",
+    "planning-mds/features/F0026-billing-invoicing-and-reconciliation/PRD.md",
+    "planning-mds/features/F0026-billing-invoicing-and-reconciliation/README.md",
+    "planning-mds/features/F0026-billing-invoicing-and-reconciliation/STATUS.md",
+    "planning-mds/features/ROADMAP.md",
+    "planning-mds/features/STORY-INDEX.md",
+    "planning-mds/kg-source/features/F0026.yaml",
+    "planning-mds/kg-source/nodes/adrs/adrs.yaml",
+    "planning-mds/kg-source/nodes/endpoints/endpoints.yaml",
+    "planning-mds/kg-source/nodes/events/events.yaml",
+    "planning-mds/kg-source/nodes/roles/roles.yaml",
+    "planning-mds/kg-source/nodes/schemas/schemas.yaml",
+    "planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml",
+    "planning-mds/kg-source/policies/policy_rules.yaml",
+    "planning-mds/knowledge-graph/canonical-nodes.yaml",
+    "planning-mds/knowledge-graph/coverage-report.yaml",
+    "planning-mds/knowledge-graph/feature-mappings.yaml",
+    "planning-mds/schemas/activity-event-payloads.schema.json",
+    "planning-mds/security/authorization-matrix.md",
+    "planning-mds/security/policies/policy.csv",
+    "scripts/kg/validate.py"
+  ],
+  "source_precedence": [
+    "target feature folder and feature-assembly-plan.md for feature-local implementation intent",
+    "planning-mds/architecture/decisions/** for architectural decisions",
+    "planning-mds/api/*.yaml and planning-mds/schemas/*.json for interface and payload contracts",
+    "planning-mds/architecture/data-model.md and planning-mds/domain/glossary.md for domain definitions",
+    "planning-mds/knowledge-graph/*.yaml for compressed retrieval and routing"
+  ],
+  "telemetry": {
+    "tokens_estimated": 986,
+    "confidence_band": "high"
+  }
+}

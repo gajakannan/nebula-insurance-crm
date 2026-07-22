@@ -263,3 +263,43 @@ events:
     source_docs:
       - F0004/README.md
       - planning-mds/architecture/data-model.md
+  - id: event:billing-invoice-created
+    label: BillingInvoiceCreated
+    event_type: BillingInvoiceCreated
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:billing-invoice]
+    source_docs: [planning-mds/schemas/activity-event-payloads.schema.json, planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md]
+  - id: event:payment-receipt-recorded
+    label: PaymentReceiptRecorded
+    event_type: PaymentReceiptRecorded
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:payment-receipt]
+    source_docs: [planning-mds/schemas/activity-event-payloads.schema.json]
+  - id: event:payment-receipt-import-completed
+    label: PaymentReceiptImportCompleted
+    event_type: PaymentReceiptImportCompleted
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:payment-receipt-import-batch]
+    source_docs: [planning-mds/schemas/activity-event-payloads.schema.json]
+  - id: event:exact-payment-applied
+    label: ExactPaymentApplied
+    event_type: ExactPaymentApplied
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:billing-invoice, entity:payment-application, entity:payment-receipt]
+    source_docs: [planning-mds/schemas/activity-event-payloads.schema.json]
+  - id: event:reconciliation-reference-corrected
+    label: ReconciliationReferenceCorrected
+    event_type: ReconciliationReferenceCorrected
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:reconciliation-exception]
+    source_docs: [planning-mds/schemas/activity-event-payloads.schema.json]
+  - id: event:billing-correction-requested
+    label: BillingCorrectionRequested
+    event_type: BillingCorrectionRequested
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:billing-correction, workflow:billing-correction]
+    source_docs: [planning-mds/schemas/activity-event-payloads.schema.json]
+  - id: event:billing-correction-approved
+    label: BillingCorrectionApproved
+    event_type: BillingCorrectionApproved
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:billing-correction, entity:billing-invoice, workflow:billing-correction]
+    source_docs: [planning-mds/schemas/activity-event-payloads.schema.json]
+  - id: event:billing-correction-rejected
+    label: BillingCorrectionRejected
+    event_type: BillingCorrectionRejected
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:billing-correction, workflow:billing-correction]
+    source_docs: [planning-mds/schemas/activity-event-payloads.schema.json]

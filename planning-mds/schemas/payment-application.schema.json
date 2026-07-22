@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/payment-application.schema.json",
+  "title": "PaymentApplication",
+  "type": "object",
+  "required": ["id", "billingInvoiceId", "paymentReceiptId", "currency", "appliedAmount", "invoiceOutstandingBefore", "invoiceOutstandingAfter", "appliedAt", "appliedByUserId"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "billingInvoiceId": { "type": "string", "format": "uuid" },
+    "paymentReceiptId": { "type": "string", "format": "uuid" },
+    "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "appliedAmount": { "type": "number", "exclusiveMinimum": 0, "multipleOf": 0.01 },
+    "invoiceOutstandingBefore": { "type": "number", "exclusiveMinimum": 0, "multipleOf": 0.01 },
+    "invoiceOutstandingAfter": { "type": "number", "const": 0 },
+    "appliedAt": { "type": "string", "format": "date-time" },
+    "appliedByUserId": { "type": "string", "format": "uuid" }
+  },
+  "additionalProperties": false
+}

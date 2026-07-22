@@ -1,10 +1,248 @@
-status: planned
+status: archived-done
 id: feature:F0026
 name: Billing, Invoicing & Reconciliation
-path: planning-mds/features/F0026-billing-invoicing-and-reconciliation
-coverage_excluded:
-  reason: Planned feature folder exists but ontology mapping backfill has not started.
+path: planning-mds/features/archive/F0026-billing-invoicing-and-reconciliation
+affects:
+  - capability:authorization-enforcement
+  - capability:billing-invoicing-reconciliation
+  - capability:commission-revenue-tracking
+  - capability:operational-reporting
+  - endpoint:billing-correction-decision
+  - endpoint:billing-correction-request
+  - endpoint:billing-invoice-detail
+  - endpoint:billing-invoice-list-create
+  - endpoint:payment-application-create
+  - endpoint:payment-receipt-import-create
+  - endpoint:payment-receipt-import-detail
+  - endpoint:payment-receipt-list-create
+  - endpoint:policy-billing-summary
+  - endpoint:reconciliation-backlog
+  - endpoint:reconciliation-exception-list
+  - endpoint:reconciliation-reference-correct
+  - entity:activity-timeline-event
+  - entity:billing-correction
+  - entity:billing-invoice
+  - entity:expected-commission
+  - entity:payment-application
+  - entity:payment-receipt
+  - entity:payment-receipt-import-batch
+  - entity:payment-receipt-import-row-outcome
+  - entity:policy
+  - entity:policy-version
+  - entity:reconciliation-exception
+  - event:billing-correction-approved
+  - event:billing-correction-rejected
+  - event:billing-correction-requested
+  - event:billing-invoice-created
+  - event:exact-payment-applied
+  - event:payment-receipt-import-completed
+  - event:payment-receipt-recorded
+  - event:reconciliation-reference-corrected
+  - policy_rule:billing-application-apply
+  - policy_rule:billing-backlog-read
+  - policy_rule:billing-backlog-summary-read
+  - policy_rule:billing-correction-approve
+  - policy_rule:billing-correction-request
+  - policy_rule:billing-exception-manage
+  - policy_rule:billing-invoice-create
+  - policy_rule:billing-read
+  - policy_rule:billing-receipt-import
+  - policy_rule:billing-receipt-record
+  - policy_rule:billing-summary-read
+  - policy_rule:policy-read
+  - role:finance-manager
+  - role:finance-operations-analyst
+  - ui_route:billing-invoice-detail
+  - ui_route:billing-reconciliation
+  - ui_route:billing-workspace
+  - workflow:billing-correction
+archived_date: '2026-07-19'
+completion_state: 'Done and archived (2026-07-19, feature run `2026-07-19-86ad3248`) — 6 stories: billing workspace and policy context, agency-bill invoice creation, manual/mock receipt capture, exact reconciliation, correction approval, and backlog/audit visibility'
+depends_on:
+  - feature:F0018
+  - feature:F0025
+governed_by:
+  - adr:034
+notes:
+  - Phase A refined on 2026-07-19 via plan run 2026-07-19-79477865. Operator confirmed agency-bill-only
+    scope, manual and mock-vendor CSV receipts, explicit exact currency/full-outstanding application,
+    no automatic tolerance or write-off, and Finance Operations Analyst/Finance Manager separation
+    of duties.
+  - F0030 is a deferred production integration seam, not a first-release dependency. Direct bill,
+    real bank/payment connectivity, partial/overpayment allocation, ledger, tax, and settlement remain
+    out of scope.
+  - Operator promoted F0026 from Later to Now on 2026-07-19 after confirming that completed F0018 and
+    F0025 satisfy the direct dependency boundary and that the approved plan should proceed toward build.
+  - Phase B approved in plan run 2026-07-19-79477865 with explicit operator token `approve`. ADR-034 defines the in-process BillingReconciliation
+    module, explicit exact-only application, versioned bounded mock CSV profile, source/reference idempotency,
+    Finance Operations Analyst/Finance Manager separation of duties, and permission-safe aggregates.
 phase: Brokerage Platform Expansion
-rationale: Pushes the product deeper into agency management and finance operations.
+rationale: Direct dependencies F0018 and F0025 are complete, and the approved agency-bill slice is the next build-ready brokerage platform expansion.
 roadmap_order: 1
-roadmap_section: Later
+roadmap_section: Completed
+story_mappings:
+  - id: story:F0026-S0001
+    path: planning-mds/features/archive/F0026-billing-invoicing-and-reconciliation/F0026-S0001-billing-workspace-search-and-policy-context.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:billing-invoicing-reconciliation
+      - capability:commission-revenue-tracking
+      - endpoint:billing-invoice-detail
+      - endpoint:billing-invoice-list-create
+      - endpoint:policy-billing-summary
+      - entity:billing-invoice
+      - entity:expected-commission
+      - entity:policy
+      - entity:policy-version
+      - ui_route:billing-workspace
+    depends_on:
+      - feature:F0018
+      - feature:F0025
+    enforced_by_policy:
+      - policy_rule:billing-read
+      - policy_rule:billing-summary-read
+      - policy_rule:policy-read
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:billing-invoice
+      - schema:billing-invoice-detail
+      - schema:policy-billing-summary
+  - id: story:F0026-S0002
+    path: planning-mds/features/archive/F0026-billing-invoicing-and-reconciliation/F0026-S0002-create-agency-bill-invoice.md
+    affects:
+      - capability:billing-invoicing-reconciliation
+      - endpoint:billing-invoice-list-create
+      - entity:activity-timeline-event
+      - entity:billing-invoice
+      - entity:policy
+      - entity:policy-version
+      - event:billing-invoice-created
+    depends_on:
+      - feature:F0018
+    enforced_by_policy:
+      - policy_rule:billing-invoice-create
+      - policy_rule:policy-read
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:billing-invoice
+      - schema:billing-invoice-create-request
+  - id: story:F0026-S0003
+    path: planning-mds/features/archive/F0026-billing-invoicing-and-reconciliation/F0026-S0003-record-payment-receipts.md
+    affects:
+      - capability:billing-invoicing-reconciliation
+      - endpoint:payment-receipt-import-create
+      - endpoint:payment-receipt-import-detail
+      - endpoint:payment-receipt-list-create
+      - entity:activity-timeline-event
+      - entity:payment-receipt
+      - entity:payment-receipt-import-batch
+      - entity:payment-receipt-import-row-outcome
+      - event:payment-receipt-import-completed
+      - event:payment-receipt-recorded
+    depends_on:
+      - feature:F0018
+    enforced_by_policy:
+      - policy_rule:billing-read
+      - policy_rule:billing-receipt-import
+      - policy_rule:billing-receipt-record
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:mock-payment-receipt-row
+      - schema:payment-receipt
+      - schema:payment-receipt-create-request
+      - schema:payment-receipt-import-result
+  - id: story:F0026-S0004
+    path: planning-mds/features/archive/F0026-billing-invoicing-and-reconciliation/F0026-S0004-apply-exact-payment-and-reconcile-invoice.md
+    affects:
+      - capability:billing-invoicing-reconciliation
+      - endpoint:payment-application-create
+      - entity:activity-timeline-event
+      - entity:billing-invoice
+      - entity:payment-application
+      - entity:payment-receipt
+      - entity:policy
+      - entity:reconciliation-exception
+      - event:exact-payment-applied
+      - ui_route:billing-reconciliation
+    depends_on:
+      - feature:F0018
+    enforced_by_policy:
+      - policy_rule:billing-application-apply
+      - policy_rule:policy-read
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:payment-application
+      - schema:payment-application-request
+      - schema:reconciliation-exception
+  - id: story:F0026-S0005
+    path: planning-mds/features/archive/F0026-billing-invoicing-and-reconciliation/F0026-S0005-review-exceptions-and-approve-corrections.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:billing-invoicing-reconciliation
+      - endpoint:billing-correction-decision
+      - endpoint:billing-correction-request
+      - endpoint:reconciliation-reference-correct
+      - entity:activity-timeline-event
+      - entity:billing-correction
+      - entity:billing-invoice
+      - entity:expected-commission
+      - entity:policy
+      - entity:reconciliation-exception
+      - event:billing-correction-approved
+      - event:billing-correction-rejected
+      - event:billing-correction-requested
+      - event:reconciliation-reference-corrected
+      - workflow:billing-correction
+    depends_on:
+      - feature:F0018
+      - feature:F0025
+    enforced_by_policy:
+      - policy_rule:billing-correction-approve
+      - policy_rule:billing-correction-request
+      - policy_rule:billing-exception-manage
+      - policy_rule:billing-read
+      - policy_rule:policy-read
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:billing-correction
+      - schema:billing-correction-decision-request
+      - schema:billing-correction-request
+      - schema:reconciliation-exception
+      - schema:reconciliation-reference-correction-request
+  - id: story:F0026-S0006
+    path: planning-mds/features/archive/F0026-billing-invoicing-and-reconciliation/F0026-S0006-monitor-reconciliation-backlog-and-audit.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:billing-invoicing-reconciliation
+      - capability:operational-reporting
+      - endpoint:reconciliation-backlog
+      - endpoint:reconciliation-exception-list
+      - entity:activity-timeline-event
+      - entity:policy
+      - entity:reconciliation-exception
+    depends_on:
+      - feature:F0018
+      - feature:F0025
+    enforced_by_policy:
+      - policy_rule:billing-backlog-read
+      - policy_rule:billing-backlog-summary-read
+      - policy_rule:billing-summary-read
+      - policy_rule:policy-read
+    governed_by: [adr:034]
+    uses_api_contract:
+      - api:nebula-rest
+    uses_schema:
+      - schema:reconciliation-backlog-response
+      - schema:reconciliation-exception
+uses_api_contract:
+  - api:nebula-rest

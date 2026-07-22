@@ -1,0 +1,26 @@
+    return True
+
+
+# --------------------------------------------------------------------------- #
+# Variables + constraints + lifecycle log
+# --------------------------------------------------------------------------- #
+def build_variables(*, product_root: Path, feature_id: str, slug: str, run_id: str,
+                    run_folder: Path, stage: str) -> dict[str, str]:
+    index_root = product_root / "planning-mds" / "operations" / "evidence" / "features" / f"{feature_id}-{slug}"
+    return {
+        "PRODUCT_ROOT": str(product_root),
+        "FEATURE_ID": feature_id,
+        "FEATURE_SLUG": slug,
+        "RUN_ID": run_id,
+        "RUN_FOLDER": str(run_folder),
+        "FEATURE_INDEX_ROOT": str(index_root),
+        "FEATURE_PATH": str(product_root / "planning-mds" / "features" / f"{feature_id}-{slug}"),
+        "start_tier": "1",
+        "stage": stage,
+    }
+
+
+def check_constraints(gate: dict[str, Any], argv: list[str], stage: str) -> None:
+    for constraint in gate.get("constraints", []) or []:
+        forbid = constraint.get("forbid")
+        if forbid and any(forbid in token for token in argv):

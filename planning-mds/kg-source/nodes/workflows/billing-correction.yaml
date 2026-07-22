@@ -1,0 +1,25 @@
+id: workflow:billing-correction
+label: Billing Correction Workflow
+rationale:
+  - adr: adr:034
+    section: Decision §5
+    summary: Pending corrections transition once to Approved or Rejected, and requester/decision principals must differ.
+related_entities:
+  - entity:activity-timeline-event
+  - entity:billing-correction
+  - entity:billing-invoice
+  - entity:reconciliation-exception
+source_docs:
+  - F0026/feature-assembly-plan.md
+  - planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md
+  - planning-mds/schemas/billing-correction.schema.json
+states:
+  - id: state:billing-correction:pending
+    label: Pending
+    transitions_to:
+      - state:billing-correction:approved
+      - state:billing-correction:rejected
+  - id: state:billing-correction:approved
+    label: Approved
+  - id: state:billing-correction:rejected
+    label: Rejected
