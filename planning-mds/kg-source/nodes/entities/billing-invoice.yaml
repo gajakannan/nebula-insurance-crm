@@ -1,0 +1,17 @@
+id: entity:billing-invoice
+label: BillingInvoice
+rationale:
+  - adr: adr:034
+    section: Decision §1-2
+    summary: Agency-bill operational invoice linked immutably to policy, policy version, and account; outstanding is not a ledger balance.
+related_nodes:
+  - entity:account
+  - entity:activity-timeline-event
+  - entity:payment-application
+  - entity:policy
+  - entity:policy-version
+  - entity:reconciliation-exception
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/schemas/billing-invoice.schema.json
+  - planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md

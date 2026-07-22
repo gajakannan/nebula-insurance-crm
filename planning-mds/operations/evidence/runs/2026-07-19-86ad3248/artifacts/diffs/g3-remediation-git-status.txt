@@ -1,0 +1,96 @@
+ M engine/src/Nebula.Api/Program.cs
+ M engine/src/Nebula.Infrastructure/DependencyInjection.cs
+ M engine/src/Nebula.Infrastructure/Persistence/AppDbContext.cs
+ M engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs
+ M experience/src/App.tsx
+ M experience/src/components/layout/Sidebar.test.tsx
+ M experience/src/components/layout/Sidebar.tsx
+ M experience/src/features/commissions/hooks.ts
+ M experience/src/features/commissions/types.ts
+ M planning-mds/BLUEPRINT.md
+ M planning-mds/api/nebula-api.yaml
+ M planning-mds/architecture/data-model.md
+ M planning-mds/architecture/error-codes.md
+ M planning-mds/architecture/feature-architecture-inventory-f0006-f0032.md
+ M planning-mds/architecture/feature-assembly-plan.md
+ M planning-mds/features/F0026-billing-invoicing-and-reconciliation/GETTING-STARTED.md
+ M planning-mds/features/F0026-billing-invoicing-and-reconciliation/PRD.md
+ M planning-mds/features/F0026-billing-invoicing-and-reconciliation/README.md
+ M planning-mds/features/F0026-billing-invoicing-and-reconciliation/STATUS.md
+ M planning-mds/features/ROADMAP.md
+ M planning-mds/features/STORY-INDEX.md
+ M planning-mds/kg-source/features/F0026.yaml
+ M planning-mds/kg-source/nodes/adrs/adrs.yaml
+ M planning-mds/kg-source/nodes/endpoints/endpoints.yaml
+ M planning-mds/kg-source/nodes/events/events.yaml
+ M planning-mds/kg-source/nodes/roles/roles.yaml
+ M planning-mds/kg-source/nodes/schemas/schemas.yaml
+ M planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml
+ M planning-mds/kg-source/policies/policy_rules.yaml
+ M planning-mds/knowledge-graph/canonical-nodes.yaml
+ M planning-mds/knowledge-graph/coverage-report.yaml
+ M planning-mds/knowledge-graph/feature-mappings.yaml
+ M planning-mds/schemas/activity-event-payloads.schema.json
+ M planning-mds/security/authorization-matrix.md
+ M planning-mds/security/policies/policy.csv
+ M scripts/kg/validate.py
+?? engine/src/Nebula.Api/Endpoints/BillingEndpoints.cs
+?? engine/src/Nebula.Application/DTOs/BillingDtos.cs
+?? engine/src/Nebula.Application/Interfaces/IBillingRepository.cs
+?? engine/src/Nebula.Application/Services/BillingReconciliationService.cs
+?? engine/src/Nebula.Application/Validators/BillingValidators.cs
+?? engine/src/Nebula.Domain/Entities/BillingCorrection.cs
+?? engine/src/Nebula.Domain/Entities/BillingInvoice.cs
+?? engine/src/Nebula.Domain/Entities/PaymentApplication.cs
+?? engine/src/Nebula.Domain/Entities/PaymentReceipt.cs
+?? engine/src/Nebula.Domain/Entities/PaymentReceiptImportBatch.cs
+?? engine/src/Nebula.Domain/Entities/PaymentReceiptImportRowOutcome.cs
+?? engine/src/Nebula.Domain/Entities/ReconciliationException.cs
+?? engine/src/Nebula.Infrastructure/Persistence/Configurations/BillingConfiguration.cs
+?? engine/src/Nebula.Infrastructure/Persistence/Migrations/20260719212424_F0026_BillingInvoicingReconciliation.Designer.cs
+?? engine/src/Nebula.Infrastructure/Persistence/Migrations/20260719212424_F0026_BillingInvoicingReconciliation.cs
+?? engine/src/Nebula.Infrastructure/Repositories/BillingRepository.cs
+?? engine/tests/Nebula.Tests/Unit/Billing/
+?? experience/playwright.f0026.config.ts
+?? experience/src/features/billing/
+?? experience/src/pages/BillingInvoiceDetailPage.tsx
+?? experience/src/pages/BillingPage.tsx
+?? experience/src/pages/BillingReconciliationPage.tsx
+?? experience/tests/visual/f0026-billing.spec.ts
+?? planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md
+?? planning-mds/examples/personas/finance-operations-personas.md
+?? planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0001-billing-workspace-search-and-policy-context.md
+?? planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0002-create-agency-bill-invoice.md
+?? planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0003-record-payment-receipts.md
+?? planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0004-apply-exact-payment-and-reconcile-invoice.md
+?? planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0005-review-exceptions-and-approve-corrections.md
+?? planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0006-monitor-reconciliation-backlog-and-audit.md
+?? planning-mds/features/F0026-billing-invoicing-and-reconciliation/acceptance-criteria-checklist.md
+?? planning-mds/features/F0026-billing-invoicing-and-reconciliation/feature-assembly-plan.md
+?? planning-mds/kg-source/nodes/capabilities/billing-invoicing-reconciliation.yaml
+?? planning-mds/kg-source/nodes/entities/billing-correction.yaml
+?? planning-mds/kg-source/nodes/entities/billing-invoice.yaml
+?? planning-mds/kg-source/nodes/entities/payment-application.yaml
+?? planning-mds/kg-source/nodes/entities/payment-receipt-import-batch.yaml
+?? planning-mds/kg-source/nodes/entities/payment-receipt-import-row-outcome.yaml
+?? planning-mds/kg-source/nodes/entities/payment-receipt.yaml
+?? planning-mds/kg-source/nodes/entities/reconciliation-exception.yaml
+?? planning-mds/kg-source/nodes/workflows/billing-correction.yaml
+?? planning-mds/operations/evidence/runs/2026-07-19-79477865/
+?? planning-mds/operations/evidence/runs/2026-07-19-86ad3248/
+?? planning-mds/schemas/billing-correction-decision-request.schema.json
+?? planning-mds/schemas/billing-correction-request.schema.json
+?? planning-mds/schemas/billing-correction.schema.json
+?? planning-mds/schemas/billing-invoice-create-request.schema.json
+?? planning-mds/schemas/billing-invoice-detail.schema.json
+?? planning-mds/schemas/billing-invoice.schema.json
+?? planning-mds/schemas/mock-payment-receipt-row.schema.json
+?? planning-mds/schemas/payment-application-request.schema.json
+?? planning-mds/schemas/payment-application.schema.json
+?? planning-mds/schemas/payment-receipt-create-request.schema.json
+?? planning-mds/schemas/payment-receipt-import-result.schema.json
+?? planning-mds/schemas/payment-receipt.schema.json
+?? planning-mds/schemas/policy-billing-summary.schema.json
+?? planning-mds/schemas/reconciliation-backlog-response.schema.json
+?? planning-mds/schemas/reconciliation-exception.schema.json
+?? planning-mds/schemas/reconciliation-reference-correction-request.schema.json

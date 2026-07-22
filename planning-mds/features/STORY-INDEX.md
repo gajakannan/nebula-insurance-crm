@@ -2,7 +2,7 @@
 
 Auto-generated index of all user stories across feature folders.
 
-**Total Stories:** 213
+**Total Stories:** 219
 
 ---
 
@@ -338,6 +338,19 @@ Auto-generated index of all user stories across feature folders.
 
 ---
 
+## F0026 — Billing, Invoicing & Reconciliation
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0026-S0001](./archive/F0026-billing-invoicing-and-reconciliation/F0026-S0001-billing-workspace-search-and-policy-context.md) | Billing workspace search and policy context | High | Brokerage Platform Expansion | Finance Operations Analyst or Finance Manager |
+| [F0026-S0002](./archive/F0026-billing-invoicing-and-reconciliation/F0026-S0002-create-agency-bill-invoice.md) | Create an agency-bill invoice | High | Brokerage Platform Expansion | Finance Operations Analyst |
+| [F0026-S0003](./archive/F0026-billing-invoicing-and-reconciliation/F0026-S0003-record-payment-receipts.md) | Record manual and mock-vendor payment receipts | High | Brokerage Platform Expansion | Finance Operations Analyst |
+| [F0026-S0004](./archive/F0026-billing-invoicing-and-reconciliation/F0026-S0004-apply-exact-payment-and-reconcile-invoice.md) | Apply an exact payment and reconcile an invoice | Critical | Brokerage Platform Expansion | Finance Operations Analyst |
+| [F0026-S0005](./archive/F0026-billing-invoicing-and-reconciliation/F0026-S0005-review-exceptions-and-approve-corrections.md) | Review exceptions and approve correction adjustments | Critical | Brokerage Platform Expansion | Finance Operations Analyst or Finance Manager |
+| [F0026-S0006](./archive/F0026-billing-invoicing-and-reconciliation/F0026-S0006-monitor-reconciliation-backlog-and-audit.md) | Monitor reconciliation backlog and audit history | High | Brokerage Platform Expansion | Finance Manager |
+
+---
+
 ## F0027 — COI, ACORD & Outbound Document Generation
 
 | Story ID | Title | Priority | Phase | Persona |
@@ -461,7 +474,7 @@ Auto-generated index of all user stories across feature folders.
 
 | Phase | Count |
 |-------|-------|
-| Brokerage Platform Expansion | 6 |
+| Brokerage Platform Expansion | 12 |
 | CRM Release MVP | 57 |
 | CRM Release MVP+ | 17 |
 | Future | 1 |
@@ -479,8 +492,8 @@ Auto-generated index of all user stories across feature folders.
 
 | Priority | Count |
 |----------|-------|
-| Critical | 84 |
-| High | 108 |
+| Critical | 86 |
+| High | 112 |
 | Medium | 17 |
 
 ---

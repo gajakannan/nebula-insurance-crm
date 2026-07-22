@@ -1,0 +1,28 @@
+Symbol index: 5578 symbols
+  python         52 files (0 parsed, 52 cached)
+  typescript    322 files (26 parsed, 296 cached)
+  csharp        432 files (51 parsed, 381 cached)
+  Disambiguated ids: 24
+  Test symbols: 1197
+Decision markers: 9
+  decision       0
+  supersedes     0
+  tradeoff       0
+  why            9
+  resolved nodes       3
+  resolved symbols     8
+[validate] regenerating symbol-index via /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/scripts/kg/symbols.py
+[validate] regenerating decisions-index via /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/scripts/kg/decisions.py
+Knowledge graph validation
+------------------------------------------------------------
+Features mapped:   35
+Stories mapped:    182
+Feature coverage:  35 mapped, 5 excluded, 0 uncovered
+Code bindings:     219
+Symbol index:      5578 symbols, 5578 on bound nodes (csharp: 3961, python: 391, typescript: 1226)
+Decision markers: 9 markers, 9 WHY (WHY: 9)
+
+Warnings:
+- Low-confidence inferred edge (0.4) on feature:F0028 in feature:F0018.depends_on
+
+[PASS] knowledge-graph integrity checks passed.

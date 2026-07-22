@@ -88,3 +88,17 @@ roles:
       - F0032/PRD.md
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
+  - id: role:finance-operations-analyst
+    label: FinanceOperationsAnalyst
+    notes: Internal finance operator for agency-bill invoice, receipt, exact reconciliation, exception, and correction-request work; cannot decide corrections.
+    source_docs:
+      - F0026/PRD.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv
+  - id: role:finance-manager
+    label: FinanceManager
+    notes: Internal finance approver and backlog manager; cannot decide their own correction request and has no first-release invoice/receipt/application mutation grant.
+    source_docs:
+      - F0026/PRD.md
+      - planning-mds/security/authorization-matrix.md
+      - planning-mds/security/policies/policy.csv

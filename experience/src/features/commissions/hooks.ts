@@ -21,6 +21,7 @@ export function useExpectedCommissions(params: CommissionSearchParams = {}) {
   if (params.search) query.set('search', params.search)
   if (params.status && params.status !== 'All') query.set('status', params.status)
   if (params.exceptionState && params.exceptionState !== 'All') query.set('exceptionState', params.exceptionState)
+  if (params.policyId) query.set('policyId', params.policyId)
   query.set('page', String(params.page ?? 1))
   query.set('pageSize', String(params.pageSize ?? 20))
 

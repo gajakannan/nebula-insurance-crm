@@ -1,0 +1,298 @@
+agents/scripts/run-gate.py-109-    return kind, body if isinstance(body, dict) else {}
+agents/scripts/run-gate.py-110-
+agents/scripts/run-gate.py-111-
+agents/scripts/run-gate.py-112-def op_id(op: dict[str, Any], index: int) -> str:
+agents/scripts/run-gate.py-113-    kind, body = op_kind(op)
+agents/scripts/run-gate.py-114-    if kind == "run":
+agents/scripts/run-gate.py-115-        return body.get("id") or f"run:{index}"
+agents/scripts/run-gate.py-116-    if kind == "checkpoint":
+agents/scripts/run-gate.py-117-        return f"checkpoint:{body.get('id')}"
+agents/scripts/run-gate.py-118-    if kind == "write":
+agents/scripts/run-gate.py:119:        return f"write:{body.get('artifact')}"
+agents/scripts/run-gate.py-120-    return f"{kind}:{index}"
+agents/scripts/run-gate.py-121-
+agents/scripts/run-gate.py-122-
+agents/scripts/run-gate.py-123-def sha256_file(path: Path) -> str:
+agents/scripts/run-gate.py-124-    h = hashlib.sha256()
+agents/scripts/run-gate.py-125-    h.update(path.read_bytes())
+agents/scripts/run-gate.py-126-    return h.hexdigest()
+agents/scripts/run-gate.py-127-
+agents/scripts/run-gate.py-128-
+agents/scripts/run-gate.py-129-def _resolve_evidence(run_folder: Path, rel: str) -> Path:
+agents/scripts/run-gate.py-130-    if ".." in Path(rel).parts or Path(rel).is_absolute():
+agents/scripts/run-gate.py-131-        raise GateDriverError("evidence_escapes_run", f"evidence path escapes run folder: {rel!r}")
+agents/scripts/run-gate.py-132-    return run_folder / rel
+agents/scripts/run-gate.py-133-
+--
+agents/actions/spec/feature.yaml-23-    - {name: SLICE_ORDER_SOURCE, enum: [assembly-plan, override], default: assembly-plan}
+agents/actions/spec/feature.yaml-24-    - {name: SLICE_ORDER, required_when: "SLICE_ORDER_SOURCE=override"}
+agents/actions/spec/feature.yaml-25-    - {name: PRODUCT_ROOT, default: sister-repo}
+agents/actions/spec/feature.yaml-26-
+agents/actions/spec/feature.yaml-27-auto_resolved:
+agents/actions/spec/feature.yaml-28-  FEATURE_SLUG: "kebab-case slug for {FEATURE_ID} from REGISTRY.md"
+agents/actions/spec/feature.yaml-29-  FEATURE_PATH: "{PRODUCT_ROOT}/planning-mds/features/{FEATURE_ID}-{FEATURE_SLUG}"
+agents/actions/spec/feature.yaml-30-  ARCHIVE_FEATURE_PATH: "{PRODUCT_ROOT}/planning-mds/features/archive/{FEATURE_ID}-{FEATURE_SLUG}"
+agents/actions/spec/feature.yaml-31-  FEATURE_INDEX_ROOT: "{PRODUCT_ROOT}/planning-mds/operations/evidence/features/{FEATURE_ID}-{FEATURE_SLUG}"
+agents/actions/spec/feature.yaml-32-  RUN_FOLDER: "{PRODUCT_ROOT}/planning-mds/operations/evidence/runs/{RUN_ID}"
+agents/actions/spec/feature.yaml:33:  RUN_ID_PRIOR: "prior approved run_id from {FEATURE_INDEX_ROOT}/latest-run.json (null if absent)"
+agents/actions/spec/feature.yaml-34-  RERUN_OF: "null, or {RUN_ID_PRIOR} when this run regenerates evidence only"
+agents/actions/spec/feature.yaml-35-
+agents/actions/spec/feature.yaml-36-retrieval:
+agents/actions/spec/feature.yaml-37-  tier_defaults: {clean: [1, 2], drift-reconcile: [3, 4]}
+agents/actions/spec/feature.yaml-38-
+agents/actions/spec/feature.yaml-39-context_load:
+agents/actions/spec/feature.yaml-40-  - "agents/ROUTER.md"
+agents/actions/spec/feature.yaml-41-  - "agents/agent-map.yaml"
+agents/actions/spec/feature.yaml-42-  - "agents/docs/AGENT-USE.md"
+agents/actions/spec/feature.yaml-43-  - "agents/actions/feature.md"
+agents/actions/spec/feature.yaml-44-  - "python3 {PRODUCT_ROOT}/scripts/kg/lookup.py {FEATURE_ID} --tier {start_tier} --run-id {RUN_ID}"
+agents/actions/spec/feature.yaml-45-  - "{FEATURE_PATH}"
+agents/actions/spec/feature.yaml-46-
+agents/actions/spec/feature.yaml-47-ownership:
+agents/actions/spec/feature.yaml:48:  product-manager: [pm-closeout.md, signoff-ledger.md, latest-run.json, "STATUS.md final state", "trackers + archive move", "manifest finalize (status approved)", "prior-manifest supersession"]
+agents/actions/spec/feature.yaml-49-  architect: [feature-assembly-plan.md, g0-assembly-plan-validation.md, kg-reconciliation.md, "ADRs", "canonical shared semantics", "API contracts + schemas"]
+agents/actions/spec/feature.yaml-50-  quality-engineer: [test-plan.md, test-execution-report.md, coverage-report.md]
+agents/actions/spec/feature.yaml-51-  code-reviewer: [code-review-report.md]
+agents/actions/spec/feature.yaml-52-  security: [security-review-report.md]
+agents/actions/spec/feature.yaml-53-  devops: [g1-runtime-preflight.md, g2-deployability-check.md]
+agents/actions/spec/feature.yaml-54-
+agents/actions/spec/feature.yaml-55-gates:
+agents/actions/spec/feature.yaml-56-  - id: G0
+agents/actions/spec/feature.yaml-57-    title: Architect assembly plan authoring and validation
+agents/actions/spec/feature.yaml-58-    role: architect
+agents/actions/spec/feature.yaml-59-    artifacts: [g0-assembly-plan-validation.md]
+agents/actions/spec/feature.yaml-60-    manifest_status_after: in-progress
+agents/actions/spec/feature.yaml-61-    operations:
+agents/actions/spec/feature.yaml-62-      - run:
+--
+agents/actions/spec/feature.yaml-162-                 --product-root, "{PRODUCT_ROOT}", --feature, "{FEATURE_ID}", --run-id, "{RUN_ID}", --stage, G6]
+agents/actions/spec/feature.yaml-163-          cwd: framework
+agents/actions/spec/feature.yaml-164-          timeout_seconds: 300
+agents/actions/spec/feature.yaml-165-      - run:
+agents/actions/spec/feature.yaml-166-          id: validate-trackers-g6
+agents/actions/spec/feature.yaml-167-          argv: [python3, agents/product-manager/scripts/validate-trackers.py,
+agents/actions/spec/feature.yaml-168-                 --product-root, "{PRODUCT_ROOT}", --feature, "{FEATURE_ID}", --run-id, "{RUN_ID}"]
+agents/actions/spec/feature.yaml-169-          cwd: framework
+agents/actions/spec/feature.yaml-170-          timeout_seconds: 300
+agents/actions/spec/feature.yaml-171-    judgment: |
+agents/actions/spec/feature.yaml:172:      Pre-closeout candidate: no pm_closeout, no tracker_sync, no latest-run.json yet. Confirm G0–G5
+agents/actions/spec/feature.yaml-173-      evidence present and passing; changed_paths[] populated; conditional booleans cross-check against
+agents/actions/spec/feature.yaml-174-      the §7 path-class globs; non-required absent artifacts appear in manifest omissions[].
+agents/actions/spec/feature.yaml-175-
+agents/actions/spec/feature.yaml-176-  - id: G7
+agents/actions/spec/feature.yaml-177-    title: Architect knowledge-graph reconciliation
+agents/actions/spec/feature.yaml-178-    role: architect
+agents/actions/spec/feature.yaml-179-    role_switch: agents/architect/SKILL.md
+agents/actions/spec/feature.yaml-180-    artifacts: [kg-reconciliation.md]
+agents/actions/spec/feature.yaml-181-    operations:
+agents/actions/spec/feature.yaml-182-      - run:
+agents/actions/spec/feature.yaml-183-          id: kg-compile
+agents/actions/spec/feature.yaml-184-          argv: [python3, "{PRODUCT_ROOT}/scripts/kg/compile.py"]
+agents/actions/spec/feature.yaml-185-          cwd: product
+agents/actions/spec/feature.yaml-186-          timeout_seconds: 300
+--
+agents/actions/spec/feature.yaml-223-          cwd: product
+agents/actions/spec/feature.yaml-224-          timeout_seconds: 300
+agents/actions/spec/feature.yaml-225-          mutates: [kg-source, kg-projection, trackers]
+agents/actions/spec/feature.yaml-226-      - run:
+agents/actions/spec/feature.yaml-227-          id: patch-prior-manifest
+agents/actions/spec/feature.yaml-228-          argv: [python3, agents/product-manager/scripts/patch-prior-manifest.py,
+agents/actions/spec/feature.yaml-229-                 --product-root, "{PRODUCT_ROOT}", --feature, "{FEATURE_ID}", --new-run-id, "{RUN_ID}"]
+agents/actions/spec/feature.yaml-230-          cwd: framework
+agents/actions/spec/feature.yaml-231-          timeout_seconds: 120
+agents/actions/spec/feature.yaml-232-          mutates: [prior-manifest]
+agents/actions/spec/feature.yaml:233:      - write:
+agents/actions/spec/feature.yaml:234:          artifact: latest-run.json
+agents/actions/spec/feature.yaml-235-          after: patch-prior-manifest
+agents/actions/spec/feature.yaml:236:          mutates: [latest-run.json]
+agents/actions/spec/feature.yaml-237-      - run:
+agents/actions/spec/feature.yaml-238-          id: kg-write-coverage
+agents/actions/spec/feature.yaml-239-          argv: [python3, "{PRODUCT_ROOT}/scripts/kg/validate.py", --write-coverage-report]
+agents/actions/spec/feature.yaml-240-          cwd: product
+agents/actions/spec/feature.yaml-241-          timeout_seconds: 300
+agents/actions/spec/feature.yaml-242-          mutates: [kg-projection]
+agents/actions/spec/feature.yaml-243-      - run:
+agents/actions/spec/feature.yaml-244-          id: kg-check-drift-closeout
+agents/actions/spec/feature.yaml-245-          argv: [python3, "{PRODUCT_ROOT}/scripts/kg/validate.py", --check-drift]
+agents/actions/spec/feature.yaml-246-          cwd: product
+agents/actions/spec/feature.yaml-247-          timeout_seconds: 300
+agents/actions/spec/feature.yaml-248-      - run:
+agents/actions/spec/feature.yaml-249-          id: validate-closeout
+agents/actions/spec/feature.yaml-250-          argv: [python3, agents/product-manager/scripts/validate-feature-evidence.py,
+--
+agents/actions/spec/feature.yaml-252-          cwd: framework
+agents/actions/spec/feature.yaml-253-          timeout_seconds: 300
+agents/actions/spec/feature.yaml-254-      - run:
+agents/actions/spec/feature.yaml-255-          id: validate-trackers-closeout
+agents/actions/spec/feature.yaml-256-          argv: [python3, agents/product-manager/scripts/validate-trackers.py,
+agents/actions/spec/feature.yaml-257-                 --product-root, "{PRODUCT_ROOT}", --feature, "{FEATURE_ID}", --run-id, "{RUN_ID}"]
+agents/actions/spec/feature.yaml-258-          cwd: framework
+agents/actions/spec/feature.yaml-259-          timeout_seconds: 300
+agents/actions/spec/feature.yaml-260-    judgment: |
+agents/actions/spec/feature.yaml-261-      MUST switch role (read agents/product-manager/SKILL.md). Manifest status becomes `approved` only
+agents/actions/spec/feature.yaml:262:      here, when latest-run.json is written — and only after patch-prior-manifest.py exits 0. Run
+agents/actions/spec/feature.yaml-263-      --write-coverage-report ONLY after the archive move (path-sensitive). Finalize the manifest
+agents/actions/spec/feature.yaml-264-      (status approved, feature_state Done/Completed/Archived, feature_path_at_closeout resolved).
+agents/actions/spec/feature.yaml-265-
+agents/actions/spec/feature.yaml-266-severity_gate: standard
+agents/actions/spec/feature.yaml-267-
+agents/actions/spec/feature.yaml-268-variants: [operator-friendly, automation-safe]
+agents/actions/spec/feature.yaml-269-
+agents/actions/spec/feature.yaml-270-forbidden:
+agents/actions/spec/feature.yaml-271-  - "Generate RUN_ID with uuid4 or any non-contract format."
+agents/actions/spec/feature.yaml-272-  - "Write or consume current-run.json."
+agents/actions/spec/feature.yaml:273:  - "Write latest-run.json before G8 final validation passes."
+agents/actions/spec/feature.yaml-274-  - "Leave a prior approved manifest at status approved after writing a new approval."
+agents/actions/spec/feature.yaml-275-  - "Skip per-gate validate-feature-evidence.py --stage calls."
+agents/actions/spec/feature.yaml-276-  - "Write terminal-feature role reports into FEATURE_PATH instead of RUN_FOLDER."
+agents/actions/spec/feature.yaml-277-  - "Cite the global frontend evidence lane as a substitute for a feature-level role report."
+agents/actions/spec/feature.yaml-278-  - "Hand-enumerate schema/ADR/contract files when lookup output is available."
+agents/actions/spec/feature.yaml-279-  - "Treat lookup/KG mappings as authoritative over raw artifacts."
+agents/actions/spec/feature.yaml-280-  - "Edit code without prior hint.py, or shared semantics without prior blast.py."
+agents/actions/spec/feature.yaml-281-  - "Skip any gate G0 through G8, or declare Done without the PM role switch at G8."
+agents/actions/spec/feature.yaml-282-  - "Widen scope outside FEATURE_ID, or pass --evidence-effective-date earlier than the framework default."
+agents/actions/spec/feature.yaml-283-
+agents/actions/spec/feature.yaml-284-stop_conditions:
+agents/actions/spec/feature.yaml-285-  - "Runtime preflight cannot be restored."
+agents/actions/spec/feature.yaml-286-  - "A critical code or security finding persists after one review cycle."
+agents/actions/spec/feature.yaml-287-  - "Required signoff is missing reviewer, date, or evidence."
+--
+agents/actions/spec/feature.yaml-305-    Before starting, inspect only evidence-manifest.json files under
+agents/actions/spec/feature.yaml-306-    {PRODUCT_ROOT}/planning-mds/operations/evidence/runs/*/ for any run other than RUN_FOLDER whose
+agents/actions/spec/feature.yaml-307-    manifest has feature_id={FEATURE_ID} and status draft or in-progress. If one exists, HALT and
+agents/actions/spec/feature.yaml-308-    reconcile externally — the contract assumes serial feature actions per feature. Acceptable prior
+agents/actions/spec/feature.yaml-309-    states: approved (superseded at G8), superseded, or no prior runs.
+agents/actions/spec/feature.yaml-310-  session_setup: |
+agents/actions/spec/feature.yaml-311-    Echo the resolved absolute {PRODUCT_ROOT} on the first turn before any command. Create
+agents/actions/spec/feature.yaml-312-    FEATURE_INDEX_ROOT, RUN_FOLDER, and RUN_FOLDER/artifacts/{coverage,diffs,test-results,security,
+agents/actions/spec/feature.yaml-313-    screenshots}. Initialize evidence-manifest.json (status draft, contract version stamped, all
+agents/actions/spec/feature.yaml-314-    required keys, skeleton gate_results/role_results/files). Create the base run files and touch empty
+agents/actions/spec/feature.yaml:315:    commands.log and lifecycle-gates.log. Capture a prior latest-run.json run_id as RUN_ID_PRIOR.
+agents/actions/spec/feature.yaml-316-  telemetry: |
+agents/actions/spec/feature.yaml-317-    Append every shell command to RUN_FOLDER/commands.log via append-command-log.py (--log,
+agents/actions/spec/feature.yaml-318-    --product-root, --framework-root, --cwd, --command, --exit-code, repeatable --artifact). Artifact
+agents/actions/spec/feature.yaml-319-    paths must be durable product-repo paths under artifacts/; scratch paths (/tmp/...) are not
+agents/actions/spec/feature.yaml-320-    durable. Do not leak secrets — secret-pattern checks fail the run.
+agents/actions/spec/feature.yaml-321-  scope_booleans: |
+agents/actions/spec/feature.yaml-322-    At G2 set frontend_in_scope=true when any changed_paths[] entry matches experience/** frontend
+agents/actions/spec/feature.yaml-323-    globs; runtime_bearing=true for engine/** runtime/tests/AI-runtime globs; deployment_config_changed
+agents/actions/spec/feature.yaml-324-    =true for Dockerfile/compose/.github-workflows/ci/env/config/migration globs; security_sensitive_
+agents/actions/spec/feature.yaml-325-    scope=true for auth/identity/permissions/security/secrets globs.
+agents/actions/spec/feature.yaml-326-  validator_defect_flow: |
+agents/actions/spec/feature.yaml-327-    If a validator defect blocks closeout, prefer to fix the validator and re-run. Mid-stage (G0..G6)
+agents/actions/spec/feature.yaml-328-    defects are logged as open follow-ups in README.md (not waivers yet); if unresolved at G8, record a
+agents/actions/spec/feature.yaml-329-    waivers.validator_defect entry in the manifest and mirror it in pm-closeout.md. Never bypass with an
+{
+  "action": "feature",
+  "contract_version": "2026-07-11",
+  "run_id": "2026-07-19-86ad3248",
+  "schema_version": 1,
+  "stages": {
+    "G0": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g0"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G1": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g1"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G2": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g2"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G3": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g3"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G4": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g4"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G5": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g5"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G6": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g6",
+        "validate-trackers-g6"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G7": {
+      "attestations": [],
+      "completed_operations": [
+        "kg-compile",
+        "kg-symbols-decisions",
+        "kg-check-drift"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G8": {
+      "attestations": [
+        {
+          "actor": "",
+          "checkpoint_id": "archive-move",
+          "evidence": [
+            {
+              "path": "pm-closeout.md",
+              "sha256": "f4c0e0bbe492fd5e900904a211050e6fa7765168af12ee6cd830bcb5f183713c"
+            },
+            {
+              "path": "signoff-ledger.md",
+              "sha256": "aa190d5435d4c574cd00824d694ddb15d90a4272b6d7add0d57b3668c87ff41c"
+            },
+            {
+              "path": "kg-reconciliation.md",
+              "sha256": "a5b2c817ce8f839cf31fe8771fb27a141bc2ccf1a236a559fccfc03575f31a2c"
+            }
+          ],
+          "note": "",
+          "role": "product-manager",
+          "timestamp": "2026-07-19T21:22:44-04:00"
+        }
+      ],
+      "completed_operations": [
+        "checkpoint:archive-move",
+        "kg-compile-closeout",
+        "patch-prior-manifest"
+      ],
+      "pending_checkpoint": {
+        "description": "write latest-run.json after patch-prior-manifest",
+        "id": "write:latest-run.json",
+        "produces": [
+          "latest-run.json"
+        ],
+        "requires": []
+      },
+      "status": "pending-checkpoint"
+    }
+  }
+}

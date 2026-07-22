@@ -1,0 +1,14 @@
+PARITY FAILURE: BrokerUser policy parity check failed.
+  6 ALLOW decision(s) in authorization-matrix.md §2.10
+  13 BrokerUser row(s) in policy.csv
+
+Mismatches (7):
+  [POLICY -> MATRIX gap]  policy.csv has BrokerUser row for ('account', 'read') but no corresponding ALLOW found in authorization-matrix.md §2.10
+  [POLICY -> MATRIX gap]  policy.csv has BrokerUser row for ('document', 'create') but no corresponding ALLOW found in authorization-matrix.md §2.10
+  [POLICY -> MATRIX gap]  policy.csv has BrokerUser row for ('document', 'download') but no corresponding ALLOW found in authorization-matrix.md §2.10
+  [POLICY -> MATRIX gap]  policy.csv has BrokerUser row for ('document', 'read') but no corresponding ALLOW found in authorization-matrix.md §2.10
+  [POLICY -> MATRIX gap]  policy.csv has BrokerUser row for ('document_template', 'create') but no corresponding ALLOW found in authorization-matrix.md §2.10
+  [POLICY -> MATRIX gap]  policy.csv has BrokerUser row for ('document_template', 'link') but no corresponding ALLOW found in authorization-matrix.md §2.10
+  [POLICY -> MATRIX gap]  policy.csv has BrokerUser row for ('document_template', 'read') but no corresponding ALLOW found in authorization-matrix.md §2.10
+
+Fix: update policy.csv or authorization-matrix.md §2.10 so both files reflect the same BrokerUser ALLOW decisions.

@@ -1,0 +1,120 @@
+using Nebula.Application.Common;
+using Nebula.Application.DTOs;
+using Nebula.Domain.Entities;
+
+namespace Nebula.Application.Interfaces;
+
+public record BillingPolicyContext(
+    Guid PolicyId,
+    Guid PolicyVersionId,
+    Guid AccountId,
+    string Currency);
+
+public interface IBillingRepository
+{
+    Task<PaginatedResult<BillingInvoice>> SearchInvoicesAsync(BillingInvoiceSearchQuery query, ICurrentUserService user, CancellationToken ct = default);
+    Task<BillingInvoice?> GetInvoiceAsync(Guid invoiceId, ICurrentUserService user, CancellationToken ct = default);
+    Task<BillingInvoice?> GetInvoiceForMutationAsync(Guid invoiceId, ICurrentUserService user, CancellationToken ct = default);
+    Task<BillingPolicyContext?> GetPolicyContextAsync(Guid policyId, Guid policyVersionId, ICurrentUserService user, CancellationToken ct = default);
+    Task<bool> InvoiceNumberExistsAsync(string normalizedInvoiceNumber, CancellationToken ct = default);
+    Task AddInvoiceAsync(BillingInvoice invoice, CancellationToken ct = default);
+
+    Task<PaginatedResult<PaymentReceipt>> SearchReceiptsAsync(PaymentReceiptSearchQuery query, ICurrentUserService user, CancellationToken ct = default);
+    Task<PaymentReceipt?> GetReceiptForMutationAsync(Guid receiptId, ICurrentUserService user, CancellationToken ct = default);
+    Task<bool> ReceiptReferenceExistsAsync(string source, string normalizedExternalReference, CancellationToken ct = default);
+    Task AddReceiptAsync(PaymentReceipt receipt, CancellationToken ct = default);
+    Task AddImportBatchAsync(PaymentReceiptImportBatch batch, CancellationToken ct = default);
+    Task<PaymentReceiptImportBatch?> GetImportBatchAsync(Guid batchId, ICurrentUserService user, CancellationToken ct = default);
+
+    Task AddApplicationAsync(PaymentApplication application, CancellationToken ct = default);
+    Task<ReconciliationException?> FindOpenExceptionAsync(Guid? invoiceId, Guid? receiptId, string type, CancellationToken ct = default);
+    Task AddExceptionAsync(ReconciliationException exception, CancellationToken ct = default);
+    Task<PaginatedResult<ReconciliationException>> SearchExceptionsAsync(ReconciliationExceptionSearchQuery query, ICurrentUserService user, CancellationToken ct = default);
+    Task<ReconciliationException?> GetExceptionForMutationAsync(Guid exceptionId, ICurrentUserService user, CancellationToken ct = default);
+
+    Task<bool> PendingCorrectionExistsAsync(Guid exceptionId, CancellationToken ct = default);
+    Task AddCorrectionAsync(BillingCorrection correction, CancellationToken ct = default);
+    Task<BillingCorrection?> GetCorrectionForMutationAsync(Guid correctionId, ICurrentUserService user, CancellationToken ct = default);
+
+    Task<ReconciliationBacklogResponseDto> GetBacklogAsync(ICurrentUserService user, CancellationToken ct = default);
+    Task<PolicyBillingSummaryDto?> GetPolicyBillingSummaryAsync(Guid policyId, ICurrentUserService user, CancellationToken ct = default);
+}
+using Microsoft.EntityFrameworkCore;
+using Nebula.Application.Common;
+using Nebula.Application.DTOs;
+using Nebula.Application.Interfaces;
+using Nebula.Domain.Entities;
+using Nebula.Infrastructure.Persistence;
+
+namespace Nebula.Infrastructure.Repositories;
+
+public class BillingRepository(AppDbContext db) : IBillingRepository
+{
+    public async Task<PaginatedResult<BillingInvoice>> SearchInvoicesAsync(
+        BillingInvoiceSearchQuery query,
+        ICurrentUserService user,
+        CancellationToken ct = default)
+    {
+        var visiblePolicies = VisiblePolicies(user);
+        var invoices = db.BillingInvoices.AsNoTracking()
+            .Where(invoice => visiblePolicies.Any(policy => policy.Id == invoice.PolicyId));
+
+        if (!string.IsNullOrWhiteSpace(query.Q))
+        {
+            var needle = query.Q.Trim().ToUpperInvariant();
+            invoices = invoices.Where(invoice =>
+                invoice.NormalizedInvoiceNumber.Contains(needle)
+                || invoice.Policy.PolicyNumber.ToUpper().Contains(needle)
+                || invoice.Account.Name.ToUpper().Contains(needle)
+                || (invoice.PaymentApplication != null
+                    && invoice.PaymentApplication.PaymentReceipt.NormalizedExternalReference.Contains(needle)));
+        }
+
+        if (query.PolicyId.HasValue)
+            invoices = invoices.Where(invoice => invoice.PolicyId == query.PolicyId.Value);
+        if (query.AccountId.HasValue)
+            invoices = invoices.Where(invoice => invoice.AccountId == query.AccountId.Value);
+        if (!string.IsNullOrWhiteSpace(query.Status))
+            invoices = invoices.Where(invoice => invoice.Status == query.Status);
+        if (query.HasOpenException.HasValue)
+        {
+            invoices = query.HasOpenException.Value
+                ? invoices.Where(invoice => invoice.ReconciliationExceptions.Any(exception => exception.Status == "Open"))
+                : invoices.Where(invoice => !invoice.ReconciliationExceptions.Any(exception => exception.Status == "Open"));
+        }
+
+        var total = await invoices.CountAsync(ct);
+        var data = await invoices
+            .OrderByDescending(invoice => invoice.InvoiceDate)
+            .ThenBy(invoice => invoice.InvoiceNumber)
+            .Skip((query.Page - 1) * query.PageSize)
+            .Take(query.PageSize)
+            .ToListAsync(ct);
+        return new PaginatedResult<BillingInvoice>(data, query.Page, query.PageSize, total);
+    }
+
+    public Task<BillingInvoice?> GetInvoiceAsync(Guid invoiceId, ICurrentUserService user, CancellationToken ct = default)
+    {
+        var visiblePolicies = VisiblePolicies(user);
+        return db.BillingInvoices.AsNoTracking()
+            .FirstOrDefaultAsync(invoice => invoice.Id == invoiceId
+                && visiblePolicies.Any(policy => policy.Id == invoice.PolicyId), ct);
+    }
+
+    public Task<BillingInvoice?> GetInvoiceForMutationAsync(Guid invoiceId, ICurrentUserService user, CancellationToken ct = default)
+    {
+        var visiblePolicies = VisiblePolicies(user);
+        return db.BillingInvoices.AsTracking()
+            .FirstOrDefaultAsync(invoice => invoice.Id == invoiceId
+                && visiblePolicies.Any(policy => policy.Id == invoice.PolicyId), ct);
+    }
+
+    public async Task<BillingPolicyContext?> GetPolicyContextAsync(
+        Guid policyId,
+        Guid policyVersionId,
+        ICurrentUserService user,
+        CancellationToken ct = default)
+    {
+        var visiblePolicies = VisiblePolicies(user);
+        return await db.PolicyVersions.AsNoTracking()
+            .Where(version => version.Id == policyVersionId

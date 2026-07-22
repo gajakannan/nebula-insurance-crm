@@ -1,0 +1,220 @@
+namespace Nebula.Application.DTOs;
+
+public record TimelineEventDto(
+    Guid Id,
+    string EntityType,
+    Guid EntityId,
+    string EventType,
+    string? EventDescription,
+    string? EntityName,
+    string? ActorDisplayName,
+    DateTime OccurredAt);
+using Microsoft.Extensions.Logging;
+using Nebula.Application.Common;
+using Nebula.Application.DTOs;
+using Nebula.Application.Interfaces;
+using Nebula.Domain.Entities;
+
+namespace Nebula.Application.Services;
+
+public class TimelineService(ITimelineRepository timelineRepo, BrokerScopeResolver scopeResolver, ILogger<TimelineService> logger)
+{
+    private readonly ILogger<TimelineService> _logger = logger;
+
+    public async Task<PaginatedResult<TimelineEventDto>> ListEventsPagedAsync(
+        string entityType, Guid? entityId, int page, int pageSize, ICurrentUserService user, CancellationToken ct = default)
+    {
+        var result = await timelineRepo.ListEventsPagedAsync(entityType, entityId, page, pageSize, ct);
+        AuditBrokerUserRead(user, "broker.timeline", entityId);
+        var mapped = result.Data.Select(MapToDto).ToList();
+        return new PaginatedResult<TimelineEventDto>(mapped, result.Page, result.PageSize, result.TotalCount);
+    }
+
+    private static TimelineEventDto MapToDto(ActivityTimelineEvent e) => new(
+        e.Id, e.EntityType, e.EntityId, e.EventType,
+        e.EventDescription, null, e.ActorDisplayName ?? "Unknown User", e.OccurredAt);
+
+    /// <summary>
+    /// BrokerUser variant: returns approved event types only with BrokerDescription (F0009-S0004 §8.1).
+    /// Scoped to the resolved broker entity within the authenticated user's broker_tenant_id scope.
+    /// Throws BrokerScopeUnresolvableException if scope cannot be resolved.
+    /// </summary>
+    public async Task<IReadOnlyList<TimelineBrokerUserEventDto>> ListEventsForBrokerUserAsync(
+        int limit, ICurrentUserService user, CancellationToken ct = default)
+    {
+        var resolvedBrokerId = await scopeResolver.ResolveAsync(user, ct);
+        var events = await timelineRepo.ListEventsForBrokerUserAsync([resolvedBrokerId], limit, ct);
+        AuditBrokerUserRead(user, "broker.timeline", resolvedBrokerId, resolvedBrokerId);
+        return events.Select(e => new TimelineBrokerUserEventDto(
+            e.Id, e.EntityType, e.EntityId, e.EventType,
+            e.BrokerDescription, e.ActorDisplayName, e.OccurredAt))
+            .ToList();
+    }
+
+    private void AuditBrokerUserRead(ICurrentUserService user, string resource, Guid? entityId, Guid? resolvedBrokerId = null)
+    {
+        if (!user.Roles.Contains("BrokerUser")) return;
+        _logger.LogInformation(
+            "BrokerUser access: {Resource} by BrokerTenantId={BrokerTenantId} ResolvedBrokerId={ResolvedBrokerId} EntityId={EntityId} OccurredAt={OccurredAt}",
+            resource,
+            user.BrokerTenantId,
+            resolvedBrokerId,
+            entityId,
+            DateTime.UtcNow);
+    }
+}
+using Nebula.Application.Common;
+
+namespace Nebula.Application.DTOs;
+
+public record BillingInvoiceSearchQuery(
+    string? Q,
+    Guid? PolicyId,
+    Guid? AccountId,
+    string? Status,
+    bool? HasOpenException,
+    int Page = 1,
+    int PageSize = 25);
+
+public record BillingInvoiceCreateRequestDto(
+    string InvoiceNumber,
+    Guid PolicyId,
+    Guid PolicyVersionId,
+    Guid AccountId,
+    string Currency,
+    decimal OriginalAmount,
+    DateOnly InvoiceDate,
+    DateOnly DueDate);
+
+public record BillingInvoiceDto(
+    Guid Id,
+    string InvoiceNumber,
+    Guid PolicyId,
+    Guid PolicyVersionId,
+    Guid AccountId,
+    string Currency,
+    decimal OriginalAmount,
+    decimal OutstandingAmount,
+    DateOnly InvoiceDate,
+    DateOnly DueDate,
+    string Status,
+    DateTime CreatedAt,
+    Guid CreatedByUserId,
+    string RowVersion);
+
+public record PaymentReceiptSearchQuery(
+    string? ApplicationStatus,
+    string? ExternalReference,
+    string? Currency,
+    int Page = 1,
+    int PageSize = 25);
+
+public record PaymentReceiptCreateRequestDto(
+    string ExternalReference,
+    DateOnly ReceivedDate,
+    string Currency,
+    decimal Amount,
+    string? InvoiceReference,
+    string? Memo);
+
+public record PaymentReceiptDto(
+    Guid Id,
+    string Source,
+    string ExternalReference,
+    DateOnly ReceivedDate,
+    string Currency,
+    decimal Amount,
+    string? InvoiceReference,
+    string? Memo,
+    Guid? ImportBatchId,
+    int? ImportRowNumber,
+    string ApplicationStatus,
+    string RowVersion);
+
+public record PaymentReceiptImportRowOutcomeDto(
+    int RowNumber,
+    string? ExternalReference,
+    string Outcome,
+    Guid? PaymentReceiptId,
+    string? ReasonCode,
+    string? ReasonDetail);
+
+public record PaymentReceiptImportResultDto(
+    Guid ImportBatchId,
+    string ContractVersion,
+    string FileName,
+    string FileSha256,
+    string Status,
+    int SubmittedCount,
+    int CreatedCount,
+    int DuplicateCount,
+    int RejectedCount,
+    IReadOnlyList<PaymentReceiptImportRowOutcomeDto> Outcomes);
+
+public record PaymentApplicationRequestDto(
+    Guid BillingInvoiceId,
+    Guid PaymentReceiptId,
+    string PaymentReceiptRowVersion);
+
+public record PaymentApplicationDto(
+    Guid Id,
+    Guid BillingInvoiceId,
+    Guid PaymentReceiptId,
+    string Currency,
+    decimal AppliedAmount,
+    decimal InvoiceOutstandingBefore,
+    decimal InvoiceOutstandingAfter,
+    DateTime AppliedAt,
+    Guid AppliedByUserId);
+
+public record ReconciliationExceptionSearchQuery(
+    string? Status,
+    string? Type,
+    int Page = 1,
+    int PageSize = 25);
+
+public record ReconciliationExceptionDto(
+    Guid Id,
+    string Type,
+    Guid? BillingInvoiceId,
+    Guid? PaymentReceiptId,
+    Guid? ImportBatchId,
+    Guid? ImportRowOutcomeId,
+    string Status,
+    DateTime OpenedAt,
+    Guid OpenedByUserId,
+    DateTime? ResolvedAt,
+    Guid? ResolvedByUserId,
+    string? ResolutionCode,
+    string? ResolutionNote,
+    string RowVersion);
+
+public record ReconciliationReferenceCorrectionRequestDto(
+    Guid BillingInvoiceId,
+    string ResolutionCode,
+    string ResolutionNote);
+
+public record BillingCorrectionRequestDto(
+    decimal CorrectionAmount,
+    decimal ProposedOutstandingAmount,
+    string Reason,
+    string EvidenceNote);
+
+public record BillingCorrectionDecisionRequestDto(string Decision, string DecisionNote);
+
+public record BillingCorrectionDto(
+    Guid Id,
+    Guid ReconciliationExceptionId,
+    Guid BillingInvoiceId,
+    decimal BeforeOutstandingAmount,
+    decimal CorrectionAmount,
+    decimal ProposedOutstandingAmount,
+    string Reason,
+    string EvidenceNote,
+    string Status,
+    Guid RequestedByUserId,
+    DateTime RequestedAt,
+    Guid? DecisionByUserId,
+    DateTime? DecisionAt,
+    string? DecisionNote,
+    string RowVersion);

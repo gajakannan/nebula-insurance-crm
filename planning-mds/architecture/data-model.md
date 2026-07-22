@@ -1508,7 +1508,53 @@ Rollup APIs aggregate only after source-record authorization filtering.
 3. Seed Casbin `commission` policy rows and timeline payload templates.
 4. Backfill initial expected commission exceptions as `MissingSchedule` or `MissingSplit` where policy context exists but economic inputs are absent.
 
-## 14. Broker Insights Read Model (F0008)
+## 14. Billing, Invoicing, And Reconciliation (F0026)
+
+Governed by [ADR-034](decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md). F0026 stores agency-bill operational records only; no table below is a ledger, bank settlement record, tax record, or source of policy premium/expected commission.
+
+### 14.1 BillingInvoice
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `Id` | uuid | identity |
+| `InvoiceNumber` | varchar(80) | unique, normalized |
+| `PolicyId`, `PolicyVersionId`, `AccountId` | uuid | immutable F0018 references |
+| `Currency` | char(3) | uppercase policy-version currency |
+| `OriginalAmount`, `OutstandingAmount` | numeric(18,2) | positive original; operational outstanding 0..original |
+| `InvoiceDate`, `DueDate` | date | due date >= invoice date |
+| `Status` | varchar(32) | Outstanding or Reconciled |
+| `CreatedAt`, `CreatedByUserId`, `UpdatedAt`, `UpdatedByUserId`, `RowVersion` | audit/concurrency | standard pattern |
+
+Indexes: unique normalized invoice number; policy/date; account/status/due date; status/due date. Policy/version/account/currency/original amount are immutable after creation.
+
+### 14.2 PaymentReceipt And Import Provenance
+
+`PaymentReceipt` fields: `Id`, `Source (Manual|MockVendorCsv)`, `ExternalReference`, `ReceivedDate`, `Currency`, `Amount`, nullable `InvoiceReference`, nullable `Memo`, nullable `ImportBatchId`, nullable `ImportRowNumber`, `ApplicationStatus (Unapplied|Applied)`, audit fields, and `RowVersion`. Unique `(Source, ExternalReference)`; source evidence is immutable.
+
+`PaymentReceiptImportBatch` fields: `Id`, `ContractVersion`, sanitized `FileName`, `FileSha256`, `Status (Completed|Rejected)`, submitted/created/duplicate/rejected counts, `ImportedAt`, and `ImportedByUserId`. Raw bytes are not retained.
+
+`PaymentReceiptImportRowOutcome` fields: `Id`, `ImportBatchId`, `RowNumber`, nullable `ExternalReference`, `Outcome (Created|Duplicate|Rejected)`, nullable `PaymentReceiptId`, nullable `ReasonCode`, and bounded nullable `ReasonDetail`. Unique `(ImportBatchId, RowNumber)` and immutable.
+
+### 14.3 PaymentApplication
+
+Append-only fields: `Id`, `BillingInvoiceId`, `PaymentReceiptId`, `Currency`, `AppliedAmount`, `InvoiceOutstandingBefore`, `InvoiceOutstandingAfter`, `AppliedAt`, `AppliedByUserId`. Unique invoice and receipt foreign keys enforce the first-release one-to-one exact application. Insert, receipt state change, invoice balance/status change, and timeline event commit atomically.
+
+### 14.4 ReconciliationException
+
+Fields: `Id`, `Type (MissingInvoiceReference|InvoiceReferenceConflict|AmountMismatch|CurrencyMismatch|DuplicateReceipt|InvalidSourceData)`, nullable invoice/receipt/import-batch/import-row links, `Status (Open|Resolved)`, `OpenedAt`, `OpenedByUserId`, nullable `ResolvedAt`, `ResolvedByUserId`, `ResolutionCode`, `ResolutionNote`, and `RowVersion`. Index open status/type/opened date and linked invoice/receipt. Reference correction may change only eligible linkage/resolution metadata, never a balance.
+
+### 14.5 BillingCorrection
+
+Fields: `Id`, `ReconciliationExceptionId`, `BillingInvoiceId`, `BeforeOutstandingAmount`, signed `CorrectionAmount`, `ProposedOutstandingAmount`, `Reason`, `EvidenceNote`, `Status (Pending|Approved|Rejected)`, request/decision actors/timestamps/note, and `RowVersion`. One pending request per exception. Proposed outstanding must be between zero and original amount. Requester and decision actor must differ; terminal decisions are immutable.
+
+### 14.6 Migration Order (F0026)
+
+1. Add import batch/outcome, invoice, receipt, application, exception, and correction tables with foreign keys and check constraints.
+2. Add uniqueness and filter/query indexes described above.
+3. Seed finance roles and `billing` policy actions; add timeline payload definitions.
+4. Do not backfill or infer invoices/receipts from policy premium or expected commission.
+
+## 15. Broker Insights Read Model (F0008)
 
 Governed by [ADR-031](decisions/ADR-031-broker-insights-read-models.md).
 F0008 introduces a read-only broker analytics surface over existing source data.
@@ -1726,7 +1772,7 @@ Append-only audit row for all configuration actions.
 
 ---
 
-**Version:** 9.0 — 2026-07-07: Added §13 F0025 commission schedules, producer splits, expected commission records, adjustments, and revenue attribution projections (ADR-032).
+**Version:** 10.0 — 2026-07-19: Added §14 F0026 agency-bill invoices, mock/manual receipts, exact applications, exceptions, and controlled corrections (ADR-034).
 
 **Version:** 8.0 — 2026-07-03: Added §12 F0008 BrokerInsightProjection read model for permission-safe broker scorecards, trends, benchmarks, and review snapshots (ADR-031).
 

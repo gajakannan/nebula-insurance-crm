@@ -1,0 +1,501 @@
+# Agent retrieval guard. Gitignore-style patterns for AI agents.
+# This is not .gitignore; it does not change source control behavior.
+
+# Treat operations evidence as cold archive by default.
+/planning-mds/operations/**
+
+# Re-allow only small index entry points.
+!/planning-mds/operations/
+!/planning-mds/operations/evidence/
+!/planning-mds/operations/evidence/README.md
+!/planning-mds/operations/evidence/features/
+!/planning-mds/operations/evidence/features/**/
+!/planning-mds/operations/evidence/features/**/latest-run.json
+!/planning-mds/operations/evidence/frontend-quality/
+!/planning-mds/operations/evidence/frontend-quality/README.md
+!/planning-mds/operations/evidence/frontend-quality/latest-run.json
+!/planning-mds/operations/evidence/frontend-ux/
+!/planning-mds/operations/evidence/frontend-ux/README.md
+planning-mds/kg-source/features/F0026.yaml:2:id: feature:F0026
+planning-mds/kg-source/features/F0026.yaml:4:path: planning-mds/features/F0026-billing-invoicing-and-reconciliation
+planning-mds/kg-source/features/F0026.yaml:7:  - capability:billing-invoicing-reconciliation
+planning-mds/kg-source/features/F0026.yaml:8:  - capability:commission-revenue-tracking
+planning-mds/kg-source/features/F0026.yaml:10:  - endpoint:billing-correction-decision
+planning-mds/kg-source/features/F0026.yaml:11:  - endpoint:billing-correction-request
+planning-mds/kg-source/features/F0026.yaml:12:  - endpoint:billing-invoice-detail
+planning-mds/kg-source/features/F0026.yaml:13:  - endpoint:billing-invoice-list-create
+planning-mds/kg-source/features/F0026.yaml:18:  - endpoint:policy-billing-summary
+planning-mds/kg-source/features/F0026.yaml:23:  - entity:billing-correction
+planning-mds/kg-source/features/F0026.yaml:24:  - entity:billing-invoice
+planning-mds/kg-source/features/F0026.yaml:25:  - entity:expected-commission
+planning-mds/kg-source/features/F0026.yaml:33:  - event:billing-correction-approved
+planning-mds/kg-source/features/F0026.yaml:34:  - event:billing-correction-rejected
+planning-mds/kg-source/features/F0026.yaml:35:  - event:billing-correction-requested
+planning-mds/kg-source/features/F0026.yaml:36:  - event:billing-invoice-created
+planning-mds/kg-source/features/F0026.yaml:41:  - policy_rule:billing-application-apply
+planning-mds/kg-source/features/F0026.yaml:42:  - policy_rule:billing-backlog-read
+planning-mds/kg-source/features/F0026.yaml:43:  - policy_rule:billing-backlog-summary-read
+planning-mds/kg-source/features/F0026.yaml:44:  - policy_rule:billing-correction-approve
+planning-mds/kg-source/features/F0026.yaml:45:  - policy_rule:billing-correction-request
+planning-mds/kg-source/features/F0026.yaml:46:  - policy_rule:billing-exception-manage
+planning-mds/kg-source/features/F0026.yaml:47:  - policy_rule:billing-invoice-create
+planning-mds/kg-source/features/F0026.yaml:48:  - policy_rule:billing-read
+planning-mds/kg-source/features/F0026.yaml:49:  - policy_rule:billing-receipt-import
+planning-mds/kg-source/features/F0026.yaml:50:  - policy_rule:billing-receipt-record
+planning-mds/kg-source/features/F0026.yaml:51:  - policy_rule:billing-summary-read
+planning-mds/kg-source/features/F0026.yaml:55:  - ui_route:billing-invoice-detail
+planning-mds/kg-source/features/F0026.yaml:56:  - ui_route:billing-reconciliation
+planning-mds/kg-source/features/F0026.yaml:57:  - ui_route:billing-workspace
+planning-mds/kg-source/features/F0026.yaml:58:  - workflow:billing-correction
+planning-mds/kg-source/features/F0026.yaml:61:  - feature:F0025
+planning-mds/kg-source/features/F0026.yaml:72:  - Operator promoted F0026 from Later to Now on 2026-07-19 after confirming that completed F0018 and
+planning-mds/kg-source/features/F0026.yaml:73:    F0025 satisfy the direct dependency boundary and that the approved plan should proceed toward build.
+planning-mds/kg-source/features/F0026.yaml:78:rationale: Direct dependencies F0018 and F0025 are complete, and the approved agency-bill slice is the next build-ready brokerage platform expansion.
+planning-mds/kg-source/features/F0026.yaml:82:  - id: story:F0026-S0001
+planning-mds/kg-source/features/F0026.yaml:83:    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0001-billing-workspace-search-and-policy-context.md
+planning-mds/kg-source/features/F0026.yaml:86:      - capability:billing-invoicing-reconciliation
+planning-mds/kg-source/features/F0026.yaml:87:      - capability:commission-revenue-tracking
+planning-mds/kg-source/features/F0026.yaml:88:      - endpoint:billing-invoice-detail
+planning-mds/kg-source/features/F0026.yaml:89:      - endpoint:billing-invoice-list-create
+planning-mds/kg-source/features/F0026.yaml:90:      - endpoint:policy-billing-summary
+planning-mds/kg-source/features/F0026.yaml:91:      - entity:billing-invoice
+planning-mds/kg-source/features/F0026.yaml:92:      - entity:expected-commission
+planning-mds/kg-source/features/F0026.yaml:95:      - ui_route:billing-workspace
+planning-mds/kg-source/features/F0026.yaml:98:      - feature:F0025
+planning-mds/kg-source/features/F0026.yaml:100:      - policy_rule:billing-read
+planning-mds/kg-source/features/F0026.yaml:101:      - policy_rule:billing-summary-read
+planning-mds/kg-source/features/F0026.yaml:107:      - schema:billing-invoice
+planning-mds/kg-source/features/F0026.yaml:108:      - schema:policy-billing-summary
+planning-mds/kg-source/features/F0026.yaml:109:  - id: story:F0026-S0002
+planning-mds/kg-source/features/F0026.yaml:110:    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0002-create-agency-bill-invoice.md
+planning-mds/kg-source/features/F0026.yaml:112:      - capability:billing-invoicing-reconciliation
+planning-mds/kg-source/features/F0026.yaml:113:      - endpoint:billing-invoice-list-create
+planning-mds/kg-source/features/F0026.yaml:115:      - entity:billing-invoice
+planning-mds/kg-source/features/F0026.yaml:118:      - event:billing-invoice-created
+planning-mds/kg-source/features/F0026.yaml:122:      - policy_rule:billing-invoice-create
+planning-mds/kg-source/features/F0026.yaml:128:      - schema:billing-invoice
+planning-mds/kg-source/features/F0026.yaml:129:      - schema:billing-invoice-create-request
+planning-mds/kg-source/features/F0026.yaml:130:  - id: story:F0026-S0003
+planning-mds/kg-source/features/F0026.yaml:131:    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0003-record-payment-receipts.md
+planning-mds/kg-source/features/F0026.yaml:133:      - capability:billing-invoicing-reconciliation
+planning-mds/kg-source/features/F0026.yaml:146:      - policy_rule:billing-read
+planning-mds/kg-source/features/F0026.yaml:147:      - policy_rule:billing-receipt-import
+planning-mds/kg-source/features/F0026.yaml:148:      - policy_rule:billing-receipt-record
+planning-mds/kg-source/features/F0026.yaml:157:  - id: story:F0026-S0004
+planning-mds/kg-source/features/F0026.yaml:158:    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0004-apply-exact-payment-and-reconcile-invoice.md
+planning-mds/kg-source/features/F0026.yaml:160:      - capability:billing-invoicing-reconciliation
+planning-mds/kg-source/features/F0026.yaml:163:      - entity:billing-invoice
+planning-mds/kg-source/features/F0026.yaml:169:      - ui_route:billing-reconciliation
+planning-mds/kg-source/features/F0026.yaml:173:      - policy_rule:billing-application-apply
+planning-mds/kg-source/features/F0026.yaml:182:  - id: story:F0026-S0005
+planning-mds/kg-source/features/F0026.yaml:183:    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0005-review-exceptions-and-approve-corrections.md
+planning-mds/kg-source/features/F0026.yaml:186:      - capability:billing-invoicing-reconciliation
+planning-mds/kg-source/features/F0026.yaml:187:      - endpoint:billing-correction-decision
+planning-mds/kg-source/features/F0026.yaml:188:      - endpoint:billing-correction-request
+planning-mds/kg-source/features/F0026.yaml:191:      - entity:billing-correction
+planning-mds/kg-source/features/F0026.yaml:192:      - entity:billing-invoice
+planning-mds/kg-source/features/F0026.yaml:193:      - entity:expected-commission
+planning-mds/kg-source/features/F0026.yaml:196:      - event:billing-correction-approved
+planning-mds/kg-source/features/F0026.yaml:197:      - event:billing-correction-rejected
+planning-mds/kg-source/features/F0026.yaml:198:      - event:billing-correction-requested
+planning-mds/kg-source/features/F0026.yaml:200:      - workflow:billing-correction
+planning-mds/kg-source/features/F0026.yaml:203:      - feature:F0025
+planning-mds/kg-source/features/F0026.yaml:205:      - policy_rule:billing-correction-approve
+planning-mds/kg-source/features/F0026.yaml:206:      - policy_rule:billing-correction-request
+planning-mds/kg-source/features/F0026.yaml:207:      - policy_rule:billing-exception-manage
+planning-mds/kg-source/features/F0026.yaml:208:      - policy_rule:billing-read
+planning-mds/kg-source/features/F0026.yaml:214:      - schema:billing-correction
+planning-mds/kg-source/features/F0026.yaml:215:      - schema:billing-correction-decision-request
+planning-mds/kg-source/features/F0026.yaml:216:      - schema:billing-correction-request
+planning-mds/kg-source/features/F0026.yaml:219:  - id: story:F0026-S0006
+planning-mds/kg-source/features/F0026.yaml:220:    path: planning-mds/features/F0026-billing-invoicing-and-reconciliation/F0026-S0006-monitor-reconciliation-backlog-and-audit.md
+planning-mds/kg-source/features/F0026.yaml:223:      - capability:billing-invoicing-reconciliation
+planning-mds/kg-source/features/F0026.yaml:232:      - feature:F0025
+planning-mds/kg-source/features/F0026.yaml:234:      - policy_rule:billing-backlog-read
+planning-mds/kg-source/features/F0026.yaml:235:      - policy_rule:billing-backlog-summary-read
+planning-mds/kg-source/features/F0026.yaml:236:      - policy_rule:billing-summary-read
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:452:  - id: endpoint:commission-adjustment-decision
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:453:    label: POST /commission-adjustments/{adjustmentId}/decision
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:456:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:458:      - entity:commission-adjustment
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:459:      - entity:expected-commission
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:460:      - policy_rule:commission-adjustment-approve
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:461:    route: /commission-adjustments/{adjustmentId}/decision
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:464:  - id: endpoint:commission-schedule-list-create
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:465:    label: GET/POST /commission-schedules
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:468:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:471:      - entity:commission-schedule
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:472:      - policy_rule:commission-read
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:473:      - policy_rule:commission-schedule-manage
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:474:    route: /commission-schedules
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:477:  - id: endpoint:commission-schedule-update
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:478:    label: PUT /commission-schedules/{scheduleId}
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:481:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:483:      - entity:commission-schedule
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:484:      - policy_rule:commission-schedule-manage
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:485:    route: /commission-schedules/{scheduleId}
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:743:  - id: endpoint:expected-commission-adjustments
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:744:    label: GET/POST /expected-commissions/{expectedCommissionId}/adjustments
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:747:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:749:      - entity:commission-adjustment
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:750:      - entity:expected-commission
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:751:      - policy_rule:commission-adjustment-request
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:752:      - policy_rule:commission-read
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:753:    route: /expected-commissions/{expectedCommissionId}/adjustments
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:756:  - id: endpoint:expected-commission-calculate
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:757:    label: POST /expected-commissions/{expectedCommissionId}/calculate
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:760:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:762:      - entity:expected-commission
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:763:      - policy_rule:commission-calculate
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:764:    route: /expected-commissions/{expectedCommissionId}/calculate
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:767:  - id: endpoint:expected-commission-list
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:768:    label: GET /expected-commissions
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:771:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:772:      - entity:expected-commission
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:773:      - policy_rule:commission-read
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:774:    route: /expected-commissions
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:930:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:933:      - policy_rule:commission-read
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:979:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:984:      - policy_rule:commission-split-assign
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1128:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1131:      - policy_rule:commission-rollup-read
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1609:  - id: endpoint:billing-invoice-list-create
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1610:    label: GET/POST /billing-invoices
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1612:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, policy_rule:billing-invoice-create, policy_rule:billing-read]
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1613:    route: /billing-invoices
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1615:  - id: endpoint:billing-invoice-detail
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1616:    label: GET /billing-invoices/{invoiceId}
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1618:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, policy_rule:billing-read]
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1619:    route: /billing-invoices/{invoiceId}
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1621:  - id: endpoint:policy-billing-summary
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1622:    label: GET /policies/{policyId}/billing-summary
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1624:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:policy, policy_rule:billing-summary-read, policy_rule:policy-read]
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1625:    route: /policies/{policyId}/billing-summary
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1630:    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt, policy_rule:billing-read, policy_rule:billing-receipt-record]
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1636:    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt-import-batch, entity:payment-receipt-import-row-outcome, policy_rule:billing-receipt-import]
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1642:    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt-import-batch, policy_rule:billing-read]
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1648:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:payment-application, entity:payment-receipt, policy_rule:billing-application-apply]
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1654:    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception, policy_rule:billing-backlog-read]
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1660:    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception, policy_rule:billing-exception-manage]
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1663:  - id: endpoint:billing-correction-request
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1666:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, entity:reconciliation-exception, policy_rule:billing-correction-request, workflow:billing-correction]
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1669:  - id: endpoint:billing-correction-decision
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1670:    label: POST /billing-corrections/{correctionId}/decision
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1672:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, entity:billing-invoice, policy_rule:billing-correction-approve, workflow:billing-correction]
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1673:    route: /billing-corrections/{correctionId}/decision
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml:1678:    related_nodes: [capability:billing-invoicing-reconciliation, capability:operational-reporting, entity:reconciliation-exception, policy_rule:billing-backlog-summary-read]
+planning-mds/kg-source/bindings/node_bindings.yaml:115:  - id: capability:commission-revenue-tracking
+planning-mds/kg-source/bindings/node_bindings.yaml:133:          - experience/src/features/commissions/**
+planning-mds/kg-source/bindings/node_bindings.yaml:140:          - experience/src/features/commissions/tests/**
+planning-mds/kg-source/nodes/events/events.yaml:266:  - id: event:billing-invoice-created
+planning-mds/kg-source/nodes/events/events.yaml:269:    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:billing-invoice]
+planning-mds/kg-source/nodes/events/events.yaml:274:    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:payment-receipt]
+planning-mds/kg-source/nodes/events/events.yaml:279:    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:payment-receipt-import-batch]
+planning-mds/kg-source/nodes/events/events.yaml:284:    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:billing-invoice, entity:payment-application, entity:payment-receipt]
+planning-mds/kg-source/nodes/events/events.yaml:289:    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:reconciliation-exception]
+planning-mds/kg-source/nodes/events/events.yaml:291:  - id: event:billing-correction-requested
+planning-mds/kg-source/nodes/events/events.yaml:294:    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:billing-correction, workflow:billing-correction]
+planning-mds/kg-source/nodes/events/events.yaml:296:  - id: event:billing-correction-approved
+planning-mds/kg-source/nodes/events/events.yaml:299:    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:billing-correction, entity:billing-invoice, workflow:billing-correction]
+planning-mds/kg-source/nodes/events/events.yaml:301:  - id: event:billing-correction-rejected
+planning-mds/kg-source/nodes/events/events.yaml:304:    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:billing-correction, workflow:billing-correction]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:166:  - id: schema:commission-adjustment
+planning-mds/kg-source/nodes/schemas/schemas.yaml:167:    path: planning-mds/schemas/commission-adjustment.schema.json
+planning-mds/kg-source/nodes/schemas/schemas.yaml:169:      - entity:commission-adjustment
+planning-mds/kg-source/nodes/schemas/schemas.yaml:170:      - entity:expected-commission
+planning-mds/kg-source/nodes/schemas/schemas.yaml:171:  - id: schema:commission-adjustment-decision-request
+planning-mds/kg-source/nodes/schemas/schemas.yaml:172:    path: planning-mds/schemas/commission-adjustment-decision-request.schema.json
+planning-mds/kg-source/nodes/schemas/schemas.yaml:174:      - entity:commission-adjustment
+planning-mds/kg-source/nodes/schemas/schemas.yaml:175:  - id: schema:commission-adjustment-request
+planning-mds/kg-source/nodes/schemas/schemas.yaml:176:    path: planning-mds/schemas/commission-adjustment-request.schema.json
+planning-mds/kg-source/nodes/schemas/schemas.yaml:178:      - entity:commission-adjustment
+planning-mds/kg-source/nodes/schemas/schemas.yaml:179:      - entity:expected-commission
+planning-mds/kg-source/nodes/schemas/schemas.yaml:180:  - id: schema:commission-schedule
+planning-mds/kg-source/nodes/schemas/schemas.yaml:181:    path: planning-mds/schemas/commission-schedule.schema.json
+planning-mds/kg-source/nodes/schemas/schemas.yaml:183:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/schemas/schemas.yaml:184:      - entity:commission-schedule
+planning-mds/kg-source/nodes/schemas/schemas.yaml:185:  - id: schema:commission-schedule-upsert-request
+planning-mds/kg-source/nodes/schemas/schemas.yaml:186:    path: planning-mds/schemas/commission-schedule-upsert-request.schema.json
+planning-mds/kg-source/nodes/schemas/schemas.yaml:188:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/schemas/schemas.yaml:189:      - entity:commission-schedule
+planning-mds/kg-source/nodes/schemas/schemas.yaml:316:  - id: schema:expected-commission
+planning-mds/kg-source/nodes/schemas/schemas.yaml:317:    path: planning-mds/schemas/expected-commission.schema.json
+planning-mds/kg-source/nodes/schemas/schemas.yaml:319:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/schemas/schemas.yaml:320:      - entity:expected-commission
+planning-mds/kg-source/nodes/schemas/schemas.yaml:590:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/schemas/schemas.yaml:596:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/schemas/schemas.yaml:678:      - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/schemas/schemas.yaml:835:  - id: schema:billing-invoice
+planning-mds/kg-source/nodes/schemas/schemas.yaml:836:    path: planning-mds/schemas/billing-invoice.schema.json
+planning-mds/kg-source/nodes/schemas/schemas.yaml:837:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:838:  - id: schema:billing-invoice-create-request
+planning-mds/kg-source/nodes/schemas/schemas.yaml:839:    path: planning-mds/schemas/billing-invoice-create-request.schema.json
+planning-mds/kg-source/nodes/schemas/schemas.yaml:840:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:843:    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:846:    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:849:    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt, entity:payment-receipt-import-batch]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:852:    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt-import-batch, entity:payment-receipt-import-row-outcome]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:855:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:payment-application, entity:payment-receipt]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:858:    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-application]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:861:    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:864:    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:865:  - id: schema:billing-correction-request
+planning-mds/kg-source/nodes/schemas/schemas.yaml:866:    path: planning-mds/schemas/billing-correction-request.schema.json
+planning-mds/kg-source/nodes/schemas/schemas.yaml:867:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:868:  - id: schema:billing-correction-decision-request
+planning-mds/kg-source/nodes/schemas/schemas.yaml:869:    path: planning-mds/schemas/billing-correction-decision-request.schema.json
+planning-mds/kg-source/nodes/schemas/schemas.yaml:870:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:871:  - id: schema:billing-correction
+planning-mds/kg-source/nodes/schemas/schemas.yaml:872:    path: planning-mds/schemas/billing-correction.schema.json
+planning-mds/kg-source/nodes/schemas/schemas.yaml:873:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:876:    related_nodes: [capability:billing-invoicing-reconciliation, capability:operational-reporting, entity:reconciliation-exception]
+planning-mds/kg-source/nodes/schemas/schemas.yaml:877:  - id: schema:policy-billing-summary
+planning-mds/kg-source/nodes/schemas/schemas.yaml:878:    path: planning-mds/schemas/policy-billing-summary.schema.json
+planning-mds/kg-source/nodes/schemas/schemas.yaml:879:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:policy]
+planning-mds/kg-source/nodes/adrs/adrs.yaml:103:    path: planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+planning-mds/kg-source/nodes/workflows/commission-adjustment.yaml:1:id: workflow:commission-adjustment
+planning-mds/kg-source/nodes/workflows/commission-adjustment.yaml:10:  - entity:commission-adjustment
+planning-mds/kg-source/nodes/workflows/commission-adjustment.yaml:11:  - entity:expected-commission
+planning-mds/kg-source/nodes/workflows/commission-adjustment.yaml:14:  - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+planning-mds/kg-source/nodes/workflows/commission-adjustment.yaml:15:  - planning-mds/schemas/commission-adjustment.schema.json
+planning-mds/kg-source/nodes/workflows/commission-adjustment.yaml:17:  - id: state:commission-adjustment:pending
+planning-mds/kg-source/nodes/workflows/commission-adjustment.yaml:20:      - state:commission-adjustment:approved
+planning-mds/kg-source/nodes/workflows/commission-adjustment.yaml:21:      - state:commission-adjustment:rejected
+planning-mds/kg-source/nodes/workflows/commission-adjustment.yaml:22:  - id: state:commission-adjustment:approved
+planning-mds/kg-source/nodes/workflows/commission-adjustment.yaml:24:  - id: state:commission-adjustment:rejected
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:106:  - id: ui_route:billing-workspace
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:107:    label: /billing
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:108:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:payment-receipt]
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:109:    route: /billing
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:111:      - F0026/feature-assembly-plan.md
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:113:  - id: ui_route:billing-invoice-detail
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:114:    label: /billing/invoices/:invoiceId
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:115:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:reconciliation-exception]
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:116:    route: /billing/invoices/:invoiceId
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:118:      - F0026/feature-assembly-plan.md
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:119:  - id: ui_route:billing-reconciliation
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:120:    label: /billing/reconciliation
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:121:    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:payment-application, entity:payment-receipt, workflow:billing-correction]
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:122:    route: /billing/reconciliation
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml:124:      - F0026/feature-assembly-plan.md
+planning-mds/kg-source/nodes/workflows/billing-correction.yaml:1:id: workflow:billing-correction
+planning-mds/kg-source/nodes/workflows/billing-correction.yaml:9:  - entity:billing-correction
+planning-mds/kg-source/nodes/workflows/billing-correction.yaml:10:  - entity:billing-invoice
+planning-mds/kg-source/nodes/workflows/billing-correction.yaml:13:  - F0026/feature-assembly-plan.md
+planning-mds/kg-source/nodes/workflows/billing-correction.yaml:15:  - planning-mds/schemas/billing-correction.schema.json
+planning-mds/kg-source/nodes/workflows/billing-correction.yaml:17:  - id: state:billing-correction:pending
+planning-mds/kg-source/nodes/workflows/billing-correction.yaml:20:      - state:billing-correction:approved
+planning-mds/kg-source/nodes/workflows/billing-correction.yaml:21:      - state:billing-correction:rejected
+planning-mds/kg-source/nodes/workflows/billing-correction.yaml:22:  - id: state:billing-correction:approved
+planning-mds/kg-source/nodes/workflows/billing-correction.yaml:24:  - id: state:billing-correction:rejected
+planning-mds/kg-source/nodes/roles/roles.yaml:95:      - F0026/PRD.md
+planning-mds/kg-source/nodes/roles/roles.yaml:102:      - F0026/PRD.md
+planning-mds/kg-source/nodes/capabilities/commission-revenue-tracking.yaml:1:id: capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/capabilities/commission-revenue-tracking.yaml:3:notes: Internal-only expected commission, producer split attribution, adjustment, and revenue rollup visibility
+planning-mds/kg-source/nodes/capabilities/commission-revenue-tracking.yaml:4:  for F0025; explicitly excludes settlement, billing, payments, reconciliation, statements, tax, and producer
+planning-mds/kg-source/nodes/capabilities/commission-revenue-tracking.yaml:9:    summary: F0025 introduces a CommissionRevenue module that persists expected commission review records
+planning-mds/kg-source/nodes/capabilities/commission-revenue-tracking.yaml:18:  - entity:commission-adjustment
+planning-mds/kg-source/nodes/capabilities/commission-revenue-tracking.yaml:19:  - entity:commission-schedule
+planning-mds/kg-source/nodes/capabilities/commission-revenue-tracking.yaml:20:  - entity:expected-commission
+planning-mds/kg-source/nodes/capabilities/commission-revenue-tracking.yaml:24:  - F0025/PRD.md
+planning-mds/kg-source/nodes/capabilities/commission-revenue-tracking.yaml:25:  - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+planning-mds/kg-source/nodes/capabilities/billing-invoicing-reconciliation.yaml:1:id: capability:billing-invoicing-reconciliation
+planning-mds/kg-source/nodes/capabilities/billing-invoicing-reconciliation.yaml:13:  - capability:commission-revenue-tracking
+planning-mds/kg-source/nodes/capabilities/billing-invoicing-reconciliation.yaml:15:  - entity:billing-correction
+planning-mds/kg-source/nodes/capabilities/billing-invoicing-reconciliation.yaml:16:  - entity:billing-invoice
+planning-mds/kg-source/nodes/capabilities/billing-invoicing-reconciliation.yaml:22:  - workflow:billing-correction
+planning-mds/kg-source/nodes/capabilities/billing-invoicing-reconciliation.yaml:24:  - F0026/PRD.md
+planning-mds/kg-source/nodes/capabilities/billing-invoicing-reconciliation.yaml:25:  - F0026/feature-assembly-plan.md
+planning-mds/kg-source/nodes/entities/producer-split-assignment.yaml:10:  - entity:expected-commission
+planning-mds/kg-source/nodes/entities/producer-split-assignment.yaml:16:  - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+planning-mds/kg-source/nodes/entities/reconciliation-exception.yaml:9:  - entity:billing-correction
+planning-mds/kg-source/nodes/entities/reconciliation-exception.yaml:10:  - entity:billing-invoice
+planning-mds/kg-source/nodes/entities/billing-invoice.yaml:1:id: entity:billing-invoice
+planning-mds/kg-source/nodes/entities/billing-invoice.yaml:16:  - planning-mds/schemas/billing-invoice.schema.json
+planning-mds/kg-source/nodes/entities/billing-correction.yaml:1:id: entity:billing-correction
+planning-mds/kg-source/nodes/entities/billing-correction.yaml:9:  - entity:billing-invoice
+planning-mds/kg-source/nodes/entities/billing-correction.yaml:11:  - workflow:billing-correction
+planning-mds/kg-source/nodes/entities/billing-correction.yaml:14:  - planning-mds/schemas/billing-correction.schema.json
+planning-mds/kg-source/nodes/entities/commission-adjustment.yaml:1:id: entity:commission-adjustment
+planning-mds/kg-source/nodes/entities/commission-adjustment.yaml:7:      commission totals and rollups without mutating policy, schedule, or split source data.
+planning-mds/kg-source/nodes/entities/commission-adjustment.yaml:10:  - entity:expected-commission
+planning-mds/kg-source/nodes/entities/commission-adjustment.yaml:13:  - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+planning-mds/kg-source/nodes/entities/commission-adjustment.yaml:14:  - planning-mds/schemas/commission-adjustment.schema.json
+planning-mds/kg-source/nodes/entities/revenue-attribution-projection.yaml:6:    summary: Revenue rollups are read-side projections over expected commission and approved adjustments;
+planning-mds/kg-source/nodes/entities/revenue-attribution-projection.yaml:12:  - entity:expected-commission
+planning-mds/kg-source/nodes/entities/revenue-attribution-projection.yaml:18:  - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+planning-mds/kg-source/nodes/entities/expected-commission.yaml:1:id: entity:expected-commission
+planning-mds/kg-source/nodes/entities/expected-commission.yaml:6:    summary: Expected commission is persisted as a CRM review record with source snapshots, exception
+planning-mds/kg-source/nodes/entities/expected-commission.yaml:11:  - entity:commission-adjustment
+planning-mds/kg-source/nodes/entities/expected-commission.yaml:12:  - entity:commission-schedule
+planning-mds/kg-source/nodes/entities/expected-commission.yaml:17:  - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+planning-mds/kg-source/nodes/entities/expected-commission.yaml:18:  - planning-mds/schemas/expected-commission.schema.json
+planning-mds/kg-source/nodes/entities/commission-schedule.yaml:1:id: entity:commission-schedule
+planning-mds/kg-source/nodes/entities/commission-schedule.yaml:11:  - entity:expected-commission
+planning-mds/kg-source/nodes/entities/commission-schedule.yaml:14:  - planning-mds/architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md
+planning-mds/kg-source/nodes/entities/commission-schedule.yaml:15:  - planning-mds/schemas/commission-schedule.schema.json
+planning-mds/kg-source/nodes/entities/payment-application.yaml:9:  - entity:billing-invoice
+planning-mds/kg-source/nodes/endpoints/endpoints.yaml
+planning-mds/kg-source/bindings/node_bindings.yaml
+planning-mds/kg-source/nodes/api_contracts/api_contracts.yaml
+planning-mds/kg-source/nodes/adrs/adrs.yaml
+planning-mds/kg-source/nodes/evidence/evidence.yaml
+planning-mds/kg-source/nodes/ui_routes/ui_routes.yaml
+planning-mds/kg-source/nodes/workflows/commission-adjustment.yaml
+planning-mds/kg-source/nodes/workflows/service-case.yaml
+planning-mds/kg-source/nodes/roles/roles.yaml
+planning-mds/kg-source/nodes/workflows/account-lifecycle.yaml
+planning-mds/kg-source/nodes/capabilities/oidc-login-and-session.yaml
+planning-mds/kg-source/nodes/workflows/policy.yaml
+planning-mds/kg-source/nodes/workflows/billing-correction.yaml
+planning-mds/kg-source/nodes/capabilities/admin-configuration-governance.yaml
+planning-mds/kg-source/nodes/capabilities/neuron-message-envelope.yaml
+planning-mds/kg-source/nodes/capabilities/product-schema-registry.yaml
+planning-mds/kg-source/nodes/entities/communication-participant.yaml
+planning-mds/kg-source/nodes/capabilities/dashboard-nudge-cards.yaml
+planning-mds/kg-source/nodes/capabilities/global-search.yaml
+planning-mds/kg-source/nodes/entities/mga.yaml
+planning-mds/kg-source/nodes/entities/routing-decision-log.yaml
+planning-mds/kg-source/nodes/entities/document-template.yaml
+planning-mds/kg-source/nodes/entities/carrier-market-activity-link.yaml
+planning-mds/kg-source/nodes/entities/configuration-domain.yaml
+planning-mds/kg-source/nodes/entities/document.yaml
+planning-mds/kg-source/nodes/entities/user-profile.yaml
+planning-mds/kg-source/nodes/entities/generated-document-artifact.yaml
+planning-mds/kg-source/nodes/entities/commission-adjustment.yaml
+planning-mds/kg-source/nodes/entities/task-item.yaml
+planning-mds/kg-source/nodes/entities/producer.yaml
+planning-mds/kg-source/nodes/entities/payment-application.yaml
+planning-mds/kg-source/nodes/entities/workflow-transition.yaml
+planning-mds/kg-source/nodes/entities/revenue-attribution-projection.yaml
+planning-mds/kg-source/nodes/entities/carrier-appetite-note.yaml
+planning-mds/kg-source/nodes/entities/broker.yaml
+planning-mds/kg-source/nodes/entities/territory-assignment.yaml
+planning-mds/kg-source/nodes/entities/lob-schema-bundle.yaml
+planning-mds/kg-source/nodes/entities/assignment-rule.yaml
+planning-mds/kg-source/nodes/entities/published-operational-configuration-set.yaml
+planning-mds/kg-source/nodes/entities/billing-correction.yaml
+planning-mds/kg-source/nodes/entities/policy.yaml
+planning-mds/kg-source/nodes/entities/producer-split-participant.yaml
+planning-mds/kg-source/nodes/entities/operational-report-projection.yaml
+planning-mds/kg-source/nodes/entities/reconciliation-exception.yaml
+planning-mds/kg-source/nodes/entities/expected-commission.yaml
+planning-mds/kg-source/nodes/entities/contact.yaml
+planning-mds/kg-source/nodes/entities/configuration-audit-event.yaml
+planning-mds/kg-source/nodes/entities/configuration-draft.yaml
+planning-mds/kg-source/nodes/entities/activity-timeline-event.yaml
+planning-mds/kg-source/nodes/entities/program.yaml
+planning-mds/kg-source/nodes/entities/lob-product-version.yaml
+planning-mds/kg-source/nodes/entities/carrier-ref.yaml
+planning-mds/kg-source/nodes/entities/coverage-window.yaml
+planning-mds/kg-source/nodes/entities/payment-receipt-import-row-outcome.yaml
+planning-mds/kg-source/nodes/entities/service-case.yaml
+planning-mds/kg-source/nodes/entities/billing-invoice.yaml
+planning-mds/kg-source/nodes/entities/commission-schedule.yaml
+planning-mds/kg-source/nodes/entities/submission.yaml
+planning-mds/kg-source/nodes/entities/configuration-validation-result.yaml
+planning-mds/kg-source/nodes/entities/queue-work-item.yaml
+planning-mds/kg-source/nodes/entities/saved-view-audit-event.yaml
+planning-mds/kg-source/nodes/entities/submission-approval-decision.yaml
+planning-mds/kg-source/nodes/entities/policy-endorsement.yaml
+planning-mds/kg-source/nodes/entities/territory.yaml
+planning-mds/kg-source/nodes/entities/work-queue-member.yaml
+planning-mds/kg-source/nodes/entities/saved-view.yaml
+planning-mds/kg-source/nodes/entities/carrier-appointment.yaml
+planning-mds/kg-source/nodes/entities/broker-region.yaml
+planning-mds/kg-source/nodes/entities/lob-product.yaml
+planning-mds/kg-source/nodes/entities/payment-receipt.yaml
+planning-mds/kg-source/nodes/entities/submission-quote-packet.yaml
+planning-mds/kg-source/nodes/entities/producer-split-assignment.yaml
+planning-mds/kg-source/nodes/entities/communication-link.yaml
+planning-mds/kg-source/nodes/entities/workflow-sla-threshold.yaml
+planning-mds/kg-source/nodes/entities/search-document.yaml
+planning-mds/kg-source/nodes/entities/policy-coverage-line.yaml
+planning-mds/kg-source/nodes/entities/carrier-market.yaml
+planning-mds/kg-source/nodes/entities/configuration-refresh-status.yaml
+planning-mds/kg-source/nodes/entities/payment-receipt-import-batch.yaml
+planning-mds/kg-source/nodes/entities/communication-event.yaml
+planning-mds/kg-source/nodes/entities/carrier-market-contact.yaml
+planning-mds/kg-source/nodes/entities/lob-bundle-activation-event.yaml
+planning-mds/kg-source/nodes/entities/producer-ownership.yaml
+planning-mds/kg-source/nodes/entities/policy-version.yaml
+planning-mds/kg-source/nodes/entities/service-case-claim-reference.yaml
+planning-mds/kg-source/nodes/entities/work-queue.yaml
+planning-mds/kg-source/nodes/entities/submission-bind-handoff.yaml
+planning-mds/kg-source/nodes/entities/broker-insight-projection.yaml
+planning-mds/kg-source/nodes/entities/account.yaml
+planning-mds/kg-source/nodes/entities/service-case-transition.yaml
+planning-mds/kg-source/nodes/entities/renewal.yaml
+planning-mds/kg-source/nodes/workflows/submission.yaml
+planning-mds/kg-source/nodes/workflows/document-ingest.yaml
+planning-mds/kg-source/nodes/workflows/renewal.yaml
+planning-mds/kg-source/nodes/capabilities/task-center.yaml
+planning-mds/kg-source/nodes/schemas/schemas.yaml
+planning-mds/kg-source/nodes/capabilities/api-contract-testing.yaml
+planning-mds/kg-source/nodes/capabilities/frontend-quality-gates.yaml
+planning-mds/kg-source/nodes/capabilities/distribution-hierarchy-management.yaml
+planning-mds/kg-source/nodes/capabilities/saved-views.yaml
+planning-mds/kg-source/nodes/capabilities/broker-insights.yaml
+planning-mds/kg-source/nodes/capabilities/structured-logging.yaml
+planning-mds/kg-source/nodes/capabilities/task-visibility.yaml
+planning-mds/kg-source/nodes/capabilities/task-assignment.yaml
+planning-mds/kg-source/nodes/capabilities/producer-ownership-management.yaml
+planning-mds/kg-source/nodes/capabilities/operations-routing.yaml
+planning-mds/kg-source/nodes/capabilities/dashboard-opportunity-analytics.yaml
+planning-mds/kg-source/nodes/capabilities/neuron-companion.yaml
+planning-mds/kg-source/nodes/capabilities/billing-invoicing-reconciliation.yaml
+planning-mds/kg-source/nodes/capabilities/neuron-operation-persistence.yaml
+planning-mds/kg-source/nodes/capabilities/territory-management.yaml
+planning-mds/kg-source/nodes/capabilities/dashboard-home.yaml
+planning-mds/kg-source/nodes/capabilities/claims-principal-normalization.yaml
+planning-mds/kg-source/nodes/capabilities/neuron-outreach-drafter.yaml
+planning-mds/kg-source/nodes/capabilities/frontend-test-infrastructure.yaml
+planning-mds/kg-source/nodes/capabilities/validator-equivalence.yaml
+planning-mds/kg-source/nodes/capabilities/neuron-companion-telemetry.yaml
+planning-mds/kg-source/nodes/capabilities/session-continuity.yaml
+planning-mds/kg-source/nodes/capabilities/role-based-entry.yaml
+planning-mds/kg-source/nodes/capabilities/lob-rules-governance.yaml
+planning-mds/kg-source/nodes/capabilities/sonarqube-reporting.yaml
+planning-mds/kg-source/nodes/capabilities/broker-relationship-management.yaml
+planning-mds/kg-source/nodes/capabilities/environment-reset.yaml
+planning-mds/kg-source/nodes/capabilities/dashboard-broker-activity-feed.yaml
+planning-mds/kg-source/nodes/capabilities/neuron-day-at-a-glance-shell.yaml
+planning-mds/kg-source/nodes/capabilities/session-context-restore.yaml
+planning-mds/kg-source/nodes/glossary_terms/glossary_terms.yaml
+planning-mds/kg-source/nodes/capabilities/dynamic-attribute-panel.yaml
+planning-mds/kg-source/nodes/migrations/migrations.yaml
+planning-mds/kg-source/nodes/capabilities/authorization-enforcement.yaml
+planning-mds/kg-source/nodes/capabilities/commission-revenue-tracking.yaml
+planning-mds/kg-source/nodes/capabilities/auth-error-classification.yaml
+planning-mds/kg-source/nodes/capabilities/carrier-market-relationship-management.yaml
+planning-mds/kg-source/nodes/capabilities/document-management.yaml
+planning-mds/kg-source/nodes/capabilities/silent-token-renewal.yaml
+planning-mds/kg-source/nodes/capabilities/neuron-orchestration-runtime.yaml
+planning-mds/kg-source/nodes/capabilities/dashboard-storytelling-canvas.yaml
+planning-mds/kg-source/nodes/capabilities/broker-360.yaml
+planning-mds/kg-source/nodes/capabilities/document-classification.yaml
+planning-mds/kg-source/nodes/capabilities/smoke-test-automation.yaml
+planning-mds/kg-source/nodes/capabilities/session-telemetry.yaml
+planning-mds/kg-source/nodes/capabilities/idp-foundation.yaml
+planning-mds/kg-source/nodes/capabilities/submission-workflow.yaml
+planning-mds/kg-source/nodes/capabilities/broker-contact-management.yaml
+planning-mds/kg-source/nodes/capabilities/dynamic-lob-attributes.yaml
+planning-mds/kg-source/nodes/capabilities/neuron-zone-dispatch.yaml
+planning-mds/kg-source/nodes/capabilities/dashboard-pipeline-visualization.yaml
+planning-mds/kg-source/nodes/capabilities/authentication.yaml
+planning-mds/kg-source/nodes/capabilities/lighthouse-performance-gate.yaml
+planning-mds/kg-source/nodes/capabilities/dashboard-kpis.yaml
+planning-mds/kg-source/nodes/capabilities/neuron-renewals-head.yaml
+planning-mds/kg-source/nodes/capabilities/neuron-scope-guard.yaml
+planning-mds/kg-source/nodes/capabilities/document-completeness-signal.yaml
+planning-mds/kg-source/nodes/capabilities/principal-key-normalization.yaml
+planning-mds/kg-source/nodes/capabilities/document-retention.yaml
+planning-mds/kg-source/nodes/capabilities/outbound-document-generation.yaml
+planning-mds/kg-source/nodes/capabilities/qe-toolchain-activation.yaml
+planning-mds/kg-source/nodes/capabilities/idle-warning.yaml
+planning-mds/kg-source/nodes/capabilities/document-templates.yaml
+planning-mds/kg-source/nodes/capabilities/broker-user-access-boundaries.yaml
+planning-mds/kg-source/nodes/capabilities/operational-reporting.yaml
+planning-mds/kg-source/nodes/events/events.yaml
+planning-mds/kg-source/nodes/config_keys/config_keys.yaml

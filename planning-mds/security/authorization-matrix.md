@@ -666,6 +666,29 @@ drilldowns are returned.
 
 ---
 
+### 2.10b.2 Billing, Invoicing, and Reconciliation (F0026)
+
+F0026 finance detail is `InternalOnly`. Every ALLOW below is intersected with linked policy/account authorization before repositories return rows, counts, totals, existence hints, or drilldowns. The operational outstanding amount is not a ledger balance.
+
+| Role | Resource | Action(s) | Decision | Conditions | Stories |
+|------|----------|-----------|----------|------------|---------|
+| FinanceOperationsAnalyst | billing | read / invoice_create / receipt_record / receipt_import / application_apply / exception_manage / correction_request / backlog_read / summary_read | **ALLOW** | Linked policy/account source scope; cannot approve/reject a correction. | F0026-S0001 through S0006 |
+| FinanceManager | billing | read / correction_approve / backlog_read / backlog_summary_read / summary_read | **ALLOW** | Linked source scope; may decide only another principal's current pending correction; no invoice/receipt/application mutation in the first release. | F0026-S0001, S0005, S0006 |
+| DistributionUser / DistributionManager / RelationshipManager | billing | summary_read | **ALLOW** | Bounded read-only summary for an already-visible policy; excludes receipt/import/exception/correction/audit detail and backlog totals. | F0026-S0001, S0006 |
+| Admin | billing | all named F0026 actions | **ALLOW** | Unscoped internal administration; validation, preconditions, immutable audit, and same-user decision denial still apply. | F0026-S0001 through S0006 |
+| BrokerUser / MgaUser / ExternalUser / all unlisted roles | billing | all | **DENY** | External or unspecified finance access is out of scope. | F0026 PRD non-goals |
+
+**Constraints applying to all F0026 ALLOW decisions:**
+- Finance action checks and source-record authorization run before rows, counts, totals, facets, import outcomes, or drilldowns are materialized.
+- `summary_read` never confers `read`; unauthorized and absent records share the same not-found response shape.
+- Recording/importing a receipt never mutates an invoice. Only an explicit exact application or approved correction changes operational outstanding.
+- Exact application requires same currency and receipt amount equal to the full outstanding amount; mismatch leaves both records unapplied and opens/preserves an exception.
+- Existing aggregate mutations require `If-Match`; missing/stale preconditions return 428/412.
+- Correction decisions require a different principal and are terminal. Admin is not exempt from same-user denial.
+- All successful mutations emit immutable timeline evidence; raw CSV, memo, reason, and evidence-note content is excluded from logs.
+
+---
+
 ### 2.10c Broker Insights (F0008)
 
 F0008 is internal-only and read-only. Broker scorecards, trends, benchmarks,

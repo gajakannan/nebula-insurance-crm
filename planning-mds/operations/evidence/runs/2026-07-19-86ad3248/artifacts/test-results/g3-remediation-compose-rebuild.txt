@@ -1,0 +1,94 @@
+ Image nebula-insurance-crm-api Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 581B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 587B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for mcr.microsoft.com/dotnet/sdk:10.0
+#3 DONE 0.4s
+
+#4 [internal] load metadata for mcr.microsoft.com/dotnet/aspnet:10.0
+#4 DONE 2.7s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 508B done
+#5 DONE 0.0s
+
+#6 [runtime 1/3] FROM mcr.microsoft.com/dotnet/aspnet:10.0@sha256:1fa23fc4872d95fd71c2833ebe65d7e84a43b2d51a31d119516852f13d9505a7
+#6 resolve mcr.microsoft.com/dotnet/aspnet:10.0@sha256:1fa23fc4872d95fd71c2833ebe65d7e84a43b2d51a31d119516852f13d9505a7 0.1s done
+#6 DONE 0.1s
+
+#7 [build 1/6] FROM mcr.microsoft.com/dotnet/sdk:10.0@sha256:ed034a8bf0b24ded0cbbac07e17825d8e9ebfe21e308191d0f7421eaf5ad4664
+#7 resolve mcr.microsoft.com/dotnet/sdk:10.0@sha256:ed034a8bf0b24ded0cbbac07e17825d8e9ebfe21e308191d0f7421eaf5ad4664 0.1s done
+#7 DONE 0.1s
+
+#8 [internal] load build context
+#8 transferring context: 45.47MB 0.3s done
+#8 DONE 0.3s
+
+#9 [build 2/6] WORKDIR /src
+#9 CACHED
+
+#10 [build 3/6] COPY engine/ .
+#10 DONE 1.8s
+
+#11 [build 4/6] COPY planning-mds/security/policies/ /planning-mds/security/policies/
+#11 DONE 0.1s
+
+#12 [build 5/6] RUN dotnet restore Nebula.slnx
+#12 1.202   Determining projects to restore...
+#12 1.649   Restored /src/src/Nebula.Domain/Nebula.Domain.csproj (in 132 ms).
+#12 33.92   Restored /src/src/Nebula.Application/Nebula.Application.csproj (in 32.41 sec).
+#12 44.92   Restored /src/src/Nebula.Infrastructure/Nebula.Infrastructure.csproj (in 43.41 sec).
+#12 74.97   Restored /src/src/Nebula.Api/Nebula.Api.csproj (in 1.22 min).
+#12 79.07   Restored /src/tests/Nebula.Tests/Nebula.Tests.csproj (in 1.29 min).
+#12 DONE 79.4s
+
+#13 [build 6/6] RUN dotnet publish src/Nebula.Api/Nebula.Api.csproj -c Release -o /app/publish
+#13 0.764   Determining projects to restore...
+#13 1.338   All projects are up-to-date for restore.
+#13 3.104   Nebula.Domain -> /src/src/Nebula.Domain/bin/Release/net10.0/Nebula.Domain.dll
+#13 4.850   Nebula.Application -> /src/src/Nebula.Application/bin/Release/net10.0/Nebula.Application.dll
+#13 6.800 /src/src/Nebula.Infrastructure/Repositories/DashboardRepository.cs(209,57): warning CS8604: Possible null reference argument for parameter 'SourceStatus' in 'OpportunityFlowLinkDto.OpportunityFlowLinkDto(string SourceStatus, string TargetStatus, int Count)'. [/src/src/Nebula.Infrastructure/Nebula.Infrastructure.csproj]
+#13 6.800 /src/src/Nebula.Infrastructure/Repositories/DashboardRepository.cs(307,73): warning CS8629: Nullable value type may be null. [/src/src/Nebula.Infrastructure/Nebula.Infrastructure.csproj]
+#13 6.850   Nebula.Infrastructure -> /src/src/Nebula.Infrastructure/bin/Release/net10.0/Nebula.Infrastructure.dll
+#13 8.010   Nebula.Api -> /src/src/Nebula.Api/bin/Release/net10.0/Nebula.Api.dll
+#13 8.080   Nebula.Api -> /app/publish/
+#13 DONE 8.2s
+
+#14 [runtime 2/3] WORKDIR /app
+#14 CACHED
+
+#15 [runtime 3/3] COPY --from=build /app/publish .
+#15 DONE 0.1s
+
+#16 exporting to image
+#16 exporting layers
+#16 exporting layers 0.5s done
+#16 exporting manifest sha256:1ea13e3f0027b5d23111396ea6d0dd7662b3162be4acf20ba55b2d042fc1db2d 0.0s done
+#16 exporting config sha256:9c27bc260d6eb9a42ff691a9ef8c0baba6e0bf28c883c5d09d9fc66e5d37233c 0.0s done
+#16 exporting attestation manifest sha256:da0b4b76aacc907935ffd45e5a1db363844b7c487322eaa327346ad755d73a4c 0.1s done
+#16 exporting manifest list sha256:703f3c6fce54b51836608c885a43b2a5ed551db45f26ab48426092d2abebdcc4
+#16 exporting manifest list sha256:703f3c6fce54b51836608c885a43b2a5ed551db45f26ab48426092d2abebdcc4 0.0s done
+#16 naming to docker.io/library/nebula-insurance-crm-api:latest done
+#16 unpacking to docker.io/library/nebula-insurance-crm-api:latest 0.1s done
+#16 DONE 0.9s
+
+#17 resolving provenance for metadata file
+#17 DONE 0.0s
+ Image nebula-insurance-crm-api Built 
+ Container nebula-db Running 
+ Container nebula-authentik-server Running 
+ Container nebula-api Recreate 
+ Container nebula-api Recreated 
+ Container nebula-db Waiting 
+ Container nebula-db Healthy 
+ Container nebula-db Waiting 
+ Container nebula-authentik-server Waiting 
+ Container nebula-db Healthy 
+ Container nebula-authentik-server Healthy 
+ Container nebula-api Starting 
+ Container nebula-api Started 

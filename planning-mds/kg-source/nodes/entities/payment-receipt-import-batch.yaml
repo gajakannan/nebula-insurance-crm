@@ -1,0 +1,14 @@
+id: entity:payment-receipt-import-batch
+label: PaymentReceiptImportBatch
+rationale:
+  - adr: adr:034
+    section: Decision §3
+    summary: A bounded mock CSV import persists sanitized metadata, hash, counts, and outcomes while discarding raw bytes.
+related_nodes:
+  - entity:activity-timeline-event
+  - entity:payment-receipt
+  - entity:payment-receipt-import-row-outcome
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/schemas/payment-receipt-import-result.schema.json
+  - planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md

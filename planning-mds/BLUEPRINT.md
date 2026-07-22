@@ -210,7 +210,7 @@ Status: Phase C implementation is complete for F0001 (Dashboard), F0002 (Broker 
 
 **Brokerage Platform Expansion (Planned):**
 - [F0025: Commission, Producer Splits & Revenue Tracking](features/archive/F0025-commission-producer-splits-and-revenue-tracking/PRD.md) - Done (Archived 2026-07-07; feature run `2026-07-07-9859bad4`; 6 stories: commission workspace search, schedule maintenance, producer split assignment, expected commission review, adjustment approval, revenue rollups)
-- F0026: Billing, Invoicing & Reconciliation - Planned
+- [F0026: Billing, Invoicing & Reconciliation](features/archive/F0026-billing-invoicing-and-reconciliation/PRD.md) - Done (Archived 2026-07-19; feature run `2026-07-19-86ad3248`; 6 stories covering policy-linked agency-bill invoices, manual/bounded mock-CSV receipts, explicit exact application, controlled corrections, and permission-safe backlog/audit visibility)
 - F0029: External Broker Collaboration Portal - Planned
 - F0030: Integration Hub & Data Exchange - Planned
 
@@ -329,6 +329,14 @@ The first epic since the harness adopted the action/KG flow. A conversational co
 - [F0028-S0005: Appointment context management](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0005-appointment-context-management.md) - Done (Archived)
 - [F0028-S0006: Market activity and related work visibility](features/archive/F0028-carrier-and-market-relationship-management/F0028-S0006-market-activity-and-related-work.md) - Done (Archived)
 
+**Brokerage Platform Expansion Stories (Feature F0026: Billing, Invoicing & Reconciliation):**
+- [F0026-S0001: Billing workspace search and policy context](features/archive/F0026-billing-invoicing-and-reconciliation/F0026-S0001-billing-workspace-search-and-policy-context.md) - Done (Archived)
+- [F0026-S0002: Create an agency-bill invoice](features/archive/F0026-billing-invoicing-and-reconciliation/F0026-S0002-create-agency-bill-invoice.md) - Done (Archived)
+- [F0026-S0003: Record payment receipts](features/archive/F0026-billing-invoicing-and-reconciliation/F0026-S0003-record-payment-receipts.md) - Done (Archived)
+- [F0026-S0004: Apply an exact payment and reconcile an invoice](features/archive/F0026-billing-invoicing-and-reconciliation/F0026-S0004-apply-exact-payment-and-reconcile-invoice.md) - Done (Archived)
+- [F0026-S0005: Review exceptions and approve corrections](features/archive/F0026-billing-invoicing-and-reconciliation/F0026-S0005-review-exceptions-and-approve-corrections.md) - Done (Archived)
+- [F0026-S0006: Monitor reconciliation backlog and audit history](features/archive/F0026-billing-invoicing-and-reconciliation/F0026-S0006-monitor-reconciliation-backlog-and-audit.md) - Done (Archived)
+
 **CRM Release MVP+ Stories (Feature F0008: Broker Insights):**
 - [F0008-S0001: Broker scorecard overview](features/archive/F0008-broker-insights/F0008-S0001-broker-scorecard-overview.md) - Done (Archived)
 - [F0008-S0002: Trend drilldown and source record navigation](features/archive/F0008-broker-insights/F0008-S0002-trend-drilldown-source-records.md) - Done (Archived)
@@ -415,6 +423,13 @@ Reference examples also live under `planning-mds/examples/stories/`.
 - Trend Drilldown Drawer (F0008)
 - Benchmark Comparison View (F0008)
 - Review Snapshot View (F0008)
+- Billing Workspace (F0026)
+- Agency-Bill Invoice Create (F0026)
+- Invoice Detail (F0026)
+- Payment Receipt Drawer (F0026)
+- Reconciliation Workspace (F0026)
+- Exception Review Panel (F0026)
+- Reconciliation Backlog (F0026)
 - Admin minimal (roles/policies optional MVP)
 
 Screen baseline details:
@@ -433,6 +448,13 @@ Screen baseline details:
 - Configuration Draft Editor: supported field editing for first-release configuration domains without changing published runtime behavior until publish.
 - Validation and Compare Drawer: review validation errors, warnings, version deltas, and downstream impact notes before publish.
 - Configuration Audit Workspace: permission-safe audit review for create, update, validate, publish, rollback, and failed configuration attempts.
+- Billing Workspace: permission-scoped agency-bill invoices with broker/account/policy context, search, status filters, balances, due dates, and source-record navigation.
+- Agency-Bill Invoice Create: Finance Operations Analyst entry of policy-bound invoice identifiers, dates, amounts, and supporting context with duplicate and required-field validation.
+- Invoice Detail: invoice balance, exact applications, receipt history, exception state, correction history, and linked account/policy context.
+- Payment Receipt Drawer: manual entry, CSV import review, and mock bank/payment-vendor receipt capture with immutable source metadata and duplicate detection.
+- Reconciliation Workspace: exact receipt-to-invoice application, unapplied receipt visibility, mismatch explanation, and no automatic tolerance or write-off behavior.
+- Exception Review Panel: Finance Manager approval or rejection of corrections with required rationale and before/after values.
+- Reconciliation Backlog: Finance Operations Analyst and Finance Manager aging, exception, unmatched-receipt, and overdue-invoice views with read-only distribution access and audit drilldown.
 - Admin minimal: role assignment visibility and policy diagnostics (read-focused in MVP).
 
 ---
@@ -460,10 +482,11 @@ This section defines the build-ready technical baseline for the reference implem
 - [ADR-014](architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) — Search index, saved views, and operational reporting projections (F0023)
 - [ADR-032](architecture/decisions/ADR-032-admin-configuration-console-contract.md) — Admin configuration console contract (F0032)
 - [ADR-033](architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md) — Commission, producer splits, and revenue tracking (F0025)
+- [ADR-034](architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md) — Agency-bill invoicing, mock/manual receipts, exact reconciliation, and correction separation of duties (F0026; accepted 2026-07-19)
 
 **F0023 addendum status:** Approved 2026-06-19 in plan run `2026-06-19-2f180001`.
 
-**Data Model Supplement:** See `planning-mds/architecture/data-model.md` for Task entity, dashboard indexes, query patterns, F0017 hierarchy/territory, F0034 product schema registry, F0023 search/reporting read models, and F0032 admin configuration draft/publish/audit records. F0020 documents are filesystem-first (no relational entity in MVP); see `planning-mds/features/archive/F0020-document-management-and-acord-intake/README.md` for the on-disk layout and the `IDocumentRepository` boundary.
+**Data Model Supplement:** See `planning-mds/architecture/data-model.md` for Task entity, dashboard indexes, query patterns, F0017 hierarchy/territory, F0034 product schema registry, F0023 search/reporting read models, F0032 admin configuration records, and F0026 operational invoice/receipt/application/exception/correction records. F0020 documents are filesystem-first (no relational entity in MVP); see `planning-mds/features/archive/F0020-document-management-and-acord-intake/README.md` for the on-disk layout and the `IDocumentRepository` boundary.
 
 ### 4.1 Service boundaries
 
@@ -493,6 +516,11 @@ This section defines the build-ready technical baseline for the reference implem
 - TimelineAudit module:
   - Owns ActivityTimelineEvent and WorkflowTransition append-only records.
   - Provides timeline query/read APIs (including `GET /timeline/events` for dashboard activity feed).
+- BillingReconciliation module (F0026):
+  - Owns agency-bill invoices, manual/mock-CSV receipt provenance, immutable exact applications, reconciliation exceptions, and controlled operational balance corrections.
+  - Intersects `billing` actions with F0018 policy/account visibility before rows, counts, totals, or drilldowns; bounded policy summaries expose no finance detail.
+  - Does not own policy premium, expected commission, ledger, bank settlement, tax, direct bill, tolerances, write-offs, or production F0030 transport.
+  - See [ADR-034](architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md) and the [feature assembly plan](features/archive/F0026-billing-invoicing-and-reconciliation/feature-assembly-plan.md).
 - ProductSchemaRegistry module (F0034):
   - Owns LobProduct, LobProductVersion, LobSchemaBundle, and LobBundleActivationEvent.
   - Serves active and direct schema-bundle reads for dynamic product attributes.

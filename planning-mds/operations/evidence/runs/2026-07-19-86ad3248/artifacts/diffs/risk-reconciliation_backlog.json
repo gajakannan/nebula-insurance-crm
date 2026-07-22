@@ -1,0 +1,100 @@
+{
+  "query": {
+    "node": "endpoint:reconciliation-backlog"
+  },
+  "mode": "node",
+  "score": 0,
+  "band": "routine",
+  "signals": {
+    "blast_count": 0.05,
+    "hotspot_score": 0.0,
+    "cochange_density": 0.0,
+    "ownership_concentration": 0.0,
+    "test_gap": 0.0
+  },
+  "raw": {
+    "blast": {
+      "direct_node_count": 1,
+      "neighbor_node_count": 0,
+      "feature_count": 1,
+      "indirect_feature_count": 0,
+      "story_count": 1,
+      "indirect_story_count": 0,
+      "policy_rule_count": 0,
+      "resolved_file_count": 0
+    },
+    "hotspot": {
+      "hotspot_rank": null,
+      "hotspot_score": 0.0,
+      "primary_owner": null,
+      "primary_owner_pct": 0,
+      "bus_factor_flag": false,
+      "last_modified": "2026-07-19"
+    },
+    "cochange": {
+      "partners": [],
+      "density": 0.0,
+      "partner_count": 0,
+      "node_commit_count": 0
+    },
+    "test_gap": {
+      "test_files": 0,
+      "impl_files": 0,
+      "test_gap": 0.0
+    }
+  },
+  "primary_node": "endpoint:reconciliation-backlog",
+  "per_node": [
+    {
+      "node": "endpoint:reconciliation-backlog",
+      "score": 0,
+      "band": "routine",
+      "signals": {
+        "blast_count": 0.05,
+        "hotspot_score": 0.0,
+        "cochange_density": 0.0,
+        "ownership_concentration": 0.0,
+        "test_gap": 0.0
+      },
+      "raw": {
+        "blast": {
+          "direct_node_count": 1,
+          "neighbor_node_count": 0,
+          "feature_count": 1,
+          "indirect_feature_count": 0,
+          "story_count": 1,
+          "indirect_story_count": 0,
+          "policy_rule_count": 0,
+          "resolved_file_count": 0
+        },
+        "hotspot": {
+          "hotspot_rank": null,
+          "hotspot_score": 0.0,
+          "primary_owner": null,
+          "primary_owner_pct": 0,
+          "bus_factor_flag": false,
+          "last_modified": "2026-07-19"
+        },
+        "cochange": {
+          "partners": [],
+          "density": 0.0,
+          "partner_count": 0,
+          "node_commit_count": 0
+        },
+        "test_gap": {
+          "test_files": 0,
+          "impl_files": 0,
+          "test_gap": 0.0
+        }
+      }
+    }
+  ],
+  "reviewer_recommendations": [],
+  "weights": {
+    "blast_count": 2.0,
+    "hotspot_score": 3.0,
+    "cochange_density": 1.5,
+    "ownership_concentration": 1.5,
+    "test_gap": 2.0
+  }
+}

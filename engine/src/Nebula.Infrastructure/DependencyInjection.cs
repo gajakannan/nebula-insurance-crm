@@ -29,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<ICarrierMarketRepository, CarrierMarketRepository>();
         services.AddScoped<ICommissionRepository, CommissionRepository>();
         services.AddScoped<IRevenueAttributionRepository, RevenueAttributionRepository>();
+        services.AddScoped<IBillingRepository, BillingRepository>();
         services.AddScoped<IRenewalRepository, RenewalRepository>();
         services.AddScoped<ILobSchemaRepository, LobSchemaRepository>();
         services.AddScoped<ITaskRepository, TaskRepository>();

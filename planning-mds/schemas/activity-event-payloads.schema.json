@@ -532,6 +532,126 @@
       },
       "additionalProperties": false,
       "descriptionTemplate": "Follow-up task \"{taskTitle}\" created for service case {caseNumber}"
+    },
+
+    "BillingInvoiceCreated": {
+      "type": "object",
+      "required": ["billingInvoiceId", "invoiceNumber", "policyId", "policyVersionId", "accountId", "currency", "originalAmount"],
+      "properties": {
+        "billingInvoiceId": { "type": "string", "format": "uuid" },
+        "invoiceNumber": { "type": "string" },
+        "policyId": { "type": "string", "format": "uuid" },
+        "policyVersionId": { "type": "string", "format": "uuid" },
+        "accountId": { "type": "string", "format": "uuid" },
+        "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+        "originalAmount": { "type": "number", "exclusiveMinimum": 0 }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Agency-bill invoice {invoiceNumber} created"
+    },
+
+    "PaymentReceiptRecorded": {
+      "type": "object",
+      "required": ["paymentReceiptId", "source", "externalReference", "currency", "amount"],
+      "properties": {
+        "paymentReceiptId": { "type": "string", "format": "uuid" },
+        "source": { "type": "string", "enum": ["Manual", "MockVendorCsv"] },
+        "externalReference": { "type": "string" },
+        "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+        "amount": { "type": "number", "exclusiveMinimum": 0 },
+        "importBatchId": { "type": ["string", "null"], "format": "uuid" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Payment receipt {externalReference} recorded from {source}"
+    },
+
+    "PaymentReceiptImportCompleted": {
+      "type": "object",
+      "required": ["importBatchId", "contractVersion", "submittedCount", "createdCount", "duplicateCount", "rejectedCount", "fileSha256"],
+      "properties": {
+        "importBatchId": { "type": "string", "format": "uuid" },
+        "contractVersion": { "type": "string", "const": "mock-payment-receipt-row-v1" },
+        "submittedCount": { "type": "integer", "minimum": 0 },
+        "createdCount": { "type": "integer", "minimum": 0 },
+        "duplicateCount": { "type": "integer", "minimum": 0 },
+        "rejectedCount": { "type": "integer", "minimum": 0 },
+        "fileSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Mock payment import completed: {createdCount} created, {duplicateCount} duplicate, {rejectedCount} rejected"
+    },
+
+    "ExactPaymentApplied": {
+      "type": "object",
+      "required": ["paymentApplicationId", "billingInvoiceId", "paymentReceiptId", "currency", "appliedAmount", "outstandingBefore", "outstandingAfter"],
+      "properties": {
+        "paymentApplicationId": { "type": "string", "format": "uuid" },
+        "billingInvoiceId": { "type": "string", "format": "uuid" },
+        "paymentReceiptId": { "type": "string", "format": "uuid" },
+        "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+        "appliedAmount": { "type": "number", "exclusiveMinimum": 0 },
+        "outstandingBefore": { "type": "number", "exclusiveMinimum": 0 },
+        "outstandingAfter": { "type": "number", "const": 0 }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Exact payment applied to invoice {billingInvoiceId}"
+    },
+
+    "ReconciliationReferenceCorrected": {
+      "type": "object",
+      "required": ["reconciliationExceptionId", "fromInvoiceId", "toInvoiceId"],
+      "properties": {
+        "reconciliationExceptionId": { "type": "string", "format": "uuid" },
+        "fromInvoiceId": { "type": ["string", "null"], "format": "uuid" },
+        "toInvoiceId": { "type": "string", "format": "uuid" },
+        "resolutionCode": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Reconciliation reference corrected"
+    },
+
+    "BillingCorrectionRequested": {
+      "type": "object",
+      "required": ["billingCorrectionId", "reconciliationExceptionId", "billingInvoiceId", "beforeOutstandingAmount", "correctionAmount", "proposedOutstandingAmount"],
+      "properties": {
+        "billingCorrectionId": { "type": "string", "format": "uuid" },
+        "reconciliationExceptionId": { "type": "string", "format": "uuid" },
+        "billingInvoiceId": { "type": "string", "format": "uuid" },
+        "beforeOutstandingAmount": { "type": "number", "minimum": 0 },
+        "correctionAmount": { "type": "number" },
+        "proposedOutstandingAmount": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Billing correction requested"
+    },
+
+    "BillingCorrectionApproved": {
+      "type": "object",
+      "required": ["billingCorrectionId", "billingInvoiceId", "beforeOutstandingAmount", "afterOutstandingAmount", "requesterUserId", "decisionUserId"],
+      "properties": {
+        "billingCorrectionId": { "type": "string", "format": "uuid" },
+        "billingInvoiceId": { "type": "string", "format": "uuid" },
+        "beforeOutstandingAmount": { "type": "number", "minimum": 0 },
+        "afterOutstandingAmount": { "type": "number", "minimum": 0 },
+        "requesterUserId": { "type": "string", "format": "uuid" },
+        "decisionUserId": { "type": "string", "format": "uuid" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Billing correction approved"
+    },
+
+    "BillingCorrectionRejected": {
+      "type": "object",
+      "required": ["billingCorrectionId", "billingInvoiceId", "unchangedOutstandingAmount", "requesterUserId", "decisionUserId"],
+      "properties": {
+        "billingCorrectionId": { "type": "string", "format": "uuid" },
+        "billingInvoiceId": { "type": "string", "format": "uuid" },
+        "unchangedOutstandingAmount": { "type": "number", "minimum": 0 },
+        "requesterUserId": { "type": "string", "format": "uuid" },
+        "decisionUserId": { "type": "string", "format": "uuid" }
+      },
+      "additionalProperties": false,
+      "descriptionTemplate": "Billing correction rejected"
     }
   },
 
@@ -572,7 +692,15 @@
       { "eventType": "ServiceCaseTransitioned", "entityType": "Account|Policy", "emittedBy": "F0024-S0004" },
       { "eventType": "ServiceCaseClaimReferenceUpdated", "entityType": "Account|Policy", "emittedBy": "F0024-S0005" },
       { "eventType": "ServiceCaseCommunicationLinked", "entityType": "Account|Policy", "emittedBy": "F0024-S0006" },
-      { "eventType": "ServiceCaseFollowUpTaskCreated", "entityType": "Task|Account|Policy", "emittedBy": "F0024-S0003" }
+      { "eventType": "ServiceCaseFollowUpTaskCreated", "entityType": "Task|Account|Policy", "emittedBy": "F0024-S0003" },
+      { "eventType": "BillingInvoiceCreated", "entityType": "BillingInvoice|Policy", "emittedBy": "F0026-S0002" },
+      { "eventType": "PaymentReceiptRecorded", "entityType": "PaymentReceipt", "emittedBy": "F0026-S0003" },
+      { "eventType": "PaymentReceiptImportCompleted", "entityType": "PaymentReceiptImportBatch", "emittedBy": "F0026-S0003" },
+      { "eventType": "ExactPaymentApplied", "entityType": "BillingInvoice|PaymentReceipt", "emittedBy": "F0026-S0004" },
+      { "eventType": "ReconciliationReferenceCorrected", "entityType": "ReconciliationException", "emittedBy": "F0026-S0005" },
+      { "eventType": "BillingCorrectionRequested", "entityType": "BillingCorrection|BillingInvoice", "emittedBy": "F0026-S0005" },
+      { "eventType": "BillingCorrectionApproved", "entityType": "BillingCorrection|BillingInvoice", "emittedBy": "F0026-S0005" },
+      { "eventType": "BillingCorrectionRejected", "entityType": "BillingCorrection|BillingInvoice", "emittedBy": "F0026-S0005" }
     ]
   },
 

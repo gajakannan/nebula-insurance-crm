@@ -1,0 +1,14 @@
+id: entity:payment-application
+label: PaymentApplication
+rationale:
+  - adr: adr:034
+    section: Decision §4
+    summary: Append-only record of one explicit same-currency, full-outstanding exact receipt application committed atomically.
+related_nodes:
+  - entity:activity-timeline-event
+  - entity:billing-invoice
+  - entity:payment-receipt
+source_docs:
+  - planning-mds/architecture/data-model.md
+  - planning-mds/schemas/payment-application.schema.json
+  - planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md

@@ -2103,3 +2103,87 @@ policy_rules:
     source_docs:
       - planning-mds/security/authorization-matrix.md
       - planning-mds/security/policies/policy.csv
+  - id: policy_rule:billing-read
+    label: billing:read
+    action: read
+    allowed_roles: [role:admin, role:finance-manager, role:finance-operations-analyst]
+    notes: Finance detail requires linked policy/account source authorization before rows or counts.
+    related_nodes: [capability:authorization-enforcement, capability:billing-invoicing-reconciliation]
+    resource: billing
+    source_docs: [planning-mds/security/authorization-matrix.md, planning-mds/security/policies/policy.csv]
+  - id: policy_rule:billing-invoice-create
+    label: billing:invoice_create
+    action: invoice_create
+    allowed_roles: [role:admin, role:finance-operations-analyst]
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice]
+    resource: billing
+    source_docs: [planning-mds/security/authorization-matrix.md, planning-mds/security/policies/policy.csv]
+  - id: policy_rule:billing-receipt-record
+    label: billing:receipt_record
+    action: receipt_record
+    allowed_roles: [role:admin, role:finance-operations-analyst]
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt]
+    resource: billing
+    source_docs: [planning-mds/security/authorization-matrix.md, planning-mds/security/policies/policy.csv]
+  - id: policy_rule:billing-receipt-import
+    label: billing:receipt_import
+    action: receipt_import
+    allowed_roles: [role:admin, role:finance-operations-analyst]
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt-import-batch]
+    resource: billing
+    source_docs: [planning-mds/security/authorization-matrix.md, planning-mds/security/policies/policy.csv]
+  - id: policy_rule:billing-application-apply
+    label: billing:application_apply
+    action: application_apply
+    allowed_roles: [role:admin, role:finance-operations-analyst]
+    notes: Service permits only an explicit same-currency full-outstanding exact application.
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-application]
+    resource: billing
+    source_docs: [planning-mds/security/authorization-matrix.md, planning-mds/security/policies/policy.csv]
+  - id: policy_rule:billing-exception-manage
+    label: billing:exception_manage
+    action: exception_manage
+    allowed_roles: [role:admin, role:finance-operations-analyst]
+    notes: This action changes eligible reference metadata only and never changes an invoice balance.
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception]
+    resource: billing
+    source_docs: [planning-mds/security/authorization-matrix.md, planning-mds/security/policies/policy.csv]
+  - id: policy_rule:billing-correction-request
+    label: billing:correction_request
+    action: correction_request
+    allowed_roles: [role:admin, role:finance-operations-analyst]
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+    resource: billing
+    source_docs: [planning-mds/security/authorization-matrix.md, planning-mds/security/policies/policy.csv]
+  - id: policy_rule:billing-correction-approve
+    label: billing:correction_approve
+    action: correction_approve
+    allowed_roles: [role:admin, role:finance-manager]
+    notes: Same-user request and decision is denied, including for Admin.
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, workflow:billing-correction]
+    resource: billing
+    source_docs: [planning-mds/security/authorization-matrix.md, planning-mds/security/policies/policy.csv]
+  - id: policy_rule:billing-backlog-read
+    label: billing:backlog_read
+    action: backlog_read
+    allowed_roles: [role:admin, role:finance-manager, role:finance-operations-analyst]
+    notes: Detail and counts are computed after linked source-record authorization.
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception]
+    resource: billing
+    source_docs: [planning-mds/security/authorization-matrix.md, planning-mds/security/policies/policy.csv]
+  - id: policy_rule:billing-backlog-summary-read
+    label: billing:backlog_summary_read
+    action: backlog_summary_read
+    allowed_roles: [role:admin, role:finance-manager]
+    notes: Management totals are computed after source filtering; hidden records are not disclosed as counts.
+    related_nodes: [capability:billing-invoicing-reconciliation, capability:operational-reporting]
+    resource: billing
+    source_docs: [planning-mds/security/authorization-matrix.md, planning-mds/security/policies/policy.csv]
+  - id: policy_rule:billing-summary-read
+    label: billing:summary_read
+    action: summary_read
+    allowed_roles: [role:admin, role:distribution-manager, role:distribution-user, role:finance-manager, role:finance-operations-analyst, role:relationship-manager]
+    notes: Bounded policy summary excludes receipts, imports, exceptions, corrections, audit detail, and backlog totals.
+    related_nodes: [capability:authorization-enforcement, capability:billing-invoicing-reconciliation, entity:policy]
+    resource: billing
+    source_docs: [planning-mds/security/authorization-matrix.md, planning-mds/security/policies/policy.csv]

@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0026",
+  "feature_slug": "billing-invoicing-and-reconciliation",
+  "run_id": "2026-07-19-86ad3248",
+  "status": "approved",
+  "recorded_on": "2026-07-19",
+  "contract_version": "2026-07-11",
+  "contract_effective_date": "2026-07-11",
+  "feature_path_at_run_start": "planning-mds/features/F0026-billing-invoicing-and-reconciliation",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0026-billing-invoicing-and-reconciliation",
+  "feature_state": "Archived",
+  "rerun_of": null,
+  "changed_paths": [
+    "engine/src/Nebula.Api/Endpoints/BillingEndpoints.cs",
+    "engine/src/Nebula.Api/Program.cs",
+    "engine/src/Nebula.Application/DTOs/BillingDtos.cs",
+    "engine/src/Nebula.Application/Interfaces/IBillingRepository.cs",
+    "engine/src/Nebula.Application/Services/BillingReconciliationService.cs",
+    "engine/src/Nebula.Application/Validators/BillingValidators.cs",
+    "engine/src/Nebula.Domain/Entities",
+    "engine/src/Nebula.Infrastructure/DependencyInjection.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/AppDbContext.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Configurations/BillingConfiguration.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Migrations/20260719212424_F0026_BillingInvoicingReconciliation.Designer.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Migrations/20260719212424_F0026_BillingInvoicingReconciliation.cs",
+    "engine/src/Nebula.Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs",
+    "engine/src/Nebula.Infrastructure/Repositories/BillingRepository.cs",
+    "engine/tests/Nebula.Tests/Unit/Billing",
+    "experience/playwright.f0026.config.ts",
+    "experience/src/App.tsx",
+    "experience/src/components/layout/Sidebar.test.tsx",
+    "experience/src/components/layout/Sidebar.tsx",
+    "experience/src/features/billing",
+    "experience/src/features/commissions/hooks.ts",
+    "experience/src/features/commissions/types.ts",
+    "experience/src/pages/BillingInvoiceDetailPage.tsx",
+    "experience/src/pages/BillingPage.tsx",
+    "experience/src/pages/BillingReconciliationPage.tsx",
+    "experience/tests/visual/f0026-billing.spec.ts",
+    "planning-mds/BLUEPRINT.md",
+    "planning-mds/api/nebula-api.yaml",
+    "planning-mds/architecture",
+    "planning-mds/features/F0026-billing-invoicing-and-reconciliation",
+    "planning-mds/features/archive/F0026-billing-invoicing-and-reconciliation",
+    "planning-mds/features/ROADMAP.md",
+    "planning-mds/features/STORY-INDEX.md",
+    "planning-mds/kg-source",
+    "planning-mds/operations/evidence/runs/2026-07-19-86ad3248",
+    "planning-mds/schemas",
+    "planning-mds/security",
+    "scripts/kg/validate.py"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feat/F0026-billing-invoicing-and-reconciliation",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": true,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Security Reviewer",
+    "DevOps",
+    "Architect"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g2-self-review.md"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "signoff-ledger.md"
+    },
+    "candidate_evidence_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "feature-action-execution.md"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED",
+      "artifact": "pm-closeout.md"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "pm-closeout.md"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability": "deployability-check.md",
+    "code_review": "code-review-report.md",
+    "security_review": "security-review-report.md",
+    "signoff": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md"
+  },
+  "role_results": {
+    "Architect": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md",
+        "kg-reconciliation.md"
+      ],
+      "verdict_artifact": "kg-reconciliation.md"
+    },
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "DevOps": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ],
+      "verdict_artifact": "deployability-check.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "verdict_artifact": "security-review-report.md"
+    }
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": true,
+      "result": "FINDINGS",
+      "artifact": "artifacts/security/dependency-scan.txt"
+    },
+    "secrets": {
+      "ran": true,
+      "result": "FINDINGS",
+      "artifact": "artifacts/security/secrets-gitleaks.sarif"
+    },
+    "sast": {
+      "ran": true,
+      "result": "PASS",
+      "artifact": "artifacts/security/sast-semgrep.sarif"
+    },
+    "dast": {
+      "ran": true,
+      "result": "PASS",
+      "artifact": "artifacts/security/dast-zap.json"
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {}
+}

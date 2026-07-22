@@ -1,0 +1,7 @@
+POST /billing-invoices 201 {"id":"f15dfe10-7ffd-45db-86d3-7880200682eb","invoiceNumber":"F0026-SMOKE-1784503755391","policyId":"1f3fc527-9988-47b2-b6a1-57f34f72bfc3","policyVersionId":"9f43b4af-4d1a-49b1-b9bd-acb1b42cae73","accountId":"a364ebc1-3130-49a7-8e12-1f7b1e13ad98","currency":"USD","originalAmount":125.5,"outstandingAmount":125.5,"invoiceDate":"2026-07-19","dueDate":"2026-08-18","status":"Outstanding","createdAt":"2026-07-19T23:29:15.642743Z","createdByUserId":"582d2f16-f79e-4e9d-9b9e-03bdc8d97d0c","rowVersion":"409379"}
+POST /payment-receipts 201 {"id":"9f386221-3e31-4511-a568-20abe6805162","source":"Manual","externalReference":"F0026-RECEIPT-1784503755391","receivedDate":"2026-07-19","currency":"USD","amount":125.5,"invoiceReference":"F0026-SMOKE-1784503755391","memo":"F0026 persisted runtime smoke","importBatchId":null,"importRowNumber":null,"applicationStatus":"Unapplied","rowVersion":"409380"}
+POST /payment-applications 428 {"title":"If-Match header required","status":428,"code":"if_match_required"}
+Error: /payment-applications 428
+    at request ([eval]:1:759)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async [eval]:1:1402

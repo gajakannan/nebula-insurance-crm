@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nebula.local/schemas/reconciliation-reference-correction-request.schema.json",
+  "title": "ReconciliationReferenceCorrectionRequest",
+  "type": "object",
+  "required": ["billingInvoiceId", "resolutionCode", "resolutionNote"],
+  "properties": {
+    "billingInvoiceId": { "type": "string", "format": "uuid" },
+    "resolutionCode": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "resolutionNote": { "type": "string", "minLength": 1, "maxLength": 1000 }
+  },
+  "additionalProperties": false
+}

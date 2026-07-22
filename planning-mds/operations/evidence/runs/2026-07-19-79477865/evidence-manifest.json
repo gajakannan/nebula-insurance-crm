@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0026",
+  "feature_slug": "billing-invoicing-and-reconciliation",
+  "run_id": "2026-07-19-79477865",
+  "status": "superseded",
+  "action": "plan",
+  "action_scope": "base-run-only",
+  "superseded_by": "2026-07-19-86ad3248",
+  "recorded_on": "2026-07-19",
+  "contract_version": "2026-07-11",
+  "contract_effective_date": "2026-07-11",
+  "feature_path_at_run_start": "planning-mds/features/F0026-billing-invoicing-and-reconciliation",
+  "feature_path_at_closeout": null,
+  "feature_state": "In Progress",
+  "rerun_of": null,
+  "changed_paths": [
+    "planning-mds/features/F0026-billing-invoicing-and-reconciliation"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feature/F####-{slug}",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": false,
+  "deployment_config_changed": false,
+  "frontend_in_scope": false,
+  "security_sensitive_scope": false,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md"
+  },
+  "role_results": {},
+  "security_scans": {
+    "dependency": {},
+    "secrets": {},
+    "sast": {},
+    "dast": {}
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {}
+}

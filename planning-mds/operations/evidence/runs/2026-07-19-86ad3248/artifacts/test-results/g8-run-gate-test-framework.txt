@@ -1,0 +1,80 @@
+"""Tests for run-gate.py (F0007-S0005) — the durable gate driver."""
+
+from __future__ import annotations
+
+import importlib.util
+import json
+import sys
+from pathlib import Path
+
+import pytest
+
+REPO_ROOT = Path(__file__).resolve().parents[3]
+SCRIPTS_DIR = REPO_ROOT / "agents" / "scripts"
+sys.path.insert(0, str(SCRIPTS_DIR))
+
+
+def _load(name: str, path: Path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+rg = _load("run_gate", SCRIPTS_DIR / "run-gate.py")
+DRIVER_SPEC = Path(__file__).resolve().parent / "fixtures" / "action-specs" / "driver"
+RUN_ID = "2026-07-18-aaaaaaaa"
+
+
+@pytest.fixture()
+def env(tmp_path):
+    product = tmp_path / "product"
+    run_folder = product / "planning-mds" / "operations" / "evidence" / f"F0007-drive/{RUN_ID}"
+    run_folder.mkdir(parents=True)
+    return product, run_folder
+
+
+def run(product, run_folder, stage, **kw):
+    return rg.run_stage(spec_dir=DRIVER_SPEC, action="drive", stage=stage, product_root=product,
+                        feature_id="F0007", slug="drive", run_id=RUN_ID, run_folder=run_folder, **kw)
+
+
+def journal(run_folder):
+    return json.loads((run_folder / "gate-state.json").read_text())
+
+
+def test_ordered_run_passes_and_journals(env):
+    product, rf = env
+    verdict = run(product, rf, "G0")
+    assert verdict["status"] == "pass"
+    assert (rf / "g0.txt").read_text() == "g0"
+    assert "r0" in journal(rf)["stages"]["G0"]["completed_operations"]
+    assert (rf / "commands.log").exists()
+    log = (rf / "lifecycle-gates.log").read_text()
+    assert "### G0" in log and "Result: PASS" in log
+
+
+def test_stops_on_first_failure(env):
+    product, rf = env
+    verdict = run(product, rf, "G1")
+    assert verdict["status"] == "fail"
+    assert verdict["failed_step"] == "r1"
+    assert verdict["exit_code"] == 1
+
+
+def test_forbidden_flag_rejected(env):
+    product, rf = env
+    with pytest.raises(rg.GateDriverError) as exc:
+        run(product, rf, "G3")
+    assert exc.value.code == "forbidden_flag"
+
+
+def test_checkpoint_pauses_before_tail(env):
+    product, rf = env
+    verdict = run(product, rf, "G2")
+    assert verdict["status"] == "paused"
+    assert verdict["pending_checkpoint"] == "cp-review"
+    assert (rf / "counter.txt").read_text() == "x"      # r2a ran once
+    assert not (rf / "g2-after.txt").exists()            # r2b did not run
+
+

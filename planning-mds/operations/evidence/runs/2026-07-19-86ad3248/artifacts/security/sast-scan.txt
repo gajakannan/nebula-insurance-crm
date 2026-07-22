@@ -1,0 +1,77 @@
+Running SAST via SAST_SCAN_CMD in /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm
+Unable to find image 'semgrep/semgrep:latest' locally
+latest: Pulling from semgrep/semgrep
+217da9e3eb49: Pulling fs layer
+e6f31ffc071e: Pulling fs layer
+efd7d75b97df: Pulling fs layer
+97e3d22f3411: Pulling fs layer
+27e65ad6e3e9: Pulling fs layer
+178f5d4459d4: Pulling fs layer
+cf5c62ab9f2f: Pulling fs layer
+e3aec13975d2: Pulling fs layer
+95492b9340d0: Pulling fs layer
+6841bcf0ef5e: Pulling fs layer
+3f417a77773d: Pulling fs layer
+bd9ddc54bea9: Pulling fs layer
+7967991a3beb: Pulling fs layer
+40ad13b628ae: Download complete
+cf5c62ab9f2f: Download complete
+97e3d22f3411: Download complete
+217da9e3eb49: Download complete
+3f417a77773d: Download complete
+6841bcf0ef5e: Download complete
+bd9ddc54bea9: Download complete
+7967991a3beb: Download complete
+efd7d75b97df: Download complete
+178f5d4459d4: Download complete
+e6f31ffc071e: Download complete
+e6f31ffc071e: Pull complete
+95492b9340d0: Download complete
+bd9ddc54bea9: Pull complete
+95492b9340d0: Pull complete
+efd7d75b97df: Pull complete
+27e65ad6e3e9: Download complete
+27e65ad6e3e9: Pull complete
+e3aec13975d2: Download complete
+e3aec13975d2: Pull complete
+cf5c62ab9f2f: Pull complete
+178f5d4459d4: Pull complete
+97e3d22f3411: Pull complete
+3f417a77773d: Pull complete
+6841bcf0ef5e: Pull complete
+217da9e3eb49: Pull complete
+7967991a3beb: Pull complete
+Digest: sha256:2b33f46ba66cf8cc2ad59ccfa7d22951fd00c632c38f1339e84ec8e6e641a942
+Status: Downloaded newer image for semgrep/semgrep:latest
+               
+               
+┌─────────────┐
+│ Scan Status │
+└─────────────┘
+  Scanning 12 files tracked by git with 1074 Code rules:
+                                                                                                                        
+  Language      Rules   Files          Origin      Rules                                                                
+ ─────────────────────────────        ───────────────────                                                               
+  <multilang>      47      12          Community    1074                                                                
+  ts              163       8                                                                                           
+  csharp           33       4                                                                                           
+                                                                                                                        
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 0 (0 blocking)
+ • Rules run: 242
+ • Targets scanned: 12
+ • Parsed lines: ~100.0%
+ • Scan skipped: 
+   ◦ Files matching .semgrepignore patterns: 1
+ • Scan was limited to files tracked by git
+ • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
+Ran 242 rules on 12 files: 0 findings.
+(need more rules? `semgrep login` for additional free Semgrep Registry rules)
+
+If Semgrep missed a finding, please send us feedback to let us know!
+See https://semgrep.dev/docs/reporting-false-negatives/

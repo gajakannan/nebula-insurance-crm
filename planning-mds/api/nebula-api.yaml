@@ -1,9 +1,12 @@
 openapi: 3.0.3
 info:
   title: Nebula API
-  version: 0.8.0
+  version: 0.9.0
   description: |
     Public baseline API contract for the Nebula insurance CRM reference implementation.
+    Version 0.9.0 adds F0026 agency-bill invoices, manual/mock-CSV receipts,
+    explicit exact applications, reconciliation exceptions, controlled balance
+    corrections, and permission-safe backlog/summary reads under ADR-034.
     Version 0.8.0 adds F0008 Broker Insights read-only endpoints:
     broker scorecards, trends/source rows, authorized benchmark comparison,
     and review snapshots. Governed by ADR-029.
@@ -75,6 +78,8 @@ tags:
     description: ABAC-scoped workload and workflow aging report endpoints (F0023)
   - name: Commissions
     description: Commission schedules, producer splits, expected commission review, adjustments, and revenue attribution rollups (F0025)
+  - name: Billing
+    description: Agency-bill invoices, mock/manual receipts, exact reconciliation, exceptions, and controlled corrections (F0026)
   - name: BrokerInsights
     description: Permission-filtered broker scorecards, trends, benchmarks, and review snapshots (F0008)
   - name: Timeline
@@ -1058,6 +1063,320 @@ paths:
             application/json:
               schema: { $ref: "#/components/schemas/RevenueAttributionRollupResponse" }
         "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  # ──────────────────────────────────────────────────────────────
+  # F0026 Billing, Invoicing, and Reconciliation
+  # ──────────────────────────────────────────────────────────────
+  /billing-invoices:
+    get:
+      operationId: listBillingInvoices
+      summary: Search source-authorized agency-bill invoices
+      tags: [Billing]
+      parameters:
+        - { name: q, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: policyId, in: query, schema: { type: string, format: uuid } }
+        - { name: accountId, in: query, schema: { type: string, format: uuid } }
+        - { name: status, in: query, schema: { type: string, enum: [Outstanding, Reconciled] } }
+        - { name: hasOpenException, in: query, schema: { type: boolean } }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Authorized invoice page; counts are computed after source filtering.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaginatedBillingInvoiceList" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createBillingInvoice
+      summary: Create a policy-linked agency-bill invoice
+      tags: [Billing]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/BillingInvoiceCreateRequest" }
+      responses:
+        "201":
+          description: Invoice created with immutable policy/version/account context.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/BillingInvoice" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /billing-invoices/{invoiceId}:
+    parameters:
+      - { name: invoiceId, in: path, required: true, schema: { type: string, format: uuid } }
+    get:
+      operationId: getBillingInvoice
+      summary: Get finance-detail invoice context
+      tags: [Billing]
+      responses:
+        "200":
+          description: Source-authorized invoice detail with exact applications, receipt provenance, reconciliation exceptions, and permitted audit history.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/BillingInvoiceDetail" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /policies/{policyId}/billing-summary:
+    parameters:
+      - $ref: "#/components/parameters/PolicyId"
+    get:
+      operationId: getPolicyBillingSummary
+      summary: Get bounded read-only policy billing summary
+      description: Excludes receipt/import provenance, exceptions, corrections, audit detail, and backlog totals.
+      tags: [Billing]
+      responses:
+        "200":
+          description: Bounded policy billing summary.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PolicyBillingSummary" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /payment-receipts:
+    get:
+      operationId: listPaymentReceipts
+      summary: Search source-authorized payment receipts
+      tags: [Billing]
+      parameters:
+        - { name: applicationStatus, in: query, schema: { type: string, enum: [Unapplied, Applied] } }
+        - { name: externalReference, in: query, schema: { type: string, maxLength: 120 } }
+        - { name: currency, in: query, schema: { type: string, pattern: "^[A-Z]{3}$" } }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Authorized receipt page.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaginatedPaymentReceiptList" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      operationId: createManualPaymentReceipt
+      summary: Record a manual payment receipt without applying it
+      tags: [Billing]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PaymentReceiptCreateRequest" }
+      responses:
+        "201":
+          description: Unapplied manual receipt created.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaymentReceipt" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /payment-receipt-imports:
+    post:
+      operationId: importMockPaymentReceipts
+      summary: Import the bounded mock-payment-receipt-row-v1 CSV profile
+      description: Synchronous mock-only import, maximum 1 MiB and 1,000 data rows. Raw bytes are discarded.
+      tags: [Billing]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file: { type: string, format: binary }
+      responses:
+        "201":
+          description: Immutable per-row created/duplicate/rejected outcomes.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaymentReceiptImportResult" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "413": { $ref: "#/components/responses/PayloadTooLarge" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /payment-receipt-imports/{batchId}:
+    parameters:
+      - { name: batchId, in: path, required: true, schema: { type: string, format: uuid } }
+    get:
+      operationId: getPaymentReceiptImport
+      summary: Get a source-authorized mock import outcome
+      tags: [Billing]
+      responses:
+        "200":
+          description: Import result.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaymentReceiptImportResult" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /payment-applications:
+    post:
+      operationId: applyExactPayment
+      summary: Explicitly apply one exact receipt to one invoice
+      description: Requires matching currency and receipt amount equal to the full outstanding amount. A mismatch leaves the invoice and receipt unchanged and opens/preserves an exception.
+      tags: [Billing]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PaymentApplicationRequest" }
+      responses:
+        "201":
+          description: Exact application committed atomically.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaymentApplication" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "428": { $ref: "#/components/responses/PreconditionRequired" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /reconciliation-exceptions:
+    get:
+      operationId: listReconciliationExceptions
+      summary: List source-authorized reconciliation exceptions
+      tags: [Billing]
+      parameters:
+        - { name: status, in: query, schema: { type: string, enum: [Open, Resolved] } }
+        - { name: type, in: query, schema: { $ref: "#/components/schemas/ReconciliationExceptionType" } }
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Authorized exception page; counts are post-filter.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaginatedReconciliationExceptionList" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /reconciliation-exceptions/{exceptionId}/reference:
+    parameters:
+      - { name: exceptionId, in: path, required: true, schema: { type: string, format: uuid } }
+    patch:
+      operationId: correctReconciliationReference
+      summary: Correct eligible non-balance invoice reference metadata
+      tags: [Billing]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ReconciliationReferenceCorrectionRequest" }
+      responses:
+        "200":
+          description: Reference corrected without changing invoice balance.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReconciliationException" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "428": { $ref: "#/components/responses/PreconditionRequired" }
+
+  /reconciliation-exceptions/{exceptionId}/corrections:
+    parameters:
+      - { name: exceptionId, in: path, required: true, schema: { type: string, format: uuid } }
+    post:
+      operationId: requestBillingCorrection
+      summary: Request a manager-decided operational balance correction
+      tags: [Billing]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/BillingCorrectionRequest" }
+      responses:
+        "201":
+          description: Pending correction requested.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/BillingCorrection" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "428": { $ref: "#/components/responses/PreconditionRequired" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /billing-corrections/{correctionId}/decision:
+    parameters:
+      - { name: correctionId, in: path, required: true, schema: { type: string, format: uuid } }
+    post:
+      operationId: decideBillingCorrection
+      summary: Approve or reject another principal's pending correction
+      tags: [Billing]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/BillingCorrectionDecisionRequest" }
+      responses:
+        "200":
+          description: Terminal decision recorded; approval applies stated operational balance atomically.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/BillingCorrection" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "412": { $ref: "#/components/responses/PreconditionFailed" }
+        "428": { $ref: "#/components/responses/PreconditionRequired" }
+        "422": { $ref: "#/components/responses/UnprocessableContent" }
+
+  /reconciliation-backlog:
+    get:
+      operationId: getReconciliationBacklog
+      summary: Get source-filtered reconciliation management totals
+      tags: [Billing]
+      responses:
+        "200":
+          description: Management-only totals computed after source filtering.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReconciliationBacklogResponse" }
         "401": { $ref: "#/components/responses/Unauthorized" }
         "403": { $ref: "#/components/responses/Forbidden" }
 
@@ -6839,6 +7158,24 @@ components:
         application/problem+json:
           schema:
             $ref: "#/components/schemas/ProblemDetails"
+    PreconditionRequired:
+      description: Required If-Match precondition was omitted
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/XRequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+    PayloadTooLarge:
+      description: Upload exceeds the endpoint size or row-count limit
+      headers:
+        X-Request-Id:
+          $ref: "#/components/headers/XRequestId"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
     UnprocessableContent:
       description: Request semantic validation failed
       headers:
@@ -11185,6 +11522,284 @@ components:
         workflowOpen: { type: integer, minimum: 0 }
         workflowOverdue: { type: integer, minimum: 0 }
         activityCount: { type: integer, minimum: 0 }
+
+    # ──────────────────────────────────────────────────────────────
+    # F0026 Billing schemas
+    # Source-of-truth schemas live in planning-mds/schemas/*billing*,
+    # payment-*, reconciliation-*, and mock-payment-receipt-row.schema.json.
+    # ──────────────────────────────────────────────────────────────
+    BillingInvoice:
+      type: object
+      additionalProperties: false
+      required: [id, invoiceNumber, policyId, policyVersionId, accountId, currency, originalAmount, outstandingAmount, invoiceDate, dueDate, status, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        invoiceNumber: { type: string, minLength: 1, maxLength: 80 }
+        policyId: { type: string, format: uuid }
+        policyVersionId: { type: string, format: uuid }
+        accountId: { type: string, format: uuid }
+        currency: { type: string, pattern: "^[A-Z]{3}$" }
+        originalAmount: { type: number, exclusiveMinimum: 0, multipleOf: 0.01 }
+        outstandingAmount: { type: number, minimum: 0, multipleOf: 0.01 }
+        invoiceDate: { type: string, format: date }
+        dueDate: { type: string, format: date }
+        status: { type: string, enum: [Outstanding, Reconciled] }
+        createdAt: { type: string, format: date-time }
+        createdByUserId: { type: string, format: uuid }
+        rowVersion: { type: string, minLength: 1 }
+
+    BillingInvoiceDetail:
+      type: object
+      additionalProperties: false
+      required: [invoice, applications, receipts, exceptions, auditEvents]
+      properties:
+        invoice: { $ref: "#/components/schemas/BillingInvoice" }
+        applications:
+          type: array
+          items: { $ref: "#/components/schemas/PaymentApplication" }
+        receipts:
+          type: array
+          items: { $ref: "#/components/schemas/PaymentReceipt" }
+        exceptions:
+          type: array
+          items: { $ref: "#/components/schemas/ReconciliationException" }
+        auditEvents:
+          type: array
+          items: { $ref: "#/components/schemas/TimelineEvent" }
+
+    BillingInvoiceCreateRequest:
+      type: object
+      additionalProperties: false
+      required: [invoiceNumber, policyId, policyVersionId, accountId, currency, originalAmount, invoiceDate, dueDate]
+      properties:
+        invoiceNumber: { type: string, minLength: 1, maxLength: 80 }
+        policyId: { type: string, format: uuid }
+        policyVersionId: { type: string, format: uuid }
+        accountId: { type: string, format: uuid }
+        currency: { type: string, pattern: "^[A-Z]{3}$" }
+        originalAmount: { type: number, exclusiveMinimum: 0, multipleOf: 0.01 }
+        invoiceDate: { type: string, format: date }
+        dueDate: { type: string, format: date }
+
+    PaginatedBillingInvoiceList:
+      type: object
+      required: [data, page, pageSize, totalCount, totalPages]
+      properties:
+        data: { type: array, items: { $ref: "#/components/schemas/BillingInvoice" } }
+        page: { type: integer, minimum: 1 }
+        pageSize: { type: integer, minimum: 1, maximum: 100 }
+        totalCount: { type: integer, minimum: 0 }
+        totalPages: { type: integer, minimum: 0 }
+
+    PaymentReceipt:
+      type: object
+      additionalProperties: false
+      required: [id, source, externalReference, receivedDate, currency, amount, applicationStatus, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        source: { type: string, enum: [Manual, MockVendorCsv] }
+        externalReference: { type: string, minLength: 1, maxLength: 120 }
+        receivedDate: { type: string, format: date }
+        currency: { type: string, pattern: "^[A-Z]{3}$" }
+        amount: { type: number, exclusiveMinimum: 0, multipleOf: 0.01 }
+        invoiceReference: { type: string, nullable: true, maxLength: 80 }
+        memo: { type: string, nullable: true, maxLength: 500 }
+        importBatchId: { type: string, format: uuid, nullable: true }
+        importRowNumber: { type: integer, minimum: 1, nullable: true }
+        applicationStatus: { type: string, enum: [Unapplied, Applied] }
+        rowVersion: { type: string, minLength: 1 }
+
+    PaymentReceiptCreateRequest:
+      type: object
+      additionalProperties: false
+      required: [externalReference, receivedDate, currency, amount]
+      properties:
+        externalReference: { type: string, minLength: 1, maxLength: 120 }
+        receivedDate: { type: string, format: date }
+        currency: { type: string, pattern: "^[A-Z]{3}$" }
+        amount: { type: number, exclusiveMinimum: 0, multipleOf: 0.01 }
+        invoiceReference: { type: string, nullable: true, maxLength: 80 }
+        memo: { type: string, nullable: true, maxLength: 500 }
+
+    PaginatedPaymentReceiptList:
+      type: object
+      required: [data, page, pageSize, totalCount, totalPages]
+      properties:
+        data: { type: array, items: { $ref: "#/components/schemas/PaymentReceipt" } }
+        page: { type: integer, minimum: 1 }
+        pageSize: { type: integer, minimum: 1, maximum: 100 }
+        totalCount: { type: integer, minimum: 0 }
+        totalPages: { type: integer, minimum: 0 }
+
+    PaymentReceiptImportRowOutcome:
+      type: object
+      additionalProperties: false
+      required: [rowNumber, outcome]
+      properties:
+        rowNumber: { type: integer, minimum: 1 }
+        externalReference: { type: string, nullable: true, maxLength: 120 }
+        outcome: { type: string, enum: [Created, Duplicate, Rejected] }
+        paymentReceiptId: { type: string, format: uuid, nullable: true }
+        reasonCode: { type: string, nullable: true, maxLength: 80 }
+        reasonDetail: { type: string, nullable: true, maxLength: 500 }
+
+    PaymentReceiptImportResult:
+      type: object
+      additionalProperties: false
+      required: [importBatchId, contractVersion, fileName, fileSha256, status, submittedCount, createdCount, duplicateCount, rejectedCount, outcomes]
+      properties:
+        importBatchId: { type: string, format: uuid }
+        contractVersion: { type: string, enum: [mock-payment-receipt-row-v1] }
+        fileName: { type: string, minLength: 1, maxLength: 255 }
+        fileSha256: { type: string, pattern: "^[a-f0-9]{64}$" }
+        status: { type: string, enum: [Completed, Rejected] }
+        submittedCount: { type: integer, minimum: 0, maximum: 1000 }
+        createdCount: { type: integer, minimum: 0, maximum: 1000 }
+        duplicateCount: { type: integer, minimum: 0, maximum: 1000 }
+        rejectedCount: { type: integer, minimum: 0, maximum: 1000 }
+        outcomes: { type: array, maxItems: 1000, items: { $ref: "#/components/schemas/PaymentReceiptImportRowOutcome" } }
+
+    PaymentApplicationRequest:
+      type: object
+      additionalProperties: false
+      required: [billingInvoiceId, paymentReceiptId, paymentReceiptRowVersion]
+      properties:
+        billingInvoiceId: { type: string, format: uuid }
+        paymentReceiptId: { type: string, format: uuid }
+        paymentReceiptRowVersion: { type: string, minLength: 1 }
+
+    PaymentApplication:
+      type: object
+      additionalProperties: false
+      required: [id, billingInvoiceId, paymentReceiptId, currency, appliedAmount, invoiceOutstandingBefore, invoiceOutstandingAfter, appliedAt, appliedByUserId]
+      properties:
+        id: { type: string, format: uuid }
+        billingInvoiceId: { type: string, format: uuid }
+        paymentReceiptId: { type: string, format: uuid }
+        currency: { type: string, pattern: "^[A-Z]{3}$" }
+        appliedAmount: { type: number, exclusiveMinimum: 0, multipleOf: 0.01 }
+        invoiceOutstandingBefore: { type: number, exclusiveMinimum: 0, multipleOf: 0.01 }
+        invoiceOutstandingAfter: { type: number, enum: [0] }
+        appliedAt: { type: string, format: date-time }
+        appliedByUserId: { type: string, format: uuid }
+
+    ReconciliationExceptionType:
+      type: string
+      enum: [MissingInvoiceReference, InvoiceReferenceConflict, AmountMismatch, CurrencyMismatch, DuplicateReceipt, InvalidSourceData]
+
+    ReconciliationException:
+      type: object
+      additionalProperties: false
+      required: [id, type, status, openedAt, openedByUserId, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        type: { $ref: "#/components/schemas/ReconciliationExceptionType" }
+        billingInvoiceId: { type: string, format: uuid, nullable: true }
+        paymentReceiptId: { type: string, format: uuid, nullable: true }
+        importBatchId: { type: string, format: uuid, nullable: true }
+        importRowOutcomeId: { type: string, format: uuid, nullable: true }
+        status: { type: string, enum: [Open, Resolved] }
+        openedAt: { type: string, format: date-time }
+        openedByUserId: { type: string, format: uuid }
+        resolvedAt: { type: string, format: date-time, nullable: true }
+        resolvedByUserId: { type: string, format: uuid, nullable: true }
+        resolutionCode: { type: string, nullable: true, maxLength: 80 }
+        resolutionNote: { type: string, nullable: true, maxLength: 1000 }
+        pendingCorrection:
+          nullable: true
+          allOf:
+            - { $ref: "#/components/schemas/BillingCorrection" }
+        rowVersion: { type: string, minLength: 1 }
+
+    PaginatedReconciliationExceptionList:
+      type: object
+      required: [data, page, pageSize, totalCount, totalPages]
+      properties:
+        data: { type: array, items: { $ref: "#/components/schemas/ReconciliationException" } }
+        page: { type: integer, minimum: 1 }
+        pageSize: { type: integer, minimum: 1, maximum: 100 }
+        totalCount: { type: integer, minimum: 0 }
+        totalPages: { type: integer, minimum: 0 }
+
+    ReconciliationReferenceCorrectionRequest:
+      type: object
+      additionalProperties: false
+      required: [billingInvoiceId, resolutionCode, resolutionNote]
+      properties:
+        billingInvoiceId: { type: string, format: uuid }
+        resolutionCode: { type: string, minLength: 1, maxLength: 80 }
+        resolutionNote: { type: string, minLength: 1, maxLength: 1000 }
+
+    BillingCorrectionRequest:
+      type: object
+      additionalProperties: false
+      required: [correctionAmount, proposedOutstandingAmount, reason, evidenceNote]
+      properties:
+        correctionAmount: { type: number, multipleOf: 0.01 }
+        proposedOutstandingAmount: { type: number, minimum: 0, multipleOf: 0.01 }
+        reason: { type: string, minLength: 1, maxLength: 1000 }
+        evidenceNote: { type: string, minLength: 1, maxLength: 1000 }
+
+    BillingCorrectionDecisionRequest:
+      type: object
+      additionalProperties: false
+      required: [decision, decisionNote]
+      properties:
+        decision: { type: string, enum: [Approve, Reject] }
+        decisionNote: { type: string, minLength: 1, maxLength: 1000 }
+
+    BillingCorrection:
+      type: object
+      additionalProperties: false
+      required: [id, reconciliationExceptionId, billingInvoiceId, beforeOutstandingAmount, correctionAmount, proposedOutstandingAmount, reason, evidenceNote, status, requestedByUserId, requestedAt, rowVersion]
+      properties:
+        id: { type: string, format: uuid }
+        reconciliationExceptionId: { type: string, format: uuid }
+        billingInvoiceId: { type: string, format: uuid }
+        beforeOutstandingAmount: { type: number, minimum: 0, multipleOf: 0.01 }
+        correctionAmount: { type: number, multipleOf: 0.01 }
+        proposedOutstandingAmount: { type: number, minimum: 0, multipleOf: 0.01 }
+        reason: { type: string, minLength: 1, maxLength: 1000 }
+        evidenceNote: { type: string, minLength: 1, maxLength: 1000 }
+        status: { type: string, enum: [Pending, Approved, Rejected] }
+        requestedByUserId: { type: string, format: uuid }
+        requestedAt: { type: string, format: date-time }
+        decisionByUserId: { type: string, format: uuid, nullable: true }
+        decisionAt: { type: string, format: date-time, nullable: true }
+        decisionNote: { type: string, nullable: true, maxLength: 1000 }
+        rowVersion: { type: string, minLength: 1 }
+
+    ReconciliationBacklogResponse:
+      type: object
+      required: [openCount, exactApplicationCount, pendingCorrectionCount, rejectedImportRowCount, duplicateImportRowCount, oldestOpenDays, byType]
+      properties:
+        openCount: { type: integer, minimum: 0 }
+        exactApplicationCount: { type: integer, minimum: 0 }
+        pendingCorrectionCount: { type: integer, minimum: 0 }
+        rejectedImportRowCount: { type: integer, minimum: 0 }
+        duplicateImportRowCount: { type: integer, minimum: 0 }
+        oldestOpenDays: { type: integer, minimum: 0, nullable: true }
+        byType:
+          type: array
+          items:
+            type: object
+            required: [type, count]
+            properties:
+              type: { $ref: "#/components/schemas/ReconciliationExceptionType" }
+              count: { type: integer, minimum: 0 }
+
+    PolicyBillingSummary:
+      type: object
+      additionalProperties: false
+      required: [policyId, currency, invoiceCount, outstandingInvoiceCount, outstandingAmount, asOf]
+      properties:
+        policyId: { type: string, format: uuid }
+        currency: { type: string, pattern: "^[A-Z]{3}$" }
+        invoiceCount: { type: integer, minimum: 0 }
+        outstandingInvoiceCount: { type: integer, minimum: 0 }
+        outstandingAmount: { type: number, minimum: 0, multipleOf: 0.01 }
+        nextDueDate: { type: string, format: date, nullable: true }
+        asOf: { type: string, format: date-time }
 
     # ──────────────────────────────────────────────────────────────
     # F0008 Broker Insights schemas

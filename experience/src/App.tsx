@@ -21,6 +21,9 @@ import PolicyImportPage from './pages/PolicyImportPage'
 import PolicyDetailPage from './pages/PolicyDetailPage'
 import CommissionsPage from './pages/CommissionsPage'
 import CommissionDetailPage from './pages/CommissionDetailPage'
+import BillingPage from './pages/BillingPage'
+import BillingInvoiceDetailPage from './pages/BillingInvoiceDetailPage'
+import BillingReconciliationPage from './pages/BillingReconciliationPage'
 import TaskCenterPage from './pages/TaskCenterPage'
 import ServiceCasesPage from './pages/ServiceCasesPage'
 import ServiceCaseDetailPage from './pages/ServiceCaseDetailPage'
@@ -78,6 +81,9 @@ function AppInner() {
       <Route path="/policies/:policyId" element={<ProtectedRoute><PolicyDetailPage /></ProtectedRoute>} />
       <Route path="/commissions" element={<ProtectedRoute><CommissionsPage /></ProtectedRoute>} />
       <Route path="/commissions/:expectedCommissionId" element={<ProtectedRoute><CommissionDetailPage /></ProtectedRoute>} />
+      <Route path="/billing" element={<ProtectedRoute><BillingPage /></ProtectedRoute>} />
+      <Route path="/billing/invoices/:invoiceId" element={<ProtectedRoute><BillingInvoiceDetailPage /></ProtectedRoute>} />
+      <Route path="/billing/reconciliation" element={<ProtectedRoute><BillingReconciliationPage /></ProtectedRoute>} />
       <Route path="/documents/:documentId" element={<ProtectedRoute><DocumentDetailView /></ProtectedRoute>} />
       <Route path="/document-templates" element={<ProtectedRoute><DocumentTemplatesLibrary /></ProtectedRoute>} />
       <Route path="/brokers" element={<ProtectedRoute><BrokerListPage /></ProtectedRoute>} />

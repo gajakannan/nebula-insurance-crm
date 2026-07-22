@@ -1606,3 +1606,75 @@ endpoints:
     source_docs:
       - F0023/feature-assembly-plan.md
       - planning-mds/api/nebula-api.yaml
+  - id: endpoint:billing-invoice-list-create
+    label: GET/POST /billing-invoices
+    method: MULTI
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, policy_rule:billing-invoice-create, policy_rule:billing-read]
+    route: /billing-invoices
+    source_docs: [planning-mds/api/nebula-api.yaml, planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md]
+  - id: endpoint:billing-invoice-detail
+    label: GET /billing-invoices/{invoiceId}
+    method: GET
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:activity-timeline-event, entity:billing-invoice, entity:payment-application, entity:payment-receipt, entity:reconciliation-exception, policy_rule:billing-read, schema:billing-invoice-detail]
+    route: /billing-invoices/{invoiceId}
+    source_docs: [planning-mds/api/nebula-api.yaml, planning-mds/schemas/billing-invoice-detail.schema.json]
+  - id: endpoint:policy-billing-summary
+    label: GET /policies/{policyId}/billing-summary
+    method: GET
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:policy, policy_rule:billing-summary-read, policy_rule:policy-read]
+    route: /policies/{policyId}/billing-summary
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:payment-receipt-list-create
+    label: GET/POST /payment-receipts
+    method: MULTI
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt, policy_rule:billing-read, policy_rule:billing-receipt-record]
+    route: /payment-receipts
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:payment-receipt-import-create
+    label: POST /payment-receipt-imports
+    method: POST
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt-import-batch, entity:payment-receipt-import-row-outcome, policy_rule:billing-receipt-import]
+    route: /payment-receipt-imports
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:payment-receipt-import-detail
+    label: GET /payment-receipt-imports/{batchId}
+    method: GET
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:payment-receipt-import-batch, policy_rule:billing-read]
+    route: /payment-receipt-imports/{batchId}
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:payment-application-create
+    label: POST /payment-applications
+    method: POST
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:payment-application, entity:payment-receipt, policy_rule:billing-application-apply]
+    route: /payment-applications
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:reconciliation-exception-list
+    label: GET /reconciliation-exceptions
+    method: GET
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception, policy_rule:billing-backlog-read]
+    route: /reconciliation-exceptions
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:reconciliation-reference-correct
+    label: PATCH /reconciliation-exceptions/{exceptionId}/reference
+    method: PATCH
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:reconciliation-exception, policy_rule:billing-exception-manage]
+    route: /reconciliation-exceptions/{exceptionId}/reference
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:billing-correction-request
+    label: POST /reconciliation-exceptions/{exceptionId}/corrections
+    method: POST
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, entity:reconciliation-exception, policy_rule:billing-correction-request, workflow:billing-correction]
+    route: /reconciliation-exceptions/{exceptionId}/corrections
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:billing-correction-decision
+    label: POST /billing-corrections/{correctionId}/decision
+    method: POST
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-correction, entity:billing-invoice, policy_rule:billing-correction-approve, workflow:billing-correction]
+    route: /billing-corrections/{correctionId}/decision
+    source_docs: [planning-mds/api/nebula-api.yaml]
+  - id: endpoint:reconciliation-backlog
+    label: GET /reconciliation-backlog
+    method: GET
+    related_nodes: [capability:billing-invoicing-reconciliation, capability:operational-reporting, entity:reconciliation-exception, policy_rule:billing-backlog-summary-read]
+    route: /reconciliation-backlog
+    source_docs: [planning-mds/api/nebula-api.yaml]

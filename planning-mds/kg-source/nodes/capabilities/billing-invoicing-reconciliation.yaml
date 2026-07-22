@@ -1,0 +1,26 @@
+id: capability:billing-invoicing-reconciliation
+label: Billing, Invoicing, and Reconciliation
+notes: >-
+  Internal agency-bill operational invoicing, manual/mock-CSV receipt capture, explicit exact application,
+  exception handling, controlled balance corrections, and source-filtered backlog visibility. Excludes direct
+  bill, real payment connectivity, tolerance/write-off behavior, ledger, tax, settlement, and statements.
+rationale:
+  - adr: adr:034
+    section: Decision
+    summary: ADR-034 defines a bounded BillingReconciliation vertical slice with exact-only application and a deferred F0030 production seam.
+related_nodes:
+  - capability:authorization-enforcement
+  - capability:commission-revenue-tracking
+  - capability:operational-reporting
+  - entity:billing-correction
+  - entity:billing-invoice
+  - entity:payment-application
+  - entity:payment-receipt
+  - entity:payment-receipt-import-batch
+  - entity:payment-receipt-import-row-outcome
+  - entity:reconciliation-exception
+  - workflow:billing-correction
+source_docs:
+  - F0026/PRD.md
+  - F0026/feature-assembly-plan.md
+  - planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md

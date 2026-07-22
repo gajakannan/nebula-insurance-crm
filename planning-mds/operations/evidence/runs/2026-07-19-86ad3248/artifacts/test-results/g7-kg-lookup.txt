@@ -1,0 +1,485 @@
+{
+  "target": {
+    "status": "planned",
+    "id": "feature:F0026",
+    "path": "planning-mds/features/F0026-billing-invoicing-and-reconciliation",
+    "affects": [
+      "capability:authorization-enforcement",
+      "capability:billing-invoicing-reconciliation",
+      "capability:commission-revenue-tracking",
+      "capability:operational-reporting",
+      "endpoint:billing-correction-decision",
+      "endpoint:billing-correction-request",
+      "endpoint:billing-invoice-detail",
+      "endpoint:billing-invoice-list-create",
+      "endpoint:payment-application-create",
+      "endpoint:payment-receipt-import-create",
+      "endpoint:payment-receipt-import-detail",
+      "endpoint:payment-receipt-list-create",
+      "endpoint:policy-billing-summary",
+      "endpoint:reconciliation-backlog",
+      "endpoint:reconciliation-exception-list",
+      "endpoint:reconciliation-reference-correct",
+      "entity:activity-timeline-event",
+      "entity:billing-correction",
+      "entity:billing-invoice",
+      "entity:expected-commission",
+      "entity:payment-application",
+      "entity:payment-receipt",
+      "entity:payment-receipt-import-batch",
+      "entity:payment-receipt-import-row-outcome",
+      "entity:policy",
+      "entity:policy-version",
+      "entity:reconciliation-exception",
+      "event:billing-correction-approved",
+      "event:billing-correction-rejected",
+      "event:billing-correction-requested",
+      "event:billing-invoice-created",
+      "event:exact-payment-applied",
+      "event:payment-receipt-import-completed",
+      "event:payment-receipt-recorded",
+      "event:reconciliation-reference-corrected",
+      "policy_rule:billing-application-apply",
+      "policy_rule:billing-backlog-read",
+      "policy_rule:billing-backlog-summary-read",
+      "policy_rule:billing-correction-approve",
+      "policy_rule:billing-correction-request",
+      "policy_rule:billing-exception-manage",
+      "policy_rule:billing-invoice-create",
+      "policy_rule:billing-read",
+      "policy_rule:billing-receipt-import",
+      "policy_rule:billing-receipt-record",
+      "policy_rule:billing-summary-read",
+      "policy_rule:policy-read",
+      "role:finance-manager",
+      "role:finance-operations-analyst",
+      "ui_route:billing-invoice-detail",
+      "ui_route:billing-reconciliation",
+      "ui_route:billing-workspace",
+      "workflow:billing-correction"
+    ],
+    "depends_on": [
+      "feature:F0018",
+      "feature:F0025"
+    ],
+    "governed_by": [
+      "adr:034"
+    ],
+    "notes": [
+      "F0030 is a deferred production integration seam, not a first-release dependency. Direct bill, real bank/payment connectivity, partial/overpayment allocation, ledger, tax, and settlement remain out of scope.",
+      "Operator promoted F0026 from Later to Now on 2026-07-19 after confirming that completed F0018 and F0025 satisfy the direct dependency boundary and that the approved plan should proceed toward build.",
+      "Phase A refined on 2026-07-19 via plan run 2026-07-19-79477865. Operator confirmed agency-bill-only scope, manual and mock-vendor CSV receipts, explicit exact currency/full-outstanding application, no automatic tolerance or write-off, and Finance Operations Analyst/Finance Manager separation of duties.",
+      "Phase B approved in plan run 2026-07-19-79477865 with explicit operator token `approve`. ADR-034 defines the in-process BillingReconciliation module, explicit exact-only application, versioned bounded mock CSV profile, source/reference idempotency, Finance Operations Analyst/Finance Manager separation of duties, and permission-safe aggregates."
+    ],
+    "uses_api_contract": [
+      "api:nebula-rest"
+    ],
+    "_kind": "feature"
+  },
+  "source_precedence": [
+    "target feature folder and feature-assembly-plan.md for feature-local implementation intent",
+    "planning-mds/architecture/decisions/** for architectural decisions",
+    "planning-mds/api/*.yaml and planning-mds/schemas/*.json for interface and payload contracts",
+    "planning-mds/architecture/data-model.md and planning-mds/domain/glossary.md for domain definitions",
+    "planning-mds/knowledge-graph/*.yaml for compressed retrieval and routing"
+  ],
+  "affects": [
+    {
+      "id": "capability:authorization-enforcement",
+      "label": "Authorization Enforcement",
+      "rationale": [
+        {
+          "adr": "adr:008",
+          "section": "Decision",
+          "summary": "Native Casbin enforcer replaces hand-rolled policy parser to eliminate syntax drift from Casbin semantics and avoid manual parser changes for new policy conditions."
+        }
+      ],
+      "hotspots": {
+        "hotspot_rank": 81,
+        "hotspot_score": 0.03,
+        "primary_owner": "gajapathi.kannan@live.com",
+        "primary_owner_pct": 82,
+        "bus_factor_flag": true
+      }
+    },
+    {
+      "id": "capability:billing-invoicing-reconciliation",
+      "label": "Billing, Invoicing, and Reconciliation",
+      "notes": "Internal agency-bill operational invoicing, manual/mock-CSV receipt capture, explicit exact application, exception handling, controlled balance corrections, and source-filtered backlog visibility. Excludes direct bill, real payment connectivity, tolerance/write-off behavior, ledger, tax, settlement, and statements.",
+      "rationale": [
+        {
+          "adr": "adr:034",
+          "section": "Decision",
+          "summary": "ADR-034 defines a bounded BillingReconciliation vertical slice with exact-only application and a deferred F0030 production seam."
+        }
+      ]
+    },
+    {
+      "id": "capability:commission-revenue-tracking",
+      "label": "Commission Revenue Tracking",
+      "notes": "Internal-only expected commission, producer split attribution, adjustment, and revenue rollup visibility for F0025; explicitly excludes settlement, billing, payments, reconciliation, statements, tax, and producer payout execution.",
+      "rationale": [
+        {
+          "adr": "adr:032",
+          "section": "Decision",
+          "summary": "F0025 introduces a CommissionRevenue module that persists expected commission review records with source snapshots, effective-dated schedules/splits, single-step adjustments, and source-authorized rollup projections."
+        }
+      ],
+      "hotspots": {
+        "hotspot_rank": 60,
+        "hotspot_score": 0.06,
+        "primary_owner": "vgundaboina@wscs.ai",
+        "primary_owner_pct": 92,
+        "bus_factor_flag": true
+      }
+    },
+    {
+      "id": "capability:operational-reporting",
+      "label": "Operational Reporting",
+      "rationale": [
+        {
+          "adr": "adr:014-search",
+          "section": "Operational Report Projection Design",
+          "summary": "Operational workload and aging reports aggregate report fact rows only after query-layer authorization filters are applied."
+        }
+      ],
+      "hotspots": {
+        "hotspot_rank": 19,
+        "hotspot_score": 0.22,
+        "primary_owner": "gajapathi.kannan@live.com",
+        "primary_owner_pct": 79,
+        "bus_factor_flag": false
+      }
+    },
+    {
+      "id": "endpoint:billing-correction-decision",
+      "label": "POST /billing-corrections/{correctionId}/decision"
+    },
+    {
+      "id": "endpoint:billing-correction-request",
+      "label": "POST /reconciliation-exceptions/{exceptionId}/corrections"
+    },
+    {
+      "id": "endpoint:billing-invoice-detail",
+      "label": "GET /billing-invoices/{invoiceId}"
+    },
+    {
+      "id": "endpoint:billing-invoice-list-create",
+      "label": "GET/POST /billing-invoices"
+    },
+    {
+      "id": "endpoint:payment-application-create",
+      "label": "POST /payment-applications"
+    },
+    {
+      "id": "endpoint:payment-receipt-import-create",
+      "label": "POST /payment-receipt-imports"
+    },
+    {
+      "id": "endpoint:payment-receipt-import-detail",
+      "label": "GET /payment-receipt-imports/{batchId}"
+    },
+    {
+      "id": "endpoint:payment-receipt-list-create",
+      "label": "GET/POST /payment-receipts"
+    },
+    {
+      "id": "endpoint:policy-billing-summary",
+      "label": "GET /policies/{policyId}/billing-summary"
+    },
+    {
+      "id": "endpoint:reconciliation-backlog",
+      "label": "GET /reconciliation-backlog"
+    },
+    {
+      "id": "endpoint:reconciliation-exception-list",
+      "label": "GET /reconciliation-exceptions"
+    },
+    {
+      "id": "endpoint:reconciliation-reference-correct",
+      "label": "PATCH /reconciliation-exceptions/{exceptionId}/reference"
+    },
+    {
+      "id": "entity:activity-timeline-event",
+      "label": "ActivityTimelineEvent",
+      "hotspots": {
+        "hotspot_rank": 109,
+        "hotspot_score": 0.02,
+        "primary_owner": "gajapathi.kannan@live.com",
+        "primary_owner_pct": 100,
+        "bus_factor_flag": true
+      }
+    },
+    {
+      "id": "entity:billing-correction",
+      "label": "BillingCorrection",
+      "rationale": [
+        {
+          "adr": "adr:034",
+          "section": "Decision \u00a75",
+          "summary": "Balance-affecting operational corrections require a different principal's terminal approve/reject decision with before/after evidence."
+        }
+      ]
+    },
+    {
+      "id": "entity:billing-invoice",
+      "label": "BillingInvoice",
+      "rationale": [
+        {
+          "adr": "adr:034",
+          "section": "Decision \u00a71-2",
+          "summary": "Agency-bill operational invoice linked immutably to policy, policy version, and account; outstanding is not a ledger balance."
+        }
+      ]
+    },
+    {
+      "id": "entity:expected-commission",
+      "label": "ExpectedCommission",
+      "rationale": [
+        {
+          "adr": "adr:032",
+          "section": "Decision \u00a72",
+          "summary": "Expected commission is persisted as a CRM review record with source snapshots, exception status, and derived amounts; it is not a ledger or payment record."
+        }
+      ]
+    },
+    {
+      "id": "entity:payment-application",
+      "label": "PaymentApplication",
+      "rationale": [
+        {
+          "adr": "adr:034",
+          "section": "Decision \u00a74",
+          "summary": "Append-only record of one explicit same-currency, full-outstanding exact receipt application committed atomically."
+        }
+      ]
+    },
+    {
+      "id": "entity:payment-receipt",
+      "label": "PaymentReceipt",
+      "rationale": [
+        {
+          "adr": "adr:034",
+          "section": "Decision \u00a72",
+          "summary": "Manual or mock-vendor receipt provenance is independent and immutable; recording never changes an invoice."
+        }
+      ]
+    },
+    {
+      "id": "entity:payment-receipt-import-batch",
+      "label": "PaymentReceiptImportBatch",
+      "rationale": [
+        {
+          "adr": "adr:034",
+          "section": "Decision \u00a73",
+          "summary": "A bounded mock CSV import persists sanitized metadata, hash, counts, and outcomes while discarding raw bytes."
+        }
+      ]
+    },
+    {
+      "id": "entity:payment-receipt-import-row-outcome",
+      "label": "PaymentReceiptImportRowOutcome",
+      "rationale": [
+        {
+          "adr": "adr:034",
+          "section": "Decision \u00a73",
+          "summary": "Every mock-import row has an immutable Created, Duplicate, or Rejected outcome for deterministic retry evidence."
+        }
+      ]
+    },
+    {
+      "id": "entity:policy",
+      "label": "Policy",
+      "rationale": [
+        {
+          "adr": "adr:018",
+          "section": "Decision \u00a71",
+          "summary": "Policy aggregate is a mutable parent row (lifecycle state + denormalized context) plus immutable PolicyVersion snapshots and materialized PolicyCoverageLine rows; endorsements and reinstatements produce new versions rather than mutating history."
+        },
+        {
+          "adr": "adr:020",
+          "section": "Decision",
+          "summary": "Policy is not an independent LOB attribute carrier; current product attributes are read through CurrentVersionId -> PolicyVersion."
+        }
+      ],
+      "hotspots": {
+        "hotspot_rank": 15,
+        "hotspot_score": 0.31,
+        "primary_owner": "gajapathi.kannan@live.com",
+        "primary_owner_pct": 100,
+        "bus_factor_flag": true
+      }
+    },
+    {
+      "id": "entity:policy-version",
+      "label": "PolicyVersion",
+      "rationale": [
+        {
+          "adr": "adr:018",
+          "section": "Decision \u00a71",
+          "summary": "Immutable term snapshot captured at issue, endorsement, or reinstatement. VersionNumber is monotonic per PolicyId and the source of truth for historical policy terms."
+        },
+        {
+          "adr": "adr:020",
+          "section": "Decision",
+          "summary": "PolicyVersion is the authoritative policy-level LOB attribute carrier; attributes_json supplements platform snapshots rather than replacing them."
+        }
+      ]
+    },
+    {
+      "id": "entity:reconciliation-exception",
+      "label": "ReconciliationException",
+      "rationale": [
+        {
+          "adr": "adr:034",
+          "section": "Decision \u00a74-5",
+          "summary": "Non-exact, missing/conflicting reference, duplicate, and invalid-source conditions remain actionable without implicit balance mutation."
+        }
+      ]
+    },
+    {
+      "id": "event:billing-correction-approved",
+      "label": "BillingCorrectionApproved"
+    },
+    {
+      "id": "event:billing-correction-rejected",
+      "label": "BillingCorrectionRejected"
+    },
+    {
+      "id": "event:billing-correction-requested",
+      "label": "BillingCorrectionRequested"
+    },
+    {
+      "id": "event:billing-invoice-created",
+      "label": "BillingInvoiceCreated"
+    },
+    {
+      "id": "event:exact-payment-applied",
+      "label": "ExactPaymentApplied"
+    },
+    {
+      "id": "event:payment-receipt-import-completed",
+      "label": "PaymentReceiptImportCompleted"
+    },
+    {
+      "id": "event:payment-receipt-recorded",
+      "label": "PaymentReceiptRecorded"
+    },
+    {
+      "id": "event:reconciliation-reference-corrected",
+      "label": "ReconciliationReferenceCorrected"
+    },
+    {
+      "id": "policy_rule:billing-application-apply",
+      "label": "billing:application_apply",
+      "notes": "Service permits only an explicit same-currency full-outstanding exact application."
+    },
+    {
+      "id": "policy_rule:billing-backlog-read",
+      "label": "billing:backlog_read",
+      "notes": "Detail and counts are computed after linked source-record authorization."
+    },
+    {
+      "id": "policy_rule:billing-backlog-summary-read",
+      "label": "billing:backlog_summary_read",
+      "notes": "Management totals are computed after source filtering; hidden records are not disclosed as counts."
+    },
+    {
+      "id": "policy_rule:billing-correction-approve",
+      "label": "billing:correction_approve",
+      "notes": "Same-user request and decision is denied, including for Admin."
+    },
+    {
+      "id": "policy_rule:billing-correction-request",
+      "label": "billing:correction_request"
+    },
+    {
+      "id": "policy_rule:billing-exception-manage",
+      "label": "billing:exception_manage",
+      "notes": "This action changes eligible reference metadata only and never changes an invoice balance."
+    },
+    {
+      "id": "policy_rule:billing-invoice-create",
+      "label": "billing:invoice_create"
+    },
+    {
+      "id": "policy_rule:billing-read",
+      "label": "billing:read",
+      "notes": "Finance detail requires linked policy/account source authorization before rows or counts."
+    },
+    {
+      "id": "policy_rule:billing-receipt-import",
+      "label": "billing:receipt_import"
+    },
+    {
+      "id": "policy_rule:billing-receipt-record",
+      "label": "billing:receipt_record"
+    },
+    {
+      "id": "policy_rule:billing-summary-read",
+      "label": "billing:summary_read",
+      "notes": "Bounded policy summary excludes receipts, imports, exceptions, corrections, audit detail, and backlog totals."
+    },
+    {
+      "id": "policy_rule:policy-read",
+      "label": "policy:read"
+    },
+    {
+      "id": "role:finance-manager",
+      "label": "FinanceManager",
+      "notes": "Internal finance approver and backlog manager; cannot decide their own correction request and has no first-release invoice/receipt/application mutation grant."
+    },
+    {
+      "id": "role:finance-operations-analyst",
+      "label": "FinanceOperationsAnalyst",
+      "notes": "Internal finance operator for agency-bill invoice, receipt, exact reconciliation, exception, and correction-request work; cannot decide corrections."
+    },
+    {
+      "id": "ui_route:billing-invoice-detail",
+      "label": "/billing/invoices/:invoiceId"
+    },
+    {
+      "id": "ui_route:billing-reconciliation",
+      "label": "/billing/reconciliation"
+    },
+    {
+      "id": "ui_route:billing-workspace",
+      "label": "/billing"
+    },
+    {
+      "id": "workflow:billing-correction",
+      "label": "Billing Correction Workflow",
+      "rationale": [
+        {
+          "adr": "adr:034",
+          "section": "Decision \u00a75",
+          "summary": "Pending corrections transition once to Approved or Rejected, and requester/decision principals must differ."
+        }
+      ]
+    }
+  ],
+  "governed_by": [
+    {
+      "id": "adr:034",
+      "label": "Agency-Bill Invoicing and Exact Reconciliation"
+    }
+  ],
+  "uses_api_contract": [
+    {
+      "id": "api:nebula-rest",
+      "label": "Nebula REST API"
+    }
+  ],
+  "depends_on": [
+    {
+      "id": "feature:F0018"
+    },
+    {
+      "id": "feature:F0025",
+      "notes": [
+        "Phase A refined on 2026-07-07 via plan run 2026-07-07-8a9b2629. F0025 is bounded to expected commission visibility, producer split attribution, adjustment capture, and management rollups; full accounting, payments, billing, reconciliation, payouts, tax, statements, GL export, and external compensation portals remain out of scope.",
+        "Phase B architecture drafted on 2026-07-07 via plan run 2026-07-07-8a9b2629. ADR-032 defines the CommissionRevenue module, persisted expected commission review records, effective-dated schedules/splits, single-step adjustment approval, source-authorized rollups, and timeline audit."
+      ]
+    }
+  ]
+}

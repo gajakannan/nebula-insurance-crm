@@ -103,3 +103,22 @@ ui_routes:
     source_docs:
       - experience/src/App.tsx
       - experience/src/pages/TaskCenterPage.tsx
+  - id: ui_route:billing-workspace
+    label: /billing
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:payment-receipt]
+    route: /billing
+    source_docs:
+      - F0026/feature-assembly-plan.md
+      - planning-mds/architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md
+  - id: ui_route:billing-invoice-detail
+    label: /billing/invoices/:invoiceId
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:reconciliation-exception]
+    route: /billing/invoices/:invoiceId
+    source_docs:
+      - F0026/feature-assembly-plan.md
+  - id: ui_route:billing-reconciliation
+    label: /billing/reconciliation
+    related_nodes: [capability:billing-invoicing-reconciliation, entity:billing-invoice, entity:payment-application, entity:payment-receipt, workflow:billing-correction]
+    route: /billing/reconciliation
+    source_docs:
+      - F0026/feature-assembly-plan.md

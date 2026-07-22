@@ -1,0 +1,32 @@
+
+ RUN  v2.1.9 /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/experience
+      Coverage enabled with v8
+
+ ✓ src/features/billing/tests/BillingHooks.test.tsx (1 test) 71ms
+ ✓ src/features/billing/tests/BillingPages.test.tsx (3 tests) 301ms
+
+ Test Files  2 passed (2)
+      Tests  4 passed (4)
+   Start at  20:26:03
+   Duration  1.42s (transform 200ms, setup 623ms, collect 275ms, tests 372ms, environment 434ms, prepare 118ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   82.65 |    47.11 |   35.44 |   82.65 |                   
+ features/billing  |   29.41 |      100 |   31.57 |   29.41 |                   
+  hooks.ts         |   22.93 |      100 |   23.52 |   22.93 | ...36-149,152-161 
+  index.ts         |     100 |      100 |     100 |     100 |                   
+  presentation.ts  |     100 |      100 |     100 |     100 |                   
+  types.ts         |       0 |        0 |       0 |       0 |                   
+ ...ing/components |     100 |       50 |      80 |     100 |                   
+  BillingUi.tsx    |     100 |       50 |      80 |     100 | 76-82             
+ .../billing/tests |   98.75 |    91.66 |     100 |   98.75 |                   
+  ...ooks.test.tsx |   97.87 |     87.5 |     100 |   97.87 | 43                
+  ...ages.test.tsx |     100 |      100 |     100 |     100 |                   
+ pages             |   92.05 |    35.52 |   30.18 |   92.05 |                   
+  ...etailPage.tsx |   97.38 |    35.13 |   55.55 |   97.38 | 159-162           
+  BillingPage.tsx  |   90.57 |    28.57 |      12 |   90.57 | ...41-143,171-173 
+  ...ationPage.tsx |   87.59 |       40 |    42.1 |   87.59 | ...14-116,153-163 
+-------------------|---------|----------|---------|---------|-------------------

@@ -31,4 +31,13 @@ describe('Sidebar', () => {
     expect(link).toHaveAttribute('href', '/operational-reports?report=rollups');
     expect(link).toHaveAttribute('aria-current', 'page');
   });
+
+  it('exposes billing and marks nested billing routes active', () => {
+    renderSidebar('/billing/reconciliation');
+
+    const link = screen.getByRole('link', { name: /^billing$/i });
+
+    expect(link).toHaveAttribute('href', '/billing');
+    expect(link).toHaveAttribute('aria-current', 'page');
+  });
 });

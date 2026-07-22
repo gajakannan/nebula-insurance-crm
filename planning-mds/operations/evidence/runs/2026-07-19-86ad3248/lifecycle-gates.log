@@ -1,0 +1,168 @@
+
+### G0
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --run-id 2026-07-19-86ad3248 --stage G0
+Stage: G0
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+### G0
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --run-id 2026-07-19-86ad3248 --stage G0
+Stage: G0
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G1
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --run-id 2026-07-19-86ad3248 --stage G1
+Stage: G1
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G2
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --run-id 2026-07-19-86ad3248 --stage G2
+Stage: G2
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+### G2
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --run-id 2026-07-19-86ad3248 --stage G2
+Stage: G2
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G3
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --run-id 2026-07-19-86ad3248 --stage G3
+Stage: G3
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+### G3
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --run-id 2026-07-19-86ad3248 --stage G3
+Stage: G3
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G4
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --run-id 2026-07-19-86ad3248 --stage G4
+Stage: G4
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G5
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --run-id 2026-07-19-86ad3248 --stage G5
+Stage: G5
+Exit Code: 1
+Result: FAIL
+Output References: -
+Skipped Gates: -
+
+### G5
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --run-id 2026-07-19-86ad3248 --stage G5
+Stage: G5
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G6
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --run-id 2026-07-19-86ad3248 --stage G6
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G6
+Command: python3 agents/product-manager/scripts/validate-trackers.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --run-id 2026-07-19-86ad3248
+Stage: G6
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G7
+Command: python3 /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/scripts/kg/compile.py
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G7
+Command: python3 /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/scripts/kg/validate.py --regenerate-symbols --check-symbols --regenerate-decisions --check-decisions
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G7
+Command: python3 /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/scripts/kg/validate.py --check-drift
+Stage: G7
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G8
+Command: python3 /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/scripts/kg/compile.py
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G8
+Command: python3 agents/product-manager/scripts/patch-prior-manifest.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --new-run-id 2026-07-19-86ad3248
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G8
+Command: python3 /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/scripts/kg/validate.py --write-coverage-report
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G8
+Command: python3 /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/scripts/kg/validate.py --check-drift
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G8
+Command: python3 agents/product-manager/scripts/validate-feature-evidence.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --stage closeout
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -
+
+### G8
+Command: python3 agents/product-manager/scripts/validate-trackers.py --product-root /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm --feature F0026 --run-id 2026-07-19-86ad3248
+Stage: G8
+Exit Code: 0
+Result: PASS
+Output References: -
+Skipped Gates: -

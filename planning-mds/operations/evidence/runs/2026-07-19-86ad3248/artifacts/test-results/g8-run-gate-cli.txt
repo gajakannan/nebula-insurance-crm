@@ -1,0 +1,80 @@
+7:and evidence attestations (with sha256 hashes). Manual checkpoints pause the
+8:journal and resume only after an authorized, hashed evidence attestation — a
+9:resume cannot skip an unattested checkpoint, and changed checkpoint output is
+17:    run-gate.py --action feature --stage G8 --attest-checkpoint archive-move \
+101:                "pending_checkpoint": None, "attestations": []})
+135:def _find_attestation(stage_state: dict[str, Any], checkpoint_id: str) -> dict[str, Any] | None:
+136:    for att in stage_state.get("attestations", []):
+142:def _verify_attested(stage_state: dict[str, Any], checkpoint_id: str, run_folder: Path) -> bool:
+143:    """True if the checkpoint is attested AND its hashed evidence is unchanged."""
+144:    att = _find_attestation(stage_state, checkpoint_id)
+151:                                  f"attested evidence missing: {ev['path']}")
+154:                                  f"attested evidence changed since attestation: {ev['path']}")
+222:def attest_checkpoint(*, spec_dir: Path, action: str, stage: str, product_root: Path,
+240:                                  "checkpoint attestation requires at least one evidence file")
+247:        attestation = {
+252:        stage_state["attestations"].append(attestation)
+258:        return {"ok": True, "stage": stage, "attested": checkpoint_id, "evidence": recorded}
+296:                if kind == "checkpoint" and not _verify_attested(stage_state, body.get("id"), run_folder):
+297:                    raise GateDriverError("cannot_skip_unattested_checkpoint",
+298:                                          f"--from would skip unattested checkpoint {body.get('id')!r}")
+310:                # Re-verify an already-attested checkpoint on resume so tampered or
+313:                    _verify_attested(stage_state, body.get("id"), run_folder)
+336:                if _find_attestation(stage_state, cid) and _verify_attested(stage_state, cid, run_folder):
+351:                        "message": f"MANUAL: {body.get('description')} — attest with "
+352:                                   f"--attest-checkpoint {cid}", "log_refs": log_refs}
+366:                return {"stage": stage, "status": "paused", "pending_write": artifact,
+367:                        "message": f"MANUAL: write {artifact}", "log_refs": log_refs}
+419:    parser.add_argument("--from", dest="from_op", help="Resume from an operation id (cannot skip an unattested checkpoint).")
+422:    parser.add_argument("--attest-checkpoint", dest="attest")
+437:        if args.attest:
+438:            record = attest_checkpoint(
+441:                checkpoint_id=args.attest, evidence=args.evidence, actor=args.actor,
+usage: run-gate.py [-h] [--product-root PRODUCT_ROOT] [--action ACTION]
+                   [--stage STAGE] [--feature FEATURE]
+                   [--feature-slug FEATURE_SLUG] [--run-id RUN_ID]
+                   [--run-folder RUN_FOLDER] [--spec-dir SPEC_DIR] [--dry-run]
+                   [--from FROM_OP] [--force] [--list]
+                   [--attest-checkpoint ATTEST] [--evidence EVIDENCE]
+                   [--actor ACTOR] [--role ROLE] [--note NOTE]
+
+Durable action-gate driver (F0007-S0005). Resolves an action stage from the
+spec and runs its typed operations in declared order through the shared
+runtime (S0004), stopping at the first failure. A durable gate-state journal
+records completed operations, the pending manual checkpoint, and evidence
+attestations (with sha256 hashes). Manual checkpoints pause the journal and
+resume only after an authorized, hashed evidence attestation — a resume cannot
+skip an unattested checkpoint, and changed checkpoint output is rejected.
+Journal writes are atomic and serialized by a per-run lock. Responsibility
+boundary: the driver owns *procedure integrity* (ordering, checkpoint gating,
+audit). Pass/fail of each invoked validator is the validator's own exit code;
+the driver never re-judges evidence. run-gate.py --action feature --stage G4
+--product-root P --feature F#### --run-id R run-gate.py --action feature
+--stage G8 --attest-checkpoint archive-move --evidence pm-closeout.md
+--evidence signoff-ledger.md --actor NAME --role product-manager run-gate.py
+--action feature --list
+
+options:
+  -h, --help            show this help message and exit
+  --product-root PRODUCT_ROOT
+                        Path to {PRODUCT_ROOT} (the sibling product repo).
+                        Overrides NEBULA_PRODUCT_ROOT and the default
+                        fallback.
+  --action ACTION
+  --stage STAGE
+  --feature FEATURE
+  --feature-slug FEATURE_SLUG
+  --run-id RUN_ID
+  --run-folder RUN_FOLDER
+                        Override the resolved run folder (tests/advanced).
+  --spec-dir SPEC_DIR
+  --dry-run
+  --from FROM_OP        Resume from an operation id (cannot skip an unattested
+                        checkpoint).
+  --force               Re-run a completed stage (non-idempotent replay).
+  --list
+  --attest-checkpoint ATTEST
+  --evidence EVIDENCE
+  --actor ACTOR
+  --role ROLE
+  --note NOTE
