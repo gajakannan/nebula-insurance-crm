@@ -1,9 +1,9 @@
 ---
 title: "Neuron Local Phi Runtime Runbook"
 subtitle: "Install, run, test, monitor, and troubleshoot Phi-4 Mini with vLLM in WSL2"
-version: "1.0.0"
+version: "1.1.0"
 status: "Validated local-development runbook"
-date: "2026-07-21"
+date: "2026-07-25"
 owner: "Neuron / Nebula Insurance CRM"
 platform:
   host_os: "Windows 11"
@@ -114,6 +114,9 @@ Recommended layout:
 - Do not commit the API key.
 - Keep secrets in `~/.neuron-secrets`.
 - Set `chmod 600 ~/.neuron-secrets`.
+- Supply the server key through `VLLM_API_KEY`; do not pass it with
+  `--api-key`, because vLLM 0.25.1 includes non-default command-line
+  arguments in its startup log.
 - Rotate a key that appears in logs, screenshots, terminal history, or chat.
 - Restart vLLM after rotating the key.
 - Neuron must never send user bearer tokens, engine credentials, or application secrets to Phi.
@@ -300,6 +303,7 @@ Add:
 
 ```bash
 export NEURON_PHI_API_KEY="<REPLACE_WITH_LOCAL_KEY>"
+export VLLM_API_KEY="$NEURON_PHI_API_KEY"
 
 export NEURON_MODEL_PROVIDER="local_phi"
 export NEURON_PHI_BASE_URL="http://127.0.0.1:8000/v1"
@@ -315,6 +319,10 @@ Protect it:
 ```bash
 chmod 600 ~/.neuron-secrets
 ```
+
+`NEURON_PHI_API_KEY` is used by Neuron and validation clients.
+`VLLM_API_KEY` supplies the same key to the vLLM server without placing it in
+the command line or vLLM's non-default-argument log.
 
 ### Why `VLLM_WSL2_ENABLE_PIN_MEMORY=1`
 
@@ -359,6 +367,13 @@ echo "Pin memory: $VLLM_WSL2_ENABLE_PIN_MEMORY"
 echo "FlashInfer sampler: $VLLM_USE_FLASHINFER_SAMPLER"
 echo "HF cache: $HF_HOME"
 test -n "$NEURON_PHI_API_KEY" && echo "API key is set"
+test -n "$VLLM_API_KEY" && echo "vLLM API key is set"
+if test -n "$NEURON_PHI_API_KEY" &&
+  test "$NEURON_PHI_API_KEY" = "$VLLM_API_KEY"; then
+  echo "Client and server keys match"
+else
+  echo "ERROR: Client and server keys are missing or differ"
+fi
 ```
 
 Expected:
@@ -368,6 +383,8 @@ Pin memory: 1
 FlashInfer sampler: 0
 HF cache: /home/<user>/.cache/huggingface
 API key is set
+vLLM API key is set
+Client and server keys match
 ```
 
 Do not verify by printing the key.
@@ -409,10 +426,13 @@ cd ~/uSandbox/tools/vllm-phi
 source .venv/bin/activate
 source ~/.neuron-secrets
 
+: "${VLLM_API_KEY:?ERROR: source ~/.neuron-secrets before starting vLLM}"
+: "${VLLM_WSL2_ENABLE_PIN_MEMORY:?ERROR: WSL2 pin memory is not configured}"
+: "${VLLM_USE_FLASHINFER_SAMPLER:?ERROR: FlashInfer sampler is not configured}"
+
 vllm serve microsoft/Phi-4-mini-instruct \
   --host 127.0.0.1 \
   --port 8000 \
-  --api-key "$NEURON_PHI_API_KEY" \
   --trust-remote-code \
   --dtype auto \
   --max-model-len 4096 \
@@ -428,7 +448,7 @@ Keep the terminal open.
 |---|---|
 | `--host 127.0.0.1` | Local-only binding |
 | `--port 8000` | Neuron model endpoint |
-| `--api-key` | Local client authentication |
+| `VLLM_API_KEY` environment variable | Local client authentication without logging the key as a command-line argument |
 | `--trust-remote-code` | Loads Phi custom model configuration |
 | `--dtype auto` | Selects supported precision |
 | `--max-model-len 4096` | Bounds context and KV-cache usage |
@@ -456,7 +476,14 @@ The final readiness line is:
 Application startup complete.
 ```
 
-Warnings before that line are not necessarily failures.
+Warnings before that line are not necessarily failures. Log readiness alone is
+not the complete validation: `/health` must return success, the authenticated
+`/v1/models` response must contain the configured model, and a chat completion
+must return non-empty content.
+
+The background startup script in section 27 waits for health and verifies the
+loaded model automatically. The validation script in section 29 performs the
+complete health, version, authentication, model, and chat round-trip checks.
 
 ---
 
@@ -527,10 +554,13 @@ A `401` means the client and server keys differ.
 
 ---
 
-## 21. Basic inference
+## 21. Chat round-trip
 
 ```bash
-curl -s \
+printf '%s\n' \
+  "You: In one sentence, explain what an insurance renewal is."
+
+curl -fsS \
   http://127.0.0.1:8000/v1/chat/completions \
   -H "Authorization: Bearer $NEURON_PHI_API_KEY" \
   -H "Content-Type: application/json" \
@@ -549,8 +579,12 @@ curl -s \
       }
     ]
   }' |
-  jq -r '.choices[0].message.content'
+  jq -er '"Phi: " + .choices[0].message.content'
 ```
+
+Success requires a `Phi:` response containing non-empty generated text. This
+validates a message traveling from the shell to vLLM and Phi, then returning
+through the OpenAI-compatible API.
 
 ---
 
@@ -755,10 +789,13 @@ cd "$ROOT"
 source "$ROOT/.venv/bin/activate"
 source "$HOME/.neuron-secrets"
 
+: "${VLLM_API_KEY:?ERROR: VLLM_API_KEY is not configured}"
+: "${VLLM_WSL2_ENABLE_PIN_MEMORY:?ERROR: WSL2 pin memory is not configured}"
+: "${VLLM_USE_FLASHINFER_SAMPLER:?ERROR: FlashInfer sampler is not configured}"
+
 exec vllm serve microsoft/Phi-4-mini-instruct \
   --host 127.0.0.1 \
   --port 8000 \
-  --api-key "$NEURON_PHI_API_KEY" \
   --trust-remote-code \
   --dtype auto \
   --max-model-len 4096 \
@@ -787,8 +824,11 @@ set -euo pipefail
 ROOT="$HOME/uSandbox/tools/vllm-phi"
 PID_FILE="$ROOT/run/phi.pid"
 LOG_FILE="$ROOT/logs/phi.log"
+STARTUP_TIMEOUT_S="${PHI_STARTUP_TIMEOUT_S:-600}"
 
 mkdir -p "$ROOT/run" "$ROOT/logs"
+touch "$LOG_FILE"
+chmod 600 "$LOG_FILE"
 
 if [[ -f "$PID_FILE" ]]; then
   PID="$(cat "$PID_FILE")"
@@ -803,10 +843,39 @@ cd "$ROOT"
 source "$ROOT/.venv/bin/activate"
 source "$HOME/.neuron-secrets"
 
-nohup vllm serve microsoft/Phi-4-mini-instruct \
+: "${NEURON_PHI_API_KEY:?ERROR: NEURON_PHI_API_KEY is not configured}"
+: "${VLLM_API_KEY:?ERROR: VLLM_API_KEY is not configured}"
+: "${NEURON_PHI_MODEL:?ERROR: NEURON_PHI_MODEL is not configured}"
+: "${VLLM_WSL2_ENABLE_PIN_MEMORY:?ERROR: WSL2 pin memory is not configured}"
+: "${VLLM_USE_FLASHINFER_SAMPLER:?ERROR: FlashInfer sampler is not configured}"
+
+if [[ "$NEURON_PHI_API_KEY" != "$VLLM_API_KEY" ]]; then
+  echo "ERROR: NEURON_PHI_API_KEY and VLLM_API_KEY differ"
+  exit 1
+fi
+
+if [[ "$VLLM_WSL2_ENABLE_PIN_MEMORY" != "1" ]]; then
+  echo "ERROR: VLLM_WSL2_ENABLE_PIN_MEMORY must be 1"
+  exit 1
+fi
+
+if [[ "$VLLM_USE_FLASHINFER_SAMPLER" != "0" ]]; then
+  echo "ERROR: VLLM_USE_FLASHINFER_SAMPLER must be 0"
+  exit 1
+fi
+
+command -v curl >/dev/null || {
+  echo "ERROR: curl is required"
+  exit 1
+}
+command -v jq >/dev/null || {
+  echo "ERROR: jq is required"
+  exit 1
+}
+
+nohup vllm serve "$NEURON_PHI_MODEL" \
   --host 127.0.0.1 \
   --port 8000 \
-  --api-key "$NEURON_PHI_API_KEY" \
   --trust-remote-code \
   --dtype auto \
   --max-model-len 4096 \
@@ -818,6 +887,38 @@ PID=$!
 echo "$PID" > "$PID_FILE"
 echo "Started Phi with PID $PID"
 echo "Log: $LOG_FILE"
+
+for ((elapsed = 0; elapsed < STARTUP_TIMEOUT_S; elapsed++)); do
+  if ! kill -0 "$PID" 2>/dev/null; then
+    rm -f "$PID_FILE"
+    echo "ERROR: Phi exited before becoming ready"
+    echo "Inspect: $LOG_FILE"
+    exit 1
+  fi
+
+  if curl -fsS http://127.0.0.1:8000/health >/dev/null 2>&1; then
+    if MODELS="$(
+      curl -fsS \
+        http://127.0.0.1:8000/v1/models \
+        -H "Authorization: Bearer $NEURON_PHI_API_KEY"
+    )"; then
+
+      if jq -e --arg model "$NEURON_PHI_MODEL" \
+        'any(.data[]; .id == $model)' <<<"$MODELS" >/dev/null; then
+        echo "Phi is ready"
+        echo "Health: OK"
+        echo "Model: $NEURON_PHI_MODEL"
+        exit 0
+      fi
+    fi
+  fi
+
+  sleep 1
+done
+
+echo "ERROR: Phi did not become ready within ${STARTUP_TIMEOUT_S}s"
+echo "The process is still running; inspect: $LOG_FILE"
+exit 1
 BASH
 
 chmod 700 ~/uSandbox/tools/vllm-phi/bin/start-phi.sh
@@ -827,13 +928,29 @@ Run:
 
 ```bash
 ~/uSandbox/tools/vllm-phi/bin/start-phi.sh
-tail -f ~/uSandbox/tools/vllm-phi/logs/phi.log
 ```
 
-Wait for:
+Successful output:
 
 ```text
-Application startup complete.
+Started Phi with PID <pid>
+Log: /home/<user>/uSandbox/tools/vllm-phi/logs/phi.log
+Phi is ready
+Health: OK
+Model: microsoft/Phi-4-mini-instruct
+```
+
+The script waits up to 600 seconds by default. Override the wait only when a
+first-time download needs longer:
+
+```bash
+PHI_STARTUP_TIMEOUT_S=1200 ~/uSandbox/tools/vllm-phi/bin/start-phi.sh
+```
+
+Follow the log separately when needed:
+
+```bash
+tail -f ~/uSandbox/tools/vllm-phi/logs/phi.log
 ```
 
 ---
@@ -883,7 +1000,9 @@ chmod 700 ~/uSandbox/tools/vllm-phi/bin/stop-phi.sh
 
 ---
 
-## 29. Status script
+## 29. Status and validation scripts
+
+### Status script
 
 ```bash
 cat > ~/uSandbox/tools/vllm-phi/bin/status-phi.sh <<'BASH'
@@ -924,6 +1043,112 @@ BASH
 chmod 700 ~/uSandbox/tools/vllm-phi/bin/status-phi.sh
 ```
 
+### Startup and chat validation script
+
+This script fails on an unavailable server, authentication failure, unexpected
+model, malformed API response, or empty assistant response. It accepts an
+optional test message.
+
+```bash
+cat > ~/uSandbox/tools/vllm-phi/bin/validate-phi.sh <<'BASH'
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$HOME/.neuron-secrets"
+
+: "${NEURON_PHI_API_KEY:?ERROR: NEURON_PHI_API_KEY is not configured}"
+: "${NEURON_PHI_BASE_URL:?ERROR: NEURON_PHI_BASE_URL is not configured}"
+: "${NEURON_PHI_MODEL:?ERROR: NEURON_PHI_MODEL is not configured}"
+
+command -v curl >/dev/null || {
+  echo "ERROR: curl is required"
+  exit 1
+}
+command -v jq >/dev/null || {
+  echo "ERROR: jq is required"
+  exit 1
+}
+
+SERVER_URL="${NEURON_PHI_BASE_URL%/v1}"
+USER_MESSAGE="${1:-In one sentence, explain what an insurance renewal is.}"
+
+curl -fsS "$SERVER_URL/health" >/dev/null
+echo "Health: OK"
+
+VERSION="$(
+  curl -fsS "$SERVER_URL/version" |
+    jq -er '.version'
+)"
+echo "vLLM version: $VERSION"
+
+MODELS="$(
+  curl -fsS \
+    "$NEURON_PHI_BASE_URL/models" \
+    -H "Authorization: Bearer $NEURON_PHI_API_KEY"
+)"
+
+LOADED_MODEL="$(
+  jq -er --arg model "$NEURON_PHI_MODEL" \
+    '.data | map(select(.id == $model)) | first | .id' <<<"$MODELS"
+)"
+echo "Model: $LOADED_MODEL"
+
+CHAT_REQUEST="$(
+  jq -n \
+    --arg model "$NEURON_PHI_MODEL" \
+    --arg message "$USER_MESSAGE" \
+    '{
+      model: $model,
+      temperature: 0,
+      max_tokens: 100,
+      messages: [
+        {
+          role: "system",
+          content: "You are a concise assistant."
+        },
+        {
+          role: "user",
+          content: $message
+        }
+      ]
+    }'
+)"
+
+CHAT_RESPONSE="$(
+  curl -fsS \
+    "$NEURON_PHI_BASE_URL/chat/completions" \
+    -H "Authorization: Bearer $NEURON_PHI_API_KEY" \
+    -H "Content-Type: application/json" \
+    --data-binary "$CHAT_REQUEST"
+)"
+
+ASSISTANT_MESSAGE="$(
+  jq -er \
+    '.choices[0].message.content |
+      select(type == "string" and length > 0)' <<<"$CHAT_RESPONSE"
+)"
+
+echo "You: $USER_MESSAGE"
+echo "Phi: $ASSISTANT_MESSAGE"
+echo "Validation: PASSED"
+BASH
+
+chmod 700 ~/uSandbox/tools/vllm-phi/bin/validate-phi.sh
+```
+
+Run the default message:
+
+```bash
+~/uSandbox/tools/vllm-phi/bin/validate-phi.sh
+```
+
+Or supply a message:
+
+```bash
+~/uSandbox/tools/vllm-phi/bin/validate-phi.sh \
+  "What should an account manager review before an insurance renewal?"
+```
+
 ---
 
 ## 30. zsh aliases
@@ -935,6 +1160,7 @@ cat >> ~/.zshrc <<'ZSH'
 alias phi-start="$HOME/uSandbox/tools/vllm-phi/bin/start-phi.sh"
 alias phi-stop="$HOME/uSandbox/tools/vllm-phi/bin/stop-phi.sh"
 alias phi-status="$HOME/uSandbox/tools/vllm-phi/bin/status-phi.sh"
+alias phi-validate="$HOME/uSandbox/tools/vllm-phi/bin/validate-phi.sh"
 alias phi-logs='tail -f "$HOME/uSandbox/tools/vllm-phi/logs/phi.log"'
 ZSH
 
@@ -946,6 +1172,7 @@ Use:
 ```bash
 phi-start
 phi-status
+phi-validate
 phi-logs
 phi-stop
 ```
@@ -977,10 +1204,13 @@ cd "$ROOT"
 source "$ROOT/.venv/bin/activate"
 source "$HOME/.neuron-secrets"
 
+: "${VLLM_API_KEY:?ERROR: VLLM_API_KEY is not configured}"
+: "${VLLM_WSL2_ENABLE_PIN_MEMORY:?ERROR: WSL2 pin memory is not configured}"
+: "${VLLM_USE_FLASHINFER_SAMPLER:?ERROR: FlashInfer sampler is not configured}"
+
 exec vllm serve microsoft/Phi-4-mini-instruct \
   --host 127.0.0.1 \
   --port 8000 \
-  --api-key "$NEURON_PHI_API_KEY" \
   --trust-remote-code \
   --dtype auto \
   --max-model-len 4096 \
@@ -1052,9 +1282,11 @@ export NEURON_MODEL_PROVIDER="local_phi"
 export NEURON_PHI_BASE_URL="http://127.0.0.1:8000/v1"
 export NEURON_PHI_MODEL="microsoft/Phi-4-mini-instruct"
 export NEURON_PHI_API_KEY="<LOCAL_KEY>"
+export VLLM_API_KEY="$NEURON_PHI_API_KEY"
 ```
 
-Neuron and vLLM should source the same protected key.
+Neuron and vLLM should source the same protected file. Neuron uses
+`NEURON_PHI_API_KEY`; vLLM uses the matching `VLLM_API_KEY`.
 
 ---
 
@@ -1092,9 +1324,9 @@ Scope and intent calls should require structured JSON Schema output and determin
 ```text
 1. Start WSL.
 2. Verify nvidia-smi.
-3. Start Phi/vLLM.
-4. Wait for Application startup complete.
-5. Verify /health and /v1/models.
+3. Run phi-start.
+4. Wait for the script to report Phi is ready.
+5. Run phi-validate.
 6. Start Neuron.
 7. Run a scope or intent smoke test.
 ```
@@ -1109,14 +1341,11 @@ Neuron must fail closed if the model server is unavailable.
 
 ```bash
 phi-start
-phi-logs
-```
-
-Then:
-
-```bash
 phi-status
+phi-validate
 ```
+
+Use `phi-logs` only when monitoring or troubleshooting is needed.
 
 ---
 
@@ -1284,7 +1513,23 @@ The server used default tactics and completed startup.
 
 ## 49. `UVA is not available`
 
-Fix:
+This normally means `VLLM_WSL2_ENABLE_PIN_MEMORY` was not present in the
+environment when vLLM started. A failed `source ~/.neuron-secrets` command
+must be fixed before launching the server.
+
+Check:
+
+```bash
+test -f ~/.neuron-secrets ||
+  echo "ERROR: ~/.neuron-secrets is missing"
+
+source ~/.neuron-secrets
+
+test "$VLLM_WSL2_ENABLE_PIN_MEMORY" = "1" &&
+  echo "WSL2 pin memory is enabled"
+```
+
+If the file exists but the value is missing, add:
 
 ```bash
 export VLLM_WSL2_ENABLE_PIN_MEMORY=1
@@ -1320,9 +1565,17 @@ Check:
 
 ```bash
 test -n "$NEURON_PHI_API_KEY" && echo "Client key is set"
+test -n "$VLLM_API_KEY" && echo "Server key is set"
+if test -n "$NEURON_PHI_API_KEY" &&
+  test "$NEURON_PHI_API_KEY" = "$VLLM_API_KEY"; then
+  echo "Client and server keys match"
+else
+  echo "ERROR: Client and server keys are missing or differ"
+fi
 ```
 
-Restart after key changes.
+If a key appeared in a startup log, terminal transcript, screenshot, or chat,
+rotate it. Restart vLLM after any key change.
 
 ---
 
@@ -1386,10 +1639,15 @@ Adjust one setting at a time:
 Conservative launch:
 
 ```bash
+source ~/.neuron-secrets
+
+: "${VLLM_API_KEY:?ERROR: source ~/.neuron-secrets before starting vLLM}"
+: "${VLLM_WSL2_ENABLE_PIN_MEMORY:?ERROR: WSL2 pin memory is not configured}"
+: "${VLLM_USE_FLASHINFER_SAMPLER:?ERROR: FlashInfer sampler is not configured}"
+
 vllm serve microsoft/Phi-4-mini-instruct \
   --host 127.0.0.1 \
   --port 8000 \
-  --api-key "$NEURON_PHI_API_KEY" \
   --trust-remote-code \
   --dtype auto \
   --max-model-len 2048 \
@@ -1525,11 +1783,15 @@ The Hugging Face model cache is shared, so rollback normally does not redownload
 - [ ] `~/.neuron-secrets` has mode `600`
 - [ ] `VLLM_WSL2_ENABLE_PIN_MEMORY=1`
 - [ ] `VLLM_USE_FLASHINFER_SAMPLER=0`
-- [ ] API key is configured
+- [ ] `NEURON_PHI_API_KEY` is configured for clients
+- [ ] matching `VLLM_API_KEY` is configured for the server
+- [ ] API key is not passed with `--api-key` or printed in startup logs
+- [ ] background startup script waits for health and verifies the model
 - [ ] Server reaches `Application startup complete`
 - [ ] `/health` returns 200
 - [ ] `/v1/models` returns Phi
-- [ ] basic chat works
+- [ ] `validate-phi.sh` passes
+- [ ] chat round-trip returns non-empty assistant content
 - [ ] structured output works
 - [ ] GPU usage appears in `nvidia-smi`
 
@@ -1538,9 +1800,8 @@ The Hugging Face model cache is shared, so rollback normally does not redownload
 ## 63. Routine startup checklist
 
 - [ ] Start vLLM
-- [ ] Wait for readiness
-- [ ] Run health check
-- [ ] Confirm model ID
+- [ ] Wait for `Phi is ready`
+- [ ] Run `phi-validate`
 - [ ] Start Neuron
 - [ ] Run a Neuron intent smoke test
 - [ ] Confirm no 401 or connection error
@@ -1554,6 +1815,7 @@ The Hugging Face model cache is shared, so rollback normally does not redownload
 - [ ] Check `nvidia-smi`
 - [ ] Check `.venv` paths
 - [ ] Check WSL environment variables
+- [ ] Check that `~/.neuron-secrets` exists and was sourced successfully
 - [ ] Check API-key match
 - [ ] Check port 8000
 - [ ] Check free GPU memory
