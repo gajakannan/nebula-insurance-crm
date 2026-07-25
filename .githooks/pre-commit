@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Local mirror of the kg-reproducibility CI gate (.github/workflows/kg-reproducibility.yml).
+#
+# The compiled KG projections + tracker regions
+#   planning-mds/knowledge-graph/{canonical-nodes,feature-mappings,code-index,solution-ontology}.yaml,
+#   planning-mds/features/{REGISTRY,ROADMAP,STORY-INDEX}.md
+# are generated from planning-mds/kg-source/** by scripts/kg/compile.py — they are NEVER hand-edited.
+# CI fails a PR when a committed generated file != compile(source) (hand-edited, or a shard changed
+# without recompiling). This hook catches that at commit time instead of after a push.
+#
+# Activate once per clone:   git config core.hooksPath .githooks
+# See .githooks/README.md.
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "$repo_root"
+
+# Fast path: only run when the commit touches the KG source or a generated surface.
+if ! git diff --cached --name-only --diff-filter=ACMR | grep -qE \
+  '^planning-mds/(kg-source/|knowledge-graph/)|^planning-mds/features/(REGISTRY|ROADMAP|STORY-INDEX)\.md$'; then
+  exit 0
+fi
+
+if ! command -v python3 >/dev/null 2>&1; then
+  echo "pre-commit: python3 not found; skipping KG reproducibility check (CI will still enforce it)." >&2
+  exit 0
+fi
+
+echo "pre-commit: verifying KG reproducibility (committed generated files must equal compile(source))…"
+if python3 scripts/kg/validate.py --check-reproducible; then
+  echo "pre-commit: KG reproducibility OK."
+  exit 0
+fi
+
+cat >&2 <<'MSG'
+
+  ✗ KG reproducibility check FAILED — commit blocked.
+
+  The knowledge-graph projections and REGISTRY/ROADMAP/STORY-INDEX regions are COMPILED
+  from planning-mds/kg-source/** and must never be hand-edited. Fix by editing the SHARDS,
+  then regenerate and re-stage:
+
+      python3 scripts/kg/compile.py                    # trio + ontology + REGISTRY/ROADMAP regions
+      python3 scripts/kg/validate.py --write-coverage-report
+      # STORY-INDEX (framework script): .../agents/product-manager/scripts/generate-story-index.py planning-mds/features/
+      git add -u planning-mds/knowledge-graph planning-mds/features
+
+  (If the checker can't run, ensure deps: pip install pyyaml jsonschema.)
+  Emergency bypass (discouraged): git commit --no-verify, or add a
+  'KG-Reproducibility-Override: <reason>' trailer to the head commit.
+
+MSG
+exit 1
