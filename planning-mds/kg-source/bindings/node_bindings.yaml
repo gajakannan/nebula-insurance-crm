@@ -308,6 +308,69 @@ node_bindings:
         - neuron/orchestration/**
       tests:
         - neuron/tests/**
+  # --- F0039 as-built bindings (feature run 2026-07-25-273d5672) -------------
+  # Bound by directory glob where a cohesive folder is one capability. The broader
+  # capability:neuron-companion glob (neuron/app/**) still covers these files; these
+  # entries narrow each new capability to the surface that actually implements it.
+  - id: capability:neuron-conversation-store
+    paths:
+      neuron:
+        - neuron/app/persistence/**
+      deployment:
+        - neuron/app/persistence/migrations/**
+      tests:
+        - neuron/tests/test_persistence.py
+        - neuron/tests/test_postgres_store.py
+  - id: capability:neuron-thread-management
+    paths:
+      neuron:
+        - neuron/app/threads.py
+      frontend:
+        - experience/src/features/neuron/components/NeuronConversation.tsx
+        - experience/src/features/neuron/components/ThreadList.tsx
+        - experience/src/features/neuron/hooks/useNeuronMessages.ts
+        - experience/src/features/neuron/hooks/useNeuronThreads.ts
+      tests:
+        - neuron/tests/test_threads_api.py
+        - experience/src/features/neuron/components/NeuronConversation.test.tsx
+  - id: capability:neuron-structured-model-provider
+    paths:
+      neuron:
+        - neuron/app/models/**
+        - neuron/config/models.yaml
+      tests:
+        - neuron/tests/test_structured_provider.py
+        - neuron/tests/test_local_phi_live.py
+  - id: capability:neuron-intent-catalog
+    paths:
+      neuron:
+        - neuron/app/intent/catalog.py
+        - neuron/app/intent/contracts.py
+        - neuron/app/intent/prompt_registry.py
+        - neuron/config/intent-catalog.yaml
+        - neuron/prompts/**
+      tests:
+        - neuron/tests/test_intent_catalog.py
+  - id: capability:neuron-intent-resolution
+    paths:
+      neuron:
+        - neuron/app/intent/preflight.py
+        - neuron/app/intent/resolver.py
+        - neuron/app/intent/response_policy.py
+        - neuron/app/intent/validation.py
+        - neuron/app/messages.py
+      tests:
+        - neuron/tests/test_intent_resolver.py
+        - neuron/tests/test_intent_validation.py
+        - neuron/tests/test_dispatcher_integration.py
+  - id: capability:neuron-intent-evaluation
+    paths:
+      neuron:
+        - neuron/app/intent/evaluation.py
+        - neuron/app/intent/evaluate_cli.py
+        - neuron/evals/**
+      tests:
+        - neuron/tests/test_evaluation_and_rollout.py
   - id: capability:neuron-companion-telemetry
     paths:
       engine:

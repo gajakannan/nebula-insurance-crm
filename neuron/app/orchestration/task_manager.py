@@ -23,7 +23,7 @@ class A2ATaskManager:
     def __init__(self, repo: NeuronRepository) -> None:
         self._repo = repo
 
-    def open_context(
+    async def open_context(
         self,
         owner_user_id: str,
         *,
@@ -34,14 +34,14 @@ class A2ATaskManager:
     ) -> Thread:
         """Resume the owner's thread if given + visible, else open a new context."""
         if thread_id is not None:
-            existing = self._repo.get_thread(thread_id, owner_user_id)
+            existing = await self._repo.get_thread(thread_id, owner_user_id)
             if existing is not None:
                 return existing
-        return self._repo.create_thread(
+        return await self._repo.create_thread(
             owner_user_id, anchor_type=anchor_type, anchor_ref=anchor_ref, title=title
         )
 
-    def begin_run(
+    async def begin_run(
         self,
         thread: Thread,
         plan: OrchestrationPlan,
@@ -60,9 +60,9 @@ class A2ATaskManager:
             state=state,
             parent_run_id=parent_run_id,
         )
-        return self._repo.create_agent_run(run)
+        return await self._repo.create_agent_run(run)
 
-    def record_tool_call(
+    async def record_tool_call(
         self,
         run: AgentRun,
         tool_name: str,
@@ -71,7 +71,7 @@ class A2ATaskManager:
         status: str,
         latency_ms: int | None = None,
     ) -> ToolCall:
-        return self._repo.record_tool_call(
+        return await self._repo.record_tool_call(
             ToolCall(
                 agent_run_id=run.id,
                 tool_name=tool_name,
@@ -81,7 +81,7 @@ class A2ATaskManager:
             )
         )
 
-    def emit_provenance(
+    async def emit_provenance(
         self,
         run: AgentRun,
         *,
@@ -95,7 +95,7 @@ class A2ATaskManager:
     ) -> ProvenanceEvent:
         # WHY: ProvenanceEvent structurally cannot hold raw prompts/responses/PII —
         # the redaction guarantee is enforced by the record shape, not by filtering.
-        return self._repo.record_provenance(
+        return await self._repo.record_provenance(
             ProvenanceEvent(
                 agent_run_id=run.id,
                 model=model,
@@ -108,7 +108,7 @@ class A2ATaskManager:
             )
         )
 
-    def complete_run(
+    async def complete_run(
         self,
         run: AgentRun,
         *,
@@ -120,5 +120,5 @@ class A2ATaskManager:
         if engine_ref_id is not None:
             if engine_ref_type is None:
                 raise ValueError("engine_ref_type required when engine_ref_id is set")
-            self._repo.attach_engine_ref(run.id, engine_ref_type, engine_ref_id)
-        return self._repo.update_run_state(run.id, state)
+            await self._repo.attach_engine_ref(run.id, engine_ref_type, engine_ref_id)
+        return await self._repo.update_run_state(run.id, state)

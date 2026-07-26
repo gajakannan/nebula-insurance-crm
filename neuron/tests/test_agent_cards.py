@@ -22,8 +22,10 @@ class LoadShippedCardsTest(unittest.TestCase):
     def setUp(self):
         self.cards = load_cards(load_settings().cards_dir)
 
-    def test_all_eight_cards_load(self):
-        self.assertEqual(len(self.cards), 8)
+    def test_all_shipped_cards_load(self):
+        # 8 from F0038 + crm.intent_resolver (F0039-S0005).
+        self.assertEqual(len(self.cards), 9)
+        self.assertIn("crm.intent_resolver", self.cards)
         self.assertIn("neuron.orchestrator", self.cards)
         self.assertIn("crm.renewals.head", self.cards)
         self.assertIn("crm.renewals.outreach_drafter", self.cards)

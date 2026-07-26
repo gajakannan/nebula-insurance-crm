@@ -1,11 +1,10 @@
-status: planned
+status: archived-done
 id: feature:F0039
 name: Neuron Durable Conversations & Local Phi Intent Resolution
-path: planning-mds/features/F0039-neuron-multi-thread-conversations
+path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations
 affects:
   - capability:neuron-companion
   - capability:neuron-conversation-store
-  - capability:neuron-intent-adjudicator
   - capability:neuron-intent-catalog
   - capability:neuron-intent-evaluation
   - capability:neuron-intent-resolution
@@ -50,10 +49,12 @@ rationale: Durable owner-scoped conversation store + thread-management UX **and*
 restricted_to_role:
   - role:underwriter
 roadmap_order: 3
-roadmap_section: Next
+archived_date: '2026-07-25'
+completion_state: 'Done and archived (2026-07-25, feature run `2026-07-25-273d5672`) — 8 stories: durable conversation store, owner-scoped thread and history API, conversation-first panel, structured provider with a verified local Phi profile, intent catalog and prompt registry, deterministic preflight and one-call direct resolver, dispatcher persistence and provenance integration, and evaluation with shadow mode and rollout gating. Ships in shadow mode: the §30.4 rollout gate is red on routing accuracy (all security gates green), so direct Phi routing is withheld. The gated ninth story was promoted to F0041.'
+roadmap_section: Completed
 story_mappings:
   - id: story:F0039-S0001
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0001-durable-neuron-conversation-store.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0001-durable-neuron-conversation-store.md
     affects:
       - capability:neuron-conversation-store
       - capability:neuron-operation-persistence
@@ -63,7 +64,7 @@ story_mappings:
     uses_api_contract:
       - api:neuron-rest
   - id: story:F0039-S0002
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0002-owner-scoped-thread-and-history-api.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0002-owner-scoped-thread-and-history-api.md
     affects:
       - capability:neuron-conversation-store
       - capability:neuron-thread-management
@@ -83,7 +84,7 @@ story_mappings:
     uses_schema:
       - schema:problem-details
   - id: story:F0039-S0003
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0003-conversation-first-neuron-panel.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0003-conversation-first-neuron-panel.md
     affects:
       - capability:neuron-message-envelope
       - capability:neuron-thread-management
@@ -97,13 +98,13 @@ story_mappings:
     uses_schema:
       - schema:neuron-message-envelope
   - id: story:F0039-S0004
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0004-structured-provider-and-local-phi-profile.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0004-structured-provider-and-local-phi-profile.md
     affects:
       - capability:neuron-structured-model-provider
     governed_by:
       - adr:035
   - id: story:F0039-S0005
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0005-catalog-prompt-registry-resolution-contract.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0005-catalog-prompt-registry-resolution-contract.md
     affects:
       - capability:neuron-intent-catalog
     depends_on:
@@ -115,7 +116,7 @@ story_mappings:
       - schema:neuron-intent-resolution
       - schema:neuron-scope-decision
   - id: story:F0039-S0006
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0006-preflight-and-one-call-direct-resolver.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0006-preflight-and-one-call-direct-resolver.md
     affects:
       - capability:neuron-intent-catalog
       - capability:neuron-intent-resolution
@@ -129,7 +130,7 @@ story_mappings:
       - schema:neuron-intent-resolution
       - schema:neuron-scope-decision
   - id: story:F0039-S0007
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0007-dispatcher-persistence-provenance-integration.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0007-dispatcher-persistence-provenance-integration.md
     affects:
       - capability:neuron-conversation-store
       - capability:neuron-intent-resolution
@@ -147,22 +148,13 @@ story_mappings:
     uses_schema:
       - schema:neuron-message-envelope
   - id: story:F0039-S0008
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0008-evaluation-shadow-mode-and-rollout.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0008-evaluation-shadow-mode-and-rollout.md
     affects:
       - capability:neuron-intent-evaluation
       - capability:neuron-intent-resolution
     depends_on:
       - story:F0039-S0006
       - story:F0039-S0007
-    governed_by:
-      - adr:035
-  - id: story:F0039-S0009
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0009-contextual-adjudicator-gated.md
-    affects:
-      - capability:neuron-intent-adjudicator
-    depends_on:
-      - story:F0039-S0006
-      - story:F0039-S0008
     governed_by:
       - adr:035
 uses_api_contract:

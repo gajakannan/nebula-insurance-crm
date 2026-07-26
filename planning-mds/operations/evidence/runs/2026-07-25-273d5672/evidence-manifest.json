@@ -1,0 +1,282 @@
+{
+  "schema_version": 1,
+  "feature_id": "F0039",
+  "feature_slug": "neuron-multi-thread-conversations",
+  "run_id": "2026-07-25-273d5672",
+  "status": "approved",
+  "recorded_on": "2026-07-25",
+  "contract_version": "2026-07-11",
+  "contract_effective_date": "2026-07-11",
+  "feature_path_at_run_start": "planning-mds/features/F0039-neuron-multi-thread-conversations",
+  "feature_path_at_closeout": "planning-mds/features/archive/F0039-neuron-multi-thread-conversations",
+  "feature_state": "Done",
+  "rerun_of": null,
+  "changed_paths": [
+    "experience/src/features/neuron/components/NeuronConversation.test.tsx",
+    "experience/src/features/neuron/components/NeuronConversation.tsx",
+    "experience/src/features/neuron/components/NeuronPanel.tsx",
+    "experience/src/features/neuron/components/ThreadList.tsx",
+    "experience/src/features/neuron/hooks/useNeuronMessages.ts",
+    "experience/src/features/neuron/hooks/useNeuronThreads.ts",
+    "experience/src/features/neuron/index.ts",
+    "experience/src/features/neuron/lib/constants.ts",
+    "experience/src/features/neuron/types.ts",
+    "neuron/app/actions.py",
+    "neuron/app/bootstrap.py",
+    "neuron/app/config.py",
+    "neuron/app/contracts/neuron-agent-card.schema.json",
+    "neuron/app/contracts/neuron-intent-decision.schema.json",
+    "neuron/app/contracts/neuron-intent-resolution.schema.json",
+    "neuron/app/contracts/neuron-scope-decision.schema.json",
+    "neuron/app/errors.py",
+    "neuron/app/intent/",
+    "neuron/app/main.py",
+    "neuron/app/messages.py",
+    "neuron/app/models/errors.py",
+    "neuron/app/models/mock_provider.py",
+    "neuron/app/models/openai_compatible_provider.py",
+    "neuron/app/models/router.py",
+    "neuron/app/models/scripted_provider.py",
+    "neuron/app/orchestration/glance.py",
+    "neuron/app/orchestration/task_manager.py",
+    "neuron/app/orchestration/zone_heads.py",
+    "neuron/app/persistence/in_memory.py",
+    "neuron/app/persistence/migrate.py",
+    "neuron/app/persistence/migrations/0002_message_sequence_and_idempotency.sql",
+    "neuron/app/persistence/models.py",
+    "neuron/app/persistence/postgres.py",
+    "neuron/app/persistence/repository.py",
+    "neuron/app/runtime.py",
+    "neuron/app/schemas.py",
+    "neuron/app/threads.py",
+    "neuron/config/intent-catalog.yaml",
+    "neuron/config/models.yaml",
+    "neuron/crm_agents/cards/crm.intent_resolver.card.yaml",
+    "neuron/evals/",
+    "neuron/prompts/crm-intent-classifier/",
+    "neuron/prompts/crm-intent-resolver/",
+    "neuron/prompts/crm-scope-guard/",
+    "neuron/pyproject.toml",
+    "neuron/tests/test_agent_cards.py",
+    "neuron/tests/test_dispatcher_integration.py",
+    "neuron/tests/test_evaluation_and_rollout.py",
+    "neuron/tests/test_glance.py",
+    "neuron/tests/test_intent_catalog.py",
+    "neuron/tests/test_intent_resolver.py",
+    "neuron/tests/test_intent_validation.py",
+    "neuron/tests/test_local_phi_live.py",
+    "neuron/tests/test_persistence.py",
+    "neuron/tests/test_postgres_store.py",
+    "neuron/tests/test_renewals_head.py",
+    "neuron/tests/test_schema_drift.py",
+    "neuron/tests/test_scope_guard.py",
+    "neuron/tests/test_structured_provider.py",
+    "neuron/tests/test_task_manager.py",
+    "neuron/tests/test_threads_api.py",
+    "planning-mds/features/F0039-neuron-multi-thread-conversations/STATUS.md",
+    "planning-mds/features/F0039-neuron-multi-thread-conversations/feature-assembly-plan.md",
+    "planning-mds/schemas/neuron-agent-card.schema.json"
+  ],
+  "scm": {
+    "base_ref": "main",
+    "head_ref": "feat/F0039-neuron-multi-thread-conversations",
+    "diff_artifact": "artifacts/diffs/changed-files.txt"
+  },
+  "runtime_bearing": true,
+  "deployment_config_changed": true,
+  "frontend_in_scope": true,
+  "security_sensitive_scope": true,
+  "required_roles": [
+    "Quality Engineer",
+    "Code Reviewer",
+    "Architect",
+    "AI Engineer",
+    "Security Reviewer",
+    "DevOps"
+  ],
+  "gate_results": {
+    "assembly_plan_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g0-assembly-plan-validation.md"
+    },
+    "runtime_preflight": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g1-runtime-preflight.md"
+    },
+    "self_review": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "g2-self-review.md"
+    },
+    "deployability": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "deployability-check.md"
+    },
+    "code_review": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "code-review-report.md"
+    },
+    "security_review": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "artifact": "security-review-report.md"
+    },
+    "signoff": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "signoff-ledger.md"
+    },
+    "candidate_validation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "feature-action-execution.md"
+    },
+    "kg_reconciliation": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "kg-reconciliation.md"
+    },
+    "pm_closeout": {
+      "required": true,
+      "result": "APPROVED",
+      "artifact": "pm-closeout.md"
+    },
+    "tracker_sync": {
+      "required": true,
+      "result": "PASS",
+      "artifact": "pm-closeout.md"
+    }
+  },
+  "files": {
+    "readme": "README.md",
+    "action_context": "action-context.md",
+    "artifact_trace": "artifact-trace.md",
+    "gate_decisions": "gate-decisions.md",
+    "commands_log": "commands.log",
+    "lifecycle_gates_log": "lifecycle-gates.log",
+    "assembly_plan_validation": "g0-assembly-plan-validation.md",
+    "runtime_preflight": "g1-runtime-preflight.md",
+    "self_review": "g2-self-review.md",
+    "test_plan": "test-plan.md",
+    "test_execution_report": "test-execution-report.md",
+    "coverage_report": "coverage-report.md",
+    "deployability_check": "deployability-check.md",
+    "code_review_report": "code-review-report.md",
+    "security_review_report": "security-review-report.md",
+    "signoff_ledger": "signoff-ledger.md",
+    "feature_action_execution": "feature-action-execution.md",
+    "kg_reconciliation": "kg-reconciliation.md",
+    "pm_closeout": "pm-closeout.md",
+    "latest_run": "planning-mds/operations/evidence/features/F0039-neuron-multi-thread-conversations/latest-run.json",
+    "token_usage": "token-usage.json"
+  },
+  "role_results": {
+    "Architect": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g0-assembly-plan-validation.md"
+      ],
+      "verdict_artifact": "g0-assembly-plan-validation.md"
+    },
+    "Quality Engineer": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "test-plan.md",
+        "test-execution-report.md",
+        "coverage-report.md"
+      ],
+      "verdict_artifact": "test-execution-report.md"
+    },
+    "DevOps": {
+      "required": true,
+      "result": "PASS",
+      "required_artifacts": [
+        "g1-runtime-preflight.md",
+        "deployability-check.md"
+      ],
+      "verdict_artifact": "deployability-check.md"
+    },
+    "Code Reviewer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "code-review-report.md"
+      ],
+      "verdict_artifact": "code-review-report.md"
+    },
+    "Security Reviewer": {
+      "required": true,
+      "result": "PASS WITH RECOMMENDATIONS",
+      "required_artifacts": [
+        "security-review-report.md"
+      ],
+      "verdict_artifact": "security-review-report.md"
+    }
+  },
+  "token_usage": {
+    "artifact": "token-usage.json",
+    "agent_tool": "claude-code",
+    "turns": 386,
+    "context_tokens": 161666916,
+    "uncached_input_tokens": 1460,
+    "cached_input_tokens": 160769077,
+    "cache_creation_input_tokens": 896379,
+    "cache_creation_1h_input_tokens": 850801,
+    "cache_creation_5m_input_tokens": 45578,
+    "output_tokens": 404217,
+    "cache_hit_ratio": 0.9944,
+    "compactions": 0
+  },
+  "security_scans": {
+    "dependency": {
+      "ran": true,
+      "result": "PASS",
+      "tool": "pip-audit",
+      "artifact": "planning-mds/operations/evidence/runs/2026-07-25-273d5672/artifacts/security/dependency-pip-audit.txt"
+    },
+    "sast": {
+      "ran": true,
+      "result": "PASS WITH FINDINGS",
+      "tool": "bandit",
+      "artifact": "planning-mds/operations/evidence/runs/2026-07-25-273d5672/artifacts/security/sast-bandit.txt",
+      "note": "0 high; 9 medium B608 verified false-positive (constants/literals only, all user values parameterized); 3 low subprocess in the eval harness, accepted."
+    },
+    "secrets": {
+      "ran": true,
+      "result": "PASS WITH FINDINGS",
+      "tool": "pattern-scan (gitleaks unavailable on host)",
+      "artifact": "planning-mds/operations/evidence/runs/2026-07-25-273d5672/artifacts/security/secrets-pattern-scan.txt",
+      "note": "1 candidate: local docker-compose dev credential used as a test default. No production secret. Weaker than gitleaks - Security to rule at G3."
+    },
+    "dast": {
+      "ran": false,
+      "waiver": {
+        "reason": "No OWASP ZAP available on this host and no deployed target for this run; the slice adds no new unauthenticated HTTP surface (thread endpoints require a bearer token and are owner-scoped, covered by negative tests).",
+        "owner": "Quality Engineer (F0039 run 2026-07-25-273d5672)",
+        "approved_on": "2026-07-25"
+      }
+    }
+  },
+  "omissions": [],
+  "waivers": {},
+  "global_evidence_refs": {},
+  "run_scope": "feature-completion",
+  "coverage": {
+    "percent": 90,
+    "floor": 80,
+    "artifact": "planning-mds/operations/evidence/runs/2026-07-25-273d5672/artifacts/coverage/neuron-coverage.json"
+  },
+  "findings": {
+    "critical": 0,
+    "high": 0,
+    "medium": 5,
+    "low": 5,
+    "note": "Code review 4 medium/3 low, security 2 medium/2 low. M1 (unsaved assistant reply looked saved) RESOLVED on operator direction at G4 and re-verified; 5 medium / 5 low remain as recorded follow-ups. No blocking findings."
+  }
+}

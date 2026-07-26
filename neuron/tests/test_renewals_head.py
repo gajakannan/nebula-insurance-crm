@@ -99,8 +99,8 @@ class RenewalsZoneHeadTest(unittest.IsolatedAsyncioTestCase):
     async def test_records_tool_call_in_operation_store(self):
         repo = InMemoryNeuronRepository()
         tm = A2ATaskManager(repo)
-        thread = tm.open_context("uw-42")
-        run = repo.create_agent_run(
+        thread = await tm.open_context("uw-42")
+        run = await repo.create_agent_run(
             AgentRun(thread_id=thread.id, plan_id="day-at-a-glance", plan_version="1.0.0",
                      card_id="crm.renewals.head", card_version="1.0.0", card_content_hash="sha256:x")
         )

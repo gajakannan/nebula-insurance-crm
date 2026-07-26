@@ -125,7 +125,7 @@ class RenewalsZoneHead:
 
         if ctx.task_manager is not None and ctx.run is not None:
             # Record the engine call in the A2A trace — digest only, no PII.
-            ctx.task_manager.record_tool_call(
+            await ctx.task_manager.record_tool_call(
                 ctx.run,
                 _NEEDS_ATTENTION_TOOL,
                 request_digest=f"needs_attention:withinDays={_DEFAULT_WINDOW_DAYS}",

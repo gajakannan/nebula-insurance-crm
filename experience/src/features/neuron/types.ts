@@ -79,3 +79,38 @@ export interface GlanceResponse {
   zones: ZonePayload[];
   message: MessageEnvelope;
 }
+
+// --- F0039-S0002/S0003 durable conversation contracts (mirror neuron-api.yaml) ---
+
+export type ThreadAnchorType = 'free_form' | 'domain' | 'record';
+
+/** An owner-scoped thread. `owner_user_id` is server-derived and never sent to clients. */
+export interface NeuronThread {
+  thread_id: string;
+  anchor_type: ThreadAnchorType;
+  anchor_ref?: string | null;
+  title: string;
+  created_at: string;
+  updated_at: string;
+  /** Highest server-assigned message sequence in the thread; 0 when empty. */
+  last_sequence?: number;
+}
+
+export interface ThreadPage {
+  data: NeuronThread[];
+  /** Null on the last page. */
+  next_cursor?: string | null;
+}
+
+export interface ThreadHistoryPage {
+  data: MessageEnvelope[];
+  /** Next sequence cursor, or null when the thread is exhausted. */
+  next_after?: number | null;
+}
+
+export interface CreateThreadRequest {
+  anchor_type: ThreadAnchorType;
+  anchor_ref?: string;
+  title?: string;
+  thread_idempotency_key?: string;
+}

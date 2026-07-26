@@ -4,12 +4,12 @@ version: 1.2
 applies_to: product-manager
 ---
 
-# F0039-S0009 — Contextual Adjudicator (Gated Follow-On)
+# F0041-S0001 — Contextual Adjudicator (Gated Follow-On)
 
 ## Story Header
 
-**Story ID:** F0039-S0009
-**Feature:** F0039 — Neuron Durable Conversations & Local Phi Intent Resolution
+**Story ID:** F0041-S0001
+**Feature:** F0041 — Neuron Contextual Intent Adjudicator (gated follow-on)
 **Title:** Bounded Phi contextual adjudication of context-dependent requests, gated behind direct-routing gates
 **Priority:** Medium
 **Phase:** MVP (GATED — enabled only after S0001–S0008 gates pass)

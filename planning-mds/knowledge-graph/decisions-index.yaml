@@ -1,5 +1,5 @@
 version: 0
-generated_at: '2026-07-20T01:16:24+00:00'
+generated_at: '2026-07-26T01:43:53+00:00'
 summary:
   total_decisions: 9
   by_kind:
@@ -26,13 +26,6 @@ decisions:
   text: Production/Activity rollups are backed by broker-insight projections that
     only carry their own metric
   resolved_node: capability:operational-reporting
-- id: decision:neuron-app-bootstrap-l65-why
-  file: neuron/app/bootstrap.py
-  line: 65
-  kind: WHY
-  text: "F0038 ships only the in-memory store behind the interface (ADR-028 \xA71);"
-  resolved_node: capability:neuron-companion
-  resolved_symbol: symbol:capability-neuron-companion:bootstrap.build-repository
 - id: decision:neuron-app-engine-client-l66-why
   file: neuron/app/engine_client.py
   line: 66
@@ -61,17 +54,24 @@ decisions:
   text: "ProvenanceEvent structurally cannot hold raw prompts/responses/PII \u2014"
   resolved_node: capability:neuron-companion
   resolved_symbol: symbol:capability-neuron-companion:a2-a-task-manager.emit-provenance
-- id: decision:neuron-app-persistence-in-memory-l70-why
+- id: decision:neuron-app-persistence-in-memory-l114-why
   file: neuron/app/persistence/in_memory.py
-  line: 70
+  line: 114
   kind: WHY
   text: "owner-scope is a store invariant \u2014 a non-owner gets None, never data."
   resolved_node: capability:neuron-companion
   resolved_symbol: symbol:capability-neuron-companion:in-memory-neuron-repository.get-thread
-- id: decision:neuron-app-persistence-in-memory-l140-why
+- id: decision:neuron-app-persistence-in-memory-l264-why
   file: neuron/app/persistence/in_memory.py
-  line: 140
+  line: 264
   kind: WHY
   text: "idempotency key is the run id (ADR-028 \xA72). A repeat with the"
   resolved_node: capability:neuron-companion
   resolved_symbol: symbol:capability-neuron-companion:in-memory-neuron-repository.attach-engine-ref
+- id: decision:neuron-app-persistence-postgres-l563-why
+  file: neuron/app/persistence/postgres.py
+  line: 563
+  kind: WHY
+  text: "idempotency key is the run id (ADR-028 \xA72). A repeat with the same"
+  resolved_node: capability:neuron-companion
+  resolved_symbol: symbol:capability-neuron-companion:postgres-neuron-repository.attach-engine-ref

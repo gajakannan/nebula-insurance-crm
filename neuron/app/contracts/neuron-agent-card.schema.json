@@ -9,8 +9,8 @@
   "properties": {
     "card_id": {
       "type": "string",
-      "pattern": "^(neuron\\.orchestrator|crm\\.scope_guard|crm\\.intent_classifier|crm\\.[a-z_]+\\.head|crm\\.[a-z_]+\\.[a-z_]+)$",
-      "description": "Stable capability id, e.g. neuron.orchestrator, crm.scope_guard, crm.renewals.head, crm.renewals.outreach_drafter."
+      "pattern": "^(neuron\\.orchestrator|crm\\.scope_guard|crm\\.intent_classifier|crm\\.intent_resolver|crm\\.intent_adjudicator|crm\\.[a-z_]+\\.head|crm\\.[a-z_]+\\.[a-z_]+)$",
+      "description": "Stable capability id, e.g. neuron.orchestrator, crm.scope_guard, crm.intent_resolver, crm.renewals.head, crm.renewals.outreach_drafter."
     },
     "card_version": {
       "type": "string",

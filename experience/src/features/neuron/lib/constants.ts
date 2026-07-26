@@ -7,6 +7,9 @@ export const NEURON_API_BASE =
 export const GLANCE_PATH = `${NEURON_API_BASE}/v1/glance`;
 export const ACTIONS_PATH = `${NEURON_API_BASE}/v1/actions`;
 export const MESSAGES_PATH = `${NEURON_API_BASE}/v1/messages`;
+export const THREADS_PATH = `${NEURON_API_BASE}/v1/threads`;
+export const threadPath = (threadId: string) => `${THREADS_PATH}/${encodeURIComponent(threadId)}`;
+export const threadHistoryPath = (threadId: string) => `${threadPath(threadId)}/messages`;
 
 // Client-side zone display order: Renewals first (live), stubs after (PRD ASCII layout).
 export const ZONE_DISPLAY_ORDER = ['renewals', 'tasks', 'pipeline', 'broker_activity'];

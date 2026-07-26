@@ -1,0 +1,74 @@
+# Intent catalog — the TRUSTED registry of domains and actions (F0039-S0005, spec §11.3).
+#
+# This file, not the model, decides what exists and what may execute. A model output is
+# only ever *matched against* this catalog; a domain or action that is not listed here
+# cannot be routed no matter how confidently it is returned. Head card ids are resolved
+# from here too — a model-produced head id is never used (spec §11.5 rule 10).
+#
+# Adding an action here is a code-reviewed authorization decision, not configuration
+# tuning. `active: false` keeps a definition visible without making it executable.
+catalog_version: 1.0.0
+
+domains:
+  renewals:
+    target_head_card_id: crm.renewals.head
+    active: true
+    description: Renewal attention, renewal summaries, and outreach.
+    actions:
+      renewals.list_attention:
+        active: true
+        description: List renewals requiring attention.
+        required_entities: []
+      renewals.view:
+        active: true
+        description: View a specific renewal.
+        required_entities:
+          - one_of: [renewal_id, policy_number, account_name]
+      renewals.summarize:
+        active: true
+        description: Summarize a specific renewal.
+        required_entities:
+          - one_of: [renewal_id, policy_number, account_name]
+      renewals.draft_outreach:
+        active: true
+        description: Draft renewal outreach for a specific renewal.
+        required_entities:
+          - one_of: [renewal_id, policy_number, account_name]
+      renewals.mock_send:
+        active: true
+        description: Commit the existing mock-send renewal workflow action.
+        # Write-like: the user must confirm explicitly before this is executed
+        # (spec §11.5 rule 9). The model can propose it; it cannot commit it.
+        requires_explicit_confirmation: true
+        required_entities:
+          - one_of: [renewal_id]
+
+  tasks:
+    target_head_card_id: crm.tasks.head
+    active: false
+    description: CRM tasks, overdue work, and follow-ups.
+    actions:
+      tasks.list:
+        active: false
+        description: List CRM tasks.
+        required_entities: []
+
+  pipeline:
+    target_head_card_id: crm.pipeline.head
+    active: false
+    description: Submission and quote pipeline.
+    actions:
+      pipeline.list:
+        active: false
+        description: List submissions or pipeline items.
+        required_entities: []
+
+  broker_activity:
+    target_head_card_id: crm.broker_activity.head
+    active: false
+    description: Broker interactions and follow-ups.
+    actions:
+      broker_activity.list:
+        active: false
+        description: List broker activity.
+        required_entities: []

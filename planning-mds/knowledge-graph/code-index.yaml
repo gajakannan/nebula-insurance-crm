@@ -327,6 +327,15 @@ node_bindings:
         - engine/tests/Nebula.Tests/Integration/NeuronCompanionTelemetryEndpointTests.cs
         - engine/tests/Nebula.Tests/Unit/Neuron/**
         - neuron/tests/test_telemetry.py
+  - id: capability:neuron-conversation-store
+    paths:
+      deployment:
+        - neuron/app/persistence/migrations/**
+      neuron:
+        - neuron/app/persistence/**
+      tests:
+        - neuron/tests/test_persistence.py
+        - neuron/tests/test_postgres_store.py
   - id: capability:neuron-day-at-a-glance-shell
     paths:
       frontend:
@@ -338,6 +347,36 @@ node_bindings:
       tests:
         - experience/src/features/neuron/components/DayAtAGlance.test.tsx
         - neuron/tests/test_glance.py
+  - id: capability:neuron-intent-catalog
+    paths:
+      neuron:
+        - neuron/app/intent/catalog.py
+        - neuron/app/intent/contracts.py
+        - neuron/app/intent/prompt_registry.py
+        - neuron/config/intent-catalog.yaml
+        - neuron/prompts/**
+      tests:
+        - neuron/tests/test_intent_catalog.py
+  - id: capability:neuron-intent-evaluation
+    paths:
+      neuron:
+        - neuron/app/intent/evaluate_cli.py
+        - neuron/app/intent/evaluation.py
+        - neuron/evals/**
+      tests:
+        - neuron/tests/test_evaluation_and_rollout.py
+  - id: capability:neuron-intent-resolution
+    paths:
+      neuron:
+        - neuron/app/intent/preflight.py
+        - neuron/app/intent/resolver.py
+        - neuron/app/intent/response_policy.py
+        - neuron/app/intent/validation.py
+        - neuron/app/messages.py
+      tests:
+        - neuron/tests/test_dispatcher_integration.py
+        - neuron/tests/test_intent_resolver.py
+        - neuron/tests/test_intent_validation.py
   - id: capability:neuron-message-envelope
     paths:
       frontend:
@@ -409,6 +448,26 @@ node_bindings:
         - neuron/app/scope_guard.py
       tests:
         - neuron/tests/test_scope_guard.py
+  - id: capability:neuron-structured-model-provider
+    paths:
+      neuron:
+        - neuron/app/models/**
+        - neuron/config/models.yaml
+      tests:
+        - neuron/tests/test_local_phi_live.py
+        - neuron/tests/test_structured_provider.py
+  - id: capability:neuron-thread-management
+    paths:
+      frontend:
+        - experience/src/features/neuron/components/NeuronConversation.tsx
+        - experience/src/features/neuron/components/ThreadList.tsx
+        - experience/src/features/neuron/hooks/useNeuronMessages.ts
+        - experience/src/features/neuron/hooks/useNeuronThreads.ts
+      neuron:
+        - neuron/app/threads.py
+      tests:
+        - experience/src/features/neuron/components/NeuronConversation.test.tsx
+        - neuron/tests/test_threads_api.py
   - id: capability:neuron-zone-dispatch
     paths:
       frontend:

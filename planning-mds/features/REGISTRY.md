@@ -1,6 +1,6 @@
 # Feature Registry
 
-**Next Available Feature Number:** F0041
+**Next Available Feature Number:** F0042
 
 **Planning Views:**
 - Roadmap sequencing (`Now / Next / Later`): `planning-mds/features/ROADMAP.md`
@@ -33,8 +33,8 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 | F0029 | External Broker Collaboration Portal | Planned | Brokerage Platform Expansion | `F0029-external-broker-collaboration-portal/` |
 | F0030 | Integration Hub & Data Exchange | Planned | Brokerage Platform Expansion | `F0030-integration-hub-and-data-exchange/` |
 | F0031 | Data Import, Deduplication & Go-Live Migration | Planned | Release Enablement | `F0031-data-import-deduplication-and-go-live-migration/` |
-| F0039 | Neuron Durable Conversations & Local Phi Intent Resolution | Planned | Neuron Companion | `F0039-neuron-multi-thread-conversations/` |
 | F0040 | Neuron Second Specialist Head | Planned (provisional) | Neuron Companion | `F0040-neuron-second-specialist-head/` |
+| F0041 | Neuron Contextual Intent Adjudicator (gated follow-on) | Planned |  | `F0041-neuron-contextual-adjudicator/` |
 <!-- generated:end registry:planned -->
 
 ## Archived Features
@@ -42,6 +42,7 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 <!-- generated:begin registry:archived -->
 | Feature ID | Name | Archived Date | Folder |
 |------------|------|---------------|--------|
+| F0039 | Neuron Durable Conversations & Local Phi Intent Resolution | 2026-07-25 | `archive/F0039-neuron-multi-thread-conversations/` |
 | F0026 | Billing, Invoicing & Reconciliation | 2026-07-19 | `archive/F0026-billing-invoicing-and-reconciliation/` |
 | F0025 | Commission, Producer Splits & Revenue Tracking | 2026-07-07 | `archive/F0025-commission-producer-splits-and-revenue-tracking/` |
 | F0037 | Hierarchy-Aware Access Scoping & Distribution Rollups | 2026-07-06 | `archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/` |

@@ -10,7 +10,9 @@ unit-tested without FastAPI.
 
 from __future__ import annotations
 
-from fastapi import Depends, FastAPI, Header, Request
+from contextlib import asynccontextmanager
+
+from fastapi import Depends, FastAPI, Header, Request, Response
 from fastapi.responses import JSONResponse
 
 from .auth import subject_from_token
@@ -20,6 +22,7 @@ from .errors import NeuronError
 from .messages import MessageDispatcher
 from .orchestration.glance import GlanceAssembler
 from .runtime import NeuronRuntime
+from .threads import ThreadService
 
 _PROBLEM_JSON = "application/problem+json"
 
@@ -52,16 +55,26 @@ async def require_bearer(authorization: str | None = Header(default=None)) -> st
 
 
 def create_app() -> FastAPI:
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        # Fail-fast: an invalid orchestration asset raises here and the app won't serve.
+        app.state.runtime = build_runtime()
+        # F0039-S0001: open the durable store's pool before serving. A store that
+        # cannot open is a startup failure, not a per-request surprise.
+        await app.state.runtime.repository.startup()
+        try:
+            yield
+        finally:
+            # Release pooled connections on the way down so a restart doesn't leave
+            # sessions held open against the engine database.
+            await app.state.runtime.repository.shutdown()
+
     app = FastAPI(
         title="Neuron Companion API",
         version="0.1.0",
-        description="Stateless AI companion runtime for Nebula CRM (F0038).",
+        description="Stateless AI companion runtime for Nebula CRM (F0038/F0039).",
+        lifespan=lifespan,
     )
-
-    @app.on_event("startup")
-    async def _startup() -> None:
-        # Fail-fast: an invalid orchestration asset raises here and the app won't serve.
-        app.state.runtime = build_runtime()
 
     @app.exception_handler(NeuronError)
     async def _neuron_error_handler(request: Request, exc: NeuronError) -> JSONResponse:
@@ -113,6 +126,74 @@ def create_app() -> FastAPI:
             owner_user_id=owner,
         )
         return JSONResponse(status_code=200, content=envelope)
+
+    # --- Threads (v1, F0039-S0002) -----------------------------------------
+    # Every handler derives the owner from the forwarded token — a thread id in the
+    # path never selects whose data is returned.
+
+    @app.post("/v1/threads", tags=["Threads"], status_code=201)
+    async def create_thread(request: Request, token: str = Depends(require_bearer)) -> JSONResponse:
+        rt: NeuronRuntime = runtime()
+        body = await request.json()
+        owner = subject_from_token(token)
+        thread = await ThreadService(rt).create(
+            owner,
+            anchor_type=body.get("anchor_type", "free_form"),
+            anchor_ref=body.get("anchor_ref"),
+            title=body.get("title"),
+            thread_idempotency_key=body.get("thread_idempotency_key"),
+        )
+        return JSONResponse(status_code=201, content=thread)
+
+    @app.get("/v1/threads", tags=["Threads"])
+    async def list_threads(request: Request, token: str = Depends(require_bearer)) -> JSONResponse:
+        rt: NeuronRuntime = runtime()
+        owner = subject_from_token(token)
+        page = await ThreadService(rt).list(
+            owner,
+            limit=request.query_params.get("limit"),
+            cursor=request.query_params.get("cursor"),
+        )
+        return JSONResponse(status_code=200, content=page)
+
+    @app.get("/v1/threads/{thread_id}", tags=["Threads"])
+    async def get_thread(thread_id: str, token: str = Depends(require_bearer)) -> JSONResponse:
+        rt: NeuronRuntime = runtime()
+        owner = subject_from_token(token)
+        return JSONResponse(status_code=200, content=await ThreadService(rt).get(thread_id, owner))
+
+    @app.patch("/v1/threads/{thread_id}", tags=["Threads"])
+    async def rename_thread(
+        thread_id: str, request: Request, token: str = Depends(require_bearer)
+    ) -> JSONResponse:
+        rt: NeuronRuntime = runtime()
+        body = await request.json()
+        if "title" not in body:
+            return _problem(400, "Bad request", "title is required", "BadRequest")
+        owner = subject_from_token(token)
+        thread = await ThreadService(rt).rename(thread_id, owner, body["title"])
+        return JSONResponse(status_code=200, content=thread)
+
+    @app.delete("/v1/threads/{thread_id}", tags=["Threads"], status_code=204)
+    async def delete_thread(thread_id: str, token: str = Depends(require_bearer)) -> Response:
+        rt: NeuronRuntime = runtime()
+        owner = subject_from_token(token)
+        await ThreadService(rt).delete(thread_id, owner)
+        return Response(status_code=204)
+
+    @app.get("/v1/threads/{thread_id}/messages", tags=["Threads"])
+    async def thread_history(
+        thread_id: str, request: Request, token: str = Depends(require_bearer)
+    ) -> JSONResponse:
+        rt: NeuronRuntime = runtime()
+        owner = subject_from_token(token)
+        page = await ThreadService(rt).history(
+            thread_id,
+            owner,
+            limit=request.query_params.get("limit"),
+            after=request.query_params.get("after"),
+        )
+        return JSONResponse(status_code=200, content=page)
 
     @app.post("/v1/actions", tags=["Companion"])
     async def actions(request: Request, token: str = Depends(require_bearer)) -> JSONResponse:

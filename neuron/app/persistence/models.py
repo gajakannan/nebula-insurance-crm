@@ -40,12 +40,21 @@ def utcnow() -> datetime:
 
 @dataclass
 class Thread:
-    """A conversation thread — owner-scoped, private to its creator. Maps to A2A contextId."""
+    """A conversation thread — owner-scoped, private to its creator. Maps to A2A contextId.
+
+    ``thread_idempotency_key`` makes thread creation retry-safe: a repeat create with the
+    same owner + key returns the original thread rather than opening a duplicate
+    conversation (F0039-S0001).
+    """
 
     owner_user_id: str
     anchor_type: str = "free_form"
     anchor_ref: str | None = None
     title: str | None = None
+    thread_idempotency_key: str | None = None
+    # Highest server-assigned message sequence in this thread (0 when empty).
+    # Derived from the allocator, so reading it costs nothing extra.
+    last_sequence: int = 0
     id: str = field(default_factory=new_id)
     created_at: datetime = field(default_factory=utcnow)
     updated_at: datetime = field(default_factory=utcnow)
@@ -66,12 +75,23 @@ class MessagePart:
 
 @dataclass
 class Message:
-    """A single chat message, replayed through the versioned envelope."""
+    """A single chat message, replayed through the versioned envelope.
+
+    ``sequence`` is **server-assigned** and unique per ``(thread_id, sequence)``
+    (F0039-S0001). History replays and pages by it, never by ``created_at`` alone —
+    timestamps can collide and clients never influence order.
+
+    ``client_message_key`` is the optional append idempotency key (also carries the
+    Daily Brief's stable per-day key); a repeat append with the same key returns the
+    original row instead of writing a duplicate.
+    """
 
     thread_id: str
     role: str
     envelope_version: int = 1
     in_reply_to_message_id: str | None = None
+    sequence: int = 0
+    client_message_key: str | None = None
     id: str = field(default_factory=new_id)
     created_at: datetime = field(default_factory=utcnow)
     updated_at: datetime = field(default_factory=utcnow)

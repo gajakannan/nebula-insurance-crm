@@ -474,15 +474,22 @@ Auto-generated index of all user stories across feature folders.
 
 | Story ID | Title | Priority | Phase | Persona |
 |----------|-------|----------|-------|---------|
-| [F0039-S0001](./F0039-neuron-multi-thread-conversations/F0039-S0001-durable-neuron-conversation-store.md) | Postgres-backed, restart-durable Neuron conversation store with server-owned ordering | High | MVP | renewal-owning Underwriter |
-| [F0039-S0002](./F0039-neuron-multi-thread-conversations/F0039-S0002-owner-scoped-thread-and-history-api.md) | Owner-scoped create/list/get/rename/delete thread API with paginated resumable history | High | MVP | renewal-owning Underwriter |
-| [F0039-S0003](./F0039-neuron-multi-thread-conversations/F0039-S0003-conversation-first-neuron-panel.md) | Conversation-first companion panel with server-rehydrated transcripts and thread management UX | High | MVP | renewal-owning Underwriter |
-| [F0039-S0004](./F0039-neuron-multi-thread-conversations/F0039-S0004-structured-provider-and-local-phi-profile.md) | Async structured-completion provider seam with a verified local Phi (vLLM) profile and provenance | High | MVP | Neuron AI Engineer maintaining the companion |
-| [F0039-S0005](./F0039-neuron-multi-thread-conversations/F0039-S0005-catalog-prompt-registry-resolution-contract.md) | Schema-validated intent catalog, versioned prompt registry, and composed scope-and-intent contract | High | MVP | Neuron AI Engineer / Architect defining the routing surface |
-| [F0039-S0006](./F0039-neuron-multi-thread-conversations/F0039-S0006-preflight-and-one-call-direct-resolver.md) | Deterministic preflight plus one composed Phi scope-and-intent resolution with fail-closed validation | High | MVP | renewal-owning Underwriter |
-| [F0039-S0007](./F0039-neuron-multi-thread-conversations/F0039-S0007-dispatcher-persistence-provenance-integration.md) | Wire durable persistence and the direct resolver into the message dispatcher with full traceability | High | MVP | renewal-owning Underwriter |
-| [F0039-S0008](./F0039-neuron-multi-thread-conversations/F0039-S0008-evaluation-shadow-mode-and-rollout.md) | Labeled evaluation harness, shadow-mode comparison, gated rollout, and tested deterministic rollback | High | MVP | Neuron AI Engineer, Architect, or Security reviewer |
-| [F0039-S0009](./F0039-neuron-multi-thread-conversations/F0039-S0009-contextual-adjudicator-gated.md) | Bounded Phi contextual adjudication of context-dependent requests, gated behind direct-routing gates | Medium | MVP (GATED — enabled only after S0001–S0008 gates pass) | renewal-owning Underwriter |
+| [F0039-S0001](./archive/F0039-neuron-multi-thread-conversations/F0039-S0001-durable-neuron-conversation-store.md) | Postgres-backed, restart-durable Neuron conversation store with server-owned ordering | High | MVP | renewal-owning Underwriter |
+| [F0039-S0002](./archive/F0039-neuron-multi-thread-conversations/F0039-S0002-owner-scoped-thread-and-history-api.md) | Owner-scoped create/list/get/rename/delete thread API with paginated resumable history | High | MVP | renewal-owning Underwriter |
+| [F0039-S0003](./archive/F0039-neuron-multi-thread-conversations/F0039-S0003-conversation-first-neuron-panel.md) | Conversation-first companion panel with server-rehydrated transcripts and thread management UX | High | MVP | renewal-owning Underwriter |
+| [F0039-S0004](./archive/F0039-neuron-multi-thread-conversations/F0039-S0004-structured-provider-and-local-phi-profile.md) | Async structured-completion provider seam with a verified local Phi (vLLM) profile and provenance | High | MVP | Neuron AI Engineer maintaining the companion |
+| [F0039-S0005](./archive/F0039-neuron-multi-thread-conversations/F0039-S0005-catalog-prompt-registry-resolution-contract.md) | Schema-validated intent catalog, versioned prompt registry, and composed scope-and-intent contract | High | MVP | Neuron AI Engineer / Architect defining the routing surface |
+| [F0039-S0006](./archive/F0039-neuron-multi-thread-conversations/F0039-S0006-preflight-and-one-call-direct-resolver.md) | Deterministic preflight plus one composed Phi scope-and-intent resolution with fail-closed validation | High | MVP | renewal-owning Underwriter |
+| [F0039-S0007](./archive/F0039-neuron-multi-thread-conversations/F0039-S0007-dispatcher-persistence-provenance-integration.md) | Wire durable persistence and the direct resolver into the message dispatcher with full traceability | High | MVP | renewal-owning Underwriter |
+| [F0039-S0008](./archive/F0039-neuron-multi-thread-conversations/F0039-S0008-evaluation-shadow-mode-and-rollout.md) | Labeled evaluation harness, shadow-mode comparison, gated rollout, and tested deterministic rollback | High | MVP | Neuron AI Engineer, Architect, or Security reviewer |
+
+---
+
+## F0041 — Neuron Contextual Intent Adjudicator (gated follow-on)
+
+| Story ID | Title | Priority | Phase | Persona |
+|----------|-------|----------|-------|---------|
+| [F0041-S0001](./F0041-neuron-contextual-adjudicator/F0041-S0001-contextual-adjudicator.md) | Bounded Phi contextual adjudication of context-dependent requests, gated behind direct-routing gates | Medium | MVP (GATED — enabled only after S0001–S0008 gates pass) | renewal-owning Underwriter |
 
 ---
 

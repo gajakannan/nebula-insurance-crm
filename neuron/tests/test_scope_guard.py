@@ -153,8 +153,18 @@ class HandlerBindingTest(unittest.TestCase):
 
 
 class MessageDispatcherTest(unittest.IsolatedAsyncioTestCase):
+    """The deterministic keyword guard end to end.
+
+    F0039-S0007 makes this the **rollback path** rather than the default: setting
+    NEURON_INTENT_MODE=deterministic restores exactly this F0038 behaviour with no code
+    change. Keeping these tests green is what makes the rollback tested rather than
+    assumed, so they pin the mode explicitly instead of relying on the default.
+    """
+
     async def asyncSetUp(self):
-        self.rt = build_runtime()
+        settings = build_runtime().settings
+        deterministic = type(settings)(**{**vars(settings), "intent_mode": "deterministic"})
+        self.rt = build_runtime(deterministic)
         self.tool = FakeNeedsAttentionTool([_ITEM])
         self.rt.tools._tools["engine.renewals.needs_attention"] = self.tool
         self.dispatcher = MessageDispatcher(self.rt)
@@ -234,12 +244,12 @@ class MessageDispatcherTest(unittest.IsolatedAsyncioTestCase):
             text="show my renewals", thread_id=None, user_token="t", owner_user_id="uw-1",
         )
         thread_id = msg["thread_id"]
-        stored = self.rt.repository.get_messages(thread_id, "uw-1")
+        stored = await self.rt.repository.get_messages(thread_id, "uw-1")
         roles = [m.role for m in stored]
         self.assertIn("user", roles)
         self.assertIn("assistant", roles)
         # a non-owner cannot see the thread (store invariant)
-        self.assertEqual(self.rt.repository.get_messages(thread_id, "someone-else"), [])
+        self.assertEqual(await self.rt.repository.get_messages(thread_id, "someone-else"), [])
 
 
 if __name__ == "__main__":

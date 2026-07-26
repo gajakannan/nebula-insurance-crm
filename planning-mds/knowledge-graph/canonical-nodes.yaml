@@ -511,8 +511,8 @@ capabilities:
           (no Postgres transaction held across a Phi/engine network call).
     source_docs:
       - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
-      - planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0001-durable-neuron-conversation-store.md
-      - planning-mds/features/F0039-neuron-multi-thread-conversations/feature-assembly-plan.md
+      - planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0001-durable-neuron-conversation-store.md
+      - planning-mds/features/archive/F0039-neuron-multi-thread-conversations/feature-assembly-plan.md
   - id: capability:neuron-day-at-a-glance-shell
     label: Day-at-a-Glance Multi-Zone Shell
     notes: 'Multi-zone frame; assembly, not composition (no cross-zone ranking — that is the deferred
@@ -532,7 +532,7 @@ capabilities:
       '
     source_docs:
       - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
-      - planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0009-contextual-adjudicator-gated.md
+      - planning-mds/features/F0041-neuron-contextual-adjudicator/F0041-S0001-contextual-adjudicator.md
   - id: capability:neuron-intent-catalog
     label: Intent Catalog, Prompt Registry, and Composed Resolution Contract
     notes: 'Code-reviewed intent-catalog.yaml (active domains/actions -> registered heads, startup cross-checked),
@@ -543,7 +543,7 @@ capabilities:
       '
     source_docs:
       - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
-      - planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0005-catalog-prompt-registry-resolution-contract.md
+      - planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0005-catalog-prompt-registry-resolution-contract.md
       - planning-mds/schemas/neuron-intent-decision.schema.json
       - planning-mds/schemas/neuron-intent-resolution.schema.json
       - planning-mds/schemas/neuron-scope-decision.schema.json
@@ -557,7 +557,7 @@ capabilities:
       '
     source_docs:
       - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
-      - planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0008-evaluation-shadow-mode-and-rollout.md
+      - planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0008-evaluation-shadow-mode-and-rollout.md
   - id: capability:neuron-intent-resolution
     label: Deterministic Preflight + One-Call Phi Direct Resolver (Fail-Closed)
     notes: 'Deterministic preflight (size/encoding/NFKC/high-certainty markers) then one composed Phi
@@ -574,8 +574,8 @@ capabilities:
           plus fail-closed validation on every model output (reliability matrix §27).
     source_docs:
       - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
-      - planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0006-preflight-and-one-call-direct-resolver.md
-      - planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0007-dispatcher-persistence-provenance-integration.md
+      - planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0006-preflight-and-one-call-direct-resolver.md
+      - planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0007-dispatcher-persistence-provenance-integration.md
   - id: capability:neuron-message-envelope
     label: Versioned Multi-Part Message/Component Envelope
     notes: 'Versioned envelope (text|app|status|sources|actions) keyed by thread_id so persisted threads
@@ -679,7 +679,7 @@ capabilities:
           lifecycle/GPU/health stay independent and no heavy ML dependency enters Neuron.
     source_docs:
       - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
-      - planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0004-structured-provider-and-local-phi-profile.md
+      - planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0004-structured-provider-and-local-phi-profile.md
   - id: capability:neuron-thread-management
     label: Owner-Scoped Thread Management + Conversation-First Panel
     notes: 'Owner-scoped thread lifecycle (create/list/get/rename/soft-delete/resume) with immutable anchors
@@ -689,8 +689,8 @@ capabilities:
       '
     source_docs:
       - planning-mds/api/neuron-api.yaml
-      - planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0002-owner-scoped-thread-and-history-api.md
-      - planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0003-conversation-first-neuron-panel.md
+      - planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0002-owner-scoped-thread-and-history-api.md
+      - planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0003-conversation-first-neuron-panel.md
   - id: capability:neuron-zone-dispatch
     label: Zone-Dispatch (multi-head extension point)
     notes: 'Orchestrator enumerates registered specialist heads and dispatches per zone; live heads return

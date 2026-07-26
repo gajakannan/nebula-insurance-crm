@@ -119,3 +119,30 @@ parallel after S0002.
 Neuron endpoints return the versioned message envelope (not persistence row shapes). Thread/history responses
 follow `neuron-api.yaml`. Where the engine returns snake_case for companion endpoints (F0038 precedent), heads
 map to camelCase component props at the boundary.
+
+## G0 Reconciliation (feature run `2026-07-25-273d5672`)
+
+Appended by the Architect at the feature action's G0 after diffing this plan against the as-built F0038
+source. Additive only — nothing below contradicts a story or a canonical contract. Full rationale:
+`planning-mds/operations/evidence/runs/2026-07-25-273d5672/g0-assembly-plan-validation.md`.
+
+**Run scope:** S0001–S0008. **S0009 is gated-deferred** — this plan's Phase 4 condition opens it only after
+the S0001–S0008 gates pass, which this run produces.
+
+- **D1 — extend, don't just implement, `NeuronRepository`.** The as-built ABC has no `list_threads`,
+  `rename_thread`, `delete_thread`, no history cursor/limit, and no idempotency-key parameter. S0001/S0002
+  require all of them. Add the abstract methods and satisfy them in **both** `in_memory.py` and the new
+  `postgres.py`, so the in-memory backend stays a valid runtime selection.
+- **D2 — async-first repository.** `MessageDispatcher.dispatch` is async but calls the sync repository. The
+  thread/message surface becomes `async def` over an async pool on both implementations, and the dispatcher
+  awaits it. This settles the plan's "phased async" risk rather than deferring it to a worker pool.
+- **D3 — `mock_provider.py` joins the S0004 file set.** `ModelProvider` is a `runtime_checkable` Protocol;
+  adding `complete_structured` to it makes the existing mock non-conformant unless it implements the method
+  too. A deterministic mock keeps the provider suite runnable without the GPU runtime.
+- **D4 — vendor the three intent schemas.** `neuron/tests/test_schema_drift.py` enforces byte-equality
+  between `neuron/app/contracts/` and `planning-mds/schemas/` over a hard-coded list. Vendor
+  `neuron-scope-decision`, `neuron-intent-decision`, `neuron-intent-resolution` and add them to `_VENDORED`.
+- **Thread anchoring (S0002).** `MessageDispatcher._open_thread` hard-codes the Day-at-a-Glance anchor;
+  generalize it so owner-created threads carry an immutable anchor + auto-title, including `free_form`.
+- **Endpoints already contracted.** All six thread operations exist in `neuron-api.yaml` (authored at plan).
+  S0002 implements to that contract; it does not author it.

@@ -1,0 +1,184 @@
+Run started:2026-07-26 01:35:32.303421+00:00
+
+Test results:
+>> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_imports.html#b404-import-subprocess
+   Location: app/intent/evaluation.py:22:0
+21	import platform
+22	import subprocess
+23	from dataclasses import dataclass, field
+
+--------------------------------------------------
+>> Issue: [B607:start_process_with_partial_path] Starting a process with a partial executable path
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b607_start_process_with_partial_path.html
+   Location: app/intent/evaluation.py:115:15
+114	    try:
+115	        return subprocess.run(
+116	            ["git", "rev-parse", "HEAD"], capture_output=True, text=True, timeout=5,
+117	            cwd=Path(__file__).resolve().parents[2],
+118	        ).stdout.strip() or "unknown"
+119	    except Exception:  # pragma: no cover - git absent
+
+--------------------------------------------------
+>> Issue: [B603:subprocess_without_shell_equals_true] subprocess call - check for execution of untrusted input.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html
+   Location: app/intent/evaluation.py:115:15
+114	    try:
+115	        return subprocess.run(
+116	            ["git", "rev-parse", "HEAD"], capture_output=True, text=True, timeout=5,
+117	            cwd=Path(__file__).resolve().parents[2],
+118	        ).stdout.strip() or "unknown"
+119	    except Exception:  # pragma: no cover - git absent
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html
+   Location: app/persistence/postgres.py:149:32
+148	                        await cur.execute(
+149	                            f"""
+150	                            INSERT INTO neuron.threads
+151	                                (id, owner_user_id, anchor_type, anchor_ref, title,
+152	                                 thread_idempotency_key)
+153	                            VALUES (gen_random_uuid(), %s, %s, %s, %s, %s)
+154	                            RETURNING {_THREAD_COLUMNS}
+155	                            """,
+156	                            (owner_user_id, anchor_type, anchor_ref, title, idempotency_key),
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html
+   Location: app/persistence/postgres.py:179:20
+178	            await cur.execute(
+179	                f"""
+180	                SELECT {_THREAD_COLUMNS} FROM neuron.threads
+181	                WHERE owner_user_id = %s AND thread_idempotency_key = %s
+182	                  AND deleted_at IS NULL
+183	                """,
+184	                (owner_user_id, key),
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html
+   Location: app/persistence/postgres.py:194:24
+193	                await cur.execute(
+194	                    f"""
+195	                    SELECT {_THREAD_COLUMNS} FROM neuron.threads
+196	                    WHERE id = %s AND owner_user_id = %s AND deleted_at IS NULL
+197	                    """,
+198	                    (thread_id, owner_user_id),
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html
+   Location: app/persistence/postgres.py:230:24
+229	                await cur.execute(
+230	                    f"""
+231	                    SELECT {_THREAD_COLUMNS} FROM neuron.threads
+232	                    WHERE owner_user_id = %s AND deleted_at IS NULL {keyset}
+233	                    ORDER BY updated_at DESC, id DESC
+234	                    LIMIT %s
+235	                    """,
+236	                    params,
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html
+   Location: app/persistence/postgres.py:251:24
+250	                await cur.execute(
+251	                    f"""
+252	                    UPDATE neuron.threads
+253	                    SET title = %s, updated_at = now()
+254	                    WHERE id = %s AND owner_user_id = %s AND deleted_at IS NULL
+255	                    RETURNING {_THREAD_COLUMNS}
+256	                    """,
+257	                    (cleaned, thread_id, owner_user_id),
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html
+   Location: app/persistence/postgres.py:331:36
+330	                            await cur.execute(
+331	                                f"""
+332	                                INSERT INTO neuron.messages
+333	                                    (id, thread_id, role, envelope_version,
+334	                                     in_reply_to_message_id, sequence, client_message_key)
+335	                                VALUES (gen_random_uuid(), %s, %s, %s, %s, %s, %s)
+336	                                RETURNING {_MESSAGE_COLUMNS}
+337	                                """,
+338	                                (
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html
+   Location: app/persistence/postgres.py:390:20
+389	            await cur.execute(
+390	                f"""
+391	                SELECT {_MESSAGE_COLUMNS} FROM neuron.messages
+392	                WHERE thread_id = %s AND client_message_key = %s
+393	                """,
+394	                (thread_id, client_message_key),
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html
+   Location: app/persistence/postgres.py:403:18
+402	            await cur.execute(
+403	                f"SELECT {_MESSAGE_COLUMNS} FROM neuron.messages WHERE id = %s",
+404	                (message_id,),
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html
+   Location: app/persistence/postgres.py:449:24
+448	                await cur.execute(
+449	                    f"""
+450	                    SELECT {_MESSAGE_COLUMNS} FROM neuron.messages
+451	                    WHERE thread_id = %s {seq_filter}
+452	                    ORDER BY sequence
+453	                    LIMIT %s
+454	                    """,
+455	                    params,
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 5522
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 3
+		Medium: 9
+		High: 0
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 9
+		High: 3
+Files skipped (0):

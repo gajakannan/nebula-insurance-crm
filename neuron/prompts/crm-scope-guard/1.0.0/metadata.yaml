@@ -1,0 +1,13 @@
+# Provenance metadata for the scope fragment (F0039-S0005, spec §10.5).
+# Versioned separately from the composed resolver so a scope-only wording change does
+# not invalidate the composed prompt's recorded provenance.
+prompt_id: crm-scope-guard
+version: 1.0.0
+stage: scope
+description: >-
+  Decides whether a message is in permitted CRM scope, clearly outside it, an
+  instruction-manipulation attempt, or too ambiguous to act on. Selects no action.
+output_schema: neuron-scope-decision.schema.json
+model_profile: local_phi
+temperature: 0
+max_output_tokens: 256

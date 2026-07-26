@@ -1,17 +1,47 @@
-# Neuron model configuration (F0038).
+# Neuron model configuration (F0038, extended by F0039-S0004).
 # The running default is env-driven: NEURON_MODEL_PROVIDER wins; otherwise
-# `default_provider` below is used (app/config.py). F0038 runs on the deterministic
-# `mock` provider — no live Anthropic calls, for deterministic feature evidence.
+# `default_provider` below is used (app/config.py).
+#
+# Secrets are NEVER stored here. `api_key_env` names an environment variable; the value
+# lives outside the repo (locally in a gitignored ~/.neuron-secrets, chmod 600).
 default_provider: mock
 
 providers:
   mock:
     kind: deterministic-stub
     description: >-
-      Deterministic mocked provider for F0038. Stable, replayable output; no external
-      call and no key. A real client swaps in behind the model-router seam.
-  # NOT wired in F0038 (build_model_router registers only `mock`). Listed as the
-  # forward-looking seam for a later live smoke test.
+      Deterministic mocked provider. Stable, replayable output; no external call and no
+      key. Implements the structured-completion contract too (F0039-S0004), so the
+      intent path is exercisable with no GPU.
+
+  scripted:
+    kind: scripted-stub
+    description: >-
+      Test-only provider: a fixture registers an exact result (or an exact failure) per
+      prompt hash. Drives the S0006 regression fixtures and the S0008 evaluation
+      harness, including malformed-output and transport-failure cases.
+
+  # F0039-S0004 — the validated local profile. See
+  # neuron/neuron-local-phi-vllm-wsl2-runbook.md for the runtime setup.
+  local_phi:
+    kind: openai-compatible
+    base_url: http://127.0.0.1:8000/v1
+    model: microsoft/Phi-4-mini-instruct
+    api_key_env: NEURON_PHI_API_KEY
+    # Provenance the server does NOT report, and so must be pinned here: an
+    # OpenAI-compatible endpoint returns the model id and context length, but not the
+    # HF commit it loaded or the container digest it runs in. Recording both is what
+    # makes a decision reproducible later. Set at deploy time.
+    model_revision: null
+    image_digest: null
+    # Phi-4-mini-instruct serves a 4,096-token context (verified at G1). Enforced
+    # client-side so an over-long request fails fast instead of returning truncated —
+    # and therefore plausible but wrong — structured output.
+    context_limit: 4096
+    max_output_tokens: 512
+    timeout_s: 30
+
+  # NOT wired: forward-looking seams for a hosted provider.
   claude:
     kind: anthropic
     model: claude-sonnet-5

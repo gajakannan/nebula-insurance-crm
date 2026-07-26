@@ -1,0 +1,16 @@
+# CRM intent resolver (F0039-S0005/S0006). One local Phi call returns a composed
+# scope-and-intent decision; the runtime validates it against the vendored schema and
+# the trusted intent catalog before anything routes. Pure classification — it reaches no
+# engine data and grants no authorization → auth_mode: none.
+card_id: crm.intent_resolver
+card_version: 1.0.0
+kind: intent_classifier
+name: CRM Intent Resolver
+description: >-
+  Resolves scope and intent for one message in a single structured generation. Proposes
+  a registered domain and actions; the catalog resolves the specialist head and the
+  deterministic validators decide whether the proposal may route at all.
+active: true
+public: false
+auth_mode: none
+accepted_output_modes: [text, status]

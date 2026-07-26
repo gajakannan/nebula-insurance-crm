@@ -31,7 +31,7 @@ class GlanceAssembler:
         self, *, user_token: str, owner_user_id: str, thread_id: str | None = None
     ) -> dict[str, Any]:
         rt = self._rt
-        thread = rt.task_manager.open_context(
+        thread = await rt.task_manager.open_context(
             owner_user_id,
             thread_id=thread_id,
             anchor_type="domain",
@@ -53,7 +53,7 @@ class GlanceAssembler:
             env.text_part("Here's your day at a glance."),
         ]
         message = env.build_envelope(thread.id, role="assistant", parts=parts)
-        rt.repository.add_message(
+        await rt.repository.add_message(
             thread.id,
             owner_user_id,
             role="assistant",
@@ -88,7 +88,7 @@ class GlanceAssembler:
         registered = rt.agents.get(card_id)
         card = registered.card
         head = registered.handler
-        run = rt.task_manager.begin_run(thread, plan, card)
+        run = await rt.task_manager.begin_run(thread, plan, card)
         try:
             ctx = HeadContext(
                 user_token=user_token,
@@ -100,12 +100,12 @@ class GlanceAssembler:
             )
             payload = await head.build_zone(ctx)
             payload.validated()
-            rt.task_manager.complete_run(run, state="completed")
+            await rt.task_manager.complete_run(run, state="completed")
             return payload.to_dict()
         except Exception:
             # WHY: per-zone error isolation — a failing head is contained to its own slot;
             # the other zones still render (F0038-S0002 reliability). No detail leak.
-            rt.task_manager.complete_run(run, state="failed")
+            await rt.task_manager.complete_run(run, state="failed")
             return ZonePayload(
                 zone_id=zone_id_for_card(card_id),
                 zone_status="error",
