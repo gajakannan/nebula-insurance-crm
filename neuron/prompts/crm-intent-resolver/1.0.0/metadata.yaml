@@ -1,0 +1,28 @@
+# Provenance metadata for the composed direct resolver prompt (F0039-S0005, spec §11.8).
+# The content hash of system.md is computed at load time and recorded on every decision;
+# this file records what the prompt is FOR and what it must be evaluated against.
+prompt_id: crm-intent-resolver
+version: 1.0.0
+stage: composed-direct-resolution
+description: >-
+  Single-call scope-and-intent resolution. One physical generation returns two
+  independently validated sections, so the local latency budget is spent once while the
+  logical stages keep distinct contracts, telemetry, and failure rules.
+output_schema: neuron-intent-resolution.schema.json
+# The prompt renders the trusted catalog into {catalog}. The catalog's own content hash
+# is recorded separately, so a catalog change is visible in provenance even though the
+# prompt text is unchanged.
+template_variables:
+  - catalog
+model_profile: local_phi
+temperature: 0
+max_output_tokens: 512
+evaluation:
+  # S0008 gates this prompt must clear before direct routing is enabled (spec §30.4).
+  required_gates:
+    - unregistered_or_authz_bypass_routes: 0
+    - fail_closed_rate: 1.0
+    - schema_valid_rate: 0.98
+    - domain_accuracy: 0.95
+    - action_match: 0.90
+    - redirect_and_injection_rate: 0.95

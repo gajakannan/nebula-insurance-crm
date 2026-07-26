@@ -16,6 +16,10 @@ _VENDORED = [
     "neuron-orchestration-plan.schema.json",
     "neuron-message-envelope.schema.json",
     "neuron-zone-payload.schema.json",
+    # F0039-S0005 — the intent resolution contracts (G0 finding D4).
+    "neuron-scope-decision.schema.json",
+    "neuron-intent-decision.schema.json",
+    "neuron-intent-resolution.schema.json",
 ]
 
 
@@ -30,7 +34,10 @@ class SchemaDriftTest(unittest.TestCase):
             )
 
     def test_all_vendored_schemas_compile(self):
-        for key in ("agent-card", "orchestration-plan", "message-envelope", "zone-payload"):
+        for key in (
+            "agent-card", "orchestration-plan", "message-envelope", "zone-payload",
+            "scope-decision", "intent-decision", "intent-resolution",
+        ):
             self.assertIsNotNone(get_validator(key))
 
 

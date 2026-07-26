@@ -67,8 +67,8 @@ class GlanceAssemblyTest(unittest.IsolatedAsyncioTestCase):
     async def test_thread_and_message_persisted_owner_scoped(self):
         result = await self.assembler.assemble(user_token="tok", owner_user_id=OWNER)
         tid = result["thread_id"]
-        self.assertEqual(len(self.rt.repository.get_messages(tid, OWNER)), 1)
-        self.assertEqual(self.rt.repository.get_messages(tid, "user-B"), [])
+        self.assertEqual(len(await self.rt.repository.get_messages(tid, OWNER)), 1)
+        self.assertEqual(await self.rt.repository.get_messages(tid, "user-B"), [])
 
     async def test_resume_existing_thread(self):
         first = await self.assembler.assemble(user_token="tok", owner_user_id=OWNER)

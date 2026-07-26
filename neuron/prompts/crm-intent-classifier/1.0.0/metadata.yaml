@@ -1,0 +1,14 @@
+# Provenance metadata for the intent fragment (F0039-S0005, spec §11.6).
+prompt_id: crm-intent-classifier
+version: 1.0.0
+stage: intent
+description: >-
+  Maps a CRM-scoped message to a registered domain, registered actions, and explicitly
+  present candidate entities. Executes nothing; the catalog, not the model, decides what
+  exists.
+output_schema: neuron-intent-decision.schema.json
+template_variables:
+  - catalog
+model_profile: local_phi
+temperature: 0
+max_output_tokens: 384

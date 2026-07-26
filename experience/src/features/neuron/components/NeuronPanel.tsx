@@ -1,5 +1,5 @@
 import { Bot, Expand, Minimize } from 'lucide-react';
-import { DayAtAGlance } from './DayAtAGlance';
+import { NeuronConversation } from './NeuronConversation';
 
 interface NeuronPanelProps {
   collapsed: boolean;
@@ -8,10 +8,12 @@ interface NeuronPanelProps {
 }
 
 /**
- * F0038-S0002/S0007 — the companion panel hosts the Day-at-a-Glance shell. The panel chrome
- * (collapse/fullscreen) is unchanged so the app layout keeps working; the body renders the
- * zone-dispatch glance and the scope-guarded free-text composer (S0007), both owned by the
- * shell so the thread scrolls while the composer stays pinned.
+ * F0039-S0003 — the companion panel is now **conversation-first**: the body is a durable,
+ * server-rehydrated conversation with a thread list, not a single ephemeral glance thread.
+ * The Daily Brief still appears — it is persisted as an assistant envelope and replays
+ * inside the transcript like any other turn (F0038's zone components render through the
+ * same registry). The panel chrome (collapse/fullscreen) is unchanged so the app layout
+ * keeps working.
  */
 export function NeuronPanel({ collapsed, fullscreen, onToggleFullscreen }: NeuronPanelProps) {
   return (
@@ -24,7 +26,7 @@ export function NeuronPanel({ collapsed, fullscreen, onToggleFullscreen }: Neuro
           className="overflow-hidden whitespace-nowrap text-sm font-semibold text-text-primary transition-all duration-200"
           style={{ width: collapsed ? 0 : 'auto', opacity: collapsed ? 0 : 1 }}
         >
-          {fullscreen ? 'Neuron · Day at a Glance' : 'Neuron'}
+          {fullscreen ? 'Neuron · Conversations' : 'Neuron'}
         </span>
         <button
           type="button"
@@ -40,7 +42,7 @@ export function NeuronPanel({ collapsed, fullscreen, onToggleFullscreen }: Neuro
         <div className="flex-1" />
       ) : (
         <div className="flex min-h-0 flex-1 flex-col px-3 pb-3 pt-2">
-          <DayAtAGlance />
+          <NeuronConversation />
         </div>
       )}
     </>

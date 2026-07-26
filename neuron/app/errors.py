@@ -94,6 +94,38 @@ class UpstreamAuthError(NeuronError):
         super().__init__(detail)
 
 
+class ThreadNotVisibleError(NeuronError):
+    """The thread does not exist **or** is not owned by the requesting user.
+
+    WHY one error for both cases: a non-owner must not be able to tell an existing
+    thread from a missing one. Distinct responses would leak thread existence across
+    users, so owner-scope failures and genuine 404s are indistinguishable
+    (F0039-S0002 owner-scoping criteria).
+    """
+
+    status = 404
+    title = "Thread not found"
+
+
+class InvalidThreadTitleError(NeuronError):
+    """A rename supplied an empty or over-length title (F0039-S0002)."""
+
+    status = 400
+    title = "Invalid thread title"
+
+
+class PersistenceUnavailableError(NeuronError):
+    """The operation store could not be reached or the write failed.
+
+    Raised so the caller fails **safe before routing** — a turn whose inbound message
+    could not be persisted must not proceed to intent resolution or head dispatch
+    (F0039-S0001 business rule 4). ``detail`` carries no raw message text.
+    """
+
+    status = 503
+    title = "Conversation store unavailable"
+
+
 class ScopeViolationError(NeuronError):
     """A message was classified out of CRM scope (F0038-S0007).
 

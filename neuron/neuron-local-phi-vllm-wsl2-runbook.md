@@ -1292,8 +1292,12 @@ Neuron and vLLM should source the same protected file. Neuron uses
 
 ## 35. Model configuration
 
+The shipped `neuron/config/models.yaml` defaults to **`mock`**, not `local_phi`, so the
+default compose stack starts on a machine with no GPU and no key. Select the local profile
+at run time with `NEURON_MODEL_PROVIDER=local_phi` (see §36.1).
+
 ```yaml
-default_provider: local_phi
+default_provider: mock
 
 providers:
   mock:
@@ -1327,11 +1331,101 @@ Scope and intent calls should require structured JSON Schema output and determin
 3. Run phi-start.
 4. Wait for the script to report Phi is ready.
 5. Run phi-validate.
-6. Start Neuron.
-7. Run a scope or intent smoke test.
+6. Start Postgres (docker compose up -d db) and apply migrations once — §36.1.
+7. Start Neuron with the env vars for the mode you want — §36.1.
+8. Check GET /ready to confirm what loaded — §36.3.
+9. Run a scope or intent smoke test.
 ```
 
 Neuron must fail closed if the model server is unavailable.
+
+### 36.1 Starting Neuron — the three env vars that matter
+
+From `nebula-insurance-crm/neuron`, with the venv active. Three settings decide what you
+actually get; everything else has a working default.
+
+| Variable | Options | Default |
+|----------|---------|---------|
+| `NEURON_PERSISTENCE` | `postgres` \| `memory` | `memory` |
+| `NEURON_MODEL_PROVIDER` | `local_phi` \| `mock` \| `scripted` | `mock` |
+| `NEURON_INTENT_MODE` | `direct` \| `shadow` \| `deterministic` | **`shadow`** |
+
+**Full local stack — durable store + live Phi deciding routes:**
+
+```bash
+source ~/.neuron-secrets
+NEURON_ENGINE_BASE_URL=http://localhost:5113 \
+NEURON_PERSISTENCE=postgres \
+NEURON_POSTGRES_DSN="postgresql://postgres:postgres@127.0.0.1:5433/nebula" \
+NEURON_MODEL_PROVIDER=local_phi \
+NEURON_PHI_BASE_URL=http://127.0.0.1:8000/v1 \
+NEURON_INTENT_MODE=direct \
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8200
+```
+
+**No GPU (durable store, deterministic routing):**
+
+```bash
+NEURON_ENGINE_BASE_URL=http://localhost:5113 \
+NEURON_PERSISTENCE=postgres \
+NEURON_POSTGRES_DSN="postgresql://postgres:postgres@127.0.0.1:5433/nebula" \
+NEURON_MODEL_PROVIDER=mock \
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8200
+```
+
+Prerequisites for `NEURON_PERSISTENCE=postgres`: `docker compose up -d db`, then apply the
+schema once (idempotent — a re-run prints `no pending migrations`):
+
+```bash
+NEURON_POSTGRES_DSN="postgresql://postgres:postgres@127.0.0.1:5433/nebula" \
+  python -m app.persistence.migrate
+```
+
+`NEURON_MODEL_PROVIDER=local_phi` **fails fast at startup** when `NEURON_PHI_API_KEY` is
+missing, rather than surfacing a confusing 401 on the first user message.
+
+### 36.2 `NEURON_INTENT_MODE` — read this before you conclude Phi is broken
+
+This decides **who chooses the route**, and the default is not `direct`.
+
+| Mode | Model called? | Who decides the route | User-visible behavior |
+|------|---------------|-----------------------|-----------------------|
+| `deterministic` | no | F0038 keyword scope guard | pre-F0039 behavior |
+| `shadow` | yes, result **discarded** | F0038 keyword scope guard | pre-F0039 behavior |
+| `direct` | yes | Phi, behind fail-closed validation | new behavior |
+
+- **`direct`** — one structured Phi call resolves scope + intent; the result is validated
+  against the schema, the deterministic invariants, and the trusted intent catalog before
+  anything routes. Use this locally when you want to exercise the feature.
+- **`shadow`** *(default)* — both run, but the **guard's** answer is what the user gets.
+  Phi's answer is recorded as an `intent.shadow_compare` operation with `agree=true|false`
+  so disagreements accumulate on real traffic at zero user-visible risk. Shadow failures
+  are swallowed by design: a model outage during shadow is a gap in the data, not an
+  incident.
+- **`deterministic`** — the tested rollback. No model call at all, so it works with vLLM
+  down. Reverting is this env var, not a deploy.
+
+**Why `shadow` is the default:** the §30.4 evaluation gates are currently red on routing
+*accuracy* (`domain_accuracy` 0.933 vs 0.95; one clarify case routed). All **security**
+gates are green — injection detection, redirect precision, and fail-closed at 100%. Direct
+routing is enabled only after a green evaluation run:
+
+```bash
+NEURON_MODEL_PROVIDER=local_phi python -m app.intent.evaluate_cli \
+  --report evals/reports/$(date +%F)-local-phi.json
+```
+
+Exit code is non-zero while any gate fails, so it is usable directly as the rollout gate.
+
+### 36.3 Confirming what actually loaded
+
+```bash
+curl -s localhost:8200/ready | python3 -m json.tool
+```
+
+Reports the persistence backend, model provider, intent catalog version, and the loaded
+prompt ids with versions — the fastest way to confirm the runtime is configured the way
+you think it is.
 
 ---
 

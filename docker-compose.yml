@@ -147,14 +147,29 @@ services:
     environment:
       NEURON_ENV: development
       NEURON_ENGINE_BASE_URL: http://api:8080
-      NEURON_MODEL_PROVIDER: mock
-      NEURON_PERSISTENCE: memory
       NEURON_REQUEST_TIMEOUT: "10"
+      # F0039-S0001 — durable conversation store. Neuron owns and writes neuron.*
+      # directly (ADR-028 §1); migrations are applied by `python -m app.persistence.migrate`.
+      NEURON_PERSISTENCE: postgres
+      NEURON_POSTGRES_DSN: postgresql://postgres:postgres@db:5432/nebula
+      NEURON_POSTGRES_POOL_MIN: "1"
+      NEURON_POSTGRES_POOL_MAX: "10"
+      # F0039-S0004/S0008 — model provider. `mock` needs no GPU and no key, so the
+      # default compose stack still starts on a laptop. Point NEURON_MODEL_PROVIDER at
+      # local_phi (plus NEURON_PHI_* and the key in the environment) to use real Phi.
+      NEURON_MODEL_PROVIDER: ${NEURON_MODEL_PROVIDER:-mock}
+      NEURON_PHI_BASE_URL: ${NEURON_PHI_BASE_URL:-http://host.docker.internal:8000/v1}
+      NEURON_PHI_API_KEY: ${NEURON_PHI_API_KEY:-}
+      # Routing mode: shadow until the §30.4 gates pass (spec §33). NEVER default to
+      # `direct` without a green evaluation report.
+      NEURON_INTENT_MODE: ${NEURON_INTENT_MODE:-shadow}
     ports:
       - "8200:8200"
     depends_on:
       api:
         condition: service_started
+      db:
+        condition: service_healthy
 
 volumes:
   nebula-db-data:

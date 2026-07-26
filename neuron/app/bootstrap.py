@@ -8,11 +8,22 @@ serve a half-configured runtime (F0038-S0001 edge cases).
 
 from __future__ import annotations
 
-from .config import Settings, load_settings
+import os
+
+from .config import Settings, load_model_config, load_settings
 from .engine_client import EngineClient
 from .errors import ConfigError
+from .intent.catalog import load_catalog
+from .intent.prompt_registry import (
+    INTENT_CLASSIFIER_PROMPT,
+    INTENT_RESOLVER_PROMPT,
+    SCOPE_GUARD_PROMPT,
+    PromptRegistry,
+)
 from .models.mock_provider import MockProvider
+from .models.openai_compatible_provider import OpenAICompatibleProvider, PhiProfile
 from .models.router import ModelProvider, ModelRouter
+from .models.scripted_provider import ScriptedProvider
 from .orchestration.agent_card import AgentCard, load_cards
 from .orchestration.heads import BootstrapHandler
 from .orchestration.plan import load_plans
@@ -20,6 +31,7 @@ from .orchestration.registries import AgentRegistry, ToolRegistry
 from .orchestration.task_manager import A2ATaskManager
 from .orchestration.zone_heads import RenewalsZoneHead, StubZoneHead
 from .persistence.in_memory import InMemoryNeuronRepository
+from .persistence.postgres import PostgresNeuronRepository
 from .persistence.repository import NeuronRepository
 from .runtime import NeuronRuntime
 from .scope_guard import IntentClassifierHandler, ScopeGuardHandler
@@ -59,19 +71,74 @@ def _make_handler(card: AgentCard):
     return BootstrapHandler(card, _pending_story(card))
 
 
-def _build_repository(backend: str) -> NeuronRepository:
+def _build_repository(settings: Settings) -> NeuronRepository:
+    backend = settings.persistence_backend
     if backend == "memory":
         return InMemoryNeuronRepository()
-    # WHY: F0038 ships only the in-memory store behind the interface (ADR-028 §1);
-    # the durable Postgres impl (migrations/0001) is wired in a later feature.
-    raise ConfigError(f"unsupported persistence backend {backend!r} (F0038 supports 'memory')")
+    if backend == "postgres":
+        # F0039-S0001: the durable home. Neuron owns and writes neuron.* directly
+        # (ADR-028 §1) — this is a direct Postgres connection, not an engine call.
+        if not settings.postgres_dsn:
+            raise ConfigError(
+                "NEURON_PERSISTENCE=postgres requires NEURON_POSTGRES_DSN "
+                "(fail fast rather than start with no durable store)"
+            )
+        return PostgresNeuronRepository(
+            settings.postgres_dsn,
+            min_size=settings.postgres_pool_min,
+            max_size=settings.postgres_pool_max,
+        )
+    raise ConfigError(
+        f"unsupported persistence backend {backend!r} (supported: 'memory', 'postgres')"
+    )
 
 
-def _build_model_router(provider_name: str) -> ModelRouter:
-    providers: dict[str, ModelProvider] = {"mock": MockProvider()}
+def _phi_profile(config: dict) -> PhiProfile:
+    """Build the local Phi profile from config/models.yaml + env (F0039-S0004).
+
+    The API key is read from the environment variable *named* by `api_key_env` — the
+    key itself is never in the repo, and a missing key fails fast at startup rather
+    than surfacing as a puzzling 401 on the first user message.
+    """
+    key_env = config.get("api_key_env") or "NEURON_PHI_API_KEY"
+    api_key = os.environ.get(key_env, "")
+    if not api_key:
+        raise ConfigError(
+            f"model provider 'local_phi' requires the {key_env} environment variable"
+        )
+    return PhiProfile(
+        base_url=os.environ.get("NEURON_PHI_BASE_URL") or config.get("base_url", ""),
+        model=os.environ.get("NEURON_PHI_MODEL") or config.get("model", ""),
+        api_key=api_key,
+        model_revision=os.environ.get("NEURON_PHI_MODEL_REVISION")
+        or config.get("model_revision"),
+        image_digest=os.environ.get("NEURON_PHI_IMAGE_DIGEST") or config.get("image_digest"),
+        context_limit=int(config.get("context_limit") or 4096),
+        max_output_tokens=int(config.get("max_output_tokens") or 512),
+        timeout_s=float(config.get("timeout_s") or 30.0),
+    )
+
+
+def _build_model_router(settings: Settings) -> ModelRouter:
+    """Register the providers this runtime can serve.
+
+    `mock` and `scripted` are always available (no key, no GPU). `local_phi` is built
+    only when it is the selected default — constructing it eagerly would demand a key
+    from every developer running on the mock profile.
+    """
+    provider_name = settings.model_provider
+    providers: dict[str, ModelProvider] = {
+        "mock": MockProvider(),
+        "scripted": ScriptedProvider(),
+    }
+    if provider_name == "local_phi":
+        profiles = (load_model_config().get("providers") or {})
+        providers["local_phi"] = OpenAICompatibleProvider(
+            _phi_profile(profiles.get("local_phi") or {})
+        )
     if provider_name not in providers:
         raise ConfigError(
-            f"model provider {provider_name!r} is not wired in F0038 (available: {sorted(providers)})"
+            f"model provider {provider_name!r} is not wired (available: {sorted(providers)})"
         )
     return ModelRouter(providers, default=provider_name)
 
@@ -92,9 +159,18 @@ def build_runtime(settings: Settings | None = None) -> NeuronRuntime:
     # 3. Plans — validated against the schema AND cross-checked against registries.
     plans = load_plans(settings.plans_dir, agents, tools)
 
-    # 4. Store, model router, task manager.
-    repository = _build_repository(settings.persistence_backend)
-    model_router = _build_model_router(settings.model_provider)
+    # 4. Intent registry + versioned prompts (F0039-S0005). Loaded before the store so
+    #    an invalid catalog or a missing prompt stops startup, exactly like a bad plan.
+    intent_catalog = load_catalog(
+        settings.intent_catalog_path, registered_head_ids=set(agents.card_ids())
+    )
+    prompts = PromptRegistry(settings.prompts_dir).load_all(
+        [SCOPE_GUARD_PROMPT, INTENT_CLASSIFIER_PROMPT, INTENT_RESOLVER_PROMPT]
+    )
+
+    # 5. Store, model router, task manager.
+    repository = _build_repository(settings)
+    model_router = _build_model_router(settings)
     task_manager = A2ATaskManager(repository)
 
     return NeuronRuntime(
@@ -106,4 +182,6 @@ def build_runtime(settings: Settings | None = None) -> NeuronRuntime:
         engine_client=engine_client,
         model_router=model_router,
         task_manager=task_manager,
+        intent_catalog=intent_catalog,
+        prompts=prompts,
     )

@@ -1625,13 +1625,12 @@ features:
       - schema:renewal-needs-attention-item
       - schema:renewal-outreach-draft-request
       - schema:renewal-outreach-mock-send-request
-  - status: planned
+  - status: archived-done
     id: feature:F0039
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations
     affects:
       - capability:neuron-companion
       - capability:neuron-conversation-store
-      - capability:neuron-intent-adjudicator
       - capability:neuron-intent-catalog
       - capability:neuron-intent-evaluation
       - capability:neuron-intent-resolution
@@ -1678,6 +1677,32 @@ features:
       - schema:neuron-message-envelope
       - schema:neuron-scope-decision
       - schema:problem-details
+  - status: planned
+    id: feature:F0041
+    path: planning-mds/features/F0041-neuron-contextual-adjudicator
+    affects:
+      - capability:neuron-intent-adjudicator
+      - capability:neuron-intent-resolution
+    depends_on:
+      - feature:F0039
+    governed_by:
+      - adr:035
+    notes:
+      - Promoted from F0039-S0009 at the F0039 feature-action closeout (run 2026-07-25-273d5672). Its
+        gate opens only after the F0039 direct-routing and context gates pass; the F0039 run delivered
+        S0001-S0008 and left the §30.4 rollout gate red on routing accuracy, so adjudication remains gated
+        and direct routing is withheld. Until then the resolver degrades an `adjudicate` decision to a
+        bounded clarify.
+    stories:
+      - id: story:F0041-S0001
+        path: planning-mds/features/F0041-neuron-contextual-adjudicator/F0041-S0001-contextual-adjudicator.md
+        affects:
+          - capability:neuron-intent-adjudicator
+        depends_on:
+          - story:F0039-S0006
+          - story:F0039-S0008
+        governed_by:
+          - adr:035
 rules:
   - Mappings must reference canonical IDs declared in canonical-nodes.yaml.
   - Product Manager owns feature and story mapping freshness.
@@ -5442,7 +5467,7 @@ stories:
       - schema:neuron-companion-telemetry-event
   - id: story:F0039-S0001
     feature: feature:F0039
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0001-durable-neuron-conversation-store.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0001-durable-neuron-conversation-store.md
     affects:
       - capability:neuron-conversation-store
       - capability:neuron-operation-persistence
@@ -5453,7 +5478,7 @@ stories:
       - api:neuron-rest
   - id: story:F0039-S0002
     feature: feature:F0039
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0002-owner-scoped-thread-and-history-api.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0002-owner-scoped-thread-and-history-api.md
     affects:
       - capability:neuron-conversation-store
       - capability:neuron-thread-management
@@ -5474,7 +5499,7 @@ stories:
       - schema:problem-details
   - id: story:F0039-S0003
     feature: feature:F0039
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0003-conversation-first-neuron-panel.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0003-conversation-first-neuron-panel.md
     affects:
       - capability:neuron-message-envelope
       - capability:neuron-thread-management
@@ -5489,14 +5514,14 @@ stories:
       - schema:neuron-message-envelope
   - id: story:F0039-S0004
     feature: feature:F0039
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0004-structured-provider-and-local-phi-profile.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0004-structured-provider-and-local-phi-profile.md
     affects:
       - capability:neuron-structured-model-provider
     governed_by:
       - adr:035
   - id: story:F0039-S0005
     feature: feature:F0039
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0005-catalog-prompt-registry-resolution-contract.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0005-catalog-prompt-registry-resolution-contract.md
     affects:
       - capability:neuron-intent-catalog
     depends_on:
@@ -5509,7 +5534,7 @@ stories:
       - schema:neuron-scope-decision
   - id: story:F0039-S0006
     feature: feature:F0039
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0006-preflight-and-one-call-direct-resolver.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0006-preflight-and-one-call-direct-resolver.md
     affects:
       - capability:neuron-intent-catalog
       - capability:neuron-intent-resolution
@@ -5524,7 +5549,7 @@ stories:
       - schema:neuron-scope-decision
   - id: story:F0039-S0007
     feature: feature:F0039
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0007-dispatcher-persistence-provenance-integration.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0007-dispatcher-persistence-provenance-integration.md
     affects:
       - capability:neuron-conversation-store
       - capability:neuron-intent-resolution
@@ -5543,22 +5568,12 @@ stories:
       - schema:neuron-message-envelope
   - id: story:F0039-S0008
     feature: feature:F0039
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0008-evaluation-shadow-mode-and-rollout.md
+    path: planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0008-evaluation-shadow-mode-and-rollout.md
     affects:
       - capability:neuron-intent-evaluation
       - capability:neuron-intent-resolution
     depends_on:
       - story:F0039-S0006
       - story:F0039-S0007
-    governed_by:
-      - adr:035
-  - id: story:F0039-S0009
-    feature: feature:F0039
-    path: planning-mds/features/F0039-neuron-multi-thread-conversations/F0039-S0009-contextual-adjudicator-gated.md
-    affects:
-      - capability:neuron-intent-adjudicator
-    depends_on:
-      - story:F0039-S0006
-      - story:F0039-S0008
     governed_by:
       - adr:035

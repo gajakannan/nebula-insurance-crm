@@ -1,0 +1,113 @@
+{
+  "action": "feature",
+  "contract_version": "2026-07-11",
+  "run_id": "2026-07-25-273d5672",
+  "schema_version": 1,
+  "stages": {
+    "G0": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g0"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G1": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g1"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G2": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g2"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G3": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g3"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G4": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g4"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G5": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g5"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G6": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g6",
+        "validate-trackers-g6"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G7": {
+      "attestations": [],
+      "completed_operations": [
+        "kg-compile",
+        "kg-symbols-decisions",
+        "kg-check-drift"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G8": {
+      "attestations": [
+        {
+          "actor": "gajakannan",
+          "checkpoint_id": "archive-move",
+          "evidence": [
+            {
+              "path": "pm-closeout.md",
+              "sha256": "eaa98d3b43db1a8c004b5beeea2e96f3073b717f7979b1161c41dd52bb494c3c"
+            },
+            {
+              "path": "signoff-ledger.md",
+              "sha256": "7c483c6bbbab5eb05cbbbe6e7dcb9a04d228cefea0db99b39128f65019344d04"
+            },
+            {
+              "path": "kg-reconciliation.md",
+              "sha256": "c7749bc82b14f3736ecbbaaa8e77acba04feabc869a790566e147212598a69fa"
+            }
+          ],
+          "note": "Feature closed Done and archived to planning-mds/features/archive/; gated S0009 promoted to F0041; trackers synced (STATUS/REGISTRY/ROADMAP/kg-source shards); G7 graph verified not re-authored.",
+          "role": "product-manager",
+          "timestamp": "2026-07-25T21:55:38-04:00"
+        }
+      ],
+      "completed_operations": [
+        "checkpoint:archive-move",
+        "kg-compile-closeout",
+        "patch-prior-manifest",
+        "write:latest-run.json",
+        "kg-write-coverage",
+        "kg-check-drift-closeout",
+        "capture-run-telemetry",
+        "validate-closeout",
+        "validate-trackers-closeout"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    }
+  }
+}

@@ -68,8 +68,8 @@ class ActionDispatcher:
             return await self._scope_redirect_ack(thread_id, owner_user_id)
         raise UnknownActionError(f"unknown action_type {action_type!r}")
 
-    def _open_thread(self, thread_id: str | None, owner_user_id: str):
-        return self._rt.task_manager.open_context(
+    async def _open_thread(self, thread_id: str | None, owner_user_id: str):
+        return await self._rt.task_manager.open_context(
             owner_user_id,
             thread_id=thread_id,
             anchor_type="domain",
@@ -83,23 +83,23 @@ class ActionDispatcher:
             raise UnknownActionError("drill_renewal requires payload.renewalId")
 
         rt = self._rt
-        thread = self._open_thread(thread_id, owner_user_id)
+        thread = await self._open_thread(thread_id, owner_user_id)
         tool = rt.tools.get(_COMPANION_CONTEXT_TOOL)
         context = await tool.invoke(user_token=user_token, path_params={"renewalId": renewal_id})
 
         card = rt.agents.get("crm.renewals.head").card
-        run = rt.task_manager.begin_run(thread, rt.plans[_GLANCE_PLAN_ID], card)
-        rt.task_manager.record_tool_call(
+        run = await rt.task_manager.begin_run(thread, rt.plans[_GLANCE_PLAN_ID], card)
+        await rt.task_manager.record_tool_call(
             run, _COMPANION_CONTEXT_TOOL, request_digest=f"companion_context:{renewal_id}", status="ok"
         )
-        rt.task_manager.complete_run(run, state="completed")
+        await rt.task_manager.complete_run(run, state="completed")
 
         account_name = (context or {}).get("accountName", "this renewal")
         parts = [
             env.text_part(f"Here's the latest on {account_name}."),
             env.app_part(_COMPANION_CONTEXT_COMPONENT, context or {}),
         ]
-        return self._finish(thread, owner_user_id, parts)
+        return await self._finish(thread, owner_user_id, parts)
 
     async def _draft_outreach(self, payload, thread_id, user_token, owner_user_id) -> dict[str, Any]:
         renewal_id = (payload or {}).get("renewalId")
@@ -108,14 +108,14 @@ class ActionDispatcher:
         account_name = (payload or {}).get("accountName") or "your client"
 
         rt = self._rt
-        thread = self._open_thread(thread_id, owner_user_id)
+        thread = await self._open_thread(thread_id, owner_user_id)
         card = rt.agents.get(DRAFTER_CARD_ID).card
-        run = rt.task_manager.begin_run(thread, rt.plans[_GLANCE_PLAN_ID], card)
+        run = await rt.task_manager.begin_run(thread, rt.plans[_GLANCE_PLAN_ID], card)
 
         body = generate_draft_body(account_name)
         violation = content_violation(body)
         if violation is not None:
-            rt.task_manager.complete_run(run, state="failed")
+            await rt.task_manager.complete_run(run, state="failed")
             raise ContentConstraintError(violation)
 
         model = rt.model_router.default
@@ -135,13 +135,13 @@ class ActionDispatcher:
         timeline_event_id = (engine_result or {}).get("timelineEventId")
 
         # Idempotent Neuron record referencing the engine id.
-        rt.task_manager.record_tool_call(
+        await rt.task_manager.record_tool_call(
             run, _OUTREACH_DRAFT_TOOL, request_digest=f"outreach_draft:{renewal_id}", status="ok"
         )
-        rt.task_manager.emit_provenance(
+        await rt.task_manager.emit_provenance(
             run, model=model, content_hash=digest, prompt_id=PROMPT_ID, prompt_version=PROMPT_VERSION
         )
-        rt.task_manager.complete_run(
+        await rt.task_manager.complete_run(
             run, state="completed", engine_ref_type="timeline_event", engine_ref_id=timeline_event_id
         )
 
@@ -167,7 +167,7 @@ class ActionDispatcher:
                 },
             ),
         ]
-        return self._finish(thread, owner_user_id, parts)
+        return await self._finish(thread, owner_user_id, parts)
 
     async def _mock_send(self, payload, thread_id, user_token, owner_user_id) -> dict[str, Any]:
         renewal_id = (payload or {}).get("renewalId")
@@ -180,9 +180,9 @@ class ActionDispatcher:
             raise ContentConstraintError(violation)
 
         rt = self._rt
-        thread = self._open_thread(thread_id, owner_user_id)
+        thread = await self._open_thread(thread_id, owner_user_id)
         card = rt.agents.get(DRAFTER_CARD_ID).card
-        run = rt.task_manager.begin_run(thread, rt.plans[_GLANCE_PLAN_ID], card)
+        run = await rt.task_manager.begin_run(thread, rt.plans[_GLANCE_PLAN_ID], card)
 
         # Just-in-time rowVersion for the engine's optimistic-concurrency If-Match.
         renewal = await rt.engine_client.call("GET", f"/renewals/{renewal_id}", user_token=user_token)
@@ -205,13 +205,13 @@ class ActionDispatcher:
         )
         transition = (engine_result or {}).get("transition") or {}
 
-        rt.task_manager.record_tool_call(
+        await rt.task_manager.record_tool_call(
             run, _OUTREACH_MOCK_SEND_TOOL, request_digest=f"mock_send:{renewal_id}", status="ok"
         )
-        rt.task_manager.emit_provenance(
+        await rt.task_manager.emit_provenance(
             run, model=model, content_hash=digest, prompt_id=PROMPT_ID, prompt_version=PROMPT_VERSION
         )
-        rt.task_manager.complete_run(
+        await rt.task_manager.complete_run(
             run, state="completed", engine_ref_type="workflow_transition", engine_ref_id=transition.get("id")
         )
 
@@ -225,12 +225,12 @@ class ActionDispatcher:
             env.status_part("completed", detail="Sent (simulated)"),
             env.text_part(f"Sent (simulated). {account_name} moved to Outreach — no email was dispatched."),
         ]
-        return self._finish(thread, owner_user_id, parts)
+        return await self._finish(thread, owner_user_id, parts)
 
     async def _scope_redirect_ack(self, thread_id, owner_user_id) -> dict[str, Any]:
         # Benign acknowledgment (F0038-S0007): the client confirming a scope redirect
         # was shown. No engine call, no data access, no state change — just a typed ack.
-        thread = self._open_thread(thread_id, owner_user_id)
+        thread = await self._open_thread(thread_id, owner_user_id)
         return env.build_envelope(
             thread.id, role="assistant", parts=[env.status_part("completed", detail="acknowledged")]
         )
@@ -248,9 +248,9 @@ class ActionDispatcher:
             "agent_run_id": agent_run_id,
         }
 
-    def _finish(self, thread, owner_user_id, parts) -> dict[str, Any]:
+    async def _finish(self, thread, owner_user_id, parts) -> dict[str, Any]:
         message = env.build_envelope(thread.id, role="assistant", parts=parts)
-        self._rt.repository.add_message(
+        await self._rt.repository.add_message(
             thread.id, owner_user_id, role="assistant", parts=[(p["part_type"], p) for p in parts]
         )
         return message

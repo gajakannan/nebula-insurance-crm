@@ -1,0 +1,28 @@
+status: planned
+id: feature:F0041
+name: Neuron Contextual Intent Adjudicator (gated follow-on)
+path: planning-mds/features/F0041-neuron-contextual-adjudicator
+roadmap_section: Later
+affects:
+  - capability:neuron-intent-adjudicator
+  - capability:neuron-intent-resolution
+depends_on:
+  - feature:F0039
+governed_by:
+  - adr:035
+notes:
+  - 'Promoted from F0039-S0009 at the F0039 feature-action closeout (run 2026-07-25-273d5672).
+    Its gate opens only after the F0039 direct-routing and context gates pass; the F0039 run
+    delivered S0001-S0008 and left the §30.4 rollout gate red on routing accuracy, so
+    adjudication remains gated and direct routing is withheld. Until then the resolver
+    degrades an `adjudicate` decision to a bounded clarify.'
+stories:
+  - id: story:F0041-S0001
+    path: planning-mds/features/F0041-neuron-contextual-adjudicator/F0041-S0001-contextual-adjudicator.md
+    affects:
+      - capability:neuron-intent-adjudicator
+    depends_on:
+      - story:F0039-S0006
+      - story:F0039-S0008
+    governed_by:
+      - adr:035
