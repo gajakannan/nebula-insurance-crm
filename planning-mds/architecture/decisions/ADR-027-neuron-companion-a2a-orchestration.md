@@ -6,6 +6,8 @@ applies_to: architect
 
 # ADR-027: Neuron Companion A2A-Aligned Orchestration Foundation
 
+**Date:** 2026-06-30
+
 ## Status
 
 - [ ] Proposed

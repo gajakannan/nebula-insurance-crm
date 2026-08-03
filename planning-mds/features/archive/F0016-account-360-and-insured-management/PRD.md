@@ -357,15 +357,15 @@ Validated at API layer (not a DB enum):
 
 ## Architecture Traceability
 
-**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../architecture/feature-architecture-traceability-taxonomy.md)
+**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../../architecture/feature-architecture-traceability-taxonomy.md)
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
 | Introduces: Feature-Local Component | Account aggregate, Account 360 composition service, account summary projection, account contacts | PRD only |
-| Introduces / Standardizes: Cross-Cutting Pattern | Account Merge & Tombstone-Forward semantics, including the dependent-view fallback contract | [ADR-017](../../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md) — Account merge, tombstone semantics, and dependent-view fallback contract |
-| Reuses: Established Cross-Cutting Pattern | Workflow state machine + append-only transition / timeline history | [ADR-011](../../architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md) |
-| Reuses: Established Cross-Cutting Pattern | LOB classification on Account where applicable | [ADR-009](../../architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md) |
-| Integrates With: Planned Cross-Cutting Component | Documents rail on Account 360 via shared document subsystem | [ADR-012](../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) |
+| Introduces / Standardizes: Cross-Cutting Pattern | Account Merge & Tombstone-Forward semantics, including the dependent-view fallback contract | [ADR-017](../../../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md) — Account merge, tombstone semantics, and dependent-view fallback contract |
+| Reuses: Established Cross-Cutting Pattern | Workflow state machine + append-only transition / timeline history | [ADR-011](../../../architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md) |
+| Reuses: Established Cross-Cutting Pattern | LOB classification on Account where applicable | [ADR-009](../../../architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md) |
+| Integrates With: Planned Cross-Cutting Component | Documents rail on Account 360 via shared document subsystem | [ADR-012](../../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) |
 
 ## Related User Stories
 

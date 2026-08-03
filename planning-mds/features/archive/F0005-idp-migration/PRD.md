@@ -48,7 +48,7 @@ This is a pre-production patch. No production users, sessions, or data exist. Al
 
 ## Architecture Reference
 
-See [ADR-006: authentik IdP Migration](../../architecture/decisions/ADR-006-authentik-idp-migration.md) for all design decisions, token shape changes, OIDC endpoint updates, and principal key architecture.
+See [ADR-006: authentik IdP Migration](../../../architecture/decisions/ADR-006-authentik-idp-migration.md) for all design decisions, token shape changes, OIDC endpoint updates, and principal key architecture.
 
 ---
 

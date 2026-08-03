@@ -86,7 +86,7 @@ N/A — read-only story.
 - F0022 — Queue/routing domain exists.
 - F0023 — Search/report saved-view defaults exist.
 - F0027 — Template metadata domain exists.
-- F0034 / ADR-014 Workflow SLA — workflow SLA thresholds exist.
+- F0034 / ADR-036 Workflow SLA — workflow SLA thresholds exist.
 
 **Related Stories:**
 - F0032-S0002 — drafts reference and SLA configuration.

@@ -126,7 +126,7 @@ Follow-up tasks and reminders are currently tracked in personal calendars, stick
 - Task rows linked to Submission, Renewal, or Account render the entity name as plain text (not clickable) until those detail screens exist.
 - Task rows with no linked entity are informational only (no navigation).
 - "View all tasks" link is hidden until Task Center (F0003) exists.
-- See [feature-assembly-plan.md — MVP Navigation Constraints](../../architecture/feature-assembly-plan.md) for full degradation rules.
+- See [feature-assembly-plan.md — MVP Navigation Constraints](../../../architecture/feature-assembly-plan.md) for full degradation rules.
 
 ## Definition of Done
 

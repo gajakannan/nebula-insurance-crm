@@ -40,7 +40,7 @@ Workflow SLA thresholds already model entity type, status, optional line of busi
 - [ ] Draft changes are saved separately from the published set.
 - [ ] Draft rows capture a change reason.
 - [ ] Draft rows can be cancelled without changing the published version.
-- [ ] The screen explains renewal and submission timing semantics without changing ADR-014 rules.
+- [ ] The screen explains renewal and submission timing semantics without changing ADR-036 rules.
 - [ ] Draft saves create audit history and do not write source-record timeline events.
 
 ## Interaction Contract (Required for Capture/Edit/Save/Update Stories)
@@ -97,7 +97,7 @@ Required checks for mutation stories:
 ## Dependencies
 
 **Depends On:**
-- ADR-014 Workflow SLA Threshold Per-LOB Extension.
+- ADR-036 Workflow SLA Threshold Per-LOB Extension.
 - WorkflowSlaThreshold model.
 
 **Related Stories:**
@@ -108,7 +108,7 @@ Required checks for mutation stories:
 ## Business Rules
 
 1. Draft SLA changes have no runtime effect until published.
-2. Existing workflow SLA semantics from ADR-014 remain authoritative.
+2. Existing workflow SLA semantics from ADR-036 remain authoritative.
 3. Every draft save requires a reason for audit review.
 
 ## Out of Scope

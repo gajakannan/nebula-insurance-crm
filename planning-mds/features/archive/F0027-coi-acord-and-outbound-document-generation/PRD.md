@@ -203,14 +203,14 @@ Phase B must decide the final architecture, API contracts, schema updates, and K
 
 ## Architecture Traceability
 
-**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../architecture/feature-architecture-traceability-taxonomy.md)
+**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../../architecture/feature-architecture-traceability-taxonomy.md)
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
 | Introduces: Feature-Local Component | Template merge, preview, issue, generated-artifact history | Phase B pending |
-| Extends: Cross-Cutting Component | Generated artifacts are persisted through the shared document subsystem | [ADR-012](../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) |
-| Extends: Cross-Cutting Component | Proposal rendering consumes F0019 packet context without owning workflow state | [ADR-025](../../architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md) |
-| Extends: Cross-Cutting Component | Template and workflow settings may later be governed through published operational configuration | [ADR-016](../../architecture/decisions/ADR-016-published-operational-configuration-governance.md) |
+| Extends: Cross-Cutting Component | Generated artifacts are persisted through the shared document subsystem | [ADR-012](../../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) |
+| Extends: Cross-Cutting Component | Proposal rendering consumes F0019 packet context without owning workflow state | [ADR-025](../../../architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md) |
+| Extends: Cross-Cutting Component | Template and workflow settings may later be governed through published operational configuration | [ADR-016](../../../architecture/decisions/ADR-016-published-operational-configuration-governance.md) |
 
 ## Related User Stories
 

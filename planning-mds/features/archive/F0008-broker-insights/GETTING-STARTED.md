@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- [ ] Read the current release framing in [ROADMAP.md](../ROADMAP.md)
+- [ ] Read the current release framing in [ROADMAP.md](../../ROADMAP.md)
 - [ ] Review the F0008 Phase A story set before architecture or coding
 - [ ] Review available broker, submission, renewal, policy, activity, hierarchy, producer, territory, and reporting source data
 - [ ] Confirm F0037 boundaries before proposing any hierarchy-aware access enforcement or distribution rollup behavior

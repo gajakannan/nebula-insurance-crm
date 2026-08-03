@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - Read [PRD.md](./PRD.md), [feature-assembly-plan.md](./feature-assembly-plan.md), and [STATUS.md](./STATUS.md)
-- Review [ADR-017](../../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md) before changing merge or deleted-account behavior
+- Review [ADR-017](../../../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md) before changing merge or deleted-account behavior
 - Review F0002 broker ownership, F0006 submission intake, and F0007 renewal/policy-stub contracts before changing dependent fallback behavior
 - Refresh ontology context with `python3 scripts/kg/lookup.py F0016` before broad repository scans
 

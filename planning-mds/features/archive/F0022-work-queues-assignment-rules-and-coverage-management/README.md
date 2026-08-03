@@ -16,8 +16,8 @@ Add queue-based work distribution, routing rules, reassignment, workload balanci
 | [PRD.md](./PRD.md) | Product scope and business outcomes |
 | [STATUS.md](./STATUS.md) | Planning and implementation tracker |
 | [GETTING-STARTED.md](./GETTING-STARTED.md) | Setup and refinement notes |
-| [ADR-013](../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md) | Accepted routing engine architecture |
-| [data-model.md](../../architecture/data-model.md#18-work-queues-assignment-rules-and-coverage-f0022) | F0022 queue/rule/coverage data model |
+| [ADR-013](../../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md) | Accepted routing engine architecture |
+| [data-model.md](../../../architecture/data-model.md#18-work-queues-assignment-rules-and-coverage-f0022) | F0022 queue/rule/coverage data model |
 | [nebula-api.yaml](../../api/nebula-api.yaml) | F0022 WorkQueues API contract |
 
 ## Stories

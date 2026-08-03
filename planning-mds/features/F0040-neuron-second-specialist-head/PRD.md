@@ -21,7 +21,7 @@ applies_to: product-manager
 > platform is extracted and hardened on top of F0038's simple versioned YAML
 > orchestration, A2A-aligned internal delegation, and `crm_agents` package
 > convention. Do not gold-plate before this point.
-> Epic source: [`../F0038-neuron-day-at-a-glance-shell/intake-brief.md`](../F0038-neuron-day-at-a-glance-shell/intake-brief.md).
+> Epic source: [`../archive/F0038-neuron-day-at-a-glance-shell/intake-brief.md`](../archive/F0038-neuron-day-at-a-glance-shell/intake-brief.md).
 
 ## Feature Statement
 

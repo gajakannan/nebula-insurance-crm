@@ -4,8 +4,8 @@
 
 - [ ] Read the [PRD](./PRD.md) — scope, personas, workflow states, screens, and business rules
 - [ ] Read the [ROADMAP](../../ROADMAP.md) — F0007 sequencing and release context
-- [ ] Review [ADR-009](../../architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md) — WorkflowSlaThreshold pattern for renewal timing windows
-- [ ] Review [ADR-011](../../architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md) — State machine and transition history pattern
+- [ ] Review [ADR-009](../../../architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md) — WorkflowSlaThreshold pattern for renewal timing windows
+- [ ] Review [ADR-011](../../../architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md) — State machine and transition history pattern
 - [ ] Review the F0007 implementation note in [feature-assembly-plan.md](./feature-assembly-plan.md) — the current contract includes a Policy stub and does not yet expose a policy search/read picker endpoint
 
 ## Dependencies (required for implementation and validation)

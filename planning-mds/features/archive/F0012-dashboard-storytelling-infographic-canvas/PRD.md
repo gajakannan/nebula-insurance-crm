@@ -80,7 +80,7 @@ F0012 fully supersedes F0011. All F0011 concepts (connected flow canvas, termina
 |--------|---------|-------------|
 | Dashboard — Infographic Canvas | Full continuous narrative surface: nudges → KPIs → flow → chapters → activity → tasks | Dismiss nudge, switch period, switch chapter, select stage/outcome, open drilldown, scroll to activity/tasks |
 
-**Formal screen specification:** [`planning-mds/screens/S-DASH-001-infographic-canvas.md`](../../../screens/S-DASH-001-infographic-canvas.md)
+**Formal screen specification:** [`S-DASH-001-infographic-canvas.md`](../../../screens/S-DASH-001-infographic-canvas.md)
 
 **Key Workflows:**
 1. **Alert-to-Story Scan** — User sees overdue nudges at top, scans KPI band, reads connected opportunity flow and terminal outcomes in one continuous scroll.

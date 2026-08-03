@@ -108,13 +108,13 @@ Resolved at the `G1 CLARIFICATION` gate of plan run `2026-06-06-5fb353e9`:
 
 ## Architecture Traceability
 
-**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../architecture/feature-architecture-traceability-taxonomy.md)
+**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../../architecture/feature-architecture-traceability-taxonomy.md)
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
 | Introduces: Feature-Local Component | Broker hierarchy service, producer ownership model, and territory rules | PRD only |
-| Extends: Cross-Cutting Component | Territory and ownership data become future routing inputs for shared queue execution | [ADR-013](../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md) (Proposed) |
-| Prepares: Deferred Cross-Cutting Component | F0037 later builds hierarchy-aware access scoping and distribution rollups on the F0017 structure | [ADR-026](../../architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md) |
+| Extends: Cross-Cutting Component | Territory and ownership data become future routing inputs for shared queue execution | [ADR-013](../../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md) (Proposed) |
+| Prepares: Deferred Cross-Cutting Component | F0037 later builds hierarchy-aware access scoping and distribution rollups on the F0017 structure | [ADR-026](../../../architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md) |
 
 ## Screen Layouts (ASCII)
 

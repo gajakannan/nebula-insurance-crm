@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- [ ] Read the current release framing in [ROADMAP.md](../ROADMAP.md)
+- [ ] Read the current release framing in [ROADMAP.md](../../ROADMAP.md)
 - [ ] Review current task, submission, and renewal ownership models
 - [ ] Review F0004, F0006, F0007, and F0017 as completed foundations for manual assignment, source workflows, and hierarchy/territory/ownership inputs
 - [ ] Confirm Phase A and Phase B approvals before coding
@@ -22,8 +22,8 @@
 
 ## Phase B Architecture Notes
 
-- Queue/routing architecture is governed by accepted [ADR-013](../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md).
-- Data model details live in [data-model.md §1.8](../../architecture/data-model.md#18-work-queues-assignment-rules-and-coverage-f0022).
+- Queue/routing architecture is governed by accepted [ADR-013](../../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md).
+- Data model details live in [data-model.md §1.8](../../../architecture/data-model.md#18-work-queues-assignment-rules-and-coverage-f0022).
 - API contract additions use the `WorkQueues` tag in [nebula-api.yaml](../../api/nebula-api.yaml).
 - Shared schemas are `work-queue`, `assignment-rule`, `coverage-window`, `queue-work-item`, `queue-reassignment-request`, `queue-rebalance-request`, and `routing-event`.
-- Security rules are in [authorization-matrix.md §2.6c](../../security/authorization-matrix.md#26c-work-queues-and-operational-routing-f0022) and `policy.csv` as `queue:read`, `queue:manage`, and `queue:assign`.
+- Security rules are in [authorization-matrix.md §2.6c](../../../security/authorization-matrix.md#26c-work-queues-and-operational-routing-f0022) and `policy.csv` as `queue:read`, `queue:manage`, and `queue:assign`.

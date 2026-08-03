@@ -11,7 +11,7 @@ Feature: F0018 — Policy Lifecycle & Policy 360
   - `planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md`
   - `planning-mds/architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md`
   - `planning-mds/architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md` (extended via ADR-018)
-  - `planning-mds/architecture/decisions/ADR-014-workflow-sla-threshold-per-lob-extension.md`
+  - `planning-mds/architecture/decisions/ADR-036-workflow-sla-threshold-per-lob-extension.md`
 
 ## Architecture Review
 
@@ -26,7 +26,7 @@ Feature: F0018 — Policy Lifecycle & Policy 360
 ### State machine
 
 - `workflow:policy` adopts the ADR-011 pattern verbatim: four canonical states (Pending, Issued, Cancelled, Expired), role-gated transitions, append-only `WorkflowTransition` history.
-- `Cancelled → Issued` is the sole non-monotonic transition; it is window-gated via `WorkflowSlaThreshold` (category `PolicyReinstatementWindow`), which extends the ADR-009 / ADR-014-workflow-sla pattern rather than introducing a parallel config surface.
+- `Cancelled → Issued` is the sole non-monotonic transition; it is window-gated via `WorkflowSlaThreshold` (category `PolicyReinstatementWindow`), which extends the ADR-009 / ADR-036-workflow-sla pattern rather than introducing a parallel config surface.
 - Daily scheduled sweep at 00:15 UTC handles `Issued → Expired`; Temporal migration is deferred per ADR-010 and explicitly scoped as a follow-up.
 
 ### REST surface
@@ -70,7 +70,7 @@ Feature: F0018 — Policy Lifecycle & Policy 360
 
 ## Review Notes
 
-- ADR-018 is the sole new ADR introduced for this feature; it absorbs the reinstatement-window category rather than amending ADR-009 or ADR-014 in place, keeping the decision trail linear.
+- ADR-018 is the sole new ADR introduced for this feature; it absorbs the reinstatement-window category rather than amending ADR-009 or ADR-036 in place, keeping the decision trail linear.
 - Timeline, version, and endorsement reason codes are validated at the API layer (enums in the OpenAPI contract and JSON schemas) rather than in a separate reference table; this matches the cancellation-reason and endorsement-reason precedent from F0007 / F0016.
 - Versions and endorsements are append-only and never mutated; re-cancellation after reinstatement is explicitly supported with each cycle appending its own transition history and version rows.
 

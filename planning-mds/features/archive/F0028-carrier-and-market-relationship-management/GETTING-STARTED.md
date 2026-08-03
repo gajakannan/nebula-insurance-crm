@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- [ ] Read the current release framing in [ROADMAP.md](../ROADMAP.md)
+- [ ] Read the current release framing in [ROADMAP.md](../../ROADMAP.md)
 - [ ] Review F0019 submission quote/proposal and bind workflow dependencies
 - [ ] Review F0023 search/reporting dependency
 - [ ] Confirm Phase A approval is recorded before starting Phase B

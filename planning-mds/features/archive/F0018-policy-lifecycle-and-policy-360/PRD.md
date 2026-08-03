@@ -452,16 +452,16 @@ After the window lapses, a new policy must be created; no admin override in MVP.
 
 ## Architecture Traceability
 
-**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../architecture/feature-architecture-traceability-taxonomy.md)
+**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../../architecture/feature-architecture-traceability-taxonomy.md)
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
 | Introduces: Feature-Local Component | Policy aggregate, PolicyVersion / PolicyEndorsement / PolicyCoverageLine children, Policy 360 composition, daily expiration job, reinstatement window enforcement | PRD only |
-| Reuses: Established Cross-Cutting Pattern | Workflow state machine + append-only transition / timeline history | [ADR-011](../../architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md) |
-| Reuses: Established Cross-Cutting Pattern | LOB classification and SLA configuration (reinstatement window extends the `WorkflowSlaThreshold` category set) | [ADR-009](../../architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md) |
-| Integrates With: Planned Cross-Cutting Component | Policy documents rail on Policy 360 via shared document subsystem | [ADR-012](../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) |
-| Integrates With: Cross-Cutting Component | Durable workflow orchestration for future expiration/reinstatement-window automation (MVP uses simple scheduled job; Temporal migration is a follow-up) | [ADR-010](../../architecture/decisions/ADR-010-temporal-durable-workflow-orchestration.md) |
-| Reuses: Established Cross-Cutting Pattern | Account tombstone-forward fallback contract on dependent policy views | [ADR-017](../../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md) |
+| Reuses: Established Cross-Cutting Pattern | Workflow state machine + append-only transition / timeline history | [ADR-011](../../../architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md) |
+| Reuses: Established Cross-Cutting Pattern | LOB classification and SLA configuration (reinstatement window extends the `WorkflowSlaThreshold` category set) | [ADR-009](../../../architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md) |
+| Integrates With: Planned Cross-Cutting Component | Policy documents rail on Policy 360 via shared document subsystem | [ADR-012](../../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) |
+| Integrates With: Cross-Cutting Component | Durable workflow orchestration for future expiration/reinstatement-window automation (MVP uses simple scheduled job; Temporal migration is a follow-up) | [ADR-010](../../../architecture/decisions/ADR-010-temporal-durable-workflow-orchestration.md) |
+| Reuses: Established Cross-Cutting Pattern | Account tombstone-forward fallback contract on dependent policy views | [ADR-017](../../../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md) |
 
 ## Related User Stories
 

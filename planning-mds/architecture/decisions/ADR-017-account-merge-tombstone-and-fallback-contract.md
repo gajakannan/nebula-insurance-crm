@@ -135,7 +135,7 @@ Rejected because the cost of broken dependent views is exactly what this ADR exi
 
 ## Related Features
 
-- [F0016 Account 360 & Insured Management](../../features/F0016-account-360-and-insured-management/PRD.md)
+- [F0016 Account 360 & Insured Management](../../features/archive/F0016-account-360-and-insured-management/PRD.md)
 - F0006 Submission Intake Workflow (archived; consumer of fallback contract)
 - F0007 Renewal Pipeline (archived; consumer of fallback contract)
 - F0018 Policy Lifecycle & Policy 360 (future; consumer of fallback contract)

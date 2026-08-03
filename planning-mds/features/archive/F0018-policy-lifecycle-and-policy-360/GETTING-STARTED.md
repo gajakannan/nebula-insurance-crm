@@ -3,8 +3,8 @@
 ## Prerequisites
 
 - [ ] Read the current release framing in [ROADMAP.md](../../ROADMAP.md)
-- [ ] Review [F0016 PRD](../archive/F0016-account-360-and-insured-management/PRD.md) for the Account 360 + tombstone-forward fallback contract (F0018 consumes these on the policy side)
-- [ ] Review [F0007 PRD](../archive/F0007-renewal-pipeline/PRD.md) for Renewal entity shape (`PolicyId`, `BoundPolicyId`) — F0018 exposes successor linkage from Policy 360
+- [ ] Review [F0016 PRD](../../archive/F0016-account-360-and-insured-management/PRD.md) for the Account 360 + tombstone-forward fallback contract (F0018 consumes these on the policy side)
+- [ ] Review [F0007 PRD](../../archive/F0007-renewal-pipeline/PRD.md) for Renewal entity shape (`PolicyId`, `BoundPolicyId`) — F0018 exposes successor linkage from Policy 360
 - [ ] Confirm ADR-009 (`WorkflowSlaThreshold`) and ADR-011 (workflow transitions / timeline) before refinement sign-off
 - [ ] Architect to confirm whether ADR-009 will be extended with a `PolicyReinstatementWindow` category or whether a new ADR is needed during Phase B
 

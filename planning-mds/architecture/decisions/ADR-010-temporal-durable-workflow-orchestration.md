@@ -58,7 +58,7 @@ The planned Temporal integration (post-MVP) follows this pattern:
 - **Activities:** `SendApproachingNotification`, `SendOverdueNotification`, `RecordEscalationEvent` — all idempotent (check for existing Task/Event before creating)
 - **Correlation:** A nullable `TemporalWorkflowId` column on the Renewal entity stores the Temporal workflow ID for queries and cancellation (added in the Temporal phase, not MVP)
 
-See the [F0007 README Architecture Specification](../../features/F0007-renewal-pipeline/README.md) for the full Temporal workflow design.
+See the [F0007 README Architecture Specification](../../features/archive/F0007-renewal-pipeline/README.md) for the full Temporal workflow design.
 
 ## Conventions (to be applied when first Temporal workflow is implemented)
 

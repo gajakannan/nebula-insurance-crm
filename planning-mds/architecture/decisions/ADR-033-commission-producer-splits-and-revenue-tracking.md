@@ -6,6 +6,8 @@ applies_to: architect
 
 # ADR-033: Commission, Producer Splits, And Revenue Tracking
 
+**Date:** 2026-07-07
+
 ## Status
 
 - [ ] Proposed

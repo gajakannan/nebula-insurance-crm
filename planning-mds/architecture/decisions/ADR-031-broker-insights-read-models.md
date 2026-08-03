@@ -6,6 +6,8 @@ applies_to: architect
 
 # ADR-031: Broker Insights Read Models and Permission-Safe Analytics
 
+**Date:** 2026-07-03
+
 ## Status
 
 - [ ] Proposed

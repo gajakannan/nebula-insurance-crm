@@ -22,7 +22,7 @@ enforcement and BrokerUser boundary behavior remain in F0009 scope.
 
 | Document | Purpose |
 |----------|---------|
-| [ADR-006](../../architecture/decisions/ADR-006-authentik-idp-migration.md) | Full architectural decision and design |
+| [ADR-006](../../../architecture/decisions/ADR-006-authentik-idp-migration.md) | Full architectural decision and design |
 | [PRD.md](PRD.md) | Goals, non-goals, acceptance criteria |
 | [STATUS.md](STATUS.md) | Current implementation state |
 | [GETTING-STARTED.md](GETTING-STARTED.md) | How to run and test the migration |

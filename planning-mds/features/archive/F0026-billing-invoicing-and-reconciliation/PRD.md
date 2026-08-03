@@ -36,7 +36,7 @@ applies_to: product-manager
 - **Finance Operations Analyst (primary):** Creates invoices, records/imports mock-vendor receipts, performs exact reconciliation, and requests correction adjustments.
 - **Finance Manager (primary approver):** Reviews balance-affecting correction requests, approves or rejects them, and monitors reconciliation backlog.
 - **Distribution/Relationship user (secondary):** Reads permitted billing summaries from policy/account context but cannot mutate finance records.
-- Detailed role archetypes: [`finance-operations-personas.md`](../../examples/personas/finance-operations-personas.md).
+- Detailed role archetypes: [`finance-operations-personas.md`](../../../examples/personas/finance-operations-personas.md).
 
 ## G1 Clarification Decisions
 

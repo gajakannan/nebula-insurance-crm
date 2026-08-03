@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- [x] Read the current release framing in [ROADMAP.md](../ROADMAP.md)
+- [x] Read the current release framing in [ROADMAP.md](../../ROADMAP.md)
 - [x] Review hierarchy, policy, and market relationship dependencies first
 - [x] Refine this feature into Phase A stories before coding
 - [x] Complete Phase B architecture draft before any feature/build action

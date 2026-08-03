@@ -3,13 +3,13 @@
 ## Prerequisites
 
 - Read [PRD.md](./PRD.md) for scope, non-goals, screens, workflows, and story list.
-- Review [ROADMAP.md](../ROADMAP.md) for the `Now` sequencing and F0017 dependency note.
+- Review [ROADMAP.md](../../ROADMAP.md) for the `Now` sequencing and F0017 dependency note.
 - Review the source feature folders for records surfaced by search and reports:
   - `planning-mds/features/archive/F0016-account-360-and-insured-management/`
   - `planning-mds/features/archive/F0018-policy-lifecycle-and-policy-360/`
   - `planning-mds/features/archive/F0019-submission-quoting-proposal-and-approval/`
   - `planning-mds/features/F0017-broker-mga-hierarchy-and-producer-ownership/`
-- Review [ADR-014 Search Index and Saved View Architecture](../../architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) during Phase B.
+- Review [ADR-014 Search Index and Saved View Architecture](../../../architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) during Phase B.
 
 ## Planning Notes
 

@@ -118,12 +118,12 @@ applies_to: product-manager
 
 ## Architecture Traceability
 
-**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../architecture/feature-architecture-traceability-taxonomy.md)
+**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../../architecture/feature-architecture-traceability-taxonomy.md)
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
 | Introduces: Feature-Local Component | Communication capture service, communication event model, related-record links, participant capture, correction/redaction flow | Phase B to decide |
-| Extends: Cross-Cutting Component | Communication events become future integration-friendly records for external exchange and replay | [ADR-015](../../architecture/decisions/ADR-015-integration-hub-canonical-contracts-and-outbox.md) (Proposed) |
+| Extends: Cross-Cutting Component | Communication events become future integration-friendly records for external exchange and replay | [ADR-015](../../../architecture/decisions/ADR-015-integration-hub-canonical-contracts-and-outbox.md) (Proposed) |
 | Reuses: Established Component/Pattern | Activity timeline, task follow-up, ProblemDetails, pagination, Casbin authorization | Existing platform patterns |
 
 ## Screen Layouts (ASCII)

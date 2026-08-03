@@ -1,10 +1,12 @@
-# ADR-014: Extend WorkflowSlaThreshold with Per-LOB Dimension
+# ADR-036: Extend WorkflowSlaThreshold with Per-LOB Dimension
 
 **Status:** Accepted
 **Date:** 2026-03-26
 **Owners:** Architect
 **Related Features:** F0007
 **Amends:** ADR-009
+
+> **Renumbered 2026-08-02.** This decision was originally filed as ADR-014. The number was also used by *ADR-014 Search Index and Saved View Architecture* (2026-06-19); this record was moved to ADR-036 to resolve the collision. References to “ADR-014 Workflow SLA” in archived feature folders refer to this document.
 
 ## Context
 

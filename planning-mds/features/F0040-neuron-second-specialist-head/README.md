@@ -16,7 +16,7 @@ Flips a second Day-at-a-Glance zone (candidate: Accounts or Brokers) from inert 
 | [STATUS.md](./STATUS.md) | Planning tracker |
 | [GETTING-STARTED.md](./GETTING-STARTED.md) | Setup notes |
 
-Epic source intake: [`../F0038-neuron-day-at-a-glance-shell/intake-brief.md`](../F0038-neuron-day-at-a-glance-shell/intake-brief.md).
+Epic source intake: [`../archive/F0038-neuron-day-at-a-glance-shell/intake-brief.md`](../archive/F0038-neuron-day-at-a-glance-shell/intake-brief.md).
 
 ## Stories
 

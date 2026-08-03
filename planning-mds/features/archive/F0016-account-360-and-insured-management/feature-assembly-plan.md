@@ -8,7 +8,7 @@
 
 F0016 introduces Account as a first-class aggregate with profile, contacts, lifecycle (Active/Inactive/Merged/Deleted), merge + tombstone semantics, and a composed 360 workspace. It also **lands the owning contract** — descoped from F0006 at its closeout — that governs how dependent modules (submissions, renewals, policies, search, documents) render deleted and merged accounts.
 
-Per [ADR-017](../../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md), merge is implemented with tombstone-forward semantics and denormalized fallback columns on dependent list/detail contracts. FK re-pointing was considered and rejected.
+Per [ADR-017](../../../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md), merge is implemented with tombstone-forward semantics and denormalized fallback columns on dependent list/detail contracts. FK re-pointing was considered and rejected.
 
 ## Dependencies and Preconditions
 
@@ -371,11 +371,11 @@ Seed:
 
 ## Architecture Traceability
 
-- [ADR-011](../../architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md) — Reused for account lifecycle state machine + append-only `WorkflowTransition` history (`WorkflowType="AccountLifecycle"`).
-- [ADR-008](../../architecture/decisions/ADR-008-casbin-enforcer-adoption.md) — Reused for `account:*` ABAC enforcement.
-- [ADR-009](../../architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md) — Reused for `PrimaryLineOfBusiness` classification.
-- [ADR-012](../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) — Integrated with on Account 360 Documents rail.
-- [ADR-017](../../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md) — Owned: merge + tombstone + fallback contract introduced by F0016.
+- [ADR-011](../../../architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md) — Reused for account lifecycle state machine + append-only `WorkflowTransition` history (`WorkflowType="AccountLifecycle"`).
+- [ADR-008](../../../architecture/decisions/ADR-008-casbin-enforcer-adoption.md) — Reused for `account:*` ABAC enforcement.
+- [ADR-009](../../../architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md) — Reused for `PrimaryLineOfBusiness` classification.
+- [ADR-012](../../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) — Integrated with on Account 360 Documents rail.
+- [ADR-017](../../../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md) — Owned: merge + tombstone + fallback contract introduced by F0016.
 
 ## Non-Functional Acceptance
 
