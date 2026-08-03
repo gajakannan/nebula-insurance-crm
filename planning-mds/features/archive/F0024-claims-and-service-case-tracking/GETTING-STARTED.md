@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- [ ] Read the current release framing in [ROADMAP.md](../ROADMAP.md)
+- [ ] Read the current release framing in [ROADMAP.md](../../ROADMAP.md)
 - [ ] Review completed F0016 Account 360, F0018 Policy Lifecycle & Policy 360, F0021 Communication Hub, and F0004 Task Center foundations
 - [x] Obtain G3 Phase A approval on PRD and stories before Architect Phase B
 - [x] Complete Architect Phase B draft before any feature/build action

@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Read the current release framing in [ROADMAP.md](../ROADMAP.md).
+- Read the current release framing in [ROADMAP.md](../../ROADMAP.md).
 - Review completed foundations first:
   - F0018 Policy Lifecycle & Policy 360
   - F0020 Document Management & ACORD Intake

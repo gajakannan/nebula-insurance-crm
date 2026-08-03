@@ -285,14 +285,14 @@ Default LOB thresholds (seed data, configurable per deployment):
 
 ## Architecture Traceability
 
-**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../architecture/feature-architecture-traceability-taxonomy.md)
+**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../../architecture/feature-architecture-traceability-taxonomy.md)
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
 | Introduces: Feature-Local Component | Renewal aggregate, due-window worklists, and escalation handling | PRD only |
-| Introduces: Cross-Cutting Component | Durable workflow orchestration for reminder scheduling and escalations | [ADR-010](../../architecture/decisions/ADR-010-temporal-durable-workflow-orchestration.md) (Proposed) |
-| Introduces/Standardizes: Cross-Cutting Pattern | Renewal state machine with append-only transition and reminder audit history | [ADR-011](../../architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md) (Proposed) |
-| Extends: Configuration Entity | Renewal-specific WorkflowSlaThreshold entries for per-LOB timing windows | [ADR-009](../../architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md) (Accepted) |
+| Introduces: Cross-Cutting Component | Durable workflow orchestration for reminder scheduling and escalations | [ADR-010](../../../architecture/decisions/ADR-010-temporal-durable-workflow-orchestration.md) (Proposed) |
+| Introduces/Standardizes: Cross-Cutting Pattern | Renewal state machine with append-only transition and reminder audit history | [ADR-011](../../../architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md) (Proposed) |
+| Extends: Configuration Entity | Renewal-specific WorkflowSlaThreshold entries for per-LOB timing windows | [ADR-009](../../../architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md) (Accepted) |
 
 ## Related User Stories
 

@@ -138,7 +138,7 @@ run-level role verdicts against each story during the `feature` action._
 
 - Source of scope: [`neuron-phi-intent-security-implementation-spec.md`](./neuron-phi-intent-security-implementation-spec.md)
   (v1.1.0, local Phi runtime verified 2026-07-21) + [`PRD.md`](./PRD.md). Epic intake:
-  [`../F0038-neuron-day-at-a-glance-shell/intake-brief.md`](../F0038-neuron-day-at-a-glance-shell/intake-brief.md).
+  [`intake-brief.md`](../F0038-neuron-day-at-a-glance-shell/intake-brief.md).
 - **G1 product decisions (2026-07-21):** (1) F0039 = all 9 stories S0001–S0009 with S0009 gated; (2) display
   name updated to "Neuron Durable Conversations & Local Phi Intent Resolution" (folder slug unchanged);
   (3) required signoff roles = QE, Code Reviewer, Architect, AI Engineer, Security.

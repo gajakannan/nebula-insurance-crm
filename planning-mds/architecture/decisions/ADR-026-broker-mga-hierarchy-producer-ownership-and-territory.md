@@ -6,6 +6,8 @@ applies_to: architect
 
 # ADR-026: Broker/MGA Hierarchy, Producer Ownership & Territory
 
+**Date:** 2026-06-06
+
 ## Status
 
 - [ ] Proposed

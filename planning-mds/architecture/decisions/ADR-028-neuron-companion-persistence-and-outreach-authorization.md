@@ -6,6 +6,8 @@ applies_to: architect
 
 # ADR-028: Neuron Companion Persistence Schema, Cross-Store Write Consistency, and Outreach-Draft Authorization
 
+**Date:** 2026-06-30
+
 ## Status
 
 - [ ] Proposed

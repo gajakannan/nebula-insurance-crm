@@ -191,13 +191,13 @@ F0019 depends on F0006 having preserved the intake boundary; downstream transiti
 
 ## Architecture Traceability
 
-**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../architecture/feature-architecture-traceability-taxonomy.md)
+**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../../architecture/feature-architecture-traceability-taxonomy.md)
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
 | Introduces: Feature-Local Component | Quote/proposal packet record, approval checkpoint, and bind-decision handlers | PRD only (Phase B to confirm) |
-| Reuses: Established Component/Pattern | CRM workflow state machine plus append-only workflow and approval audit history | [ADR-011](../../architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md) (Accepted) |
-| Extends: Cross-Cutting Component | Quote and proposal artifacts rely on the shared document architecture | [ADR-012](../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) (Accepted) |
+| Reuses: Established Component/Pattern | CRM workflow state machine plus append-only workflow and approval audit history | [ADR-011](../../../architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md) (Accepted) |
+| Extends: Cross-Cutting Component | Quote and proposal artifacts rely on the shared document architecture | [ADR-012](../../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) (Accepted) |
 | Reuses: Established Component/Pattern | Structured coverage/product attributes via product-schema registry | F0034 product-schema attributes (handoff: F0034-S0007) |
 
 ## Screen Layouts (ASCII)

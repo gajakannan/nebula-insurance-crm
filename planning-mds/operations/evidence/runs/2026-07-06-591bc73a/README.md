@@ -17,11 +17,11 @@
 | [gate-decisions.md](./gate-decisions.md) | G1-G5 decisions and approvals |
 | [commands.log](./commands.log) | JSONL shell command log |
 | [lifecycle-gates.log](./lifecycle-gates.log) | Gate and validator output log |
-| [F0032 PRD](../../../features/F0032-admin-configuration-and-reference-data-console/PRD.md) | Product requirements |
-| [F0032 README](../../../features/F0032-admin-configuration-and-reference-data-console/README.md) | Feature index |
-| [F0032 STATUS](../../../features/F0032-admin-configuration-and-reference-data-console/STATUS.md) | Story checklist and signoff skeleton |
-| [F0032 GETTING STARTED](../../../features/F0032-admin-configuration-and-reference-data-console/GETTING-STARTED.md) | Plan/build guidance |
-| [F0032 ARCHITECTURE](../../../features/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md) | Phase B architecture baseline |
+| [F0032 PRD](../../../../features/archive/F0032-admin-configuration-and-reference-data-console/PRD.md) | Product requirements |
+| [F0032 README](../../../../features/archive/F0032-admin-configuration-and-reference-data-console/README.md) | Feature index |
+| [F0032 STATUS](../../../../features/archive/F0032-admin-configuration-and-reference-data-console/STATUS.md) | Story checklist and signoff skeleton |
+| [F0032 GETTING STARTED](../../../../features/archive/F0032-admin-configuration-and-reference-data-console/GETTING-STARTED.md) | Plan/build guidance |
+| [F0032 ARCHITECTURE](../../../../features/archive/F0032-admin-configuration-and-reference-data-console/ARCHITECTURE.md) | Phase B architecture baseline |
 | [ADR-032](../../../../architecture/decisions/ADR-032-admin-configuration-console-contract.md) | Admin configuration console contract |
 
 ## Closeout

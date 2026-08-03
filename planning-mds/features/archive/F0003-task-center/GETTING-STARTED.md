@@ -69,7 +69,7 @@ TOKEN=$(curl -s -X POST http://localhost:9000/application/o/nebula/token/ \
 
 ## Key References
 
-- [ADR-003: Task Entity and Nudge Engine Design](../../architecture/decisions/ADR-003-task-entity-nudge-engine.md)
-- [ADR-006: IdP Migration — authentik](../../architecture/decisions/ADR-006-idp-migration.md)
-- [Authorization Matrix §2.6: Task](../../security/authorization-matrix.md)
+- [ADR-003: Task Entity and Nudge Engine Design](../../../architecture/decisions/ADR-003-task-entity-nudge-engine.md)
+- [ADR-006: IdP Migration — authentik](../../../architecture/decisions/ADR-006-authentik-idp-migration.md)
+- [Authorization Matrix §2.6: Task](../../../security/authorization-matrix.md)
 - [OpenAPI Spec — Task endpoints](../../api/nebula-api.yaml)

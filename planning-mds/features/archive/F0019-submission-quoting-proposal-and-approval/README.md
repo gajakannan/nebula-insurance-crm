@@ -48,7 +48,7 @@ explicitly turns them on (S0001). F0006 remains the authoritative intake boundar
 
 ## Architecture (Phase B)
 
-Governing decision: **[ADR-025](../../architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md)** (applies ADR-011 workflow + ADR-012 documents).
+Governing decision: **[ADR-025](../../../architecture/decisions/ADR-025-submission-downstream-workflow-quote-approval-bind-and-archive.md)** (applies ADR-011 workflow + ADR-012 documents).
 
 ### Downstream state machine (activated by F0019)
 

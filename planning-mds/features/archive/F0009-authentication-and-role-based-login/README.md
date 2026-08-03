@@ -15,7 +15,7 @@ Introduce real login, callback, and role-based entry flows for DistributionUser,
 | [PRD.md](./PRD.md) | Full product requirements (why + what + boundaries) |
 | [IMPLEMENTATION-CONTRACT.md](./IMPLEMENTATION-CONTRACT.md) | Mandatory architecture "How" decisions for implementation |
 | [BROKER-VISIBILITY-MATRIX.md](./BROKER-VISIBILITY-MATRIX.md) | BrokerUser field-level data boundary requirements |
-| [../security/F0009-security-review-checklist.md](../../security/F0009-security-review-checklist.md) | Security handoff checklist for review evidence |
+| [../security/F0009-security-review-checklist.md](../../../security/F0009-security-review-checklist.md) | Security handoff checklist for review evidence |
 | [STATUS.md](./STATUS.md) | Completion checklist and progress tracking |
 | [GETTING-STARTED.md](./GETTING-STARTED.md) | Setup and verification guide for test users |
 | [RELEASE-CUT-MOSCOW.md](./RELEASE-CUT-MOSCOW.md) | Must/Should/Could/Won't release scope decision |

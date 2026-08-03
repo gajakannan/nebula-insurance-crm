@@ -3,7 +3,7 @@
 **Owner:** Architect  
 **Status:** Approved — Phase B operator approval recorded 2026-07-19  
 **Plan Run:** `2026-07-19-79477865`  
-**Governing Decision:** [ADR-034](../../architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md)
+**Governing Decision:** [ADR-034](../../../architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md)
 
 ## Outcome and Hard Boundary
 

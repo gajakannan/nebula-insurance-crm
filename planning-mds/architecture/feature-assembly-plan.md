@@ -12,7 +12,7 @@ Define the build order, role handoffs, and integration checkpoints for implement
 
 **Added:** 2026-07-19 - Plan Phase B and the feature-local implementation execution plan were approved in plan run `2026-07-19-79477865` with explicit operator token `approve`.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0026-billing-invoicing-and-reconciliation/feature-assembly-plan.md) - agency-bill-only module boundary, exact-application transaction, mock CSV profile, correction separation of duties, endpoint/security contract, frontend behavior, and implementation validation checkpoints.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0026-billing-invoicing-and-reconciliation/feature-assembly-plan.md) - agency-bill-only module boundary, exact-application transaction, mock CSV profile, correction separation of duties, endpoint/security contract, frontend behavior, and implementation validation checkpoints.
 
 ### Dependencies
 
@@ -66,7 +66,7 @@ Define the build order, role handoffs, and integration checkpoints for implement
 
 **Added:** 2026-07-07 - Feature action Step 0 authored the feature-local implementation execution plan after Phase B plan approval and operator G5 approval in plan run `2026-07-07-8a9b2629`.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0025-commission-producer-splits-and-revenue-tracking/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, commission entity and service signatures, endpoint authorization gates, mutation traceability, security-sensitive economic-data guardrails, and validation checkpoints for commission revenue tracking.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0025-commission-producer-splits-and-revenue-tracking/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, commission entity and service signatures, endpoint authorization gates, mutation traceability, security-sensitive economic-data guardrails, and validation checkpoints for commission revenue tracking.
 
 ### Dependencies
 
@@ -100,7 +100,7 @@ Define the build order, role handoffs, and integration checkpoints for implement
 
 **Added:** 2026-07-06 - Plan Phase B drafted the feature-local implementation execution plan in plan run `2026-07-06-6e3851ab`; pending G5 architecture approval.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/feature-assembly-plan.md) - implementation slice order, distribution-scope resolver contracts, predicate-first projection visibility, hierarchy filter API deltas, distribution rollup response schema, `distribution_rollup:read` policy binding, UI state contracts, and validation checkpoints for no-leak access scoping and rollup reconciliation.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups/feature-assembly-plan.md) - implementation slice order, distribution-scope resolver contracts, predicate-first projection visibility, hierarchy filter API deltas, distribution rollup response schema, `distribution_rollup:read` policy binding, UI state contracts, and validation checkpoints for no-leak access scoping and rollup reconciliation.
 
 ### Dependencies
 
@@ -140,7 +140,7 @@ Define the build order, role handoffs, and integration checkpoints for implement
 
 **Added:** 2026-07-02 - Feature action Step 0 authored the feature-local implementation execution plan after Phase B architecture approval.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0027-coi-acord-and-outbound-document-generation/feature-assembly-plan.md) - detailed slice order, backend/frontend paths, generated-document DTOs, renderer/repository boundaries, preview/issue/regenerate service flows, F0027 authorization gates, and validation checkpoints for outbound document generation.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0027-coi-acord-and-outbound-document-generation/feature-assembly-plan.md) - detailed slice order, backend/frontend paths, generated-document DTOs, renderer/repository boundaries, preview/issue/regenerate service flows, F0027 authorization gates, and validation checkpoints for outbound document generation.
 
 ### Dependencies
 
@@ -163,7 +163,7 @@ Define the build order, role handoffs, and integration checkpoints for implement
 
 **Added:** 2026-07-03 - Feature action Step 0 authored the feature-local implementation execution plan after Phase B planning approval.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0008-broker-insights/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, read-only mutation traceability, permission-safe aggregate behavior, benchmark guardrails, and validation checkpoints for broker insights.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0008-broker-insights/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, read-only mutation traceability, permission-safe aggregate behavior, benchmark guardrails, and validation checkpoints for broker insights.
 
 ### Dependencies
 
@@ -240,7 +240,7 @@ Define the build order, role handoffs, and integration checkpoints for implement
 
 **Added:** 2026-07-01 - Feature action Step 0 authored the feature-local implementation execution plan after Phase A+B planning completed and was approved in plan run `2026-07-01-c1726908`.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0021-communication-hub-and-activity-capture/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, timeline events, communication source record handling, follow-up linkage, correction/redaction, and validation checkpoints.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0021-communication-hub-and-activity-capture/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, timeline events, communication source record handling, follow-up linkage, correction/redaction, and validation checkpoints.
 
 ### Dependencies
 
@@ -275,7 +275,7 @@ Define the build order, role handoffs, and integration checkpoints for implement
 
 **Added:** 2026-07-03 - Feature action Step 0 authored the feature-local implementation execution plan after Phase A+B planning completed and was approved by the operator.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0024-claims-and-service-case-tracking/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, timeline events, service-case workflow, claim-reference boundary, task/communication links, and validation checkpoints.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0024-claims-and-service-case-tracking/feature-assembly-plan.md) - detailed slice order, backend/frontend file paths, DTO and entity signatures, service flows, Casbin enforcement, timeline events, service-case workflow, claim-reference boundary, task/communication links, and validation checkpoints.
 
 ### Dependencies
 
@@ -354,7 +354,7 @@ Define the build order, role handoffs, and integration checkpoints for implement
 **Added:** 2026-03-27 — Architecture review complete; data model, API, workflow, Casbin, schemas, error codes, and timeline events finalized.
 **Updated:** 2026-03-31 — Concurrency, completeness, and soft-dependency contracts reconciled across OpenAPI, JSON Schema, feature stories, and Casbin references.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0006-submission-intake-workflow/feature-assembly-plan.md) — detailed per-step file paths, C# code, logic flows, Casbin enforcement, timeline events, HTTP responses, and integration checkpoints for the backend/frontend developer agents.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0006-submission-intake-workflow/feature-assembly-plan.md) — detailed per-step file paths, C# code, logic flows, Casbin enforcement, timeline events, HTTP responses, and integration checkpoints for the backend/frontend developer agents.
 
 ### Dependencies
 
@@ -501,7 +501,7 @@ Step 9 (QE):          comprehensive test coverage
 
 **Added:** 2026-03-26 — Architecture review complete; data model, API, workflow, Casbin, and ADRs finalized.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0007-renewal-pipeline/feature-assembly-plan.md) — detailed per-step file paths, C# code, logic flows, Casbin enforcement, timeline events, HTTP responses, and integration checkpoints for the backend/frontend developer agents.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0007-renewal-pipeline/feature-assembly-plan.md) — detailed per-step file paths, C# code, logic flows, Casbin enforcement, timeline events, HTTP responses, and integration checkpoints for the backend/frontend developer agents.
 
 ### Dependencies
 
@@ -512,7 +512,7 @@ Step 9 (QE):          comprehensive test coverage
 | Broker entity | F0002 | BrokerId, LegalName, LicenseNumber, State | **Done** |
 | User search API | F0004-S0002 | Assignee picker for ownership | **Done** |
 | Task linked entity | F0003/F0004 | LinkedEntityType=Renewal on Task | **Done** |
-| WorkflowSlaThreshold | ADR-009 + ADR-014 | Per-LOB renewal timing thresholds | **Migration required** |
+| WorkflowSlaThreshold | ADR-009 + ADR-036 | Per-LOB renewal timing thresholds | **Migration required** |
 
 ### F0018 Dependency Stub Strategy
 
@@ -525,7 +525,7 @@ F0018 (Policy Lifecycle) is sequenced before F0007 in the release plan. F0007 re
 
 - **Data model:** Renewal entity redesigned (data-model.md §6). PolicyId required, one active renewal per policy (filtered unique index). 6-status lifecycle replaces old 8-status model.
 - **Workflow:** State machine with role-gated transitions (F0007 README). Transitions are atomic (renewal update + WorkflowTransition + ActivityTimelineEvent in single transaction per ADR-011).
-- **Timing:** Overdue/approaching detection is query-time computation from stored dates and WorkflowSlaThreshold (ADR-014). No Temporal dependency in MVP.
+- **Timing:** Overdue/approaching detection is query-time computation from stored dates and WorkflowSlaThreshold (ADR-036). No Temporal dependency in MVP.
 - **Casbin:** New `create` and `assign` actions added to policy.csv §2.4. Per-transition role checks at application layer.
 - **API:** 6 renewal endpoints (list, create, detail, transition, assignment, timeline). WorkflowTransitionRequest extended with conditional fields.
 
@@ -2175,7 +2175,7 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 
 **Added:** 2026-03-27 — Architecture review complete; no new entities, APIs, workflows, or Casbin policies. Infrastructure/scripts feature only.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0014-devops-smoke-test-automation/feature-assembly-plan.md) — per-step implementation spec for S0002 (multi-role `--all-users` mode) and S0003 (CI workflow). Includes corrected BrokerUser assertion expectations (S0002 AC was wrong — BrokerUser has `task:read` ALLOW, not deny-all).
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0014-devops-smoke-test-automation/feature-assembly-plan.md) — per-step implementation spec for S0002 (multi-role `--all-users` mode) and S0003 (CI workflow). Includes corrected BrokerUser assertion expectations (S0002 AC was wrong — BrokerUser has `task:read` ALLOW, not deny-all).
 
 ### Dependencies
 
@@ -2224,7 +2224,7 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 
 **Added:** 2026-03-28 — Architecture review complete; solution activation feature for observability and QE stack already approved in solution patterns.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0033-structured-logging-and-qe-toolchain-activation/feature-assembly-plan.md) — per-step implementation spec for Serilog, Bruno, Lighthouse CI, Pact, and SonarQube Community activation.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0033-structured-logging-and-qe-toolchain-activation/feature-assembly-plan.md) — per-step implementation spec for Serilog, Bruno, Lighthouse CI, Pact, and SonarQube Community activation.
 
 ### Dependencies
 
@@ -2300,7 +2300,7 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 
 **Added:** 2026-05-28 - Feature action Step 0 (run `2026-05-28-077b7b30`) created the feature-local implementation execution plan after Phase B architecture (ADR-021 amended) completed during planning.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0036-dynamic-product-attribute-form-engine/feature-assembly-plan.md) - frontend-only slice order (S0001-S0008), `experience/**` file paths, widget-registry + AJV + RHF engine contracts, the library-agnostic F0035 registration helper, the controlled-form dirty-tracker adapter, the ~11-component Workstream B inventory, and the parity/regression/E2E checkpoints.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0036-dynamic-product-attribute-form-engine/feature-assembly-plan.md) - frontend-only slice order (S0001-S0008), `experience/**` file paths, widget-registry + AJV + RHF engine contracts, the library-agnostic F0035 registration helper, the controlled-form dirty-tracker adapter, the ~11-component Workstream B inventory, and the parity/regression/E2E checkpoints.
 
 ### Dependencies
 
@@ -2346,7 +2346,7 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 
 **Added:** 2026-06-19 - Plan action Phase B (run `2026-06-19-2f180001`) created the feature-local implementation execution plan after ADR-014 was promoted to accepted.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md) - backend-led slice order (S0001-S0007): 4 new read-side entities (`SearchDocument`, `SavedView`, `SavedViewAuditEvent`, `OperationalReportProjection`), PostgreSQL full-text search + projection refresh/backfill, 9 OpenAPI endpoints, saved-view `If-Match` mutation traceability, query-layer authorization for rows/facets/counts/drilldowns, and security/QE/DevOps closeout requirements.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0023-global-search-saved-views-and-operational-reporting/feature-assembly-plan.md) - backend-led slice order (S0001-S0007): 4 new read-side entities (`SearchDocument`, `SavedView`, `SavedViewAuditEvent`, `OperationalReportProjection`), PostgreSQL full-text search + projection refresh/backfill, 9 OpenAPI endpoints, saved-view `If-Match` mutation traceability, query-layer authorization for rows/facets/counts/drilldowns, and security/QE/DevOps closeout requirements.
 
 ### Dependencies
 
@@ -2370,7 +2370,7 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 
 **Added:** 2026-07-01 - Feature action Step 0 authored the feature-local implementation execution plan after Phase B architecture (ADR-027/028) completed during planning (plan run `2026-06-30-d1dd91f7`).
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0038-neuron-day-at-a-glance-shell/feature-assembly-plan.md) - build order, per-layer scope (engine `renewal:draft_outreach` + WorkflowStateMachine outreach exception + 5 endpoints; stateless `neuron/` FastAPI runtime with A2A-aligned orchestration, registries, `neuron.*` persistence; Day-at-a-Glance React shell), mutation traceability (outreach-draft + mock-send), Casbin enforcement, cross-store write consistency, and KG binding plan.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0038-neuron-day-at-a-glance-shell/feature-assembly-plan.md) - build order, per-layer scope (engine `renewal:draft_outreach` + WorkflowStateMachine outreach exception + 5 endpoints; stateless `neuron/` FastAPI runtime with A2A-aligned orchestration, registries, `neuron.*` persistence; Day-at-a-Glance React shell), mutation traceability (outreach-draft + mock-send), Casbin enforcement, cross-store write consistency, and KG binding plan.
 
 ### Dependencies
 

@@ -887,7 +887,7 @@ See [activity-event-payloads.schema.json](../schemas/activity-event-payloads.sch
 
 ---
 
-## 6.1 WorkflowSlaThreshold — Per-LOB Extension (ADR-014)
+## 6.1 WorkflowSlaThreshold — Per-LOB Extension (ADR-036)
 
 ADR-009 defined WorkflowSlaThreshold with `(EntityType, Status) UNIQUE`. F0007 renewal windows require per-LOB configurable thresholds. The entity is extended with a nullable `LineOfBusiness` column.
 
@@ -1784,6 +1784,6 @@ Append-only audit row for all configuration actions.
 
 **Version:** 4.0 — 2026-05-06: Added F0034 product schema registry, dynamic LOB attribute carrier columns, sentinel/backfill strategy, and Policy parent exception.
 
-**Version:** 3.0 — 2026-03-26: Redesigned Renewal entity for F0007 (policy linkage, 6-status lifecycle, timing windows, outcome tracking). Added Policy stub (F0018 dependency surface). Extended WorkflowSlaThreshold with per-LOB dimension (ADR-014). Reconciled ReferenceRenewalStatus from 8→6 values. Updated domain ERD.
+**Version:** 3.0 — 2026-03-26: Redesigned Renewal entity for F0007 (policy linkage, 6-status lifecycle, timing windows, outcome tracking). Added Policy stub (F0018 dependency surface). Extended WorkflowSlaThreshold with per-LOB dimension (ADR-036). Reconciled ReferenceRenewalStatus from 8→6 values. Updated domain ERD.
 
 **Version:** 2.0 — 2026-03-03: Added full domain ERD (Mermaid + ASCII) in Section 0 covering all entities implemented through F0002. Expanded from dashboard-scope supplement to authoritative domain model document.

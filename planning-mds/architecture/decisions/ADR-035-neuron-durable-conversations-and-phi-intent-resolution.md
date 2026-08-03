@@ -6,6 +6,8 @@ applies_to: architect
 
 # ADR-035: Neuron Durable Conversations and Local Phi Structured Intent Resolution (Fail-Closed)
 
+**Date:** 2026-07-21
+
 ## Status
 
 - [ ] Proposed

@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- [ ] Read the current release framing in [ROADMAP.md](../ROADMAP.md)
+- [ ] Read the current release framing in [ROADMAP.md](../../ROADMAP.md)
 - [ ] Review the Phase A requirements package: [PRD.md](./PRD.md), story files, and [STATUS.md](./STATUS.md)
 - [ ] Review existing timeline and task capabilities already in Nebula
 - [ ] Confirm `scripts/kg/lookup.py F0021` resolves the F0021 feature and stories after ontology sync

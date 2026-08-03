@@ -6,7 +6,7 @@
 ## Prerequisites
 
 - [ ] **F0038 delivered** — zone-dispatch contract + live Renewals head in place.
-- [ ] Read the epic intake: [`../F0038-neuron-day-at-a-glance-shell/intake-brief.md`](../F0038-neuron-day-at-a-glance-shell/intake-brief.md).
+- [ ] Read the epic intake: [`../archive/F0038-neuron-day-at-a-glance-shell/intake-brief.md`](../archive/F0038-neuron-day-at-a-glance-shell/intake-brief.md).
 - [ ] Decide the second domain to flip live (candidate: Accounts or Brokers) at the `plan` run.
 
 ## How to Verify (target — defined fully at plan)

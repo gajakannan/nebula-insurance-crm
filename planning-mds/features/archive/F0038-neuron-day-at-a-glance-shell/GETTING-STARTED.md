@@ -6,7 +6,7 @@
 ## Prerequisites
 
 - [ ] Read [`intake-brief.md`](./intake-brief.md) — the signed-off stakeholder intake (authoritative scope, locked decisions L1–L8, reserved seams).
-- [ ] Read the current release framing in [ROADMAP.md](../ROADMAP.md) and the epic context in [README.md](./README.md).
+- [ ] Read the current release framing in [ROADMAP.md](../../ROADMAP.md) and the epic context in [README.md](./README.md).
 - [ ] Confirm the **AI Engineer role buildout** is complete before starting this feature's `plan`/`feature` runs (epic prerequisite).
 - [ ] Refine this feature into vertically-sliced stories and an architecture
   (ADRs + endpoints) via the `plan` action before coding. Do **not** create
@@ -29,8 +29,8 @@
 - [ ] Architect must define the versioned message envelope and component/action
   registry contract consumed by the frontend.
 - [ ] Read
-  [`ADR-027`](../../architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md)
-  and the [Neuron Companion C4 ASCII sketches](../../architecture/c4-neuron-companion.md).
+  [`ADR-027`](../../../architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md)
+  and the [Neuron Companion C4 ASCII sketches](../../../architecture/c4-neuron-companion.md).
 
 ## Services to Run (anticipated — confirm at plan/feature)
 

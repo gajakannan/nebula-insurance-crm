@@ -2,9 +2,9 @@
 
 ## Prerequisites
 
-- [ ] Read the current release framing in [ROADMAP.md](../ROADMAP.md)
-- [ ] Review the Phase A/B approved plan package: [PRD.md](./PRD.md), story files, [STATUS.md](./STATUS.md), and [ADR-026](../../architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md)
-- [ ] Review the F0017 API and schema contracts in [nebula-api.yaml](../../api/nebula-api.yaml) and [schemas](../../schemas/README.md)
+- [ ] Read the current release framing in [ROADMAP.md](../../ROADMAP.md)
+- [ ] Review the Phase A/B approved plan package: [PRD.md](./PRD.md), story files, [STATUS.md](./STATUS.md), and [ADR-026](../../../architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md)
+- [ ] Review the F0017 API and schema contracts in [nebula-api.yaml](../../api/nebula-api.yaml) and [schemas](../../../schemas/README.md)
 - [ ] Confirm `scripts/kg/lookup.py F0017` resolves the F0017 feature, stories, endpoints, schemas, and ADR before creating the feature assembly plan
 
 ## How to Verify

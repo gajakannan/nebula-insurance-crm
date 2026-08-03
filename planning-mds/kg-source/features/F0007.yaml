@@ -42,7 +42,7 @@ enforced_by_policy:
 governed_by:
   - adr:010
   - adr:011
-  - adr:014-workflow-sla
+  - adr:036
 phase: CRM Release MVP
 restricted_to_role:
   - role:distribution-manager
@@ -67,7 +67,7 @@ story_mappings:
     enforced_by_policy:
       - policy_rule:renewal-read
     governed_by:
-      - adr:014-workflow-sla
+      - adr:036
     restricted_to_role:
       - role:distribution-manager
       - role:distribution-user
@@ -118,7 +118,7 @@ story_mappings:
     governed_by:
       - adr:010
       - adr:011
-      - adr:014-workflow-sla
+      - adr:036
     restricted_to_role:
       - role:distribution-user
       - role:underwriter
@@ -179,7 +179,7 @@ story_mappings:
       - policy_rule:renewal-read
     governed_by:
       - adr:009
-      - adr:014-workflow-sla
+      - adr:036
     restricted_to_role:
       - role:distribution-manager
     uses_api_contract:

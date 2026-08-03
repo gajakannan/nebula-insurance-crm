@@ -26,25 +26,25 @@ First slice of the Neuron Companion epic: a conversational companion embedded in
 - F0038 uses in-CRM component architecture for MCP/tool-style apps. MCP-UI,
   sandboxed resources, and external hosts are deferred.
 
-Architecture source: [ADR-027](../../architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md)
-and [Neuron Companion C4 ASCII sketches](../../architecture/c4-neuron-companion.md).
+Architecture source: [ADR-027](../../../architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md)
+and [Neuron Companion C4 ASCII sketches](../../../architecture/c4-neuron-companion.md).
 
 ## Architecture (Phase B)
 
 Authored at plan run `2026-06-30-d1dd91f7`. C4 L2 (container) + L3 (component)
-views live in [`c4-neuron-companion.md`](../../architecture/c4-neuron-companion.md)
+views live in [`c4-neuron-companion.md`](../../../architecture/c4-neuron-companion.md)
 and the ADR-027 ASCII sketch.
 
 | Concern | Artifact |
 |---------|----------|
-| Orchestration foundation (A2A-aligned, YAML plans, Agent Cards) | [ADR-027](../../architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md) |
-| Persistence schema, cross-store consistency, outreach authorization | [ADR-028](../../architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md) |
-| `neuron.*` operation store + ERD | [data-model.md §11](../../architecture/data-model.md#11-neuron-companion-operation-store-neuron-schema--f0038-adr-027-adr-028) |
+| Orchestration foundation (A2A-aligned, YAML plans, Agent Cards) | [ADR-027](../../../architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md) |
+| Persistence schema, cross-store consistency, outreach authorization | [ADR-028](../../../architecture/decisions/ADR-028-neuron-companion-persistence-and-outreach-authorization.md) |
+| `neuron.*` operation store + ERD | [data-model.md §11](../../../architecture/data-model.md#11-neuron-companion-operation-store-neuron-schema--f0038-adr-027-adr-028) |
 | Neuron service API | [`api/neuron-api.yaml`](../../api/neuron-api.yaml) |
 | Engine companion endpoints (`NeuronCompanion` tag) | [`api/nebula-api.yaml`](../../api/nebula-api.yaml) |
 | Message envelope / zone payload / Agent Card / YAML plan schemas | `schemas/neuron-message-envelope`, `neuron-zone-payload`, `neuron-agent-card`, `neuron-orchestration-plan` |
 | Engine contract schemas | `schemas/renewal-needs-attention-item`, `renewal-outreach-draft-request`, `renewal-outreach-mock-send-request`, `neuron-companion-telemetry-event` |
-| `renewal:draft_outreach` authorization | [authorization-matrix §2.9a](../../security/authorization-matrix.md), `security/policies/policy.csv` |
+| `renewal:draft_outreach` authorization | [authorization-matrix §2.9a](../../../security/authorization-matrix.md), `security/policies/policy.csv` |
 
 ### Feature ERD — `neuron.*` operation store (Mermaid)
 

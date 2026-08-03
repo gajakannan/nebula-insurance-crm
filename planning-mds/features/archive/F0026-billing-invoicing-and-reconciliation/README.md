@@ -18,8 +18,8 @@ Provide an internal agency-bill workflow for policy-linked invoices, manual/CSV 
 | [STATUS.md](./STATUS.md) | Planning and implementation tracker |
 | [GETTING-STARTED.md](./GETTING-STARTED.md) | Scope, dependencies, and later verification entry points |
 | [feature-assembly-plan.md](./feature-assembly-plan.md) | Architect-owned implementation order, file map, contracts, and checks |
-| [ADR-034](../../architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md) | Agency-bill module, exact application, correction, authorization, and mock-adapter decision |
-| [Finance personas](../../examples/personas/finance-operations-personas.md) | Finance Operations Analyst and Finance Manager archetypes |
+| [ADR-034](../../../architecture/decisions/ADR-034-agency-bill-invoicing-and-exact-reconciliation.md) | Agency-bill module, exact application, correction, authorization, and mock-adapter decision |
+| [Finance personas](../../../examples/personas/finance-operations-personas.md) | Finance Operations Analyst and Finance Manager archetypes |
 
 ## Stories
 

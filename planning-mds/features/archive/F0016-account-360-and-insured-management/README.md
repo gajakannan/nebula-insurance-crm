@@ -24,7 +24,7 @@ F0016 also owns the Deleted / Merged Account Fallback Contract so dependent subm
 | [F0016-SECURITY-REVIEW-REPORT.md](./F0016-SECURITY-REVIEW-REPORT.md) | Security signoff and control review |
 | [F0016-DEVOPS-VALIDATION.md](./F0016-DEVOPS-VALIDATION.md) | Migration/runtime deployability evidence |
 | [F0016-ARCHITECT-REVIEW.md](./F0016-ARCHITECT-REVIEW.md) | Architecture conformance review |
-| [ADR-017](../../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md) | Merge, tombstone, and fallback contract |
+| [ADR-017](../../../architecture/decisions/ADR-017-account-merge-tombstone-and-fallback-contract.md) | Merge, tombstone, and fallback contract |
 
 ## Stories
 

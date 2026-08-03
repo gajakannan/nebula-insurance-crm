@@ -193,7 +193,7 @@ applies_to: product-manager
 - F0034 Product Schema Registry and Dynamic LOB Attributes - governed product schema precedent and JSON/rules validation posture.
 - ADR-013 Operational Routing and Queue Engine.
 - ADR-014 Search Index, Saved Views, and Operational Reporting Projections.
-- ADR-014 Workflow SLA Threshold Per-LOB Extension.
+- ADR-036 Workflow SLA Threshold Per-LOB Extension.
 - ADR-016 Published Operational Configuration Governance.
 
 ## Business Rules
@@ -215,11 +215,11 @@ applies_to: product-manager
 
 ## Architecture Traceability
 
-**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../architecture/feature-architecture-traceability-taxonomy.md)
+**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../../architecture/feature-architecture-traceability-taxonomy.md)
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
-| Introduces: Cross-Cutting Component | Published operational configuration governance and admin console control surfaces | [ADR-016](../../architecture/decisions/ADR-016-published-operational-configuration-governance.md) (Proposed), [ADR-032](../../architecture/decisions/ADR-032-admin-configuration-console-contract.md) (Proposed) |
-| Extends: Cross-Cutting Component | Queue and routing administration builds on the shared routing engine | [ADR-013](../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md) (Accepted) |
-| Extends: Cross-Cutting Component | Search/report defaults become governed runtime configuration domains | [ADR-014](../../architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) (Accepted), [ADR-016](../../architecture/decisions/ADR-016-published-operational-configuration-governance.md) (Proposed) |
-| Extends: Cross-Cutting Component | Workflow SLA thresholds become administrable through governed published configuration sets | [ADR-014 Workflow SLA](../../architecture/decisions/ADR-014-workflow-sla-threshold-per-lob-extension.md) (Accepted), [ADR-016](../../architecture/decisions/ADR-016-published-operational-configuration-governance.md) (Proposed) |
+| Introduces: Cross-Cutting Component | Published operational configuration governance and admin console control surfaces | [ADR-016](../../../architecture/decisions/ADR-016-published-operational-configuration-governance.md) (Proposed), [ADR-032](../../../architecture/decisions/ADR-032-admin-configuration-console-contract.md) (Proposed) |
+| Extends: Cross-Cutting Component | Queue and routing administration builds on the shared routing engine | [ADR-013](../../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md) (Accepted) |
+| Extends: Cross-Cutting Component | Search/report defaults become governed runtime configuration domains | [ADR-014](../../../architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) (Accepted), [ADR-016](../../../architecture/decisions/ADR-016-published-operational-configuration-governance.md) (Proposed) |
+| Extends: Cross-Cutting Component | Workflow SLA thresholds become administrable through governed published configuration sets | [ADR-036 Workflow SLA](../../../architecture/decisions/ADR-036-workflow-sla-threshold-per-lob-extension.md) (Accepted), [ADR-016](../../../architecture/decisions/ADR-016-published-operational-configuration-governance.md) (Proposed) |

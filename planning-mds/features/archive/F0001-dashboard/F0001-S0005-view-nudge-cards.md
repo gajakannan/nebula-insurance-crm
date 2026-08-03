@@ -147,7 +147,7 @@ Inspired by Copper CRM's "Keep Things Moving" pattern, nudge cards are prominent
 - CTA "Review Now" for non-Broker-linked tasks: CTA button hidden (card still displays title, description, urgency).
 - CTA "Take Action" (Submission Detail): CTA button hidden until F0006 exists.
 - CTA "Start Outreach" (Renewal Detail): CTA button hidden until F0007 exists.
-- See [feature-assembly-plan.md — MVP Navigation Constraints](../../architecture/feature-assembly-plan.md) for full degradation rules.
+- See [feature-assembly-plan.md — MVP Navigation Constraints](../../../architecture/feature-assembly-plan.md) for full degradation rules.
 
 ## Definition of Done
 

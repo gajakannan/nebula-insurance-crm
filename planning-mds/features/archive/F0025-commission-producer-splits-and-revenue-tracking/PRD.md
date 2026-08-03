@@ -162,13 +162,13 @@ applies_to: product-manager
 
 ## Architecture Traceability
 
-**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../architecture/feature-architecture-traceability-taxonomy.md)
+**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../../architecture/feature-architecture-traceability-taxonomy.md)
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
-| Introduces: Feature-Local Component | `CommissionRevenue` module with commission schedules, producer split assignments, expected commission review records, adjustments, and revenue attribution projections | [ADR-032](../../architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md) |
+| Introduces: Feature-Local Component | `CommissionRevenue` module with commission schedules, producer split assignments, expected commission review records, adjustments, and revenue attribution projections | [ADR-032](../../../architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md) |
 | Reuses: Established Component/Pattern | Effective-dated producer ownership and territory attribution from F0017; policy lifecycle from F0018; carrier/market context from F0028; source-authorized reporting from F0023 | ADR-026, ADR-018, ADR-014-search |
-| Phase B Decision | Expected commission is persisted as CRM review data with source snapshots; adjustments are single-step approval; rollups are read-side projections; no ledger/payment/payout scope | [ADR-032](../../architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md) |
+| Phase B Decision | Expected commission is persisted as CRM review data with source snapshots; adjustments are single-step approval; rollups are read-side projections; no ledger/payment/payout scope | [ADR-032](../../../architecture/decisions/ADR-033-commission-producer-splits-and-revenue-tracking.md) |
 
 ## Architecture Summary
 

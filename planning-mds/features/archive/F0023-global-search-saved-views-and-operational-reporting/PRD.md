@@ -210,16 +210,16 @@ Persona details are captured in the feature folder:
 ## Architecture Notes
 
 - Phase B is approved in plan run `2026-06-19-2f180001`.
-- [ADR-014 Search Index and Saved View Architecture](../../architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) governs the search/reporting read model, saved-view persistence, projection freshness, API contracts, and authorization model.
+- [ADR-014 Search Index and Saved View Architecture](../../../architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) governs the search/reporting read model, saved-view persistence, projection freshness, API contracts, and authorization model.
 - Search indexing, saved-view persistence, reporting projections, API contracts, schemas, and ontology bindings are architect-owned Phase B outputs now available for feature implementation.
 - PM requirements treat raw feature/story artifacts as source of product truth; KG mappings remain retrieval context and were finalized by the Phase B plan run.
 
 ## Architecture Traceability
 
-**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../architecture/feature-architecture-traceability-taxonomy.md)
+**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../../architecture/feature-architecture-traceability-taxonomy.md)
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
-| Introduces: Cross-Cutting Component | Search index, saved-view store, and operational-reporting projections | [ADR-014](../../architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) |
-| Introduces/Standardizes: Cross-Cutting Pattern | Read-optimized operational views over workflow history and backlog metrics | [ADR-014](../../architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) |
-| Extends: Cross-Cutting Component | Search and reporting settings may later be governed through published operational configuration | [ADR-016](../../architecture/decisions/ADR-016-published-operational-configuration-governance.md) |
+| Introduces: Cross-Cutting Component | Search index, saved-view store, and operational-reporting projections | [ADR-014](../../../architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) |
+| Introduces/Standardizes: Cross-Cutting Pattern | Read-optimized operational views over workflow history and backlog metrics | [ADR-014](../../../architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) |
+| Extends: Cross-Cutting Component | Search and reporting settings may later be governed through published operational configuration | [ADR-016](../../../architecture/decisions/ADR-016-published-operational-configuration-governance.md) |

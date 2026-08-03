@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- [ ] Read the current release framing in [ROADMAP.md](../ROADMAP.md)
+- [ ] Read the current release framing in [ROADMAP.md](../../ROADMAP.md)
 - [ ] Review current submission workflow states and approved blueprint transitions
 - [ ] Read F0006 and confirm its boundary: intake ends at `ReadyForUWReview`
 - [ ] Confirm the current runtime still rejects `ReadyForUWReview -> InReview` and later transitions before starting F0019 work

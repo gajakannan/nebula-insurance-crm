@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- [x] Read the current release framing in [ROADMAP.md](../ROADMAP.md)
+- [x] Read the current release framing in [ROADMAP.md](../../ROADMAP.md)
 - [x] Review which reference data and operational settings are already candidates for configuration
 - [x] Refine this feature into stories before coding
 - [x] Complete Phase B architecture, API/schema, authorization, and ontology binding work
@@ -23,7 +23,7 @@
 
 ## Build Readiness Notes
 
-- Phase B artifacts are ready for approval review: [ARCHITECTURE.md](./ARCHITECTURE.md), [ADR-032](../../architecture/decisions/ADR-032-admin-configuration-console-contract.md), [data-model.md §13](../../architecture/data-model.md), [nebula-api.yaml](../../api/nebula-api.yaml), and `planning-mds/schemas/admin-configuration-*.schema.json`.
+- Phase B artifacts are ready for approval review: [ARCHITECTURE.md](./ARCHITECTURE.md), [ADR-032](../../../architecture/decisions/ADR-032-admin-configuration-console-contract.md), [data-model.md §13](../../../architecture/data-model.md), [nebula-api.yaml](../../api/nebula-api.yaml), and `planning-mds/schemas/admin-configuration-*.schema.json`.
 - F0032 is not build-ready until Phase B approval is recorded in the plan run.
 - `feature-assembly-plan.md` is intentionally deferred to `agents/actions/feature.md`.
 - Cross-instance cache invalidation remains a later DevOps/runtime decision if Nebula runs multiple API instances.

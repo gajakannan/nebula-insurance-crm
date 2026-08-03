@@ -186,15 +186,15 @@ F0008 MVP is a read-only Broker Insights workspace for internal distribution and
 
 ## Architecture Traceability
 
-**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../architecture/feature-architecture-traceability-taxonomy.md)
+**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../../architecture/feature-architecture-traceability-taxonomy.md)
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
-| Introduces: Feature-Local Component | Broker scorecards, benchmark services, and trend projections | [ADR-031](../../architecture/decisions/ADR-031-broker-insights-read-models.md) |
-| Introduces: Feature-Local Component | `BrokerInsightProjection` read model and `broker_insight:read` authorization gate | [ADR-031](../../architecture/decisions/ADR-031-broker-insights-read-models.md) |
+| Introduces: Feature-Local Component | Broker scorecards, benchmark services, and trend projections | [ADR-031](../../../architecture/decisions/ADR-031-broker-insights-read-models.md) |
+| Introduces: Feature-Local Component | `BrokerInsightProjection` read model and `broker_insight:read` authorization gate | [ADR-031](../../../architecture/decisions/ADR-031-broker-insights-read-models.md) |
 | Reuses: Established Component/Pattern | Read-side projections over workflow and activity history for analytical views | PRD only |
-| Reuses: Established Component/Pattern | Search and reporting substrate used for scalable broker analytics navigation | [ADR-014](../../architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) (Proposed) |
-| Reuses: Established Component/Pattern | Broker/MGA hierarchy, producer ownership, and territory dimensions | [ADR-026](../../architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md) |
+| Reuses: Established Component/Pattern | Search and reporting substrate used for scalable broker analytics navigation | [ADR-014](../../../architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md) (Proposed) |
+| Reuses: Established Component/Pattern | Broker/MGA hierarchy, producer ownership, and territory dimensions | [ADR-026](../../../architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md) |
 
 ## Phase B Architecture Contract
 

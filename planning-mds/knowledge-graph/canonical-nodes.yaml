@@ -47,9 +47,6 @@ adrs:
   - id: adr:014-search
     label: Search Index and Saved View Architecture
     path: planning-mds/architecture/decisions/ADR-014-search-index-and-saved-view-architecture.md
-  - id: adr:014-workflow-sla
-    label: Workflow SLA Threshold Per-LOB Extension
-    path: planning-mds/architecture/decisions/ADR-014-workflow-sla-threshold-per-lob-extension.md
   - id: adr:015
     label: Integration Hub Canonical Contracts and Outbox
     path: planning-mds/architecture/decisions/ADR-015-integration-hub-canonical-contracts-and-outbox.md
@@ -113,6 +110,9 @@ adrs:
   - id: adr:035
     label: Neuron Durable Conversations and Local Phi Structured Intent Resolution (Fail-Closed)
     path: planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
+  - id: adr:036
+    label: Workflow SLA Threshold Per-LOB Extension
+    path: planning-mds/architecture/decisions/ADR-036-workflow-sla-threshold-per-lob-extension.md
   - id: adr:auth-token-storage
     label: Auth Token Storage
     path: planning-mds/architecture/decisions/ADR-Auth-Token-Storage.md
@@ -1050,7 +1050,7 @@ config_keys:
       - workflow:submission
     source_docs:
       - planning-mds/architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md
-      - planning-mds/architecture/decisions/ADR-014-workflow-sla-threshold-per-lob-extension.md
+      - planning-mds/architecture/decisions/ADR-036-workflow-sla-threshold-per-lob-extension.md
 endpoints:
   - id: endpoint:account-contact-create
     label: POST /accounts/{accountId}/contacts
@@ -3628,14 +3628,14 @@ entities:
         section: Decision §2
         summary: Per-entity-type, per-status SLA thresholds enable aging band computation (on-time/approaching/overdue)
           for dashboard gauges.
-      - adr: adr:014-workflow-sla
+      - adr: adr:036
         section: Decision
         summary: Extended with LOB dimension so SLA targets vary by line of business rather than being
           entity-wide defaults.
     source_docs:
       - planning-mds/architecture/data-model.md
       - planning-mds/architecture/decisions/ADR-009-lob-classification-and-sla-configuration.md
-      - planning-mds/architecture/decisions/ADR-014-workflow-sla-threshold-per-lob-extension.md
+      - planning-mds/architecture/decisions/ADR-036-workflow-sla-threshold-per-lob-extension.md
   - id: entity:workflow-transition
     label: WorkflowTransition
     rationale:

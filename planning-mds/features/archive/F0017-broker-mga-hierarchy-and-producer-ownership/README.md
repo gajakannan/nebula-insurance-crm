@@ -32,8 +32,8 @@ Model broker, MGA, producer, and territory structure so ownership, reporting, an
 
 ## Architecture
 
-Governed by [ADR-026](../../architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md);
-entities detailed in [data-model.md §9](../../architecture/data-model.md). MVP =
+Governed by [ADR-026](../../../architecture/decisions/ADR-026-broker-mga-hierarchy-producer-ownership-and-territory.md);
+entities detailed in [data-model.md §9](../../../architecture/data-model.md). MVP =
 arbitrary-depth self-referencing hierarchy + effective-dated producer ownership +
 effective-dated territory + change audit. Enforcement + rollups deferred to F0037.
 

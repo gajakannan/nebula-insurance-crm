@@ -37,7 +37,7 @@ Track upcoming renewals with proactive workflow stages, ownership, and timing vi
 ## Architecture Specification (Phase B)
 
 **Architect Review Date:** 2026-03-26
-**ADRs:** ADR-010 (Temporal — Accepted), ADR-011 (State Machines — Accepted), ADR-014 (WorkflowSlaThreshold Per-LOB Extension — Accepted)
+**ADRs:** ADR-010 (Temporal — Accepted), ADR-011 (State Machines — Accepted), ADR-036 (WorkflowSlaThreshold Per-LOB Extension — Accepted)
 
 ### Feature ERD
 

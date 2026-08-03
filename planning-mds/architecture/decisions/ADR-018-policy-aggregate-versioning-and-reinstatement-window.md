@@ -4,7 +4,7 @@
 **Date:** 2026-04-18
 **Owners:** Architect
 **Related Features:** F0018 (owner), F0007 (archived consumer), F0016 (archived consumer), F0019 (future consumer), F0020 (future consumer), F0028 (future consumer)
-**Related ADRs:** ADR-008 (Casbin), ADR-009 (LOB/SLA), ADR-010 (Temporal), ADR-011 (Workflow State Machines), ADR-012 (Document subsystem), ADR-014-workflow-sla (per-LOB extension), ADR-017 (Account tombstone-forward)
+**Related ADRs:** ADR-008 (Casbin), ADR-009 (LOB/SLA), ADR-010 (Temporal), ADR-011 (Workflow State Machines), ADR-012 (Document subsystem), ADR-036-workflow-sla (per-LOB extension), ADR-017 (Account tombstone-forward)
 
 ## Context
 
@@ -13,7 +13,7 @@ F0018 introduces Policy as a first-class aggregate. Prior to F0018, `PolicyId` e
 Three design problems drive this ADR:
 
 1. **Aggregate shape.** Does the Policy live as a single mutable row, or as a parent row with immutable version snapshots for each lifecycle change? How is current-state query performance balanced against audit-replay requirements?
-2. **Cancellation → reinstatement window enforcement.** Cancellations must be reversible within an LOB-configurable grace period. Where does the window configuration live, how is it enforced server-side, and how does it integrate with existing ADR-009 / ADR-014-workflow-sla patterns?
+2. **Cancellation → reinstatement window enforcement.** Cancellations must be reversible within an LOB-configurable grace period. Where does the window configuration live, how is it enforced server-side, and how does it integrate with existing ADR-009 / ADR-036-workflow-sla patterns?
 3. **Lifecycle scheduling.** Expired transitions are time-driven, not actor-driven. Does this warrant a durable workflow (Temporal, per ADR-010), or is a simple scheduled sweep sufficient for MVP?
 
 Two additional constraints are load-bearing:
@@ -59,7 +59,7 @@ Every transition appends exactly one `WorkflowTransition` under `WorkflowType="P
 
 ### 3. Reinstatement Window — Extend `WorkflowSlaThreshold` Category
 
-Reuse the existing `WorkflowSlaThreshold` pattern (ADR-009 + ADR-014-workflow-sla) with a new category for policy reinstatement windows. No new table.
+Reuse the existing `WorkflowSlaThreshold` pattern (ADR-009 + ADR-036-workflow-sla) with a new category for policy reinstatement windows. No new table.
 
 - New `WorkflowSlaThreshold` category: `PolicyReinstatementWindow`.
 - Per-LOB seed rows (Property 30, GeneralLiability 30, WorkersCompensation 60, ProfessionalLiability 30, Cyber 15, Default 30) loaded by the F0018 migration seed script.
@@ -67,7 +67,7 @@ Reuse the existing `WorkflowSlaThreshold` pattern (ADR-009 + ADR-014-workflow-sl
 - At reinstatement time, the window is re-verified server-side (`today ≤ ReinstatementDeadline`). The client countdown is strictly advisory.
 - The window configuration is operator-editable post-go-live via F0032 (Admin Configuration Console); MVP ships with defaults.
 
-**Alternative rejected:** a dedicated `PolicyReinstatementWindow` entity. Rejected because `WorkflowSlaThreshold` already has per-LOB shape (ADR-014-workflow-sla) and admin tooling in flight; a parallel table would fragment SLA/window configuration across two places.
+**Alternative rejected:** a dedicated `PolicyReinstatementWindow` entity. Rejected because `WorkflowSlaThreshold` already has per-LOB shape (ADR-036-workflow-sla) and admin tooling in flight; a parallel table would fragment SLA/window configuration across two places.
 
 ### 4. Expiration Scheduling — Scheduled Job in MVP, Temporal in Follow-Up
 
@@ -175,7 +175,7 @@ Rejected because the investment cost is large for a feature that needs to ship i
 Separate table for reinstatement windows.
 
 - **Pros:** Clear naming; no overloading of `WorkflowSlaThreshold`.
-- **Cons:** Fragments SLA/window configuration across two tables; duplicates admin-editing tooling; conflicts with the trajectory of ADR-014-workflow-sla.
+- **Cons:** Fragments SLA/window configuration across two tables; duplicates admin-editing tooling; conflicts with the trajectory of ADR-036-workflow-sla.
 
 Rejected as described in §3.
 
@@ -209,7 +209,7 @@ Rejected for MVP; named explicitly as a follow-up migration.
 - [ADR-010 Temporal Durable Workflow Orchestration](./ADR-010-temporal-durable-workflow-orchestration.md) — targeted follow-up for expiration job migration.
 - [ADR-011 CRM Workflow State Machines and Transition History](./ADR-011-crm-workflow-state-machines-and-transition-history.md) — workflow + transition + timeline pattern reused.
 - [ADR-012 Shared Document Storage](./ADR-012-shared-document-storage-and-metadata-architecture.md) — Policy 360 documents rail delegates to F0020.
-- [ADR-014 Workflow SLA Threshold Per-LOB Extension](./ADR-014-workflow-sla-threshold-per-lob-extension.md) — per-LOB window storage mechanism reused.
+- [ADR-036 Workflow SLA Threshold Per-LOB Extension](./ADR-036-workflow-sla-threshold-per-lob-extension.md) — per-LOB window storage mechanism reused.
 - [ADR-017 Account Merge Tombstone and Fallback Contract](./ADR-017-account-merge-tombstone-and-fallback-contract.md) — consumed on policy denormalization.
 
 ## Related Features

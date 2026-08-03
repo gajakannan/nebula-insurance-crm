@@ -115,22 +115,22 @@ applies_to: product-manager
 
 ## Architecture Traceability
 
-**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../architecture/feature-architecture-traceability-taxonomy.md)
+**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../../architecture/feature-architecture-traceability-taxonomy.md)
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
-| Introduces: Cross-Cutting Component | Queue management, routing, reassignment, and coverage engine | [ADR-013](../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md) (Accepted) |
-| Introduces/Standardizes: Cross-Cutting Pattern | Deterministic rule evaluation and auditable assignment decisions | [ADR-013](../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md) (Accepted) |
-| Extends: Cross-Cutting Component | Runtime rule administration is expected to flow through published operational configuration | [ADR-016](../../architecture/decisions/ADR-016-published-operational-configuration-governance.md) (Proposed) |
+| Introduces: Cross-Cutting Component | Queue management, routing, reassignment, and coverage engine | [ADR-013](../../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md) (Accepted) |
+| Introduces/Standardizes: Cross-Cutting Pattern | Deterministic rule evaluation and auditable assignment decisions | [ADR-013](../../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md) (Accepted) |
+| Extends: Cross-Cutting Component | Runtime rule administration is expected to flow through published operational configuration | [ADR-016](../../../architecture/decisions/ADR-016-published-operational-configuration-governance.md) (Proposed) |
 
 ## Architecture Deliverables
 
 | Artifact | Purpose |
 |----------|---------|
-| [ADR-013](../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md) | Accepted routing/queue engine decision and F0022 execution contract |
-| [data-model.md](../../architecture/data-model.md#18-work-queues-assignment-rules-and-coverage-f0022) | WorkQueue, AssignmentRule, CoverageWindow, QueueWorkItem, and RoutingDecisionLog entities |
+| [ADR-013](../../../architecture/decisions/ADR-013-operational-routing-and-queue-engine.md) | Accepted routing/queue engine decision and F0022 execution contract |
+| [data-model.md](../../../architecture/data-model.md#18-work-queues-assignment-rules-and-coverage-f0022) | WorkQueue, AssignmentRule, CoverageWindow, QueueWorkItem, and RoutingDecisionLog entities |
 | [nebula-api.yaml](../../api/nebula-api.yaml) | WorkQueues OpenAPI endpoints for queue/rule/coverage/worklist/reassignment/rebalance/audit |
-| [authorization-matrix.md](../../security/authorization-matrix.md#26c-work-queues-and-operational-routing-f0022) | Queue read/manage/assign role decisions and source-record ABAC constraints |
+| [authorization-matrix.md](../../../security/authorization-matrix.md#26c-work-queues-and-operational-routing-f0022) | Queue read/manage/assign role decisions and source-record ABAC constraints |
 | [schemas/](../../schemas/) | Shared JSON Schemas for F0022 queue/routing payloads |
 
 ## Related User Stories

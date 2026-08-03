@@ -522,7 +522,7 @@ Applies to the F0007 Renewal Pipeline endpoints: `GET /renewals`, `POST /renewal
 - Assignment of a terminal-state renewal (`Completed`, `Lost`) returns HTTP 409 with code `assignment_not_allowed_in_terminal_state`.
 - State-changing mutations (`PUT /renewals/{renewalId}/lob-attributes`, `POST /renewals/{renewalId}/transitions`, `PUT /renewals/{renewalId}/assignment`) require `If-Match` and return HTTP 412 `precondition_failed` on stale rowVersion values. (API Guidelines + F0007 architecture)
 - Every successful transition appends a `WorkflowTransition` and `ActivityTimelineEvent` record. Assignment changes append an `ActivityTimelineEvent`. (BLUEPRINT §4.3)
-- Per-LOB timing windows (`WorkflowSlaThreshold` keyed on `LineOfBusiness`) drive overdue/approaching computation; defaults are used when no LOB-specific row exists. (ADR-009, ADR-014)
+- Per-LOB timing windows (`WorkflowSlaThreshold` keyed on `LineOfBusiness`) drive overdue/approaching computation; defaults are used when no LOB-specific row exists. (ADR-009, ADR-036)
 
 ---
 

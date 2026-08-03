@@ -270,12 +270,12 @@ Note: rows in `quarantine` show a ⏳ scanning… badge instead of action button
 
 ## Architecture Traceability
 
-**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../architecture/feature-architecture-traceability-taxonomy.md)
+**Taxonomy Reference:** [Feature Architecture Traceability Taxonomy](../../../architecture/feature-architecture-traceability-taxonomy.md)
 
 | Classification | Artifact / Decision | ADR |
 |----------------|---------------------|-----|
-| Introduces: Cross-Cutting Component | Shared document storage subsystem with sidecar-JSON metadata, colocated versioning, and reserved `configuration/` folder | [ADR-012](../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) (Proposed → must be finalized in Phase B) |
-| Introduces/Standardizes: Cross-Cutting Pattern | Quarantine-then-promote ingest pattern; classification-tiered access layered on parent ABAC | [ADR-012](../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) (Proposed) |
+| Introduces: Cross-Cutting Component | Shared document storage subsystem with sidecar-JSON metadata, colocated versioning, and reserved `configuration/` folder | [ADR-012](../../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) (Proposed → must be finalized in Phase B) |
+| Introduces/Standardizes: Cross-Cutting Pattern | Quarantine-then-promote ingest pattern; classification-tiered access layered on parent ABAC | [ADR-012](../../../architecture/decisions/ADR-012-shared-document-storage-and-metadata-architecture.md) (Proposed) |
 | Reuses: Established Component/Pattern | Append-only audit and timeline behaviour for document actions | PRD only |
 | Reuses: Established Component/Pattern | Casbin ABAC for document operations enriched with classification rule set | Architect to confirm in Phase B |
 

@@ -32,7 +32,7 @@ Provide broker performance, relationship, and production insights so distributio
 
 ## Architecture
 
-- Decision: [ADR-031 Broker Insights Read Models and Permission-Safe Analytics](../../architecture/decisions/ADR-031-broker-insights-read-models.md)
+- Decision: [ADR-031 Broker Insights Read Models and Permission-Safe Analytics](../../../architecture/decisions/ADR-031-broker-insights-read-models.md)
 - API: `planning-mds/api/nebula-api.yaml` (`BrokerInsights` tag)
 - Schemas: `planning-mds/schemas/broker-insight-*.schema.json`
 - Data model: `planning-mds/architecture/data-model.md` §12

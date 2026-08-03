@@ -35,7 +35,7 @@ to reflect the re-derived scope.
 | [STATUS.md](./STATUS.md) | Planning tracker, required-signoff matrix, provenance |
 | [GETTING-STARTED.md](./GETTING-STARTED.md) | Setup + how to verify |
 
-Epic intake: [`../F0038-neuron-day-at-a-glance-shell/intake-brief.md`](../F0038-neuron-day-at-a-glance-shell/intake-brief.md).
+Epic intake: [`intake-brief.md`](../F0038-neuron-day-at-a-glance-shell/intake-brief.md).
 
 ## Stories
 
