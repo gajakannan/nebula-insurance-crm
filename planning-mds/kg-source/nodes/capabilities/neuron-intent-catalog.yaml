@@ -5,10 +5,14 @@ notes: 'Code-reviewed intent-catalog.yaml (active domains/actions -> registered 
   JSON schemas + deterministic invariants. Invalid catalog/prompt/schema prevents readiness. The observed
   redirect+renewals.list_attention and invented show_renewals_needing_attention are regression fixtures.
 
+  F0040 activates only broker_activity.list and adds fixtures that reject broker writes, filters, unknown
+  actions, and cross-domain proposals without invoking an engine tool.
+
   '
 source_docs:
   - F0039/F0039-S0005-catalog-prompt-registry-resolution-contract.md
   - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
+  - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
   - planning-mds/schemas/neuron-scope-decision.schema.json
   - planning-mds/schemas/neuron-intent-decision.schema.json
   - planning-mds/schemas/neuron-intent-resolution.schema.json

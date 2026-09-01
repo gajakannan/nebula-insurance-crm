@@ -5832,7 +5832,10 @@ paths:
       description: |
         Returns recent ActivityTimelineEvents filtered by entity type.
         Used by the Broker Activity Feed dashboard widget and by entity 360 views.
-        All results are ABAC-scoped.
+        All results are ABAC-scoped. Internal Broker queries apply the caller's
+        distribution/broker visibility before counts, ordering, and pagination and
+        resolve entityName from Broker. F0040 Neuron calls this same endpoint with
+        internalOnly=true; BrokerUser/external principals are denied on that branch.
       tags: [Timeline]
       parameters:
         - name: entityType
@@ -5875,6 +5878,17 @@ paths:
             minimum: 1
             maximum: 100
             default: 20
+        - name: internalOnly
+          in: query
+          required: false
+          description: >
+            F0040 internal companion guard. Valid only with entityType=Broker.
+            When true, BrokerUser/external principals receive 403; eligible internal
+            users still require timeline_event:read and receive only query-scoped
+            broker events. Omit for the existing BrokerUser-safe timeline path.
+          schema:
+            type: boolean
+            default: false
       responses:
         "200":
           description: Paginated timeline events
@@ -10728,7 +10742,7 @@ components:
           example: New broker added by Sarah Chen
         entityName:
           type: string
-          description: Resolved name of the related entity.
+          description: Resolved name of the related entity. Required and non-null for the F0040 internal Broker activity projection.
           example: Pacific Reinsurance
         actorDisplayName:
           type: string

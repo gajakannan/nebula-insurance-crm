@@ -113,6 +113,9 @@ adrs:
   - id: adr:036
     label: Workflow SLA Threshold Per-LOB Extension
     path: planning-mds/architecture/decisions/ADR-036-workflow-sla-threshold-per-lob-extension.md
+  - id: adr:037
+    label: Neuron Second Specialist Head Contract and Broker Activity Read Boundary
+    path: planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
   - id: adr:auth-token-storage
     label: Auth Token Storage
     path: planning-mds/architecture/decisions/ADR-Auth-Token-Storage.md
@@ -300,6 +303,8 @@ capabilities:
   - id: capability:dashboard-broker-activity-feed
     label: Dashboard Broker Activity Feed
     source_docs:
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
+      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
       - planning-mds/features/archive/F0001-dashboard/README.md
   - id: capability:dashboard-home
     label: Dashboard Home
@@ -469,6 +474,25 @@ capabilities:
       - capability:validator-equivalence
     source_docs:
       - planning-mds/architecture/decisions/ADR-023-rules-governance-jsonlogic.md
+  - id: capability:neuron-broker-activity-head
+    label: Live Neuron Broker Activity Specialist Head
+    notes: F0040 second live head. Glance and trusted broker_activity.list conversation routing share
+      one read-only adapter over GET /timeline/events with entityType=Broker, page 1, pageSize 20, and
+      the internal-only principal guard. Engine applies canonical broker visibility before counts/order/limit
+      and returns stored descriptions, Broker name, actor fallback, and occurrence time. Emits only the
+      registered broker_activity.recent_list component; no broker write, filtering, summary, or cross-zone
+      composition.
+    rationale:
+      - adr: adr:037
+        section: Decision §1–§4
+        summary: Reuse and repair the established timeline endpoint, validate the second live head through
+          the shared executor/registries, and keep message envelope v1 replay-compatible.
+    source_docs:
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
+      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
+      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0002-conversational-broker-activity-routing.md
+      - planning-mds/features/F0040-neuron-second-specialist-head/feature-assembly-plan.md
+      - planning-mds/schemas/neuron-broker-activity-list.schema.json
   - id: capability:neuron-companion
     label: Neuron Companion
     notes: 'In-CRM conversational companion (stateless Python/FastAPI, secondary interface). Umbrella
@@ -487,12 +511,14 @@ capabilities:
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/README.md
   - id: capability:neuron-companion-telemetry
     label: Neuron Companion Telemetry
-    notes: 'Establishes the baseline needs-attention→draft-ready duration plus a minimal secondary v1
-      set (DAU, %-actioned, drafts/mock-sent). Fire-and-forget to Serilog; PII-minimized (correlation
-      ids + metric fields only).
+    notes: 'Establishes the baseline needs-attention→draft-ready duration plus adoption signals and F0040
+      specialist-head outcome/latency by glance/conversation entry point. Fire-and-forget to Serilog;
+      PII-minimized correlation ids + metric fields only, with no user/event/prompt/component content.
 
       '
     source_docs:
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
+      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md
       - planning-mds/schemas/neuron-companion-telemetry-event.schema.json
   - id: capability:neuron-conversation-store
@@ -516,10 +542,13 @@ capabilities:
   - id: capability:neuron-day-at-a-glance-shell
     label: Day-at-a-Glance Multi-Zone Shell
     notes: 'Multi-zone frame; assembly, not composition (no cross-zone ranking — that is the deferred
-      Day-at-a-Glance brain). Renewals live, three inert stubs.
+      Day-at-a-Glance brain). F0040 has two independent live heads (Renewals and Broker activity); Tasks
+      and Pipeline remain inert.
 
       '
     source_docs:
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
+      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/README.md
   - id: capability:neuron-intent-adjudicator
@@ -540,9 +569,13 @@ capabilities:
       JSON schemas + deterministic invariants. Invalid catalog/prompt/schema prevents readiness. The observed
       redirect+renewals.list_attention and invented show_renewals_needing_attention are regression fixtures.
 
+      F0040 activates only broker_activity.list and adds fixtures that reject broker writes, filters,
+      unknown actions, and cross-domain proposals without invoking an engine tool.
+
       '
     source_docs:
       - planning-mds/architecture/decisions/ADR-035-neuron-durable-conversations-and-phi-intent-resolution.md
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
       - planning-mds/features/archive/F0039-neuron-multi-thread-conversations/F0039-S0005-catalog-prompt-registry-resolution-contract.md
       - planning-mds/schemas/neuron-intent-decision.schema.json
       - planning-mds/schemas/neuron-intent-resolution.schema.json
@@ -611,9 +644,10 @@ capabilities:
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md
   - id: capability:neuron-orchestration-runtime
     label: Neuron Orchestration Runtime (bootstrap, registries, YAML plans, A2A profile)
-    notes: 'First runnable stateless runtime: specialist-head registry, tool registry, versioned YAML
-      orchestration assets (schema-validated, fail-fast on unknown head/tool or missing terminal state),
-      private Agent Card registry, A2A task trace. Heads live under neuron/crm_agents/.
+    notes: 'Stateless runtime: specialist-head/tool/component registries, versioned YAML orchestration
+      assets, private Agent Cards, and A2A task trace. F0040 makes an active head fail-fast unless its
+      explicit handler, tools, components, output modes, skill, and plan timeout resolve and agree; inactive
+      heads remain tool-free.
 
       '
     rationale:
@@ -624,6 +658,7 @@ capabilities:
           or the asset is refused.
     source_docs:
       - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0001-neuron-service-bootstrap.md
       - planning-mds/schemas/neuron-agent-card.schema.json
       - planning-mds/schemas/neuron-orchestration-plan.schema.json
@@ -646,12 +681,14 @@ capabilities:
       - planning-mds/schemas/renewal-outreach-mock-send-request.schema.json
   - id: capability:neuron-renewals-head
     label: Live Renewals Specialist Head
-    notes: 'The one live zone in F0038. Reads renewals needing attention (Identified/ Outreach within
-      90d of expiry, urgency-ordered, no-contact-30d flag) and per-renewal drill context, permission-respecting
-      via the engine.
+    notes: 'The first live zone from F0038 and one of two live F0040 heads. Reads renewals needing attention
+      (Identified/ Outreach within 90d of expiry, urgency-ordered, no-contact-30d flag) and per-renewal
+      drill context, permission-respecting via the engine.
 
       '
     source_docs:
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
+      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0003-live-renewals-zone-read.md
       - planning-mds/schemas/renewal-needs-attention-item.schema.json
   - id: capability:neuron-scope-guard
@@ -694,11 +731,15 @@ capabilities:
   - id: capability:neuron-zone-dispatch
     label: Zone-Dispatch (multi-head extension point)
     notes: 'Orchestrator enumerates registered specialist heads and dispatches per zone; live heads return
-      content, stubs return a typed inactive payload. This is the F0040 extension point ("flip a stub
-      to live"). Head contract is thin and provisional — do not gold-plate (a stub agrees with anything).
+      independently validated content/empty/error and stubs return typed inactive. F0040 hardens the first
+      two-consumer contract: explicit handler factory, card/plan tool-component-timeout parity, shared
+      run lifecycle, per-head failure isolation, and fail-fast readiness. Assembly never reads or ranks
+      another zone.
 
       '
     source_docs:
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
+      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0004-stub-zones-inactive-payload.md
       - planning-mds/schemas/neuron-zone-payload.schema.json
@@ -1966,22 +2007,26 @@ endpoints:
     label: GET /v1/glance (Neuron service)
     method: GET
     related_nodes:
+      - capability:neuron-broker-activity-head
       - capability:neuron-day-at-a-glance-shell
       - capability:neuron-zone-dispatch
     route: /v1/glance
     source_docs:
       - planning-mds/api/neuron-api.yaml
       - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
   - id: endpoint:neuron-message-send
     label: POST /v1/messages (Neuron service)
     method: POST
     related_nodes:
+      - capability:neuron-broker-activity-head
       - capability:neuron-message-envelope
       - capability:neuron-scope-guard
     route: /v1/messages
     source_docs:
       - planning-mds/api/neuron-api.yaml
       - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
   - id: endpoint:neuron-thread-create
     label: POST /v1/threads (Neuron service)
     method: POST
@@ -2785,12 +2830,18 @@ endpoints:
     method: GET
     related_nodes:
       - capability:authorization-enforcement
+      - capability:dashboard-broker-activity-feed
+      - capability:neuron-broker-activity-head
       - entity:activity-timeline-event
+      - entity:broker
       - policy_rule:timeline-event-read
     route: /timeline/events
     source_docs:
       - planning-mds/api/nebula-api.yaml
-      - planning-mds/features/archive/F0007-renewal-pipeline/F0007-S0007-renewal-activity-timeline-and-audit-trail.md
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
+      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
+      - planning-mds/features/archive/F0001-dashboard/F0001-S0004-view-broker-activity-feed.md
+      - planning-mds/features/archive/F0002-broker-relationship-management/F0002-S0007-view-broker-activity-timeline.md
   - id: endpoint:work-queue-create
     label: POST /work-queues
     method: POST
@@ -3798,9 +3849,16 @@ events:
         summary: 'Reuses the F0035 SessionTelemetry fire-and-forget-to-Serilog ingest pattern; needs-attention-surfaced/draft-ready
           bracket the baseline metric, plus the minimal secondary set. PII boundary: correlation ids +
           metric fields only.'
+      - adr: adr:037
+        section: Decision §5
+        summary: Adds a generic specialist-head outcome/latency signal by glance/conversation entry point,
+          with correlation ids and bounded metric fields only; raw user/event/component/prompt content
+          is forbidden.
     related_nodes:
       - capability:neuron-companion-telemetry
     source_docs:
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
+      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md
       - planning-mds/schemas/neuron-companion-telemetry-event.schema.json
   - id: event:payment-receipt-import-completed
@@ -7009,6 +7067,11 @@ schemas:
     path: planning-mds/schemas/neuron-agent-card.schema.json
     related_nodes:
       - capability:neuron-orchestration-runtime
+  - id: schema:neuron-broker-activity-list
+    path: planning-mds/schemas/neuron-broker-activity-list.schema.json
+    related_nodes:
+      - capability:dashboard-broker-activity-feed
+      - capability:neuron-broker-activity-head
   - id: schema:neuron-companion-telemetry-event
     path: planning-mds/schemas/neuron-companion-telemetry-event.schema.json
     related_nodes:

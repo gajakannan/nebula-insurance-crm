@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://nebula.local/schemas/neuron-zone-payload.schema.json",
   "title": "NeuronZonePayload",
-  "description": "Result of dispatching the Day-at-a-Glance orchestrator to one registered specialist head (F0038-S0002 zone-dispatch). A live head (Renewals) returns zone_status 'content' with an app-part component; stub heads (Tasks, Pipeline, Broker activity) return zone_status 'inactive' with no business data (F0038-S0004). This is assembly, not composition: a payload never reads or ranks another zone. The 'inactive' branch is the F0040 extension point that flips a stub to live. The head contract is intentionally thin and provisional (intake guardrail) — do not gold-plate.",
+  "description": "Result of dispatching the Day-at-a-Glance orchestrator to one registered specialist head. F0040 has two live heads (Renewals and Broker activity) returning content/empty/error and two inert heads (Tasks and Pipeline) returning inactive with no business data. This is assembly, not composition: a payload never reads or ranks another zone. The public shape remains replay-compatible with stored F0038/F0039 envelopes; ADR-037 hardens handler/tool/component/timeout validation around it without changing the shape.",
   "type": "object",
   "required": ["zone_id", "zone_status"],
   "additionalProperties": false,
@@ -24,7 +24,7 @@
     },
     "props": {
       "type": "object",
-      "description": "Validated props for the component (required when zone_status = content). For the Renewals zone this carries the needs-attention list items."
+      "description": "Validated props for the registered component (required when zone_status = content), such as Renewals needs-attention items or F0040 Broker activity events."
     },
     "detail": {
       "type": "string",
@@ -40,7 +40,7 @@
       "if": { "properties": { "zone_status": { "const": "inactive" } } },
       "then": {
         "not": { "required": ["component"] },
-        "description": "Stub payload carries no component/props and no business data — a stub agrees with anything and does not validate the head API."
+        "description": "Inactive Tasks/Pipeline payloads carry no component/props and no business data."
       }
     }
   ]

@@ -98,10 +98,16 @@ events:
         summary: 'Reuses the F0035 SessionTelemetry fire-and-forget-to-Serilog ingest pattern; needs-attention-surfaced/draft-ready
           bracket the baseline metric, plus the minimal secondary set. PII boundary: correlation ids +
           metric fields only.'
+      - adr: adr:037
+        section: Decision §5
+        summary: Adds a generic specialist-head outcome/latency signal by glance/conversation entry point,
+          with correlation ids and bounded metric fields only; raw user/event/component/prompt content is forbidden.
     related_nodes:
       - capability:neuron-companion-telemetry
     source_docs:
       - F0038/F0038-S0008-companion-telemetry-instrumentation.md
+      - F0040/F0040-S0003-two-live-head-platform-hardening.md
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
       - planning-mds/schemas/neuron-companion-telemetry-event.schema.json
   - id: event:renewal-outreach-drafted
     label: RenewalOutreachDrafted

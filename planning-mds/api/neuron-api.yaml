@@ -10,8 +10,9 @@ info:
     store (threads, messages, message parts, agent runs, tool calls, provenance).
 
     Governed by ADR-027 (A2A-aligned orchestration), ADR-028 (persistence
-    schema, cross-store write consistency, outreach authorization), and ADR-035
-    (F0039 durable conversations + local Phi structured intent resolution).
+    schema, cross-store write consistency, outreach authorization), ADR-035
+    (F0039 durable conversations + local Phi structured intent resolution), and
+    ADR-037 (F0040 second-live-head contract and Broker activity read boundary).
     Responses use the versioned multi-part message envelope
     (schemas/neuron-message-envelope.schema.json); the React host renders only
     registered components from validated props — Neuron never returns executable
@@ -25,6 +26,8 @@ info:
     response. The intent resolver behind POST /v1/messages is a local Phi
     structured scope-and-intent classifier whose output is deterministically
     schema/registry-validated and fails closed; it never grants authorization.
+    F0040 activates Broker activity as the second live head and adds no public
+    endpoint or message-envelope version.
 servers:
   - url: https://neuron.nebula.local
 security:
@@ -42,9 +45,9 @@ paths:
       operationId: assembleDayAtAGlance
       summary: Assemble the Day-at-a-Glance shell via zone-dispatch
       description: >
-        Enumerates registered specialist heads and dispatches per zone
-        (F0038-S0002). The Renewals head returns content; stub heads (Tasks,
-        Pipeline, Broker activity) return a typed inactive payload (F0038-S0004).
+        Enumerates registered specialist heads and dispatches per zone.
+        Renewals and Broker activity are live in F0040; Tasks and Pipeline return
+        typed inactive payloads. Each live head is timeout-bounded and isolated.
         Assembly, not composition — no zone reads or ranks another zone.
         Permission-respecting: each zone's data is fetched from the engine with
         the forwarded user token.
@@ -81,12 +84,14 @@ paths:
       operationId: sendCompanionMessage
       summary: Send a chat message to the companion
       description: >
-        Scope guard + intent classifier first (F0038-S0007): CRM intents route to
+        Scope guard + intent classifier first: CRM intents route to
         the matching head; non-CRM intents return a polite CRM redirect (text
         part), never a general-assistant answer. In-scope intents may return text,
         an app component, status, sources, and registered actions (e.g. a
         proactive "Draft outreach" CTA). Drafts are generated only on an explicit
-        action callback, never here.
+        action callback, never here. F0040 activates the read-only
+        broker_activity.list action; unsupported Broker filters or writes invoke
+        no engine tool.
       tags: [Companion]
       requestBody:
         required: true

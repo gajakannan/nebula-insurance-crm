@@ -31,7 +31,7 @@ This document is the working prioritization view for feature sequencing.
 | Feature | Phase | Why Next |
 |---------|-------|----------|
 | [F0031 — Data Import, Deduplication & Go-Live Migration](./F0031-data-import-deduplication-and-go-live-migration/README.md) | Release Enablement | Required for production rollout and should start early enough to validate migration paths against the completed broker/account foundations while later workflow modules continue maturing. |
-| [F0040 — Neuron Second Specialist Head](./F0040-neuron-second-specialist-head/README.md) | Neuron Companion | Flips a second zone (Accounts/Brokers) from stub to live and hardens the head/orchestrator/registry platform on the first real second consumer. **Provisional skeleton** — re-derived in its own `plan` run after F0038 lands. Depends on F0038's zone-dispatch contract. |
+| [F0040 — Neuron Second Specialist Head — Broker Activity](./F0040-neuron-second-specialist-head/README.md) | Neuron Companion | Activates the existing Broker activity stub as Neuron's second live specialist head. Glance and direct broker_activity.list share the established newest-20 authorized Broker timeline feed, while the first two-consumer head executor hardens handler/tool/component/timeout validation, failure isolation, durable replay, and PII-minimized telemetry. No broker write or cross-zone composition. |
 <!-- generated:end roadmap:next -->
 
 ## Later

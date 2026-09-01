@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://nebula.local/schemas/neuron-agent-card.schema.json",
   "title": "NeuronAgentCard",
-  "description": "Private/internal A2A-shaped capability manifest ('Agent Card') for a Neuron orchestrator, scope guard, intent classifier, specialist head, or goal agent (ADR-027 §4, F0038-S0001). F0038 stores these as versioned, code-reviewed source assets under neuron/crm_agents/; they are NOT database authoring rows (ADR-027 §9). agent_runs/provenance persist only a reference (id + version + content_hash). Public Agent Card discovery and external federation are deferred (no public surface in F0038).",
+  "description": "Private/internal A2A-shaped capability manifest ('Agent Card') for a Neuron orchestrator, scope guard, intent classifier, specialist head, or goal agent (ADR-027 §4, F0038-S0001; hardened for a second live head by ADR-037). These are versioned, code-reviewed source assets under neuron/crm_agents/; they are NOT database authoring rows (ADR-027 §9). agent_runs/provenance persist only a reference (id + version + content_hash). Public Agent Card discovery and external federation are deferred.",
   "type": "object",
   "required": ["card_id", "card_version", "kind", "name", "accepted_output_modes"],
   "additionalProperties": false,
@@ -52,6 +52,12 @@
       "type": "array",
       "description": "Registered tool/MCP names this agent may invoke. Every name must resolve in the tool registry (F0038-S0001).",
       "items": { "type": "string" }
+    },
+    "components": {
+      "type": "array",
+      "description": "Registered component ids this agent may emit. F0040 requires every active specialist head component to resolve at startup and validates emitted props against the component contract.",
+      "items": { "type": "string" },
+      "uniqueItems": true
     },
     "auth_mode": {
       "type": "string",

@@ -1,8 +1,8 @@
 id: capability:neuron-orchestration-runtime
 label: Neuron Orchestration Runtime (bootstrap, registries, YAML plans, A2A profile)
-notes: 'First runnable stateless runtime: specialist-head registry, tool registry, versioned YAML orchestration
-  assets (schema-validated, fail-fast on unknown head/tool or missing terminal state), private Agent Card
-  registry, A2A task trace. Heads live under neuron/crm_agents/.
+notes: 'Stateless runtime: specialist-head/tool/component registries, versioned YAML orchestration assets,
+  private Agent Cards, and A2A task trace. F0040 makes an active head fail-fast unless its explicit handler,
+  tools, components, output modes, skill, and plan timeout resolve and agree; inactive heads remain tool-free.
 
   '
 rationale:
@@ -14,5 +14,6 @@ rationale:
 source_docs:
   - F0038/F0038-S0001-neuron-service-bootstrap.md
   - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
+  - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
   - planning-mds/schemas/neuron-agent-card.schema.json
   - planning-mds/schemas/neuron-orchestration-plan.schema.json

@@ -2389,6 +2389,39 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 4. Frontend Day-at-a-Glance shell + zone slots + registry renderer + draft editor + mock-send.
 5. QE cross-tier E2E + coverage + security scans; DevOps new `neuron` service runtime + deployability.
 
+---
+
+## F0040 - Neuron Second Specialist Head (Broker Activity)
+
+**Added:** 2026-08-31 - Phase B architecture approved during plan run `2026-08-30-af27c9c1`. Governed by accepted ADR-037 on top of ADR-027/028/035.
+
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0040-neuron-second-specialist-head/feature-assembly-plan.md) - existing timeline-endpoint scope repair, Broker activity tool/head/component, one shared fail-fast head executor for glance and conversation, trusted catalog activation, durable replay, telemetry minimization, cross-tier tests, rollback, and KG bindings.
+
+### Dependencies
+
+| Dependency | Source | What F0040 Needs | Status |
+|------------|--------|------------------|--------|
+| Broker activity feed + timeline DTO | F0001-S0004 / F0002-S0007 | Newest-20 behavior, stored descriptions, Broker 360 navigation | Done; internal query conformance repair required |
+| Neuron shell + first live head | F0038 | Cards/plans/tools, zone/message contracts, Renewals regression baseline | Done |
+| Durable conversations + trusted resolver | F0039 / ADR-035 | Persist-first messages, replay, catalog validation, shadow/direct modes | Done |
+| Distribution authority scope | F0037 / `IDistributionScopeService` | Query-time authorized Broker id set | Done |
+
+### Assembly Slice Order
+
+1. Secure and complete the existing internal Broker timeline projection; no new endpoint or policy.
+2. Harden the shared head/card/plan/component/timeout contract and extract `HeadExecutor`.
+3. Activate the Broker tool/head/catalog route and add PII-minimized outcome telemetry/evals.
+4. Register the Broker list UI and share the existing timeline presentation/navigation.
+5. Run role-scope, replay, two-way failure, performance, accessibility, and security evidence.
+
+### Architecture Notes
+
+- Message envelope version 1 and zone payload shape remain replay-compatible.
+- BrokerUser's existing broker-safe timeline branch remains unchanged; Neuron uses the
+  same route with an internal-only guard and receives no external-user fallback data.
+- Backend, Frontend, AI, QE, Security, Code Review, and Architect roles are required.
+  DevOps is not required because no migration/runtime/env/deployment contract changes.
+
 ## F0028 - Carrier & Market Relationship Management
 
 **Added:** 2026-07-02 - Feature action Step 0 (run `2026-07-02-736e7854`) created the feature-local implementation execution plan after Phase B approval.

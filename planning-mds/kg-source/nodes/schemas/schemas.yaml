@@ -390,6 +390,11 @@ schemas:
     path: planning-mds/schemas/neuron-agent-card.schema.json
     related_nodes:
       - capability:neuron-orchestration-runtime
+  - id: schema:neuron-broker-activity-list
+    path: planning-mds/schemas/neuron-broker-activity-list.schema.json
+    related_nodes:
+      - capability:dashboard-broker-activity-feed
+      - capability:neuron-broker-activity-head
   - id: schema:neuron-companion-telemetry-event
     path: planning-mds/schemas/neuron-companion-telemetry-event.schema.json
     related_nodes:
