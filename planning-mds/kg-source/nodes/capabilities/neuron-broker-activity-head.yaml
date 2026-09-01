@@ -1,0 +1,18 @@
+id: capability:neuron-broker-activity-head
+label: Live Neuron Broker Activity Specialist Head
+notes: 'F0040 second live head. Glance and trusted broker_activity.list conversation routing share one
+  read-only adapter over GET /timeline/events with entityType=Broker, page 1, pageSize 20, and the
+  internal-only principal guard. Engine applies canonical broker visibility before counts/order/limit and
+  returns stored descriptions, Broker name, actor fallback, and occurrence time. Emits only the registered
+  broker_activity.recent_list component; no broker write, filtering, summary, or cross-zone composition.'
+rationale:
+  - adr: adr:037
+    section: Decision §1–§4
+    summary: Reuse and repair the established timeline endpoint, validate the second live head through the
+      shared executor/registries, and keep message envelope v1 replay-compatible.
+source_docs:
+  - F0040/F0040-S0001-live-broker-activity-zone.md
+  - F0040/F0040-S0002-conversational-broker-activity-routing.md
+  - F0040/feature-assembly-plan.md
+  - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
+  - planning-mds/schemas/neuron-broker-activity-list.schema.json

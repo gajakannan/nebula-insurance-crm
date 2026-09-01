@@ -1,10 +1,12 @@
 id: capability:neuron-renewals-head
 label: Live Renewals Specialist Head
-notes: 'The one live zone in F0038. Reads renewals needing attention (Identified/ Outreach within 90d
+notes: 'The first live zone from F0038 and one of two live F0040 heads. Reads renewals needing attention (Identified/ Outreach within 90d
   of expiry, urgency-ordered, no-contact-30d flag) and per-renewal drill context, permission-respecting
   via the engine.
 
   '
 source_docs:
   - F0038/F0038-S0003-live-renewals-zone-read.md
+  - F0040/F0040-S0003-two-live-head-platform-hardening.md
+  - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
   - planning-mds/schemas/renewal-needs-attention-item.schema.json

@@ -917,22 +917,26 @@ endpoints:
     label: GET /v1/glance (Neuron service)
     method: GET
     related_nodes:
+      - capability:neuron-broker-activity-head
       - capability:neuron-day-at-a-glance-shell
       - capability:neuron-zone-dispatch
     route: /v1/glance
     source_docs:
       - planning-mds/api/neuron-api.yaml
       - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
   - id: endpoint:neuron-message-send
     label: POST /v1/messages (Neuron service)
     method: POST
     related_nodes:
+      - capability:neuron-broker-activity-head
       - capability:neuron-message-envelope
       - capability:neuron-scope-guard
     route: /v1/messages
     source_docs:
       - planning-mds/api/neuron-api.yaml
       - planning-mds/architecture/decisions/ADR-027-neuron-companion-a2a-orchestration.md
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
   - id: endpoint:operational-workload-report
     label: GET /operational-reports/workload
     method: GET
@@ -1593,12 +1597,18 @@ endpoints:
     method: GET
     related_nodes:
       - capability:authorization-enforcement
+      - capability:dashboard-broker-activity-feed
+      - capability:neuron-broker-activity-head
       - entity:activity-timeline-event
+      - entity:broker
       - policy_rule:timeline-event-read
     route: /timeline/events
     source_docs:
-      - F0007/F0007-S0007-renewal-activity-timeline-and-audit-trail.md
+      - F0001/F0001-S0004-view-broker-activity-feed.md
+      - F0002/F0002-S0007-view-broker-activity-timeline.md
+      - F0040/F0040-S0001-live-broker-activity-zone.md
       - planning-mds/api/nebula-api.yaml
+      - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
   - id: endpoint:work-queue-create
     label: POST /work-queues
     method: POST

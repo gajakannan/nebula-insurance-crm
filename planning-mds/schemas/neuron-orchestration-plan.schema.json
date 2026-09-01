@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://nebula.local/schemas/neuron-orchestration-plan.schema.json",
   "title": "NeuronOrchestrationPlan",
-  "description": "Schema for a versioned YAML orchestration asset (ADR-027 §3, F0038-S0001). Plans define intent routing, specialist-head dispatch, and goal-agent delegation. They reference A2A concepts (agent, task, message, artifact, accepted_output_modes, terminal_state) but do NOT require MS Agent Framework. The Neuron service validates every plan at startup and refuses to serve a plan that references an unregistered head/tool/agent or that lacks an explicit terminal state (fail-fast). The YAML is validated against this JSON Schema.",
+  "description": "Schema for a versioned YAML orchestration asset (ADR-027 §3, F0038-S0001; hardened for a second live head by ADR-037). Plans define intent routing, specialist-head dispatch, and goal-agent delegation. They reference A2A concepts (agent, task, message, artifact, accepted_output_modes, terminal_state) but do NOT require MS Agent Framework. The Neuron service validates every plan at startup and refuses to serve a plan that references an unregistered head/tool/agent, lacks an explicit terminal state, or gives an active engine/model step no bounded timeout/failure path (fail-fast).",
   "type": "object",
   "required": ["plan_id", "plan_version", "entrypoint", "steps", "terminal_states"],
   "additionalProperties": false,
@@ -44,6 +44,12 @@
             "type": "array",
             "items": { "type": "string" },
             "description": "Registered tool names this step may invoke."
+          },
+          "timeout_ms": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 30000,
+            "description": "Bounded runtime for an engine/model step. F0040 requires this on active specialist-head steps so one head cannot hold another zone open indefinitely."
           },
           "on_success": { "type": "string", "description": "Next step id or a terminal_state." },
           "on_failure": {

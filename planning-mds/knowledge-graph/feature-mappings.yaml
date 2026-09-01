@@ -17,10 +17,6 @@ coverage:
       path: planning-mds/features/archive/F0037-hierarchy-aware-access-scoping-and-distribution-rollups
       reason: Delivered and archived via PR 56; full ontology mapping backfill has not started, so the
         feature stays coverage-excluded until a follow-up plan run maps its as-built code.
-    - id: feature:F0040
-      path: planning-mds/features/F0040-neuron-second-specialist-head
-      reason: Neuron Companion epic; provisional skeleton. Ontology mapping deferred until F0038 lands
-        and F0040 runs its own plan.
 features:
   - status: archived-done
     id: feature:F0001
@@ -1677,6 +1673,72 @@ features:
       - schema:neuron-message-envelope
       - schema:neuron-scope-decision
       - schema:problem-details
+  - status: planned
+    id: feature:F0040
+    path: planning-mds/features/F0040-neuron-second-specialist-head
+    affects:
+      - capability:authorization-enforcement
+      - capability:dashboard-broker-activity-feed
+      - capability:neuron-broker-activity-head
+      - capability:neuron-companion-telemetry
+      - capability:neuron-conversation-store
+      - capability:neuron-day-at-a-glance-shell
+      - capability:neuron-intent-catalog
+      - capability:neuron-message-envelope
+      - capability:neuron-orchestration-runtime
+      - capability:neuron-renewals-head
+      - capability:neuron-zone-dispatch
+      - endpoint:neuron-glance
+      - endpoint:neuron-message-send
+      - endpoint:timeline-events
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:user-profile
+      - event:neuron-companion-telemetry
+    depends_on:
+      - feature:F0001
+      - feature:F0002
+      - feature:F0038
+      - feature:F0039
+    enforced_by_policy:
+      - policy_rule:broker-read
+      - policy_rule:timeline-event-read
+    governed_by:
+      - adr:027
+      - adr:028
+      - adr:035
+      - adr:037
+    notes:
+      - Envelope v1 and the public zone shape remain replay-compatible. Broker activity can roll back
+        to the existing typed inactive state without removing the registered component needed to render
+        historical messages.
+      - G1 selected broker_activity; Phase A approved at G3 on 2026-08-31. Phase B plan run 2026-08-30-af27c9c1
+        reuses the existing GET /timeline/events contract and proposes ADR-037.
+      - 'Phase B reconciliation: the existing internal Broker timeline implementation checks coarse timeline_event:read
+        but does not yet apply record-level broker scope and maps entityName to null. F0040 repairs the
+        existing path by applying canonical distribution visibility before count/order/limit and joining
+        Broker for name; no parallel feed or policy rule is introduced.'
+    restricted_to_role:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    uses_api_contract:
+      - api:nebula-rest
+      - api:neuron-rest
+    uses_schema:
+      - schema:neuron-agent-card
+      - schema:neuron-broker-activity-list
+      - schema:neuron-companion-telemetry-event
+      - schema:neuron-intent-decision
+      - schema:neuron-intent-resolution
+      - schema:neuron-message-envelope
+      - schema:neuron-orchestration-plan
+      - schema:neuron-zone-payload
+      - schema:problem-details
+      - schema:timeline-event
   - status: planned
     id: feature:F0041
     path: planning-mds/features/F0041-neuron-contextual-adjudicator
@@ -5577,3 +5639,107 @@ stories:
       - story:F0039-S0007
     governed_by:
       - adr:035
+  - id: story:F0040-S0001
+    feature: feature:F0040
+    path: planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
+    affects:
+      - capability:authorization-enforcement
+      - capability:dashboard-broker-activity-feed
+      - capability:neuron-broker-activity-head
+      - capability:neuron-day-at-a-glance-shell
+      - endpoint:neuron-glance
+      - endpoint:timeline-events
+      - entity:activity-timeline-event
+      - entity:broker
+      - entity:user-profile
+    depends_on:
+      - feature:F0001
+      - feature:F0002
+      - story:F0038-S0002
+      - story:F0038-S0004
+    enforced_by_policy:
+      - policy_rule:broker-read
+      - policy_rule:timeline-event-read
+    governed_by:
+      - adr:027
+      - adr:037
+    restricted_to_role:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    uses_api_contract:
+      - api:nebula-rest
+      - api:neuron-rest
+    uses_schema:
+      - schema:neuron-broker-activity-list
+      - schema:neuron-zone-payload
+      - schema:timeline-event
+  - id: story:F0040-S0002
+    feature: feature:F0040
+    path: planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0002-conversational-broker-activity-routing.md
+    affects:
+      - capability:neuron-broker-activity-head
+      - capability:neuron-conversation-store
+      - capability:neuron-intent-catalog
+      - capability:neuron-message-envelope
+      - endpoint:neuron-message-send
+      - endpoint:timeline-events
+    depends_on:
+      - feature:F0039
+      - story:F0040-S0001
+    enforced_by_policy:
+      - policy_rule:broker-read
+      - policy_rule:timeline-event-read
+    governed_by:
+      - adr:028
+      - adr:035
+      - adr:037
+    restricted_to_role:
+      - role:admin
+      - role:distribution-manager
+      - role:distribution-user
+      - role:program-manager
+      - role:relationship-manager
+      - role:underwriter
+    uses_api_contract:
+      - api:nebula-rest
+      - api:neuron-rest
+    uses_schema:
+      - schema:neuron-broker-activity-list
+      - schema:neuron-intent-decision
+      - schema:neuron-intent-resolution
+      - schema:neuron-message-envelope
+  - id: story:F0040-S0003
+    feature: feature:F0040
+    path: planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
+    affects:
+      - capability:neuron-broker-activity-head
+      - capability:neuron-companion-telemetry
+      - capability:neuron-day-at-a-glance-shell
+      - capability:neuron-intent-catalog
+      - capability:neuron-orchestration-runtime
+      - capability:neuron-renewals-head
+      - capability:neuron-zone-dispatch
+      - event:neuron-companion-telemetry
+    depends_on:
+      - feature:F0038
+      - feature:F0039
+      - story:F0040-S0001
+      - story:F0040-S0002
+    governed_by:
+      - adr:027
+      - adr:035
+      - adr:037
+    uses_api_contract:
+      - api:nebula-rest
+      - api:neuron-rest
+    uses_schema:
+      - schema:neuron-agent-card
+      - schema:neuron-broker-activity-list
+      - schema:neuron-companion-telemetry-event
+      - schema:neuron-message-envelope
+      - schema:neuron-orchestration-plan
+      - schema:neuron-zone-payload

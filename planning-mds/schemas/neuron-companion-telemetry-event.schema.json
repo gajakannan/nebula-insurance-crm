@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://nebula.local/schemas/neuron-companion-telemetry-event.schema.json",
   "title": "NeuronCompanionTelemetryEvent",
-  "description": "Structured telemetry event emitted by the Neuron companion (F0038-S0008). Establishes the baseline 'needs-attention surfaced -> draft-ready' duration (no baseline exists today) plus the minimal secondary v1 set (DAU for the renewal-owner persona, % attention-flagged actioned, drafts generated / mock-sent). Modeled on the F0035 SessionContinuityEvent ingest pattern (ADR-024). Fire-and-forget: emission failure MUST NOT break the user flow. PII boundary: carries only the stable internal user_id plus thread/renewal correlation ids and metric fields — never draft body content, raw prompts, credentials, email, name, or IP.",
+  "description": "Structured telemetry emitted by the Neuron companion (F0038-S0008, extended by F0040/ADR-037). Covers renewal adoption signals and PII-minimized specialist-head outcome/latency. Modeled on the F0035 SessionContinuityEvent ingest pattern (ADR-024). Fire-and-forget: emission failure MUST NOT break the user flow. Carries only stable internal correlation ids and bounded metric fields — never user text, event descriptions, component props, draft bodies, raw prompts/responses, credentials, email, name, or IP.",
   "type": "object",
   "required": ["event_name", "event_version", "timestamp", "user_id"],
   "additionalProperties": false,
@@ -15,7 +15,8 @@
         "companion-daily-active",
         "attention-renewal-actioned",
         "draft-generated",
-        "mock-sent"
+        "mock-sent",
+        "specialist-head-outcome"
       ],
       "description": "needs-attention-surfaced (primary start) and draft-ready (primary end) bracket the baseline metric; the rest are the minimal secondary v1 set. Edit-distance and compliance-violation tracking are explicitly deferred."
     },
@@ -32,6 +33,32 @@
       "type": "string",
       "enum": ["underwriter", "distribution"],
       "description": "Renewal-owner persona context for DAU; required on companion-daily-active."
+    },
+    "head_run_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Optional Neuron agent-run correlation for an executed head; omitted for a route rejected before a head run."
+    },
+    "zone_id": {
+      "type": "string",
+      "enum": ["renewals", "broker_activity", "tasks", "pipeline"],
+      "description": "Registered specialist-head zone/domain id."
+    },
+    "entry_point": {
+      "type": "string",
+      "enum": ["glance", "conversation"],
+      "description": "Whether the attempt came from Day at a Glance or direct conversational routing."
+    },
+    "terminal_result": {
+      "type": "string",
+      "enum": ["content", "empty", "error", "rejected"],
+      "description": "Bounded terminal result; contains no component props or failure detail."
+    },
+    "latency_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 300000,
+      "description": "Monotonic elapsed execution time in whole milliseconds."
     }
   },
   "allOf": [
@@ -46,6 +73,12 @@
     {
       "if": { "properties": { "event_name": { "const": "companion-daily-active" } } },
       "then": { "required": ["persona"] }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "specialist-head-outcome" } } },
+      "then": {
+        "required": ["thread_id", "zone_id", "entry_point", "terminal_result", "latency_ms"]
+      }
     }
   ]
 }

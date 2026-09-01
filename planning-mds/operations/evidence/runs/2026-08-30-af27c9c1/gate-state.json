@@ -9,6 +9,72 @@
       "completed_operations": [],
       "pending_checkpoint": null,
       "status": "completed"
+    },
+    "G2": {
+      "attestations": [],
+      "completed_operations": [],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G3": {
+      "attestations": [
+        {
+          "actor": "Operator",
+          "checkpoint_id": "approve-phase-a",
+          "evidence": [
+            {
+              "path": "gate-decisions.md",
+              "sha256": "5a04ff2289f704df5f20cad8da949d801cf8c1efd99a4e2b55ef975c46d65db2"
+            }
+          ],
+          "note": "Explicit token: approve Phase A",
+          "role": "product-manager",
+          "timestamp": "2026-08-31T22:41:03-04:00"
+        }
+      ],
+      "completed_operations": [
+        "checkpoint:approve-phase-a"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G4": {
+      "attestations": [],
+      "completed_operations": [
+        "kg-compile",
+        "kg-check-drift"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G5": {
+      "attestations": [
+        {
+          "actor": "Operator",
+          "checkpoint_id": "approve-phase-b",
+          "evidence": [
+            {
+              "path": "gate-decisions.md",
+              "sha256": "52e5ef814e58460cdd21c5acceddfba34a8aeb49ffad725abc4e38fc6d1d3f49"
+            }
+          ],
+          "note": "Explicit token: approve Phase B",
+          "role": "architect",
+          "timestamp": "2026-08-31T23:07:17-04:00"
+        }
+      ],
+      "completed_operations": [
+        "validate-stories",
+        "generate-story-index",
+        "validate-trackers",
+        "kg-write-coverage",
+        "kg-check-drift-exit",
+        "kg-check-reproducible",
+        "validate-templates",
+        "checkpoint:approve-phase-b"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
     }
   }
 }

@@ -33,7 +33,7 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 | F0029 | External Broker Collaboration Portal | Planned | Brokerage Platform Expansion | `F0029-external-broker-collaboration-portal/` |
 | F0030 | Integration Hub & Data Exchange | Planned | Brokerage Platform Expansion | `F0030-integration-hub-and-data-exchange/` |
 | F0031 | Data Import, Deduplication & Go-Live Migration | Planned | Release Enablement | `F0031-data-import-deduplication-and-go-live-migration/` |
-| F0040 | Neuron Second Specialist Head | Planned (provisional) | Neuron Companion | `F0040-neuron-second-specialist-head/` |
+| F0040 | Neuron Second Specialist Head — Broker Activity | Planned | Neuron Companion | `F0040-neuron-second-specialist-head/` |
 | F0041 | Neuron Contextual Intent Adjudicator (gated follow-on) | Planned |  | `F0041-neuron-contextual-adjudicator/` |
 <!-- generated:end registry:planned -->
 

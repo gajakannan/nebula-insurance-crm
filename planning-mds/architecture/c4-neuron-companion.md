@@ -1,9 +1,8 @@
 # Neuron Companion — C4 ASCII Sketches
 
-> Status: Planning scaffold for F0038/F0039/F0040. Canonical decision:
-> [ADR-027](./decisions/ADR-027-neuron-companion-a2a-orchestration.md).
-> Formal Mermaid C4 diagrams can be generated during F0038 Phase B if needed;
-> this file captures the architecture shape now in terminal-friendly form.
+> Status: F0040 Phase B update. Canonical decisions:
+> [ADR-027](./decisions/ADR-027-neuron-companion-a2a-orchestration.md) and
+> [ADR-037](./decisions/ADR-037-neuron-second-specialist-head-contract.md).
 
 ## C4 L2 — Container View (ASCII)
 
@@ -90,7 +89,7 @@ Container: neuron/ Python FastAPI
 | - crm.renewals.head        |     | - outreach drafter          |
 | - crm.tasks.stub           |     | - renewal summarizer        |
 | - crm.pipeline.stub        |     | - scope redirect responder  |
-| - crm.broker_activity.stub |     |                             |
+| - crm.broker_activity.head |     |                             |
 +-------------+-------------+     +-----------+-----------------+
               |                               |
               +---------------+---------------+
@@ -157,6 +156,10 @@ Container: neuron/ Python FastAPI
   **not** a store for CRM business data.
 - User-scoped CRM reads/writes are performed by calling the engine with the
   forwarded user token.
+- F0040 has two independent live heads (Renewals and Broker activity). The
+  shared head executor validates handler/tool/component/timeout contracts;
+  Tasks and Pipeline remain inert. Broker activity reuses the engine's scoped
+  timeline endpoint and never filters authorization in Neuron.
 - The engine remains the authorization boundary and CRM source of truth for
   business data. Writes that touch both stores commit the engine business write
   first; the Neuron operation record references the engine id, idempotently.
