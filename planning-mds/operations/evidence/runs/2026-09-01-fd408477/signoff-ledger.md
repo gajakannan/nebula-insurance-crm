@@ -16,6 +16,29 @@
 
 All required roles have passing verdicts and concrete evidence under this run folder. Non-blocking full-regression and repository-lint findings are accepted as follow-ups.
 
+## Story Signoff Crosswalk
+
+| Story | Role | Verdict | Evidence |
+|-------|------|---------|----------|
+| F0040-S0001 | Quality Engineer | PASS | test-execution-report.md |
+| F0040-S0001 | Code Reviewer | APPROVED | code-review-report.md |
+| F0040-S0001 | Security Reviewer | APPROVED | security-review-report.md |
+| F0040-S0001 | AI Engineer | PASS | test-execution-report.md |
+| F0040-S0001 | Architect | PASS | g0-assembly-plan-validation.md |
+| F0040-S0001 | DevOps | PASS | g1-runtime-preflight.md |
+| F0040-S0002 | Quality Engineer | PASS | test-execution-report.md |
+| F0040-S0002 | Code Reviewer | APPROVED | code-review-report.md |
+| F0040-S0002 | Security Reviewer | APPROVED | security-review-report.md |
+| F0040-S0002 | AI Engineer | PASS | test-execution-report.md |
+| F0040-S0002 | Architect | PASS | g0-assembly-plan-validation.md |
+| F0040-S0002 | DevOps | PASS | g1-runtime-preflight.md |
+| F0040-S0003 | Quality Engineer | PASS | test-execution-report.md |
+| F0040-S0003 | Code Reviewer | APPROVED | code-review-report.md |
+| F0040-S0003 | Security Reviewer | APPROVED | security-review-report.md |
+| F0040-S0003 | AI Engineer | PASS | test-execution-report.md |
+| F0040-S0003 | Architect | PASS | g0-assembly-plan-validation.md |
+| F0040-S0003 | DevOps | PASS | g1-runtime-preflight.md |
+
 ## Recommendation Acceptances
 
 The Quality, Code, and Security recommendations are accepted for release-readiness tracking and will be revisited during broad regression/CI hardening.

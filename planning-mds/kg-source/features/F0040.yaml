@@ -1,7 +1,8 @@
-status: planned
+status: archived-done
+archived_date: "2026-09-03"
 id: feature:F0040
 name: Neuron Second Specialist Head — Broker Activity
-path: planning-mds/features/F0040-neuron-second-specialist-head
+path: planning-mds/features/archive/F0040-neuron-second-specialist-head
 affects:
   - capability:authorization-enforcement
   - capability:dashboard-broker-activity-feed
@@ -56,10 +57,11 @@ restricted_to_role:
   - role:relationship-manager
   - role:underwriter
 roadmap_order: 4
-roadmap_section: Next
+roadmap_section: Completed
+completion_state: Done and archived (2026-09-03, feature run 2026-09-01-fd408477, squash merge ef550a6)
 story_mappings:
   - id: story:F0040-S0001
-    path: planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
+    path: planning-mds/features/archive/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
     affects:
       - capability:authorization-enforcement
       - capability:dashboard-broker-activity-feed
@@ -96,7 +98,7 @@ story_mappings:
       - schema:neuron-zone-payload
       - schema:timeline-event
   - id: story:F0040-S0002
-    path: planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0002-conversational-broker-activity-routing.md
+    path: planning-mds/features/archive/F0040-neuron-second-specialist-head/F0040-S0002-conversational-broker-activity-routing.md
     affects:
       - capability:neuron-broker-activity-head
       - capability:neuron-conversation-store
@@ -130,7 +132,7 @@ story_mappings:
       - schema:neuron-intent-resolution
       - schema:neuron-message-envelope
   - id: story:F0040-S0003
-    path: planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
+    path: planning-mds/features/archive/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
     affects:
       - capability:neuron-broker-activity-head
       - capability:neuron-companion-telemetry

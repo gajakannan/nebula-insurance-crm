@@ -33,7 +33,6 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 | F0029 | External Broker Collaboration Portal | Planned | Brokerage Platform Expansion | `F0029-external-broker-collaboration-portal/` |
 | F0030 | Integration Hub & Data Exchange | Planned | Brokerage Platform Expansion | `F0030-integration-hub-and-data-exchange/` |
 | F0031 | Data Import, Deduplication & Go-Live Migration | Planned | Release Enablement | `F0031-data-import-deduplication-and-go-live-migration/` |
-| F0040 | Neuron Second Specialist Head — Broker Activity | Planned | Neuron Companion | `F0040-neuron-second-specialist-head/` |
 | F0041 | Neuron Contextual Intent Adjudicator (gated follow-on) | Planned |  | `F0041-neuron-contextual-adjudicator/` |
 <!-- generated:end registry:planned -->
 
@@ -42,6 +41,7 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 <!-- generated:begin registry:archived -->
 | Feature ID | Name | Archived Date | Folder |
 |------------|------|---------------|--------|
+| F0040 | Neuron Second Specialist Head — Broker Activity | 2026-09-03 | `archive/F0040-neuron-second-specialist-head/` |
 | F0039 | Neuron Durable Conversations & Local Phi Intent Resolution | 2026-07-25 | `archive/F0039-neuron-multi-thread-conversations/` |
 | F0026 | Billing, Invoicing & Reconciliation | 2026-07-19 | `archive/F0026-billing-invoicing-and-reconciliation/` |
 | F0025 | Commission, Producer Splits & Revenue Tracking | 2026-07-07 | `archive/F0025-commission-producer-splits-and-revenue-tracking/` |

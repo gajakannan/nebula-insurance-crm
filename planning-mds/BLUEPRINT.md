@@ -226,10 +226,10 @@ The first epic since the harness adopted the action/KG flow. A conversational co
 
 - F0038: Neuron Day-at-a-Glance Shell (Renewals live + draft outreach + mock-send) - Done (Archived)
 - F0039: Neuron Durable Conversations & Local Phi Intent Resolution - Done (Archived; ships in shadow mode)
-- [F0040: Neuron Second Specialist Head — Broker Activity](features/F0040-neuron-second-specialist-head/PRD.md) - Planned (Next; Phase A and Phase B approved 2026-08-31). G1 selected the existing `broker_activity` stub: newest 20 authorized Broker timeline events in the glance and through direct conversation, with no broker write and no cross-zone ranking. Accepted ADR-037 hardens the first two-live-head contract and requires the existing internal timeline query to apply record scope before counts/order/limit.
-  - [F0040-S0001: Live Broker activity Day-at-a-Glance zone](features/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md) - Not Started
-  - [F0040-S0002: Conversational Broker activity routing](features/F0040-neuron-second-specialist-head/F0040-S0002-conversational-broker-activity-routing.md) - Not Started
-  - [F0040-S0003: Two-live-head platform hardening](features/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md) - Not Started
+- [F0040: Neuron Second Specialist Head — Broker Activity](features/archive/F0040-neuron-second-specialist-head/PRD.md) - Done (Archived 2026-09-03). G0–G8 passed on run `2026-09-01-fd408477`; squash-merged as `ef550a6`.
+  - [F0040-S0001: Live Broker activity Day-at-a-Glance zone](features/archive/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md) - Done
+  - [F0040-S0002: Conversational Broker activity routing](features/archive/F0040-neuron-second-specialist-head/F0040-S0002-conversational-broker-activity-routing.md) - Done
+  - [F0040-S0003: Two-live-head platform hardening](features/archive/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md) - Done
 - _Later (unreserved):_ Day-at-a-Glance **brain** (cross-zone composition/ranking) · more specialist heads · real outbound send + Communication Hub (F0021) draft home · MCP-UI for external hosts · writes beyond drafting · thread search/share niceties.
 
 ### 3.4 MVP Features and Stories (vertical-slice friendly)
