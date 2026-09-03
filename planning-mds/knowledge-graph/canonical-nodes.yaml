@@ -304,8 +304,8 @@ capabilities:
     label: Dashboard Broker Activity Feed
     source_docs:
       - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
-      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
       - planning-mds/features/archive/F0001-dashboard/README.md
+      - planning-mds/features/archive/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
   - id: capability:dashboard-home
     label: Dashboard Home
     source_docs:
@@ -489,9 +489,9 @@ capabilities:
           the shared executor/registries, and keep message envelope v1 replay-compatible.
     source_docs:
       - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
-      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
-      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0002-conversational-broker-activity-routing.md
-      - planning-mds/features/F0040-neuron-second-specialist-head/feature-assembly-plan.md
+      - planning-mds/features/archive/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
+      - planning-mds/features/archive/F0040-neuron-second-specialist-head/F0040-S0002-conversational-broker-activity-routing.md
+      - planning-mds/features/archive/F0040-neuron-second-specialist-head/feature-assembly-plan.md
       - planning-mds/schemas/neuron-broker-activity-list.schema.json
   - id: capability:neuron-companion
     label: Neuron Companion
@@ -518,8 +518,8 @@ capabilities:
       '
     source_docs:
       - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
-      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md
+      - planning-mds/features/archive/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
       - planning-mds/schemas/neuron-companion-telemetry-event.schema.json
   - id: capability:neuron-conversation-store
     label: Durable Neuron Conversation Store (Postgres, server sequence, idempotency)
@@ -548,9 +548,9 @@ capabilities:
       '
     source_docs:
       - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
-      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/README.md
+      - planning-mds/features/archive/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
   - id: capability:neuron-intent-adjudicator
     label: Gated Contextual Intent Adjudicator
     notes: 'GATED bounded second Phi call, enabled only after durable-context + direct-routing gates pass.
@@ -688,8 +688,8 @@ capabilities:
       '
     source_docs:
       - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
-      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0003-live-renewals-zone-read.md
+      - planning-mds/features/archive/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
       - planning-mds/schemas/renewal-needs-attention-item.schema.json
   - id: capability:neuron-scope-guard
     label: CRM Scope Guard (out_of_scope redirect)
@@ -739,9 +739,9 @@ capabilities:
       '
     source_docs:
       - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
-      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0002-day-at-a-glance-shell-and-zone-dispatch.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0004-stub-zones-inactive-payload.md
+      - planning-mds/features/archive/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
       - planning-mds/schemas/neuron-zone-payload.schema.json
   - id: capability:oidc-login-and-session
     label: OIDC Login and Session Bootstrap
@@ -2839,9 +2839,9 @@ endpoints:
     source_docs:
       - planning-mds/api/nebula-api.yaml
       - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
-      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
       - planning-mds/features/archive/F0001-dashboard/F0001-S0004-view-broker-activity-feed.md
       - planning-mds/features/archive/F0002-broker-relationship-management/F0002-S0007-view-broker-activity-timeline.md
+      - planning-mds/features/archive/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md
   - id: endpoint:work-queue-create
     label: POST /work-queues
     method: POST
@@ -3858,8 +3858,8 @@ events:
       - capability:neuron-companion-telemetry
     source_docs:
       - planning-mds/architecture/decisions/ADR-037-neuron-second-specialist-head-contract.md
-      - planning-mds/features/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
       - planning-mds/features/archive/F0038-neuron-day-at-a-glance-shell/F0038-S0008-companion-telemetry-instrumentation.md
+      - planning-mds/features/archive/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md
       - planning-mds/schemas/neuron-companion-telemetry-event.schema.json
   - id: event:payment-receipt-import-completed
     label: PaymentReceiptImportCompleted

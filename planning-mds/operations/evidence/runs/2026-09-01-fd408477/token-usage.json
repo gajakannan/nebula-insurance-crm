@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-09-01-fd408477",
+  "captured_on": "2026-09-03T12:05:07+00:00",
+  "agent_tool": "codex",
+  "session_file": "rollout-2026-09-01T21-22-57-01a05fb6-4c18-79d3-8a04-a89159b08819.jsonl",
+  "models": [
+    "gpt-5.6-sol",
+    "gpt-5.6-luna"
+  ],
+  "run_window": {
+    "start": "2026-09-02T00:33:54+00:00",
+    "end": "2026-09-03T12:05:07+00:00"
+  },
+  "session_window": {
+    "start": "2026-09-02T01:23:29.446000+00:00",
+    "end": "2026-09-03T12:04:46.173000+00:00"
+  },
+  "compactions": 2,
+  "totals": {
+    "turns": 324,
+    "context_tokens": 32090818,
+    "uncached_input_tokens": 1007810,
+    "cached_input_tokens": 31083008,
+    "cache_creation_input_tokens": null,
+    "cache_creation_1h_input_tokens": null,
+    "cache_creation_5m_input_tokens": null,
+    "output_tokens": 117181,
+    "reasoning_output_tokens": 26906,
+    "cache_hit_ratio": 0.9686,
+    "avg_context_tokens": 99046,
+    "max_context_tokens": 234991
+  },
+  "gate_phases": [
+    {
+      "gate": "post-final-gate",
+      "reached_at": null,
+      "turns": 324,
+      "context_tokens": 32090818,
+      "uncached_input_tokens": 1007810,
+      "cached_input_tokens": 31083008,
+      "cache_creation_input_tokens": null,
+      "cache_creation_1h_input_tokens": null,
+      "cache_creation_5m_input_tokens": null,
+      "output_tokens": 117181,
+      "reasoning_output_tokens": 26906,
+      "cache_hit_ratio": 0.9686,
+      "avg_context_tokens": 99046,
+      "max_context_tokens": 234991
+    }
+  ]
+}

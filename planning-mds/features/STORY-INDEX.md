@@ -489,9 +489,9 @@ Auto-generated index of all user stories across feature folders.
 
 | Story ID | Title | Priority | Phase | Persona |
 |----------|-------|----------|-------|---------|
-| [F0040-S0001](./F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md) | Live Broker activity Day-at-a-Glance zone with Broker 360 drill-through | High | MVP | Relationship Manager or Distribution user |
-| [F0040-S0002](./F0040-neuron-second-specialist-head/F0040-S0002-conversational-broker-activity-routing.md) | Route direct recent-broker-activity requests to the live specialist with durable replay | High | MVP | Relationship Manager or Distribution user |
-| [F0040-S0003](./F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md) | Harden shared head dispatch, failure isolation, and telemetry with two live consumers | High | Infrastructure | product stakeholder for the Neuron companion |
+| [F0040-S0001](./archive/F0040-neuron-second-specialist-head/F0040-S0001-live-broker-activity-zone.md) | Live Broker activity Day-at-a-Glance zone with Broker 360 drill-through | High | MVP | Relationship Manager or Distribution user |
+| [F0040-S0002](./archive/F0040-neuron-second-specialist-head/F0040-S0002-conversational-broker-activity-routing.md) | Route direct recent-broker-activity requests to the live specialist with durable replay | High | MVP | Relationship Manager or Distribution user |
+| [F0040-S0003](./archive/F0040-neuron-second-specialist-head/F0040-S0003-two-live-head-platform-hardening.md) | Harden shared head dispatch, failure isolation, and telemetry with two live consumers | High | Infrastructure | product stakeholder for the Neuron companion |
 
 ---
 

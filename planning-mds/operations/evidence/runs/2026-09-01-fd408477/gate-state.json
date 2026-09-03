@@ -72,21 +72,42 @@
       "status": "completed"
     },
     "G8": {
-      "attestations": [],
-      "completed_operations": [],
-      "pending_checkpoint": {
-        "description": "VERIFY (do not re-author) the G7 graph, update trackers (STATUS/REGISTRY/ROADMAP/BLUEPRINT + kg-source feature shard), and move the feature folder to its archived path when Done/Completed.",
-        "id": "archive-move",
-        "produces": [
-          "archived-feature-folder"
-        ],
-        "requires": [
-          "pm-closeout.md",
-          "signoff-ledger.md",
-          "kg-reconciliation.md"
-        ]
-      },
-      "status": "pending-checkpoint"
+      "attestations": [
+        {
+          "actor": "Product Manager",
+          "checkpoint_id": "archive-move",
+          "evidence": [
+            {
+              "path": "pm-closeout.md",
+              "sha256": "c8f13f0651e1aa1f800a02c4b031ebb7102bca029ebb862100bb8345b913915c"
+            },
+            {
+              "path": "signoff-ledger.md",
+              "sha256": "c2ce6a617852eb22aaf14b8019cdd78c0342b3fcedc35beb1043c6c4441d0a4e"
+            },
+            {
+              "path": "kg-reconciliation.md",
+              "sha256": "a62b4dcc061c73b4d0f344d18a82cae4a985f388ea8c917dbbfc8b14138fc69d"
+            }
+          ],
+          "note": "Squash merge ef550a6 is on main; closeout evidence verified for the existing run.",
+          "role": "product-manager",
+          "timestamp": "2026-09-03T07:55:34-04:00"
+        }
+      ],
+      "completed_operations": [
+        "checkpoint:archive-move",
+        "kg-compile-closeout",
+        "patch-prior-manifest",
+        "write:latest-run.json",
+        "kg-write-coverage",
+        "kg-check-drift-closeout",
+        "capture-run-telemetry",
+        "validate-closeout",
+        "validate-trackers-closeout"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
     }
   }
 }

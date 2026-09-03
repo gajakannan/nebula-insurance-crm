@@ -1,7 +1,7 @@
 # F0040 — Neuron Second Specialist Head (Broker Activity) — Status
 
-**Overall Status:** In Progress — implementation complete, G2 passed with recommendations
-**Last Updated:** 2026-09-02
+**Overall Status:** Done — archived after squash merge ef550a6
+**Last Updated:** 2026-09-03
 
 > G1 selected `broker_activity` as the second live specialist domain. Phase A
 > defines three read/platform slices and was explicitly approved at G3 on
@@ -22,9 +22,9 @@ Cell states: `not-started` · `in-progress` · `done` · `not-in-scope`; review 
 
 | Story | Backend | Frontend | AI | QA | DevOps | Code Review | Security | Overall |
 |-------|---------|----------|----|----|--------|-------------|----------|---------|
-| F0040-S0001 | done | done | done | done | not-in-scope | not-started | not-started | in-progress |
-| F0040-S0002 | not-in-scope | done | done | done | not-in-scope | not-started | not-started | in-progress |
-| F0040-S0003 | done | not-in-scope | done | done | done | not-started | not-started | in-progress |
+| F0040-S0001 | done | done | done | done | not-in-scope | done | done | done |
+| F0040-S0002 | not-in-scope | done | done | done | not-in-scope | done | done | done |
+| F0040-S0003 | done | not-in-scope | done | done | done | done | done | done |
 
 ## Required Role Matrix
 
@@ -37,14 +37,30 @@ This matrix is final for the approved architecture and governs the future featur
 | Security Reviewer | Yes | Query-before-count broker scope, internal-only principal boundary, catalog/registry fail-closed behavior, cross-owner replay, and telemetry minimization. | Architect | 2026-08-31 |
 | AI Engineer | Yes | Shared executor, specialist head, intent catalog/routing fixtures, component contracts, provenance, and evaluation coverage under `neuron/`. | Architect | 2026-08-31 |
 | Architect | Yes | ADR-037 conformance and replay-compatible two-live-head contract require as-built reconciliation. | Architect | 2026-08-31 |
-| DevOps | No | The proposed design adds no service, port, secret, environment variable, migration, or deployment topology. | Architect | 2026-08-31 |
+| DevOps | Yes | Runtime-bearing Engine/Neuron services were rebuilt and health/readiness verified. | Architect | 2026-08-31 |
 
 ## Story Signoff Provenance
 
-Rows are appended during the future feature action after the Phase B matrix is final. No implementation evidence exists during this plan run.
-
 | Story | Role | Reviewer | Verdict | Evidence | Date | Notes |
 |-------|------|----------|---------|----------|------|-------|
+| F0040-S0001 | Quality Engineer | Quality Engineer | PASS | test-execution-report.md | 2026-09-02 | Implemented and validated |
+| F0040-S0001 | Code Reviewer | Code Reviewer | APPROVED | code-review-report.md | 2026-09-02 | No blocking findings |
+| F0040-S0001 | Security Reviewer | Security Reviewer | APPROVED | security-review-report.md | 2026-09-02 | No blocking findings |
+| F0040-S0001 | AI Engineer | AI Engineer | PASS | test-execution-report.md | 2026-09-02 | Neuron routing and head tests passed |
+| F0040-S0001 | Architect | Architect | PASS | g0-assembly-plan-validation.md | 2026-09-02 | Contract reconciled |
+| F0040-S0001 | DevOps | DevOps | PASS | g1-runtime-preflight.md | 2026-09-02 | Runtime healthy |
+| F0040-S0002 | Quality Engineer | Quality Engineer | PASS | test-execution-report.md | 2026-09-02 | Implemented and validated |
+| F0040-S0002 | Code Reviewer | Code Reviewer | APPROVED | code-review-report.md | 2026-09-02 | No blocking findings |
+| F0040-S0002 | Security Reviewer | Security Reviewer | APPROVED | security-review-report.md | 2026-09-02 | No blocking findings |
+| F0040-S0002 | AI Engineer | AI Engineer | PASS | test-execution-report.md | 2026-09-02 | Neuron routing tests passed |
+| F0040-S0002 | Architect | Architect | PASS | g0-assembly-plan-validation.md | 2026-09-02 | Contract reconciled |
+| F0040-S0002 | DevOps | DevOps | PASS | g1-runtime-preflight.md | 2026-09-02 | Runtime healthy |
+| F0040-S0003 | Quality Engineer | Quality Engineer | PASS | test-execution-report.md | 2026-09-02 | Implemented and validated |
+| F0040-S0003 | Code Reviewer | Code Reviewer | APPROVED | code-review-report.md | 2026-09-02 | No blocking findings |
+| F0040-S0003 | Security Reviewer | Security Reviewer | APPROVED | security-review-report.md | 2026-09-02 | No blocking findings |
+| F0040-S0003 | AI Engineer | AI Engineer | PASS | test-execution-report.md | 2026-09-02 | Shared executor tests passed |
+| F0040-S0003 | Architect | Architect | PASS | g0-assembly-plan-validation.md | 2026-09-02 | Contract reconciled |
+| F0040-S0003 | DevOps | DevOps | PASS | g1-runtime-preflight.md | 2026-09-02 | Runtime healthy |
 
 ## Deferred Non-Blocking Follow-ups
 
@@ -65,7 +81,7 @@ Rows are appended during the future feature action after the Phase B matrix is f
 
 ## Closeout Summary
 
-Not applicable during planning. This section is completed only after implementation and required signoffs.
+Implementation, required reviews, squash merge, and G0–G8 closeout evidence are complete. Archived on 2026-09-03.
 
 ## Notes
 
