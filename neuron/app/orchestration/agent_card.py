@@ -40,6 +40,7 @@ class AgentCard:
     active: bool = True
     auth_mode: str = "user_token"
     tools: tuple[str, ...] = ()
+    components: tuple[str, ...] = ()
     delegates_to: tuple[str, ...] = ()
     capabilities: tuple[dict[str, Any], ...] = ()
     public: bool = False
@@ -69,6 +70,7 @@ class AgentCard:
             active=data.get("active", True),
             auth_mode=data.get("auth_mode", "user_token"),
             tools=tuple(data.get("tools", [])),
+            components=tuple(data.get("components", [])),
             delegates_to=tuple(data.get("delegates_to", [])),
             capabilities=tuple(data.get("capabilities", [])),
             public=data.get("public", False),

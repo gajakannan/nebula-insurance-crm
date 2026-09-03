@@ -16,6 +16,7 @@ import jsonschema
 import yaml
 
 from ..errors import ConfigError, PlanValidationError, UnknownReferenceError
+from ..components import COMPONENTS, ComponentContractRegistry
 from ..schemas import get_validator
 from .registries import AgentRegistry, ToolRegistry
 
@@ -36,6 +37,7 @@ class PlanStep:
     skill_id: str | None = None
     accepted_output_modes: tuple[str, ...] = ()
     tools: tuple[str, ...] = ()
+    timeout_ms: int | None = None
     on_success: str | None = None
     on_failure: str | None = None
     is_terminal: bool = False
@@ -63,6 +65,7 @@ def validate_plan(
     data: dict[str, Any],
     agents: AgentRegistry,
     tools: ToolRegistry,
+    components: ComponentContractRegistry = COMPONENTS,
     *,
     source: str | None = None,
 ) -> OrchestrationPlan:
@@ -79,6 +82,7 @@ def validate_plan(
             skill_id=s.get("skill_id"),
             accepted_output_modes=tuple(s.get("accepted_output_modes", [])),
             tools=tuple(s.get("tools", [])),
+            timeout_ms=s.get("timeout_ms"),
             on_success=s.get("on_success"),
             on_failure=s.get("on_failure"),
             is_terminal=s.get("is_terminal", False),
@@ -112,6 +116,50 @@ def validate_plan(
                     f"plan {data['plan_id']!r} step {step.step_id!r} references "
                     f"unregistered tool {tool!r}{where}"
                 )
+
+        registered = agents.get(step.agent)
+        card = registered.card
+        if card.kind == "specialist_head":
+            if not card.active:
+                if card.tools or card.components:
+                    raise PlanValidationError(
+                        f"inactive head {card.card_id!r} may not declare tools/components{where}"
+                    )
+            else:
+                if card.auth_mode != "user_token" and card.tools:
+                    raise PlanValidationError(
+                        f"active engine head {card.card_id!r} must use auth_mode:user_token{where}"
+                    )
+                if step.timeout_ms is None:
+                    raise PlanValidationError(
+                        f"active head step {step.step_id!r} requires timeout_ms{where}"
+                    )
+                if tuple(step.tools) != tuple(card.tools):
+                    raise PlanValidationError(
+                        f"plan tools for {card.card_id!r} do not match its card{where}"
+                    )
+                if tuple(step.accepted_output_modes) != tuple(card.accepted_output_modes):
+                    raise PlanValidationError(
+                        f"plan output modes for {card.card_id!r} do not match its card{where}"
+                    )
+                skill_ids = {
+                    capability.get("skill_id") for capability in card.capabilities
+                    if capability.get("skill_id")
+                }
+                if step.skill_id not in skill_ids:
+                    raise PlanValidationError(
+                        f"plan skill {step.skill_id!r} is not declared by {card.card_id!r}{where}"
+                    )
+                if not card.components:
+                    raise PlanValidationError(
+                        f"active head {card.card_id!r} declares no component ownership{where}"
+                    )
+                for component_id in card.components:
+                    if not components.has(component_id):
+                        raise UnknownReferenceError(
+                            f"head {card.card_id!r} references unregistered component "
+                            f"{component_id!r}{where}"
+                        )
         # Transitions must land on a known step or declared terminal state.
         for label, target in (("on_success", step.on_success), ("on_failure", step.on_failure)):
             if target is not None and target not in valid_targets:
@@ -143,7 +191,10 @@ def validate_plan(
 
 
 def load_plans(
-    plans_dir: str | Path, agents: AgentRegistry, tools: ToolRegistry
+    plans_dir: str | Path,
+    agents: AgentRegistry,
+    tools: ToolRegistry,
+    components: ComponentContractRegistry = COMPONENTS,
 ) -> dict[str, OrchestrationPlan]:
     """Load + validate every ``*.plan.yaml`` under ``plans_dir`` (fail-fast)."""
     plans_dir = Path(plans_dir)
@@ -157,7 +208,7 @@ def load_plans(
             raise PlanValidationError(f"unparseable plan {path.name}: {exc}") from exc
         if not isinstance(data, dict):
             raise PlanValidationError(f"plan {path.name} is not a mapping")
-        plan = validate_plan(data, agents, tools, source=path.name)
+        plan = validate_plan(data, agents, tools, components, source=path.name)
         if plan.plan_id in plans:
             raise PlanValidationError(f"duplicate plan_id {plan.plan_id!r} in {path.name}")
         plans[plan.plan_id] = plan

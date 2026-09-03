@@ -18,7 +18,7 @@ public class NeuronCompanionTelemetryServiceTests
         new("needs-attention-surfaced", 1, DateTimeOffset.UtcNow, userId, threadId, renewalId, null);
 
     [Fact]
-    public void ValidBatch_AllSixEventTypes_IsValid()
+    public void ValidBatch_AllSevenEventTypes_IsValid()
     {
         var req = Req(
             new("needs-attention-surfaced", 1, DateTimeOffset.UtcNow, Subject, "t1", "r1", null),
@@ -26,7 +26,9 @@ public class NeuronCompanionTelemetryServiceTests
             new("companion-daily-active", 1, DateTimeOffset.UtcNow, Subject, null, null, "underwriter"),
             new("draft-generated", 1, DateTimeOffset.UtcNow, Subject, "t1", "r1", null),
             new("mock-sent", 1, DateTimeOffset.UtcNow, Subject, "t1", "r1", null),
-            new("attention-renewal-actioned", 1, DateTimeOffset.UtcNow, Subject, "t1", "r1", null));
+            new("attention-renewal-actioned", 1, DateTimeOffset.UtcNow, Subject, "t1", "r1", null),
+            new("specialist-head-outcome", 1, DateTimeOffset.UtcNow, Subject, "t1", null, null,
+                "run-1", "broker_activity", "glance", "content", 37));
 
         Service.Validate(req, Subject).IsValid.ShouldBeTrue();
     }
@@ -118,5 +120,32 @@ public class NeuronCompanionTelemetryServiceTests
             .ToArray();
 
         Service.Validate(new NeuronCompanionTelemetryRequest(many), Subject).IsValid.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void SpecialistHeadOutcome_RequiresBoundedOperationalFields()
+    {
+        var valid = new NeuronCompanionTelemetryEventDto(
+            "specialist-head-outcome", 1, DateTimeOffset.UtcNow, Subject, "thread-1", null, null,
+            "run-1", "broker_activity", "conversation", "empty", 12);
+
+        Service.Validate(Req(valid), Subject).IsValid.ShouldBeTrue();
+
+        var invalid = valid with
+        {
+            ThreadId = null,
+            ZoneId = "unknown",
+            EntryPoint = "background",
+            TerminalResult = "exception-detail",
+            LatencyMs = -1,
+        };
+        var result = Service.Validate(Req(invalid), Subject);
+
+        result.IsValid.ShouldBeFalse();
+        result.Errors.Keys.ShouldContain("events[0].thread_id");
+        result.Errors.Keys.ShouldContain("events[0].zone_id");
+        result.Errors.Keys.ShouldContain("events[0].entry_point");
+        result.Errors.Keys.ShouldContain("events[0].terminal_result");
+        result.Errors.Keys.ShouldContain("events[0].latency_ms");
     }
 }

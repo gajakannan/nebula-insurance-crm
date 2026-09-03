@@ -26,7 +26,7 @@ function glanceFixture(overrides: Record<string, unknown> = {}) {
   return {
     thread_id: 't1',
     zones: [
-      { zone_id: 'broker_activity', zone_status: 'inactive', title: 'Broker activity', detail: 'Not yet active.' },
+      { zone_id: 'broker_activity', zone_status: 'empty', title: 'Broker activity', detail: 'No recent broker activity.' },
       { zone_id: 'pipeline', zone_status: 'inactive', title: 'Pipeline', detail: 'Not yet active.' },
       { zone_id: 'renewals', zone_status: 'empty', title: 'Renewals', detail: 'Live renewals data is delivered in F0038-S0003.' },
       { zone_id: 'tasks', zone_status: 'inactive', title: 'Tasks', detail: 'Not yet active.' },
@@ -67,7 +67,7 @@ describe('DayAtAGlance (F0038-S0002/S0003 shell)', () => {
     mockPost.mockReset();
   });
 
-  it('renders four zones with Renewals live and stubs not-yet-active', async () => {
+  it('renders four zones with Renewals and Broker activity live and future stubs inactive', async () => {
     mockGet.mockResolvedValue(glanceFixture());
     const { container } = renderWithProviders(<DayAtAGlance />);
     await screen.findByTestId('day-at-a-glance');
@@ -76,7 +76,9 @@ describe('DayAtAGlance (F0038-S0002/S0003 shell)', () => {
     expect(renewals).toHaveAttribute('data-status', 'empty');
     expect(within(renewals).getByText('LIVE')).toBeInTheDocument();
     expect(screen.getByLabelText('Tasks')).toHaveAttribute('data-status', 'inactive');
-    expect(screen.getAllByText('not yet active').length).toBe(3);
+    expect(screen.getByLabelText('Broker activity')).toHaveAttribute('data-status', 'empty');
+    expect(within(screen.getByLabelText('Broker activity')).getByText('LIVE')).toBeInTheDocument();
+    expect(screen.getAllByText('not yet active').length).toBe(2);
 
     const zoneEls = Array.from(container.querySelectorAll('[data-zone]'));
     expect(zoneEls[0]).toHaveAttribute('data-zone', 'renewals');
@@ -99,6 +101,19 @@ describe('DayAtAGlance (F0038-S0002/S0003 shell)', () => {
     await screen.findByTestId('day-at-a-glance');
     expect(screen.getByLabelText('Broker activity')).toHaveAttribute('data-status', 'error');
     expect(screen.getByLabelText('Renewals')).toHaveAttribute('data-status', 'empty');
+  });
+
+  it('offers a retry for a failed Broker activity zone', async () => {
+    const fixture = glanceFixture();
+    (fixture.zones as Array<Record<string, unknown>>)[0] = {
+      zone_id: 'broker_activity', zone_status: 'error', title: 'Broker activity',
+      detail: 'Unable to load broker activity.',
+    };
+    mockGet.mockResolvedValueOnce(fixture).mockResolvedValueOnce(glanceFixture());
+    renderWithProviders(<DayAtAGlance />);
+    await screen.findByText('Unable to load broker activity.');
+    await userEvent.click(screen.getByRole('button', { name: 'Retry Broker activity' }));
+    await waitFor(() => expect(mockGet).toHaveBeenCalledTimes(2));
   });
 
   it('shows a loading state while fetching', () => {

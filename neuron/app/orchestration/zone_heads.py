@@ -24,6 +24,8 @@ if TYPE_CHECKING:
 # Live Renewals wiring (F0038-S0003).
 _NEEDS_ATTENTION_TOOL = "engine.renewals.needs_attention"
 _RENEWALS_COMPONENT = "renewals.needs_attention_list"
+_BROKER_ACTIVITY_TOOL = "engine.timeline.list_broker_activity"
+_BROKER_ACTIVITY_COMPONENT = "broker_activity.recent_list"
 _DEFAULT_WINDOW_DAYS = 90
 
 
@@ -87,6 +89,7 @@ class StubZoneHead:
     """Inert stub head — returns a typed ``inactive`` payload (F0038-S0004)."""
 
     def __init__(self, card: AgentCard) -> None:
+        self.is_stub = True
         self.card = card
         self.zone_id = zone_id_for_card(card.card_id)
 
@@ -109,6 +112,7 @@ class RenewalsZoneHead:
     """
 
     def __init__(self, card: AgentCard) -> None:
+        self.is_stub = False
         self.card = card
         self.zone_id = "renewals"
 
@@ -160,3 +164,67 @@ class RenewalsZoneHead:
             "brokerName": item.get("broker_name"),
             "canDraftOutreach": item.get("can_draft_outreach", False),
         }
+
+
+class BrokerActivityZoneHead:
+    """Live read-only Broker activity adapter (F0040-S0001/S0002)."""
+
+    def __init__(self, card: AgentCard) -> None:
+        self.is_stub = False
+        self.card = card
+        self.zone_id = "broker_activity"
+
+    async def build_zone(self, ctx: HeadContext) -> ZonePayload:
+        if ctx.tools is None or not ctx.tools.has(_BROKER_ACTIVITY_TOOL):
+            raise RuntimeError(
+                f"broker activity head requires the {_BROKER_ACTIVITY_TOOL!r} tool"
+            )
+
+        response = await ctx.tools.get(_BROKER_ACTIVITY_TOOL).invoke(
+            user_token=ctx.user_token,
+            params={
+                "entityType": "Broker",
+                "page": 1,
+                "pageSize": 20,
+                "internalOnly": True,
+            },
+        )
+        if not isinstance(response, dict) or not isinstance(response.get("data"), list):
+            raise ValueError("broker activity response is not a paginated object")
+
+        items = [self._map_item(item) for item in response["data"][:20]]
+        if ctx.task_manager is not None and ctx.run is not None:
+            await ctx.task_manager.record_tool_call(
+                ctx.run,
+                _BROKER_ACTIVITY_TOOL,
+                request_digest="broker_activity:page=1;pageSize=20;internalOnly=true",
+                status="ok",
+            )
+
+        if not items:
+            return ZonePayload(
+                zone_id=self.zone_id,
+                zone_status="empty",
+                title="Broker activity",
+                detail="No recent broker activity.",
+            ).validated()
+
+        return ZonePayload(
+            zone_id=self.zone_id,
+            zone_status="content",
+            title="Broker activity",
+            component=_BROKER_ACTIVITY_COMPONENT,
+            props={"items": items},
+        ).validated()
+
+    @staticmethod
+    def _map_item(item: dict[str, Any]) -> dict[str, Any]:
+        if not isinstance(item, dict) or item.get("entityType") != "Broker":
+            raise ValueError("broker activity response contains a non-Broker row")
+        required = (
+            "id", "entityType", "entityId", "eventType", "eventDescription",
+            "entityName", "actorDisplayName", "occurredAt",
+        )
+        if any(key not in item for key in required):
+            raise ValueError("broker activity response is missing a required field")
+        return {key: item[key] for key in required}

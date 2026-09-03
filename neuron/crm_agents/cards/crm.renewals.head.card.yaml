@@ -2,7 +2,7 @@
 # companion context AS THE USER (auth_mode: user_token) and may delegate a draft to the
 # outreach drafter. Behavior lands in F0038-S0003.
 card_id: crm.renewals.head
-card_version: 1.0.0
+card_version: 1.1.0
 kind: specialist_head
 name: Renewals Head
 description: >-
@@ -20,5 +20,7 @@ capabilities:
 tools:
   - engine.renewals.needs_attention
   - engine.renewals.companion_context
+components:
+  - renewals.needs_attention_list
 delegates_to:
   - crm.renewals.outreach_drafter

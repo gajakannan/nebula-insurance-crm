@@ -1,11 +1,18 @@
-# Broker activity zone — inert stub head (active: false, F0038-S0004). Returns an
-# "inactive" zone payload; reads nothing, exposes no CTA. auth_mode: none.
+# Broker activity specialist head (F0040). Read-only; the forwarded user token is
+# authorized by the engine's scoped internal Broker timeline projection.
 card_id: crm.broker_activity.head
-card_version: 1.0.0
+card_version: 1.1.0
 kind: specialist_head
 name: Broker activity
-description: Not yet active. Placeholder zone advertising the multi-head pathway.
-active: false
+description: Shows the newest twenty authorization-scoped Broker timeline events.
+active: true
 public: false
-auth_mode: none
-accepted_output_modes: [status]
+auth_mode: user_token
+accepted_output_modes: [app, status]
+capabilities:
+  - skill_id: broker_activity_read
+    description: List recent authorization-scoped Broker activity.
+tools:
+  - engine.timeline.list_broker_activity
+components:
+  - broker_activity.recent_list

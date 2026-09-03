@@ -7,7 +7,7 @@
 # zones out in parallel and isolates a failing zone at execution time (F0038-S0002);
 # the linear on_success chain here is the validation walk, not a sequential runtime.
 plan_id: day-at-a-glance
-plan_version: 1.0.0
+plan_version: 1.1.0
 description: Assemble the Day-at-a-Glance shell via zone dispatch (assembly, not composition).
 entrypoint: dispatch
 terminal_states:
@@ -33,6 +33,7 @@ steps:
     tools:
       - engine.renewals.needs_attention
       - engine.renewals.companion_context
+    timeout_ms: 2000
     on_success: tasks_zone
     on_failure: dispatch_failed
 
@@ -50,6 +51,10 @@ steps:
 
   - step_id: broker_activity_zone
     agent: crm.broker_activity.head
-    accepted_output_modes: [status]
+    skill_id: broker_activity_read
+    accepted_output_modes: [app, status]
+    tools:
+      - engine.timeline.list_broker_activity
+    timeout_ms: 2000
     on_success: assembled
     on_failure: dispatch_failed

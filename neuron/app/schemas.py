@@ -25,6 +25,8 @@ _SCHEMA_FILES = {
     "orchestration-plan": "neuron-orchestration-plan.schema.json",
     "message-envelope": "neuron-message-envelope.schema.json",
     "zone-payload": "neuron-zone-payload.schema.json",
+    "broker-activity-list": "neuron-broker-activity-list.schema.json",
+    "companion-telemetry-event": "neuron-companion-telemetry-event.schema.json",
     # F0039-S0005 — the intent resolution contracts.
     "scope-decision": "neuron-scope-decision.schema.json",
     "intent-decision": "neuron-intent-decision.schema.json",

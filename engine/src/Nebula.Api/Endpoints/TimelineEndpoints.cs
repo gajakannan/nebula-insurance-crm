@@ -11,8 +11,26 @@ public static class TimelineEndpoints
     {
         app.MapGet("/timeline/events", async (
             string entityType, Guid? entityId, int? page, int? pageSize, int? limit,
+            bool? internalOnly,
             TimelineService svc, ICurrentUserService user, IAuthorizationService authz, CancellationToken ct) =>
         {
+            var internalOnlyRequested = internalOnly == true;
+            var brokerQuery = string.Equals(entityType, "Broker", StringComparison.OrdinalIgnoreCase);
+
+            if (internalOnlyRequested && !brokerQuery)
+            {
+                return ProblemDetailsHelper.ValidationError(new Dictionary<string, string[]>
+                {
+                    ["internalOnly"] = ["internalOnly=true is valid only when entityType=Broker."],
+                });
+            }
+
+            var externalPrincipal = user.Roles.Any(role =>
+                string.Equals(role, "BrokerUser", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(role, "ExternalUser", StringComparison.OrdinalIgnoreCase));
+            if (internalOnlyRequested && externalPrincipal)
+                return ProblemDetailsHelper.Forbidden();
+
             // BrokerUser: scope-isolated, approved event types only with BrokerDescription (F0009 §8.1).
             // BrokerUser path is not paginated (flat list, limit-based) and bypasses Casbin.
             if (user.Roles.Contains("BrokerUser"))
@@ -22,9 +40,17 @@ public static class TimelineEndpoints
                 return ProblemDetailsHelper.Forbidden();
 
             // Paginated path (F0002-S0007): page + pageSize params.
-            var effectivePage = page ?? 1;
-            var effectivePageSize = Math.Min(pageSize ?? 50, 100);
-            var result = await svc.ListEventsPagedAsync(entityType, entityId, effectivePage, effectivePageSize, user, ct);
+            // F0040 is a bounded newest-20 feed. Other callers retain the existing paging defaults.
+            var effectivePage = internalOnlyRequested ? 1 : page ?? 1;
+            var effectivePageSize = internalOnlyRequested
+                ? Math.Min(pageSize ?? 20, 20)
+                : Math.Min(pageSize ?? 50, 100);
+
+            // All internal Broker reads use the repaired scoped projection, not only the Neuron flag.
+            // This keeps Dashboard/Broker 360 on the same authorization-safe business contract.
+            var result = brokerQuery
+                ? await svc.ListBrokerActivityPagedAsync(entityId, effectivePage, effectivePageSize, user, ct)
+                : await svc.ListEventsPagedAsync(entityType, entityId, effectivePage, effectivePageSize, user, ct);
             return Results.Ok(new
             {
                 data = result.Data,

@@ -23,7 +23,7 @@ class BootstrapHappyPathTest(unittest.TestCase):
             snap["heads"],
             ["crm.broker_activity.head", "crm.pipeline.head", "crm.renewals.head", "crm.tasks.head"],
         )
-        self.assertEqual(len(snap["tools"]), 5)
+        self.assertEqual(len(snap["tools"]), 6)
 
     def test_ready(self):
         ok, detail = self.runtime.readiness()

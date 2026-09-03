@@ -1,7 +1,7 @@
 # F0040 — Neuron Second Specialist Head (Broker Activity) — Status
 
-**Overall Status:** Planned — Phase B approved
-**Last Updated:** 2026-08-31
+**Overall Status:** In Progress — implementation complete, G2 passed with recommendations
+**Last Updated:** 2026-09-02
 
 > G1 selected `broker_activity` as the second live specialist domain. Phase A
 > defines three read/platform slices and was explicitly approved at G3 on
@@ -12,9 +12,9 @@
 
 | Story | Title | Status |
 |-------|-------|--------|
-| F0040-S0001 | Live Broker activity Day-at-a-Glance zone with Broker 360 drill-through | Not Started |
-| F0040-S0002 | Direct recent-broker-activity routing with durable replay | Not Started |
-| F0040-S0003 | Two-live-head platform hardening, failure isolation, and telemetry | Not Started |
+| F0040-S0001 | Live Broker activity Day-at-a-Glance zone with Broker 360 drill-through | Implemented — G2 |
+| F0040-S0002 | Direct recent-broker-activity routing with durable replay | Implemented — G2 |
+| F0040-S0003 | Two-live-head platform hardening, failure isolation, and telemetry | Implemented — G2 |
 
 ## Story × Role Progress
 
@@ -22,9 +22,9 @@ Cell states: `not-started` · `in-progress` · `done` · `not-in-scope`; review 
 
 | Story | Backend | Frontend | AI | QA | DevOps | Code Review | Security | Overall |
 |-------|---------|----------|----|----|--------|-------------|----------|---------|
-| F0040-S0001 | not-started | not-started | not-started | not-started | not-in-scope | not-started | not-started | not-started |
-| F0040-S0002 | not-started | not-started | not-started | not-started | not-in-scope | not-started | not-started | not-started |
-| F0040-S0003 | not-started | not-started | not-started | not-started | not-in-scope | not-started | not-started | not-started |
+| F0040-S0001 | done | done | done | done | not-in-scope | not-started | not-started | in-progress |
+| F0040-S0002 | not-in-scope | done | done | done | not-in-scope | not-started | not-started | in-progress |
+| F0040-S0003 | done | not-in-scope | done | done | done | not-started | not-started | in-progress |
 
 ## Required Role Matrix
 
@@ -73,3 +73,4 @@ Not applicable during planning. This section is completed only after implementat
 - Existing feed semantics come from archived F0001-S0004 and F0002-S0007; F0040 does not redefine broker events or authorization.
 - Dependency features F0038, F0039, F0001, and F0002 are archived as completed. Evidence verification is audit-pending for this base-run-only plan and no repo-wide evidence audit substitutes for it.
 - Phase B owns `feature-assembly-plan.md`, ADR/API/schema decisions, final required roles, and all `kg-source/**` updates.
+- Feature run `2026-09-01-fd408477` G0 re-affirmed the approved assembly-plan ordering and Required Role Matrix against the current engine, Neuron, and frontend source surfaces.

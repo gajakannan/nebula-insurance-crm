@@ -41,7 +41,7 @@ class EngineToolDescriptor:
 
 
 def build_engine_tools(client: EngineClient) -> list[EngineToolDescriptor]:
-    """The five engine tools F0038 exposes to specialist heads (assembly plan Step 1)."""
+    """Allow-listed engine tools exposed to specialist heads."""
     specs = [
         (
             "engine.renewals.needs_attention",
@@ -66,6 +66,12 @@ def build_engine_tools(client: EngineClient) -> list[EngineToolDescriptor]:
             "POST",
             "/renewals/{renewalId}/outreach-mock-send",
             "Commit Identified->Outreach + 'sent (simulated)' event (no SMTP).",
+        ),
+        (
+            "engine.timeline.list_broker_activity",
+            "GET",
+            "/timeline/events",
+            "List newest authorization-scoped internal Broker timeline events.",
         ),
         (
             "engine.telemetry.ingest",

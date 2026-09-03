@@ -15,7 +15,7 @@ from .. import envelope as env
 from .. import telemetry as tel
 from ..auth import persona_from_token
 from ..telemetry import CompanionTelemetry
-from .zone_heads import HeadContext, ZonePayload, zone_id_for_card
+from .head_executor import HeadExecutor
 
 if TYPE_CHECKING:
     from ..runtime import NeuronRuntime
@@ -26,6 +26,7 @@ _GLANCE_PLAN_ID = "day-at-a-glance"
 class GlanceAssembler:
     def __init__(self, runtime: "NeuronRuntime") -> None:
         self._rt = runtime
+        self._executor = HeadExecutor(runtime)
 
     async def assemble(
         self, *, user_token: str, owner_user_id: str, thread_id: str | None = None
@@ -84,31 +85,12 @@ class GlanceAssembler:
         await CompanionTelemetry(self._rt.tools).emit(user_token, events)
 
     async def _dispatch(self, card_id, plan, thread, user_token, owner_user_id) -> dict[str, Any]:
-        rt = self._rt
-        registered = rt.agents.get(card_id)
-        card = registered.card
-        head = registered.handler
-        run = await rt.task_manager.begin_run(thread, plan, card)
-        try:
-            ctx = HeadContext(
-                user_token=user_token,
-                owner_user_id=owner_user_id,
-                thread_id=thread.id,
-                tools=rt.tools,
-                task_manager=rt.task_manager,
-                run=run,
-            )
-            payload = await head.build_zone(ctx)
-            payload.validated()
-            await rt.task_manager.complete_run(run, state="completed")
-            return payload.to_dict()
-        except Exception:
-            # WHY: per-zone error isolation — a failing head is contained to its own slot;
-            # the other zones still render (F0038-S0002 reliability). No detail leak.
-            await rt.task_manager.complete_run(run, state="failed")
-            return ZonePayload(
-                zone_id=zone_id_for_card(card_id),
-                zone_status="error",
-                title=card.name,
-                detail="This zone is temporarily unavailable.",
-            ).to_dict()
+        del plan  # plan resolution and timeout parity are centralized in HeadExecutor.
+        payload = await self._executor.execute(
+            card_id,
+            thread,
+            user_token,
+            owner_user_id,
+            "glance",
+        )
+        return payload.to_dict()

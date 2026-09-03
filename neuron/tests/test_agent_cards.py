@@ -35,15 +35,27 @@ class LoadShippedCardsTest(unittest.TestCase):
         self.assertTrue(all(not c.public for c in self.cards.values()))
 
     def test_stub_heads_marked_inactive(self):
-        for stub in ("crm.tasks.head", "crm.pipeline.head", "crm.broker_activity.head"):
+        for stub in ("crm.tasks.head", "crm.pipeline.head"):
             self.assertFalse(self.cards[stub].active, stub)
         self.assertTrue(self.cards["crm.renewals.head"].active)
+        self.assertTrue(self.cards["crm.broker_activity.head"].active)
 
     def test_user_token_only_on_engine_touching_agents(self):
         self.assertEqual(self.cards["crm.renewals.head"].auth_mode, "user_token")
+        self.assertEqual(self.cards["crm.broker_activity.head"].auth_mode, "user_token")
         # Pure-classification / stub agents make no engine call.
         self.assertEqual(self.cards["crm.scope_guard"].auth_mode, "none")
         self.assertEqual(self.cards["crm.tasks.head"].auth_mode, "none")
+
+    def test_live_heads_declare_component_ownership(self):
+        self.assertEqual(
+            self.cards["crm.renewals.head"].components,
+            ("renewals.needs_attention_list",),
+        )
+        self.assertEqual(
+            self.cards["crm.broker_activity.head"].components,
+            ("broker_activity.recent_list",),
+        )
 
 
 class CardValidationTest(unittest.TestCase):

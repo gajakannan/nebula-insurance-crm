@@ -13,6 +13,8 @@ import {
   OutreachDraftEditor,
   outreachDraftEditorSchema,
 } from '../components/OutreachDraftEditor';
+import { BrokerActivityList } from '../components/BrokerActivityList';
+import brokerActivitySchemaRaw from '../contracts/neuron-broker-activity-list.schema.json?raw';
 
 /**
  * F0038-S0002 component registry (intake L1). The model/Neuron picks a component id +
@@ -23,6 +25,7 @@ import {
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);
+const brokerActivitySchema = JSON.parse(brokerActivitySchemaRaw) as Record<string, unknown>;
 
 interface RegistryEntry {
   Component: (args: { props: Record<string, unknown> }) => ReactElement;
@@ -41,6 +44,10 @@ const REGISTRY: Record<string, RegistryEntry> = {
   'outreach.draft_editor': {
     Component: OutreachDraftEditor,
     validate: ajv.compile(outreachDraftEditorSchema),
+  },
+  'broker_activity.recent_list': {
+    Component: BrokerActivityList,
+    validate: ajv.compile(brokerActivitySchema),
   },
 };
 

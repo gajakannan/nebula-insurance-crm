@@ -108,6 +108,19 @@ _BROKER_KEYWORDS = (
     "broker interaction", "broker follow",
 )
 
+# F0040 activates one deliberately narrow Broker capability: the unfiltered newest-20
+# feed. Deterministic rollback mode must not claim a filtered list or turn a write-like
+# request into that read. These markers choose application-owned copy and stop before
+# head dispatch; they never extract or persist the requested broker/filter value.
+_BROKER_WRITE_RE = re.compile(
+    r"\b(create|edit|update|delete|remove|assign|approve|contact|call|email|message|"
+    r"draft|send|schedule)\b|\b(follow|reach)\s+up\b"
+)
+_BROKER_FILTER_RE = re.compile(
+    r"\b(for|about)\s+(?:broker\s+)?[a-z0-9]"
+    r"|\b(today|yesterday|week|month|since|between|before|after|date|event type|only)\b"
+)
+
 # Greeting / capability / meta markers → ambiguous (a CRM-framed clarify, not an answer).
 _GREETING_WORDS = {"hi", "hey", "hello", "hiya", "yo", "greetings", "help"}
 _GREETING_PHRASES = (
@@ -174,6 +187,14 @@ CLARIFY_TEXT = (
     "I can help with your CRM work — renewals that need attention, outreach drafts, and "
     "broker follow-ups. Which of those would you like to start with?"
 )
+BROKER_READ_ONLY_TEXT = (
+    "Broker activity is read-only here. I can show the newest authorized Broker "
+    "activity, but I can't create, edit, assign, approve, contact, or follow up."
+)
+BROKER_FILTER_UNSUPPORTED_TEXT = (
+    "Broker activity filters aren't supported yet. I can show the newest 20 "
+    "authorized Broker events without a broker, event-type, or date filter."
+)
 
 
 @dataclass(frozen=True)
@@ -200,6 +221,20 @@ def evaluate_scope(text: str) -> GuardDecision:
         return GuardDecision(REDIRECT, OUT_OF_SCOPE, reply_text=REDIRECT_TEXT)
 
     if intent in INTENT_TO_HEAD_CARD:
+        if intent == "broker_activity":
+            normalized = " ".join(_tokens(text or ""))
+            if _BROKER_WRITE_RE.search(normalized):
+                return GuardDecision(
+                    CLARIFY,
+                    intent,
+                    reply_text=BROKER_READ_ONLY_TEXT,
+                )
+            if _BROKER_FILTER_RE.search(normalized):
+                return GuardDecision(
+                    CLARIFY,
+                    intent,
+                    reply_text=BROKER_FILTER_UNSUPPORTED_TEXT,
+                )
         return GuardDecision(ALLOW, intent, target_head_card_id=INTENT_TO_HEAD_CARD[intent])
     if intent == AMBIGUOUS:
         return GuardDecision(CLARIFY, AMBIGUOUS, reply_text=CLARIFY_TEXT)

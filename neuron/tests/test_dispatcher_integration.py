@@ -78,6 +78,16 @@ class FakeTool:
         return {"data": self._items}
 
 
+class FakeBrokerTool:
+    def __init__(self, items=None):
+        self.calls = []
+        self._items = items or []
+
+    async def invoke(self, **kwargs):
+        self.calls.append(kwargs)
+        return {"data": self._items}
+
+
 class DispatcherTestBase(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         # Pin direct mode: the shipped default is `shadow` until the §30.4 gates go
@@ -86,6 +96,8 @@ class DispatcherTestBase(unittest.IsolatedAsyncioTestCase):
         self.rt = build_runtime(type(base)(**{**vars(base), "intent_mode": "direct"}))
         self.tool = FakeTool()
         self.rt.tools._tools["engine.renewals.needs_attention"] = self.tool
+        self.broker_tool = FakeBrokerTool()
+        self.rt.tools._tools["engine.timeline.list_broker_activity"] = self.broker_tool
 
     def _dispatcher(self, provider):
         resolver = IntentResolver(
@@ -154,6 +166,43 @@ class ResolveBeforeDispatchTest(DispatcherTestBase):
         self.assertEqual(len(provider.calls), 1)
         self.assertEqual(len(self.tool.calls), 1)
         self.assertTrue(any(p["part_type"] == "app" for p in envelope["parts"]))
+
+    async def test_broker_route_reaches_only_the_fixed_read(self):
+        provider = ScriptedProvider().script_default(
+            payload(intent_overrides={
+                "domain": "broker_activity",
+                "actions": ["broker_activity.list"],
+            })
+        )
+        envelope = await self._dispatcher(provider).dispatch(
+            text="show recent broker activity", thread_id=None,
+            user_token=TOKEN, owner_user_id=OWNER,
+        )
+        self.assertEqual(len(self.broker_tool.calls), 1)
+        self.assertEqual(self.broker_tool.calls[0]["params"], {
+            "entityType": "Broker", "page": 1, "pageSize": 20, "internalOnly": True,
+        })
+        self.assertEqual(envelope["parts"][0]["text"], "No recent broker activity.")
+
+    async def test_broker_filter_and_write_proposals_make_no_engine_call(self):
+        cases = (
+            ({"domain": "broker_activity", "actions": ["broker_activity.list"],
+              "entities": {"broker_name": "Atlas"}}, "filters aren't supported"),
+            ({"domain": "broker_activity", "actions": ["broker_activity.delete"]},
+             "read-only"),
+        )
+        for intent_overrides, expected_copy in cases:
+            with self.subTest(intent=intent_overrides):
+                provider = ScriptedProvider().script_default(
+                    payload(intent_overrides=intent_overrides)
+                )
+                before = len(self.broker_tool.calls)
+                envelope = await self._dispatcher(provider).dispatch(
+                    text="broker request", thread_id=None,
+                    user_token=TOKEN, owner_user_id=OWNER,
+                )
+                self.assertEqual(len(self.broker_tool.calls), before)
+                self.assertIn(expected_copy, envelope["parts"][0]["text"])
 
     async def test_redirect_makes_no_engine_call(self):
         provider = ScriptedProvider().script_default(

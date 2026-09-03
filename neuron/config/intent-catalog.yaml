@@ -7,7 +7,7 @@
 #
 # Adding an action here is a code-reviewed authorization decision, not configuration
 # tuning. `active: false` keeps a definition visible without making it executable.
-catalog_version: 1.0.0
+catalog_version: 1.1.0
 
 domains:
   renewals:
@@ -65,10 +65,10 @@ domains:
 
   broker_activity:
     target_head_card_id: crm.broker_activity.head
-    active: false
+    active: true
     description: Broker interactions and follow-ups.
     actions:
       broker_activity.list:
-        active: false
-        description: List broker activity.
+        active: true
+        description: List the newest authorization-scoped Broker activity without filters.
         required_entities: []
