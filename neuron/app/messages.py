@@ -32,7 +32,7 @@ from . import scope_guard
 from .errors import NeuronError, PersistenceUnavailableError
 from .intent.resolver import IntentResolver, ResolutionOutcome, build_resolver
 from .intent.response_policy import UNAVAILABLE_TEXT, reply_text_for
-from .orchestration.zone_heads import HeadContext
+from .orchestration.head_executor import HeadExecutor
 
 if TYPE_CHECKING:
     from .runtime import NeuronRuntime
@@ -60,6 +60,7 @@ class MessageDispatcher:
     def __init__(self, runtime: "NeuronRuntime", *, resolver: IntentResolver | None = None) -> None:
         self._rt = runtime
         self._resolver = resolver
+        self._head_executor = HeadExecutor(runtime)
 
     # --- entry point ---------------------------------------------------------
 
@@ -257,24 +258,13 @@ class MessageDispatcher:
         """Dispatch to a specialist head. The head's tools call the engine as the user and
         the engine authorizes — nothing here grants access."""
         rt = self._rt
-        registered = rt.agents.get(head_card_id)
-        run = await rt.task_manager.begin_run(thread, rt.plans[_GLANCE_PLAN_ID], registered.card)
-        try:
-            ctx = HeadContext(
-                user_token=user_token,
-                owner_user_id=owner_user_id,
-                thread_id=thread.id,
-                tools=rt.tools,
-                task_manager=rt.task_manager,
-                run=run,
-            )
-            payload = await registered.handler.build_zone(ctx)
-            payload.validated()
-            await rt.task_manager.complete_run(run, state="completed")
-        except Exception:
-            # Contain a head failure to a bounded reply — never a raw error to the user.
-            await rt.task_manager.complete_run(run, state="failed")
-            return await self._finish(thread, owner_user_id, [env.text_part(UNAVAILABLE_TEXT)])
+        payload = await self._head_executor.execute(
+            head_card_id,
+            thread,
+            user_token,
+            owner_user_id,
+            "conversation",
+        )
 
         return await self._finish(thread, owner_user_id, self._zone_to_parts(payload))
 
@@ -282,9 +272,13 @@ class MessageDispatcher:
     def _zone_to_parts(payload) -> list[dict[str, Any]]:
         status = payload.zone_status
         if status == "content" and payload.component:
-            title = payload.title or "your CRM"
+            if payload.zone_id == "broker_activity":
+                text = "Here's the latest broker activity you can access."
+            else:
+                title = payload.title or "your CRM"
+                text = f"Here's what needs your attention in {title}."
             return [
-                env.text_part(f"Here's what needs your attention in {title}."),
+                env.text_part(text),
                 env.app_part(payload.component, payload.props or {}),
             ]
         if status == "empty":
@@ -297,6 +291,8 @@ class MessageDispatcher:
                     "release. I can help you with your renewals today."
                 )
             ]
+        if payload.zone_id == "broker_activity" and payload.detail:
+            return [env.text_part(payload.detail)]
         return [env.text_part(UNAVAILABLE_TEXT)]
 
     async def _finish(self, thread, owner_user_id, parts) -> dict[str, Any]:

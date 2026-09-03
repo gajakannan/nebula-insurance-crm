@@ -30,6 +30,14 @@ _CLARIFY_TEXT = {
     "multiple_candidate_records": "I found more than one possible match — which record did you mean?",
     "unclear_reference": "Could you say which record or area you mean?",
     "unsupported_action": "I can't do that one yet. I can help with renewals, tasks, or pipeline.",
+    "unsupported_broker_filter": (
+        "Broker activity filters aren't supported yet. I can show the newest 20 "
+        "authorized Broker events without a broker, event-type, or date filter."
+    ),
+    "unsupported_broker_action": (
+        "Broker activity is read-only here. I can show the newest authorized Broker "
+        "activity, but I can't create, edit, assign, approve, contact, or follow up."
+    ),
 }
 
 DEFAULT_CLARIFY_TEXT = "Could you tell me a bit more about what you need?"

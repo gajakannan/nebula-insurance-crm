@@ -1,19 +1,19 @@
 version: 0
-generated_at: '2026-07-26T01:43:53+00:00'
+generated_at: '2026-09-03T03:36:57+00:00'
 summary:
-  total_decisions: 9
+  total_decisions: 8
   by_kind:
     DECISION: 0
     SUPERSEDES: 0
     TRADEOFF: 0
-    WHY: 9
+    WHY: 8
   resolved_node_count: 3
-  resolved_symbol_count: 8
+  resolved_symbol_count: 7
   ambiguous_count: 0
 decisions:
-- id: decision:experience-src-features-neuron-registry-componentregistry-l52-why
+- id: decision:experience-src-features-neuron-registry-componentregistry-l59-why
   file: experience/src/features/neuron/registry/componentRegistry.tsx
-  line: 52
+  line: 59
   kind: WHY
   text: "renders a static note only \u2014 never echoes the untrusted component id/props\
     \ into"
@@ -33,20 +33,13 @@ decisions:
   text: "forwarded end-user token is the ONLY authorization \u2014 the engine decides."
   resolved_node: capability:neuron-companion
   resolved_symbol: symbol:capability-neuron-companion:engine-client.call
-- id: decision:neuron-app-orchestration-agent-card-l55-why
+- id: decision:neuron-app-orchestration-agent-card-l56-why
   file: neuron/app/orchestration/agent_card.py
-  line: 55
+  line: 56
   kind: WHY
   text: "F0038 exposes no public Agent Card \u2014 a public:true card must not load,"
   resolved_node: capability:neuron-companion
   resolved_symbol: symbol:capability-neuron-companion:agent-card.from-dict
-- id: decision:neuron-app-orchestration-glance-l106-why
-  file: neuron/app/orchestration/glance.py
-  line: 106
-  kind: WHY
-  text: "per-zone error isolation \u2014 a failing head is contained to its own slot;"
-  resolved_node: capability:neuron-companion
-  resolved_symbol: symbol:capability-neuron-companion:glance-assembler.dispatch
 - id: decision:neuron-app-orchestration-task-manager-l96-why
   file: neuron/app/orchestration/task_manager.py
   line: 96

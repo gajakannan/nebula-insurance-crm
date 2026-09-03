@@ -42,6 +42,8 @@ CLARIFICATION_CODES_INTENT = (
     "multiple_candidate_records",
     "unclear_reference",
     "unsupported_action",
+    "unsupported_broker_filter",
+    "unsupported_broker_action",
 )
 
 # Internal-only reason code. Deliberately NOT in the model-facing schema (spec §10.4):

@@ -15,14 +15,24 @@ class GlanceAssemblyTest(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         self.rt = build_runtime()
         self.assembler = GlanceAssembler(self.rt)
-        # Keep glance-assembly tests hermetic: the live Renewals head's engine call is
-        # covered in test_renewals_head.py; here it deterministically returns empty.
+        # Keep glance-assembly tests hermetic: live-head Engine calls have focused
+        # coverage; here both active heads deterministically return empty.
         from app.orchestration.zone_heads import ZonePayload
 
         async def _empty_renewals(ctx):
             return ZonePayload("renewals", "empty", title="Renewals", detail="No renewals need you.").validated()
 
         self.rt.agents.get("crm.renewals.head").handler.build_zone = _empty_renewals
+
+        async def _empty_broker_activity(ctx):
+            return ZonePayload(
+                "broker_activity",
+                "empty",
+                title="Broker Activity",
+                detail="No recent broker activity.",
+            ).validated()
+
+        self.rt.agents.get("crm.broker_activity.head").handler.build_zone = _empty_broker_activity
 
         # Stub the telemetry sink (F0038-S0008) so assembly stays hermetic + inspectable.
         class _RecordingTelemetryTool:
@@ -49,11 +59,11 @@ class GlanceAssemblyTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(result["zones"]), 4)
         by_id = {z["zone_id"]: z for z in result["zones"]}
         self.assertEqual(set(by_id), {"renewals", "tasks", "pipeline", "broker_activity"})
-        # Renewals live-slot is empty until S0003; the three stubs are inactive (S0004).
+        # Both live slots are empty; the two future specialist heads remain inactive.
         self.assertEqual(by_id["renewals"]["zone_status"], "empty")
         self.assertEqual(by_id["tasks"]["zone_status"], "inactive")
         self.assertEqual(by_id["pipeline"]["zone_status"], "inactive")
-        self.assertEqual(by_id["broker_activity"]["zone_status"], "inactive")
+        self.assertEqual(by_id["broker_activity"]["zone_status"], "empty")
 
     async def test_every_zone_and_message_is_schema_valid(self):
         result = await self.assembler.assemble(user_token="tok", owner_user_id=OWNER)

@@ -128,7 +128,7 @@ export function DayAtAGlance() {
                 key={zone.zone_id}
                 className={zone.zone_id === 'renewals' ? 'sm:col-span-2 lg:col-span-3' : undefined}
               >
-                <ZoneSlot zone={zone} />
+                <ZoneSlot zone={zone} onRetry={() => void refetch()} />
               </div>
             ))}
           </div>

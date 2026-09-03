@@ -9,7 +9,9 @@ serve a half-configured runtime (F0038-S0001 edge cases).
 from __future__ import annotations
 
 import os
+from collections.abc import Callable
 
+from .components import COMPONENTS
 from .config import Settings, load_model_config, load_settings
 from .engine_client import EngineClient
 from .errors import ConfigError
@@ -29,7 +31,7 @@ from .orchestration.heads import BootstrapHandler
 from .orchestration.plan import load_plans
 from .orchestration.registries import AgentRegistry, ToolRegistry
 from .orchestration.task_manager import A2ATaskManager
-from .orchestration.zone_heads import RenewalsZoneHead, StubZoneHead
+from .orchestration.zone_heads import BrokerActivityZoneHead, RenewalsZoneHead, StubZoneHead
 from .persistence.in_memory import InMemoryNeuronRepository
 from .persistence.postgres import PostgresNeuronRepository
 from .persistence.repository import NeuronRepository
@@ -54,15 +56,34 @@ def _pending_story(card: AgentCard) -> str:
     return "F0038"
 
 
+_LIVE_HEAD_FACTORIES: dict[str, Callable[[AgentCard], object]] = {
+    "crm.renewals.head": RenewalsZoneHead,
+    "crm.broker_activity.head": BrokerActivityZoneHead,
+}
+
+
 def _make_handler(card: AgentCard):
     """Bind a card to its handler. Specialist heads get zone-producing handlers
     (F0038-S0002/S0004); the live Renewals head is F0038-S0003. The scope guard and
     intent classifier get behavioral handlers (F0038-S0007). The orchestrator and
     outreach drafter keep placeholders — their behavior lives in the GlanceAssembler /
     ActionDispatcher, not the card handler."""
-    if card.card_id == "crm.renewals.head":
-        return RenewalsZoneHead(card)
     if card.kind == "specialist_head":
+        if card.active:
+            factory = _LIVE_HEAD_FACTORIES.get(card.card_id)
+            if factory is None:
+                raise ConfigError(
+                    f"active specialist head {card.card_id!r} has no live handler factory"
+                )
+            if card.auth_mode != "user_token" and card.tools:
+                raise ConfigError(
+                    f"active engine head {card.card_id!r} must use auth_mode:user_token"
+                )
+            return factory(card)
+        if card.tools or card.components:
+            raise ConfigError(
+                f"inactive specialist head {card.card_id!r} may not declare tools/components"
+            )
         return StubZoneHead(card)
     if card.kind == "scope_guard":
         return ScopeGuardHandler(card)
@@ -157,7 +178,7 @@ def build_runtime(settings: Settings | None = None) -> NeuronRuntime:
     tools.register_all(build_engine_tools(engine_client))
 
     # 3. Plans — validated against the schema AND cross-checked against registries.
-    plans = load_plans(settings.plans_dir, agents, tools)
+    plans = load_plans(settings.plans_dir, agents, tools, COMPONENTS)
 
     # 4. Intent registry + versioned prompts (F0039-S0005). Loaded before the store so
     #    an invalid catalog or a missing prompt stops startup, exactly like a bad plan.
@@ -182,6 +203,7 @@ def build_runtime(settings: Settings | None = None) -> NeuronRuntime:
         engine_client=engine_client,
         model_router=model_router,
         task_manager=task_manager,
+        components=COMPONENTS,
         intent_catalog=intent_catalog,
         prompts=prompts,
     )

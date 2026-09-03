@@ -8,6 +8,7 @@ import {
 describe('componentRegistry (F0038-S0002 rendering contract)', () => {
   it('reports registration status', () => {
     expect(isRegisteredComponent('renewals.needs_attention_list')).toBe(true);
+    expect(isRegisteredComponent('broker_activity.recent_list')).toBe(true);
     expect(isRegisteredComponent('evil.script')).toBe(false);
   });
 
@@ -52,5 +53,14 @@ describe('componentRegistry (F0038-S0002 rendering contract)', () => {
     );
     expect(screen.getByText('Acme Mfg')).toBeInTheDocument();
     expect(screen.queryByTestId('registry-fallback')).not.toBeInTheDocument();
+  });
+
+  it('refuses malformed Broker activity props', () => {
+    render(
+      renderRegisteredComponent('broker_activity.recent_list', {
+        items: [{ entityType: 'Broker', eventDescription: 'untrusted partial row' }],
+      }),
+    );
+    expect(screen.getByTestId('registry-fallback')).toHaveAttribute('data-reason', 'invalid-props');
   });
 });

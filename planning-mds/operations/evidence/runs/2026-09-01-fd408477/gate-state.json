@@ -1,0 +1,92 @@
+{
+  "action": "feature",
+  "contract_version": "2026-07-11",
+  "run_id": "2026-09-01-fd408477",
+  "schema_version": 1,
+  "stages": {
+    "G0": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g0"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G1": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g1"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G2": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g2"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G3": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g3"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G4": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g4"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G5": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g5"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G6": {
+      "attestations": [],
+      "completed_operations": [
+        "validate-g6",
+        "validate-trackers-g6"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G7": {
+      "attestations": [],
+      "completed_operations": [
+        "kg-compile",
+        "kg-symbols-decisions",
+        "kg-check-drift"
+      ],
+      "pending_checkpoint": null,
+      "status": "completed"
+    },
+    "G8": {
+      "attestations": [],
+      "completed_operations": [],
+      "pending_checkpoint": {
+        "description": "VERIFY (do not re-author) the G7 graph, update trackers (STATUS/REGISTRY/ROADMAP/BLUEPRINT + kg-source feature shard), and move the feature folder to its archived path when Done/Completed.",
+        "id": "archive-move",
+        "produces": [
+          "archived-feature-folder"
+        ],
+        "requires": [
+          "pm-closeout.md",
+          "signoff-ledger.md",
+          "kg-reconciliation.md"
+        ]
+      },
+      "status": "pending-checkpoint"
+    }
+  }
+}

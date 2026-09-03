@@ -1,0 +1,50 @@
+version: 0
+generated_at: '2026-09-03T03:36:05+00:00'
+summary:
+  total_invocations: 7
+  by_language:
+    csharp: 6
+    typescript: 1
+  source_files: 6
+  bound_targets: 4
+  refreshed_languages:
+  - csharp
+  - python
+  - typescript
+  preserved_languages: []
+invocations:
+- source_file: engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs
+  source_line: 636
+  language: csharp
+  target_symbol: symbol:endpoint-account-timeline:timeline-service.list-events-paged-async
+  target_node: endpoint:account-timeline
+- source_file: engine/src/Nebula.Api/Endpoints/NeuronCompanionTelemetryEndpoints.cs
+  source_line: 34
+  language: csharp
+  target_symbol: symbol:capability-neuron-companion-telemetry:neuron-companion-telemetry-service.validate
+  target_node: capability:neuron-companion-telemetry
+- source_file: engine/src/Nebula.Api/Endpoints/NeuronCompanionTelemetryEndpoints.cs
+  source_line: 42
+  language: csharp
+  target_symbol: symbol:capability-neuron-companion-telemetry:neuron-companion-telemetry-service.write-accepted-events
+  target_node: capability:neuron-companion-telemetry
+- source_file: engine/src/Nebula.Api/Endpoints/PolicyEndpoints.cs
+  source_line: 359
+  language: csharp
+  target_symbol: symbol:endpoint-account-timeline:timeline-service.list-events-paged-async
+  target_node: endpoint:account-timeline
+- source_file: engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs
+  source_line: 226
+  language: csharp
+  target_symbol: symbol:endpoint-account-timeline:timeline-service.list-events-paged-async
+  target_node: endpoint:account-timeline
+- source_file: engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs
+  source_line: 408
+  language: csharp
+  target_symbol: symbol:endpoint-account-timeline:timeline-service.list-events-paged-async
+  target_node: endpoint:account-timeline
+- source_file: experience/src/features/neuron/components/MessagePartView.tsx
+  source_line: 30
+  language: typescript
+  target_symbol: symbol:capability-neuron-message-envelope:component-registry.render-registered-component
+  target_node: capability:neuron-message-envelope

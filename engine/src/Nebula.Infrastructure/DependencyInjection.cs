@@ -37,6 +37,7 @@ public static class DependencyInjection
         services.AddScoped<IServiceCaseRepository, ServiceCaseRepository>();
         services.AddScoped<IUserProfileRepository, UserProfileRepository>();
         services.AddScoped<ITimelineRepository, TimelineRepository>();
+        services.AddScoped<IBrokerActivityFeedRepository, BrokerActivityFeedRepository>();
         services.AddScoped<IWorkflowTransitionRepository, WorkflowTransitionRepository>();
         services.AddScoped<IWorkflowSlaThresholdRepository, WorkflowSlaThresholdRepository>();
         services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();

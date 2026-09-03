@@ -10,6 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from .config import Settings
+from .components import ComponentContractRegistry
 from .engine_client import EngineClient
 from .models.router import ModelRouter
 from .orchestration.plan import OrchestrationPlan
@@ -30,6 +31,7 @@ class NeuronRuntime:
     engine_client: EngineClient
     model_router: ModelRouter
     task_manager: A2ATaskManager
+    components: ComponentContractRegistry
     # F0039-S0005 — the trusted registry and the versioned prompts, both loaded and
     # content-hashed at startup so every decision can name what produced it.
     intent_catalog: IntentCatalog | None = None

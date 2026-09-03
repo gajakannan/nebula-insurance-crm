@@ -35,7 +35,10 @@ class AgentRegistryTest(unittest.TestCase):
         )
 
     def test_active_heads_excludes_stubs(self):
-        self.assertEqual(self.reg.active_heads(), ["crm.renewals.head"])
+        self.assertEqual(
+            self.reg.active_heads(),
+            ["crm.broker_activity.head", "crm.renewals.head"],
+        )
 
     def test_duplicate_registration_rejected(self):
         card = self.reg.get("crm.renewals.head").card
@@ -48,7 +51,7 @@ class ToolRegistryTest(unittest.TestCase):
         self.reg = ToolRegistry()
         self.reg.register_all(build_engine_tools(EngineClient("http://engine")))
 
-    def test_five_engine_tools_registered(self):
+    def test_six_engine_tools_registered(self):
         self.assertEqual(
             self.reg.names(),
             [
@@ -57,6 +60,7 @@ class ToolRegistryTest(unittest.TestCase):
                 "engine.renewals.outreach_draft",
                 "engine.renewals.outreach_mock_send",
                 "engine.telemetry.ingest",
+                "engine.timeline.list_broker_activity",
             ],
         )
 

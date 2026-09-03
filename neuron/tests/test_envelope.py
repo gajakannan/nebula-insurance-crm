@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import jsonschema
 
 from app import envelope as env
-from app.envelope import UnknownActionError, UnknownComponentError
+from app.envelope import InvalidComponentPropsError, UnknownActionError, UnknownComponentError
 from app.schemas import get_validator
 
 
@@ -22,6 +22,13 @@ class PartBuilderTest(unittest.TestCase):
         self.assertEqual(part["component"], "renewals.needs_attention_list")
         with self.assertRaises(UnknownComponentError):
             env.app_part("evil.script", {"x": 1})
+
+    def test_broker_component_props_fail_closed_before_envelope_build(self):
+        with self.assertRaises(InvalidComponentPropsError):
+            env.app_part(
+                "broker_activity.recent_list",
+                {"items": [{"entityType": "Broker", "eventDescription": "partial"}]},
+            )
 
     def test_actions_part_requires_registered_action(self):
         ok = env.actions_part([{"action_id": "a1", "label": "Draft", "action_type": "draft_outreach"}])

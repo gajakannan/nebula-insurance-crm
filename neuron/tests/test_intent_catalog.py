@@ -65,11 +65,11 @@ class ShippedCatalogTest(unittest.TestCase):
         self.catalog = load_catalog(SHIPPED_CATALOG, registered_head_ids=HEADS)
 
     def test_loads_and_records_a_content_hash(self):
-        self.assertEqual(self.catalog.catalog_version, "1.0.0")
+        self.assertEqual(self.catalog.catalog_version, "1.1.0")
         self.assertTrue(self.catalog.content_hash.startswith("sha256:"))
 
-    def test_only_renewals_is_active_today(self):
-        self.assertEqual(self.catalog.active_domain_ids(), ["renewals"])
+    def test_only_shipped_specialists_are_active_today(self):
+        self.assertEqual(self.catalog.active_domain_ids(), ["broker_activity", "renewals"])
 
     def test_inactive_domain_actions_are_not_executable(self):
         # tasks/pipeline/broker_activity exist as definitions but must not be routable.
@@ -265,14 +265,14 @@ class StartupWiringTest(unittest.TestCase):
 
         runtime = build_runtime()
         self.assertIsNotNone(runtime.intent_catalog)
-        self.assertEqual(runtime.intent_catalog.catalog_version, "1.0.0")
+        self.assertEqual(runtime.intent_catalog.catalog_version, "1.1.0")
         self.assertIn(INTENT_RESOLVER_PROMPT, runtime.prompts)
 
     def test_readiness_reports_the_loaded_catalog_and_prompts(self):
         from app.bootstrap import build_runtime
 
         _, detail = build_runtime().readiness()
-        self.assertEqual(detail["intent_catalog_version"], "1.0.0")
+        self.assertEqual(detail["intent_catalog_version"], "1.1.0")
         self.assertIn("crm-intent-resolver@1.0.0", detail["prompts"])
 
     def test_invalid_catalog_stops_startup(self):

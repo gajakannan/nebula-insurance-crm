@@ -163,6 +163,19 @@ class ResolverHappyPathTest(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(outcome.should_route)
         self.assertEqual(outcome.resolution.target_head_card_id, "crm.renewals.head")
 
+    async def test_routes_unqualified_broker_activity_to_the_trusted_head(self):
+        provider = ScriptedProvider().script_default(
+            resolution_payload(intent_overrides={
+                "domain": "broker_activity",
+                "actions": ["broker_activity.list"],
+            })
+        )
+        outcome = await build_resolver(provider).resolve("show recent broker activity")
+        self.assertTrue(outcome.should_route)
+        self.assertEqual(
+            outcome.resolution.target_head_card_id, "crm.broker_activity.head"
+        )
+
     async def test_exactly_one_model_call_per_message(self):
         provider = ScriptedProvider().script_default(resolution_payload())
         await build_resolver(provider).resolve("show me my renewals")
@@ -191,7 +204,7 @@ class ResolverHappyPathTest(unittest.IsolatedAsyncioTestCase):
         fields = outcome.provenance_fields()
         self.assertEqual(fields["prompt_id"], "crm-intent-resolver@1.0.0")
         self.assertTrue(fields["prompt_hash"].startswith("sha256:"))
-        self.assertEqual(fields["catalog_version"], "1.0.0")
+        self.assertEqual(fields["catalog_version"], "1.1.0")
         self.assertTrue(fields["content_hash"].startswith("sha256:"))
 
     async def test_both_stages_share_one_physical_provenance(self):
@@ -243,6 +256,29 @@ class ResolverFailClosedTest(unittest.IsolatedAsyncioTestCase):
         )
         outcome = await build_resolver(provider).resolve("show me my renewals")
         self.assertFalse(outcome.should_route)
+
+    async def test_broker_filters_and_mutations_produce_bounded_clarify(self):
+        cases = (
+            (
+                {"domain": "broker_activity", "actions": ["broker_activity.list"],
+                 "entities": {"broker_name": "Atlas Brokerage"}},
+                "unsupported_broker_filter",
+            ),
+            (
+                {"domain": "broker_activity", "actions": ["broker_activity.follow_up"]},
+                "unsupported_broker_action",
+            ),
+        )
+        for overrides, code in cases:
+            with self.subTest(code=code):
+                provider = ScriptedProvider().script_default(
+                    resolution_payload(intent_overrides=overrides)
+                )
+                outcome = await build_resolver(provider).resolve("broker request")
+                self.assertFalse(outcome.should_route)
+                self.assertIsNone(outcome.resolution.target_head_card_id)
+                self.assertEqual(outcome.resolution.intent.decision, "clarify")
+                self.assertIn(code, outcome.rejection_codes)
 
     async def test_missing_entity_clarifies_rather_than_guessing(self):
         provider = ScriptedProvider().script_default(
@@ -318,6 +354,8 @@ class ResponsePolicyTest(unittest.IsolatedAsyncioTestCase):
     def test_clarify_copy_is_selected_by_code(self):
         self.assertIn("renewal", clarify_text("missing_entity").casefold())
         self.assertTrue(clarify_text("unknown_code"))
+        self.assertIn("filters aren't supported", clarify_text("unsupported_broker_filter"))
+        self.assertIn("read-only", clarify_text("unsupported_broker_action"))
 
 
 class CompoundRequestTest(unittest.IsolatedAsyncioTestCase):

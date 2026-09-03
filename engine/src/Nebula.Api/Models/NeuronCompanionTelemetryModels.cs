@@ -24,7 +24,12 @@ public sealed record NeuronCompanionTelemetryEventDto(
     [property: JsonPropertyName("user_id")] string? UserId,
     [property: JsonPropertyName("thread_id")] string? ThreadId,
     [property: JsonPropertyName("renewal_id")] string? RenewalId,
-    [property: JsonPropertyName("persona")] string? Persona);
+    [property: JsonPropertyName("persona")] string? Persona,
+    [property: JsonPropertyName("head_run_id")] string? HeadRunId = null,
+    [property: JsonPropertyName("zone_id")] string? ZoneId = null,
+    [property: JsonPropertyName("entry_point")] string? EntryPoint = null,
+    [property: JsonPropertyName("terminal_result")] string? TerminalResult = null,
+    [property: JsonPropertyName("latency_ms")] int? LatencyMs = null);
 
 public static class NeuronCompanionEventNames
 {
@@ -37,4 +42,5 @@ public static class NeuronCompanionEventNames
     public const string AttentionRenewalActioned = "attention-renewal-actioned";
     public const string DraftGenerated = "draft-generated";
     public const string MockSent = "mock-sent";
+    public const string SpecialistHeadOutcome = "specialist-head-outcome";
 }

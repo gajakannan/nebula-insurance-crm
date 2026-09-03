@@ -44,6 +44,18 @@ class FakeNeedsAttentionTool:
         return {"data": self._data}
 
 
+class FakeBrokerActivityTool:
+    name = "engine.timeline.list_broker_activity"
+
+    def __init__(self, data=None):
+        self.data = data or []
+        self.calls = []
+
+    async def invoke(self, *, user_token=None, params=None, **_kwargs):
+        self.calls.append({"user_token": user_token, "params": params})
+        return {"data": self.data}
+
+
 # --- classifier: deterministic, pure ---------------------------------------
 
 
@@ -121,6 +133,18 @@ class EvaluateScopeTest(unittest.TestCase):
         self.assertEqual(d.category, CLARIFY)
         self.assertIn("CRM work", d.reply_text)
 
+    def test_broker_filter_and_write_requests_are_bounded_without_routing(self):
+        filtered = evaluate_scope("show broker activity for Atlas Brokerage")
+        self.assertEqual(filtered.category, CLARIFY)
+        self.assertEqual(filtered.intent, "broker_activity")
+        self.assertIn("filters aren't supported", filtered.reply_text)
+        self.assertIsNone(filtered.target_head_card_id)
+
+        write = evaluate_scope("assign a follow-up to this broker")
+        self.assertEqual(write.category, CLARIFY)
+        self.assertIn("read-only", write.reply_text)
+        self.assertIsNone(write.target_head_card_id)
+
     def test_classifier_failure_fails_safe_to_redirect(self):
         def _boom(_text):
             raise RuntimeError("classifier down")
@@ -167,6 +191,8 @@ class MessageDispatcherTest(unittest.IsolatedAsyncioTestCase):
         self.rt = build_runtime(deterministic)
         self.tool = FakeNeedsAttentionTool([_ITEM])
         self.rt.tools._tools["engine.renewals.needs_attention"] = self.tool
+        self.broker_tool = FakeBrokerActivityTool()
+        self.rt.tools._tools["engine.timeline.list_broker_activity"] = self.broker_tool
         self.dispatcher = MessageDispatcher(self.rt)
 
     def _tool_calls(self):
@@ -196,6 +222,27 @@ class MessageDispatcherTest(unittest.IsolatedAsyncioTestCase):
             text="any renewals expiring?", thread_id=None, user_token="t", owner_user_id="uw-1",
         )
         self.assertEqual([p["part_type"] for p in msg["parts"]], ["text"])
+
+    async def test_unqualified_broker_activity_routes_but_filters_and_writes_do_not(self):
+        msg = await self.dispatcher.dispatch(
+            text="show recent broker activity", thread_id=None,
+            user_token="jwt.tok", owner_user_id="uw-1",
+        )
+        self.assertEqual(msg["parts"][0]["text"], "No recent broker activity.")
+        self.assertEqual(len(self.broker_tool.calls), 1)
+
+        for text in (
+            "show broker activity for Atlas Brokerage",
+            "show broker activity from last week",
+            "contact this broker and schedule a follow-up",
+        ):
+            with self.subTest(text=text):
+                before = len(self.broker_tool.calls)
+                rejected = await self.dispatcher.dispatch(
+                    text=text, thread_id=None, user_token="jwt.tok", owner_user_id="uw-1",
+                )
+                self.assertEqual(len(self.broker_tool.calls), before)
+                self.assertEqual([p["part_type"] for p in rejected["parts"]], ["text"])
 
     async def test_out_of_scope_redirects_with_no_engine_call_and_no_component(self):
         msg = await self.dispatcher.dispatch(

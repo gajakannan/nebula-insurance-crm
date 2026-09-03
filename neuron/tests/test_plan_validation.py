@@ -35,6 +35,24 @@ def _base_plan():
     }
 
 
+def _live_renewals_plan():
+    plan = _base_plan()
+    plan["steps"][0] = {
+        "step_id": "a",
+        "agent": "crm.renewals.head",
+        "skill_id": "needs_attention_read",
+        "accepted_output_modes": ["app", "status", "sources", "actions"],
+        "tools": [
+            "engine.renewals.needs_attention",
+            "engine.renewals.companion_context",
+        ],
+        "timeout_ms": 2000,
+        "on_success": "done",
+        "on_failure": "done",
+    }
+    return plan
+
+
 class ShippedPlanTest(unittest.TestCase):
     def test_day_at_a_glance_plan_validates(self):
         agents, tools = _registries()
@@ -93,6 +111,24 @@ class InvalidPlanTest(unittest.TestCase):
         plan["steps"][0]["agent"] = "crm.renewals.head"  # no on_failure
         with self.assertRaises(PlanValidationError):
             self._validate(plan)
+
+    def test_active_head_requires_bounded_timeout(self):
+        plan = _live_renewals_plan()
+        del plan["steps"][0]["timeout_ms"]
+        with self.assertRaises(PlanValidationError):
+            self._validate(plan)
+
+    def test_active_head_card_and_plan_assets_must_agree(self):
+        for field, value in (
+            ("tools", ["engine.renewals.needs_attention"]),
+            ("accepted_output_modes", ["app", "status"]),
+            ("skill_id", "invented_skill"),
+        ):
+            with self.subTest(field=field):
+                plan = _live_renewals_plan()
+                plan["steps"][0][field] = value
+                with self.assertRaises(PlanValidationError):
+                    self._validate(plan)
 
 
 if __name__ == "__main__":

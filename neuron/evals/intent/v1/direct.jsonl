@@ -13,3 +13,8 @@
 {"id":"d013","text":"what needs my attention today","expect":"route","domain":"renewals","actions":["renewals.list_attention"]}
 {"id":"d014","text":"show renewals for Acme Manufacturing","expect":"route","domain":"renewals","actions":["renewals.view"]}
 {"id":"d015","text":"summarize the renewal for account Northwind Traders","expect":"route","domain":"renewals","actions":["renewals.summarize"]}
+{"id":"d016","text":"show recent broker activity","expect":"route","domain":"broker_activity","actions":["broker_activity.list"]}
+{"id":"d017","text":"what is the latest broker activity","expect":"route","domain":"broker_activity","actions":["broker_activity.list"]}
+{"id":"d018","text":"list the newest broker events","expect":"route","domain":"broker_activity","actions":["broker_activity.list"]}
+{"id":"d019","text":"pull up my broker activity feed","expect":"route","domain":"broker_activity","actions":["broker_activity.list"]}
+{"id":"d020","text":"anything new with brokers","expect":"route","domain":"broker_activity","actions":["broker_activity.list"]}

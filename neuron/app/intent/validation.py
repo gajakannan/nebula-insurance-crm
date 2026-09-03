@@ -49,6 +49,8 @@ R_NO_ACTIONS = "no_actions"
 R_MISSING_ENTITY = "missing_required_entity"
 R_UNRESOLVED_HEAD = "unresolved_head"
 R_CROSS_SECTION = "cross_section_inconsistent"
+R_UNSUPPORTED_BROKER_FILTER = "unsupported_broker_filter"
+R_UNSUPPORTED_BROKER_ACTION = "unsupported_broker_action"
 
 
 def validate_schema(payload: Any, key: str = "intent-resolution") -> bool:
@@ -187,6 +189,20 @@ def validate_route(
     if len(intent.actions) > MAX_ACTIONS_PER_MESSAGE:
         return None, False, [R_TOO_MANY_ACTIONS]
 
+    # F0040 deliberately exposes one unqualified read. Structured entities would
+    # imply a named-broker/date/type filter that the endpoint does not implement, and
+    # any other broker action would imply a write or fabricated capability. Both are
+    # bounded clarifications with no resolved head, so no Engine tool can run.
+    if domain.domain_id == "broker_activity":
+        if intent.actions == ("broker_activity.list",) and intent.entities:
+            return None, False, [R_UNSUPPORTED_BROKER_FILTER]
+        if any(
+            action_id.startswith("broker_activity.")
+            and action_id != "broker_activity.list"
+            for action_id in intent.actions
+        ):
+            return None, False, [R_UNSUPPORTED_BROKER_ACTION]
+
     requires_confirmation = False
     for action_id in intent.actions:
         action = catalog.action(action_id)
@@ -260,6 +276,10 @@ def resolve(payload: Any, catalog: IntentCatalog) -> ResolvedIntent:
 
     head, requires_confirmation, rejections = validate_route(intent, catalog)
     if rejections:
+        if R_UNSUPPORTED_BROKER_FILTER in rejections:
+            return clarify_resolution("unsupported_broker_filter", *rejections)
+        if R_UNSUPPORTED_BROKER_ACTION in rejections:
+            return clarify_resolution("unsupported_broker_action", *rejections)
         if R_MISSING_ENTITY in rejections:
             # A missing entity is recoverable by asking, so clarify rather than redirect.
             return clarify_resolution("missing_entity", *rejections)

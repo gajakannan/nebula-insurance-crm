@@ -116,11 +116,28 @@ class HarnessScoringTest(unittest.IsolatedAsyncioTestCase):
                                          reason="ambiguous", requires=False,
                                          clarification="missing_domain")
                     payload["scope"]["clarification_code"] = "ask_crm_area"
+                elif "broker activity and renewals" in lowered:
+                    payload = resolution(
+                        domain="broker_activity",
+                        actions=("broker_activity.list", "renewals.list_attention"),
+                    )
+                elif "broker activity for" in lowered or "broker activity from" in lowered:
+                    payload = resolution(
+                        domain="broker_activity",
+                        actions=("broker_activity.list",),
+                        entities={"broker_name": "candidate"},
+                    )
+                elif "delete this broker" in lowered:
+                    payload = resolution(
+                        domain="broker_activity",
+                        actions=("broker_activity.delete",),
+                    )
                 else:
                     expected = _expected_for(prompt)
                     # Actions like renewals.view require an entity; a perfect model would
                     # have extracted one from the message.
-                    needs_entity = any(a != "renewals.list_attention" for a in expected["actions"])
+                    entity_free = {"renewals.list_attention", "broker_activity.list"}
+                    needs_entity = any(a not in entity_free for a in expected["actions"])
                     payload = resolution(
                         actions=expected["actions"], domain=expected["domain"],
                         entities={"renewal_id": "R-1"} if needs_entity else {},

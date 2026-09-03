@@ -39,10 +39,20 @@ public sealed class NeuronCompanionTelemetryService
         NeuronCompanionEventNames.AttentionRenewalActioned,
         NeuronCompanionEventNames.DraftGenerated,
         NeuronCompanionEventNames.MockSent,
+        NeuronCompanionEventNames.SpecialistHeadOutcome,
     ];
 
     private static readonly HashSet<string> Personas =
         new(StringComparer.Ordinal) { "underwriter", "distribution" };
+
+    private static readonly HashSet<string> ZoneIds =
+        new(StringComparer.Ordinal) { "renewals", "broker_activity", "tasks", "pipeline" };
+
+    private static readonly HashSet<string> EntryPoints =
+        new(StringComparer.Ordinal) { "glance", "conversation" };
+
+    private static readonly HashSet<string> TerminalResults =
+        new(StringComparer.Ordinal) { "content", "empty", "error", "rejected" };
 
     private readonly ILogger _logger;
 
@@ -87,7 +97,7 @@ public sealed class NeuronCompanionTelemetryService
             // ids, and persona are logged. No draft body / raw prompt / credential can be
             // carried here (there is no free-form payload).
             _logger.LogInformation(
-                "Neuron companion event accepted {EventName} {EventVersion} {EventTimestamp} {UserId} {ThreadId} {RenewalId} {Persona} {TraceId}",
+                "Neuron companion event accepted {EventName} {EventVersion} {EventTimestamp} {UserId} {ThreadId} {RenewalId} {Persona} {HeadRunId} {ZoneId} {EntryPoint} {TerminalResult} {LatencyMs} {TraceId}",
                 e.EventName,
                 e.EventVersion,
                 e.Timestamp,
@@ -95,6 +105,11 @@ public sealed class NeuronCompanionTelemetryService
                 e.ThreadId,
                 e.RenewalId,
                 e.Persona,
+                e.HeadRunId,
+                e.ZoneId,
+                e.EntryPoint,
+                e.TerminalResult,
+                e.LatencyMs,
                 traceId);
         }
     }
@@ -146,5 +161,19 @@ public sealed class NeuronCompanionTelemetryService
 
         if (!string.IsNullOrWhiteSpace(e.Persona) && !Personas.Contains(e.Persona))
             result.Add($"{prefix}.persona", "persona must be 'underwriter' or 'distribution'.");
+
+        if (e.EventName == NeuronCompanionEventNames.SpecialistHeadOutcome)
+        {
+            if (string.IsNullOrWhiteSpace(e.ThreadId))
+                result.Add($"{prefix}.thread_id", "thread_id is required for specialist-head-outcome.");
+            if (string.IsNullOrWhiteSpace(e.ZoneId) || !ZoneIds.Contains(e.ZoneId))
+                result.Add($"{prefix}.zone_id", "zone_id must name a registered specialist zone.");
+            if (string.IsNullOrWhiteSpace(e.EntryPoint) || !EntryPoints.Contains(e.EntryPoint))
+                result.Add($"{prefix}.entry_point", "entry_point must be 'glance' or 'conversation'.");
+            if (string.IsNullOrWhiteSpace(e.TerminalResult) || !TerminalResults.Contains(e.TerminalResult))
+                result.Add($"{prefix}.terminal_result", "terminal_result is not registered.");
+            if (e.LatencyMs is null or < 0 or > 300_000)
+                result.Add($"{prefix}.latency_ms", "latency_ms must be between 0 and 300000.");
+        }
     }
 }

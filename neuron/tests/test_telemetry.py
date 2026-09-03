@@ -11,6 +11,7 @@ from app.bootstrap import build_runtime
 from app.engine_client import EngineResponse
 from app.orchestration.glance import GlanceAssembler
 from app.orchestration.zone_heads import ZonePayload
+from app.schemas import get_validator
 
 
 class RecordingTelemetryTool:
@@ -63,6 +64,25 @@ class BuildEventTest(unittest.TestCase):
         self.assertNotIn("renewal_id", e)
         self.assertNotIn("thread_id", e)
 
+    def test_specialist_head_outcome_matches_closed_contract(self):
+        event = tel.build_head_outcome_event(
+            "u-1",
+            thread_id="11111111-1111-1111-1111-111111111111",
+            head_run_id="22222222-2222-2222-2222-222222222222",
+            zone_id="broker_activity",
+            entry_point="glance",
+            terminal_result="empty",
+            latency_ms=14,
+        )
+        get_validator("companion-telemetry-event").validate(event)
+        self.assertEqual(
+            set(event),
+            {
+                "event_name", "event_version", "timestamp", "user_id", "thread_id",
+                "head_run_id", "zone_id", "entry_point", "terminal_result", "latency_ms",
+            },
+        )
+
 
 # --- persona (best-effort, telemetry-only) ----------------------------------
 
@@ -108,6 +128,14 @@ class GlanceTelemetryTest(unittest.IsolatedAsyncioTestCase):
             ).validated()
 
         self.rt.agents.get("crm.renewals.head").handler.build_zone = _content_renewals
+
+        async def _empty_broker_activity(ctx):
+            return ZonePayload(
+                "broker_activity", "empty", title="Broker activity",
+                detail="No recent broker activity.",
+            ).validated()
+
+        self.rt.agents.get("crm.broker_activity.head").handler.build_zone = _empty_broker_activity
         self.assembler = GlanceAssembler(self.rt)
 
     async def test_emits_dau_and_surfaced_per_renewal_correlated(self):

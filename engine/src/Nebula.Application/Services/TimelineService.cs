@@ -6,7 +6,12 @@ using Nebula.Domain.Entities;
 
 namespace Nebula.Application.Services;
 
-public class TimelineService(ITimelineRepository timelineRepo, BrokerScopeResolver scopeResolver, ILogger<TimelineService> logger)
+public class TimelineService(
+    ITimelineRepository timelineRepo,
+    IBrokerActivityFeedRepository brokerActivityFeed,
+    IDistributionScopeService distributionScope,
+    BrokerScopeResolver scopeResolver,
+    ILogger<TimelineService> logger)
 {
     private readonly ILogger<TimelineService> _logger = logger;
 
@@ -17,6 +22,26 @@ public class TimelineService(ITimelineRepository timelineRepo, BrokerScopeResolv
         AuditBrokerUserRead(user, "broker.timeline", entityId);
         var mapped = result.Data.Select(MapToDto).ToList();
         return new PaginatedResult<TimelineEventDto>(mapped, result.Page, result.PageSize, result.TotalCount);
+    }
+
+    /// <summary>
+    /// Internal Broker projection used by the existing dashboard/Broker 360 feed and F0040.
+    /// The canonical distribution scope is resolved for every read and applied by the repository
+    /// before count, order, or pagination so hidden rows cannot influence the response envelope.
+    /// </summary>
+    public async Task<PaginatedResult<TimelineEventDto>> ListBrokerActivityPagedAsync(
+        Guid? brokerId,
+        int page,
+        int pageSize,
+        ICurrentUserService user,
+        CancellationToken ct = default)
+    {
+        var visibility = await distributionScope.ResolveAsync(
+            new DistributionScopeRequest(null, null, null, null),
+            user,
+            ct);
+
+        return await brokerActivityFeed.ListAsync(brokerId, page, pageSize, visibility, ct);
     }
 
     private static TimelineEventDto MapToDto(ActivityTimelineEvent e) => new(

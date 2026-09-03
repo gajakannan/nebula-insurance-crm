@@ -30,7 +30,7 @@ public class NeuronCompanionTelemetryEndpointTests(CustomWebApplicationFactory f
         var userId = await ArrangeCurrentUserAsync();
 
         var response = await _client.PostAsJsonAsync(
-            Path, Body(Surfaced(userId), DraftReady(userId), DailyActive(userId)));
+            Path, Body(Surfaced(userId), DraftReady(userId), DailyActive(userId), HeadOutcome(userId)));
 
         response.StatusCode.ShouldBe(HttpStatusCode.Accepted);
     }
@@ -90,6 +90,20 @@ public class NeuronCompanionTelemetryEndpointTests(CustomWebApplicationFactory f
         problem.GetProperty("errors").GetRawText().ShouldContain("event_name");
     }
 
+    [Fact]
+    public async Task Post_SpecialistHeadOutcomeMissingLatency_Returns400()
+    {
+        var userId = await ArrangeCurrentUserAsync();
+        var outcome = HeadOutcome(userId);
+        outcome.Remove("latency_ms");
+
+        var response = await _client.PostAsJsonAsync(Path, Body(outcome));
+
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        var problem = await response.Content.ReadFromJsonAsync<JsonElement>();
+        problem.GetProperty("errors").GetRawText().ShouldContain("latency_ms");
+    }
+
     private static Dictionary<string, object?> Body(params Dictionary<string, object?>[] events) =>
         new() { ["events"] = events };
 
@@ -120,6 +134,20 @@ public class NeuronCompanionTelemetryEndpointTests(CustomWebApplicationFactory f
         ["timestamp"] = DateTimeOffset.UtcNow,
         ["user_id"] = userId,
         ["persona"] = "underwriter",
+    };
+
+    private static Dictionary<string, object?> HeadOutcome(string userId) => new()
+    {
+        ["event_name"] = "specialist-head-outcome",
+        ["event_version"] = 1,
+        ["timestamp"] = DateTimeOffset.UtcNow,
+        ["user_id"] = userId,
+        ["thread_id"] = Guid.NewGuid().ToString(),
+        ["head_run_id"] = Guid.NewGuid().ToString(),
+        ["zone_id"] = "broker_activity",
+        ["entry_point"] = "glance",
+        ["terminal_result"] = "content",
+        ["latency_ms"] = 42,
     };
 
     private async Task<string> ArrangeCurrentUserAsync()

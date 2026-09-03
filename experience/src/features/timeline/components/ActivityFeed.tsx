@@ -1,7 +1,7 @@
 import { useTimelineEvents } from '../hooks/useTimelineEvents';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { ErrorFallback } from '@/components/ui/ErrorFallback';
-import { ActivityFeedItem } from './ActivityFeedItem';
+import { ActivityTimelineList } from './ActivityTimelineList';
 
 export function ActivityFeed() {
   const { data, isLoading, isError, refetch } = useTimelineEvents('Broker', 12);
@@ -41,13 +41,7 @@ export function ActivityFeed() {
             </p>
           ) : (
             <div className="timeline-scrollbar min-h-0 flex-1 overflow-y-scroll py-2">
-              {data.map((event, index) => (
-                <ActivityFeedItem
-                  key={event.id}
-                  event={event}
-                  isLast={index === data.length - 1}
-                />
-              ))}
+              <ActivityTimelineList events={data} ariaLabel="Recent activity" />
             </div>
           )}
         </>

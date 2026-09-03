@@ -13,33 +13,20 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any
 
+from .components import COMPONENTS, InvalidComponentPropsError, UnknownComponentError
 from .errors import NeuronError
 from .schemas import get_validator
 
 ENVELOPE_VERSION = 1
 
-# Server-side component registry: the allow-list of component identifiers Neuron may
-# place in an `app` part. The frontend enforces its own registry too; both sides refuse
-# anything unregistered so no model-generated markup can reach the DOM (F0038-S0002).
-REGISTERED_COMPONENTS = frozenset(
-    {
-        "renewals.needs_attention_list",  # F0038-S0003 Renewals zone content
-        "renewals.companion_context",  # F0038-S0003 per-renewal drill context
-        "outreach.draft_editor",  # F0038-S0005 in-chat draft editor
-    }
-)
+# Backward-compatible public view used by existing tests/callers. Validation is owned
+# by ComponentContractRegistry rather than a flat allow-list as of F0040.
+REGISTERED_COMPONENTS = frozenset(COMPONENTS.names())
 
 # Registered, allow-listed action types echoed back to /v1/actions (envelope schema).
 REGISTERED_ACTIONS = frozenset(
     {"draft_outreach", "mock_send", "drill_renewal", "scope_redirect_ack"}
 )
-
-
-class UnknownComponentError(NeuronError):
-    """Neuron attempted to emit a component identifier that is not registered."""
-
-    status = 500
-    title = "Unregistered component"
 
 
 class UnknownActionError(NeuronError):
@@ -59,8 +46,7 @@ def status_part(state: str, detail: str | None = None) -> dict[str, Any]:
 
 
 def app_part(component: str, props: dict[str, Any]) -> dict[str, Any]:
-    if component not in REGISTERED_COMPONENTS:
-        raise UnknownComponentError(f"component {component!r} is not registered")
+    COMPONENTS.validate(component, props)
     return {"part_type": "app", "component": component, "props": props}
 
 

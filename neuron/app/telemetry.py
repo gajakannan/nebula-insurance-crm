@@ -30,6 +30,7 @@ COMPANION_DAILY_ACTIVE = "companion-daily-active"
 ATTENTION_RENEWAL_ACTIONED = "attention-renewal-actioned"
 DRAFT_GENERATED = "draft-generated"
 MOCK_SENT = "mock-sent"
+SPECIALIST_HEAD_OUTCOME = "specialist-head-outcome"
 
 _log = logging.getLogger("neuron.telemetry")
 
@@ -55,6 +56,29 @@ def build_event(
         event["renewal_id"] = renewal_id
     if persona is not None:
         event["persona"] = persona
+    return event
+
+
+def build_head_outcome_event(
+    user_id: str,
+    *,
+    thread_id: str,
+    head_run_id: str | None,
+    zone_id: str,
+    entry_point: str,
+    terminal_result: str,
+    latency_ms: int,
+) -> dict[str, Any]:
+    """Closed, content-free outcome event for one specialist-head attempt."""
+    event = build_event(SPECIALIST_HEAD_OUTCOME, user_id, thread_id=thread_id)
+    if head_run_id is not None:
+        event["head_run_id"] = head_run_id
+    event.update(
+        zone_id=zone_id,
+        entry_point=entry_point,
+        terminal_result=terminal_result,
+        latency_ms=max(0, int(latency_ms)),
+    )
     return event
 
 

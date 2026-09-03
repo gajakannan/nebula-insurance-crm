@@ -30,7 +30,7 @@ function ZoneBadge({ status }: { status: ZonePayload['zone_status'] }) {
   );
 }
 
-export function ZoneSlot({ zone }: { zone: ZonePayload }) {
+export function ZoneSlot({ zone, onRetry }: { zone: ZonePayload; onRetry?: () => void }) {
   const title = zone.title ?? zone.zone_id;
   const isStub = zone.zone_status === 'inactive';
 
@@ -46,9 +46,20 @@ export function ZoneSlot({ zone }: { zone: ZonePayload }) {
       break;
     case 'error':
       body = (
-        <p role="alert" className="text-xs text-text-muted">
-          {zone.detail ?? 'This zone is temporarily unavailable.'}
-        </p>
+        <div className="space-y-2">
+          <p role="alert" className="text-xs text-text-muted">
+            {zone.detail ?? 'This zone is temporarily unavailable.'}
+          </p>
+          {onRetry ? (
+            <button
+              type="button"
+              onClick={onRetry}
+              className="rounded-md border border-surface-border px-2 py-1 text-xs text-text-secondary hover:bg-surface-highlight"
+            >
+              Retry {title}
+            </button>
+          ) : null}
+        </div>
       );
       break;
     case 'inactive':
