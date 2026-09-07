@@ -72,6 +72,7 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install -e 'neuron[dev]'
       - run: python -m pytest neuron/tests
+      - run: python -m unittest discover -s scripts/validation/tests -p 'test_*.py'
       - run: python3 scripts/check-policy-parity.py
       - run: python3 scripts/kg/validate.py
       - run: python3 planning-mds/testing/validate-nebula-api-contract.py planning-mds/api/nebula-api.yaml

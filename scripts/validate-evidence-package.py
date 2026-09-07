@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Validate durability and contract identity for newly changed feature runs.
+"""Validate durability and contract identity for newly changed evidence runs.
 
 The framework validator remains the authority for gate semantics. This product
 check catches the repository failures that caused R05 before closeout: missing
-contract identity, scratch or secret paths, and artifact references that do not
-resolve to durable files.
+contract identity on feature-completion runs, scratch or secret paths, and
+artifact references that do not resolve to durable files. Base/review runs use
+the separate §8 profile and intentionally do not require an evidence manifest.
 """
 
 from __future__ import annotations
@@ -20,6 +21,15 @@ from pathlib import Path
 RUN_PATH_RE = re.compile(r"^planning-mds/operations/evidence/runs/([^/]+)/")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 ABSOLUTE_RE = re.compile(r"^(?:/|[A-Za-z]:[\\/])")
+FEATURE_COMPLETION_MARKERS = (
+    "feature-action-execution.md",
+    "g0-assembly-plan-validation.md",
+    "g1-runtime-preflight.md",
+    "g2-self-review.md",
+    "test-plan.md",
+    "test-execution-report.md",
+    "pm-closeout.md",
+)
 
 
 def changed_files(base: str | None) -> list[str]:
@@ -62,11 +72,21 @@ def resolve_artifact(run_dir: Path, product_root: Path, raw: str) -> Path | None
     return run_dir / normalized
 
 
+def is_feature_completion_run(run_dir: Path) -> bool:
+    """Return whether the run contains artifacts exclusive to feature closeout."""
+    return any((run_dir / marker).is_file() for marker in FEATURE_COMPLETION_MARKERS)
+
+
 def check_run(product_root: Path, run_id: str, minimum_date: date) -> list[str]:
     run_dir = product_root / "planning-mds/operations/evidence/runs" / run_id
     manifest_path = run_dir / "evidence-manifest.json"
     if not manifest_path.is_file():
-        return [f"{run_id}: missing evidence-manifest.json"]
+        if is_feature_completion_run(run_dir):
+            return [f"{run_id}: missing evidence-manifest.json for a feature-completion run"]
+        # §8 base/manual/validate-action runs intentionally have no manifest.
+        # Their lifecycle artifacts remain historical/base evidence and are not
+        # silently upgraded into the §9/§10 feature profile.
+        return []
     try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
