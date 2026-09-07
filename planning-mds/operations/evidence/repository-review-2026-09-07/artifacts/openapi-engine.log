@@ -1,0 +1,88 @@
+[product-root] /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm (source: --product-root)
+Validating API contract: /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/planning-mds/api/nebula-api.yaml
+------------------------------------------------------------
+
+⚠️  WARNINGS (Should Fix):
+  1. GET /billing-invoices/{invoiceId}: Missing 400 Bad Request response
+  2. GET /policies/{policyId}/billing-summary: Missing 400 Bad Request response
+  3. GET /payment-receipt-imports/{batchId}: Missing 400 Bad Request response
+  4. POST /billing-corrections/{correctionId}/decision: Should return 201 Created
+  5. GET /reconciliation-backlog: Missing 400 Bad Request response
+  6. GET /carrier-markets/{carrierMarketId}/contacts: Missing 400 Bad Request response
+  7. GET /carrier-markets/{carrierMarketId}/appetite-notes: Missing 400 Bad Request response
+  8. GET /carrier-markets/{carrierMarketId}/appointments: Missing 400 Bad Request response
+  9. GET /carrier-markets/{carrierMarketId}/activity-links: Missing 400 Bad Request response
+  10. GET /accounts/{accountId}: Missing 400 Bad Request response
+  11. POST /accounts/{accountId}/lifecycle: Should return 201 Created
+  12. POST /accounts/{accountId}/merge: Should return 201 Created
+  13. GET /accounts/{accountId}/summary: Missing 400 Bad Request response
+  14. GET /accounts/{accountId}/contacts: Missing 400 Bad Request response
+  15. DELETE /accounts/{accountId}/contacts/{contactId}: Missing 400 Bad Request response
+  16. POST /accounts/{accountId}/relationships: Should return 201 Created
+  17. GET /accounts/{accountId}/submissions: Missing 400 Bad Request response
+  18. GET /accounts/{accountId}/renewals: Missing 400 Bad Request response
+  19. GET /accounts/{accountId}/policies: Missing 400 Bad Request response
+  20. GET /accounts/{accountId}/policies/summary: Missing 400 Bad Request response
+  21. GET /accounts/{accountId}/timeline: Missing 400 Bad Request response
+  22. POST /lob-schemas/{productVersionId}/activate: Should return 201 Created
+  23. GET /submissions/{submissionId}/quote-packet: Missing 400 Bad Request response
+  24. POST /submissions/{submissionId}/approval: Should return 201 Created
+  25. POST /submissions/{submissionId}/bind-request: Should return 201 Created
+  26. POST /submissions/{submissionId}/bind-confirmation: Should return 201 Created
+  27. POST /submissions/{submissionId}/archive: Should return 201 Created
+  28. POST /submissions/{submissionId}/reactivate: Should return 201 Created
+  29. GET /renewals/needs-attention: Missing 400 Bad Request response
+  30. GET /renewals/{renewalId}/companion-context: Missing 400 Bad Request response
+  31. POST /internal/telemetry/neuron-companion: No success response (200, 201, or 204)
+  32. POST /internal/telemetry/neuron-companion: Should return 201 Created
+  33. POST /policies/import: Should return 201 Created
+  34. GET /policies/{policyId}: Missing 400 Bad Request response
+  35. GET /policies/{policyId}/summary: Missing 400 Bad Request response
+  36. POST /policies/{policyId}/issue: Should return 201 Created
+  37. POST /policies/{policyId}/cancel: Should return 201 Created
+  38. POST /policies/{policyId}/reinstate: Should return 201 Created
+  39. GET /policies/{policyId}/versions: Missing 400 Bad Request response
+  40. GET /policies/{policyId}/versions/{versionId}: Missing 400 Bad Request response
+  41. GET /policies/{policyId}/endorsements: Missing 400 Bad Request response
+  42. GET /policies/{policyId}/coverages: Missing 400 Bad Request response
+  43. GET /policies/{policyId}/timeline: Missing 400 Bad Request response
+  44. POST /documents: No success response (200, 201, or 204)
+  45. POST /documents: Should return 201 Created
+  46. GET /documents/{documentId}: Missing 400 Bad Request response
+  47. PUT /documents/{documentId}/replace: No success response (200, 201, or 204)
+  48. PUT /documents/{documentId}/replace: Missing 400 Bad Request response
+  49. GET /documents/metadata-schemas: Missing 400 Bad Request response
+  50. GET /documents/{documentId}/versions/{versionRef}/binary: Missing 400 Bad Request response
+  51. GET /documents/completeness: Missing 400 Bad Request response
+  52. GET /document-templates: Missing 400 Bad Request response
+  53. POST /document-templates: No success response (200, 201, or 204)
+  54. POST /document-templates: Should return 201 Created
+  55. POST /document-templates/{templateId}/link: No success response (200, 201, or 204)
+  56. POST /document-templates/{templateId}/link: Should return 201 Created
+  57. POST /document-templates/{templateId}/link: Missing 400 Bad Request response
+  58. POST /outbound-documents/preview: Should return 201 Created
+  59. POST /internal/telemetry/session-continuity: No success response (200, 201, or 204)
+  60. POST /internal/telemetry/session-continuity: Should return 201 Created
+  61. GET /admin/configuration-domains: Missing 400 Bad Request response
+  62. GET /admin/configuration-domains/{domainKey}: Missing 400 Bad Request response
+  63. POST /admin/configuration-drafts/{draftId}/validation: Should return 201 Created
+  64. POST /admin/configuration-drafts/{draftId}/validation: Missing 400 Bad Request response
+  65. GET /admin/configuration-drafts/{draftId}/comparison: Missing 400 Bad Request response
+  66. POST /admin/configuration-drafts/{draftId}/publish: Should return 201 Created
+  67. POST /admin/configuration-domains/{domainKey}/rollback: Should return 201 Created
+  68. Schema 'AccountUpdateRequest' has properties but no 'required' array
+  69. Schema 'LobStage' missing description
+  70. Schema 'LobProductKind' missing description
+  71. Schema 'LobProductVersionStatus' missing description
+  72. Schema 'SubmissionQuotePacketUpdateRequest' has properties but no 'required' array
+  73. Schema 'SubmissionBindRequest' has properties but no 'required' array
+  74. Schema 'SubmissionUpdateRequest' has properties but no 'required' array
+  75. Schema 'PolicyUpdateRequest' has properties but no 'required' array
+  76. Schema 'PolicyIssueRequest' has properties but no 'required' array
+  77. Schema 'ReconciliationExceptionType' missing description
+  78. Schema 'BrokerInsightFilterContext' has properties but no 'required' array
+  79. Schema 'DocumentUploadFileMetadata' has properties but no 'required' array
+  80. Schema 'DocumentMetadataUpdateRequest' has properties but no 'required' array
+
+============================================================
+⚠️  API contract validation PASSED with 80 warning(s)

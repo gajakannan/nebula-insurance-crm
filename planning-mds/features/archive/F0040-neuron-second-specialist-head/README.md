@@ -1,6 +1,6 @@
 # F0040 — Neuron Second Specialist Head (Broker Activity)
 
-**Status:** Planned — Phase B approved
+**Status:** Done — archived after squash merge `ef550a6`
 **Priority:** Medium
 **Phase:** Neuron Companion — Next
 

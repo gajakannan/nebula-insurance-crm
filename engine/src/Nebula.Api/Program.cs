@@ -338,6 +338,7 @@ if (app.Environment.IsDevelopment())
 
 // Health endpoint
 app.MapHealthChecks("/healthz").AllowAnonymous();
+app.MapIdentityEndpoints();
 
 // API endpoints
 app.MapAuthEndpoints();

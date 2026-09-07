@@ -10,7 +10,10 @@ coverage/evidence artifacts exist on disk.
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
+import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Dict, Iterable, List
@@ -30,6 +33,7 @@ GENERATED_COVERAGE_ARTIFACTS = (
     "experience/coverage/lcov.info",
     "experience/coverage/coverage-summary.json",
 )
+MIN_REVISION = re.compile(r"^(?:[0-9a-f]{40}|working-tree:[0-9a-f]{40})$")
 
 
 def repo_root() -> Path:
@@ -98,8 +102,6 @@ def validate_layer(root: Path, layer_name: str, layer: Dict, errors: List[str]) 
         return []
 
     for artifact in artifacts:
-        if is_generated_artifact(artifact):
-            continue  # declared but gitignored — skip disk check
         require_existing_file(root, f"Layer '{layer_name}'", artifact, errors)
 
     return artifacts
@@ -109,7 +111,23 @@ def validate_manifest(data: Dict, root: Path) -> List[str]:
     errors: List[str] = []
 
     require_string(data, "feature", errors)
-    require_string(data, "recorded_on", errors)
+    recorded_on = require_string(data, "recorded_on", errors)
+    if recorded_on:
+        try:
+            parsed = dt.datetime.fromisoformat(recorded_on.replace("Z", "+00:00"))
+            if parsed.tzinfo is None:
+                raise ValueError("timezone required")
+        except ValueError:
+            errors.append("recorded_on must be an ISO-8601 timestamp with timezone")
+    revision = require_string(data, "revision", errors)
+    if revision and not MIN_REVISION.fullmatch(revision):
+        errors.append("revision must be a 40-character git SHA or working-tree:<SHA>")
+    elif revision:
+        expected = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=root, capture_output=True, text=True, check=False
+        ).stdout.strip()
+        if revision.removeprefix("working-tree:") != expected:
+            errors.append("revision does not match the repository HEAD")
     require_string(data, "runtime_path", errors)
 
     evidence_package = require_string(data, "evidence_package", errors)
@@ -144,6 +162,22 @@ def validate_manifest(data: Dict, root: Path) -> List[str]:
                 "Coverage layer must declare generated artifact: "
                 f"{generated_artifact}"
             )
+
+    target = data.get("coverage_target")
+    if not isinstance(target, dict):
+        errors.append("coverage_target must be an object")
+    else:
+        threshold = target.get("threshold_pct")
+        actual = target.get("actual")
+        if not isinstance(threshold, (int, float)) or not isinstance(actual, dict):
+            errors.append("coverage_target must declare threshold_pct and actual metrics")
+        else:
+            for metric in ("lines", "statements", "functions", "branches"):
+                value = actual.get(metric)
+                if not isinstance(value, (int, float)) or value < threshold:
+                    errors.append(
+                        f"coverage_target.{metric} must be at least {threshold}% (found: {value})"
+                    )
 
     return errors
 

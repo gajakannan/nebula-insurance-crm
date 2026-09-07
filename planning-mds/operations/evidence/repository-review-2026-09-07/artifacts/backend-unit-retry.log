@@ -1,0 +1,22 @@
+Test run for /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/engine/tests/Nebula.Tests/bin/Debug/net10.0/Nebula.Tests.dll (.NETCoreApp,Version=v10.0)
+VSTest version 18.0.2 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+System.AggregateException: One or more errors occurred. (Permission denied)
+ ---> System.Net.Sockets.SocketException (13): Permission denied
+   at System.Net.Sockets.Socket..ctor(AddressFamily addressFamily, SocketType socketType, ProtocolType protocolType)
+   at System.Net.Sockets.TcpListener..ctor(IPEndPoint localEP)
+   at Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.SocketCommunicationManager.HostServer(IPEndPoint endpoint) in /_/src/vstest/src/Microsoft.TestPlatform.CommunicationUtilities/SocketCommunicationManager.cs:line 101
+   at Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.DataCollection.DataCollectionRequestSender.InitializeCommunication() in /_/src/vstest/src/Microsoft.TestPlatform.CommunicationUtilities/DataCollectionRequestSender.cs:line 59
+   at Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.DataCollection.ProxyDataCollectionManager.Initialize() in /_/src/vstest/src/Microsoft.TestPlatform.CrossPlatEngine/DataCollection/ProxyDataCollectionManager.cs:line 236
+   at Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Client.ProxyExecutionManagerWithDataCollection.Initialize(Boolean skipDefaultAdapters) in /_/src/vstest/src/Microsoft.TestPlatform.CrossPlatEngine/Client/ProxyExecutionManagerWithDataCollection.cs:line 95
+   at Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Client.Parallel.ParallelProxyExecutionManager.<>c__DisplayClass29_0.<StartTestRunOnConcurrentManager>b__0() in /_/src/vstest/src/Microsoft.TestPlatform.CrossPlatEngine/Client/Parallel/ParallelProxyExecutionManager.cs:line 442
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+   --- End of inner exception stack trace ---
+Results File: /tmp/nebula-repo-validation-2026-09-07/backend-results/backend-unit.trx
+
+Test Run Aborted.

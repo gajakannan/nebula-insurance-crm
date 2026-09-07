@@ -1,0 +1,29 @@
+version: 1
+instructions:
+  - path: docs/agent-instructions.md
+  - path: docs/plan-review-checklist.md
+    actions: [plan-review]
+checks:
+  - id: evidence-durability
+    action: plan-review
+    stage: PR2
+    event: before_stage_complete
+    argv:
+      - python3
+      - "{PRODUCT_ROOT}/scripts/validation/validate_evidence_durability.py"
+      - --product-root
+      - "{PRODUCT_ROOT}"
+      - --plan-scope
+      - "{PLAN_SCOPE}"
+      - --target
+      - "{TARGET}"
+    cwd: product
+    timeout_seconds: 120
+    inputs:
+      - planning-mds/BLUEPRINT.md
+      - planning-mds/operations/evidence/README.md
+      - planning-mds/operations/evidence/runs/*/evidence-manifest.json
+      - docs/agent-instructions.md
+      - docs/plan-review-checklist.md
+      - scripts/validate-evidence-package.py
+      - scripts/validation/**/*.py

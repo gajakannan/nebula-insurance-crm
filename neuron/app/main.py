@@ -33,6 +33,8 @@ def _problem(status: int, title: str, detail: str, type_slug: str, instance: str
         "title": title,
         "status": status,
         "detail": detail,
+        "code": type_slug,
+        "traceId": instance or "neuron",
     }
     if instance is not None:
         body["instance"] = instance
@@ -47,11 +49,41 @@ class _Unauthorized(NeuronError):
         super().__init__("missing or malformed bearer token")
 
 
-async def require_bearer(authorization: str | None = Header(default=None)) -> str:
-    """Extract the forwarded user token; the engine (not Neuron) authorizes it."""
+async def require_bearer(request: Request, authorization: str | None = Header(default=None)) -> str:
+    """Extract and verify the forwarded token before any Neuron-owned read/write.
+
+    Production Neuron delegates authentication to the .NET engine, which already
+    owns the OIDC authority, issuer, audience, and lifetime configuration. The
+    explicit ``unverified-test`` mode exists only for isolated unit tests and is
+    never selected by default.
+    """
     if not authorization or not authorization.lower().startswith("bearer "):
         raise _Unauthorized()
-    return authorization.split(" ", 1)[1].strip()
+    token = authorization.split(" ", 1)[1].strip()
+    if not token:
+        raise _Unauthorized()
+
+    runtime = getattr(request.app.state, "runtime", None)
+    if runtime is None:
+        raise _Unauthorized()
+    if runtime.settings.auth_mode == "unverified-test" and runtime.settings.env in {"development", "test"}:
+        subject = subject_from_token(token)
+    else:
+        identity = await runtime.engine_client.call(
+            "GET", "/internal/identity", user_token=token
+        )
+        subject = identity.get("subject") if isinstance(identity, dict) else None
+        if not subject:
+            raise _Unauthorized()
+    request.state.authenticated_subject = str(subject)
+    return token
+
+
+def authenticated_subject(request: Request) -> str:
+    subject = getattr(request.state, "authenticated_subject", None)
+    if not subject:
+        raise _Unauthorized()
+    return subject
 
 
 def create_app() -> FastAPI:
@@ -107,7 +139,7 @@ def create_app() -> FastAPI:
     @app.get("/v1/glance", tags=["Companion"])
     async def glance(request: Request, token: str = Depends(require_bearer)) -> JSONResponse:
         rt: NeuronRuntime = runtime()
-        owner = subject_from_token(token)
+        owner = authenticated_subject(request)
         thread_id = request.query_params.get("thread_id")
         result = await GlanceAssembler(rt).assemble(
             user_token=token, owner_user_id=owner, thread_id=thread_id
@@ -118,7 +150,7 @@ def create_app() -> FastAPI:
     async def messages(request: Request, token: str = Depends(require_bearer)) -> JSONResponse:
         rt: NeuronRuntime = runtime()
         body = await request.json()
-        owner = subject_from_token(token)
+        owner = authenticated_subject(request)
         envelope = await MessageDispatcher(rt).dispatch(
             text=body.get("text") or body.get("message"),
             thread_id=body.get("thread_id"),
@@ -135,7 +167,7 @@ def create_app() -> FastAPI:
     async def create_thread(request: Request, token: str = Depends(require_bearer)) -> JSONResponse:
         rt: NeuronRuntime = runtime()
         body = await request.json()
-        owner = subject_from_token(token)
+        owner = authenticated_subject(request)
         thread = await ThreadService(rt).create(
             owner,
             anchor_type=body.get("anchor_type", "free_form"),
@@ -148,7 +180,7 @@ def create_app() -> FastAPI:
     @app.get("/v1/threads", tags=["Threads"])
     async def list_threads(request: Request, token: str = Depends(require_bearer)) -> JSONResponse:
         rt: NeuronRuntime = runtime()
-        owner = subject_from_token(token)
+        owner = authenticated_subject(request)
         page = await ThreadService(rt).list(
             owner,
             limit=request.query_params.get("limit"),
@@ -157,9 +189,11 @@ def create_app() -> FastAPI:
         return JSONResponse(status_code=200, content=page)
 
     @app.get("/v1/threads/{thread_id}", tags=["Threads"])
-    async def get_thread(thread_id: str, token: str = Depends(require_bearer)) -> JSONResponse:
+    async def get_thread(
+        thread_id: str, request: Request, token: str = Depends(require_bearer)
+    ) -> JSONResponse:
         rt: NeuronRuntime = runtime()
-        owner = subject_from_token(token)
+        owner = authenticated_subject(request)
         return JSONResponse(status_code=200, content=await ThreadService(rt).get(thread_id, owner))
 
     @app.patch("/v1/threads/{thread_id}", tags=["Threads"])
@@ -170,14 +204,16 @@ def create_app() -> FastAPI:
         body = await request.json()
         if "title" not in body:
             return _problem(400, "Bad request", "title is required", "BadRequest")
-        owner = subject_from_token(token)
+        owner = authenticated_subject(request)
         thread = await ThreadService(rt).rename(thread_id, owner, body["title"])
         return JSONResponse(status_code=200, content=thread)
 
     @app.delete("/v1/threads/{thread_id}", tags=["Threads"], status_code=204)
-    async def delete_thread(thread_id: str, token: str = Depends(require_bearer)) -> Response:
+    async def delete_thread(
+        thread_id: str, request: Request, token: str = Depends(require_bearer)
+    ) -> Response:
         rt: NeuronRuntime = runtime()
-        owner = subject_from_token(token)
+        owner = authenticated_subject(request)
         await ThreadService(rt).delete(thread_id, owner)
         return Response(status_code=204)
 
@@ -186,7 +222,7 @@ def create_app() -> FastAPI:
         thread_id: str, request: Request, token: str = Depends(require_bearer)
     ) -> JSONResponse:
         rt: NeuronRuntime = runtime()
-        owner = subject_from_token(token)
+        owner = authenticated_subject(request)
         page = await ThreadService(rt).history(
             thread_id,
             owner,
@@ -202,7 +238,7 @@ def create_app() -> FastAPI:
         action_type = body.get("action_type")
         if not action_type:
             return _problem(400, "Bad request", "action_type is required", "BadRequest")
-        owner = subject_from_token(token)
+        owner = authenticated_subject(request)
         envelope = await ActionDispatcher(rt).dispatch(
             action_type=action_type,
             action_id=body.get("action_id"),

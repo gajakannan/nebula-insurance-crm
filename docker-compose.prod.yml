@@ -1,0 +1,10 @@
+services:
+  api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Authentication__Authority: ${AUTHENTIK_AUTHORITY:?set AUTHENTIK_AUTHORITY to the production OIDC issuer}
+      Authentication__Audience: ${AUTHENTICATION_AUDIENCE:?set AUTHENTICATION_AUDIENCE to the production API audience}
+  neuron:
+    environment:
+      NEURON_ENV: production
+      NEURON_AUTH_MODE: engine

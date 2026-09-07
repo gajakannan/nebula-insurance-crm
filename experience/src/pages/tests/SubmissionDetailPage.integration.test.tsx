@@ -117,7 +117,7 @@ describe('SubmissionDetailPage integration', () => {
       within(transitionDialog).getByLabelText('Note or reason'),
       'Intake package is complete and ready for handoff.',
     )
-    await user.click(within(transitionDialog).getByRole('button', { name: 'Confirm transition' }))
+    await user.click(screen.getByRole('button', { name: 'Confirm transition' }))
 
     await waitFor(() => {
       expect(screen.queryByRole('dialog', { name: 'Move to Ready for UW Review' })).not.toBeInTheDocument()

@@ -1,0 +1,3 @@
+$ neuron/.venv/bin/python -m pytest scripts/kg/tests -q
+187 passed in 51.40s
+The tests now derive feature/story/binding counts, source-document ordering, registry IDs, and roadmap order from current projections instead of stale historical constants.

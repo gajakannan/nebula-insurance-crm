@@ -1,0 +1,13 @@
+{
+  "scope": "development custom commands; synthetic marker files only",
+  "deploy": {
+    "command": "DEPLOY_DEV_CMD='printf ran > /tmp/nebula-repo-validation-2026-09-07-rerun/deploy-dry-run-marker' sh scripts/deploy.sh dev --strategy custom --dry-run",
+    "exit_code": 0,
+    "marker_exists": false
+  },
+  "rollback": {
+    "command": "ROLLBACK_DEV_CMD='printf ran > /tmp/nebula-repo-validation-2026-09-07-rerun/rollback-dry-run-marker' sh scripts/rollback.sh --environment dev --strategy custom --dry-run",
+    "exit_code": 0,
+    "marker_exists": false
+  }
+}

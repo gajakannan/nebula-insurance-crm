@@ -1,4 +1,4 @@
-import { expect, request, test, type APIRequestContext, type Page } from '@playwright/test'
+import { expect, request, test, type APIRequestContext } from '@playwright/test'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 

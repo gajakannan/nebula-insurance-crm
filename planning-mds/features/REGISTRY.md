@@ -87,9 +87,10 @@ Per §19 of the feature-evidence package contract. Replaces the legacy `Abandone
 
 ## Legacy Mapping
 
-| Legacy ID | New ID |
-|-----------|--------|
-| F0001 | F0001 |
-| F0002 | F0002 |
-| F0003 | F0003 |
-| F0004 | F0004 |
+Legacy mappings (kept outside feature tables so framework scope resolution does
+not treat them as duplicate registry entries):
+
+- `F0001` → `F0001`
+- `F0002` → `F0002`
+- `F0003` → `F0003`
+- `F0004` → `F0004`

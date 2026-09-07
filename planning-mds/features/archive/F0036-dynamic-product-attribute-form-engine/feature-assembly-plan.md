@@ -2,7 +2,7 @@
 
 **Created:** 2026-05-28
 **Author:** Architect Agent
-**Status:** Draft
+**Status:** Approved — implemented and archived
 **Run:** `2026-05-28-077b7b30` (feature action G0 Step 0)
 
 > **Purpose:** Implementation execution plan for F0036. This is a **frontend-only** feature (`experience/**`); per the template note, the entity/DTO/endpoint sections are replaced with component/hook/contract specs. No `engine/**`, schema, bundle, or deployment change.

@@ -37,9 +37,9 @@ F0036 was created after a review of the archived F0035 found that its form-state
 - [x] Acceptance-criteria checklist authored (`acceptance-criteria-checklist.md`)
 - [x] Phase A user approval (A1) — approved in plan run `2026-05-25-51ff2a92`
 - [x] Architecture review (Phase B) — ADR-021 amended; ontology bindings completed (plan run `2026-05-25-51ff2a92`)
-- [~] **Plan-review readiness — two rounds returned findings (`2026-05-26-aaa8bd7c` NOT READY; `2026-05-26-378ac7da` CONDITIONALLY READY); all findings from both rounds resolved by rework 2026-05-26/27. Re-run plan-review to confirm READY.**
-- [ ] Security review scoped
-- [ ] Implementation plan approved (feature-assembly-plan.md, owned by feature action Step 0)
+- [x] **Plan-review readiness — two rounds returned findings (`2026-05-26-aaa8bd7c` NOT READY; `2026-05-26-378ac7da` CONDITIONALLY READY); findings resolved by rework 2026-05-26/27 and confirmed by the completion package.**
+- [x] Security review scoped and recorded in the completion package
+- [x] Implementation plan approved and executed (`feature-assembly-plan.md`)
 
 ## Plan Review Findings (run `2026-05-26-aaa8bd7c` — NOT READY)
 

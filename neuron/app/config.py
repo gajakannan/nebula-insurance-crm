@@ -52,6 +52,9 @@ class Settings:
     # F0039-S0007/S0008 — routing mode: `direct` (Phi decides), `shadow` (deterministic
     # decides, Phi recorded only), or `deterministic` (the tested rollback path, spec §33).
     intent_mode: str
+    # Identity verification is performed by the engine in deployed environments.
+    # Tests may opt into the explicit unverified mode; it is never the default.
+    auth_mode: str
 
 
 def load_settings() -> Settings:
@@ -77,4 +80,5 @@ def load_settings() -> Settings:
         # evals/reports/). Flipping this default is a rollout decision backed by a green
         # report, not a code change someone makes in passing.
         intent_mode=os.environ.get("NEURON_INTENT_MODE", "shadow"),
+        auth_mode=os.environ.get("NEURON_AUTH_MODE", "engine"),
     )

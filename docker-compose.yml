@@ -146,6 +146,7 @@ services:
     restart: unless-stopped
     environment:
       NEURON_ENV: development
+      NEURON_AUTH_MODE: ${NEURON_AUTH_MODE:-engine}
       NEURON_ENGINE_BASE_URL: http://api:8080
       NEURON_REQUEST_TIMEOUT: "10"
       # F0039-S0001 — durable conversation store. Neuron owns and writes neuron.*
