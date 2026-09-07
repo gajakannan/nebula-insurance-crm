@@ -1,0 +1,2 @@
+$ python3 ../nebula-agents/agents/architect/scripts/validate-api-contract.py planning-mds/api/neuron-api.yaml
+Result: PASS with 20 advisory warnings. ProblemDetails required fields, code, traceId, health/ready responses, and the /ready operation now match the implementation contract.

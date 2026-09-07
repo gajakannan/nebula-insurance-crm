@@ -2395,7 +2395,7 @@ eval():   r.obj.assignee ("abc-123") == r.sub.id ("abc-123") → true
 
 **Added:** 2026-08-31 - Phase B architecture approved during plan run `2026-08-30-af27c9c1`. Governed by accepted ADR-037 on top of ADR-027/028/035.
 
-> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/F0040-neuron-second-specialist-head/feature-assembly-plan.md) - existing timeline-endpoint scope repair, Broker activity tool/head/component, one shared fail-fast head executor for glance and conversation, trusted catalog activation, durable replay, telemetry minimization, cross-tier tests, rollback, and KG bindings.
+> **Implementation Execution Plan:** [`feature-assembly-plan.md`](../features/archive/F0040-neuron-second-specialist-head/feature-assembly-plan.md) - existing timeline-endpoint scope repair, Broker activity tool/head/component, one shared fail-fast head executor for glance and conversation, trusted catalog activation, durable replay, telemetry minimization, cross-tier tests, rollback, and KG bindings.
 
 ### Dependencies
 

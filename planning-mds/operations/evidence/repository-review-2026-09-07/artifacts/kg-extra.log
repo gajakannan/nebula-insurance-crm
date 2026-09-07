@@ -1,0 +1,43 @@
+Knowledge graph validation
+------------------------------------------------------------
+Features mapped:   38
+Stories mapped:    193
+Feature coverage:  38 mapped, 3 excluded, 0 uncovered
+Code bindings:     225
+Symbol index:      6255 symbols, 6255 on bound nodes (csharp: 3965, python: 1052, typescript: 1238)
+Decision markers: 8 markers, 8 WHY (WHY: 8)
+Orphan nodes:      16 (adr: 1, config_key: 1, entity: 1, policy_rule: 12, schema: 1)
+
+Warnings:
+- Low-confidence inferred edge (0.4) on feature:F0028 in feature:F0018.depends_on
+- Casbin policy pair (distribution_rollup, read) in policy.csv has no policy_rule node in canonical-nodes.yaml
+- symbol symbol:capability-neuron-companion:agent-registry.get.callers references unknown symbol: symbol:capability-neuron-companion:message-dispatcher.route-in-scope
+- symbol symbol:capability-neuron-companion:intent-catalog.active-domain-ids.callers references unknown symbol: symbol:capability-neuron-companion:shipped-catalog-test.test-only-renewals-is-active-today
+- symbol symbol:capability-neuron-companion:model-router.names.callers references unknown symbol: symbol:capability-neuron-companion:tool-registry-test.test-five-engine-tools-registered
+- symbol symbol:capability-neuron-companion:tool-registry.get.callers references unknown symbol: symbol:capability-neuron-companion:message-dispatcher.route-in-scope
+- symbol symbol:capability-neuron-companion:tool-registry.names.callers references unknown symbol: symbol:capability-neuron-companion:tool-registry-test.test-five-engine-tools-registered
+- Ontology orphan: adr:005 (adr) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: config_key:document-taxonomy (config_key) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: entity:broker-region (entity) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: policy_rule:broker-create (policy_rule) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: policy_rule:broker-delete (policy_rule) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: policy_rule:broker-reactivate (policy_rule) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: policy_rule:broker-update (policy_rule) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: policy_rule:contact-create (policy_rule) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: policy_rule:contact-delete (policy_rule) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: policy_rule:contact-update (policy_rule) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: policy_rule:dashboard-kpi-read (policy_rule) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: policy_rule:dashboard-pipeline-read (policy_rule) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: policy_rule:renewal-update (policy_rule) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: policy_rule:submission-assign (policy_rule) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: policy_rule:submission-create (policy_rule) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Ontology orphan: schema:opportunity-aging-sla (schema) has no incoming refs and no code-index binding — remove if premature, or add a feature mapping / code binding.
+- Coverage gap: engine/src/Nebula.Api/Endpoints/AccountEndpoints.cs:636 -> symbol:endpoint-account-timeline:timeline-service.list-events-paged-async [endpoint:account-timeline] — source file is not bound in code-index.yaml. Add a binding, or list the path in the product coverage-gap exemption.
+- Coverage gap: engine/src/Nebula.Api/Endpoints/NeuronCompanionTelemetryEndpoints.cs:34 -> symbol:capability-neuron-companion-telemetry:neuron-companion-telemetry-service.validate [capability:neuron-companion-telemetry] — source file is not bound in code-index.yaml. Add a binding, or list the path in the product coverage-gap exemption.
+- Coverage gap: engine/src/Nebula.Api/Endpoints/NeuronCompanionTelemetryEndpoints.cs:42 -> symbol:capability-neuron-companion-telemetry:neuron-companion-telemetry-service.write-accepted-events [capability:neuron-companion-telemetry] — source file is not bound in code-index.yaml. Add a binding, or list the path in the product coverage-gap exemption.
+- Coverage gap: engine/src/Nebula.Api/Endpoints/PolicyEndpoints.cs:359 -> symbol:endpoint-account-timeline:timeline-service.list-events-paged-async [endpoint:account-timeline] — source file is not bound in code-index.yaml. Add a binding, or list the path in the product coverage-gap exemption.
+- Coverage gap: engine/src/Nebula.Api/Endpoints/RenewalEndpoints.cs:226 -> symbol:endpoint-account-timeline:timeline-service.list-events-paged-async [endpoint:account-timeline] — source file is not bound in code-index.yaml. Add a binding, or list the path in the product coverage-gap exemption.
+- Coverage gap: engine/src/Nebula.Api/Endpoints/SubmissionEndpoints.cs:408 -> symbol:endpoint-account-timeline:timeline-service.list-events-paged-async [endpoint:account-timeline] — source file is not bound in code-index.yaml. Add a binding, or list the path in the product coverage-gap exemption.
+- Coverage gap: experience/src/features/neuron/components/MessagePartView.tsx:30 -> symbol:capability-neuron-message-envelope:component-registry.render-registered-component [capability:neuron-message-envelope] — source file is not bound in code-index.yaml. Add a binding, or list the path in the product coverage-gap exemption.
+
+[PASS] knowledge-graph integrity checks passed.

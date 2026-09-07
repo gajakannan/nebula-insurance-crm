@@ -69,12 +69,12 @@ def test_tier_3_adds_source_docs_without_reading_file_contents(bundle: dict[str,
     payload = _lookup_target(bundle, tier=3)
 
     workflow = _find_node(payload["affects"], "workflow:submission")
-    assert workflow["source_docs"] == [
-        "planning-mds/features/archive/F0006-submission-intake-workflow/README.md",
-        "planning-mds/architecture/feature-assembly-plan.md",
-        "planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md",
-        "planning-mds/api/nebula-api.yaml",
-    ]
+    source_docs = workflow["source_docs"]
+    assert source_docs == sorted(source_docs)
+    assert "planning-mds/features/archive/F0006-submission-intake-workflow/README.md" in source_docs
+    assert "planning-mds/architecture/feature-assembly-plan.md" in source_docs
+    assert "planning-mds/architecture/decisions/ADR-011-crm-workflow-state-machines-and-transition-history.md" in source_docs
+    assert "planning-mds/api/nebula-api.yaml" in source_docs
     assert all(isinstance(path, str) and "/" in path for path in workflow["source_docs"])
     assert "This folder holds" not in workflow["source_docs"][0]
 

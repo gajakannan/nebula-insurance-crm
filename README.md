@@ -24,14 +24,14 @@ See `planning-mds/BLUEPRINT.md` for the full architectural baseline.
 
 ## How to run locally
 
-Prerequisites: Docker + Docker Compose, Node 20+ with pnpm, .NET 8 SDK, Python 3.12.
+Prerequisites: Docker + Docker Compose, Node 20+ with pnpm, .NET 10 SDK, Python 3.12.
 
 ```bash
 # Bring up database and identity
-docker compose up -d db authentik
+docker compose up -d db authentik-server authentik-worker
 
 # Backend
-dotnet run --project engine/<api-project>
+dotnet run --project engine/src/Nebula.Api/Nebula.Api.csproj
 
 # Frontend
 pnpm --dir experience install
@@ -66,6 +66,31 @@ See `docker-compose.yml` and per-layer READMEs for the authoritative local-dev c
 ## Validation
 
 Product-local gates declared in `lifecycle-stage.yaml` run against this repo only:
+
+```bash
+python3 scripts/run-lifecycle-gates.py --list
+python3 scripts/run-lifecycle-gates.py
+```
+
+The repository also opts into the pinned `nebula-agents` project-check
+extension. From the sibling framework checkout, pass this repository explicitly:
+
+```bash
+cd ../nebula-agents
+python3 agents/scripts/project_context.py \
+  --product-root ../nebula-insurance-crm --action plan-review --json
+python3 agents/scripts/run-gate.py \
+  --product-root ../nebula-insurance-crm --action plan-review \
+  --plan-scope project --target project \
+  --run-id YYYY-MM-DD-xxxxxxxx --stage PR2
+```
+
+The declared project check runs the evidence durability concession guard using
+the strict project-check JSON contract. It skips packages before the explicit
+`2026-09-07` compatibility boundary; current packages must still contain
+durable evidence and valid artifact references.
+
+The individual product gates are:
 
 ```bash
 python3 scripts/kg/validate.py                             # knowledge_graph_sync

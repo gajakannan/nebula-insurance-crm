@@ -1,0 +1,56 @@
+{
+  "action": "validate",
+  "contract_version": "2026-07-11",
+  "project_context": {
+    "action": "validate",
+    "manifest_hash": null,
+    "product_root": "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm",
+    "scope": {
+      "plan_scope": "project",
+      "target": "project"
+    }
+  },
+  "run_id": "2026-09-07-repository-validation",
+  "schema_version": 1,
+  "stages": {
+    "V0": {
+      "attestations": [],
+      "completed_operations": [],
+      "pending_checkpoint": null,
+      "project_checks": {},
+      "status": "completed"
+    },
+    "V1": {
+      "attestations": [],
+      "completed_operations": [
+        "v1-validate-trackers"
+      ],
+      "pending_checkpoint": null,
+      "project_checks": {},
+      "status": "failed"
+    },
+    "V2": {
+      "attestations": [],
+      "completed_operations": [],
+      "pending_checkpoint": null,
+      "project_checks": {},
+      "status": "completed"
+    },
+    "V3": {
+      "attestations": [],
+      "completed_operations": [],
+      "pending_checkpoint": {
+        "description": "User reviews all produced reports and decides next steps. Errors must never be hidden as warnings.",
+        "id": "validate-approval",
+        "produces": [
+          "validate approval (V3 row in gate-decisions.md)"
+        ],
+        "requires": [
+          "the in-scope per-agent validation reports (pm / architect / implementation)"
+        ]
+      },
+      "project_checks": {},
+      "status": "pending-checkpoint"
+    }
+  }
+}

@@ -93,6 +93,10 @@ run_custom_rollback() {
     echo "ERROR: no custom rollback command configured." >&2
     exit 2
   fi
+  if [ "$DRY_RUN" -eq 1 ]; then
+    echo "Dry run: skipping custom rollback command."
+    return 0
+  fi
 
   echo "Running custom rollback for '${ENVIRONMENT}'"
   (

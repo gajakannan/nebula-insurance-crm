@@ -20,6 +20,13 @@ Output: a complete build-ready technical spec section that maps to Phase A.
 Goal: generate the actual repository and code in incremental vertical slices with tests.
 Output: production-quality code + migrations + OpenAPI + tests + run instructions.
 
+### Framework binding
+
+- Framework: `nebula-agents` pinned at commit `c218bf1776f509a30f71967a1ee79879caa9a000` (2026-09-07). Advance this pin together with `.github/workflows/product-quality.yml`.
+- Session setup: run framework commands from the sibling checkout and pass this repository's absolute path with `--product-root`; do not rely on a framework default product.
+- Project extension: `.nebula-project.yaml` declares CRM instructions and the evidence durability check executed at `plan-review` PR2 through `project_checks.py`.
+- Product lifecycle: `scripts/run-lifecycle-gates.py` runs the product-owned `lifecycle-stage.yaml` gates from this repository root.
+
 IMPORTANT RULES:
 
 - Single source of truth is THIS document.

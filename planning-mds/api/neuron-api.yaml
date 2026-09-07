@@ -355,6 +355,35 @@ paths:
                   tools: { type: array, items: { type: string } }
         "503":
           description: Service not ready (e.g. an orchestration asset failed validation at startup).
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ProblemDetails" }
+  /ready:
+    get:
+      operationId: neuronReady
+      summary: Readiness and dependency state
+      description: Reports whether validated orchestration assets and persistence are ready.
+      tags: [Health]
+      security: []
+      responses:
+        "200":
+          description: Service is ready.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ready, plans, agents, model_provider, persistence]
+                properties:
+                  ready: { type: boolean, const: true }
+                  plans: { type: array, items: { type: string } }
+                  agents: { type: array, items: { type: string } }
+                  model_provider: { type: string }
+                  persistence: { type: string }
+        "503":
+          description: Service is not ready.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ProblemDetails" }
 components:
   securitySchemes:
     bearerAuth:
@@ -407,9 +436,12 @@ components:
     ProblemDetails:
       type: object
       description: RFC 7807 problem details (aligned with the engine's ProblemDetails).
+      required: [type, title, status, detail, code, traceId]
       properties:
         type: { type: string, format: uri }
         title: { type: string }
         status: { type: integer }
         detail: { type: string }
         instance: { type: string }
+        code: { type: string }
+        traceId: { type: string }

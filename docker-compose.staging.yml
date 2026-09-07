@@ -1,0 +1,10 @@
+services:
+  api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Staging
+      Authentication__Authority: ${AUTHENTIK_AUTHORITY:?set AUTHENTIK_AUTHORITY to the staging OIDC issuer}
+      Authentication__Audience: ${AUTHENTICATION_AUDIENCE:?set AUTHENTICATION_AUDIENCE to the staging API audience}
+  neuron:
+    environment:
+      NEURON_ENV: staging
+      NEURON_AUTH_MODE: engine

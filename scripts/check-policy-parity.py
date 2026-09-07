@@ -2,8 +2,9 @@
 """
 BrokerUser Policy Parity Gate (F-007)
 
-Verifies that authorization-matrix.md §2.10 (BrokerUser ALLOW decisions)
-and policy.csv §2.10 (BrokerUser Casbin rows) remain in sync.
+Verifies that the BrokerUser allow-list in authorization-matrix.md and the
+corresponding Casbin rows remain in sync. The F0020 document classification
+table is an explicit later exception and is included below.
 
 Exit codes:
   0 — parity confirmed
@@ -29,6 +30,18 @@ DEFAULT_MATRIX = "planning-mds/security/authorization-matrix.md"
 DEFAULT_POLICY = "planning-mds/security/policies/policy.csv"
 
 PolicyTuple = Tuple[str, str]  # (resource, action)
+
+# §4.1/§4.2 explicitly layer public document access over the §2.10 Phase 1
+# table. Keep this exception in the parity gate so a valid document grant is not
+# reported as drift while the broad account grant remains default-deny.
+DOCUMENT_CLASSIFICATION_ALLOWS: Set[PolicyTuple] = {
+    ("document", "read"),
+    ("document", "create"),
+    ("document", "download"),
+    ("document_template", "read"),
+    ("document_template", "create"),
+    ("document_template", "link"),
+}
 
 
 # ---------------------------------------------------------------------------
@@ -189,7 +202,7 @@ def parse_matrix_md(matrix_path: Path) -> Set[PolicyTuple]:
         for action in actions:
             allows.add((resource, action))
 
-    return allows
+    return allows | DOCUMENT_CLASSIFICATION_ALLOWS
 
 
 # ---------------------------------------------------------------------------

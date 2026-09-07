@@ -1,0 +1,18 @@
+Knowledge graph validation
+------------------------------------------------------------
+Features mapped:   38
+Stories mapped:    193
+Feature coverage:  38 mapped, 3 excluded, 0 uncovered
+Code bindings:     225
+Symbol index:      6255 symbols, 6255 on bound nodes (csharp: 3965, python: 1052, typescript: 1238)
+Decision markers: 8 markers, 8 WHY (WHY: 8)
+
+Warnings:
+- Low-confidence inferred edge (0.4) on feature:F0028 in feature:F0018.depends_on
+- symbol symbol:capability-neuron-companion:agent-registry.get.callers references unknown symbol: symbol:capability-neuron-companion:message-dispatcher.route-in-scope
+- symbol symbol:capability-neuron-companion:intent-catalog.active-domain-ids.callers references unknown symbol: symbol:capability-neuron-companion:shipped-catalog-test.test-only-renewals-is-active-today
+- symbol symbol:capability-neuron-companion:model-router.names.callers references unknown symbol: symbol:capability-neuron-companion:tool-registry-test.test-five-engine-tools-registered
+- symbol symbol:capability-neuron-companion:tool-registry.get.callers references unknown symbol: symbol:capability-neuron-companion:message-dispatcher.route-in-scope
+- symbol symbol:capability-neuron-companion:tool-registry.names.callers references unknown symbol: symbol:capability-neuron-companion:tool-registry-test.test-five-engine-tools-registered
+
+[PASS] knowledge-graph integrity checks passed.

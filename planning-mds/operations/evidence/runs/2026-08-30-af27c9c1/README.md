@@ -6,7 +6,7 @@ Resumed the existing F0040 `plan` run without reinitialization. Restored the G1 
 
 ## Status
 
-Final state: Phase B approved and G5 completed, including the `approve-phase-b` attestation. `evidence-manifest.json` remains `draft` because this is a plan action and no feature evidence package is produced.
+Final state: Phase B approved and G5 completed, including the `approve-phase-b` attestation. The base-run-only manifest is `superseded` as of 2026-09-01 so the separate feature-completion run can become F0040's canonical evidence; this plan run is not feature-completion evidence.
 
 ## Evidence Index
 

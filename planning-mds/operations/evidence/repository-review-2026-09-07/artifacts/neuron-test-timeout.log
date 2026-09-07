@@ -1,0 +1,82 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.1.1, pluggy-1.6.0 -- /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/bin/python
+rootdir: /home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron
+configfile: pyproject.toml
+plugins: anyio-4.14.1, cov-7.1.0
+collecting ... collected 449 items
+
+neuron/tests/test_actions.py::ActionDispatchTest::test_draft_persists_engine_first_and_returns_editor PASSED [  0%]
+neuron/tests/test_actions.py::ActionDispatchTest::test_drill_requires_renewal_id PASSED [  0%]
+neuron/tests/test_actions.py::ActionDispatchTest::test_drill_returns_companion_context_envelope PASSED [  0%]
+neuron/tests/test_actions.py::ActionDispatchTest::test_mock_send_rejects_forbidden_content PASSED [  0%]
+neuron/tests/test_actions.py::ActionDispatchTest::test_mock_send_requires_edited_body PASSED [  1%]
+neuron/tests/test_actions.py::ActionDispatchTest::test_mock_send_uses_if_match_and_records_transition PASSED [  1%]
+neuron/tests/test_actions.py::ActionDispatchTest::test_scope_redirect_ack_is_benign_noop PASSED [  1%]
+neuron/tests/test_actions.py::ActionDispatchTest::test_unknown_action_rejected PASSED [  1%]
+neuron/tests/test_agent_cards.py::LoadShippedCardsTest::test_all_shipped_cards_load PASSED [  2%]
+neuron/tests/test_agent_cards.py::LoadShippedCardsTest::test_live_heads_declare_component_ownership PASSED [  2%]
+neuron/tests/test_agent_cards.py::LoadShippedCardsTest::test_no_public_card PASSED [  2%]
+neuron/tests/test_agent_cards.py::LoadShippedCardsTest::test_stub_heads_marked_inactive PASSED [  2%]
+neuron/tests/test_agent_cards.py::LoadShippedCardsTest::test_user_token_only_on_engine_touching_agents PASSED [  2%]
+neuron/tests/test_agent_cards.py::CardValidationTest::test_bad_card_id_rejected PASSED [  3%]
+neuron/tests/test_agent_cards.py::CardValidationTest::test_bad_version_rejected PASSED [  3%]
+neuron/tests/test_agent_cards.py::CardValidationTest::test_missing_required_field_rejected PASSED [  3%]
+neuron/tests/test_agent_cards.py::CardValidationTest::test_public_true_rejected PASSED [  3%]
+neuron/tests/test_agent_cards.py::CardValidationTest::test_unknown_kind_rejected PASSED [  4%]
+neuron/tests/test_agent_cards.py::CardValidationTest::test_valid_card_hash_is_stable PASSED [  4%]
+neuron/tests/test_auth.py::SubjectFromTokenTest::test_falls_back_to_username PASSED [  4%]
+neuron/tests/test_auth.py::SubjectFromTokenTest::test_opaque_token_is_stable_pseudonym PASSED [  4%]
+neuron/tests/test_auth.py::SubjectFromTokenTest::test_reads_sub_claim PASSED [  4%]
+neuron/tests/test_bootstrap.py::BootstrapHappyPathTest::test_health_snapshot_lists_heads_and_tools PASSED [  5%]
+neuron/tests/test_bootstrap.py::BootstrapHappyPathTest::test_plan_loaded PASSED [  5%]
+neuron/tests/test_bootstrap.py::BootstrapHappyPathTest::test_ready PASSED [  5%]
+neuron/tests/test_bootstrap.py::BootstrapFailFastTest::test_invalid_card_fails_fast PASSED [  5%]
+neuron/tests/test_bootstrap.py::BootstrapFailFastTest::test_missing_plans_dir_fails_fast PASSED [  6%]
+neuron/tests/test_bootstrap.py::BootstrapFailFastTest::test_unsupported_persistence_backend_fails_fast PASSED [  6%]
+neuron/tests/test_bootstrap.py::BootstrapFailFastTest::test_unwired_model_provider_fails_fast PASSED [  6%]
+neuron/tests/test_broker_activity_head.py::BrokerActivityZoneHeadTest::test_defensively_caps_response_at_twenty PASSED [  6%]
+neuron/tests/test_broker_activity_head.py::BrokerActivityZoneHeadTest::test_empty_is_explicit_and_has_no_component PASSED [  6%]
+neuron/tests/test_broker_activity_head.py::BrokerActivityZoneHeadTest::test_engine_error_propagates_to_shared_isolation_boundary PASSED [  7%]
+neuron/tests/test_broker_activity_head.py::BrokerActivityZoneHeadTest::test_forwards_token_and_fixed_scoped_query PASSED [  7%]
+neuron/tests/test_broker_activity_head.py::BrokerActivityZoneHeadTest::test_maps_exact_engine_fields_to_registered_content PASSED [  7%]
+neuron/tests/test_broker_activity_head.py::BrokerActivityZoneHeadTest::test_records_only_bounded_tool_provenance PASSED [  7%]
+neuron/tests/test_broker_activity_head.py::BrokerActivityZoneHeadTest::test_rejects_non_broker_or_malformed_rows 
+neuron/tests/test_broker_activity_head.py::BrokerActivityZoneHeadTest::test_rejects_non_broker_or_malformed_rows PASSED [  8%]
+neuron/tests/test_dispatcher_integration.py::PersistFirstTest::test_duplicate_client_key_does_not_duplicate_the_turn Timeout (0:00:30)!
+Thread 0x000072b5aa9e31c0 [python] (most recent call first):
+  File "/usr/lib/python3.14/selectors.py", line 452 in select
+  File "/usr/lib/python3.14/asyncio/base_events.py", line 2019 in _run_once
+  File "/usr/lib/python3.14/asyncio/base_events.py", line 677 in run_forever
+  File "/usr/lib/python3.14/asyncio/base_events.py", line 706 in run_until_complete
+  File "/usr/lib/python3.14/asyncio/runners.py", line 73 in close
+  File "/usr/lib/python3.14/unittest/async_case.py", line 142 in _tearDownAsyncioRunner
+  File "/usr/lib/python3.14/unittest/async_case.py", line 149 in run
+  File "/usr/lib/python3.14/unittest/case.py", line 725 in __call__
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/_pytest/unittest.py", line 391 in runtest
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/_pytest/runner.py", line 184 in pytest_runtest_call
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/pluggy/_callers.py", line 121 in _multicall
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/pluggy/_manager.py", line 120 in _hookexec
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/pluggy/_hooks.py", line 512 in __call__
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/_pytest/runner.py", line 250 in <lambda>
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/_pytest/runner.py", line 361 in from_call
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/_pytest/runner.py", line 249 in call_and_report
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/_pytest/runner.py", line 139 in runtestprotocol
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/_pytest/runner.py", line 118 in pytest_runtest_protocol
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/pluggy/_callers.py", line 121 in _multicall
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/pluggy/_manager.py", line 120 in _hookexec
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/pluggy/_hooks.py", line 512 in __call__
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/_pytest/main.py", line 408 in pytest_runtestloop
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/pluggy/_callers.py", line 121 in _multicall
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/pluggy/_manager.py", line 120 in _hookexec
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/pluggy/_hooks.py", line 512 in __call__
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/_pytest/main.py", line 384 in _main
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/_pytest/main.py", line 330 in wrap_session
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/_pytest/main.py", line 377 in pytest_cmdline_main
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/pluggy/_callers.py", line 121 in _multicall
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/pluggy/_manager.py", line 120 in _hookexec
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/pluggy/_hooks.py", line 512 in __call__
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/_pytest/config/__init__.py", line 229 in _main
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/_pytest/config/__init__.py", line 253 in _console_main
+  File "/home/gajap/uSandbox/repos/nebula/nebula-insurance-crm/neuron/.venv/lib/python3.14/site-packages/pytest/__main__.py", line 9 in <module>
+  File "<frozen runpy>", line 88 in _run_code
+  File "<frozen runpy>", line 198 in _run_module_as_main

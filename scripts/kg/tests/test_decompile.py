@@ -52,9 +52,16 @@ def test_counts_reconcile(tmp_path):
     canonical = yaml.safe_load((kg / "canonical-nodes.yaml").read_text())
     node_total = sum(len(v) for v in canonical.values() if isinstance(v, list))
     assert f"nodes: {node_total}" in report
-    assert "features: 40 (33 mapped + 7 coverage-excluded)" in report
-    assert "stories: 164" in report
-    assert "bindings: 216" in report
+    mappings = yaml.safe_load((kg / "feature-mappings.yaml").read_text())
+    features = mappings["features"]
+    excluded_features = mappings.get("coverage", {}).get("excluded_features", [])
+    mapped_ids = {feature["id"] for feature in features}
+    excluded_ids = {feature["id"] for feature in excluded_features}
+    all_feature_ids = mapped_ids | excluded_ids
+    assert f"features: {len(all_feature_ids)} ({len(mapped_ids)} mapped + {len(excluded_ids)} coverage-excluded)" in report
+    assert f"stories: {len(mappings['stories'])}" in report
+    code_index = yaml.safe_load((kg / "code-index.yaml").read_text())
+    assert f"bindings: {len(code_index['node_bindings'])}" in report
 
 
 def test_decompile_idempotent(tmp_path):

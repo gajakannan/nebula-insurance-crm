@@ -30,6 +30,8 @@ class NeuronError(Exception):
             "title": self.title,
             "status": self.status,
             "detail": self.detail,
+            "code": type(self).__name__,
+            "traceId": instance or "neuron",
         }
         if instance is not None:
             problem["instance"] = instance

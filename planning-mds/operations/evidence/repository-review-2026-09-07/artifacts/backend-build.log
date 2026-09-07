@@ -1,0 +1,2 @@
+$ dotnet build engine/Nebula.slnx --configuration Release --no-restore
+Result: BLOCKED by the sandbox .NET SDK resolver; the command exits with Build FAILED, 0 warnings, 0 errors before project compilation. The repository's backend build must be rerun in a complete .NET 10/NuGet environment.

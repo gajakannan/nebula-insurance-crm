@@ -10,6 +10,12 @@
 | G4 | PASS | Architect | 2026-08-31T23:02:37-04:00 | KG source compiled and generated projections passed drift validation. | No | Run G5 exit validation. |
 | G5 | PASS | Operator / Architect | 2026-08-31T23:05:25-04:00 | All automatic exit operations passed and the operator explicitly approved Phase B with token `approve phase B`. | No | Use the approved assembly plan and ADR-037 as the future feature-action contract; do not create feature evidence in this plan run. |
 
+## Plan Run Closeout
+
+- **Closed at:** 2026-09-01T20:32:53-04:00
+- **Operator direction:** `go ahead close out the plan, and then proceed`
+- **Disposition:** The completed base-run-only plan manifest is marked `superseded` so it is not treated as an in-flight run or as canonical feature-completion evidence. The approved planning artifacts remain the input contract for the separate F0040 feature run.
+
 ## G1 Clarification Record
 
 - **Selected domain:** `broker_activity`.

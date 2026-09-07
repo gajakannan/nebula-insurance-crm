@@ -1,6 +1,6 @@
 # F0036: Form Engine and Form-State Preservation (RHF + AJV + Widget Registry)
 
-**Status:** Plan complete (A1+B2 approved, `2026-05-25-51ff2a92`). Two plan-review rounds returned findings — `2026-05-26-aaa8bd7c` (NOT READY) and `2026-05-26-378ac7da` (CONDITIONALLY READY); **all findings from both rounds resolved by rework 2026-05-26/27** (validation-parity, Workstream B inventory, tracker/KG state, KG coverage, framework templates). Pending plan-review re-run to confirm READY before the feature action. See `STATUS.md` → Plan Review Findings
+**Status:** Done — archived. Implementation and remediation evidence are recorded in `planning-mds/operations/evidence/runs/2026-06-30-6974ec2c/`; the two historical plan-review rounds and their resolutions remain below for traceability.
 **Created:** 2026-05-25
 **Priority:** High
 **Phase:** Platform Foundation / CRM Release MVP Enabler

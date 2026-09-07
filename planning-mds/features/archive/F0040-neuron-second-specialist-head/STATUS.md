@@ -8,6 +8,10 @@
 > 2026-08-31. Phase B architecture, contracts, KG source, and final role matrix
 > were approved by the operator at G5 on 2026-08-31.
 
+The planning narrative below is retained as historical approval provenance. The
+completion package and role signoffs above are the current source for delivery
+status; no additional feature-action gate is pending.
+
 ## Story Checklist
 
 | Story | Title | Status |

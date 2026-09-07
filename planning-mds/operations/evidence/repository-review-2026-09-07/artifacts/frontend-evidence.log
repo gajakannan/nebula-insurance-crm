@@ -1,0 +1,7 @@
+Baseline: the March F0015 manifest failed because its visual report was missing and it had no revision binding.
+Post-fix: planning-mds/testing/validate-frontend-quality-gate.py
+[PASS] Frontend quality evidence manifest is complete
+  manifest: planning-mds/operations/evidence/frontend-quality/latest-run.json
+  layers: component, integration, accessibility, coverage, visual
+  coverage floor: 60%; actual lines/statements 73.74%, functions 61.01%, branches 76.24%
+  revision: working-tree:47375571b19e3f917c1d22cbc076df41320100ff

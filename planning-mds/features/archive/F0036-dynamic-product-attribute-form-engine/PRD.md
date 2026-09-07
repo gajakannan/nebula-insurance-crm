@@ -10,7 +10,7 @@ applies_to: product-manager
 **Feature Name:** Form Engine and Form-State Preservation (RHF + AJV + Widget Registry)
 **Priority:** High
 **Phase:** Platform Foundation / CRM Release MVP Enabler
-**Status:** Plan complete (A1+B2 approved); plan-review rework applied for both rounds (`aaa8bd7c`, `378ac7da`), pending re-confirmation
+**Status:** Done — archived. Implementation and completion evidence are recorded in `planning-mds/operations/evidence/runs/2026-06-30-6974ec2c/`.
 
 > **Folder note:** the folder slug remains `F0036-dynamic-product-attribute-form-engine` for link stability. The feature was broadened on 2026-05-25 from product-attributes-only to also close the F0035 form-preservation gap on the hand-rolled CRUD forms, so the title now reads "Form Engine and Form-State Preservation." The 2026-05-27 scope refinement narrowed Workstream B from a field-state-library rewrite to a controlled-form preservation adapter — the CRUD forms stay controlled; only the dynamic product-attribute engine uses RHF (see Phase A clarification → 2026-05-27 scope refinement).
 

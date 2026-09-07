@@ -1,0 +1,298 @@
+ERROR artifact_missing_fails: commands.log line 14 artifact '.env' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-02-736e7854/env'
+ERROR commands_log_artifact_missing_fails: commands.log line 14 references missing artifact '.env'
+ERROR artifact_missing_fails: commands.log line 34 artifact 'engine/tests/Nebula.Tests/TestResults/2bc5054c-a556-4b70-8d10-c337d946fab7/coverage.cobertura.xml' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 34 references missing artifact 'engine/tests/Nebula.Tests/TestResults/2bc5054c-a556-4b70-8d10-c337d946fab7/coverage.cobertura.xml'
+ERROR artifact_missing_fails: commands.log line 63 artifact 'engine/tests/Nebula.Tests/TestResults/3f3d475d-6dc1-436f-8dc5-2f5e723c9729/coverage.cobertura.xml' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 63 references missing artifact 'engine/tests/Nebula.Tests/TestResults/3f3d475d-6dc1-436f-8dc5-2f5e723c9729/coverage.cobertura.xml'
+ERROR command_artifact_missing_fails: commands.log line 14 artifact '.env' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 34 artifact 'engine/tests/Nebula.Tests/TestResults/2bc5054c-a556-4b70-8d10-c337d946fab7/coverage.cobertura.xml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 63 artifact 'engine/tests/Nebula.Tests/TestResults/3f3d475d-6dc1-436f-8dc5-2f5e723c9729/coverage.cobertura.xml' does not resolve under product root
+ERROR artifact_missing_fails: commands.log line 36 artifact 'engine/tests/Nebula.Tests/TestResults/e59f00e1-1d0f-4371-9b3d-01942eee61aa/coverage.cobertura.xml' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 36 references missing artifact 'engine/tests/Nebula.Tests/TestResults/e59f00e1-1d0f-4371-9b3d-01942eee61aa/coverage.cobertura.xml'
+ERROR artifact_missing_fails: commands.log line 73 artifact 'engine/tests/Nebula.Tests/TestResults/f787b2eb-1986-4666-a5ec-d3edfa6e4acd/coverage.cobertura.xml' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 73 references missing artifact 'engine/tests/Nebula.Tests/TestResults/f787b2eb-1986-4666-a5ec-d3edfa6e4acd/coverage.cobertura.xml'
+ERROR command_artifact_missing_fails: commands.log line 36 artifact 'engine/tests/Nebula.Tests/TestResults/e59f00e1-1d0f-4371-9b3d-01942eee61aa/coverage.cobertura.xml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 73 artifact 'engine/tests/Nebula.Tests/TestResults/f787b2eb-1986-4666-a5ec-d3edfa6e4acd/coverage.cobertura.xml' does not resolve under product root
+ERROR artifact_missing_fails: commands.log line 2 artifact '.kg-state/telemetry.jsonl' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-ba011af8/kg-state/telemetry.jsonl'
+ERROR commands_log_artifact_missing_fails: commands.log line 2 references missing artifact '.kg-state/telemetry.jsonl'
+ERROR artifact_missing_fails: commands.log line 3 artifact '.kg-state/F0024-feature.yaml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-ba011af8/kg-state/F0024-feature.yaml'
+ERROR commands_log_artifact_missing_fails: commands.log line 3 references missing artifact '.kg-state/F0024-feature.yaml'
+ERROR scratch_artifact_fails: commands.log line 5 artifact '/tmp/f0024-api-health.txt' is a scratch/local path and is not durable evidence
+ERROR scratch_artifact_fails: commands.log line 6 artifact '/tmp/f0024-api-openapi.json' is a scratch/local path and is not durable evidence
+ERROR scratch_artifact_fails: commands.log line 7 artifact '/tmp/f0024-authentik-health.txt' is a scratch/local path and is not durable evidence
+ERROR artifact_missing_fails: commands.log line 16 artifact 'planning-mds/operations/evidence/runs/2026-07-03-ba011af8/artifacts/coverage/backend-filtered-coverage.cobertura.xml' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 16 references missing artifact 'planning-mds/operations/evidence/runs/2026-07-03-ba011af8/artifacts/coverage/backend-filtered-coverage.cobertura.xml'
+ERROR command_artifact_missing_fails: commands.log line 2 artifact '.kg-state/telemetry.jsonl' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 3 artifact '.kg-state/F0024-feature.yaml' does not resolve under product root
+ERROR scratch_artifact_fails: commands.log line 5 artifact '/tmp/f0024-api-health.txt' is a scratch/local path and is not durable evidence
+ERROR scratch_artifact_fails: commands.log line 6 artifact '/tmp/f0024-api-openapi.json' is a scratch/local path and is not durable evidence
+ERROR scratch_artifact_fails: commands.log line 7 artifact '/tmp/f0024-authentik-health.txt' is a scratch/local path and is not durable evidence
+ERROR command_artifact_missing_fails: commands.log line 16 artifact 'planning-mds/operations/evidence/runs/2026-07-03-ba011af8/artifacts/coverage/backend-filtered-coverage.cobertura.xml' does not resolve under product root
+ERROR artifact_missing_fails: coverage-report.md artifact reference 'artifacts/coverage/backend-filtered-coverage.cobertura.xml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-ba011af8/artifacts/coverage/backend-filtered-coverage.cobertura.xml'
+ERROR coverage_claim_without_artifact_fails: coverage-report.md references 'artifacts/coverage/backend-filtered-coverage.cobertura.xml' but the artifact is missing
+ERROR artifact_missing_fails: coverage-report.md artifact reference 'artifacts/coverage/backend-f0024-servicecase-coverage.cobertura.xml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-ba011af8/artifacts/coverage/backend-f0024-servicecase-coverage.cobertura.xml'
+ERROR coverage_claim_without_artifact_fails: coverage-report.md references 'artifacts/coverage/backend-f0024-servicecase-coverage.cobertura.xml' but the artifact is missing
+ERROR artifact_missing_fails: commands.log line 5 artifact '.kg-state/' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-b9f40b31/kg-state'
+ERROR commands_log_artifact_missing_fails: commands.log line 5 references missing artifact '.kg-state/'
+ERROR artifact_missing_fails: commands.log line 7 artifact '.kg-state/F0022-feature.yaml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-b9f40b31/kg-state/F0022-feature.yaml'
+ERROR commands_log_artifact_missing_fails: commands.log line 7 references missing artifact '.kg-state/F0022-feature.yaml'
+ERROR artifact_missing_fails: commands.log line 8 artifact '.kg-state/telemetry.jsonl' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-b9f40b31/kg-state/telemetry.jsonl'
+ERROR commands_log_artifact_missing_fails: commands.log line 8 references missing artifact '.kg-state/telemetry.jsonl'
+ERROR artifact_missing_fails: commands.log line 18 artifact '.kg-state/F0022-feature.yaml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-b9f40b31/kg-state/F0022-feature.yaml'
+ERROR commands_log_artifact_missing_fails: commands.log line 18 references missing artifact '.kg-state/F0022-feature.yaml'
+ERROR artifact_missing_fails: commands.log line 28 artifact '.env' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-b9f40b31/env'
+ERROR commands_log_artifact_missing_fails: commands.log line 28 references missing artifact '.env'
+ERROR command_artifact_missing_fails: commands.log line 5 artifact '.kg-state/' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 7 artifact '.kg-state/F0022-feature.yaml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 8 artifact '.kg-state/telemetry.jsonl' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 18 artifact '.kg-state/F0022-feature.yaml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 28 artifact '.env' does not resolve under product root
+ERROR artifact_missing_fails: commands.log line 3 artifact '.kg-state/F0017-feature.yaml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/kg-state/F0017-feature.yaml'
+ERROR commands_log_artifact_missing_fails: commands.log line 3 references missing artifact '.kg-state/F0017-feature.yaml'
+ERROR artifact_missing_fails: commands.log line 10 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/g1-docker-ps.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 10 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/g1-docker-ps.txt'
+ERROR artifact_missing_fails: commands.log line 12 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-infrastructure-build.log' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 12 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-infrastructure-build.log'
+ERROR artifact_missing_fails: commands.log line 14 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-hierarchy-integration-tests.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 14 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-hierarchy-integration-tests.txt'
+ERROR artifact_missing_fails: commands.log line 15 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-ownership-integration-tests.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 15 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-ownership-integration-tests.txt'
+ERROR artifact_missing_fails: commands.log line 16 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-territory-integration-tests.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 16 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-territory-integration-tests.txt'
+ERROR artifact_missing_fails: commands.log line 17 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/g1-docker-ps.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 17 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/g1-docker-ps.txt'
+ERROR artifact_missing_fails: commands.log line 18 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/dotnet-sandbox-msbuild-permission.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 18 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/dotnet-sandbox-msbuild-permission.txt'
+ERROR artifact_missing_fails: commands.log line 19 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-backend.trx' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 19 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-backend.trx'
+ERROR artifact_missing_fails: commands.log line 19 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/coverage/f0017-backend-cobertura.xml' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 19 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/coverage/f0017-backend-cobertura.xml'
+ERROR artifact_missing_fails: commands.log line 20 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-vitest.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 20 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-vitest.txt'
+ERROR artifact_missing_fails: commands.log line 21 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-lint.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 21 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-lint.txt'
+ERROR artifact_missing_fails: commands.log line 22 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-build.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 22 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-build.txt'
+ERROR artifact_missing_fails: commands.log line 24 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-backend-after-g3.trx' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 24 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-backend-after-g3.trx'
+ERROR artifact_missing_fails: commands.log line 24 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/coverage/f0017-backend-after-g3-cobertura.xml' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 24 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/coverage/f0017-backend-after-g3-cobertura.xml'
+ERROR artifact_missing_fails: commands.log line 62 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-broker-detail-distribution-vitest.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 62 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-broker-detail-distribution-vitest.txt'
+ERROR artifact_missing_fails: commands.log line 64 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-vite-proxy-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 64 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-vite-proxy-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 65 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-lint.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 65 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-lint.txt'
+ERROR artifact_missing_fails: commands.log line 66 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-build.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 66 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-build.txt'
+ERROR artifact_missing_fails: commands.log line 71 artifact '.env' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/env'
+ERROR commands_log_artifact_missing_fails: commands.log line 71 references missing artifact '.env'
+ERROR scratch_artifact_fails: commands.log line 81 artifact '/tmp/nebula-playwright-smoke.png' is a scratch/local path and is not durable evidence
+ERROR artifact_missing_fails: commands.log line 85 artifact 'experience/.env.development.local' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 85 references missing artifact 'experience/.env.development.local'
+ERROR scratch_artifact_fails: commands.log line 87 artifact '/tmp/nebula-login-dev-mode-after-proxy.png' is a scratch/local path and is not durable evidence
+ERROR scratch_artifact_fails: commands.log line 88 artifact '/tmp/nebula-brokers-direct-route-after-proxy.png' is a scratch/local path and is not durable evidence
+ERROR artifact_missing_fails: commands.log line 89 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 89 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 90 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 90 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 91 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 91 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 92 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 92 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 93 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 93 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 98 artifact 'engine/tests/Nebula.Tests/TestResults/5cb3334f-1d7f-4d34-ad13-9444a75f6bec/coverage.cobertura.xml' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 98 references missing artifact 'engine/tests/Nebula.Tests/TestResults/5cb3334f-1d7f-4d34-ad13-9444a75f6bec/coverage.cobertura.xml'
+ERROR artifact_missing_fails: commands.log line 99 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 99 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 100 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 100 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt'
+ERROR scratch_artifact_fails: commands.log line 101 artifact '/tmp/nebula-f0017-hierarchy-fixed.png' is a scratch/local path and is not durable evidence
+ERROR scratch_artifact_fails: commands.log line 102 artifact '/tmp/nebula-f0017-hierarchy-distribution-fixed.png' is a scratch/local path and is not durable evidence
+ERROR artifact_missing_fails: commands.log line 102 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 102 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 103 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 103 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 104 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 104 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 105 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 105 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 111 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 111 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt'
+ERROR scratch_artifact_fails: commands.log line 112 artifact '/tmp/nebula-f0017-demo-distribution.png' is a scratch/local path and is not durable evidence
+ERROR scratch_artifact_fails: commands.log line 112 artifact '/tmp/nebula-f0017-demo-timeline.png' is a scratch/local path and is not durable evidence
+ERROR artifact_missing_fails: commands.log line 112 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 112 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 113 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 113 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 114 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 114 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 115 artifact 'engine/tests/Nebula.Tests/TestResults/49ff9e7e-cfbd-4954-8c5f-95571d1b0f3b/coverage.cobertura.xml' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 115 references missing artifact 'engine/tests/Nebula.Tests/TestResults/49ff9e7e-cfbd-4954-8c5f-95571d1b0f3b/coverage.cobertura.xml'
+ERROR artifact_missing_fails: commands.log line 116 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 116 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 117 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 117 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt'
+ERROR artifact_missing_fails: commands.log line 118 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 118 references missing artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt'
+ERROR artifact_missing_fails: Manifest files['backend_test_trx'] 'artifacts/test-results/f0017-backend.trx' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-backend.trx'
+ERROR manifest_file_path_missing_fails: Manifest files['backend_test_trx']='artifacts/test-results/f0017-backend.trx' does not exist
+ERROR artifact_missing_fails: Manifest files['backend_test_after_g3_trx'] 'artifacts/test-results/f0017-backend-after-g3.trx' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-backend-after-g3.trx'
+ERROR manifest_file_path_missing_fails: Manifest files['backend_test_after_g3_trx']='artifacts/test-results/f0017-backend-after-g3.trx' does not exist
+ERROR artifact_missing_fails: Manifest files['backend_coverage'] 'artifacts/coverage/f0017-backend-cobertura.xml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/coverage/f0017-backend-cobertura.xml'
+ERROR manifest_file_path_missing_fails: Manifest files['backend_coverage']='artifacts/coverage/f0017-backend-cobertura.xml' does not exist
+ERROR artifact_missing_fails: Manifest files['backend_coverage_after_g3'] 'artifacts/coverage/f0017-backend-after-g3-cobertura.xml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/coverage/f0017-backend-after-g3-cobertura.xml'
+ERROR manifest_file_path_missing_fails: Manifest files['backend_coverage_after_g3']='artifacts/coverage/f0017-backend-after-g3-cobertura.xml' does not exist
+ERROR artifact_missing_fails: Manifest files['frontend_vitest'] 'artifacts/test-results/f0017-frontend-vitest.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-vitest.txt'
+ERROR manifest_file_path_missing_fails: Manifest files['frontend_vitest']='artifacts/test-results/f0017-frontend-vitest.txt' does not exist
+ERROR artifact_missing_fails: Manifest files['frontend_broker_detail_distribution_vitest'] 'artifacts/test-results/f0017-broker-detail-distribution-vitest.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-broker-detail-distribution-vitest.txt'
+ERROR manifest_file_path_missing_fails: Manifest files['frontend_broker_detail_distribution_vitest']='artifacts/test-results/f0017-broker-detail-distribution-vitest.txt' does not exist
+ERROR artifact_missing_fails: Manifest files['frontend_vite_proxy_smoke'] 'artifacts/test-results/f0017-vite-proxy-smoke.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-vite-proxy-smoke.txt'
+ERROR manifest_file_path_missing_fails: Manifest files['frontend_vite_proxy_smoke']='artifacts/test-results/f0017-vite-proxy-smoke.txt' does not exist
+ERROR artifact_missing_fails: Manifest files['frontend_runtime_fix_smoke'] 'artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt'
+ERROR manifest_file_path_missing_fails: Manifest files['frontend_runtime_fix_smoke']='artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' does not exist
+ERROR artifact_missing_fails: Manifest files['hierarchy_load_fix_smoke'] 'artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt'
+ERROR manifest_file_path_missing_fails: Manifest files['hierarchy_load_fix_smoke']='artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not exist
+ERROR artifact_missing_fails: Manifest files['demo_visibility_smoke'] 'artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt'
+ERROR manifest_file_path_missing_fails: Manifest files['demo_visibility_smoke']='artifacts/test-results/f0017-demo-visibility-smoke.txt' does not exist
+ERROR artifact_missing_fails: Manifest files['frontend_lint'] 'artifacts/test-results/frontend-lint.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-lint.txt'
+ERROR manifest_file_path_missing_fails: Manifest files['frontend_lint']='artifacts/test-results/frontend-lint.txt' does not exist
+ERROR artifact_missing_fails: Manifest files['frontend_build'] 'artifacts/test-results/frontend-build.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-build.txt'
+ERROR manifest_file_path_missing_fails: Manifest files['frontend_build']='artifacts/test-results/frontend-build.txt' does not exist
+ERROR command_artifact_missing_fails: commands.log line 3 artifact '.kg-state/F0017-feature.yaml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 10 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/g1-docker-ps.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 12 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-infrastructure-build.log' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 14 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-hierarchy-integration-tests.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 15 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-ownership-integration-tests.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 16 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/step1-territory-integration-tests.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 17 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/g1-docker-ps.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 18 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/dotnet-sandbox-msbuild-permission.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 19 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-backend.trx' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 19 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/coverage/f0017-backend-cobertura.xml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 20 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-vitest.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 21 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-lint.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 22 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-build.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 24 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-backend-after-g3.trx' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 24 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/coverage/f0017-backend-after-g3-cobertura.xml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 62 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-broker-detail-distribution-vitest.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 64 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-vite-proxy-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 65 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-lint.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 66 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-build.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 71 artifact '.env' does not resolve under product root
+ERROR scratch_artifact_fails: commands.log line 81 artifact '/tmp/nebula-playwright-smoke.png' is a scratch/local path and is not durable evidence
+ERROR command_artifact_missing_fails: commands.log line 85 artifact 'experience/.env.development.local' does not resolve under product root
+ERROR scratch_artifact_fails: commands.log line 87 artifact '/tmp/nebula-login-dev-mode-after-proxy.png' is a scratch/local path and is not durable evidence
+ERROR scratch_artifact_fails: commands.log line 88 artifact '/tmp/nebula-brokers-direct-route-after-proxy.png' is a scratch/local path and is not durable evidence
+ERROR command_artifact_missing_fails: commands.log line 89 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 90 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 91 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 92 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 93 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 98 artifact 'engine/tests/Nebula.Tests/TestResults/5cb3334f-1d7f-4d34-ad13-9444a75f6bec/coverage.cobertura.xml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 99 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 100 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve under product root
+ERROR scratch_artifact_fails: commands.log line 101 artifact '/tmp/nebula-f0017-hierarchy-fixed.png' is a scratch/local path and is not durable evidence
+ERROR scratch_artifact_fails: commands.log line 102 artifact '/tmp/nebula-f0017-hierarchy-distribution-fixed.png' is a scratch/local path and is not durable evidence
+ERROR command_artifact_missing_fails: commands.log line 102 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 103 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 104 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 105 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 111 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve under product root
+ERROR scratch_artifact_fails: commands.log line 112 artifact '/tmp/nebula-f0017-demo-distribution.png' is a scratch/local path and is not durable evidence
+ERROR scratch_artifact_fails: commands.log line 112 artifact '/tmp/nebula-f0017-demo-timeline.png' is a scratch/local path and is not durable evidence
+ERROR command_artifact_missing_fails: commands.log line 112 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 113 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 114 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 115 artifact 'engine/tests/Nebula.Tests/TestResults/49ff9e7e-cfbd-4954-8c5f-95571d1b0f3b/coverage.cobertura.xml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 116 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 117 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 118 artifact 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve under product root
+ERROR artifact_missing_fails: coverage-report.md artifact reference 'artifacts/coverage/f0017-backend-cobertura.xml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/coverage/f0017-backend-cobertura.xml'
+ERROR coverage_claim_without_artifact_fails: coverage-report.md references 'artifacts/coverage/f0017-backend-cobertura.xml' but the artifact is missing
+ERROR artifact_missing_fails: coverage-report.md artifact reference 'artifacts/coverage/f0017-backend-after-g3-cobertura.xml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/coverage/f0017-backend-after-g3-cobertura.xml'
+ERROR coverage_claim_without_artifact_fails: coverage-report.md references 'artifacts/coverage/f0017-backend-after-g3-cobertura.xml' but the artifact is missing
+ERROR artifact_missing_fails: test-execution-report.md artifact reference 'artifacts/test-results/f0017-backend-after-g3.trx' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-backend-after-g3.trx'
+ERROR test_results_reference_missing_fails: test-execution-report.md references 'artifacts/test-results/f0017-backend-after-g3.trx' but the artifact is missing
+ERROR artifact_missing_fails: test-execution-report.md artifact reference 'artifacts/test-results/dotnet-sandbox-msbuild-permission.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/dotnet-sandbox-msbuild-permission.txt'
+ERROR test_results_reference_missing_fails: test-execution-report.md references 'artifacts/test-results/dotnet-sandbox-msbuild-permission.txt' but the artifact is missing
+ERROR artifact_missing_fails: test-execution-report.md artifact reference 'artifacts/test-results/f0017-frontend-vitest.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-vitest.txt'
+ERROR test_results_reference_missing_fails: test-execution-report.md references 'artifacts/test-results/f0017-frontend-vitest.txt' but the artifact is missing
+ERROR artifact_missing_fails: test-execution-report.md artifact reference 'artifacts/test-results/f0017-broker-detail-distribution-vitest.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-broker-detail-distribution-vitest.txt'
+ERROR test_results_reference_missing_fails: test-execution-report.md references 'artifacts/test-results/f0017-broker-detail-distribution-vitest.txt' but the artifact is missing
+ERROR artifact_missing_fails: test-execution-report.md artifact reference 'artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt'
+ERROR test_results_reference_missing_fails: test-execution-report.md references 'artifacts/test-results/f0017-hierarchy-load-fix-smoke.txt' but the artifact is missing
+ERROR artifact_missing_fails: test-execution-report.md artifact reference 'artifacts/test-results/f0017-demo-visibility-smoke.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-demo-visibility-smoke.txt'
+ERROR test_results_reference_missing_fails: test-execution-report.md references 'artifacts/test-results/f0017-demo-visibility-smoke.txt' but the artifact is missing
+ERROR artifact_missing_fails: test-execution-report.md artifact reference 'artifacts/test-results/f0017-vite-proxy-smoke.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-vite-proxy-smoke.txt'
+ERROR test_results_reference_missing_fails: test-execution-report.md references 'artifacts/test-results/f0017-vite-proxy-smoke.txt' but the artifact is missing
+ERROR artifact_missing_fails: test-execution-report.md artifact reference 'artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt'
+ERROR test_results_reference_missing_fails: test-execution-report.md references 'artifacts/test-results/f0017-frontend-runtime-fix-smoke.txt' but the artifact is missing
+ERROR artifact_missing_fails: test-execution-report.md artifact reference 'artifacts/test-results/frontend-lint.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-lint.txt'
+ERROR test_results_reference_missing_fails: test-execution-report.md references 'artifacts/test-results/frontend-lint.txt' but the artifact is missing
+ERROR artifact_missing_fails: test-execution-report.md artifact reference 'artifacts/test-results/frontend-build.txt' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-06-07-771a5ef6/artifacts/test-results/frontend-build.txt'
+ERROR test_results_reference_missing_fails: test-execution-report.md references 'artifacts/test-results/frontend-build.txt' but the artifact is missing
+ERROR artifact_missing_fails: commands.log line 6 artifact '.kg-state/telemetry.jsonl' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/telemetry.jsonl'
+ERROR commands_log_artifact_missing_fails: commands.log line 6 references missing artifact '.kg-state/telemetry.jsonl'
+ERROR artifact_missing_fails: commands.log line 7 artifact '.kg-state/F0008-feature.yaml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/F0008-feature.yaml'
+ERROR commands_log_artifact_missing_fails: commands.log line 7 references missing artifact '.kg-state/F0008-feature.yaml'
+ERROR artifact_missing_fails: commands.log line 9 artifact '.kg-state/telemetry.jsonl' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/telemetry.jsonl'
+ERROR commands_log_artifact_missing_fails: commands.log line 9 references missing artifact '.kg-state/telemetry.jsonl'
+ERROR artifact_missing_fails: commands.log line 10 artifact '.kg-state/telemetry.jsonl' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/telemetry.jsonl'
+ERROR commands_log_artifact_missing_fails: commands.log line 10 references missing artifact '.kg-state/telemetry.jsonl'
+ERROR artifact_missing_fails: commands.log line 11 artifact '.kg-state/telemetry.jsonl' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/telemetry.jsonl'
+ERROR commands_log_artifact_missing_fails: commands.log line 11 references missing artifact '.kg-state/telemetry.jsonl'
+ERROR artifact_missing_fails: commands.log line 15 artifact '.kg-state/F0008-feature.yaml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/F0008-feature.yaml'
+ERROR commands_log_artifact_missing_fails: commands.log line 15 references missing artifact '.kg-state/F0008-feature.yaml'
+ERROR artifact_missing_fails: commands.log line 16 artifact '.kg-state/F0008-feature.yaml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/F0008-feature.yaml'
+ERROR commands_log_artifact_missing_fails: commands.log line 16 references missing artifact '.kg-state/F0008-feature.yaml'
+ERROR artifact_missing_fails: commands.log line 25 artifact '.kg-state/F0008-feature.yaml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/F0008-feature.yaml'
+ERROR commands_log_artifact_missing_fails: commands.log line 25 references missing artifact '.kg-state/F0008-feature.yaml'
+ERROR artifact_missing_fails: commands.log line 26 artifact '.kg-state/telemetry.jsonl' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/telemetry.jsonl'
+ERROR commands_log_artifact_missing_fails: commands.log line 26 references missing artifact '.kg-state/telemetry.jsonl'
+ERROR artifact_missing_fails: commands.log line 27 artifact '.kg-state/telemetry.jsonl' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/telemetry.jsonl'
+ERROR commands_log_artifact_missing_fails: commands.log line 27 references missing artifact '.kg-state/telemetry.jsonl'
+ERROR artifact_missing_fails: commands.log line 28 artifact '.kg-state/telemetry.jsonl' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/telemetry.jsonl'
+ERROR commands_log_artifact_missing_fails: commands.log line 28 references missing artifact '.kg-state/telemetry.jsonl'
+ERROR artifact_missing_fails: commands.log line 29 artifact '.kg-state/telemetry.jsonl' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/telemetry.jsonl'
+ERROR commands_log_artifact_missing_fails: commands.log line 29 references missing artifact '.kg-state/telemetry.jsonl'
+ERROR artifact_missing_fails: commands.log line 35 artifact 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/artifacts/test-results/f0008-broker-insight-service.trx' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 35 references missing artifact 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/artifacts/test-results/f0008-broker-insight-service.trx'
+ERROR artifact_missing_fails: commands.log line 35 artifact 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/artifacts/test-results/04e860ac-f15e-4daf-8fe1-ac882844f39c/coverage.cobertura.xml' does not resolve to an existing artifact
+ERROR commands_log_artifact_missing_fails: commands.log line 35 references missing artifact 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/artifacts/test-results/04e860ac-f15e-4daf-8fe1-ac882844f39c/coverage.cobertura.xml'
+ERROR artifact_missing_fails: commands.log line 47 artifact '.kg-state/F0008-feature.yaml' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/F0008-feature.yaml'
+ERROR commands_log_artifact_missing_fails: commands.log line 47 references missing artifact '.kg-state/F0008-feature.yaml'
+ERROR scratch_artifact_fails: commands.log line 48 artifact '/tmp/f0008-manifest-check.json' is a scratch/local path and is not durable evidence
+ERROR artifact_missing_fails: commands.log line 56 artifact '.kg-state/telemetry.jsonl' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/kg-state/telemetry.jsonl'
+ERROR commands_log_artifact_missing_fails: commands.log line 56 references missing artifact '.kg-state/telemetry.jsonl'
+ERROR scratch_artifact_fails: commands.log line 60 artifact '/tmp/f0008-final-manifest.json' is a scratch/local path and is not durable evidence
+ERROR scratch_artifact_fails: commands.log line 61 artifact '/tmp/f0008-latest-run.json' is a scratch/local path and is not durable evidence
+ERROR command_artifact_missing_fails: commands.log line 6 artifact '.kg-state/telemetry.jsonl' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 7 artifact '.kg-state/F0008-feature.yaml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 9 artifact '.kg-state/telemetry.jsonl' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 10 artifact '.kg-state/telemetry.jsonl' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 11 artifact '.kg-state/telemetry.jsonl' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 15 artifact '.kg-state/F0008-feature.yaml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 16 artifact '.kg-state/F0008-feature.yaml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 25 artifact '.kg-state/F0008-feature.yaml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 26 artifact '.kg-state/telemetry.jsonl' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 27 artifact '.kg-state/telemetry.jsonl' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 28 artifact '.kg-state/telemetry.jsonl' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 29 artifact '.kg-state/telemetry.jsonl' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 35 artifact 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/artifacts/test-results/f0008-broker-insight-service.trx' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 35 artifact 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/artifacts/test-results/04e860ac-f15e-4daf-8fe1-ac882844f39c/coverage.cobertura.xml' does not resolve under product root
+ERROR command_artifact_missing_fails: commands.log line 47 artifact '.kg-state/F0008-feature.yaml' does not resolve under product root
+ERROR scratch_artifact_fails: commands.log line 48 artifact '/tmp/f0008-manifest-check.json' is a scratch/local path and is not durable evidence
+ERROR command_artifact_missing_fails: commands.log line 56 artifact '.kg-state/telemetry.jsonl' does not resolve under product root
+ERROR scratch_artifact_fails: commands.log line 60 artifact '/tmp/f0008-final-manifest.json' is a scratch/local path and is not durable evidence
+ERROR scratch_artifact_fails: commands.log line 61 artifact '/tmp/f0008-latest-run.json' is a scratch/local path and is not durable evidence
+ERROR artifact_missing_fails: test-execution-report.md artifact reference 'artifacts/test-results/f0008-broker-insight-service.trx' does not resolve to an existing artifact at 'planning-mds/operations/evidence/runs/2026-07-03-fd732693/artifacts/test-results/f0008-broker-insight-service.trx'
+ERROR test_results_reference_missing_fails: test-execution-report.md references 'artifacts/test-results/f0008-broker-insight-service.trx' but the artifact is missing
+ERROR stage_g8_requires_tracker_results_fails: G8/closeout requires tracker-sync results to appear in lifecycle-gates.log before final validation
+ERROR stage_g8_requires_tracker_results_fails: G8/closeout requires tracker-sync results to appear in lifecycle-gates.log before final validation
+ERROR stage_g8_requires_tracker_results_fails: G8/closeout requires tracker-sync results to appear in lifecycle-gates.log before final validation
+ERROR stage_g8_requires_tracker_results_fails: G8/closeout requires tracker-sync results to appear in lifecycle-gates.log before final validation
+WARNING commands_log_absolute_cwd_warns: commands.log contains an absolute cwd without Run Environment justification
+WARNING commands_log_absolute_cwd_warns: commands.log contains an absolute cwd without Run Environment justification
+WARNING commands_log_absolute_cwd_warns: commands.log contains an absolute cwd without Run Environment justification
+Summary: validated=8, skipped_pre_contract_archived=17, skipped_active_done_pre_contract=0, skipped_retired_abandoned=0, skipped_retired_superseded=2

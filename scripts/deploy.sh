@@ -170,6 +170,10 @@ run_custom() {
     echo "ERROR: no custom deploy command configured." >&2
     exit 2
   fi
+  if [ "$DRY_RUN" -eq 1 ]; then
+    echo "Dry run: skipping custom deploy command."
+    return 0
+  fi
 
   echo "Running custom deploy command for environment '${ENVIRONMENT}'"
   (
@@ -190,6 +194,12 @@ run_compose_deploy() {
 
   if [ -z "$base_file" ] && [ -z "$env_file" ]; then
     echo "ERROR: no compose files found for deployment." >&2
+    exit 2
+  fi
+
+  if [ "$ENVIRONMENT" != "dev" ] && [ -z "$env_file" ]; then
+    echo "ERROR: refusing ${ENVIRONMENT} Compose deployment without docker-compose.${ENVIRONMENT}.yml (or .yaml) overlay." >&2
+    echo "       The base compose file is a development stack and must not be promoted." >&2
     exit 2
   fi
 
